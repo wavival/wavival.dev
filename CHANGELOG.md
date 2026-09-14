@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Lúmina W branch delivery model with `dev` and `stg` environment branches created from `main`.
-- PR base validation workflow for `feature/*`, `fix/*`, `chore/*`, and Dependabot branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- PR base validation workflow for `feature/*`, `fix/*`, and `chore/*` branches into `dev`, `dev` into `stg`, and `stg` into `main`.
 - Commitlint config, `commit-msg` hook, and CI commit-message enforcement for strict Conventional Commits.
 - Gitleaks security scan job using the org-level `GITLEAKS_LICENSE` secret.
 - Dev auto-merge workflow using `PROMOTE_TOKEN` and scheduled cleanup reporting for merged work branches.
@@ -21,9 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CI now runs on pull requests and pushes for `dev`, `stg`, and `main`.
 - Playwright CI job is named `tests` for branch protection clarity.
-- Dependabot now targets `dev` and applies `chore(deps)` or `chore(ci)` commit prefixes.
 - README, AGENTS.md, and CLAUDE.md document the delivery flow and required checks.
 - Upgraded Astro to 7.3.4 to clear production security advisories.
+
+### Removed
+
+- Dependabot version-update configuration and its automated weekly pull requests.
 
 ### Added
 
