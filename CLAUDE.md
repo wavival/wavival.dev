@@ -24,7 +24,7 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 - **linkinator**: crawls the built `dist/` for broken internal links (catches dead routes after slug renames)
 - **Prettier** + `prettier-plugin-astro`
 - **ESLint** (flat config `eslint.config.mjs`: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`)
-- **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files)
+- **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files); `.husky/commit-msg` runs the repository Commitlint rules and, when installed, the shared checker at `~/.claude/git-hooks/commit-msg`
 - **Dependabot** (`.github/dependabot.yml`): weekly npm + github-actions update PRs. `tailwindcss` major bumps are ignored to keep this site on Tailwind v3 until a Tailwind v4 migration is planned.
 - **Node >= 22.12** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
 
@@ -117,6 +117,7 @@ lighthouserc.json     # Lighthouse CI config (staticDistDir + category assertion
 postcss.config.cjs    # Tailwind 3 PostCSS processing
 eslint.config.mjs     # ESLint flat config (astro + typescript-eslint + prettier)
 .husky/pre-commit     # Runs lint-staged (ESLint --fix + Prettier on staged files)
+.husky/commit-msg     # Validates the commit subject via ~/.claude/git-hooks/commit-msg when installed (no-op elsewhere)
 CHANGELOG.md          # Keep a Changelog format, SemVer; update on every release
 ```
 

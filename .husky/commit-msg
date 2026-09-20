@@ -1,1 +1,9 @@
 npx --no -- commitlint --edit "$1"
+
+# Validate the commit subject with the shared checker installed on the
+# developer machine when available. The repository Commitlint rules above
+# remain the portable source of truth for CI and other machines.
+hook="$HOME/.claude/git-hooks/commit-msg"
+if [ -x "$hook" ]; then
+  "$hook" "$1"
+fi
