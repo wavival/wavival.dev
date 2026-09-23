@@ -1,0 +1,27 @@
+name: auto-merge-dev
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [dev]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  enable-auto-merge:
+    name: enable-auto-merge
+    if: >
+      !github.event.pull_request.draft &&
+      (startsWith(github.event.pull_request.head.ref, 'feature/') ||
+       startsWith(github.event.pull_request.head.ref, 'fix/') ||
+       startsWith(github.event.pull_request.head.ref, 'chore/'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enable auto merge on dev PR
+        env:
+          GH_TOKEN: ${{ secrets.PROMOTE_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge "$PR_URL" --auto --squash --delete-branch
