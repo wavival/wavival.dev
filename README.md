@@ -10,7 +10,7 @@
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-407bff?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 [![CI](https://github.com/wavival/wavival.dev/actions/workflows/ci.yml/badge.svg)](https://github.com/wavival/wavival.dev/actions/workflows/ci.yml)
 
-> Portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built with Astro 6 and Tailwind 3. Static-rendered, bilingual (ES default, EN), dark-mode aware, SEO + A11Y + performance first. Auto-deploys to Netlify on every push to `main`.
+> Portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built with Astro 7 and Tailwind 3. Static-rendered, bilingual (ES default, EN), dark-mode aware, SEO + A11Y + performance first. Auto-deploys to Netlify on every push to `main`.
 
 ## Table of contents
 
@@ -19,6 +19,7 @@
   - [npm scripts](#npm-scripts)
 - [Environment variables](#environment-variables)
 - [Project conventions](#project-conventions)
+- [Delivery flow](#delivery-flow)
 - [Architecture](#architecture)
   - [Routing and i18n](#routing-and-i18n)
   - [File structure](#file-structure)
@@ -43,8 +44,8 @@ Related docs: [DESIGN.md](./DESIGN.md) · [COMPONENTS.md](./COMPONENTS.md) · [C
 
 | Layer         | Choice                                                                                                                        |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Build         | Astro 6 (static output, `compressHTML`, `inlineStylesheets: 'auto'`)                                                          |
-| Styling       | Tailwind CSS 3 (`darkMode: 'class'`) + CSS custom property tokens                                                             |
+| Build         | Astro 7 (static output, `compressHTML`, `inlineStylesheets: 'auto'`)                                                          |
+| Styling       | Tailwind CSS 3 via PostCSS (`darkMode: 'class'`) + CSS custom property tokens                                                 |
 | Scripts       | TypeScript (vanilla, no client-side framework)                                                                                |
 | i18n          | Bilingual: ES default at root, EN mirror under `/en/`, slug map in `src/i18n/utils.ts`                                        |
 | Sitemap       | `@astrojs/sitemap` (auto-generated at build, both locales)                                                                    |
@@ -73,8 +74,6 @@ npm install
 cp .env.example .env              # optional: Umami vars (all optional)
 npm run dev                       # http://localhost:4321
 ```
-
-`.npmrc` pins `legacy-peer-deps=true` because `@astrojs/tailwind@6` declares an Astro 3/4/5 peer range while the site is on Astro 6, but the integration works fine in practice.
 
 **Requires:** Node `>=22.12` (declared in `package.json` engines; pinned in `.nvmrc` → `22`; all CI jobs read it via `node-version-file`).
 
@@ -121,6 +120,17 @@ Copy `.env.example` to `.env` for local development. In Netlify, set them under 
 - **No em dashes, no emojis** anywhere in the repo (copy, code, comments, commits, docs).
 
 Full design-token reference and utility-class catalog: see [DESIGN.md](./DESIGN.md). Component-by-component prop tables: see [COMPONENTS.md](./COMPONENTS.md).
+
+## Delivery flow
+
+- `main` is production, `stg` is staging, and `dev` is the integration base.
+- Create human work branches from `dev` with `feature/*`, `fix/*`, or `chore/*` names.
+- Open every human work PR to `dev`. Dependabot also targets `dev`.
+- Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
+- Required checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
+- Commit messages use `type(scope): message`. Allowed portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
+
+See [AGENTS.md](./AGENTS.md) for the complete delivery rules for coding agents.
 
 ## Architecture
 
@@ -178,7 +188,7 @@ tests/                   # Playwright E2E + pure-unit specs
 lighthouserc.json        # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                   # Node version pin (22)
 .github/dependabot.yml   # Weekly npm + github-actions update PRs
-.github/workflows/ci.yml # quality gate → e2e + lighthouse + links jobs
+.github/workflows/ci.yml # commitlint, quality, tests, lighthouse, links, security scan
 ```
 
 The favicon/manifest icon set in `public/` is generated from `public/brand/logo-w.webp` with `sharp` (maskable variant gets a dark `#0f1117` safe-zone background). Regenerate if the logo changes.
@@ -285,7 +295,7 @@ Two Playwright projects run by default: `chromium-desktop` (Desktop Chrome) and 
 | `not-found.spec.ts`   | `/404` renders heading and emits `noindex`                               |
 | `seo.spec.ts`         | `robots.txt` content + localized `<loc>` entries in generated sitemap    |
 
-CI (`.github/workflows/ci.yml`) runs four jobs on every push and PR to `main`: `quality` (dependency audit via `npm audit --audit-level=high --omit=dev` → format check → lint → type check via `astro check` → build → CSP hash check via `npm run csp:check`) gates the rest, then `e2e` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator) run in parallel before Netlify publishes. All jobs read the Node version from `.nvmrc`.
+CI (`.github/workflows/ci.yml`) runs on every push and PR to `dev`, `stg`, and `main`: `commitlint`, `quality` (dependency audit via `npm audit --audit-level=high --omit=dev` → format check → lint → type check via `astro check` → build → CSP hash check via `npm run csp:check`), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks). All jobs read the Node version from `.nvmrc`.
 
 ## Deploying to Netlify
 
@@ -299,16 +309,17 @@ CI (`.github/workflows/ci.yml`) runs four jobs on every push and PR to `main`: `
 3. **Environment variables** → _Site settings → Environment variables_ (all optional):
    - `PUBLIC_UMAMI_SRC` + `PUBLIC_UMAMI_ID` (both required to enable analytics)
 4. **Custom domain:** _Domain settings_ → add `wavival.dev` → follow CNAME instructions. SSL auto-provisions via Let's Encrypt.
-5. **Deploy:** push to `main`. CI runs quality → e2e + lighthouse + links; on green, Netlify auto-builds and publishes.
+5. **Deploy:** merge to `main`. CI runs the required checks; on green, Netlify auto-builds and publishes.
 
 ### What's already in the repo
 
 - `netlify.toml`: Node 22 pin, security headers (hash-based CSP, HSTS, frame-deny), immutable cache for static assets, redirects + proxies.
 - `astro.config.mjs`: `site: "https://wavival.dev"`, bilingual sitemap integration, HTML compression.
+- `postcss.config.cjs` and `tailwind.config.mjs`: Tailwind 3 processing for Astro styles.
 - `public/robots.txt`, `public/llms.txt`, `public/llms-full.txt`: `sitemap-index.xml` generated at build; AI-assistant descriptors.
 - `public/.well-known/security.txt`: RFC 9116 security contact.
 - `scripts/check-csp-hashes.mjs`: CI guard that keeps the CSP inline-script hashes in sync with the build.
-- `.github/workflows/ci.yml`: quality + e2e + lighthouse + links gates before Netlify deploys.
+- `.github/workflows/ci.yml`: commitlint, quality, tests, lighthouse, links, and security scan gates before Netlify deploys.
 - `.github/dependabot.yml`: weekly npm + github-actions update PRs.
 
 ### Security headers and cache
@@ -370,7 +381,6 @@ Token, typography, and utility-class values are centralized in `src/styles/`, so
 
 | Symptom                                          | Fix                                                                                                                                         |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm install` fails on `ERESOLVE` peer warning   | `.npmrc` already sets `legacy-peer-deps=true`. If you removed it, re-add or run `npm install --legacy-peer-deps`.                           |
 | Dark mode flashes on first paint                 | The pre-paint script lives at the top of `<head>` in `Layout.astro`. Don't move it below other tags.                                        |
 | Fonts flash unstyled (FOUT)                      | Fonts are self-hosted in `public/fonts/` with `font-display: swap` and critical weights preloaded. A brief swap is expected and acceptable. |
 | `npm test` fails with stale content              | Run `npm run build` first: the suite serves the static `dist/`, it does not build for you.                                                  |

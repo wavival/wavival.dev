@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Lúmina W branch delivery model with `dev` and `stg` environment branches created from `main`.
+- PR base validation workflow for `feature/*`, `fix/*`, `chore/*`, and Dependabot branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- Commitlint config, `commit-msg` hook, and CI commit-message enforcement for strict Conventional Commits.
+- Gitleaks security scan job using the org-level `GITLEAKS_LICENSE` secret.
+- Dev auto-merge workflow using `PROMOTE_TOKEN` and scheduled cleanup reporting for merged work branches.
+- `.codex/CHECKPOINT.md` with setup status and Valentina decision items.
+- PostCSS config for Tailwind 3 processing without the deprecated Astro Tailwind integration.
+
+### Changed
+
+- CI now runs on pull requests and pushes for `dev`, `stg`, and `main`.
+- Playwright CI job is named `tests` for branch protection clarity.
+- Dependabot now targets `dev` and applies `chore(deps)` or `chore(ci)` commit prefixes.
+- README, AGENTS.md, and CLAUDE.md document the delivery flow and required checks.
+- Upgraded Astro to 7.3.4 to clear production security advisories.
+
+### Added
+
 - `public/.well-known/security.txt` (RFC 9116): security contact, expiry, and canonical URL.
 - CI build-status badge in `README.md`, linked to the GitHub Actions `ci.yml` workflow.
 - This `CHANGELOG.md`.
@@ -49,7 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Reverted `tailwindcss` from 4.3.1 back to `^3.4.19`: a Dependabot major bump broke the build (`@astrojs/tailwind@6` only supports Tailwind v3, so `astro:config:setup` failed). Dependabot now ignores `tailwindcss` major bumps.
+- Reverted `tailwindcss` from 4.3.1 back to `^3.4.19`: a Dependabot major bump broke the build. Dependabot now ignores `tailwindcss` major bumps until a Tailwind v4 migration is planned.
 
 ## [3.0.0] - 2026-04-12
 

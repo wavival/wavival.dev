@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -49,7 +48,6 @@ const priorityFor = (absUrl) => {
 export default defineConfig({
   site: SITE,
   integrations: [
-    tailwind(),
     sitemap({
       changefreq: "monthly",
       priority: 1.0,

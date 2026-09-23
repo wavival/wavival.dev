@@ -11,8 +11,8 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 
 ## Stack and versions
 
-- **Astro 6** (static output, no SSR, no server functions; `compressHTML: true`)
-- **Tailwind CSS v3** (`darkMode: 'class'`)
+- **Astro 7** (static output, no SSR, no server functions; `compressHTML: true`)
+- **Tailwind CSS v3** via PostCSS (`darkMode: 'class'`)
 - **TypeScript** (client-side scripts only)
 - **Scroll reveal**: CSS transitions + IntersectionObserver (`[data-aos]` attributes, script inlined in `Layout.astro`, styles in `global.css`, re-run on `astro:page-load`); no JS animation library
 - **View Transitions**: Astro `<ClientRouter />` for SPA-like same-origin navigation (replaces the old full-screen Loader)
@@ -25,12 +25,20 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 - **Prettier** + `prettier-plugin-astro`
 - **ESLint** (flat config `eslint.config.mjs`: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`)
 - **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files)
-- **Dependabot** (`.github/dependabot.yml`): weekly npm + github-actions update PRs. `tailwindcss` major bumps are ignored: `@astrojs/tailwind@6` only supports Tailwind v3, so a v4 bump breaks the build (`astro:config:setup` fails). Keep `tailwindcss` on `^3.x` until the integration is replaced by `@tailwindcss/vite`.
+- **Dependabot** (`.github/dependabot.yml`): weekly npm + github-actions update PRs. `tailwindcss` major bumps are ignored to keep this site on Tailwind v3 until a Tailwind v4 migration is planned.
 - **Node >= 22.12** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
 
-Auto-deploy to **Netlify** on every push to `main`. CI (`.github/workflows/ci.yml`) has four jobs: `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)) gates the rest, then `e2e` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator) run after it before Netlify publishes.
+Auto-deploy to **Netlify** after merges to `main`. CI (`.github/workflows/ci.yml`) runs `commitlint`, `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks).
 
-`.npmrc` sets `legacy-peer-deps=true` because `@astrojs/tailwind@6` declares an Astro 3/4/5 peer range while we run Astro 6.
+## Delivery governance
+
+- `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
+- Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
+- Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
+- `validate-pr-base` accepts human work branches and Dependabot branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- `auto-merge-dev` enables auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with `PROMOTE_TOKEN`.
+- `delete-merged-branches` runs every 12 hours and reports merged `feature/*`, `fix/*`, and `chore/*` remote branch cleanup candidates. Actual scheduled deletion needs explicit human approval.
+- Commit messages use strict Conventional Commits in the form `type(scope): message`. Portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
 
 ---
 
@@ -105,7 +113,8 @@ tests/                # Playwright E2E smoke tests + pure-unit specs (redirects,
 lighthouserc.json     # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                # Node version pin (22)
 .github/dependabot.yml    # Weekly npm + github-actions update PRs
-.github/workflows/ci.yml  # quality gate → e2e + lighthouse + links jobs
+.github/workflows/ci.yml  # commitlint, quality, tests, lighthouse, links, security scan
+postcss.config.cjs    # Tailwind 3 PostCSS processing
 eslint.config.mjs     # ESLint flat config (astro + typescript-eslint + prettier)
 .husky/pre-commit     # Runs lint-staged (ESLint --fix + Prettier on staged files)
 CHANGELOG.md          # Keep a Changelog format, SemVer; update on every release
