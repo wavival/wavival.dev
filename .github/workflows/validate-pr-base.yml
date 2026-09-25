@@ -1,0 +1,30 @@
+name: validate-pr-base
+
+on:
+  pull_request:
+    branches: [dev, stg, main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-pr-base:
+    name: validate-pr-base
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enforce promotion path
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          case "$BASE_REF:$HEAD_REF" in
+            dev:feature/*|dev:fix/*|dev:chore/*|stg:dev|main:stg)
+              exit 0
+              ;;
+            *)
+              echo "Invalid pull request path: $HEAD_REF to $BASE_REF"
+              echo "Allowed paths: feature/fix/chore branches to dev, dev to stg, stg to main."
+              exit 1
+              ;;
+          esac

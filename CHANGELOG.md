@@ -9,6 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Lúmina W branch delivery model with `dev` and `stg` environment branches created from `main`.
+- PR base validation workflow for `feature/*`, `fix/*`, and `chore/*` branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- Commitlint config, `commit-msg` hook, and CI commit-message enforcement for strict Conventional Commits.
+- Gitleaks security scan job using the org-level `GITLEAKS_LICENSE` secret.
+- Dev auto-merge workflow using `PROMOTE_TOKEN` and scheduled cleanup reporting for merged work branches.
+- `.claude/checkpoint.md` and `.codex/checkpoint.md` with the global production checkpoint.
+- PostCSS config for Tailwind 3 processing without the deprecated Astro Tailwind integration.
+- `vercel.json` with the Astro build contract, security headers, immutable asset caches, legacy redirects, and API rewrite.
+- `microfrontends.json` plus the Vercel Vite integration for NullBreach path ownership.
+
+### Changed
+
+- CI now runs on pull requests and pushes for `dev`, `stg`, and `main`.
+- Playwright CI job is named `tests` for branch protection clarity.
+- README, AGENTS.md, and CLAUDE.md document the delivery flow and required checks.
+- Upgraded Astro to 7.3.4 to clear production security advisories.
+- Migrated production hosting, public copy, privacy disclosures, deployment tests, and CSP validation to Vercel.
+- Pinned local, CI, and Vercel builds to Node 22.
+- Excluded generated Vercel build output from ESLint.
+
+### Removed
+
+- Dependabot version-update configuration and its automated weekly pull requests.
+- Legacy hosting configuration and repository references.
+
+### Added
+
 - `public/.well-known/security.txt` (RFC 9116): security contact, expiry, and canonical URL.
 - CI build-status badge in `README.md`, linked to the GitHub Actions `ci.yml` workflow.
 - This `CHANGELOG.md`.
@@ -20,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sellable contact copy plus a footer CTA.
 - Self-hosted fonts in `public/fonts/` (Poppins 400/500/600 static + Raleway variable `wght` 600-800, latin-subset `woff2`), with `font-display: swap` and critical weights preloaded, removing the Google Fonts network request.
 - View Transitions via Astro `<ClientRouter />` for SPA-like same-origin navigation; DOM-binding scripts re-run on `astro:page-load` and the pre-paint theme re-applies on `astro:after-swap`.
-- `scripts/check-csp-hashes.mjs` (`npm run csp:check`): CI guard asserting every inline `<script>` in `dist/` has a `sha256-*` in the `netlify.toml` CSP `script-src`. Runs in the CI `quality` job after build.
+- `scripts/check-csp-hashes.mjs` (`npm run csp:check`): CI guard asserting every inline `<script>` in `dist/` has a `sha256-*` in the deployment CSP `script-src`. Runs in the CI `quality` job after build.
 
 ### Changed
 
@@ -45,11 +72,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- `/root/*` Netlify proxy to `ro-ot.netlify.app` (Okroot now self-hosted on `okroot.co`), and the now-unused `ro-ot.netlify.app` (`script-src`/`style-src`/`connect-src`) and `root-api.wavival.dev` (`connect-src`) entries from the CSP.
+- The obsolete `/root/*` proxy and its unused CSP origins after Okroot moved to `okroot.co`.
 
 ### Fixed
 
-- Reverted `tailwindcss` from 4.3.1 back to `^3.4.19`: a Dependabot major bump broke the build (`@astrojs/tailwind@6` only supports Tailwind v3, so `astro:config:setup` failed). Dependabot now ignores `tailwindcss` major bumps.
+- Reverted `tailwindcss` from 4.3.1 back to `^3.4.19`: a Dependabot major bump broke the build. Dependabot now ignores `tailwindcss` major bumps until a Tailwind v4 migration is planned.
 
 ## [3.0.0] - 2026-04-12
 
@@ -60,7 +87,7 @@ Third iteration of the portfolio: production-ready bilingual static site.
 - Bilingual routing (ES default at root, EN mirror under `/en/`) with a slug map in `src/i18n/utils.ts`.
 - SEO, accessibility, and performance pass: meta/OG/Twitter tags, JSON-LD `@graph`, hreflang alternates, sitemap, `llms.txt`, `robots.txt`.
 - Custom `404` route with `noindex` (ES + EN).
-- `netlify.toml`: security headers (CSP, HSTS, frame-deny), immutable asset cache, and legacy-route 301 redirects.
+- Deployment configuration for security headers (CSP, HSTS, frame-deny), immutable asset cache, and legacy-route redirects.
 - API proxy and subdirectory redirects wired through the CSP.
 
 ## [2.0.0] - 2025-09-24

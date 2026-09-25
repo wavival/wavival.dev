@@ -11,26 +11,34 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 
 ## Stack and versions
 
-- **Astro 6** (static output, no SSR, no server functions; `compressHTML: true`)
-- **Tailwind CSS v3** (`darkMode: 'class'`)
+- **Astro 7** (static output, no SSR, no server functions; `compressHTML: true`)
+- **Tailwind CSS v3** via PostCSS (`darkMode: 'class'`)
 - **TypeScript** (client-side scripts only)
 - **Scroll reveal**: CSS transitions + IntersectionObserver (`[data-aos]` attributes, script inlined in `Layout.astro`, styles in `global.css`, re-run on `astro:page-load`); no JS animation library
 - **View Transitions**: Astro `<ClientRouter />` for SPA-like same-origin navigation (replaces the old full-screen Loader)
 - **web-vitals**: Core Web Vitals RUM, reports LCP/INP/CLS/FCP/TTFB to Umami as custom events (only when Umami env is set)
 - **GitHub widget**: build-time only. `src/data/github.ts` (`fetchGithubProfile`) fetches the public GitHub profile + non-fork repos in Astro frontmatter on `/herramientas` and `/en/uses` (the `#repos` section). Unauthenticated (no token; GitHub's ~60 req/h per IP), and fails soft: any error or rate-limit returns nulls so the build never breaks and the widget just does not render that build. No client-side JS and no CSP change (the fetch runs server-side at build, not in the browser). `curateRepos()` splits the fetched repos into a flagship spotlight and a learning-resources grid: `FEATURED_REPOS` (`nullbreach-api` + `nullbreach-web`, shown in that order under a "Destacado"/"Featured" NullBreach card with no left accent: gradient `bg-blur`→`bg-card` container + a solid `--btn-bg` badge pill, white text for AA) and `HIDDEN_REPOS` (profile README `wavival`, this portfolio `wavival.dev`, and the one-off `prueba-tecnica-logika` test, none of which are learning resources). Everything else renders as "Recursos para aprender"/"Resources to learn from". To re-pin or hide a repo, edit those arrays, never the markup. Both the featured and resource cards use `RepoCard.astro` (see UI Components)
 - **`@astrojs/sitemap`**: generates `/sitemap-index.xml` + `/sitemap-0.xml` at build
+- **Vercel Microfrontends**: `wavival-dev` is the default application; the independent `nullbreach` project owns `/nullbreach` and `/nullbreach/:path*` through `microfrontends.json`
 - **Playwright**: E2E smoke tests (`tests/`)
 - **Lighthouse CI** (`@lhci/cli`, config in `lighthouserc.json`): asserts perf/a11y/best-practices/SEO category scores against the built `dist/` per commit
 - **linkinator**: crawls the built `dist/` for broken internal links (catches dead routes after slug renames)
 - **Prettier** + `prettier-plugin-astro`
-- **ESLint** (flat config `eslint.config.mjs`: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`)
-- **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files)
-- **Dependabot** (`.github/dependabot.yml`): weekly npm + github-actions update PRs. `tailwindcss` major bumps are ignored: `@astrojs/tailwind@6` only supports Tailwind v3, so a v4 bump breaks the build (`astro:config:setup` fails). Keep `tailwindcss` on `^3.x` until the integration is replaced by `@tailwindcss/vite`.
-- **Node >= 22.12** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
+- **ESLint** (flat config `eslint.config.mjs`: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`; generated `dist/` and `.vercel/` output is ignored)
+- **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files); `.husky/commit-msg` runs the repository Commitlint rules and, when installed, the shared checker at `~/.claude/git-hooks/commit-msg`
+- **Node 22.x** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
 
-Auto-deploy to **Netlify** on every push to `main`. CI (`.github/workflows/ci.yml`) has four jobs: `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)) gates the rest, then `e2e` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator) run after it before Netlify publishes.
+The production target is **Vercel**. `vercel.json` defines the security headers, cache rules, legacy redirects, and `/api/*` compatibility proxy. CI (`.github/workflows/ci.yml`) runs `commitlint`, `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks).
 
-`.npmrc` sets `legacy-peer-deps=true` because `@astrojs/tailwind@6` declares an Astro 3/4/5 peer range while we run Astro 6.
+## Delivery governance
+
+- `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
+- Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
+- Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
+- `validate-pr-base` accepts human work branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- `auto-merge-dev` enables auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with `PROMOTE_TOKEN`.
+- `delete-merged-branches` runs every 12 hours and reports merged `feature/*`, `fix/*`, and `chore/*` remote branch cleanup candidates. Actual scheduled deletion needs explicit human approval.
+- Commit messages use strict Conventional Commits in the form `type(scope): message`. Portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
 
 ---
 
@@ -47,7 +55,8 @@ Multi-page static site with a bilingual (ES default, EN) routing scheme. The hom
 - The ES↔EN slug mapping (e.g. `/proyectos` ↔ `/en/projects`) is the single source of truth in `src/i18n/utils.ts` (`EN_PAGE_MAP`, its reverse `ES_PAGE_MAP`, and the `/proyectos/<slug>` ↔ `/en/projects/<slug>` special-case in `getAltLangUrl`). The language toggle reads from here, and `astro.config.mjs` imports the exported `EN_PAGE_MAP` for its sitemap `serialize` hook, so any new page or slug rename MUST update this map. `getAltLangUrl` also special-cases `/404` and `/en/404`: both redirect to the opposite locale's home instead of trying to find a translated 404 page.
 - Shared section components (`Hero`, `Projects`, `Stack`, `Contact`, `About`) take a `lang` prop and pick targets with a ternary (`isEn ? "/en/..." : "/<es-slug>"`). NavBar/Footer do the same. Never hardcode a route that ignores `lang`.
 - Per-locale assets resolve through helpers in `src/i18n/utils.ts`: `cvHref(lang)` returns `cv_valentina_ramirez_<es|en>.pdf`. UI strings come from `src/i18n/ui.ts` via `useTranslations(lang)`. Data files carry parallel `*En` fields for translatable content (`src/data/stack.ts`: `descriptionEn` / `whyEn` / `toolsEn`; `src/data/projects.ts`: the `en` block). `toolsEn` is set only on stack categories with translatable chips (Design & UX, Product Engineering) and falls back to `tools`; proper-noun chips (Python, React) need no translation. Render with `isEn ? (s.toolsEn ?? s.tools) : s.tools` (home `Stack.astro`) or `s.toolsEn ?? s.tools` (always-EN `/en/uses`).
-- Legacy English-word ES routes (`/projects`, `/services`, `/about`, `/contact`, `/uses`) are 301-redirected to the Spanish slugs in `netlify.toml`. Content stays Spanish; only the URL changed.
+- Legacy English-word ES routes (`/projects`, `/services`, `/about`, `/contact`, `/uses`) are 301-redirected to the Spanish slugs in `vercel.json`. Content stays Spanish; only the URL changed.
+- Vercel path ownership lives in the default application's `microfrontends.json`: `wavival-dev` handles `/` and every unassigned path, while the separate `nullbreach` project handles both `/nullbreach` and `/nullbreach/:path*`. Add future independent applications as new, non-overlapping path groups; never claim `/` or reuse another application's prefix.
 - EN pages declare `hreflang` alternates (es / en / x-default) in their `Layout` call; the `es`/`x-default` hrefs point at the Spanish slugs.
 
 The base layout (`src/layouts/Layout.astro`) owns the entire `<head>`: meta tags, OG, JSON-LD, fonts, Umami, skip link, NavBar, and Footer. It derives `lang` from the URL (`getLangFromUrl(Astro.url)`), which drives `<html lang>`, `og:locale`, translations, and the home-only `ProfilePage` `inLanguage`. The `lang` prop remains in the interface for back-compat but is ignored, so `<html lang>` always matches the actual route.
@@ -100,14 +109,17 @@ public/
   .well-known/
     security.txt      # RFC 9116 security contact (Contact, Expires, Canonical)
 scripts/
-  check-csp-hashes.mjs # CI guard: every inline <script> in dist/ must have a sha256 hash in netlify.toml CSP script-src
+  check-csp-hashes.mjs # CI guard: every inline <script> in dist/ must have a sha256 hash in vercel.json CSP script-src
 tests/                # Playwright E2E smoke tests + pure-unit specs (redirects, i18n-utils)
+microfrontends.json    # Vercel path ownership: default portfolio + /nullbreach child app
+vercel.json            # Vercel headers, cache, redirects, and /api compatibility proxy
 lighthouserc.json     # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                # Node version pin (22)
-.github/dependabot.yml    # Weekly npm + github-actions update PRs
-.github/workflows/ci.yml  # quality gate → e2e + lighthouse + links jobs
+.github/workflows/ci.yml  # commitlint, quality, tests, lighthouse, links, security scan
+postcss.config.cjs    # Tailwind 3 PostCSS processing
 eslint.config.mjs     # ESLint flat config (astro + typescript-eslint + prettier)
 .husky/pre-commit     # Runs lint-staged (ESLint --fix + Prettier on staged files)
+.husky/commit-msg     # Validates the commit subject via ~/.claude/git-hooks/commit-msg when installed (no-op elsewhere)
 CHANGELOG.md          # Keep a Changelog format, SemVer; update on every release
 ```
 
@@ -231,9 +243,8 @@ GitHub repo card used in the `#repos`/GitHub section of `/herramientas` and `/en
 - Core Web Vitals RUM (`web-vitals` via `src/scripts/vitals.ts`): bundled and run only when the Umami env vars are set; reports field LCP/INP/CLS/FCP/TTFB to Umami.
 - All icon `<img>` elements have `width` and `height` to prevent CLS.
 - Scroll reveal via IntersectionObserver: reveals once then `unobserve`s; when `prefers-reduced-motion` is set (or no IO support), elements show immediately with no transition.
-- Netlify cache: `/_astro/`, `/images/`, `/brand/`, `/icons/`, `/fonts/` served immutable (1y). HSTS (preload) + frame-deny + nosniff + Referrer-Policy + Permissions-Policy baked into `netlify.toml`.
-- CSP (`netlify.toml`): `script-src` is **hash-based, no `'unsafe-inline'`**. It lists a `sha256-*` for every inline `<script>` Astro emits (pre-paint theme, scroll-reveal, web-vitals import, Astro view-transition glue, Calendly `define:vars`). Hashes are deterministic per build; `npm run csp:check` (in the CI `quality` job, after build) recomputes them from `dist/` and fails if any inline script lacks a matching hash. JSON-LD (`type="application/ld+json"`) is a CSP data block, not gated. `style-src` keeps `'unsafe-inline'` (Astro/Tailwind inject inline `style` attributes that hashes can't cover). After adding or editing ANY inline script, run `npm run build && npm run csp:check`; it prints the missing hash to paste into `script-src`. Self-hosted fonts mean `font-src 'self'` (no Google Fonts); Umami + Calendly are allow-listed by host.
-- Netlify secrets scanning: `SECRETS_SCAN_OMIT_KEYS` in `netlify.toml` `[build.environment]` excludes the `PUBLIC_*` keys (`PUBLIC_UMAMI_SRC`, `PUBLIC_UMAMI_ID`). These are client-exposed by design (Astro convention), so their values legitimately appear in repo docs (`.env.example`, `README.md`) and the built client bundle; without the omit, the scanner fails the build on those matches. Add any new `PUBLIC_*` key to this list.
+- Vercel cache: `/_astro/`, `/images/`, `/brand/`, `/icons/`, `/fonts/` are served immutable (1y). HSTS (preload) + frame-deny + nosniff + Referrer-Policy + Permissions-Policy live in `vercel.json`.
+- CSP (`vercel.json`): `script-src` is **hash-based, no `'unsafe-inline'`**. It lists a `sha256-*` for every inline `<script>` Astro emits (pre-paint theme, scroll-reveal, web-vitals import, Astro view-transition glue, Calendly `define:vars`). Hashes are deterministic per build; `npm run csp:check` recomputes them from `dist/` and fails if an inline script lacks a matching hash. JSON-LD (`type="application/ld+json"`) is a CSP data block, not gated. `style-src` keeps `'unsafe-inline'`. After adding or editing any inline script, run `npm run build && npm run csp:check`; it prints the missing hash to add to the CSP. Self-hosted fonts mean `font-src 'self'`; Umami and Calendly are allow-listed by host.
 
 ---
 
@@ -294,7 +305,7 @@ npm run test:ui       # Playwright UI mode
 npm run test:install  # One-time: download Chromium + system deps
 npm run lhci          # Lighthouse CI against ./dist (run `npm run build` first)
 npm run links         # linkinator: check ./dist for broken internal links (build first)
-npm run csp:check     # Verify every inline <script> in ./dist has a sha256 in netlify.toml CSP (build first)
+npm run csp:check     # Verify every inline <script> in ./dist has a sha256 in vercel.json CSP (build first)
 ```
 
 > Run `npm run build` before `npm test`: the suite serves the static `dist/` via preview, it does not build for you.
@@ -312,7 +323,7 @@ npm run csp:check     # Verify every inline <script> in ./dist has a sha256 in n
 - Do not set image dimensions via CSS only: always include HTML `width` and `height` attributes as well
 - Do not commit a static `public/sitemap.xml`: the sitemap is generated by `@astrojs/sitemap` at build time
 - Do not hardcode analytics tokens: wire them through `PUBLIC_UMAMI_SRC` / `PUBLIC_UMAMI_ID`
-- Do not add an inline `<script>` (or edit an existing one) without updating the CSP: `script-src` is hash-based with no `'unsafe-inline'`, so a new/changed inline script is blocked in production until its `sha256-*` is added to `netlify.toml`. After any such change run `npm run build && npm run csp:check` and paste the printed hash. Prefer Umami's `data-umami-event` attribute over inline tracking scripts
+- Do not add an inline `<script>` (or edit an existing one) without updating the CSP: `script-src` is hash-based with no `'unsafe-inline'`, so a new/changed inline script is blocked in production until its `sha256-*` is added to `vercel.json`. After any such change run `npm run build && npm run csp:check` and paste the printed hash. Prefer Umami's `data-umami-event` attribute over inline tracking scripts
 - Do not move the pre-paint theme `<script is:inline>` out of the top of `<head>`: it must execute before stylesheets load to avoid FOUC
 - Do not use the em-dash character (Unicode U+2014): use a colon, comma, parentheses, or hyphen instead (see Code conventions)
 - Do not use emoji characters anywhere: data files, copy, comments, docs, commits, or code

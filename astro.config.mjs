@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
+import { microfrontends } from "@vercel/microfrontends/experimental/vite";
 import { fileURLToPath } from "url";
 import path from "path";
 import { EN_PAGE_MAP } from "./src/i18n/utils.ts";
@@ -49,7 +49,6 @@ const priorityFor = (absUrl) => {
 export default defineConfig({
   site: SITE,
   integrations: [
-    tailwind(),
     sitemap({
       changefreq: "monthly",
       priority: 1.0,
@@ -77,6 +76,7 @@ export default defineConfig({
     inlineStylesheets: "auto",
   },
   vite: {
+    plugins: [microfrontends()],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

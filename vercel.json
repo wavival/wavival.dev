@@ -1,0 +1,95 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://nullbreach-api.wavival.dev/api/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/projects/:path*",
+      "destination": "/proyectos/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/projects",
+      "destination": "/proyectos",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/servicios",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/sobre-mi",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/uses",
+      "destination": "/herramientas",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:path*",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-DtoVwr4KJZhjAr5tdcFkvqGTgOexBpXPFj9MLnPmn8g=' 'sha256-4hLZ1iA2ZzhmD3DqR1UE/IceK/Z4pmG/KIDBf5O5jN8=' 'sha256-ncntEo4zXOaMzFEe9FdppSrS6EcwwiQk38SYAhfV9i0=' 'sha256-TX1Nn6D7/TaKI6MUR+Om4EVuwl3hx3jsD2qBcPbgAUs=' 'sha256-Kp9oN5afA8SqgM4B4/R3ScV7h2obC8UupQR684axmV4=' 'sha256-6Lj7xAZiLDmjbaWIjpTPyIu6hz2hOFslcgY4LOUxzTY=' 'sha256-tu4dVTa3x3J4waPiQVdEBYpcoQDaa4EDScwiAob+rwk=' 'sha256-6XaXX7LVCC2tByJ14y/3kS2mpf6KZUIMlOYpsqecKSI=' 'sha256-4bbqkKpheor88WsAKTyOp8voTFg1YWG9IR9dGCYU0AQ=' 'sha256-kHuRHNpAm5Q3IQADgfeHeqb5xuUS8RQJFvdxUhwVX1I=' 'sha256-ZtwRmzuRN+YRST6a68pqxWzJMEtm1jNl3Zbfo611sgE=' https://cloud.umami.is https://analytics.umami.is https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://assets.calendly.com; font-src 'self'; img-src 'self' data: https://*.calendly.com https://d3v0px0pttie1i.cloudfront.net; connect-src 'self' https://cloud.umami.is https://analytics.umami.is https://nullbreach-api.wavival.dev https://calendly.com; frame-src https://calendly.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/_astro/:path*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/images/:path*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/brand/:path*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/icons/:path*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/fonts/:path*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/cv_valentina_ramirez_es.pdf",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    },
+    {
+      "source": "/cv_valentina_ramirez_en.pdf",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    }
+  ]
+}
