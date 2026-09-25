@@ -24,10 +24,10 @@ export const stack: StackCategory[] = [
     category: "Frontend",
     description: "Interfaces que completan el producto.",
     descriptionEn: "Interfaces that complete the product.",
-    tools: ["React", "TypeScript", "Astro", "Tailwind CSS", "JavaScript"],
-    why: "React + TypeScript para apps con estado y lógica de cliente; Astro cuando lo que manda es rendimiento y HTML estático. Tailwind para mantener consistencia visual sin pelear con CSS global.",
+    tools: ["Next.js", "React", "TypeScript", "Astro", "Tailwind CSS", "JavaScript"],
+    why: "Next.js para aplicaciones web completas, React + TypeScript para interfaces con estado y lógica de cliente, y Astro cuando lo que manda es rendimiento y contenido estático. Tailwind para mantener consistencia visual.",
     whyEn:
-      "React + TypeScript for stateful apps with client-side logic; Astro when performance and static HTML take priority. Tailwind to maintain visual consistency without fighting with global CSS.",
+      "Next.js for complete web applications, React + TypeScript for stateful interfaces, and Astro when performance and static content take priority. Tailwind helps maintain visual consistency.",
   },
   {
     category: "Design & UX",
@@ -76,9 +76,9 @@ export const stack: StackCategory[] = [
     category: "AI Integrations",
     description: "IA como copiloto real, no como atajo.",
     descriptionEn: "AI as a real co-pilot, not a shortcut.",
-    tools: ["Claude API", "LLM Workflows", "Prompt Engineering", "n8n"],
-    why: "Integro Claude API donde aporta valor real (análisis, asistencia con contexto) no como decoración. n8n para automatizar flujos. La IA acelera; no reemplaza el criterio de ingeniería.",
+    tools: ["OpenAI", "OpenClaw", "Claude API", "LLM Workflows", "Prompt Engineering", "n8n"],
+    why: "Integro OpenAI, OpenClaw y Claude API donde aportan valor real, como análisis y asistencia con contexto. n8n para automatizar flujos. La IA acelera; no reemplaza el criterio de ingeniería.",
     whyEn:
-      "I integrate Claude API where it adds real value (analysis, context-aware assistance), not as decoration. n8n for workflow automation. AI accelerates; it does not replace engineering judgment.",
+      "I integrate OpenAI, OpenClaw, and Claude API where they add real value, such as analysis and context-aware assistance. n8n handles workflow automation. AI accelerates; it does not replace engineering judgment.",
   },
 ];

@@ -890,29 +890,38 @@ export const projects: Project[] = [
     title: "NullBreach",
     slug: "nullbreach",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-09-25",
     tag: "Live",
     tagColor: "green",
     image: "images/og-nullbreach.webp",
-    imageAlt:
-      "NullBreach: análisis estático de código contra OWASP Top 10 y chat de seguridad con IA",
+    imageAlt: "NullBreach: análisis de código con IA basado en OWASP y chat de seguridad",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Django", "DRF", "PostgreSQL", "JWT", "Claude API", "React", "TypeScript", "Astro"],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "NextAuth",
+      "Prisma",
+      "PostgreSQL",
+      "OpenAI API",
+      "Astro (landing)",
+    ],
     appCategory: "SecurityApplication",
-    programmingLanguage: ["Python", "TypeScript", "SQL"],
+    programmingLanguage: ["TypeScript", "SQL"],
     summary:
-      "App full stack: pegas un fragmento de código y recibes un diagnóstico OWASP Top 10 inmediato, con chat de IA de contexto persistente (Claude API). Django, DRF, PostgreSQL, React, Astro.",
+      "Aplicación de seguridad con Next.js, análisis de código alineado con OWASP y chat con OpenAI. Prisma Postgres guarda usuarios, consultas y análisis. Landing en Astro.",
     filters: ["full-stack", "ia"],
     problem:
       "Revisar código con criterio OWASP o resolver una duda puntual de ciberseguridad implica saltar entre scanners pesados, documentación dispersa y foros desactualizados.",
     solution:
-      "El desarrollador pega un fragmento de código y recibe un diagnóstico inmediato contra OWASP Top 10. Puede seguir preguntando en un chat de IA que recuerda el hilo, sin repetir contexto, sin saltar entre herramientas.",
+      "Aplicación autenticada para analizar fragmentos de código con guía OWASP y consultar al asistente de seguridad. Las preguntas, respuestas y análisis quedan guardados por usuario.",
     architecture: [
-      "Motor de análisis estático de fragmentos de código: detecta SQL injection, XSS, hardcoded secrets, manejo inseguro de errores y otras vulnerabilidades del OWASP Top 10.",
-      "Chat de IA integrado via Claude API con contexto persistente de conversación e historial por usuario almacenado en base de datos.",
-      "Autenticación JWT con endpoints protegidos; respuestas paginadas.",
-      "Arquitectura desacoplada: backend en Django REST Framework + PostgreSQL, frontend en Astro + React + TypeScript.",
+      "OpenAI Responses API analiza fragmentos de código en busca de vulnerabilidades alineadas con OWASP y explica severidad, impacto y remediación.",
+      "Aplicación Next.js App Router que reúne interfaz, autenticación, rutas API e integración con OpenAI.",
+      "Chat de seguridad con OpenAI; las preguntas y respuestas se guardan en el historial de cada usuario.",
+      "Prisma ORM y Prisma Postgres para usuarios, historial de chat y análisis de código.",
+      "NextAuth Credentials con sesiones JWT en cookies HTTP-only.",
+      "La landing de NullBreach continúa en Astro; la aplicación principal se despliega como proyecto Next.js independiente.",
     ],
     links: [
       {
@@ -922,7 +931,7 @@ export const projects: Project[] = [
         event: "ver-app-nullbreach",
       },
       {
-        href: "https://github.com/wavival/nullbreach-api",
+        href: "https://github.com/wavival/nullbreach",
         text: "Ver repositorio",
         ariaLabel: "Ver repositorio de NullBreach",
       },
@@ -930,16 +939,16 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
-      "Caso de estudio de NullBreach: app fullstack con análisis estático OWASP Top 10 y chat de IA (Claude API) con contexto persistente. Django, DRF, React y Astro.",
+      "Caso de estudio de NullBreach: aplicación Next.js de seguridad con OpenAI y Prisma Postgres, más una landing en Astro.",
     results: [
-      "Análisis estático en producción que detecta vulnerabilidades del OWASP Top 10 (SQL injection, XSS, hardcoded secrets y manejo inseguro de errores, entre otras) sobre fragmentos de código pegados por el usuario.",
-      "Chat de seguridad con contexto e historial persistente por usuario: la conversación retiene el hilo entre mensajes en lugar de empezar de cero en cada consulta.",
-      "Acceso protegido con autenticación JWT y respuestas paginadas, sobre un backend Django REST Framework + PostgreSQL desacoplado de un frontend en Astro + React.",
+      "Análisis con OpenAI Responses API que entrega hallazgos de seguridad alineados con OWASP, con severidad, impacto y recomendaciones de remediación.",
+      "Historial de chat por usuario persistido en Prisma Postgres junto con los análisis de código.",
+      "Aplicación Next.js con autenticación NextAuth, sesiones JWT y datos persistidos con Prisma Postgres.",
     ],
     learnings: [
-      "Combinar análisis estático determinista con un LLM exige separar lo que el motor afirma con certeza de lo que el modelo sugiere: presentarlos como una sola respuesta erosiona la confianza en un producto de seguridad.",
-      "Desacoplar el backend de Django del frontend en Astro impuso un contrato de API explícito desde el inicio; esa frontera obligó a pensar paginación, autenticación JWT y persistencia del historial como parte del diseño, no como añadidos posteriores.",
-      "El prompt engineering para seguridad no es pedir 'busca vulnerabilidades': exige fijar el marco (OWASP Top 10), el formato de salida (categoría, severidad, recomendación) y el rol del modelo, para que el diagnóstico sea estructurado y comparable entre análisis.",
+      "Usar un modelo de lenguaje para revisar código exige presentar sus hallazgos como asistencia de análisis y no como una verificación determinista.",
+      "Concentrar la interfaz, autenticación y rutas API en una aplicación Next.js simplifica el despliegue y mantiene una sola frontera de aplicación.",
+      "El análisis de seguridad con un modelo requiere instrucciones claras sobre el marco OWASP, la severidad, el impacto y las recomendaciones que debe incluir.",
     ],
     painPoints: [
       {
@@ -951,83 +960,79 @@ export const projects: Project[] = [
         text: "La guía vive repartida entre documentación densa y foros que envejecen mal.",
       },
       {
-        title: "Sin memoria del análisis",
-        text: "Las herramientas no conversan: cada pregunta nueva obliga a re-explicar el código.",
+        title: "Hallazgos sin guía accionable",
+        text: "Una lista de patrones no basta si no explica la severidad, el impacto y cómo remediarlos.",
       },
     ],
     modules: [
       {
-        name: "Análisis OWASP",
-        text: "Pega un fragmento y recibe un diagnóstico contra el OWASP Top 10 en el momento.",
+        name: "Análisis de código",
+        text: "Envía un fragmento a OpenAI para recibir hallazgos alineados con OWASP, su impacto y recomendaciones.",
       },
       {
-        name: "Chat con memoria",
-        text: "Pregunta de seguimiento sin repetir el código: el chat retiene el hilo del análisis.",
+        name: "Historial del chat",
+        text: "Consulta preguntas y respuestas anteriores guardadas en tu cuenta.",
       },
       {
-        name: "Diagnóstico estructurado",
-        text: "Cada hallazgo trae categoría OWASP, severidad y recomendación de corrección.",
+        name: "Recomendaciones de remediación",
+        text: "El análisis explica la severidad e impacto y sugiere cómo corregir los riesgos identificados.",
       },
       {
-        name: "API pública",
-        text: "El backend está abierto en github.com/wavival/nullbreach-api.",
+        name: "Código abierto",
+        text: "El código de la aplicación está abierto en github.com/wavival/nullbreach.",
       },
     ],
     decisions: [
       {
-        title: "Claude API vs análisis estático tradicional",
+        title: "OpenAI para análisis orientado a OWASP",
         context:
-          "Los SAST tradicionales (Semgrep, SonarQube) detectan patrones, pero no explican el porqué ni razonan sobre código fuera de sus reglas.",
+          "Una revisión manual de código requiere conocimientos de seguridad y tiempo para explicar el impacto y las correcciones.",
         tradeoff:
-          "Un motor de reglas es determinista y rápido, pero rígido: no generaliza a código nuevo ni da una explicación accionable.",
+          "Las respuestas de un modelo pueden equivocarse y no deben presentarse como resultados deterministas de un escáner.",
         decision:
-          "Claude API aporta razonamiento estructurado sobre el fragmento: clasifica contra OWASP Top 10, explica la causa y propone la corrección. El análisis determinista se mantiene para lo que se afirma con certeza; el modelo aporta el razonamiento, etiquetado como tal.",
+          "OpenAI Responses API recibe el código con instrucciones de análisis alineadas con OWASP y explica severidad, impacto y remediación.",
       },
       {
-        title: "Contexto de chat persistente",
-        context:
-          "Una consulta de seguridad tiene contexto: el dev no repite el fragmento ni el fondo en cada mensaje.",
-        tradeoff:
-          "Un chat sin estado es más simple, pero obliga a repetir contexto y rompe el hilo del análisis.",
+        title: "Historial de chat por usuario",
+        context: "Las consultas y respuestas deben quedar asociadas a la cuenta que las realizó.",
+        tradeoff: "Sin persistencia, el usuario perdería el registro de sus consultas anteriores.",
         decision:
-          "Historial de conversación en base de datos, enviado como contexto en cada petición. El modelo recuerda el hilo sin que el usuario lo repita.",
+          "NextAuth Credentials con sesiones JWT y Prisma Postgres para guardar usuarios, conversaciones y análisis.",
       },
       {
-        title: "JWT para aislar sesiones de análisis",
+        title: "NextAuth para sesiones por usuario",
         context:
-          "Cada usuario analiza código potencialmente sensible; sus sesiones y su historial no pueden mezclarse.",
+          "Las sesiones necesitan asociar de forma segura el historial de cada persona con su cuenta.",
         tradeoff:
-          "Las sesiones por cookie son cómodas, pero acoplan un frontend y un backend desacoplados y complican el aislamiento entre usuarios.",
+          "Las sesiones deben proteger el acceso y mantener separado el historial de cada cuenta.",
         decision:
-          "Autenticación JWT con endpoints protegidos: cada análisis e historial queda aislado por usuario, encaja con el backend desacoplado y no asume estado de sesión compartido.",
+          "NextAuth Credentials usa sesiones JWT en cookies HTTP-only para proteger el acceso a la aplicación.",
       },
       {
-        title: "Astro para el frontend",
+        title: "Next.js para la aplicación",
         context:
-          "El frontend de NullBreach es mayormente contenido y formularios de análisis, no una SPA pesada.",
-        tradeoff:
-          "Una SPA pura penaliza el arranque y el SEO con JavaScript que la mayoría de la página no necesita.",
+          "La aplicación requiere interfaz autenticada, chat, análisis de código y rutas API.",
+        tradeoff: "Separar frontend y backend añade despliegues y contratos entre servicios.",
         decision:
-          "Astro con output estático e islas de React solo donde hay interactividad (análisis, chat): mejor rendimiento y SEO sin renunciar a React donde aporta.",
+          "Next.js App Router reúne interfaz, autenticación y rutas API; Astro sigue reservado para la landing.",
       },
       {
-        title: "Django + DRF como backbone",
-        context:
-          "NullBreach comparte stack con TerraCore y Root: Django REST Framework + PostgreSQL.",
+        title: "Prisma Postgres como persistencia",
+        context: "Usuarios, chats y análisis necesitan persistencia relacional gestionada.",
         tradeoff:
-          "Elegir un stack distinto por proyecto puede optimizar casos puntuales, pero fragmenta el conocimiento y ralentiza el mantenimiento.",
+          "Mantener el acceso a datos separado de las rutas de interfaz facilita el modelado y las migraciones.",
         decision:
-          "Mismo backbone Django + DRF en todos los proyectos: patrones coherentes (serializers, auth JWT, paginación) que aceleran construir y mantener cada uno.",
+          "Prisma ORM sobre Prisma Postgres modela y persiste usuarios, historial de chat y análisis de código.",
       },
     ],
     en: {
       summary:
-        "Full stack app: paste a code snippet and get an immediate OWASP Top 10 diagnosis, with a persistent-context AI chat (Claude API). Django, DRF, PostgreSQL, React, Astro.",
-      imageAlt: "NullBreach: static code analysis against OWASP Top 10 and AI security chat",
+        "Next.js security application with OWASP-aligned code analysis, OpenAI chat, and persistent data in Prisma Postgres. Marketing landing in Astro.",
+      imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
       problem:
         "Reviewing code with OWASP criteria or resolving a specific cybersecurity question means jumping between heavy scanners, scattered documentation, and outdated forums.",
       solution:
-        "The developer pastes a code snippet and gets an immediate diagnosis against OWASP Top 10. They can keep asking in an AI chat that remembers the thread, without repeating context or switching between tools.",
+        "An authenticated application for analyzing code snippets with OWASP-aligned guidance and asking the security assistant. Questions, answers, and analyses are stored per user.",
       links: [
         {
           href: "https://wavival.dev/nullbreach/",
@@ -1036,18 +1041,20 @@ export const projects: Project[] = [
           event: "ver-app-nullbreach",
         },
         {
-          href: "https://github.com/wavival/nullbreach-api",
+          href: "https://github.com/wavival/nullbreach",
           text: "View repo",
           ariaLabel: "View NullBreach repository",
         },
       ],
       metaDescription:
-        "NullBreach case study: fullstack app with static OWASP Top 10 analysis and AI chat (Claude API) with persistent context. Django, DRF, React, and Astro.",
+        "NullBreach case study: Next.js security application with OpenAI and Prisma Postgres, plus an Astro landing page.",
       architecture: [
-        "Static code fragment analysis engine: detects SQL injection, XSS, hardcoded secrets, insecure error handling, and other OWASP Top 10 vulnerabilities.",
-        "Integrated AI chat via Claude API with persistent conversation context and per-user history stored in the database.",
-        "JWT authentication with protected endpoints; paginated responses.",
-        "Decoupled architecture: backend in Django REST Framework + PostgreSQL, frontend in Astro + React + TypeScript.",
+        "OpenAI Responses API analyzes code snippets for OWASP-aligned vulnerabilities, severity, impact, and remediation.",
+        "Next.js App Router application combining the interface, authentication, API route handlers, and OpenAI integration.",
+        "OpenAI security chat; questions and answers are stored in each user's history.",
+        "Prisma ORM and Prisma Postgres for users, chat history, and code analyses.",
+        "NextAuth Credentials with JWT sessions in HTTP-only cookies.",
+        "The NullBreach landing remains in Astro; the main application deploys as an independent Next.js project.",
       ],
       painPoints: [
         {
@@ -1059,83 +1066,79 @@ export const projects: Project[] = [
           text: "Guidance is spread across dense documentation and forums that age badly.",
         },
         {
-          title: "No memory of the analysis",
-          text: "The tools do not converse: every new question forces re-explaining the code.",
+          title: "Findings without guidance",
+          text: "A list of patterns is not enough if it does not explain severity, impact, and remediation.",
         },
       ],
       modules: [
         {
           name: "OWASP analysis",
-          text: "Paste a snippet and get a diagnosis against the OWASP Top 10 on the spot.",
+          text: "Submit a snippet to OpenAI for OWASP-aligned findings, impact, and remediation guidance.",
         },
         {
-          name: "Chat with memory",
-          text: "Ask follow-ups without repeating the code: the chat retains the analysis thread.",
+          name: "Security chat history",
+          text: "Ask security questions and review the questions and answers saved to your account.",
         },
         {
-          name: "Structured diagnosis",
-          text: "Each finding carries an OWASP category, severity, and a remediation recommendation.",
+          name: "Remediation guidance",
+          text: "The analysis explains severity and impact and suggests how to fix identified risks.",
         },
         {
-          name: "Public API",
-          text: "The backend is open at github.com/wavival/nullbreach-api.",
+          name: "Open source",
+          text: "The application source is open at github.com/wavival/nullbreach.",
         },
       ],
       decisions: [
         {
-          title: "Claude API vs traditional static analysis",
+          title: "OpenAI for OWASP-aligned analysis",
           context:
-            "Traditional SAST tools (Semgrep, SonarQube) match patterns but do not explain the why or reason about code outside their rules.",
+            "Manual code review requires security knowledge and time to explain impact and remediation.",
           tradeoff:
-            "A rule engine is deterministic and fast but rigid: it does not generalize to new code or give an actionable explanation.",
+            "Model responses can be wrong and should not be presented as deterministic scanner results.",
           decision:
-            "Claude API brings structured reasoning over the snippet: it classifies against OWASP Top 10, explains the cause, and proposes the fix. Deterministic analysis stays for what it asserts with certainty; the model adds the reasoning, labeled as such.",
+            "OpenAI Responses API receives code with OWASP-aligned analysis instructions and explains severity, impact, and remediation.",
         },
         {
-          title: "Persistent chat context",
+          title: "Per-user chat history",
           context:
-            "Security questions have context: a developer does not repeat the full background on every message.",
-          tradeoff:
-            "Stateless chat is simpler but forces the user to repeat context and breaks the analysis thread.",
+            "Questions and answers need to be associated with the account that submitted them.",
+          tradeoff: "Without persistence, users would lose the record of their previous questions.",
           decision:
-            "Conversation history stored in the database and sent as context on each request. The model remembers the thread without the user repeating it.",
+            "NextAuth Credentials with JWT sessions and Prisma Postgres to store users, conversations, and analyses.",
         },
         {
-          title: "JWT to isolate analysis sessions",
-          context:
-            "Each user analyzes potentially sensitive code; their sessions and history cannot mix.",
-          tradeoff:
-            "Cookie sessions are convenient but couple the decoupled frontend and backend and complicate per-user isolation.",
+          title: "NextAuth for per-user sessions",
+          context: "Sessions need to associate each person's history with their account securely.",
+          tradeoff: "Sessions must protect access and keep each account's history separate.",
           decision:
-            "JWT authentication with protected endpoints: each analysis and history is isolated per user, fits the decoupled backend, and assumes no shared session state.",
+            "NextAuth Credentials uses JWT sessions in HTTP-only cookies to protect access to the application.",
         },
         {
-          title: "Astro for the frontend",
-          context: "NullBreach's frontend is mostly content and analysis forms, not a heavy SPA.",
-          tradeoff:
-            "A pure SPA penalizes startup and SEO with JavaScript most of the page does not need.",
+          title: "Next.js for the application",
+          context:
+            "The application needs an authenticated interface, chat, code analysis, and API routes.",
+          tradeoff: "Separating frontend and backend adds deployments and service contracts.",
           decision:
-            "Astro with static output and React islands only where there is interactivity (analysis, chat): better performance and SEO without giving up React where it adds value.",
+            "Next.js App Router combines the interface, authentication, and API routes; Astro remains for the landing page.",
         },
         {
-          title: "Django + DRF as the backbone",
-          context:
-            "NullBreach shares its stack with TerraCore and Root: Django REST Framework + PostgreSQL.",
+          title: "Prisma Postgres for persistence",
+          context: "Users, chats, and analyses need managed relational persistence.",
           tradeoff:
-            "Choosing a different stack per project can optimize specific cases but fragments knowledge and slows maintenance.",
+            "Keeping data access separate from interface routes helps manage the data model and migrations.",
           decision:
-            "Same Django + DRF backbone across all projects: consistent patterns (serializers, JWT auth, pagination) that speed up building and maintaining each one.",
+            "Prisma ORM on Prisma Postgres models and persists users, chat history, and code analyses.",
         },
       ],
       results: [
-        "Static analysis in production that detects OWASP Top 10 vulnerabilities (SQL injection, XSS, hardcoded secrets, and insecure error handling, among others) on code snippets pasted by the user.",
-        "Security chat with persistent context and history per user: the conversation retains the thread between messages instead of starting from scratch on each query.",
-        "Protected access with JWT authentication and paginated responses, on a Django REST Framework + PostgreSQL backend decoupled from an Astro + React frontend.",
+        "OpenAI Responses API analyzes code snippets for OWASP-aligned findings, severity, impact, and remediation guidance.",
+        "Chat questions and answers are stored in Prisma Postgres as user-specific history.",
+        "NextAuth credentials authentication with JWT sessions and Prisma Postgres persistence in a single Next.js application.",
       ],
       learnings: [
-        "Combining deterministic static analysis with an LLM requires separating what the engine asserts with certainty from what the model suggests: presenting them as a single response erodes trust in a security product.",
-        "Decoupling the Django backend from the Astro frontend imposed an explicit API contract from the start; that boundary forced thinking about pagination, JWT authentication, and history persistence as part of the design, not as later additions.",
-        "Prompt engineering for security is not asking 'find vulnerabilities': it requires fixing the framework (OWASP Top 10), the output format (category, severity, recommendation), and the model's role, so the diagnosis is structured and comparable across analyses.",
+        "Using a language model to review code means presenting its findings as analysis assistance rather than deterministic verification.",
+        "Combining the interface, authentication, and API route handlers in Next.js keeps the application boundary and deployment straightforward.",
+        "Security analysis with a language model requires clear instructions about the OWASP framework, severity, impact, and the recommendations it should include.",
       ],
     },
   },
@@ -1292,7 +1295,7 @@ export const projects: Project[] = [
     title: "Blog Lúmina W",
     slug: "blog-lumina-w",
     datePublished: "2026-06-18",
-    dateModified: "2026-06-18",
+    dateModified: "2026-09-25",
     tag: "Live",
     tagColor: "green",
     image: "images/lumina-w.webp",
@@ -1300,33 +1303,20 @@ export const projects: Project[] = [
       "Blog de Lúmina W: contenido técnico sobre desarrollo web, ciberseguridad y productos digitales",
     imageWidth: 1280,
     imageHeight: 853,
-    stack: ["Astro", "Tailwind CSS", "SEO", "A11y", "GA4", "Performance"],
-    filters: ["landing"],
+    stack: ["Next.js", "PWA"],
+    filters: ["pwa"],
     problem:
       "El conocimiento técnico generado en proyectos reales necesita un canal propio para llegar a la comunidad sin depender de plataformas externas.",
     solution:
-      "Blog de Lúmina W con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales, publicado en blog.luminaw.co. 'Escribimos sobre lo que construimos, lo que rompemos y lo que descubrimos. Sin filtro corporativo.'",
-    architecture: [
-      "Astro con output estático: build optimizado, rutas por artículo y deploy continuo en Vercel.",
-      "Tailwind CSS para diseño responsivo.",
-      "Contenido organizado por categorías: SaaS y producto, seguridad, desarrollo web.",
-      "Sin CMS externo: artículos en Markdown/MDX dentro del repositorio.",
-      "SEO técnico por artículo: title, meta-description, Open Graph, canonical y schema markup.",
-      "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, tiempos de carga optimizados y caché inmutable en Vercel.",
-      "Analíticas de Google (GA4): seguimiento de visitas y artículos más leídos.",
-    ],
+      "Blog PWA de Lúmina W, migrado a Next.js, con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales en blog.luminaw.co.",
+    architecture: ["Aplicación del blog desarrollada con Next.js y presentada como PWA."],
     results: [
       "Blog en producción con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales.",
-      "SEO técnico, accesibilidad WCAG AA y analíticas GA4 configuradas por artículo desde el lanzamiento.",
-    ],
-    learnings: [
-      "Publicar sin CMS externo (artículos en Markdown dentro del repositorio) mantiene el control editorial completo y elimina dependencias externas, pero exige establecer una convención de estructura de archivos y metadatos desde el primer artículo.",
     ],
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio del Blog de Lúmina W: blog estático con Astro y Tailwind CSS para contenido técnico sobre desarrollo web, ciberseguridad y productos.",
+      "Caso de estudio del Blog de Lúmina W: PWA desarrollada con Next.js para publicar contenido técnico sobre desarrollo web, ciberseguridad y productos.",
     links: [
       {
         href: "https://blog.luminaw.co",
@@ -1340,7 +1330,7 @@ export const projects: Project[] = [
       problem:
         "Technical knowledge generated in real projects needs its own channel to reach the community without depending on external platforms.",
       solution:
-        "Lumina W blog with technical content on web development, cybersecurity, and digital products, published at blog.luminaw.co. 'We write about what we build, what we break, and what we discover. No corporate filter.'",
+        "Lumina W's Next.js blog PWA publishes technical content on web development, cybersecurity, and digital products at blog.luminaw.co.",
       links: [
         {
           href: "https://blog.luminaw.co",
@@ -1349,23 +1339,10 @@ export const projects: Project[] = [
         },
       ],
       metaDescription:
-        "Lumina W Blog case study: static blog with Astro and Tailwind CSS for technical content on web development, cybersecurity, and products.",
-      architecture: [
-        "Astro with static output: optimized build, per-article routes, and continuous deployment to Vercel.",
-        "Tailwind CSS for responsive design.",
-        "Content organized by categories: SaaS and product, security, web development.",
-        "No external CMS: articles in Markdown/MDX within the repository.",
-        "Technical SEO per article: title, meta-description, Open Graph, canonical, and schema markup.",
-        "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, optimized load times, and immutable cache on Vercel.",
-        "Google Analytics (GA4): visit tracking and most-read articles.",
-      ],
+        "Lumina W Blog case study: a Next.js PWA for technical content on web development, cybersecurity, and products.",
+      architecture: ["Blog application developed with Next.js and presented as a PWA."],
       results: [
         "Blog in production with technical content on web development, cybersecurity, and digital products.",
-        "Technical SEO, WCAG AA accessibility, and GA4 analytics configured per article from launch.",
-      ],
-      learnings: [
-        "Publishing without an external CMS (articles in Markdown within the repository) maintains full editorial control and eliminates external dependencies, but requires establishing a file structure and metadata convention from the first article.",
       ],
     },
   },
