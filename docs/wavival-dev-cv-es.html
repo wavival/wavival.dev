@@ -5,30 +5,37 @@
     <title>CV de Valentina Ramírez</title>
     <style>
       @page {
-        size: letter;
-        margin: 0.72in 0.82in;
+        size: 8.5in 11in;
+        margin: 0.9in 1in;
       }
       * {
         box-sizing: border-box;
+        font-family: Arial, sans-serif;
       }
       body {
         color: #3d3d3d;
-        font:
-          10pt/1.35 Arial,
-          sans-serif;
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        line-height: 1.2;
       }
       h1 {
         color: #111;
-        font-size: 20pt;
-        margin: 0 0 3pt;
+        font-family: Arial, sans-serif;
+        font-size: 18pt;
+        margin: 0 0 2pt;
       }
       h2 {
         color: #111;
+        font-family: Arial, sans-serif;
         font-size: 12pt;
-        margin: 17pt 0 10pt;
+        margin: 11pt 0 6pt;
+        margin-left: 0;
+        text-indent: 0;
       }
       p {
-        margin: 0 0 5pt;
+        margin: 0 0 2pt;
+        margin-left: 0;
+        text-indent: 0;
       }
       .tagline {
         font-size: 10.5pt;
@@ -36,8 +43,8 @@
       }
       .contact {
         color: #666;
-        font-size: 9pt;
-        margin-top: 4pt;
+        font-size: 8.5pt;
+        margin-top: 2pt;
       }
       .intro {
         margin-bottom: 6pt;
@@ -49,7 +56,7 @@
         color: #111;
       }
       .role {
-        margin: 8pt 0 2pt;
+        margin: 5pt 0 1pt;
       }
       .role em,
       .project-stack,
@@ -57,7 +64,7 @@
         color: #666;
       }
       .project {
-        margin-top: 11pt;
+        margin-top: 6pt;
       }
       .project.nullbreach {
         page-break-before: always;
@@ -76,16 +83,17 @@
         margin: 2pt 0 3pt;
       }
       ul {
-        margin: 1pt 0 0;
-        padding-left: 28pt;
+        margin: 0;
+        padding-left: 24pt;
       }
       li {
-        padding-left: 2pt;
-        margin: 0 0 2pt;
+        padding-left: 1pt;
+        margin: 0 0 1pt;
       }
       .page-two {
         page-break-before: always;
         break-before: page;
+        padding-top: 0.2in;
       }
       .education {
         margin-top: 8pt;
@@ -114,7 +122,7 @@
     <p class="intro">
       Desarrolladora fullstack con más de tres años construyendo productos digitales reales con
       Django REST Framework, PostgreSQL, React y Next.js. Fundadora de Lúmina W. Integro IA
-      funcional mediante OpenAI y aplico criterio de seguridad desde el diseño. Bilingüe
+      funcional mediante la API de Claude y aplico criterio de seguridad desde el diseño. Bilingüe
       español/inglés B2.
     </p>
 
@@ -130,8 +138,8 @@
       <strong>Seguridad:</strong> OWASP · MITRE ATT&amp;CK · PTES · Pentesting · Desarrollo seguro
     </p>
     <p class="skills">
-      <strong>IA y herramientas:</strong> OpenAI · OpenClaw · Prompt Engineering · n8n · Git · Linux
-      · Postman · CI/CD
+      <strong>IA &amp; Tools:</strong> Claude API · Prompt Engineering · n8n · Git · Linux · Postman
+      · CI/CD
     </p>
 
     <h2>EXPERIENCIA LABORAL</h2>
@@ -161,7 +169,7 @@
 
     <h2>PROYECTOS TÉCNICOS</h2>
     <section class="project">
-      <p class="project-title">TerraCore [Live] | <em>terracoreapp.co · app.terracoreapp.co</em></p>
+      <p class="project-title">TerraCore [Live] · <em>terracoreapp.co · app.terracoreapp.co</em></p>
       <p class="project-stack">
         Python · Django REST Framework · PostgreSQL · JWT · React · TypeScript · Tailwind CSS
       </p>
@@ -202,21 +210,28 @@
           Next.js · TypeScript · NextAuth · Prisma Postgres · OpenAI · Astro
         </p>
         <ul>
+          <li>Aplicación fullstack de seguridad con autenticación y gestión de sesiones.</li>
           <li>
-            Aplicación de seguridad con análisis de código alineado con OWASP y chat de IA con
-            OpenAI.
+            Motor de análisis de fragmentos de código contra OWASP Top 10: detecta vulnerabilidades
+            comunes como inyección SQL, XSS, hardcoded secrets y manejo inseguro de errores.
+          </li>
+          <li>
+            Chat de IA integrado vía OpenAI con contexto persistente de conversación e historial por
+            usuario en base de datos.
           </li>
           <li>
             Next.js reúne la interfaz, autenticación, rutas API e integración con OpenAI; NextAuth
-            gestiona el acceso.
+            gestiona el acceso. Prisma Postgres persiste usuarios, consultas e historiales.
           </li>
-          <li>Prisma Postgres persiste usuarios, consultas y análisis por usuario.</li>
-          <li>La landing del proyecto continúa desarrollada con Astro.</li>
+          <li>
+            Endpoints protegidos por autenticación, con respuestas paginadas y caché de consultas
+            frecuentes. La landing del proyecto continúa desarrollada con Astro.
+          </li>
         </ul>
       </section>
 
       <section class="project">
-        <p class="project-title">OKroot [Live] | <em>okroot.co</em></p>
+        <p class="project-title">OKroot [Live] · <em>okroot.co · app.okroot.co</em></p>
         <p class="project-stack">
           Python · Django REST Framework · PostgreSQL · React · Claude API
         </p>
@@ -233,7 +248,7 @@
             Sistema de recetas curadas con filtrado estricto por múltiples condiciones simultáneas.
           </li>
           <li>Diario de consumo offline-first con sincronización posterior al backend.</li>
-          <li>Perfil de salud persistente que personaliza las respuestas del modelo.</li>
+          <li>Perfil de salud persistente que personaliza todas las respuestas del modelo.</li>
         </ul>
       </section>
 
@@ -251,8 +266,9 @@
             reverse shell con Netcat, escalada de privilegios a root.
           </li>
           <li>
-            Vulnerabilidades identificadas y clasificadas: CWE-615, CWE-434, CWE-312, CWE-321 y
-            CWE-269.
+            Vulnerabilidades identificadas y clasificadas: CWE-615 (información en comentarios),
+            CWE-434 (upload sin restricción), CWE-312 (credenciales en claro), CWE-321 (clave
+            hardcodeada) y CWE-269 (privilegios excesivos).
           </li>
           <li>
             Documentado con metodología PTES y TTPs mapeados a MITRE ATT&amp;CK. Writeup publicado.
@@ -260,21 +276,21 @@
         </ul>
       </section>
 
-      <h2>EDUCACI�-N</h2>
+      <h2>EDUCACIÓN</h2>
       <div class="education">
         <p><strong>Universidad EAFIT | Nodo</strong> <em>Nov 2025 a Abr 2026</em></p>
         <ul>
           <li>Diplomado en Ciberseguridad (Operaciones SOC)</li>
         </ul>
-        <p><strong>SENA</strong> <em>Oct 2025 a Dic 2027</em></p>
+        <p><strong>SENA</strong> | <em>Oct 2025 a Dic 2027</em></p>
         <ul>
           <li>Tecnología en Análisis y Desarrollo de Software (ADSO) · En curso</li>
         </ul>
-        <p><strong>Platzi</strong> <em>Jun 2025 a Presente</em></p>
+        <p><strong>Platzi</strong> | <em>Jun 2025 a Presente</em></p>
         <ul>
           <li>Django · React · Desarrollo con IA · En curso</li>
         </ul>
-        <p><strong>Universidad de San Buenaventura</strong> <em>Ago 2023 a Nov 2027</em></p>
+        <p><strong>Universidad de San Buenaventura</strong> | <em>Ago 2023 a Nov 2027</em></p>
         <ul>
           <li>Profesional en Lengua Inglesa · En curso</li>
         </ul>
