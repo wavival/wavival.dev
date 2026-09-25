@@ -10,7 +10,7 @@
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-407bff?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 [![CI](https://github.com/wavival/wavival.dev/actions/workflows/ci.yml/badge.svg)](https://github.com/wavival/wavival.dev/actions/workflows/ci.yml)
 
-> Portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built with Astro 6 and Tailwind 3. Static-rendered, bilingual (ES default, EN), dark-mode aware, SEO + A11Y + performance first. Auto-deploys to Netlify on every push to `main`.
+> Portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built with Astro 7 and Tailwind 3. Static-rendered, bilingual (ES default, EN), dark-mode aware, SEO + A11Y + performance first. Deployed on Vercel as the default application for `wavival.dev`.
 
 ## Table of contents
 
@@ -19,6 +19,7 @@
   - [npm scripts](#npm-scripts)
 - [Environment variables](#environment-variables)
 - [Project conventions](#project-conventions)
+- [Delivery flow](#delivery-flow)
 - [Architecture](#architecture)
   - [Routing and i18n](#routing-and-i18n)
   - [File structure](#file-structure)
@@ -27,7 +28,7 @@
 - [SEO and accessibility](#seo-and-accessibility)
 - [Performance](#performance)
 - [Testing and CI](#testing-and-ci)
-- [Deploying to Netlify](#deploying-to-netlify)
+- [Deploying to Vercel](#deploying-to-vercel)
   - [One-time setup](#one-time-setup)
   - [What's already in the repo](#whats-already-in-the-repo)
   - [Security headers and cache](#security-headers-and-cache)
@@ -43,8 +44,8 @@ Related docs: [DESIGN.md](./DESIGN.md) · [COMPONENTS.md](./COMPONENTS.md) · [C
 
 | Layer         | Choice                                                                                                                        |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Build         | Astro 6 (static output, `compressHTML`, `inlineStylesheets: 'auto'`)                                                          |
-| Styling       | Tailwind CSS 3 (`darkMode: 'class'`) + CSS custom property tokens                                                             |
+| Build         | Astro 7 (static output, `compressHTML`, `inlineStylesheets: 'auto'`)                                                          |
+| Styling       | Tailwind CSS 3 via PostCSS (`darkMode: 'class'`) + CSS custom property tokens                                                 |
 | Scripts       | TypeScript (vanilla, no client-side framework)                                                                                |
 | i18n          | Bilingual: ES default at root, EN mirror under `/en/`, slug map in `src/i18n/utils.ts`                                        |
 | Sitemap       | `@astrojs/sitemap` (auto-generated at build, both locales)                                                                    |
@@ -59,9 +60,8 @@ Related docs: [DESIGN.md](./DESIGN.md) · [COMPONENTS.md](./COMPONENTS.md) · [C
 | Perf budget   | Lighthouse CI (`@lhci/cli`, `lighthouserc.json`)                                                                              |
 | Link check    | linkinator (crawls built `dist/` for broken internal links)                                                                   |
 | Formatting    | Prettier + `prettier-plugin-astro`                                                                                            |
-| Automation    | Dependabot (weekly npm + github-actions PRs)                                                                                  |
 | CI            | GitHub Actions: quality gate → E2E + Lighthouse + links                                                                       |
-| Hosting       | Netlify (static publish + security headers + cache + redirects)                                                               |
+| Hosting       | Vercel (static portfolio + path-based microfrontends + security headers + cache + redirects)                                  |
 
 ## Local setup
 
@@ -74,26 +74,24 @@ cp .env.example .env              # optional: Umami vars (all optional)
 npm run dev                       # http://localhost:4321
 ```
 
-`.npmrc` pins `legacy-peer-deps=true` because `@astrojs/tailwind@6` declares an Astro 3/4/5 peer range while the site is on Astro 6, but the integration works fine in practice.
-
-**Requires:** Node `>=22.12` (declared in `package.json` engines; pinned in `.nvmrc` → `22`; all CI jobs read it via `node-version-file`).
+**Requires:** Node `22.x` (declared in `package.json` engines; pinned in `.nvmrc` → `22`; all CI jobs read it via `node-version-file`).
 
 ### npm scripts
 
-| Script                 | What it does                                                                                     |
-| ---------------------- | ------------------------------------------------------------------------------------------------ |
-| `npm run dev`          | Astro dev server with HMR at `localhost:4321`                                                    |
-| `npm run build`        | `astro build` → static output in `./dist/`                                                       |
-| `npm run preview`      | Serve the production build locally                                                               |
-| `npm run check`        | `astro check` (type / diagnostic check, run in CI)                                               |
-| `npm run format`       | Prettier write across the repo                                                                   |
-| `npm run format:check` | Prettier check (no writes), used in CI                                                           |
-| `npm test`             | Playwright E2E (boots `preview` on port 4329)                                                    |
-| `npm run test:ui`      | Playwright in interactive UI mode                                                                |
-| `npm run test:install` | Install Playwright Chromium browser + system deps                                                |
-| `npm run lhci`         | Lighthouse CI against `./dist` (build first)                                                     |
-| `npm run links`        | linkinator over `./dist` for broken links (build first)                                          |
-| `npm run csp:check`    | Verify every inline `dist/` script has a matching sha256 in the `netlify.toml` CSP (build first) |
+| Script                 | What it does                                                                                    |
+| ---------------------- | ----------------------------------------------------------------------------------------------- |
+| `npm run dev`          | Astro dev server with HMR at `localhost:4321`                                                   |
+| `npm run build`        | `astro build` → static output in `./dist/`                                                      |
+| `npm run preview`      | Serve the production build locally                                                              |
+| `npm run check`        | `astro check` (type / diagnostic check, run in CI)                                              |
+| `npm run format`       | Prettier write across the repo                                                                  |
+| `npm run format:check` | Prettier check (no writes), used in CI                                                          |
+| `npm test`             | Playwright E2E (boots `preview` on port 4329)                                                   |
+| `npm run test:ui`      | Playwright in interactive UI mode                                                               |
+| `npm run test:install` | Install Playwright Chromium browser + system deps                                               |
+| `npm run lhci`         | Lighthouse CI against `./dist` (build first)                                                    |
+| `npm run links`        | linkinator over `./dist` for broken links (build first)                                         |
+| `npm run csp:check`    | Verify every inline `dist/` script has a matching sha256 in the `vercel.json` CSP (build first) |
 
 > `lhci` and `links` run against the built output: run `npm run build` before them locally.
 
@@ -106,7 +104,7 @@ All client-exposed vars use the `PUBLIC_` prefix (Astro convention). They are ba
 | `PUBLIC_UMAMI_SRC` | No       | `https://cloud.umami.is/script.js` | Umami script URL. Both Umami vars must be set or no `<script>` is injected. |
 | `PUBLIC_UMAMI_ID`  | No       | `xxxxxxxx-uuid`                    | Umami website ID. Cookieless, no Google Analytics.                          |
 
-Copy `.env.example` to `.env` for local development. In Netlify, set them under _Site settings → Environment variables_.
+Copy `.env.example` to `.env` for local development. In Vercel, set them under _Project Settings > Environment Variables_.
 
 ## Project conventions
 
@@ -122,6 +120,17 @@ Copy `.env.example` to `.env` for local development. In Netlify, set them under 
 
 Full design-token reference and utility-class catalog: see [DESIGN.md](./DESIGN.md). Component-by-component prop tables: see [COMPONENTS.md](./COMPONENTS.md).
 
+## Delivery flow
+
+- `main` is production, `stg` is staging, and `dev` is the integration base.
+- Create human work branches from `dev` with `feature/*`, `fix/*`, or `chore/*` names.
+- Open every human work PR to `dev`.
+- Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
+- Required checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
+- Commit messages use `type(scope): message`. Allowed portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
+
+See [AGENTS.md](./AGENTS.md) for the complete delivery rules for coding agents.
+
 ## Architecture
 
 Multi-page static site with a bilingual routing scheme. The home is a single-page assembly of sections; the rest are standalone pages plus one dynamic route (`proyectos/[slug]`).
@@ -134,7 +143,8 @@ Multi-page static site with a bilingual routing scheme. The home is a single-pag
   `/en`, `/en/projects`, `/en/projects/[slug]`, `/en/services`, `/en/about`, `/en/contact`, `/en/uses`, `/en/privacy`, `/en/404`
 - The ES↔EN slug mapping is the single source of truth in `src/i18n/utils.ts` (`EN_PAGE_MAP`, reverse `ES_PAGE_MAP`, and the `proyectos/<slug>` ↔ `en/projects/<slug>` special-case in `getAltLangUrl`). The language toggle reads from here, so any new page or slug rename MUST update this map.
 - Per-locale assets resolve through helpers in `src/i18n/utils.ts`: `cvHref(lang, base)` returns `cv_valentina_ramirez_<es|en>.pdf`. UI strings come from `src/i18n/ui.ts` via `useTranslations(lang)`.
-- Legacy English-word ES routes (`/projects`, `/services`, `/about`, `/contact`, `/uses`) are 301-redirected to the Spanish slugs in `netlify.toml`.
+- Legacy English-word ES routes (`/projects`, `/services`, `/about`, `/contact`, `/uses`) are permanently redirected to the Spanish slugs in `vercel.json`.
+- `microfrontends.json` makes `wavival-dev` the default Vercel application. It serves `/` and every unassigned path; the separate `nullbreach` project exclusively serves `/nullbreach` and `/nullbreach/:path*`.
 
 ### File structure
 
@@ -173,12 +183,11 @@ public/
 ├── llms.txt · llms-full.txt # llmstxt.org index + long-form companion for AI assistants
 ├── .well-known/security.txt # RFC 9116 security contact
 └── robots.txt           # Points at /sitemap-index.xml (generated)
-scripts/check-csp-hashes.mjs # Verifies inline-script sha256 hashes against the netlify.toml CSP
+scripts/check-csp-hashes.mjs # Verifies inline-script sha256 hashes against the vercel.json CSP
 tests/                   # Playwright E2E + pure-unit specs
 lighthouserc.json        # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                   # Node version pin (22)
-.github/dependabot.yml   # Weekly npm + github-actions update PRs
-.github/workflows/ci.yml # quality gate → e2e + lighthouse + links jobs
+.github/workflows/ci.yml # commitlint, quality, tests, lighthouse, links, security scan
 ```
 
 The favicon/manifest icon set in `public/` is generated from `public/brand/logo-w.webp` with `sharp` (maskable variant gets a dark `#0f1117` safe-zone background). Regenerate if the logo changes.
@@ -257,7 +266,7 @@ Full token table, dark overrides, utility classes, typography, motion, and A11Y 
 - Every icon `<img>` has explicit `width` + `height` to prevent CLS.
 - Scroll reveal: IntersectionObserver reveals each `[data-aos]` element once, then `unobserve`s. Under `prefers-reduced-motion` (or no IntersectionObserver support), elements show immediately with no transition.
 - Astro: `compressHTML: true`, `build.inlineStylesheets: 'auto'`: small critical CSS inlined into the document.
-- Netlify cache: `/_astro/*`, `/images/*`, `/brand/*`, `/icons/*`, `/fonts/*` served `Cache-Control: public, max-age=31536000, immutable`. HTML uses Netlify defaults (revalidate on each deploy).
+- Vercel serves `/_astro/*`, `/images/*`, `/brand/*`, `/icons/*`, and `/fonts/*` with `Cache-Control: public, max-age=31536000, immutable`.
 - Lighthouse CI asserts category scores per commit (a11y + SEO are hard errors, perf + best-practices are warnings) against the built `dist/`.
 
 ## Testing and CI
@@ -273,47 +282,46 @@ npm run test:ui            # Playwright UI mode for local debugging
 
 Two Playwright projects run by default: `chromium-desktop` (Desktop Chrome) and `chromium-mobile` (Pixel 5).
 
-| Suite                 | Covers                                                                   |
-| --------------------- | ------------------------------------------------------------------------ |
-| `home.spec.ts`        | Single h1, canonical/OG host, JSON-LD types, hero image attrs, skip link |
-| `routes.spec.ts`      | All ES + EN routes and project case studies render (one h1 each)         |
-| `i18n.spec.ts`        | `lang` attrs, per-locale CV, hreflang, language toggle                   |
-| `i18n-utils.spec.ts`  | Pure-unit: `getAltLangUrl` and slug map in `src/i18n/utils.ts`           |
-| `redirects.spec.ts`   | Pure-unit: parses `netlify.toml` to lock legacy English-word 301s        |
-| `theme.spec.ts`       | Pre-paint dark/light from `localStorage`; toggle flips + persists        |
-| `mobile-menu.spec.ts` | Open/close, `aria-expanded`, Escape, link-click closes menu              |
-| `not-found.spec.ts`   | `/404` renders heading and emits `noindex`                               |
-| `seo.spec.ts`         | `robots.txt` content + localized `<loc>` entries in generated sitemap    |
+| Suite                 | Covers                                                                                 |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| `home.spec.ts`        | Single h1, canonical/OG host, JSON-LD types, hero image attrs, skip link               |
+| `routes.spec.ts`      | All ES + EN routes and project case studies render (one h1 each)                       |
+| `i18n.spec.ts`        | `lang` attrs, per-locale CV, hreflang, language toggle                                 |
+| `i18n-utils.spec.ts`  | Pure-unit: `getAltLangUrl` and slug map in `src/i18n/utils.ts`                         |
+| `redirects.spec.ts`   | Pure-unit: locks deployment redirects, the API proxy, and microfrontend path ownership |
+| `theme.spec.ts`       | Pre-paint dark/light from `localStorage`; toggle flips + persists                      |
+| `mobile-menu.spec.ts` | Open/close, `aria-expanded`, Escape, link-click closes menu                            |
+| `not-found.spec.ts`   | `/404` renders heading and emits `noindex`                                             |
+| `seo.spec.ts`         | `robots.txt` content + localized `<loc>` entries in generated sitemap                  |
 
-CI (`.github/workflows/ci.yml`) runs four jobs on every push and PR to `main`: `quality` (dependency audit via `npm audit --audit-level=high --omit=dev` → format check → lint → type check via `astro check` → build → CSP hash check via `npm run csp:check`) gates the rest, then `e2e` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator) run in parallel before Netlify publishes. All jobs read the Node version from `.nvmrc`.
+CI (`.github/workflows/ci.yml`) runs on every push and PR to `dev`, `stg`, and `main`: `commitlint`, `quality` (dependency audit via `npm audit --audit-level=high --omit=dev` → format check → lint → type check via `astro check` → build → CSP hash check via `npm run csp:check`), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks). All jobs read the Node version from `.nvmrc`.
 
-## Deploying to Netlify
+## Deploying to Vercel
 
 ### One-time setup
 
-1. **Create site:** Netlify dashboard → _Add new site_ → _Import from Git_ → select repo.
-2. **Build settings** (auto-detected from `netlify.toml`):
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-   - Node version: `22` (pinned in `[build.environment]`)
-3. **Environment variables** → _Site settings → Environment variables_ (all optional):
+1. **Create project:** import this repository as the Vercel project named `wavival-dev`.
+2. **Build settings:** use the Astro preset, `npm run build`, `dist`, and Node 22.
+3. **Environment variables:** add both values to Preview and Production if Umami is enabled:
    - `PUBLIC_UMAMI_SRC` + `PUBLIC_UMAMI_ID` (both required to enable analytics)
-4. **Custom domain:** _Domain settings_ → add `wavival.dev` → follow CNAME instructions. SSL auto-provisions via Let's Encrypt.
-5. **Deploy:** push to `main`. CI runs quality → e2e + lighthouse + links; on green, Netlify auto-builds and publishes.
+4. **Microfrontends:** create a Vercel microfrontends group containing `wavival-dev` and `nullbreach`; select `wavival-dev` as the default application.
+5. **Custom domain:** assign `wavival.dev` to `wavival-dev`.
+6. **Deploy:** deploy NullBreach first, then deploy this default application so `microfrontends.json` activates the shared-domain routes.
 
 ### What's already in the repo
 
-- `netlify.toml`: Node 22 pin, security headers (hash-based CSP, HSTS, frame-deny), immutable cache for static assets, redirects + proxies.
+- `microfrontends.json`: routes `/nullbreach` and its descendants to the independent `nullbreach` Vercel project; all other paths remain on `wavival-dev`.
+- `vercel.json`: security headers, immutable cache for static assets, legacy redirects, and the `/api/*` compatibility proxy.
 - `astro.config.mjs`: `site: "https://wavival.dev"`, bilingual sitemap integration, HTML compression.
+- `postcss.config.cjs` and `tailwind.config.mjs`: Tailwind 3 processing for Astro styles.
 - `public/robots.txt`, `public/llms.txt`, `public/llms-full.txt`: `sitemap-index.xml` generated at build; AI-assistant descriptors.
 - `public/.well-known/security.txt`: RFC 9116 security contact.
 - `scripts/check-csp-hashes.mjs`: CI guard that keeps the CSP inline-script hashes in sync with the build.
-- `.github/workflows/ci.yml`: quality + e2e + lighthouse + links gates before Netlify deploys.
-- `.github/dependabot.yml`: weekly npm + github-actions update PRs.
+- `.github/workflows/ci.yml`: commitlint, quality, tests, lighthouse, links, and security scan gates.
 
 ### Security headers and cache
 
-`netlify.toml` declares:
+`vercel.json` declares these policies:
 
 | Header                                                          | Value                                                                                                                                                                                       |
 | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -329,14 +337,13 @@ The `script-src` is hash-based: each inline script carries its own `sha256-` has
 
 ### Redirects and proxies
 
-`netlify.toml` declares the legacy-slug 301s plus two subpath proxies:
+Vercel uses two routing layers:
 
-| From            | To                                         | Status |
-| --------------- | ------------------------------------------ | ------ |
-| `/api/*`        | `https://nullbreach-api.wavival.dev/api/*` | 200    |
-| `/nullbreach/*` | `https://null-breach.netlify.app/*`        | 200    |
+- `microfrontends.json` assigns `/nullbreach` and `/nullbreach/:path*` to the independent `nullbreach` project.
+- `vercel.json` preserves `/api/:path*` as a compatibility proxy to `https://nullbreach-api.wavival.dev/api/:path*`.
+- `vercel.json` preserves the legacy English-word redirects.
 
-Update or remove if the upstreams change. Okroot now lives on its own domain (`okroot.co` landing, `app.okroot.co` PWA), so it is no longer proxied here.
+Every future independent application must receive a unique, non-overlapping prefix in `microfrontends.json`. Routes not assigned there continue to resolve to the portfolio. Okroot lives on its own domain (`okroot.co` landing, `app.okroot.co` PWA), so it is not proxied here.
 
 ## Using as a template
 
@@ -370,14 +377,13 @@ Token, typography, and utility-class values are centralized in `src/styles/`, so
 
 | Symptom                                          | Fix                                                                                                                                         |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm install` fails on `ERESOLVE` peer warning   | `.npmrc` already sets `legacy-peer-deps=true`. If you removed it, re-add or run `npm install --legacy-peer-deps`.                           |
 | Dark mode flashes on first paint                 | The pre-paint script lives at the top of `<head>` in `Layout.astro`. Don't move it below other tags.                                        |
 | Fonts flash unstyled (FOUT)                      | Fonts are self-hosted in `public/fonts/` with `font-display: swap` and critical weights preloaded. A brief swap is expected and acceptable. |
 | `npm test` fails with stale content              | Run `npm run build` first: the suite serves the static `dist/`, it does not build for you.                                                  |
 | Playwright fails locally with "browsers missing" | Run `npm run test:install` once.                                                                                                            |
 | Language toggle points at a wrong URL            | Update the slug map (`EN_PAGE_MAP` / `getAltLangUrl`) in `src/i18n/utils.ts` after any page or slug rename.                                 |
 | Umami not firing                                 | Confirm both `PUBLIC_UMAMI_SRC` and `PUBLIC_UMAMI_ID` are set and the build was triggered after setting them.                               |
-| CSP blocks a new third-party script              | Edit `Content-Security-Policy` in `netlify.toml` to add the origin to `script-src` / `connect-src`.                                         |
+| CSP blocks a new third-party script              | Edit `Content-Security-Policy` in `vercel.json` to add the origin to `script-src` / `connect-src`.                                          |
 
 ## Roadmap / known gaps
 

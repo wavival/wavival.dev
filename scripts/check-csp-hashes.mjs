@@ -1,8 +1,8 @@
 // Verifies that every inline <script> emitted into dist/ has a matching sha256
 // hash in the script-src directive of the Content-Security-Policy header in
-// netlify.toml. This guards the hash-based CSP: if an inline script changes or a
-// new one is added, its hash drifts and the browser would block it in production
-// (silent FOUC / broken nav). Run after `npm run build`. Exits non-zero on any miss.
+// vercel.json. This guards the hash-based CSP: if an inline
+// script changes or a new one is added, its hash drifts and the browser would
+// block it in production. Run after `npm run build`. Exits non-zero on any miss.
 //
 // External scripts (src=...) are covered by host allow-lists, not hashes.
 // JSON-LD (type=application/ld+json) is a CSP data block, not gated by script-src.
@@ -22,17 +22,22 @@ const walk = (dir) =>
     return e.name.endsWith(".html") ? [full] : [];
   });
 
-const toml = readFileSync(path.join(root, "netlify.toml"), "utf8");
-const cspMatch = toml.match(/Content-Security-Policy\s*=\s*"([^"]*)"/);
-if (!cspMatch) {
-  console.error("check-csp-hashes: no Content-Security-Policy found in netlify.toml");
+const hashesFromCsp = (csp) => {
+  const scriptSrc = csp.split(";").find((d) => d.trim().startsWith("script-src")) ?? "";
+  return new Set([...scriptSrc.matchAll(/'(sha256-[A-Za-z0-9+/=]+)'/g)].map((m) => m[1]));
+};
+
+const vercel = JSON.parse(readFileSync(path.join(root, "vercel.json"), "utf8"));
+const vercelCsp = vercel.headers
+  ?.flatMap((rule) => rule.headers ?? [])
+  .find((header) => header.key.toLowerCase() === "content-security-policy")?.value;
+
+if (!vercelCsp) {
+  console.error("check-csp-hashes: CSP missing from vercel.json");
   process.exit(1);
 }
-const csp = cspMatch[1];
-const scriptSrc = csp.split(";").find((d) => d.trim().startsWith("script-src")) ?? "";
-const allowedHashes = new Set(
-  [...scriptSrc.matchAll(/'(sha256-[A-Za-z0-9+/=]+)'/g)].map((m) => m[1])
-);
+
+const policies = [{ file: "vercel.json", hashes: hashesFromCsp(vercelCsp) }];
 
 let htmlFiles = [];
 try {
@@ -57,8 +62,16 @@ for (const file of htmlFiles) {
   for (const [, attrs, body] of html.matchAll(tag)) {
     if (isDataBlock(attrs)) continue;
     const hash = "sha256-" + createHash("sha256").update(body, "utf8").digest("base64");
-    if (!allowedHashes.has(hash)) {
-      misses.push({ file: path.relative(root, file), hash, attrs: attrs.trim() });
+    const missingFrom = policies
+      .filter((policy) => !policy.hashes.has(hash))
+      .map((policy) => policy.file);
+    if (missingFrom.length) {
+      misses.push({
+        file: path.relative(root, file),
+        hash,
+        attrs: attrs.trim(),
+        missingFrom,
+      });
     }
   }
 }
@@ -69,12 +82,14 @@ if (misses.length) {
   for (const m of misses) {
     if (seen.has(m.hash)) continue;
     seen.add(m.hash);
-    console.error(`  '${m.hash}'  (e.g. ${m.file}${m.attrs ? `, <script ${m.attrs}>` : ""})`);
+    console.error(
+      `  '${m.hash}'  (${m.missingFrom.join(", ")}; e.g. ${m.file}${m.attrs ? `, <script ${m.attrs}>` : ""})`
+    );
   }
-  console.error(`\nAdd the hash(es) above to script-src in netlify.toml.`);
+  console.error(`\nAdd the hash(es) above to script-src in vercel.json.`);
   process.exit(1);
 }
 
 console.log(
-  `check-csp-hashes: OK (${htmlFiles.length} pages, ${allowedHashes.size} hashes in CSP).`
+  `check-csp-hashes: OK (${htmlFiles.length} pages, ${policies.map((p) => `${p.hashes.size} hashes in ${p.file}`).join(", ")}).`
 );
