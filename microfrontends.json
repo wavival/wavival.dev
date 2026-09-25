@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "version": "1",
+  "applications": {
+    "wavival-dev": {
+      "development": {
+        "fallback": "wavival-dev.vercel.app",
+        "local": 4321
+      }
+    },
+    "nullbreach": {
+      "routing": [
+        {
+          "group": "nullbreach",
+          "paths": ["/nullbreach", "/nullbreach/:path*"]
+        }
+      ],
+      "development": {
+        "fallback": "nullbreach-wavivals-projects.vercel.app",
+        "local": 3000
+      }
+    }
+  }
+}

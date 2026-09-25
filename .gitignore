@@ -38,8 +38,9 @@ ehthumbs.db
 .idea/
 .editorconfig
 
-# Claude Code local config
-.claude/
+# Claude Code local config, except the project checkpoint
+.claude/*
+!.claude/checkpoint.md
 
 # TypeScript build info
 *.tsbuildinfo
@@ -69,3 +70,6 @@ playwright/.cache/
 lighthouse.*
 *wsl.localhost*
 undefined*
+.vercel
+.env.local
+.env.*.local

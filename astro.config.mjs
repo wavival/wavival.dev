@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { microfrontends } from "@vercel/microfrontends/experimental/vite";
 import { fileURLToPath } from "url";
 import path from "path";
 import { EN_PAGE_MAP } from "./src/i18n/utils.ts";
@@ -75,6 +76,7 @@ export default defineConfig({
     inlineStylesheets: "auto",
   },
   vite: {
+    plugins: [microfrontends()],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
