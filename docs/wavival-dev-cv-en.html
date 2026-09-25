@@ -5,30 +5,37 @@
     <title>Valentina Ramírez CV</title>
     <style>
       @page {
-        size: letter;
-        margin: 0.72in 0.82in;
+        size: 8.5in 11in;
+        margin: 0.9in 1in;
       }
       * {
         box-sizing: border-box;
+        font-family: Arial, sans-serif;
       }
       body {
         color: #3d3d3d;
-        font:
-          10pt/1.35 Arial,
-          sans-serif;
+        font-family: Arial, sans-serif;
+        font-size: 10pt;
+        line-height: 1.2;
       }
       h1 {
         color: #111;
-        font-size: 20pt;
-        margin: 0 0 3pt;
+        font-family: Arial, sans-serif;
+        font-size: 18pt;
+        margin: 0 0 2pt;
       }
       h2 {
         color: #111;
+        font-family: Arial, sans-serif;
         font-size: 12pt;
-        margin: 17pt 0 10pt;
+        margin: 11pt 0 6pt;
+        margin-left: 0;
+        text-indent: 0;
       }
       p {
-        margin: 0 0 5pt;
+        margin: 0 0 2pt;
+        margin-left: 0;
+        text-indent: 0;
       }
       .tagline {
         font-size: 10.5pt;
@@ -36,8 +43,8 @@
       }
       .contact {
         color: #666;
-        font-size: 9pt;
-        margin-top: 4pt;
+        font-size: 8.5pt;
+        margin-top: 2pt;
       }
       .intro {
         margin-bottom: 6pt;
@@ -49,7 +56,7 @@
         color: #111;
       }
       .role {
-        margin: 8pt 0 2pt;
+        margin: 5pt 0 1pt;
       }
       .role em,
       .project-stack,
@@ -57,7 +64,7 @@
         color: #666;
       }
       .project {
-        margin-top: 11pt;
+        margin-top: 6pt;
       }
       .project.nullbreach {
         page-break-before: always;
@@ -76,16 +83,17 @@
         margin: 2pt 0 3pt;
       }
       ul {
-        margin: 1pt 0 0;
-        padding-left: 28pt;
+        margin: 0;
+        padding-left: 24pt;
       }
       li {
-        padding-left: 2pt;
-        margin: 0 0 2pt;
+        padding-left: 1pt;
+        margin: 0 0 1pt;
       }
       .page-two {
         page-break-before: always;
         break-before: page;
+        padding-top: 0.2in;
       }
       .education {
         margin-top: 8pt;
@@ -112,9 +120,10 @@
 
     <h2>PROFESSIONAL SUMMARY</h2>
     <p class="intro">
-      Fullstack developer with over three years of experience building real-world digital products
-      with Django REST Framework, PostgreSQL, React, and Next.js. Founder of Lúmina W. I integrate
-      AI with OpenAI and apply a security-by-design approach. Bilingual Spanish/English (B2).
+      Fullstack developer with over three years building real-world digital products using Django
+      REST Framework, PostgreSQL, React, and Next.js. Founder of Lúmina W. I integrate functional AI
+      through the Claude API and apply a security-by-design approach. Bilingual Spanish/English
+      (B2).
     </p>
 
     <h2>TECHNICAL SKILLS</h2>
@@ -129,8 +138,8 @@
       <strong>Security:</strong> OWASP · MITRE ATT&amp;CK · PTES · Pentesting · Secure Development
     </p>
     <p class="skills">
-      <strong>AI &amp; Tools:</strong> OpenAI · OpenClaw · Prompt Engineering · n8n · Git · Linux ·
-      Postman · CI/CD
+      <strong>AI &amp; Tools:</strong> Claude API · Prompt Engineering · n8n · Git · Linux · Postman
+      · CI/CD
     </p>
 
     <h2>WORK EXPERIENCE</h2>
@@ -160,7 +169,7 @@
 
     <h2>TECHNICAL PROJECTS</h2>
     <section class="project">
-      <p class="project-title">TerraCore [Live] | <em>terracoreapp.co · app.terracoreapp.co</em></p>
+      <p class="project-title">TerraCore [Live] · <em>terracoreapp.co · app.terracoreapp.co</em></p>
       <p class="project-stack">
         Python · Django REST Framework · PostgreSQL · JWT · React · TypeScript · Tailwind CSS
       </p>
@@ -201,20 +210,28 @@
           Next.js · TypeScript · NextAuth · Prisma Postgres · OpenAI · Astro
         </p>
         <ul>
+          <li>Fullstack security application with authentication and session management.</li>
           <li>
-            Security application with OWASP-aligned code analysis and an AI chat powered by OpenAI.
+            Code-snippet analysis engine against the OWASP Top 10: detects common vulnerabilities
+            such as SQL injection, XSS, hardcoded secrets, and insecure error handling.
+          </li>
+          <li>
+            AI chat integrated via OpenAI with persistent conversation context and per-user history
+            stored in the database.
           </li>
           <li>
             Next.js combines the interface, authentication, API routes, and OpenAI integration;
-            NextAuth handles access.
+            NextAuth handles access. Prisma Postgres persists users, queries, and histories.
           </li>
-          <li>Prisma Postgres persists users, queries, and analyses per user.</li>
-          <li>The project landing page remains built with Astro.</li>
+          <li>
+            Authentication-protected endpoints with paginated responses and caching of frequent
+            queries. The project landing page remains built with Astro.
+          </li>
         </ul>
       </section>
 
       <section class="project">
-        <p class="project-title">OKroot [Live] | <em>okroot.co</em></p>
+        <p class="project-title">OKroot [Live] · <em>okroot.co · app.okroot.co</em></p>
         <p class="project-stack">
           Python · Django REST Framework · PostgreSQL · React · Claude API
         </p>
@@ -231,7 +248,7 @@
             Curated recipe system with strict filtering across multiple simultaneous conditions.
           </li>
           <li>Offline-first consumption diary with later synchronization to the backend.</li>
-          <li>Persistent health profile that personalizes model responses.</li>
+          <li>Persistent health profile that personalizes all model responses.</li>
         </ul>
       </section>
 
@@ -249,8 +266,9 @@
             upload, reverse shell with Netcat, and privilege escalation to root.
           </li>
           <li>
-            Identified and classified vulnerabilities: CWE-615, CWE-434, CWE-312, CWE-321, and
-            CWE-269.
+            Identified and classified vulnerabilities: CWE-615 (information in comments), CWE-434
+            (unrestricted upload), CWE-312 (cleartext credentials), CWE-321 (hardcoded key), and
+            CWE-269 (excessive privileges).
           </li>
           <li>
             Documented with PTES methodology and TTPs mapped to MITRE ATT&amp;CK. Writeup published.
@@ -264,15 +282,15 @@
         <ul>
           <li>Cybersecurity Diploma (SOC Operations)</li>
         </ul>
-        <p><strong>SENA</strong> <em>Oct 2025 to Dec 2027</em></p>
+        <p><strong>SENA</strong> | <em>Oct 2025 to Dec 2027</em></p>
         <ul>
           <li>Technologist Degree in Software Analysis and Development (ADSO) · In progress</li>
         </ul>
-        <p><strong>Platzi</strong> <em>Jun 2025 to Present</em></p>
+        <p><strong>Platzi</strong> | <em>Jun 2025 to Present</em></p>
         <ul>
           <li>Django · React · AI Development · In progress</li>
         </ul>
-        <p><strong>Universidad de San Buenaventura</strong> <em>Aug 2023 to Nov 2027</em></p>
+        <p><strong>Universidad de San Buenaventura</strong> | <em>Aug 2023 to Nov 2027</em></p>
         <ul>
           <li>Bachelor's Degree in English Language · In progress</li>
         </ul>
