@@ -2,7 +2,7 @@
 
 ## What this is
 
-Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built to reflect real technical identity, not just a résumé.
+Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React · Next.js), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built to reflect real technical identity, not just a résumé.
 
 **Production URL:** `https://wavival.dev`
 **Repository:** `https://github.com/wavival/wavival.dev`
@@ -17,7 +17,7 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 - **Scroll reveal**: CSS transitions + IntersectionObserver (`[data-aos]` attributes, script inlined in `Layout.astro`, styles in `global.css`, re-run on `astro:page-load`); no JS animation library
 - **View Transitions**: Astro `<ClientRouter />` for SPA-like same-origin navigation (replaces the old full-screen Loader)
 - **web-vitals**: Core Web Vitals RUM, reports LCP/INP/CLS/FCP/TTFB to Umami as custom events (only when Umami env is set)
-- **GitHub widget**: build-time only. `src/data/github.ts` (`fetchGithubProfile`) fetches the public GitHub profile + non-fork repos in Astro frontmatter on `/herramientas` and `/en/uses` (the `#repos` section). Unauthenticated (no token; GitHub's ~60 req/h per IP), and fails soft: any error or rate-limit returns nulls so the build never breaks and the widget just does not render that build. No client-side JS and no CSP change (the fetch runs server-side at build, not in the browser). `curateRepos()` splits the fetched repos into a flagship spotlight and a learning-resources grid: `FEATURED_REPOS` (`nullbreach-api` + `nullbreach-web`, shown in that order under a "Destacado"/"Featured" NullBreach card with no left accent: gradient `bg-blur`→`bg-card` container + a solid `--btn-bg` badge pill, white text for AA) and `HIDDEN_REPOS` (profile README `wavival`, this portfolio `wavival.dev`, and the one-off `prueba-tecnica-logika` test, none of which are learning resources). Everything else renders as "Recursos para aprender"/"Resources to learn from". To re-pin or hide a repo, edit those arrays, never the markup. Both the featured and resource cards use `RepoCard.astro` (see UI Components)
+- **GitHub widget**: build-time only. `src/data/github.ts` (`fetchGithubProfile`) fetches the public GitHub profile + non-fork repos in Astro frontmatter on `/herramientas` and `/en/uses` (the `#repos` section). Unauthenticated and fails soft on network errors or rate limits. `curateRepos()` splits the repos into the NullBreach flagship spotlight (the single `nullbreach` repository) and a learning-resources grid; profile README, this portfolio, and the one-off `prueba-tecnica-logika` test stay hidden. Both use `RepoCard.astro`.
 - **`@astrojs/sitemap`**: generates `/sitemap-index.xml` + `/sitemap-0.xml` at build
 - **Vercel Microfrontends**: `wavival-dev` is the default application; the independent `nullbreach` project owns `/nullbreach` and `/nullbreach/:path*` through `microfrontends.json`
 - **Playwright**: E2E smoke tests (`tests/`)
@@ -33,7 +33,7 @@ The production target is **Vercel**. `vercel.json` defines the security headers,
 ## Delivery governance
 
 - `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
-- Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
+- Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges them manually with a merge commit, not squash or rebase, to preserve branch ancestry.
 - Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
 - `validate-pr-base` accepts human work branches into `dev`, `dev` into `stg`, and `stg` into `main`.
 - `auto-merge-dev` enables auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with `PROMOTE_TOKEN`.
@@ -55,6 +55,7 @@ Multi-page static site with a bilingual (ES default, EN) routing scheme. The hom
 - The ES↔EN slug mapping (e.g. `/proyectos` ↔ `/en/projects`) is the single source of truth in `src/i18n/utils.ts` (`EN_PAGE_MAP`, its reverse `ES_PAGE_MAP`, and the `/proyectos/<slug>` ↔ `/en/projects/<slug>` special-case in `getAltLangUrl`). The language toggle reads from here, and `astro.config.mjs` imports the exported `EN_PAGE_MAP` for its sitemap `serialize` hook, so any new page or slug rename MUST update this map. `getAltLangUrl` also special-cases `/404` and `/en/404`: both redirect to the opposite locale's home instead of trying to find a translated 404 page.
 - Shared section components (`Hero`, `Projects`, `Stack`, `Contact`, `About`) take a `lang` prop and pick targets with a ternary (`isEn ? "/en/..." : "/<es-slug>"`). NavBar/Footer do the same. Never hardcode a route that ignores `lang`.
 - Per-locale assets resolve through helpers in `src/i18n/utils.ts`: `cvHref(lang)` returns `cv_valentina_ramirez_<es|en>.pdf`. UI strings come from `src/i18n/ui.ts` via `useTranslations(lang)`. Data files carry parallel `*En` fields for translatable content (`src/data/stack.ts`: `descriptionEn` / `whyEn` / `toolsEn`; `src/data/projects.ts`: the `en` block). `toolsEn` is set only on stack categories with translatable chips (Design & UX, Product Engineering) and falls back to `tools`; proper-noun chips (Python, React) need no translation. Render with `isEn ? (s.toolsEn ?? s.tools) : s.tools` (home `Stack.astro`) or `s.toolsEn ?? s.tools` (always-EN `/en/uses`).
+- **Portfolio project facts:** `src/data/projects.ts` is the bilingual source for case studies. NullBreach's app uses Next.js, NextAuth, Prisma Postgres, and OpenAI; its landing remains in Astro. Its current source repo is `wavival/nullbreach`. Blog W is presented as a Next.js PWA; incomplete stack details are tracked in `docs/blog-w-stack-pendiente.md`. TerraCore is an offline-first PWA. The uses page lists an Intel Core i5, 16 GB RAM, 1 TB, Fedora, and Firefox. WhatsApp is +57 301 656 0222. Keep `public/llms.txt` and `public/llms-full.txt` aligned with these project facts. `src/data/stack.ts` feeds both the home stack and `/herramientas` + `/en/uses`; keep Next.js, OpenAI, and OpenClaw entries in sync across both locales.
 - Legacy English-word ES routes (`/projects`, `/services`, `/about`, `/contact`, `/uses`) are 301-redirected to the Spanish slugs in `vercel.json`. Content stays Spanish; only the URL changed.
 - Vercel path ownership lives in the default application's `microfrontends.json`: `wavival-dev` handles `/` and every unassigned path, while the separate `nullbreach` project handles both `/nullbreach` and `/nullbreach/:path*`. Add future independent applications as new, non-overlapping path groups; never claim `/` or reuse another application's prefix.
 - EN pages declare `hreflang` alternates (es / en / x-default) in their `Layout` call; the `es`/`x-default` hrefs point at the Spanish slugs.
@@ -108,6 +109,10 @@ public/
   robots.txt          # Allows indexing, references /sitemap-index.xml
   .well-known/
     security.txt      # RFC 9116 security contact (Contact, Expires, Canonical)
+docs/
+  blog-w-stack-pendiente.md # Confirmed Next.js/PWA facts and missing blog stack details
+  wavival-dev-cv-es.html   # Editable Spanish CV source, exported to public/cv_valentina_ramirez_es.pdf
+  wavival-dev-cv-en.html   # Editable English CV source, exported to public/cv_valentina_ramirez_en.pdf
 scripts/
   check-csp-hashes.mjs # CI guard: every inline <script> in dist/ must have a sha256 hash in vercel.json CSP script-src
 tests/                # Playwright E2E smoke tests + pure-unit specs (redirects, i18n-utils)
@@ -266,8 +271,8 @@ If used as a template, these are the files containing Valentina's personal infor
 | `public/robots.txt`                            | Sitemap absolute URL                                                                                                                        |
 | `public/llms.txt`                              | Personal description, projects, links (llmstxt.org spec)                                                                                    |
 | `astro.config.mjs`                             | `site` URL                                                                                                                                  |
-| `public/cv_valentina_ramirez_es.pdf`           | Spanish CV (resolved per-locale via `cvHref()` in `src/i18n/utils.ts`)                                                                      |
-| `public/cv_valentina_ramirez_en.pdf`           | English CV (resolved per-locale via `cvHref()` in `src/i18n/utils.ts`)                                                                      |
+| `public/cv_valentina_ramirez_es.pdf`           | Spanish CV (exported from `docs/wavival-dev-cv-es.html`, resolved per-locale via `cvHref()` in `src/i18n/utils.ts`)                         |
+| `public/cv_valentina_ramirez_en.pdf`           | English CV (exported from `docs/wavival-dev-cv-en.html`, resolved per-locale via `cvHref()` in `src/i18n/utils.ts`)                         |
 | `public/images/profile.webp`                   | Profile photo                                                                                                                               |
 | `public/brand/logo-w.*`                        | Brand logo                                                                                                                                  |
 | `public/site.webmanifest`                      | App name + description (personal); icons derived from `brand/logo-w.webp`                                                                   |

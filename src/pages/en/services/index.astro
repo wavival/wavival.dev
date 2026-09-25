@@ -7,7 +7,7 @@ const site = "https://wavival.dev";
 
 const pageTitle = "Services: Custom Full Stack Development | Valentina Ramirez";
 const pageDescription =
-  "Full Stack Developer freelance: custom web apps with Django and React, REST APIs, AI integrations, and security by design. From problem to product.";
+  "Full Stack Developer freelance: custom web apps with Django, React, Next.js, and Supabase, AI integrations, and security by design.";
 
 interface ServiceExample {
   name: string;
@@ -28,8 +28,8 @@ interface Service {
 const services: Service[] = [
   {
     title: "Custom web applications",
-    body: "Complete product end to end: Django + DRF backend, React + TypeScript frontend, PostgreSQL database, and deployment. For founders who need something real, not a demo.",
-    tools: ["Django", "DRF", "React", "TypeScript", "PostgreSQL"],
+    body: "Complete product end to end: Django + DRF or Next.js with Supabase, React + TypeScript interfaces, and deployment. For founders who need something real, not a demo.",
+    tools: ["Django", "DRF", "Next.js", "Supabase", "React", "TypeScript", "PostgreSQL"],
     timeline: "8 to 14 weeks",
     featured: true,
     examples: [
@@ -52,8 +52,8 @@ const services: Service[] = [
     timeline: "3 to 6 weeks",
     examples: [
       {
-        name: "NullBreach API",
-        description: "OWASP analysis backend",
+        name: "NullBreach",
+        description: "Next.js OWASP analysis application",
         href: `${base}en/projects/nullbreach`,
       },
     ],
@@ -73,8 +73,8 @@ const services: Service[] = [
   },
   {
     title: "AI integrations",
-    body: "I connect Claude API and LLM workflows where they add measurable value: analysis, context-aware assistance, n8n automation. AI as the product's co-pilot, not decoration.",
-    tools: ["Claude API", "LLM Workflows", "n8n", "Prompt Engineering"],
+    body: "I integrate OpenAI, OpenClaw, and Claude API in LLM workflows where they add value: analysis, context-aware assistance, and automation. AI as the product's co-pilot, not decoration.",
+    tools: ["OpenAI", "OpenClaw", "Claude API", "LLM Workflows", "n8n", "Prompt Engineering"],
     timeline: "2 to 4 weeks",
     specialty: true,
     examples: [
@@ -85,7 +85,7 @@ const services: Service[] = [
       },
       {
         name: "NullBreach",
-        description: "OWASP analysis with persistent AI chat",
+        description: "OWASP analysis and security chat with per-user history",
         href: `${base}en/projects/nullbreach`,
       },
     ],
