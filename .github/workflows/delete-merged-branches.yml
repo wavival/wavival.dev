@@ -1,0 +1,58 @@
+name: delete-merged-branches
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  delete-merged-branches:
+    name: delete-merged-branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Report remote branches already merged into dev
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+
+          found=0
+          git for-each-ref --format='%(refname:short)' refs/remotes/origin |
+          sed 's#^origin/##' |
+          while read -r branch; do
+            case "$branch" in
+              feature/*|fix/*|chore/*)
+                ;;
+              *)
+                continue
+                ;;
+            esac
+
+            if ! git merge-base --is-ancestor "origin/$branch" origin/dev; then
+              echo "Skipping $branch: not fully merged into dev"
+              continue
+            fi
+
+            open_prs="$(gh pr list --repo "$REPO" --state open --head "wavival:$branch" --json number --jq 'length')"
+            if [ "$open_prs" != "0" ]; then
+              echo "Skipping $branch: open pull request exists"
+              continue
+            fi
+
+            found=1
+            echo "Cleanup candidate: $branch is fully merged into dev and has no open PR"
+          done
+
+          if [ "$found" = "0" ]; then
+            echo "No merged work branch cleanup candidates found."
+          fi
