@@ -33,7 +33,7 @@ The production target is **Vercel**. `vercel.json` defines the security headers,
 ## Delivery governance
 
 - `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
-- Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
+- Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges them manually with a merge commit, not squash or rebase, to preserve branch ancestry.
 - Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
 - `validate-pr-base` accepts human work branches into `dev`, `dev` into `stg`, and `stg` into `main`.
 - `auto-merge-dev` enables auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with `PROMOTE_TOKEN`.

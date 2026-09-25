@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repo. See `CLAUDE.md` for full pro
 
 ## Rules
 
-- **Lúmina W delivery flow.** `main` is production, `stg` is staging, and `dev` is the integration base. Create human work branches from `dev` with `feature/*`, `fix/*`, or `chore/*` names, then open every work PR to `dev`. Promotions move only `dev` to `stg` and `stg` to `main`; Valentina merges both promotion PRs manually. Do not push directly to `dev`, `stg`, or `main`. Do not merge or promote while any required check is pending, failing, cancelled, skipped because of another failure, or unavailable. After a work branch is merged into `dev` and the merge is confirmed, delete the local and remote branch.
+- **Lúmina W delivery flow.** `main` is production, `stg` is staging, and `dev` is the integration base. Create human work branches from `dev` with `feature/*`, `fix/*`, or `chore/*` names, then open every work PR to `dev`. Promotions move only `dev` to `stg` and `stg` to `main`; Valentina merges both promotion PRs manually with a merge commit, not squash or rebase, to preserve branch ancestry. Do not push directly to `dev`, `stg`, or `main`. Do not merge or promote while any required check is pending, failing, cancelled, skipped because of another failure, or unavailable. After a work branch is merged into `dev` and the merge is confirmed, delete the local and remote branch.
 
 - **Commit messages.** Use strict Conventional Commits in English: `type(scope): message`. Allowed scopes in this portfolio repo are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`. The local `.husky/commit-msg` hook and the CI `commitlint` job both enforce this.
 
