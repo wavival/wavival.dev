@@ -22,8 +22,8 @@ interface Props {
 }
 
 const {
-  title = "Valentina Ramírez | Full Stack Developer Django + React",
-  description = "Full Stack Developer especializada en Django y React. Construyo productos completos: backend sólido, frontend funcional, IA y seguridad desde el diseño.",
+  title = "Valentina Ramírez | Full Stack Developer",
+  description = "Desarrolladora Full Stack: construyo productos con Django, React y Next.js, integración de IA y seguridad desde el diseño.",
   image = "/images/profile.webp",
   ogImage,
   ogImageAlt,
@@ -39,7 +39,7 @@ const lang = getLangFromUrl(Astro.url);
 const ogLocale = lang === "en" ? "en_US" : "es_CO";
 const t = useTranslations(lang as Lang);
 const personDescription =
-  "Full Stack Developer especializada en Django y React. Fundadora de Lúmina W. Construyo productos completos con IA integrada y seguridad desde el diseño.";
+  "Full Stack Developer con experiencia en Django, React y Next.js. Fundadora de Lúmina W. Construyo productos con IA integrada y seguridad desde el diseño.";
 
 const site = "https://wavival.dev";
 const canonicalURL = new URL(Astro.url.pathname, site);
@@ -53,8 +53,8 @@ const socialCardType = (ogImage ?? "/images/og-card.webp").endsWith(".webp")
 const socialCardAlt =
   ogImageAlt ??
   (lang === "en"
-    ? "Valentina Ramírez: Full Stack Developer · Django + React · AI & Security"
-    : "Valentina Ramírez: Full Stack Developer · Django + React · IA & Seguridad");
+    ? "Valentina Ramírez: Full Stack Developer · Django · React · Next.js"
+    : "Valentina Ramírez: Full Stack Developer · Django · React · Next.js");
 
 const UMAMI_SRC = import.meta.env.PUBLIC_UMAMI_SRC;
 const UMAMI_ID = import.meta.env.PUBLIC_UMAMI_ID;
@@ -81,11 +81,14 @@ const jsonLd = JSON.stringify({
         "Full Stack Development",
         "Django",
         "Django REST Framework",
+        "Next.js",
         "React",
         "TypeScript",
         "PostgreSQL",
         "REST APIs",
         "AI integration",
+        "OpenAI",
+        "OpenClaw",
         "LLM workflows",
         "Application Security",
         "OWASP",

@@ -16,7 +16,7 @@ export interface GithubRepo {
 const GH_HEADERS = { Accept: "application/vnd.github.v3+json" };
 
 /** Flagship repos pinned to the "featured" spotlight, in display order. */
-export const FEATURED_REPOS = ["nullbreach-api", "nullbreach-web"];
+export const FEATURED_REPOS = ["nullbreach"];
 /** Repos hidden from the widget: profile README, this portfolio, and one-off
  * technical tests, none of which are learning resources for others. */
 const HIDDEN_REPOS = ["wavival", "wavival.dev", "prueba-tecnica-logika"];
@@ -27,7 +27,7 @@ export interface CuratedRepos {
 }
 
 /**
- * Split fetched repos into the NullBreach flagship (api + web) and the rest,
+ * Split fetched repos into the NullBreach flagship and the rest,
  * which are framed as learning resources. Featured order follows FEATURED_REPOS;
  * hidden repos drop out entirely.
  */

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Valentina Ramírez CV</title>
+    <style>
+      @page {
+        size: letter;
+        margin: 0.72in 0.82in;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        color: #3d3d3d;
+        font:
+          10pt/1.35 Arial,
+          sans-serif;
+      }
+      h1 {
+        color: #111;
+        font-size: 20pt;
+        margin: 0 0 3pt;
+      }
+      h2 {
+        color: #111;
+        font-size: 12pt;
+        margin: 17pt 0 10pt;
+      }
+      p {
+        margin: 0 0 5pt;
+      }
+      .tagline {
+        font-size: 10.5pt;
+        font-style: italic;
+      }
+      .contact {
+        color: #666;
+        font-size: 9pt;
+        margin-top: 4pt;
+      }
+      .intro {
+        margin-bottom: 6pt;
+      }
+      .skills {
+        margin: 2pt 0;
+      }
+      .skills strong {
+        color: #111;
+      }
+      .role {
+        margin: 8pt 0 2pt;
+      }
+      .role em,
+      .project-stack,
+      .education em {
+        color: #666;
+      }
+      .project {
+        margin-top: 11pt;
+      }
+      .project.nullbreach {
+        page-break-before: always;
+        break-before: page;
+      }
+      .project-title {
+        font-weight: bold;
+        color: #111;
+      }
+      .project-title em {
+        color: #666;
+        font-weight: normal;
+      }
+      .project-stack {
+        font-style: italic;
+        margin: 2pt 0 3pt;
+      }
+      ul {
+        margin: 1pt 0 0;
+        padding-left: 28pt;
+      }
+      li {
+        padding-left: 2pt;
+        margin: 0 0 2pt;
+      }
+      .page-two {
+        page-break-before: always;
+        break-before: page;
+      }
+      .education {
+        margin-top: 8pt;
+      }
+      .education p {
+        margin-top: 5pt;
+      }
+      .education ul {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>VALENTINA RAMÍREZ</h1>
+      <p class="tagline">
+        Fullstack Developer (Django + React + Next.js) · Application Security · Bilingual ES/EN
+      </p>
+      <p class="contact">
+        wavival.dev@luminaw.co · +57 301 656 0222 · linkedin.com/in/wavival · github.com/wavival ·
+        wavival.dev
+      </p>
+    </header>
+
+    <h2>PROFESSIONAL SUMMARY</h2>
+    <p class="intro">
+      Fullstack developer with over three years of experience building real-world digital products
+      with Django REST Framework, PostgreSQL, React, and Next.js. Founder of Lúmina W. I integrate
+      AI with OpenAI and apply a security-by-design approach. Bilingual Spanish/English (B2).
+    </p>
+
+    <h2>TECHNICAL SKILLS</h2>
+    <p class="skills">
+      <strong>Backend:</strong> Python · Django · Django REST Framework · PostgreSQL · JWT · REST
+      APIs
+    </p>
+    <p class="skills">
+      <strong>Frontend:</strong> Next.js · React · TypeScript · JavaScript · Tailwind CSS · Astro
+    </p>
+    <p class="skills">
+      <strong>Security:</strong> OWASP · MITRE ATT&amp;CK · PTES · Pentesting · Secure Development
+    </p>
+    <p class="skills">
+      <strong>AI &amp; Tools:</strong> OpenAI · OpenClaw · Prompt Engineering · n8n · Git · Linux ·
+      Postman · CI/CD
+    </p>
+
+    <h2>WORK EXPERIENCE</h2>
+    <p class="role">
+      <strong>Lógika | Frontend Developer &amp; UI Tester</strong>
+      <em>Oct 2025 to Dec 2025 · Medellín, Colombia · Remote</em>
+    </p>
+    <ul>
+      <li>
+        Built reusable components with React and integrated REST APIs into real-world products.
+      </li>
+      <li>
+        Ran UI and functional testing on Be Kind Network, Newo, and Lógika, documenting over 50 bugs
+        and inconsistencies.
+      </li>
+    </ul>
+    <p class="role">
+      <strong>Amazon | Bilingual Agent</strong>
+      <em>Sep 2024 to Feb 2025 · Medellín, Colombia · Remote</em>
+    </p>
+    <ul>
+      <li>
+        Supported customers in English and Spanish in high-volume environments, developing clear
+        technical communication under pressure.
+      </li>
+    </ul>
+
+    <h2>TECHNICAL PROJECTS</h2>
+    <section class="project">
+      <p class="project-title">TerraCore [Live] | <em>terracoreapp.co · app.terracoreapp.co</em></p>
+      <p class="project-stack">
+        Python · Django REST Framework · PostgreSQL · JWT · React · TypeScript · Tailwind CSS
+      </p>
+      <ul>
+        <li>
+          B2B SaaS for digitizing agricultural operations in Colombia, a sector with a critical
+          technology gap.
+        </li>
+        <li>
+          Multitenant architecture: each company accesses its data in isolation on a single
+          instance.
+        </li>
+        <li>
+          Modules in development: input inventory with automatic rotation, batch production, animal
+          health, and a real-time dashboard.
+        </li>
+        <li>
+          REST API with JWT authentication, role-protected endpoints, and serialization with DRF.
+        </li>
+        <li>
+          Frontend in React + TypeScript consuming the in-house API; responsive design with Tailwind
+          CSS.
+        </li>
+        <li>
+          Complex relational modeling: products, batches, animals, users, and organizations in
+          PostgreSQL.
+        </li>
+      </ul>
+    </section>
+
+    <div class="page-two">
+      <br style="page-break-before: always" />
+      <section class="project nullbreach">
+        <p class="project-title">
+          NullBreach [Live] | <em>wavival.dev/nullbreach · github.com/wavival/nullbreach</em>
+        </p>
+        <p class="project-stack">
+          Next.js · TypeScript · NextAuth · Prisma Postgres · OpenAI · Astro
+        </p>
+        <ul>
+          <li>
+            Security application with OWASP-aligned code analysis and an AI chat powered by OpenAI.
+          </li>
+          <li>
+            Next.js combines the interface, authentication, API routes, and OpenAI integration;
+            NextAuth handles access.
+          </li>
+          <li>Prisma Postgres persists users, queries, and analyses per user.</li>
+          <li>The project landing page remains built with Astro.</li>
+        </ul>
+      </section>
+
+      <section class="project">
+        <p class="project-title">OKroot [Live] | <em>okroot.co</em></p>
+        <p class="project-stack">
+          Python · Django REST Framework · PostgreSQL · React · Claude API
+        </p>
+        <ul>
+          <li>
+            PWA for people with dietary restrictions (celiac disease, type 2 diabetes, lactose
+            intolerance).
+          </li>
+          <li>
+            AI nutrition-label scanner: users photograph a product and Claude checks its ingredients
+            against their restriction profile.
+          </li>
+          <li>
+            Curated recipe system with strict filtering across multiple simultaneous conditions.
+          </li>
+          <li>Offline-first consumption diary with later synchronization to the backend.</li>
+          <li>Persistent health profile that personalizes model responses.</li>
+        </ul>
+      </section>
+
+      <section class="project">
+        <p class="project-title">
+          Forgotten Portal [Lab] | <em>github.com/wavival/forgotten-portal-writeup</em>
+        </p>
+        <p class="project-stack">
+          Nmap · Gobuster · Netcat · Python · MITRE ATT&amp;CK · PTES · Linux · DockerLabs
+        </p>
+        <ul>
+          <li>Complete offensive pentesting exercise on a DockerLabs virtual machine.</li>
+          <li>
+            Phases: reconnaissance with Nmap and Gobuster, exploitation of an unvalidated PHP
+            upload, reverse shell with Netcat, and privilege escalation to root.
+          </li>
+          <li>
+            Identified and classified vulnerabilities: CWE-615, CWE-434, CWE-312, CWE-321, and
+            CWE-269.
+          </li>
+          <li>
+            Documented with PTES methodology and TTPs mapped to MITRE ATT&amp;CK. Writeup published.
+          </li>
+        </ul>
+      </section>
+
+      <h2>EDUCATION</h2>
+      <div class="education">
+        <p><strong>Universidad EAFIT | Nodo</strong> <em>Nov 2025 to Apr 2026</em></p>
+        <ul>
+          <li>Cybersecurity Diploma (SOC Operations)</li>
+        </ul>
+        <p><strong>SENA</strong> <em>Oct 2025 to Dec 2027</em></p>
+        <ul>
+          <li>Technologist Degree in Software Analysis and Development (ADSO) · In progress</li>
+        </ul>
+        <p><strong>Platzi</strong> <em>Jun 2025 to Present</em></p>
+        <ul>
+          <li>Django · React · AI Development · In progress</li>
+        </ul>
+        <p><strong>Universidad de San Buenaventura</strong> <em>Aug 2023 to Nov 2027</em></p>
+        <ul>
+          <li>Bachelor's Degree in English Language · In progress</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
