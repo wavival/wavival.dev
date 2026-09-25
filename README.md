@@ -60,7 +60,6 @@ Related docs: [DESIGN.md](./DESIGN.md) · [COMPONENTS.md](./COMPONENTS.md) · [C
 | Perf budget   | Lighthouse CI (`@lhci/cli`, `lighthouserc.json`)                                                                              |
 | Link check    | linkinator (crawls built `dist/` for broken internal links)                                                                   |
 | Formatting    | Prettier + `prettier-plugin-astro`                                                                                            |
-| Automation    | Dependabot (weekly npm + github-actions PRs)                                                                                  |
 | CI            | GitHub Actions: quality gate → E2E + Lighthouse + links                                                                       |
 | Hosting       | Netlify (static publish + security headers + cache + redirects)                                                               |
 
@@ -125,7 +124,7 @@ Full design-token reference and utility-class catalog: see [DESIGN.md](./DESIGN.
 
 - `main` is production, `stg` is staging, and `dev` is the integration base.
 - Create human work branches from `dev` with `feature/*`, `fix/*`, or `chore/*` names.
-- Open every human work PR to `dev`. Dependabot also targets `dev`.
+- Open every human work PR to `dev`.
 - Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
 - Required checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
 - Commit messages use `type(scope): message`. Allowed portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
@@ -187,7 +186,6 @@ scripts/check-csp-hashes.mjs # Verifies inline-script sha256 hashes against the 
 tests/                   # Playwright E2E + pure-unit specs
 lighthouserc.json        # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                   # Node version pin (22)
-.github/dependabot.yml   # Weekly npm + github-actions update PRs
 .github/workflows/ci.yml # commitlint, quality, tests, lighthouse, links, security scan
 ```
 
@@ -320,7 +318,6 @@ CI (`.github/workflows/ci.yml`) runs on every push and PR to `dev`, `stg`, and `
 - `public/.well-known/security.txt`: RFC 9116 security contact.
 - `scripts/check-csp-hashes.mjs`: CI guard that keeps the CSP inline-script hashes in sync with the build.
 - `.github/workflows/ci.yml`: commitlint, quality, tests, lighthouse, links, and security scan gates before Netlify deploys.
-- `.github/dependabot.yml`: weekly npm + github-actions update PRs.
 
 ### Security headers and cache
 

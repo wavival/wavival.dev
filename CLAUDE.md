@@ -25,7 +25,6 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 - **Prettier** + `prettier-plugin-astro`
 - **ESLint** (flat config `eslint.config.mjs`: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`)
 - **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files); `.husky/commit-msg` runs the repository Commitlint rules and, when installed, the shared checker at `~/.claude/git-hooks/commit-msg`
-- **Dependabot** (`.github/dependabot.yml`): weekly npm + github-actions update PRs. `tailwindcss` major bumps are ignored to keep this site on Tailwind v3 until a Tailwind v4 migration is planned.
 - **Node >= 22.12** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
 
 Auto-deploy to **Netlify** after merges to `main`. CI (`.github/workflows/ci.yml`) runs `commitlint`, `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks).
@@ -35,7 +34,7 @@ Auto-deploy to **Netlify** after merges to `main`. CI (`.github/workflows/ci.yml
 - `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
 - Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
 - Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
-- `validate-pr-base` accepts human work branches and Dependabot branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- `validate-pr-base` accepts human work branches into `dev`, `dev` into `stg`, and `stg` into `main`.
 - `auto-merge-dev` enables auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with `PROMOTE_TOKEN`.
 - `delete-merged-branches` runs every 12 hours and reports merged `feature/*`, `fix/*`, and `chore/*` remote branch cleanup candidates. Actual scheduled deletion needs explicit human approval.
 - Commit messages use strict Conventional Commits in the form `type(scope): message`. Portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
@@ -112,7 +111,6 @@ scripts/
 tests/                # Playwright E2E smoke tests + pure-unit specs (redirects, i18n-utils)
 lighthouserc.json     # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                # Node version pin (22)
-.github/dependabot.yml    # Weekly npm + github-actions update PRs
 .github/workflows/ci.yml  # commitlint, quality, tests, lighthouse, links, security scan
 postcss.config.cjs    # Tailwind 3 PostCSS processing
 eslint.config.mjs     # ESLint flat config (astro + typescript-eslint + prettier)
