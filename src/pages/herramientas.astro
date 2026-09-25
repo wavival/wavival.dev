@@ -12,7 +12,7 @@ const { featured: featuredRepos, resources: resourceRepos } = curateRepos(github
 
 const pageTitle = "Uses: Herramientas y stack | Valentina Ramírez";
 const pageDescription =
-  "El stack y las herramientas que uso como Full Stack Developer (Django, DRF, PostgreSQL, React, TypeScript, Astro, IA y seguridad) y por qué elijo cada una.";
+  "El stack y las herramientas que uso como Full Stack Developer (Django, Next.js, React, PostgreSQL, Astro, IA y seguridad) y por qué elijo cada una.";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -91,12 +91,10 @@ const breadcrumbLd = JSON.stringify({
             <span class="text-xs italic text-[var(--text-muted)]">Mi máquina del día a día</span>
           </div>
           <div class="flex flex-wrap gap-2 mt-4">
-            <span class="chip !text-[var(--text-primary)]">AMD Ryzen 5 3400G</span>
-            <span class="chip !text-[var(--text-primary)]">Radeon RX Vega 11</span>
+            <span class="chip !text-[var(--text-primary)]">Intel Core i5</span>
             <span class="chip !text-[var(--text-primary)]">16 GB RAM</span>
-            <span class="chip !text-[var(--text-primary)]">224 GB</span>
-            <span class="chip !text-[var(--text-primary)]">Windows 11 Pro (25H2)</span>
-            <span class="chip !text-[var(--text-primary)]">WSL2 · Ubuntu</span>
+            <span class="chip !text-[var(--text-primary)]">1 TB</span>
+            <span class="chip !text-[var(--text-primary)]">Linux · Fedora</span>
           </div>
         </section>
 
@@ -138,6 +136,8 @@ const breadcrumbLd = JSON.stringify({
             <span class="chip !text-[var(--text-primary)]">Cursor</span>
             <span class="chip !text-[var(--text-primary)]">Claude (app · chat · Code · Design)</span
             >
+            <span class="chip !text-[var(--text-primary)]">OpenAI</span>
+            <span class="chip !text-[var(--text-primary)]">OpenClaw</span>
             <span class="chip !text-[var(--text-primary)]">ChatGPT</span>
             <span class="chip !text-[var(--text-primary)]">Codex</span>
           </div>
@@ -166,7 +166,7 @@ const breadcrumbLd = JSON.stringify({
             <span class="chip !text-[var(--text-primary)]">Todoist</span>
             <span class="chip !text-[var(--text-primary)]">Focus To-Do</span>
             <span class="chip !text-[var(--text-primary)]">Bloc de notas</span>
-            <span class="chip !text-[var(--text-primary)]">Brave</span>
+            <span class="chip !text-[var(--text-primary)]">Firefox</span>
           </div>
         </section>
       </div>
@@ -203,8 +203,8 @@ const breadcrumbLd = JSON.stringify({
                 NullBreach
               </h3>
               <p class="text-sm text-[var(--text-muted)] leading-relaxed mt-2 max-w-2xl">
-                Mi proyecto bandera: análisis de seguridad con IA. Backend en Django REST y una
-                interfaz en React, abierto de punta a punta.
+                Mi proyecto bandera: análisis de seguridad con IA. Aplicación en Next.js con OpenAI
+                y Prisma, con el código abierto en GitHub.
               </p>
               <div class="grid gap-4 mt-6 sm:grid-cols-2">
                 {featuredRepos.map((repo) => (
