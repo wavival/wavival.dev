@@ -371,7 +371,7 @@ export const projects: Project[] = [
     solution:
       "Landing que comunica la propuesta de valor de TerraCore a productores agropecuarios colombianos, muestra los módulos del SaaS, el flujo de integración en cascada y los tres planes de precios, y dirige al registro de la plataforma.",
     architecture: [
-      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Netlify.",
+      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Vercel.",
       "Flujo de conversión vertical en 8 secciones: Hero, propuesta de valor, 6 módulos, integración en cascada, UX para el campo, beneficios, precios y FAQ.",
       "Tres planes con precio explícito en COP: Semilla ($2.5M/mes, 1 sede, 5 usuarios), Profesional ($5M/mes, 3 sedes, 15 usuarios) y Enterprise (desde $10M/mes, ilimitado).",
       "Sección de privacidad y seguridad dedicada: Ley 1581 de 2012, TLS en endpoints, sin minería de datos y exportación CSV garantizada.",
@@ -379,7 +379,7 @@ export const projects: Project[] = [
       "Google Analytics (GA4) para tracking de comportamiento: sesiones, scroll depth por sección, clics en CTAs y origen del tráfico.",
       "SEO técnico completo: title, meta-description, og:*, twitter:*, canonical y schema markup.",
       "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Netlify.",
+      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
       "Tailwind CSS con modo claro/oscuro.",
     ],
     painPoints: [
@@ -489,7 +489,7 @@ export const projects: Project[] = [
       metaDescription:
         "TerraCore Landing case study: conversion landing in Astro and Tailwind CSS for Colombian agricultural producers. Value proposition and CRO.",
       architecture: [
-        "Astro with static output: section components, optimized build, and continuous deployment to Netlify.",
+        "Astro with static output: section components, optimized build, and continuous deployment to Vercel.",
         "Vertical conversion flow in 8 sections: Hero, value proposition, 6 modules, cascade integration, field UX, benefits, pricing, and FAQ.",
         "Three plans with explicit pricing in COP: Seed ($2.5M/mo, 1 location, 5 users), Professional ($5M/mo, 3 locations, 15 users), and Enterprise (from $10M/mo, unlimited).",
         "Dedicated privacy and security section: Ley 1581 de 2012, TLS on endpoints, no data mining, and guaranteed CSV export.",
@@ -497,7 +497,7 @@ export const projects: Project[] = [
         "Google Analytics (GA4) for behavior tracking: sessions, scroll depth per section, CTA clicks, and traffic source.",
         "Full technical SEO: title, meta-description, og:*, twitter:*, canonical, and schema markup.",
         "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Netlify.",
+        "Performance: static output, WebP images, and immutable cache on Vercel.",
         "Tailwind CSS with light/dark mode.",
       ],
       painPoints: [
@@ -827,11 +827,11 @@ export const projects: Project[] = [
     solution:
       "Landing de OKroot que explica el scanner de etiquetas por IA, las restricciones activas compatibles (celiaquía, diabetes, intolerancia a la lactosa) y el acceso a la PWA.",
     architecture: [
-      "Astro con output estático: componentes por sección y deploy continuo en Netlify.",
+      "Astro con output estático: componentes por sección y deploy continuo en Vercel.",
       "Tailwind CSS para diseño responsivo.",
       "SEO técnico: title, meta-description, Open Graph, Twitter Card, canonical y schema markup.",
       "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Netlify.",
+      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
       "Analíticas de Google (GA4): seguimiento de visitas y comportamiento del usuario.",
       "Formulario de contacto conectado a Supabase (Postgres gestionado): captura de interesados en una base de datos propia, sin servidor propio que mantener.",
     ],
@@ -869,11 +869,11 @@ export const projects: Project[] = [
       metaDescription:
         "OKroot Landing case study: landing in Astro and Tailwind CSS that communicates the AI label scanner and compatible dietary restrictions.",
       architecture: [
-        "Astro with static output: section components and continuous deployment to Netlify.",
+        "Astro with static output: section components and continuous deployment to Vercel.",
         "Tailwind CSS for responsive design.",
         "Technical SEO: title, meta-description, Open Graph, Twitter Card, canonical, and schema markup.",
         "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Netlify.",
+        "Performance: static output, WebP images, and immutable cache on Vercel.",
         "Google Analytics (GA4): visit tracking and user behavior.",
         "Contact form connected to Supabase (managed Postgres): captures interested users in an owned database, with no own server to maintain.",
       ],
@@ -1157,10 +1157,10 @@ export const projects: Project[] = [
     solution:
       "Diseñé e implementé la landing completa de Lúmina W: arquitectura con Astro, estilos con Tailwind CSS, formulario de contacto sobre Supabase, SEO técnico completo y deploy continuo.",
     architecture: [
-      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Netlify.",
+      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Vercel.",
       "SEO técnico completo: title, meta-description, og:*, twitter:*, canonical y schema markup.",
       "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Netlify.",
+      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
       "Analíticas de Google (GA4): seguimiento de visitas, scroll depth y comportamiento del usuario.",
       "Formulario de contacto sobre Supabase (Postgres gestionado): nombre, empresa, correo y mensaje persistidos en una base de datos propia, sin servidor que mantener.",
       "Diseño responsivo con Tailwind CSS y modo claro/oscuro.",
@@ -1217,7 +1217,7 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de Lúmina W: landing completa con Astro, Tailwind CSS y Supabase. SEO técnico, formulario de contacto y deploy continuo en Netlify.",
+      "Caso de estudio de Lúmina W: landing completa con Astro, Tailwind CSS y Supabase. SEO técnico, formulario de contacto y deploy continuo en Vercel.",
     links: [{ href: "https://luminaw.co", text: "Ver sitio", ariaLabel: "Ver sitio de Lúmina W" }],
     en: {
       imageAlt: "Lumina W landing: brand tagline and call to action",
@@ -1227,12 +1227,12 @@ export const projects: Project[] = [
         "I designed and implemented the complete Lumina W landing: Astro architecture, Tailwind CSS styling, Supabase-backed contact form, full technical SEO, and continuous deployment.",
       links: [{ href: "https://luminaw.co", text: "Visit site", ariaLabel: "Visit Lumina W" }],
       metaDescription:
-        "Lumina W case study: complete landing with Astro, Tailwind CSS, and Supabase. Technical SEO, contact form, and continuous deployment to Netlify.",
+        "Lumina W case study: complete landing with Astro, Tailwind CSS, and Supabase. Technical SEO, contact form, and continuous deployment to Vercel.",
       architecture: [
-        "Astro with static output: section components, optimized build, and continuous deployment to Netlify.",
+        "Astro with static output: section components, optimized build, and continuous deployment to Vercel.",
         "Full technical SEO: title, meta-description, og:*, twitter:*, canonical, and schema markup.",
         "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Netlify.",
+        "Performance: static output, WebP images, and immutable cache on Vercel.",
         "Google Analytics (GA4): session tracking, scroll depth, and user behavior.",
         "Contact form on Supabase (managed Postgres): name, company, email, and message persisted in an owned database, with no server to maintain.",
         "Responsive design with Tailwind CSS and light/dark mode.",
@@ -1307,13 +1307,13 @@ export const projects: Project[] = [
     solution:
       "Blog de Lúmina W con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales, publicado en blog.luminaw.co. 'Escribimos sobre lo que construimos, lo que rompemos y lo que descubrimos. Sin filtro corporativo.'",
     architecture: [
-      "Astro con output estático: build optimizado, rutas por artículo y deploy continuo en Netlify.",
+      "Astro con output estático: build optimizado, rutas por artículo y deploy continuo en Vercel.",
       "Tailwind CSS para diseño responsivo.",
       "Contenido organizado por categorías: SaaS y producto, seguridad, desarrollo web.",
       "Sin CMS externo: artículos en Markdown/MDX dentro del repositorio.",
       "SEO técnico por artículo: title, meta-description, Open Graph, canonical y schema markup.",
       "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, tiempos de carga optimizados y caché inmutable en Netlify.",
+      "Performance: output estático, tiempos de carga optimizados y caché inmutable en Vercel.",
       "Analíticas de Google (GA4): seguimiento de visitas y artículos más leídos.",
     ],
     results: [
@@ -1351,13 +1351,13 @@ export const projects: Project[] = [
       metaDescription:
         "Lumina W Blog case study: static blog with Astro and Tailwind CSS for technical content on web development, cybersecurity, and products.",
       architecture: [
-        "Astro with static output: optimized build, per-article routes, and continuous deployment to Netlify.",
+        "Astro with static output: optimized build, per-article routes, and continuous deployment to Vercel.",
         "Tailwind CSS for responsive design.",
         "Content organized by categories: SaaS and product, security, web development.",
         "No external CMS: articles in Markdown/MDX within the repository.",
         "Technical SEO per article: title, meta-description, Open Graph, canonical, and schema markup.",
         "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, optimized load times, and immutable cache on Netlify.",
+        "Performance: static output, optimized load times, and immutable cache on Vercel.",
         "Google Analytics (GA4): visit tracking and most-read articles.",
       ],
       results: [

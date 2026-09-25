@@ -19,12 +19,12 @@ jobs:
           HEAD_REF: ${{ github.head_ref }}
         run: |
           case "$BASE_REF:$HEAD_REF" in
-            dev:feature/*|dev:fix/*|dev:chore/*|dev:dependabot/*|stg:dev|main:stg)
+            dev:feature/*|dev:fix/*|dev:chore/*|stg:dev|main:stg)
               exit 0
               ;;
             *)
               echo "Invalid pull request path: $HEAD_REF to $BASE_REF"
-              echo "Allowed paths: feature/fix/chore and Dependabot branches to dev, dev to stg, stg to main."
+              echo "Allowed paths: feature/fix/chore branches to dev, dev to stg, stg to main."
               exit 1
               ;;
           esac
