@@ -36,7 +36,7 @@ The production target is **Vercel**. `vercel.json` defines the security headers,
 - Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges them manually with a merge commit, not squash or rebase, to preserve branch ancestry.
 - Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
 - `validate-pr-base` accepts human work branches into `dev`, `dev` into `stg`, and `stg` into `main`.
-- `auto-merge-dev` enables auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with `PROMOTE_TOKEN`.
+- `auto-merge-dev` enables merge-commit auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with the built-in GitHub token and write permissions. It does not use squash or rebase.
 - `delete-merged-branches` runs every 12 hours and reports merged `feature/*`, `fix/*`, and `chore/*` remote branch cleanup candidates. Actual scheduled deletion needs explicit human approval.
 - Commit messages use strict Conventional Commits in the form `type(scope): message`. Portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
 

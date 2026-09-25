@@ -9,6 +9,7 @@ Guidance for AI coding agents working in this repo. See `CLAUDE.md` for full pro
 - **Commit messages.** Use strict Conventional Commits in English: `type(scope): message`. Allowed scopes in this portfolio repo are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`. The local `.husky/commit-msg` hook and the CI `commitlint` job both enforce this.
 
 - **Delivery checks.** Required delivery checks for protected branches are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`. The `quality` job runs dependency audit, format check, lint, Astro type check, build, and CSP hash verification. The `tests` job runs Playwright. The `security scan` job runs gitleaks with the org-level `GITLEAKS_LICENSE` secret. The `validate-pr-base` workflow blocks skipped promotion paths.
+- **Auto-merge into dev.** The `auto-merge-dev` workflow enables merge-commit auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs using the built-in GitHub token with write permissions. Do not use squash or rebase.
 
 - **No em dashes.** Never use the em-dash character (Unicode U+2014) anywhere in this repo: copy, code, comments, docs, commit messages, or PR descriptions. Use normal punctuation instead:
   - colon (`:`) when the second part explains the first,
