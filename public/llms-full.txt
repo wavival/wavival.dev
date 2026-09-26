@@ -32,7 +32,7 @@ Solution: an offline-first PWA where users photograph a product and immediately 
 
 Stack: Django, DRF, PostgreSQL, React, TypeScript, Claude API, PWA. Programming languages: Python, TypeScript, SQL.
 
-Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: https://wavival.dev/proyectos/root
+Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: https://wavival.dev/proyectos/okroot
 
 ## NullBreach (case study)
 

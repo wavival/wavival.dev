@@ -22,13 +22,13 @@ const EN_ROUTES = [
 
 const PROJECT_SLUGS = [
   "terracore",
-  "root",
+  "okroot",
   "nullbreach",
   "lumina-w",
   "blog-lumina-w",
   "forgotten-portal",
   "terracore-landing",
-  "root-landing",
+  "okroot-landing",
 ];
 
 const ALL_ROUTES = [
