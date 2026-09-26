@@ -12,6 +12,26 @@
   ],
   "redirects": [
     {
+      "source": "/proyectos/root",
+      "destination": "/proyectos/okroot",
+      "permanent": true
+    },
+    {
+      "source": "/proyectos/root-landing",
+      "destination": "/proyectos/okroot-landing",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/root",
+      "destination": "/en/projects/okroot",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/root-landing",
+      "destination": "/en/projects/okroot-landing",
+      "permanent": true
+    },
+    {
       "source": "/projects/:path*",
       "destination": "/proyectos/:path*",
       "permanent": true
