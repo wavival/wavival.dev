@@ -52,7 +52,6 @@ export default defineConfig({
     sitemap({
       changefreq: "monthly",
       priority: 1.0,
-      lastmod: new Date(),
       i18n: {
         defaultLocale: "es",
         locales: { es: "es", en: "en" },

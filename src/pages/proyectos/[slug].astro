@@ -28,7 +28,7 @@ const tagStyles: Record<string, string> = {
 
 const pageTitle = `${project.title}: Caso de estudio | Valentina Ramírez`;
 const pageURL = `${site}${base}proyectos/${project.slug}/`;
-const siteLink = project.links.find((l) => l.text === "Ver sitio");
+const siteLink = project.links.find((l) => l.text === "Ver sitio" || l.text === "Ver app");
 const otherLinks = project.links.filter((l) => l.text !== "Ver sitio");
 
 const order = [
@@ -170,7 +170,7 @@ const nextProject = idx < caseStudies.length - 1 ? caseStudies[idx + 1] : null;
                 aria-label={siteLink.ariaLabel}
                 data-umami-event={siteLink.event}
               >
-                Ver sitio en vivo
+                {siteLink.text}
               </Link>
             )}
             {otherLinks.map((l) => (

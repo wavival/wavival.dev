@@ -192,7 +192,7 @@ const nextProject = idx < caseStudies.length - 1 ? caseStudies[idx + 1] : null;
                 aria-label={siteLink.ariaLabel}
                 data-umami-event={siteLink.event}
               >
-                View live site
+                {siteLink.text}
               </Link>
             )}
             {otherLinks.map((l) => (

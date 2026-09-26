@@ -582,9 +582,9 @@ export const projects: Project[] = [
   },
   {
     title: "OKroot PWA",
-    slug: "root",
+    slug: "okroot",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-09-26",
     tag: "Live",
     tagColor: "green",
     image: "images/og-okroot.webp",
@@ -811,9 +811,9 @@ export const projects: Project[] = [
   },
   {
     title: "OKroot Landing",
-    slug: "root-landing",
+    slug: "okroot-landing",
     datePublished: "2026-06-18",
-    dateModified: "2026-06-18",
+    dateModified: "2026-09-26",
     tag: "Live",
     tagColor: "green",
     image: "images/og-okroot.webp",
@@ -926,8 +926,8 @@ export const projects: Project[] = [
     links: [
       {
         href: "https://wavival.dev/nullbreach/",
-        text: "Ver sitio",
-        ariaLabel: "Ver sitio de NullBreach",
+        text: "Ver app",
+        ariaLabel: "Ver app de NullBreach",
         event: "ver-app-nullbreach",
       },
       {
@@ -1036,8 +1036,8 @@ export const projects: Project[] = [
       links: [
         {
           href: "https://wavival.dev/nullbreach/",
-          text: "Visit site",
-          ariaLabel: "Visit NullBreach",
+          text: "View app",
+          ariaLabel: "View NullBreach app",
           event: "ver-app-nullbreach",
         },
         {
@@ -1149,10 +1149,10 @@ export const projects: Project[] = [
     dateModified: "2026-06-16",
     tag: "Live",
     tagColor: "green",
-    image: "images/lumina-w.webp",
+    image: "images/og-lumina-w.webp",
     imageAlt: "Landing de Lúmina W: hero con tagline de marca y llamado a la acción",
-    imageWidth: 1280,
-    imageHeight: 853,
+    imageWidth: 1200,
+    imageHeight: 630,
     stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
     filters: ["landing", "diseno"],
     problem:
@@ -1298,11 +1298,11 @@ export const projects: Project[] = [
     dateModified: "2026-09-25",
     tag: "Live",
     tagColor: "green",
-    image: "images/lumina-w.webp",
+    image: "images/og-blogw.webp",
     imageAlt:
       "Blog de Lúmina W: contenido técnico sobre desarrollo web, ciberseguridad y productos digitales",
-    imageWidth: 1280,
-    imageHeight: 853,
+    imageWidth: 1200,
+    imageHeight: 630,
     stack: ["Next.js", "PWA"],
     filters: ["pwa"],
     problem:
