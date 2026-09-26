@@ -197,7 +197,7 @@ Path: `src/components/sections/Projects.astro`. `id="projects"`.
 | `lang`     | `"es" \| "en"` | `"es"`  | Switches copy/routes; reads `p.en` overrides                    |
 | `heading`  | `"h1" \| "h2"` | `"h2"`  | Tag for the section title (`h1` on the projects index page)     |
 
-Data comes from the local `projects` array in `src/data/projects.ts` (see [Data](#data)). When `featured`, the list is filtered to `["terracore", "root", "nullbreach"]`; otherwise it renders every project.
+Data comes from the local `projects` array in `src/data/projects.ts` (see [Data](#data)). When `featured`, the list is filtered to `["terracore", "okroot", "nullbreach"]`; otherwise it renders every project.
 
 Each project renders inside a `.card` with:
 
@@ -264,7 +264,7 @@ Path: `src/data/projects.ts`. Exports the `projects: Project[]` array plus the `
 - `schemaType?: "SoftwareApplication" | "WebSite" | "CreativeWork"` (drives the case-study JSON-LD)
 - `en?: ProjectEn` (English overrides: `imageAlt`, `tag`, `problem`, `solution`, `links`, plus the optional case-study fields). Section/page components read `p.en?.<field> ?? p.<field>` when `isEn`.
 
-Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **Okroot PWA** (`root`, SoftwareApplication), **Okroot Landing** (`root-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set (home + `featured` prop): `terracore`, `root`, `nullbreach`.
+Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **OKroot PWA** (`okroot`, SoftwareApplication), **OKroot Landing** (`okroot-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set (home + `featured` prop): `terracore`, `okroot`, `nullbreach`.
 
 ### `stack.ts`
 

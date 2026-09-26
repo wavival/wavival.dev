@@ -35,4 +35,5 @@ test("sitemap lists both ES and EN localized routes", async ({ request }) => {
   ]) {
     expect(body).toContain(`<loc>${loc}</loc>`);
   }
+  expect(body).not.toContain("<lastmod>");
 });

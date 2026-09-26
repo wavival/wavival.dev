@@ -41,7 +41,7 @@ const services: Service[] = [
       {
         name: "OKroot",
         description: "PWA de salud alimentaria offline-first",
-        href: `${base}proyectos/root`,
+        href: `${base}proyectos/okroot`,
       },
     ],
   },
@@ -81,7 +81,7 @@ const services: Service[] = [
       {
         name: "OKroot",
         description: "scanner de etiquetas con Claude API",
-        href: `${base}proyectos/root`,
+        href: `${base}proyectos/okroot`,
       },
       {
         name: "NullBreach",
@@ -146,14 +146,14 @@ const faqs = [
 const serviceLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
-  "@id": `${site}/servicios#service`,
+  "@id": `${site}/servicios/#service`,
   name: "Valentina Ramírez: Desarrollo Full Stack",
   description: pageDescription,
   url: `${site}/servicios/`,
   provider: { "@id": `${site}/#person` },
   areaServed: "Worldwide",
   serviceType: services.map((s) => s.title),
-  priceRange: "COP 2.000.000 — USD 500+",
+  priceRange: "COP 2.000.000 / USD 500+",
 });
 
 const faqLd = JSON.stringify({

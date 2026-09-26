@@ -15,7 +15,7 @@ const Heading = heading;
 
 const base = import.meta.env.BASE_URL;
 
-const featuredSlugs = ["terracore", "root", "nullbreach"];
+const featuredSlugs = ["terracore", "okroot", "nullbreach"];
 const list = featured ? projects.filter((p) => featuredSlugs.includes(p.slug)) : projects;
 
 const tagStyles: Record<string, string> = {
@@ -165,7 +165,13 @@ function getLinks(p: Project) {
             {(() => {
               const caseStudyTarget = p.linkedCaseStudy ?? (p.caseStudy ? p.slug : null);
               const links = getLinks(p);
-              const siteLink = links.find((l) => l.text === "Ver sitio" || l.text === "Visit site");
+              const siteLink = links.find(
+                (l) =>
+                  l.text === "Ver sitio" ||
+                  l.text === "Visit site" ||
+                  l.text === "Ver app" ||
+                  l.text === "View app"
+              );
               const otherLinks = links.filter((l) => l !== siteLink);
               const hasAnyLink = siteLink || caseStudyTarget || otherLinks.length > 0;
               return hasAnyLink ? (

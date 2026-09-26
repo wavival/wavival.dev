@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Renamed the OKroot case-study routes to `/proyectos/okroot`, `/proyectos/okroot-landing`, and their English equivalents; former `/root` routes redirect permanently.
+- Updated OKroot case-study modification dates to 2026-09-26 and aligned route coverage tests, service links, featured projects, LLM discovery files, and repository documentation.
+- Portfolio work session closed as complete for 2026-09-26.
 - CI now runs on pull requests and pushes for `dev`, `stg`, and `main`.
 - Playwright CI job is named `tests` for branch protection clarity.
 - README, AGENTS.md, and CLAUDE.md document the delivery flow and required checks.

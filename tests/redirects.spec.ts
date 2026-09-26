@@ -33,6 +33,26 @@ test("vercel preserves legacy redirects", () => {
   }
 });
 
+test("vercel redirects the former OKroot slugs permanently", () => {
+  const redirects = new Map(
+    vercel.redirects.map(
+      (redirect: { source: string; destination: string; permanent: boolean }) => [
+        redirect.source,
+        redirect,
+      ]
+    )
+  );
+
+  for (const route of [
+    { source: "/proyectos/root", destination: "/proyectos/okroot" },
+    { source: "/proyectos/root-landing", destination: "/proyectos/okroot-landing" },
+    { source: "/en/projects/root", destination: "/en/projects/okroot" },
+    { source: "/en/projects/root-landing", destination: "/en/projects/okroot-landing" },
+  ]) {
+    expect(redirects.get(route.source)).toMatchObject({ ...route, permanent: true });
+  }
+});
+
 test("vercel routes nullbreach as an independent child application", () => {
   const nullbreach = microfrontends.applications.nullbreach;
   expect(nullbreach.routing).toContainEqual({
