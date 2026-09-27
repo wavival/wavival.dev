@@ -97,4 +97,44 @@
   .icon-xl {
     @apply w-8 h-8;
   }
+
+  .profile-photo {
+    @apply w-64 h-64 md:w-80 md:h-80 block object-cover rounded-[28px];
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 9%, #000 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 4%, #000 80%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 9%, #000 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 4%, #000 80%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .profile-photo-frame {
+    position: relative;
+    border-radius: 28px;
+  }
+
+  .profile-photo-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    padding: 1.5px;
+    background: linear-gradient(
+      to bottom,
+      var(--brand-blue) 0%,
+      var(--brand-blue) 35%,
+      transparent 92%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }
