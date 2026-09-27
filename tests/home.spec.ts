@@ -11,12 +11,12 @@ test.describe("home page", () => {
     await expect(h1).toContainText("El código que firmo también lo rompo");
   });
 
-  test("has canonical and OG meta pointing to wavival.dev", async ({ page }) => {
+  test("has canonical and OG meta pointing to www.wavival.dev", async ({ page }) => {
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
-    expect(canonical).toMatch(/^https:\/\/wavival\.dev/);
+    expect(canonical).toMatch(/^https:\/\/www\.wavival\.dev/);
 
     const ogUrl = await page.locator('meta[property="og:url"]').getAttribute("content");
-    expect(ogUrl).toMatch(/^https:\/\/wavival\.dev/);
+    expect(ogUrl).toMatch(/^https:\/\/www\.wavival\.dev/);
 
     const lang = await page.locator("html").getAttribute("lang");
     expect(lang).toBe("es");

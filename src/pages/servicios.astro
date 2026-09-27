@@ -3,7 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Contact from "@/components/sections/Contact.astro";
 
 const base = import.meta.env.BASE_URL;
-const site = "https://wavival.dev";
+const site = "https://www.wavival.dev";
 
 const pageTitle = "Desarrollo Full Stack a medida | Valentina Ramírez";
 const pageDescription =
@@ -170,8 +170,13 @@ const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://wavival.dev/" },
-    { "@type": "ListItem", position: 2, name: "Servicios", item: "https://wavival.dev/servicios/" },
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.wavival.dev/" },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Servicios",
+      item: "https://www.wavival.dev/servicios/",
+    },
   ],
 });
 ---
@@ -180,9 +185,9 @@ const breadcrumbLd = JSON.stringify({
   title={pageTitle}
   description={pageDescription}
   alternates={[
-    { hreflang: "es", href: "https://wavival.dev/servicios/" },
-    { hreflang: "en", href: "https://wavival.dev/en/services/" },
-    { hreflang: "x-default", href: "https://wavival.dev/servicios/" },
+    { hreflang: "es", href: "https://www.wavival.dev/servicios/" },
+    { hreflang: "en", href: "https://www.wavival.dev/en/services/" },
+    { hreflang: "x-default", href: "https://www.wavival.dev/servicios/" },
   ]}
 >
   <section class="section">

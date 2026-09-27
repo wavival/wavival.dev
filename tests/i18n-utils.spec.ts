@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { getAltLangUrl } from "../src/i18n/utils";
 
-const alt = (path: string) => getAltLangUrl(new URL(`https://wavival.dev${path}`));
+const alt = (path: string) => getAltLangUrl(new URL(`https://www.wavival.dev${path}`));
 
 // The ES<->EN slug mapping is the single source of truth for the language toggle.
 // These cases lock the pure-function contract so a future page/slug rename can't

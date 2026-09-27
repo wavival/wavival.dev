@@ -17,7 +17,7 @@ test.describe("i18n", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
 
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
-    expect(canonical).toBe("https://wavival.dev/en/");
+    expect(canonical).toBe("https://www.wavival.dev/en/");
 
     await expect(page.locator('a[href="/cv_valentina_ramirez_en.pdf"]').first()).toBeVisible();
     await expect(page.locator('a[hreflang="es"]').first()).toBeAttached();

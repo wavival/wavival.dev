@@ -2,4 +2,4 @@
 Contact: mailto:wavival.dev@luminaw.co
 Expires: 2027-06-18T00:00:00.000Z
 Preferred-Languages: es, en
-Canonical: https://wavival.dev/.well-known/security.txt
+Canonical: https://www.wavival.dev/.well-known/security.txt
