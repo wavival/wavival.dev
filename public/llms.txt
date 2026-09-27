@@ -8,21 +8,21 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 
 ## Profile
 
-- [Portfolio (canonical)](https://wavival.dev): Live site with bio, projects, and stack
-- [Services](https://wavival.dev/servicios): What she builds for clients: custom web apps, REST APIs, AI integrations, AppSec
-- [Uses](https://wavival.dev/herramientas): The stack and tools she works with, and why she chooses each
+- [Portfolio (canonical)](https://www.wavival.dev): Live site with bio, projects, and stack
+- [Services](https://www.wavival.dev/servicios): What she builds for clients: custom web apps, REST APIs, AI integrations, AppSec
+- [Uses](https://www.wavival.dev/herramientas): The stack and tools she works with, and why she chooses each
 - [GitHub @wavival](https://github.com/wavival): Open-source projects
 - [LinkedIn](https://linkedin.com/in/wavival): Professional profile
-- [CV (PDF)](https://wavival.dev/cv_valentina_ramirez_es.pdf): Resume
+- [CV (PDF)](https://www.wavival.dev/cv_valentina_ramirez_es.pdf): Resume
 - [Lúmina W](https://luminaw.co): Studio she founded: services and product roadmap
 - [Blog W](https://blog.luminaw.co): Next.js PWA for technical writing, pentesting writeups, and build notes
 
 ## Projects
 
-- [TerraCore (live)](https://terracoreapp.co): Multitenancy agricultural operations PWA: inventory, livestock health, real-time dashboards, and offline-first workflows. Django · DRF · PostgreSQL · JWT · React · TypeScript · Tailwind CSS. Reduced administrative task time by 42% in pilot farms (Urabá, Colombia). Case study: https://wavival.dev/proyectos/terracore
-- [OKroot (live)](https://okroot.co/): Offline-first PWA with AI-powered food-label scanner for celiac, diabetic, and lactose-intolerant users. Django · DRF · PostgreSQL · React · TypeScript · Claude API · PWA. Case study: https://wavival.dev/proyectos/okroot
-- [NullBreach (live)](https://wavival.dev/nullbreach/): Next.js security application with OWASP-aligned code analysis, OpenAI chat, NextAuth, Prisma, and Prisma Postgres. Its marketing landing remains in Astro. Case study: https://wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
-- [Blog Lúmina W (live)](https://blog.luminaw.co): Technical blog presented as a PWA and migrated to Next.js. Case study: https://wavival.dev/proyectos/blog-lumina-w
+- [TerraCore (live)](https://terracoreapp.co): Multitenancy agricultural operations PWA: inventory, livestock health, real-time dashboards, and offline-first workflows. Django · DRF · PostgreSQL · JWT · React · TypeScript · Tailwind CSS. Reduced administrative task time by 42% in pilot farms (Urabá, Colombia). Case study: https://www.wavival.dev/proyectos/terracore
+- [OKroot (live)](https://okroot.co/): Offline-first PWA with AI-powered food-label scanner for celiac, diabetic, and lactose-intolerant users. Django · DRF · PostgreSQL · React · TypeScript · Claude API · PWA. Case study: https://www.wavival.dev/proyectos/okroot
+- [NullBreach (live)](https://www.wavival.dev/nullbreach/): Next.js security application with OWASP-aligned code analysis, OpenAI chat, NextAuth, Prisma, and Prisma Postgres. Its marketing landing remains in Astro. Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
+- [Blog Lúmina W (live)](https://blog.luminaw.co): Technical blog presented as a PWA and migrated to Next.js. Case study: https://www.wavival.dev/proyectos/blog-lumina-w
 - [Lúmina W (live)](https://luminaw.co): Studio landing: designed, built, and maintained by Valentina. Astro, Tailwind CSS, Supabase.
 - [Forgotten Portal (pentesting writeup)](https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/): Full pentest exercise: recon, PHP upload exploit, reverse shell, privilege escalation to root. Documented with PTES methodology and MITRE ATT&CK TTPs.
 
@@ -43,6 +43,6 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 
 ## Optional
 
-- [Full content](https://wavival.dev/llms-full.txt): Expanded long-form prose for all sections (about, every case study, services) in a single document
+- [Full content](https://www.wavival.dev/llms-full.txt): Expanded long-form prose for all sections (about, every case study, services) in a single document
 - [Platzi profile](https://platzi.com/p/wavival): Continuing-education profile
 - [Site source code](https://github.com/wavival/wavival.dev): Open-source portfolio repo (MIT license: code only, content reserved)

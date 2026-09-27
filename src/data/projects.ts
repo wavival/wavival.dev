@@ -925,7 +925,7 @@ export const projects: Project[] = [
     ],
     links: [
       {
-        href: "https://wavival.dev/nullbreach/",
+        href: "https://www.wavival.dev/nullbreach/",
         text: "Ver app",
         ariaLabel: "Ver app de NullBreach",
         event: "ver-app-nullbreach",
@@ -1035,7 +1035,7 @@ export const projects: Project[] = [
         "An authenticated application for analyzing code snippets with OWASP-aligned guidance and asking the security assistant. Questions, answers, and analyses are stored per user.",
       links: [
         {
-          href: "https://wavival.dev/nullbreach/",
+          href: "https://www.wavival.dev/nullbreach/",
           text: "View app",
           ariaLabel: "View NullBreach app",
           event: "ver-app-nullbreach",
