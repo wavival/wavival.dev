@@ -22,7 +22,7 @@ Result: a 42% reduction in administrative task time, measured in pilot farms. Th
 
 Stack: Django, DRF, PostgreSQL, JWT, React, TypeScript, Tailwind CSS, installable offline-first PWA. Programming languages: Python, TypeScript, SQL.
 
-Live app: https://app.terracoreapp.co · Case study: https://wavival.dev/proyectos/terracore
+Live app: https://app.terracoreapp.co · Case study: https://www.wavival.dev/proyectos/terracore
 
 ## OKroot PWA (case study)
 
@@ -32,7 +32,7 @@ Solution: an offline-first PWA where users photograph a product and immediately 
 
 Stack: Django, DRF, PostgreSQL, React, TypeScript, Claude API, PWA. Programming languages: Python, TypeScript, SQL.
 
-Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: https://wavival.dev/proyectos/okroot
+Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: https://www.wavival.dev/proyectos/okroot
 
 ## NullBreach (case study)
 
@@ -42,13 +42,13 @@ Solution: an authenticated Next.js app where developers submit code for OpenAI a
 
 Stack: Next.js, TypeScript, NextAuth Credentials, JWT sessions, Prisma ORM, Prisma Postgres, OpenAI Responses API. Its marketing landing remains in Astro. Programming languages: TypeScript, SQL.
 
-Case study: https://wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
+Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
 
 ## Blog Lúmina W (case study)
 
 Blog PWA migrated to Next.js, publishing technical content about web development, cybersecurity, and digital products.
 
-Case study: https://wavival.dev/proyectos/blog-lumina-w · Live: https://blog.luminaw.co
+Case study: https://www.wavival.dev/proyectos/blog-lumina-w · Live: https://blog.luminaw.co
 
 ## Forgotten Portal (pentesting writeup)
 
@@ -67,7 +67,7 @@ Valentina works as a freelance Full Stack Developer. She takes a business proble
 
 Pricing: projects from COP 2,000,000 / USD 500 depending on scope (MVP from 3 to 6 weeks). Limited availability; she responds within 24 hours.
 
-Services page: https://wavival.dev/servicios
+Services page: https://www.wavival.dev/servicios
 
 ## Contact
 
