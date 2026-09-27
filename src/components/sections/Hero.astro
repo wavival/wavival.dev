@@ -17,15 +17,17 @@ const cvFile = cv.slice(base.length);
 <section class="section min-h-[calc(100dvh-64px)] flex items-center" id="hero">
   <div class="w-full flex flex-col md:flex-row-reverse items-center gap-12">
     <div class="w-full md:w-2/5 flex justify-center">
-      <img
-        src={`${base}images/profile.webp`}
-        alt={isEn ? "Profile photo of Valentina Ramírez" : "Foto de perfil de Valentina Ramírez"}
-        fetchpriority="high"
-        decoding="async"
-        width="320"
-        height="320"
-        class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-[var(--brand-blue)] shadow-lg"
-      />
+      <div class="profile-photo-frame">
+        <img
+          src={`${base}images/profile.webp`}
+          alt={isEn ? "Profile photo of Valentina Ramírez" : "Foto de perfil de Valentina Ramírez"}
+          fetchpriority="high"
+          decoding="async"
+          width="320"
+          height="320"
+          class="profile-photo"
+        />
+      </div>
     </div>
 
     <div class="w-full md:w-3/5 flex flex-col gap-6">
