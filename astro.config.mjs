@@ -7,7 +7,7 @@ import { EN_PAGE_MAP } from "./src/i18n/utils.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const SITE = "https://wavival.dev";
+const SITE = "https://www.wavival.dev";
 const EN_TO_ES = Object.fromEntries(Object.entries(EN_PAGE_MAP).map(([es, en]) => [en, es]));
 
 const withSlash = (p) => (p === "/" ? "/" : p.endsWith("/") ? p : `${p}/`);

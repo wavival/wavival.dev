@@ -49,7 +49,7 @@ What it injects in `<head>` (in order):
 - **Pre-paint theme script** (`is:inline`, synchronous): first script in `<head>`. Reads `localStorage["theme"]` (falls back to `prefers-color-scheme`), adds `.dark` to `<html>` before stylesheets load, and sets the `theme-color` meta to match. Re-applies on `astro:after-swap`. Prevents FOUC.
 - Title, description, author (`Valentina Ramírez`)
 - Robots meta: `noindex, nofollow` when `noindex` is true, otherwise `index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1`
-- Canonical URL from `Astro.url.pathname` against `https://wavival.dev`
+- Canonical URL from `Astro.url.pathname` against `https://www.wavival.dev`
 - `<link rel="alternate" hreflang>` for each entry in `alternates`
 - OpenGraph: `og:type`, `og:url`, `og:title`, `og:description`, `og:image` (1200x630; `og:image:type` derived from the file extension, `image/webp` for the default `og-card.webp`; alt, locale `ogLocale` + `og:locale:alternate` for the other locale), `og:site_name`
 - Twitter Card (`summary_large_image`, title, description, image, image alt)

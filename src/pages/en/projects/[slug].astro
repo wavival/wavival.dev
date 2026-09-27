@@ -17,7 +17,7 @@ interface Props {
 
 const { project } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const site = "https://wavival.dev";
+const site = "https://www.wavival.dev";
 
 const tagStyles: Record<string, string> = {
   green: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
@@ -136,9 +136,9 @@ const nextProject = idx < caseStudies.length - 1 ? caseStudies[idx + 1] : null;
   ogPublishedTime={toIsoDateTime(datePublished)}
   ogModifiedTime={toIsoDateTime(dateModified)}
   alternates={[
-    { hreflang: "es", href: `https://wavival.dev/proyectos/${project.slug}/` },
-    { hreflang: "en", href: `https://wavival.dev/en/projects/${project.slug}/` },
-    { hreflang: "x-default", href: `https://wavival.dev/proyectos/${project.slug}/` },
+    { hreflang: "es", href: `https://www.wavival.dev/proyectos/${project.slug}/` },
+    { hreflang: "en", href: `https://www.wavival.dev/en/projects/${project.slug}/` },
+    { hreflang: "x-default", href: `https://www.wavival.dev/proyectos/${project.slug}/` },
   ]}
 >
   <section
