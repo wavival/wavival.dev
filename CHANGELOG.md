@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `docs/brand.md` and `docs/commercial.md`: living brand and commercial guides for the wavival personal brand.
 - Lúmina W branch delivery model with `dev` and `stg` environment branches created from `main`.
 - PR base validation workflow for `feature/*`, `fix/*`, and `chore/*` branches into `dev`, `dev` into `stg`, and `stg` into `main`.
 - Commitlint config, `commit-msg` hook, and CI commit-message enforcement for strict Conventional Commits.
