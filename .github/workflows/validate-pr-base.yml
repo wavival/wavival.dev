@@ -8,7 +8,8 @@ on:
     types: [opened, edited, synchronize, reopened]
     branches: [dev, stg, main]
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   validate-base:
