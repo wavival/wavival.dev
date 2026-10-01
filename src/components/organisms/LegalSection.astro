@@ -1,0 +1,20 @@
+---
+import Index from "@/components/atoms/Index.astro";
+
+interface Props {
+  index: string;
+  title: string;
+}
+
+const { index, title } = Astro.props;
+---
+
+<section class="flex flex-wrap gap-x-12 gap-y-3 border-b border-line py-8">
+  <div class="flex flex-[0_0_260px] items-baseline gap-[14px]">
+    <Index>{index}</Index>
+    <h2 class="h-title m-0 text-[22px]">{title}</h2>
+  </div>
+  <div class="flex min-w-0 flex-[1_1_480px] flex-col gap-3">
+    <slot />
+  </div>
+</section>

@@ -36,7 +36,7 @@ test.describe("home page", () => {
     const img = page.locator('img[alt="Foto de perfil de Valentina Ramírez"]');
     await expect(img).toBeVisible();
     await expect(img).toHaveAttribute("width", "320");
-    await expect(img).toHaveAttribute("height", "320");
+    await expect(img).toHaveAttribute("height", "400");
     await expect(img).toHaveAttribute("fetchpriority", "high");
   });
 

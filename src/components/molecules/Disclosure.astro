@@ -1,0 +1,26 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  openLabel: string;
+  closeLabel: string;
+}
+
+const { index, title, openLabel, closeLabel } = Astro.props;
+---
+
+<details class="disclosure border-b border-line">
+  <summary class="group flex items-baseline gap-5 py-6 text-ink transition-colors hover:text-link">
+    <span class="index w-7 flex-none">{index}</span>
+    <span
+      class="h-title flex-1 leading-[1.25]"
+      style="font-size:clamp(18px,1.8vw,24px);letter-spacing:-0.01em">{title}</span
+    >
+    <span class="label-sm label-sm-link">
+      <span class="when-closed">{openLabel}</span><span class="when-open">{closeLabel}</span>
+    </span>
+  </summary>
+  <div class="pb-7 pl-12">
+    <slot />
+  </div>
+</details>

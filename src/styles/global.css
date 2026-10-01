@@ -49,39 +49,45 @@
     U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-* {
-  transition: border-color 0.3s ease;
-}
-
-.card {
-  transition:
-    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.card:hover {
-  transform: scale(1.02) !important;
-  box-shadow: 0 8px 28px rgba(64, 123, 255, 0.18);
-}
-
 html {
-  transition: color 0.3s ease;
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--bg-page);
-  color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
 }
 
-/* Custom scrollbar */
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--link-h);
+}
+
+::selection {
+  background: var(--blue);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--brand-blue) transparent;
+  scrollbar-color: var(--blue) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -93,34 +99,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--brand-blue);
+  background-color: var(--blue);
   border-radius: 20px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--accent-hover);
-}
-
-[data-aos] {
-  opacity: 0;
-  transition:
-    opacity 0.8s ease-in-out,
-    transform 0.8s ease-in-out;
-}
-
-[data-aos="fade-up"] {
-  transform: translateY(24px);
-}
-
-[data-aos].aos-in {
-  opacity: 1;
-  transform: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  [data-aos] {
-    opacity: 1;
-    transform: none;
+  html {
+    scroll-behavior: auto;
   }
 
   *,

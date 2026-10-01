@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Projects from "@/components/sections/Projects.astro";
+import ProjectsIndex from "@/components/organisms/ProjectsIndex.astro";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -26,6 +26,6 @@ const breadcrumbLd = JSON.stringify({
     { hreflang: "x-default", href: "https://www.wavival.dev/proyectos/" },
   ]}
 >
-  <Projects heading="h1" />
+  <ProjectsIndex />
   <script is:inline type="application/ld+json" set:html={breadcrumbLd} />
 </Layout>

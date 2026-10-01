@@ -1,0 +1,27 @@
+---
+interface Props {
+  items: { id: string; n: string; label: string }[];
+  label: string;
+}
+
+const { items, label } = Astro.props;
+---
+
+<nav aria-label={label}>
+  <div class="label-sm mb-4">{label}</div>
+  <ol class="m-0 list-none border-l border-line p-0">
+    {
+      items.map((s) => (
+        <li>
+          <a
+            href={`#${s.id}`}
+            class="flex gap-3 py-2 pr-0 pl-4 text-sm text-muted no-underline transition-colors hover:text-link"
+          >
+            <span class="index text-xs">{s.n}</span>
+            {s.label}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
