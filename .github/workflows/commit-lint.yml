@@ -17,4 +17,4 @@ jobs:
       config-file: commitlint.config.cjs
       dev-standards-ref: v0.6.0
     secrets:
-      DEV_STANDARDS_DEPLOY_KEY: ${{ secrets.DEV_STANDARDS_DEPLOY_KEY }}
+      DEV_STANDARDS_DEPLOY_KEY: ${{ secrets.DEV_STANDARDS_DEPLOY_KEY_WAVIVAL }}
