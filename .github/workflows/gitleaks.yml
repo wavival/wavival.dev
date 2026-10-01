@@ -2,6 +2,8 @@ name: Secret scan
 
 # Thin caller. Logic in lumina-w/agents (shared-gitleaks.yml). Replaces the
 # security_scan job formerly inlined in ci.yml.
+# lumina-w/agents must stay public: GitHub does not let a repo outside an
+# organization call that organization's private repos' reusable workflows.
 on:
   push:
     branches: ["**"]

@@ -1,6 +1,8 @@
 name: Commit lint
 
 # Thin caller. Logic in lumina-w/agents (shared-commitlint.yml).
+# lumina-w/agents must stay public: GitHub does not let a repo outside an
+# organization call that organization's private repos' reusable workflows.
 on:
   push:
     branches: ["**"]

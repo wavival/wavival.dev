@@ -1,6 +1,8 @@
 name: PR title
 
 # Thin caller. Logic in lumina-w/agents (shared-pr-title.yml).
+# lumina-w/agents must stay public: GitHub does not let a repo outside an
+# organization call that organization's private repos' reusable workflows.
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
