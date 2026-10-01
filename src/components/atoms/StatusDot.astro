@@ -1,0 +1,19 @@
+---
+interface Props {
+  tone?: "green" | "blue" | "orange" | "gray";
+  class?: string;
+}
+
+const { tone = "gray", class: extra = "" } = Astro.props;
+const toneClass = {
+  green: "status-dot-ok",
+  blue: "status-dot-link",
+  orange: "status-dot-warn",
+  gray: "",
+}[tone];
+---
+
+<span class={`status ${extra}`.trim()}>
+  <span class={`status-dot ${toneClass}`.trim()} aria-hidden="true"></span>
+  <slot />
+</span>

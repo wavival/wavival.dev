@@ -1,0 +1,28 @@
+---
+import TextLink from "@/components/atoms/TextLink.astro";
+import type { ProjectAction } from "@/data/projectView";
+
+interface Props {
+  actions: ProjectAction[];
+  class?: string;
+}
+
+const { actions, class: extra = "" } = Astro.props;
+---
+
+{
+  actions.length > 0 && (
+    <div class={`flex flex-wrap gap-6 ${extra}`.trim()}>
+      {actions.map((a) => (
+        <TextLink
+          href={a.href}
+          target={a.external ? "_blank" : "_self"}
+          aria-label={a.ariaLabel}
+          data-umami-event={a.event}
+        >
+          {a.text}
+        </TextLink>
+      ))}
+    </div>
+  )
+}

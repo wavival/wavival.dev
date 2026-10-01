@@ -1,0 +1,28 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  note?: string;
+  size?: "sm" | "md" | "lg";
+}
+
+const { value, label, note, size = "md" } = Astro.props;
+const fontSize = {
+  sm: "clamp(32px, 3.4vw, 48px)",
+  md: "clamp(40px, 4vw, 60px)",
+  lg: "52px",
+}[size];
+---
+
+<div class="p-7">
+  <dt
+    class="h-title leading-none"
+    style={`font-size:${fontSize};letter-spacing:-0.04em;color:var(--blue)`}
+  >
+    {value}
+  </dt>
+  <dd class="m-0 mt-[10px] text-sm text-ink">
+    {label}
+    {note && <span class="text-muted">&middot; {note}</span>}
+  </dd>
+</div>

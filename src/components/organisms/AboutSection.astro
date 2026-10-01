@@ -1,0 +1,106 @@
+---
+import SectionHeader from "@/components/molecules/SectionHeader.astro";
+import PullQuote from "@/components/molecules/PullQuote.astro";
+import IconLink from "@/components/atoms/IconLink.astro";
+import Button from "@/components/atoms/Button.astro";
+import { siteRoutes } from "@/i18n/utils";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+const r = siteRoutes(lang, import.meta.env.BASE_URL);
+---
+
+<section id="about" class="wrap" style="padding-bottom:var(--sec)">
+  <SectionHeader
+    index="03"
+    label={isEn ? "Beyond the code" : "Más allá del código"}
+    title={isEn ? "About me" : "Sobre mí"}
+    class="mb-12"
+  />
+  <PullQuote size="lg" class="mb-14">
+    {
+      isEn ? (
+        <>
+          "The best software is built by people who{" "}
+          <span class="accent">understand the problem</span> before opening the editor."
+        </>
+      ) : (
+        <>
+          "El mejor software lo construyen personas que{" "}
+          <span class="accent">entienden el problema</span> antes de abrir el editor."
+        </>
+      )
+    }
+  </PullQuote>
+  <div class="flex flex-col gap-5">
+    {
+      isEn ? (
+        <>
+          <p class="body-lg m-0 leading-[1.75]">
+            I'm a self-taught Full Stack Developer by conviction, focused on Django, React, and
+            Next.js. I founded Lúmina W to build my own products. I study Software Analysis and
+            Development at SENA and English Language at Universidad de San Buenaventura, learning in
+            parallel because I don't know how to do it any other way.
+          </p>
+          <p class="body-lg m-0 leading-[1.75]">
+            Outside of code, you'll find me in photography, behind the drums, and listening to a
+            playlist that doesn't respect genres.
+          </p>
+        </>
+      ) : (
+        <>
+          <p class="body-lg m-0 leading-[1.75]">
+            Soy desarrolladora Full Stack autodidacta por convicción, con foco en Django, React y
+            Next.js. Fundé Lúmina W para construir productos propios. Estudio Análisis y Desarrollo
+            de Software en el SENA y Lengua Inglesa en la Universidad de San Buenaventura, aprendo
+            en paralelo porque no sé hacerlo de otra forma.
+          </p>
+          <p class="body-lg m-0 leading-[1.75]">
+            Fuera del código me encuentra la fotografía, la batería y una playlist que no respeta
+            géneros.
+          </p>
+        </>
+      )
+    }
+  </div>
+  <div
+    class="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 border-t border-line pt-6"
+  >
+    <div class="flex flex-wrap items-center gap-2">
+      <IconLink
+        href="https://instagram.com/wavival"
+        icon="instagram"
+        label={isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez"}
+      />
+      <IconLink
+        href="https://wa.me/573016560222"
+        icon="whatsapp"
+        label={isEn ? "Valentina Ramírez on WhatsApp" : "WhatsApp de Valentina Ramírez"}
+      />
+      <IconLink
+        href="https://platzi.com/p/wavival"
+        icon="link"
+        label={isEn
+          ? "Valentina Ramírez's Platzi profile"
+          : "Perfil de Platzi de Valentina Ramírez"}
+      />
+    </div>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button
+        href="https://blog.luminaw.co"
+        target="_blank"
+        variant="secondary"
+        aria-label={isEn
+          ? "Blog W: Lúmina W blog by Valentina Ramírez"
+          : "Blog W: blog de Lúmina W creado por Valentina Ramírez"}
+      >
+        Blog W
+      </Button>
+      <Button href={r.about} variant="secondary">{isEn ? "About me" : "Conóceme"}</Button>
+    </div>
+  </div>
+</section>
