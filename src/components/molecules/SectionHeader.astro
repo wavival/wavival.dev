@@ -1,0 +1,41 @@
+---
+import Index from "@/components/atoms/Index.astro";
+import Eyebrow from "@/components/atoms/Eyebrow.astro";
+
+interface Props {
+  title: string;
+  label?: string;
+  index?: string;
+  intro?: string;
+  as?: "h1" | "h2" | "h3";
+  /** Display class for the heading. Defaults to the section H2 style. */
+  titleClass?: string;
+  class?: string;
+}
+
+const {
+  title,
+  label,
+  index,
+  intro,
+  as: Heading = "h2",
+  titleClass = "h2-section",
+  class: extra = "",
+} = Astro.props;
+---
+
+<div class={`rule-section flex flex-col items-stretch gap-4 ${extra}`.trim()}>
+  {
+    (index || label) && (
+      <div class="flex items-baseline gap-[14px]">
+        {index && <Index>{index}</Index>}
+        {label && <Eyebrow>{label}</Eyebrow>}
+      </div>
+    )
+  }
+  <div class="min-w-0">
+    <Heading class={`m-0 ${titleClass}`}>{title}</Heading>
+    {intro && <p class="body-lg mt-4 mb-0">{intro}</p>}
+    <slot />
+  </div>
+</div>

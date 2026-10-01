@@ -1,0 +1,50 @@
+---
+import SectionHeader from "@/components/molecules/SectionHeader.astro";
+import ProjectRow from "@/components/organisms/ProjectRow.astro";
+import Button from "@/components/atoms/Button.astro";
+import { projects } from "@/data/projects";
+import { projectView } from "@/data/projectView";
+import { siteRoutes } from "@/i18n/utils";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+const base = import.meta.env.BASE_URL;
+const r = siteRoutes(lang, base);
+
+const featuredSlugs = ["terracore", "okroot", "nullbreach"];
+const featured = projects
+  .filter((p) => featuredSlugs.includes(p.slug))
+  .map((p) => projectView(p, lang, base));
+---
+
+<section id="projects" class="wrap" style="padding-bottom:var(--sec)">
+  <SectionHeader
+    index="01"
+    label={isEn ? "Projects" : "Proyectos"}
+    title={isEn ? "From challenge to product" : "Del reto al producto"}
+    intro={isEn
+      ? "Real systems in production: complex business logic, integrated AI, and security by design."
+      : "Sistemas reales en producción: lógica de negocio compleja, IA integrada y seguridad desde el diseño."}
+    class="mb-6"
+  />
+  {
+    featured.map((p, i) => (
+      <ProjectRow project={p} index={String(i + 1).padStart(2, "0")} lang={lang} />
+    ))
+  }
+  <div class="mt-10">
+    <Button
+      href={r.projects}
+      variant="secondary"
+      aria-label={isEn
+        ? "See all projects and the lab"
+        : "Ver todos los proyectos y el laboratorio"}
+    >
+      {isEn ? "See all projects" : "Ver todos los proyectos"}
+    </Button>
+  </div>
+</section>

@@ -1,10 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Hero from "@/components/sections/Hero.astro";
-import Projects from "@/components/sections/Projects.astro";
-import Stack from "@/components/sections/Stack.astro";
-import About from "@/components/sections/About.astro";
-import Contact from "@/components/sections/Contact.astro";
+import Hero from "@/components/organisms/Hero.astro";
+import FeaturedProjects from "@/components/organisms/FeaturedProjects.astro";
+import StackSection from "@/components/organisms/StackSection.astro";
+import AboutSection from "@/components/organisms/AboutSection.astro";
+import ContactBand from "@/components/organisms/ContactBand.astro";
 ---
 
 <Layout
@@ -17,8 +17,8 @@ import Contact from "@/components/sections/Contact.astro";
   ]}
 >
   <Hero />
-  <Projects featured />
-  <Stack />
-  <About />
-  <Contact />
+  <FeaturedProjects />
+  <StackSection />
+  <AboutSection />
+  <ContactBand />
 </Layout>

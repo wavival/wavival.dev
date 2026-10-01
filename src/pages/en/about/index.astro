@@ -1,14 +1,46 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Link from "@/components/ui/Link.astro";
-import Button from "@/components/ui/Button.astro";
-import Contact from "@/components/sections/Contact.astro";
-import { cvHref } from "@/i18n/utils";
+import PageIntro from "@/components/molecules/PageIntro.astro";
+import SectionHeader from "@/components/molecules/SectionHeader.astro";
+import ChipList from "@/components/molecules/ChipList.astro";
+import PullQuote from "@/components/molecules/PullQuote.astro";
+import SocialLinks from "@/components/molecules/SocialLinks.astro";
+import Button from "@/components/atoms/Button.astro";
+import TextLink from "@/components/atoms/TextLink.astro";
+import ContactBand from "@/components/organisms/ContactBand.astro";
+import { cvHref, siteRoutes } from "@/i18n/utils";
 
 const base = import.meta.env.BASE_URL;
 const lang = "en";
+const r = siteRoutes(lang, base);
 const cv = cvHref(lang, base);
 const cvFile = cv.slice(base.length);
+
+const summary = [
+  { value: "Full Stack", label: "Django · React, in production" },
+  { value: "Lumina W", label: "Founder, custom product" },
+  { value: "Self-taught", label: "Continuous learning, no shortcuts" },
+];
+
+const method = [
+  {
+    title: "The problem first",
+    body: "Before opening the editor I want to know who will use this, what decision they need to make, and what happens when the data does not arrive. The framework comes after.",
+  },
+  {
+    title: "Understanding the why",
+    body: "Django and DRF for a solid foundation, React, TypeScript, and Next.js for interfaces and apps that do not feel fragile, PostgreSQL when the relational model matters. Every choice with a reason.",
+  },
+  {
+    title: "Security and AI from the start",
+    body: "They are not decorations glued on at the end: they enter the design from the first endpoint, not when something has already broken in production.",
+  },
+];
+
+const education = [
+  { name: "SENA", detail: "Software Analysis and Development" },
+  { name: "U. de San Buenaventura", detail: "English Language" },
+];
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -31,233 +63,172 @@ const breadcrumbLd = JSON.stringify({
     { hreflang: "x-default", href: "https://www.wavival.dev/sobre-mi/" },
   ]}
 >
-  <section class="section" data-aos="fade-up">
-    <p class="section-subtitle">Who's behind the code</p>
-    <h1 class="section-title">About me</h1>
+  <section class="wrap page-top pb-sec">
+    <PageIntro eyebrow="Who's behind the code" size="about">
+      <Fragment slot="title">About me</Fragment>
+    </PageIntro>
 
-    <div class="mt-10 flex flex-col md:flex-row-reverse items-center md:items-start gap-10">
-      <div class="w-full md:w-2/5 flex justify-center shrink-0">
-        <div class="profile-photo-frame">
-          <img
-            src={`${base}images/profile.webp`}
-            alt="Profile photo of Valentina Ramirez"
-            decoding="async"
-            width="320"
-            height="320"
-            class="profile-photo"
-          />
-        </div>
-      </div>
-
-      <div class="w-full md:w-3/5 flex flex-col gap-5">
+    <div class="mt-14 flex flex-wrap items-start gap-x-[clamp(32px,5vw,80px)] gap-y-10">
+      <div class="flex min-w-0 flex-[1_1_480px] flex-col gap-7">
         <p
-          class="text-[var(--text-primary)] text-lg md:text-xl font-display font-semibold leading-snug"
+          class="h-title m-0"
+          style="font-size:clamp(24px,2.6vw,36px);line-height:1.2;text-wrap:pretty"
         >
           I'm Valentina Ramirez. I build products end to end, from the data model to the interface
-          people use, and I founded Lumina W to do it on my own terms.
+          people use, and I founded <span class="accent">Lumina W</span> to do it on my own terms.
         </p>
-        <div class="flex flex-wrap gap-2" aria-label="Focus areas">
-          <span class="chip">Django · DRF</span>
-          <span class="chip">React · TypeScript</span>
-          <span class="chip">Next.js</span>
-          <span class="chip">PostgreSQL</span>
-          <span class="chip">AI</span>
-          <span class="chip">Security</span>
-        </div>
-        <p class="text-[var(--text-muted)] leading-relaxed">
+        <ChipList
+          label="Focus areas"
+          items={["Django · DRF", "React · TypeScript", "Next.js", "PostgreSQL", "AI", "Security"]}
+        />
+        <p class="body-lg m-0 max-w-[640px]" style="text-wrap:pretty">
           I came to code without a laid-out path and learned it by building. That self-taught route
           left me with a concrete way of working: I am not satisfied with something that works, I
           need to understand why it works. That is the difference between copying a solution and
           being able to sustain it when it breaks at 2am.
         </p>
       </div>
+      <figure class="m-0 min-w-[240px] flex-[0_1_360px]">
+        <div class="photo-frame">
+          <img
+            src={`${base}images/profile.webp`}
+            alt="Profile photo of Valentina Ramirez"
+            decoding="async"
+            fetchpriority="high"
+            width="320"
+            height="320"
+          />
+        </div>
+      </figure>
     </div>
 
-    <div
-      class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4"
+    <dl
       aria-label="Summary"
-      data-aos="fade-up"
+      class="section-gap m-0 grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] border-t border-ink border-b border-b-line"
     >
-      <div
-        class="rounded-2xl border border-[var(--border-base)] border-b-[4px] p-5 text-center sm:text-left"
-      >
-        <p class="font-display font-bold text-3xl text-[var(--brand-blue)]">Full Stack</p>
-        <p class="text-sm text-[var(--text-muted)] mt-1">Django · React, in production</p>
-      </div>
-      <div
-        class="rounded-2xl border border-[var(--border-base)] border-b-[4px] p-5 text-center sm:text-left"
-      >
-        <p class="font-display font-bold text-3xl text-[var(--brand-blue)]">Lumina W</p>
-        <p class="text-sm text-[var(--text-muted)] mt-1">Founder, custom product</p>
-      </div>
-      <div
-        class="rounded-2xl border border-[var(--border-base)] border-b-[4px] p-5 text-center sm:text-left"
-      >
-        <p class="font-display font-bold text-3xl text-[var(--brand-blue)]">Self-taught</p>
-        <p class="text-sm text-[var(--text-muted)] mt-1">Continuous learning, no shortcuts</p>
-      </div>
-    </div>
+      {
+        summary.map((s) => (
+          <div class="flex flex-col justify-center py-10 pr-6">
+            <dt
+              class="h-title leading-none"
+              style="font-size:clamp(32px,3.4vw,48px);letter-spacing:-0.03em;color:var(--blue)"
+            >
+              {s.value}
+            </dt>
+            <dd class="m-0 mt-[10px] text-sm text-muted">{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
 
-    <div class="mt-12 flex flex-col gap-4">
-      <h3 class="font-display font-bold text-xl text-[var(--text-primary)]">How I work</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5" data-aos="fade-up">
-        <div class="card">
-          <h4 class="font-display font-semibold text-lg text-[var(--text-primary)]">
-            The problem first
-          </h4>
-          <p class="text-[var(--text-muted)] leading-relaxed mt-2">
-            Before opening the editor I want to know who will use this, what decision they need to
-            make, and what happens when the data does not arrive. The framework comes after.
-          </p>
-        </div>
-        <div class="card">
-          <h4 class="font-display font-semibold text-lg text-[var(--text-primary)]">
-            Understanding the why
-          </h4>
-          <p class="text-[var(--text-muted)] leading-relaxed mt-2">
-            Django and DRF for a solid foundation, React, TypeScript, and Next.js for interfaces and
-            apps that do not feel fragile, PostgreSQL when the relational model matters. Every
-            choice with a reason.
-          </p>
-        </div>
-        <div class="card">
-          <h4 class="font-display font-semibold text-lg text-[var(--text-primary)]">
-            Security and AI from the start
-          </h4>
-          <p class="text-[var(--text-muted)] leading-relaxed mt-2">
-            They are not decorations glued on at the end: they enter the design from the first
-            endpoint, not when something has already broken in production.
-          </p>
-        </div>
-      </div>
+    <SectionHeader label="Method" title="How I work" class="section-gap mb-10" />
+    <div class="cell-grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))]">
+      {
+        method.map((m, i) => (
+          <div class="px-7 py-8">
+            <span class="index">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="h3-project m-0 mt-4">{m.title}</h3>
+            <p class="body m-0 mt-3" style="text-wrap:pretty">
+              {m.body}
+            </p>
+          </div>
+        ))
+      }
     </div>
 
     <div
-      class="mt-12 rounded-2xl border border-[var(--border-base)] border-l-[4px] border-l-[var(--brand-blue)] bg-[var(--bg-card)] p-8 flex flex-col gap-4"
-      data-aos="fade-up"
+      class="section-gap flex flex-wrap items-end gap-x-16 gap-y-6 border border-line bg-surface p-[clamp(32px,4vw,64px)]"
     >
-      <h3 class="font-display font-bold text-xl text-[var(--text-primary)]">What I build</h3>
-      <p class="text-[var(--text-muted)] leading-relaxed">
-        Real applications, not demos: multi-user systems with complex business logic, custom APIs,
-        and products that live in production. From an offline-first agro-industrial SaaS to OWASP
-        code analysis, I am drawn to software that solves a measurable problem for a real person.
-        Through Lumina W I bring that same idea to clients: a custom product, built to last and not
-        to impress in a screenshot.
-      </p>
-      <Link href={`${base}en/projects`} aria-label="See Valentina Ramirez's projects">
+      <div class="flex-[1_1_480px]">
+        <h2 class="h2-section m-0" style="font-size:clamp(32px,4vw,56px)">What I build</h2>
+        <p class="body-lg m-0 mt-5 max-w-[760px]" style="text-wrap:pretty">
+          Real applications, not demos: multi-user systems with complex business logic, custom APIs,
+          and products that live in production. From an offline-first agro-industrial SaaS to OWASP
+          code analysis, I am drawn to software that solves a measurable problem for a real person.
+          Through Lumina W I bring that same idea to clients: a custom product, built to last and
+          not to impress in a screenshot.
+        </p>
+      </div>
+      <Button href={r.projects} variant="secondary" aria-label="See Valentina Ramirez's projects">
         See projects
-      </Link>
+      </Button>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5" data-aos="fade-up">
-      <div class="card flex flex-col gap-4">
-        <h3 class="font-display font-bold text-xl text-[var(--text-primary)]">
-          Parallel education
-        </h3>
-        <div class="flex flex-col gap-3">
-          <div class="border-l-4 border-[var(--brand-blue)] pl-4">
-            <p class="font-display font-semibold text-[var(--text-primary)]">SENA</p>
-            <p class="text-sm text-[var(--text-muted)]">Software Analysis and Development</p>
-          </div>
-          <div class="border-l-4 border-[var(--brand-blue)] pl-4">
-            <p class="font-display font-semibold text-[var(--text-primary)]">
-              U. de San Buenaventura
-            </p>
-            <p class="text-sm text-[var(--text-muted)]">English Language</p>
-          </div>
-          <div class="border-l-4 border-[var(--brand-blue)] pl-4">
-            <p class="font-display font-semibold text-[var(--text-primary)]">Platzi</p>
-            <p class="text-sm text-[var(--text-muted)]">
-              Self-taught training in Web Development, Artificial Intelligence, and Information
-              Security
-            </p>
-            <Link
+    <div
+      class="section-gap grid grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))] gap-x-12 gap-y-12"
+    >
+      <div>
+        <h3 class="h3-project m-0 mb-2" style="font-size:28px">Parallel education</h3>
+        {
+          education.map((e) => (
+            <div class="flex justify-between gap-4 border-b border-line py-[18px]">
+              <span class="h-title">{e.name}</span>
+              <span class="text-right text-sm text-muted">{e.detail}</span>
+            </div>
+          ))
+        }
+        <div class="flex justify-between gap-4 border-b border-line py-[18px]">
+          <span class="h-title">Platzi</span>
+          <span class="max-w-[300px] text-right text-sm text-muted">
+            Self-taught training in Web Development, Artificial Intelligence, and Information
+            Security
+            <br />
+            <TextLink
               href="https://platzi.com/p/wavival"
               target="_blank"
-              class="!text-xs"
+              class="mt-2"
               aria-label="Valentina Ramirez's Platzi profile"
             >
               My Platzi profile
-            </Link>
-          </div>
+            </TextLink>
+          </span>
         </div>
       </div>
-
-      <div class="card flex flex-col gap-4">
-        <h3 class="font-display font-bold text-xl text-[var(--text-primary)]">Outside the code</h3>
-        <p class="text-[var(--text-muted)] leading-relaxed">
+      <div>
+        <h3 class="h3-project m-0 mb-5" style="font-size:28px">Outside the code</h3>
+        <p class="body m-0" style="text-wrap:pretty">
           What I enjoy most also teaches me how to work: drums gave me structure and rhythm, cooking
           taught me to follow a process and improvise when needed, and music and reading keep my
           curiosity alive. Learning does not turn off when I close the laptop: it is the way I live
           inside and outside of code.
         </p>
-        <div class="flex flex-wrap gap-2 mt-auto" aria-label="Interests outside the code">
-          <span class="chip">Drums</span>
-          <span class="chip">Cooking</span>
-          <span class="chip">Music</span>
-          <span class="chip">Reading</span>
-        </div>
+        <ChipList
+          class="mt-5"
+          label="Interests outside the code"
+          items={["Drums", "Cooking", "Music", "Reading"]}
+        />
       </div>
     </div>
 
-    <blockquote class="mt-14 max-w-3xl mx-auto text-center" data-aos="fade-up">
-      <p
-        class="italic font-display font-semibold text-lg md:text-xl text-[var(--text-primary)] leading-snug"
-      >
-        "Learning is not a stage that ends: it is the way I work. Every project leaves me knowing
-        something I did not know when I started."
-      </p>
-      <footer class="mt-4 text-[var(--text-muted)]">
-        Author of the <Link
+    <PullQuote class="section-gap border-t border-line pt-10">
+      "Learning is not a stage that ends: it is the way I work. Every project leaves me knowing
+      something I did not know when I started."
+      <footer slot="footer" class="mt-5 text-sm text-muted">
+        Author of the <TextLink
           href="https://blog.luminaw.co/"
           target="_blank"
-          class="inline !text-xs"
+          variant="inline"
           aria-label="Lumina W blog written by Valentina Ramirez"
         >
           Blog W
-        </Link>, where I write what I learn.
+        </TextLink>, where I write what I learn.
       </footer>
-    </blockquote>
+    </PullQuote>
 
-    <div
-      class="mt-14 flex flex-wrap items-center justify-center gap-5 border-t border-[var(--border-base)] pt-10"
-      data-aos="fade-up"
-    >
+    <div class="mt-14 flex flex-wrap items-center gap-3">
       <Button
         href={cv}
         download={cvFile}
         icon="download-cv-white"
+        data-umami-event="cv-descarga-en"
         aria-label="Download Valentina Ramirez's CV as PDF"
       >
         Download CV
       </Button>
-      <Link
-        href="https://linkedin.com/in/wavival"
-        target="_blank"
-        icon="linkedin"
-        aria-label="Valentina Ramirez on LinkedIn"
-      />
-      <Link
-        href="https://github.com/wavival"
-        target="_blank"
-        icon="github"
-        aria-label="Valentina Ramirez on GitHub"
-      />
-      <Link
-        href="https://instagram.com/wavival"
-        target="_blank"
-        icon="instagram"
-        aria-label="Valentina Ramirez on Instagram"
-      />
-      <Link
-        href="https://wa.me/573016560222"
-        target="_blank"
-        icon="whatsapp"
-        aria-label="Valentina Ramirez on WhatsApp"
-      />
+      <SocialLinks lang={lang} size="lg" items={["linkedin", "github", "instagram", "whatsapp"]} />
     </div>
   </section>
 
-  <Contact lang="en" />
+  <ContactBand lang={lang} />
   <script is:inline type="application/ld+json" set:html={breadcrumbLd} />
 </Layout>

@@ -1,0 +1,56 @@
+---
+interface Props {
+  id?: string;
+  href?: string;
+  target?: "_blank" | "_self";
+  type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary";
+  size?: "md" | "sm" | "compact";
+  class?: string;
+  /** White icon name from public/icons/ui. Only the primary variant carries an icon. */
+  icon?: string;
+  download?: string;
+  "aria-label"?: string;
+  "data-umami-event"?: string;
+}
+
+const {
+  id,
+  href,
+  target = "_self",
+  type = "button",
+  variant = "primary",
+  size = "md",
+  class: extra = "",
+  icon,
+  download,
+  "aria-label": ariaLabel,
+  "data-umami-event": umamiEvent,
+} = Astro.props;
+
+const rel = href && target === "_blank" ? "noopener noreferrer" : undefined;
+const sizeClass = size === "sm" ? "btn-sm" : size === "compact" ? "btn-compact" : "";
+const cls = `btn btn-${variant} ${sizeClass} ${extra}`.replace(/\s+/g, " ").trim();
+const iconSize = size === "compact" ? 18 : 20;
+const iconSrc = icon ? `${import.meta.env.BASE_URL}icons/ui/${icon}.svg` : undefined;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  id={id}
+  href={href}
+  target={href ? target : undefined}
+  rel={rel}
+  download={download}
+  type={href ? undefined : type}
+  class={cls}
+  aria-label={ariaLabel}
+  data-umami-event={umamiEvent}
+>
+  {
+    iconSrc && variant === "primary" && (
+      <img src={iconSrc} alt="" width={iconSize} height={iconSize} />
+    )
+  }
+  <slot />
+</Tag>

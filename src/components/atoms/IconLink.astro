@@ -1,0 +1,36 @@
+---
+import MaskIcon from "@/components/atoms/MaskIcon.astro";
+
+interface Props {
+  href: string;
+  icon: string;
+  label: string;
+  target?: "_blank" | "_self";
+  size?: "md" | "lg";
+  class?: string;
+  "data-umami-event"?: string;
+}
+
+const {
+  href,
+  icon,
+  label,
+  target = "_blank",
+  size = "md",
+  class: extra = "",
+  "data-umami-event": umamiEvent,
+} = Astro.props;
+
+const rel = target === "_blank" ? "noopener noreferrer" : undefined;
+---
+
+<a
+  href={href}
+  target={target}
+  rel={rel}
+  aria-label={label}
+  class={`icon-btn ${size === "lg" ? "icon-btn-lg" : ""} ${extra}`.replace(/\s+/g, " ").trim()}
+  data-umami-event={umamiEvent}
+>
+  <MaskIcon name={icon} size={size === "lg" ? "lg" : "md"} />
+</a>

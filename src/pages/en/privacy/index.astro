@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Link from "@/components/ui/Link.astro";
+import LegalSection from "@/components/organisms/LegalSection.astro";
+import TextLink from "@/components/atoms/TextLink.astro";
+import PageIntro from "@/components/molecules/PageIntro.astro";
 
 const email = "wavival.dev@luminaw.co";
 
@@ -21,75 +23,62 @@ const lastUpdate = "June 17, 2026";
     { hreflang: "x-default", href: "https://www.wavival.dev/privacidad/" },
   ]}
 >
-  <section class="section">
-    <p class="section-subtitle">Legal</p>
-    <h1 class="section-title">Privacy policy</h1>
-    <p class="text-sm text-[var(--text-muted)] mt-2">Last updated: {lastUpdate}</p>
+  <section class="wrap page-top">
+    <PageIntro eyebrow="Legal">
+      <Fragment slot="title">Privacy policy</Fragment>
+      <p class="m-0 text-sm text-muted">Last updated: {lastUpdate}</p>
+    </PageIntro>
 
-    <div class="flex flex-col gap-10 mt-10 max-w-3xl">
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Controller</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+    <div class="mt-16 border-t border-ink">
+      <LegalSection index="01" title="Controller">
+        <p class="body m-0 !text-base">
           This site (wavival.dev) is the personal portfolio of Valentina Ramirez, Full Stack
           Developer and founder of Lumina W. For any matter regarding your data, write to
-          <Link href={`mailto:${email}`} class="!lowercase">{email}</Link>.
+          <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink>.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">What data I collect</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="02" title="What data I collect">
+        <p class="body m-0 !text-base">
           This site is static and has no contact forms: I do not collect your name, email, or any
           data you type here. Contact happens through external channels (email, WhatsApp, Calendly),
           where each service's own policy applies.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-          Analytics and cookies
-        </h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="03" title="Analytics and cookies">
+        <p class="body m-0 !text-base">
           If analytics are enabled, I use Umami: a cookieless, privacy-focused tool. It measures, in
           aggregate and anonymous form, how the site is used (page views, country, device type,
           where the visit comes from). It sets no cookies, does not track across sites, and does not
           identify individuals; nor is data shared for advertising purposes.
         </p>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-3">
+        <p class="body m-0 !text-base">
           Since no tracking cookies are used, this site does not need a consent banner.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-          Third-party services
-        </h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="04" title="Third-party services">
+        <p class="body m-0 !text-base">
           On the contact page, the site loads the Calendly calendar. This service may record your IP
           simply by serving the resource. Typefaces are served from the site itself (no third
           party). Hosting is provided by Vercel, which maintains standard server technical logs.
           Each provider handles that data under their own policy.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Your rights</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="05" title="Your rights">
+        <p class="body m-0 !text-base">
           Under applicable regulations including GDPR and Colombia's Ley 1581 de 2012 (Habeas Data),
           you have the right to access, rectify, erase, and restrict processing of your personal
           data, and to withdraw any consent. Since this site does not store your personal data, most
           of these requests are handled with the third-party services mentioned above. For
-          questions, write to <Link href={`mailto:${email}`} class="!lowercase">{email}</Link>.
+          questions, write to <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink
+          >.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Changes</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="06" title="Changes">
+        <p class="body m-0 !text-base">
           If this policy changes, I will update the date above. Continued use of the site implies
           acceptance of the current version.
         </p>
-      </section>
+      </LegalSection>
     </div>
   </section>
 </Layout>

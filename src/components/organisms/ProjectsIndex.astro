@@ -1,0 +1,53 @@
+---
+import PageIntro from "@/components/molecules/PageIntro.astro";
+import ProjectFilters from "@/components/organisms/ProjectFilters.astro";
+import ProjectCard from "@/components/organisms/ProjectCard.astro";
+import { projects } from "@/data/projects";
+import { projectView } from "@/data/projectView";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+const views = projects.map((p) => projectView(p, lang, import.meta.env.BASE_URL));
+
+const keys = ["full-stack", "ia", "pwa", "landing", "diseno"];
+const counts: Record<string, number> = { all: views.length };
+for (const k of keys) counts[k] = views.filter((v) => v.filters.includes(k)).length;
+---
+
+<section class="wrap page-top">
+  <PageIntro
+    eyebrow={`${isEn ? "Projects" : "Proyectos"} · ${String(views.length).padStart(2, "0")}`}
+    size="page"
+  >
+    <Fragment slot="title">{isEn ? "From challenge to product" : "Del reto al producto"}</Fragment>
+    <p class="body-lg m-0">
+      {
+        isEn
+          ? "Real systems in production: complex business logic, integrated AI, and security by design."
+          : "Sistemas reales en producción: lógica de negocio compleja, IA integrada y seguridad desde el diseño."
+      }
+    </p>
+  </PageIntro>
+
+  <div class="mt-12">
+    <ProjectFilters lang={lang} counts={counts} />
+  </div>
+
+  <div
+    class="mt-10 grid gap-6"
+    style="grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr))"
+  >
+    {views.map((p, i) => <ProjectCard project={p} index={String(i + 1).padStart(2, "0")} />)}
+  </div>
+
+  <div id="projects-no-results" class="hidden border-b border-line py-20" role="status">
+    <p class="h-title m-0 text-[32px]">{isEn ? "No results" : "Sin resultados"}</p>
+    <p class="m-0 mt-2 text-muted">
+      {isEn ? "No projects match this filter." : "Ningún proyecto coincide con este filtro."}
+    </p>
+  </div>
+</section>
