@@ -1,0 +1,42 @@
+---
+import IconLink from "@/components/atoms/IconLink.astro";
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+  lang?: Lang;
+  size?: "md" | "lg";
+  items?: ("linkedin" | "github" | "instagram" | "whatsapp")[];
+  class?: string;
+}
+
+const {
+  lang = "es",
+  size = "md",
+  items = ["linkedin", "github", "instagram"],
+  class: extra = "",
+} = Astro.props;
+const isEn = lang === "en";
+
+const defs = {
+  linkedin: {
+    href: "https://linkedin.com/in/wavival",
+    label: isEn ? "Valentina Ramírez on LinkedIn" : "LinkedIn de Valentina Ramírez",
+  },
+  github: {
+    href: "https://github.com/wavival",
+    label: isEn ? "Valentina Ramírez on GitHub" : "GitHub de Valentina Ramírez",
+  },
+  instagram: {
+    href: "https://instagram.com/wavival",
+    label: isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez",
+  },
+  whatsapp: {
+    href: "https://wa.me/573016560222",
+    label: isEn ? "Valentina Ramírez on WhatsApp" : "WhatsApp de Valentina Ramírez",
+  },
+};
+---
+
+<div class={`flex flex-wrap items-center gap-2 ${extra}`.trim()}>
+  {items.map((k) => <IconLink href={defs[k].href} icon={k} label={defs[k].label} size={size} />)}
+</div>

@@ -1,0 +1,43 @@
+---
+import type { GithubRepo } from "@/data/github";
+
+interface Props {
+  repo: GithubRepo;
+  lang?: "es" | "en";
+  variant?: "featured" | "resource";
+}
+
+const { repo, lang = "es", variant = "featured" } = Astro.props;
+
+const starLabel = (n: number) =>
+  lang === "en" ? (n === 1 ? "star" : "stars") : n === 1 ? "estrella" : "estrellas";
+
+const isResource = variant === "resource";
+---
+
+<a
+  href={repo.html_url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class={`flex h-full flex-col gap-[10px] border border-line p-5 text-ink no-underline transition-colors hover:border-blue hover:text-ink ${isResource ? "" : "bg-bg"}`}
+>
+  <span class={`h-title break-words ${isResource ? "text-base" : "text-lg"}`}>{repo.name}</span>
+  {repo.description && <span class="text-[13px] leading-[1.6] text-muted">{repo.description}</span>}
+  <span class="mt-auto flex gap-4 pt-1 text-xs text-muted">
+    {
+      repo.language && (
+        <span class="inline-flex items-center gap-[6px]">
+          <span class="status-dot !bg-blue" aria-hidden="true" />
+          {repo.language}
+        </span>
+      )
+    }
+    {
+      repo.stargazers_count > 0 && (
+        <span>
+          {repo.stargazers_count} {starLabel(repo.stargazers_count)}
+        </span>
+      )
+    }
+  </span>
+</a>

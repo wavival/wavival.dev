@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Link from "@/components/ui/Link.astro";
+import NotFound from "@/components/organisms/NotFound.astro";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -11,20 +11,10 @@ const base = import.meta.env.BASE_URL;
   noindex={true}
   description="This page doesn't exist. Either it moved or it was never here. Head back to the homepage."
 >
-  <div
-    class="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center text-center gap-6 px-6"
-  >
-    <p class="text-8xl font-display font-bold text-[var(--brand-blue)] opacity-50">404</p>
-
-    <div class="flex flex-col gap-2">
-      <h1 class="font-display font-bold text-2xl text-[var(--text-primary)]">
-        This page doesn't exist.
-      </h1>
-      <p class="text-[var(--text-muted)] text-sm">
-        Either we moved it, or it was never here. Either way, we can take you back.
-      </p>
-    </div>
-
-    <Link href={`${base}en`} class="mt-3">Back to home</Link>
-  </div>
+  <NotFound
+    title="This page doesn't exist."
+    text="Either we moved it, or it was never here. Either way, we can take you back."
+    homeHref={`${base}en`}
+    homeLabel="Back to home"
+  />
 </Layout>

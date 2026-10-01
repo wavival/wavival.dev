@@ -1,0 +1,8 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: extra = "" } = Astro.props;
+---
+
+<span class={`chip ${extra}`.trim()}><slot /></span>

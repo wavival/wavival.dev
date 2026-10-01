@@ -1,0 +1,70 @@
+---
+import ProjectMeta from "@/components/molecules/ProjectMeta.astro";
+import ProjectActions from "@/components/molecules/ProjectActions.astro";
+import DefRow from "@/components/molecules/DefRow.astro";
+import ChipList from "@/components/molecules/ChipList.astro";
+import type { ProjectView } from "@/data/projectView";
+
+interface Props {
+  project: ProjectView;
+  index: string;
+  lang?: "es" | "en";
+}
+
+const { project: p, index, lang = "es" } = Astro.props;
+const isEn = lang === "en";
+---
+
+<article
+  class="flex flex-col border-b border-line"
+  style="padding:clamp(40px,5vw,72px) 0"
+  data-project-row
+>
+  <ProjectMeta index={index} tag={p.tag} tone={p.tone} overline={p.overline} />
+  <div class="mb-7 mt-5 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+    <h3 class="h3-project m-0 min-w-0 flex-auto">
+      {
+        p.caseHref ? (
+          <a href={p.caseHref} class="text-ink no-underline hover:text-link">
+            {p.title}
+          </a>
+        ) : (
+          p.title
+        )
+      }
+    </h3>
+    <ProjectActions actions={p.actions} class="ml-auto justify-end" />
+  </div>
+  <dl class="m-0 border-t border-line">
+    <DefRow label={isEn ? "The challenge" : "El reto"}>
+      <p class="body m-0">{p.problem}</p>
+    </DefRow>
+    <DefRow label={isEn ? "What I built" : "Lo que construí"} tone="link">
+      <p class="h-title m-0 leading-[1.5]" style="font-size:clamp(17px,1.5vw,20px);font-weight:700">
+        {p.summary}
+      </p>
+    </DefRow>
+    <DefRow label="Stack" class="!border-b-0 !pb-8">
+      <ChipList items={p.stack} />
+    </DefRow>
+  </dl>
+  {
+    p.image && (
+      <a
+        href={p.caseHref}
+        aria-label={p.title}
+        class="media-frame mt-2"
+        tabindex={p.caseHref ? undefined : -1}
+      >
+        <img
+          src={p.image.src}
+          alt={p.image.alt}
+          width={p.image.width}
+          height={p.image.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    )
+  }
+</article>
