@@ -14,9 +14,9 @@ const isEn = lang === "en";
   {
     stack.map((s, i) => (
       <article class="flex flex-col gap-4 p-7 transition-colors hover:bg-tint">
-        <span class="index !text-muted">{String(i + 1).padStart(2, "0")}</span>
+        <span class="index index-muted">{String(i + 1).padStart(2, "0")}</span>
         <div>
-          <h3 class="h-title m-0 text-2xl tracking-[-0.01em] !text-link">{s.category}</h3>
+          <h3 class="h-title m-0 text-2xl tracking-[-0.01em] text-link">{s.category}</h3>
           <p class="m-0 mt-[6px] text-sm text-muted">
             {isEn ? (s.descriptionEn ?? s.description) : s.description}
           </p>

@@ -44,6 +44,9 @@ jobs:
       - name: Verify CSP script hashes
         run: npm run csp:check
 
+      - name: Verify component CSS survives the build
+        run: npm run css:check
+
   tests:
     name: tests
     runs-on: ubuntu-latest

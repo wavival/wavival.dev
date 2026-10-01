@@ -28,7 +28,7 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 - **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files); `.husky/commit-msg` runs the repository Commitlint rules and, when installed, the shared checker at `~/.claude/git-hooks/commit-msg`
 - **Node 22.x** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
 
-The production target is **Vercel**. `vercel.json` defines the security headers, cache rules, legacy redirects, and `/api/*` compatibility proxy. `commit-lint.yml` and `pr-title.yml` are thin callers of `lumina-w/agents`' `shared-commitlint.yml`/`shared-pr-title.yml` (local `commitlint.config.cjs`, not yet extending the private `@lumina-w/dev-standards` package pending a deploy key). `gitleaks.yml` and `validate-pr-base.yml` are thin callers of the same repo's `shared-gitleaks.yml`/`shared-validate-pr-base.yml`. CI (`.github/workflows/ci.yml`) runs `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator).
+The production target is **Vercel**. `vercel.json` defines the security headers, cache rules, legacy redirects, and `/api/*` compatibility proxy. `commit-lint.yml` and `pr-title.yml` are thin callers of `lumina-w/agents`' `shared-commitlint.yml`/`shared-pr-title.yml` (local `commitlint.config.cjs`, not yet extending the private `@lumina-w/dev-standards` package pending a deploy key). `gitleaks.yml` and `validate-pr-base.yml` are thin callers of the same repo's `shared-gitleaks.yml`/`shared-validate-pr-base.yml`. CI (`.github/workflows/ci.yml`) runs `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`) → component CSS check (`npm run css:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator).
 
 ## Delivery governance
 
@@ -128,7 +128,7 @@ docs/
   wavival-dev-cv-en.html   # Editable English CV source, exported to public/cv_valentina_ramirez_en.pdf
 scripts/
   check-csp-hashes.mjs # CI guard: every inline <script> in dist/ must have a sha256 hash in vercel.json CSP script-src
-tests/                # Playwright E2E smoke tests + pure-unit specs (redirects, i18n-utils)
+tests/                # Playwright E2E smoke tests + design regression spec (design.spec.ts) + pure-unit specs (redirects, i18n-utils)
 microfrontends.json    # Vercel path ownership: default portfolio + /nullbreach child app
 vercel.json            # Vercel headers, cache, redirects, and /api compatibility proxy
 lighthouserc.json     # Lighthouse CI config (staticDistDir + category assertions)
@@ -164,7 +164,7 @@ Key tokens:
 - Colors: `--bg` (page), `--surface` (cards, bands), `--line` / `--line-2` (1px rules; `--line-2` for stronger borders), `--tint` (subtle blue wash), `--text`, `--muted`, `--ok`, `--warn`, `--nav` (translucent header fill)
 - Blue: `--link` (`#1565c0` light / `#5b8cff` dark) and `--link-h` (`#0f4c91` / `#82a8ff`) for text, links, icons, and focus; `--blue-text` (`#1565c0` light / `#407bff` dark) for small blue text such as the `.index` numbers; `--blue` (`#407bff`, fills, borders, bars, and large/display text only; fails AA for small text); `--btn` / `--btn-h` (`#1565c0` / `#0f4c91`) for the primary button fill with `--on-btn` (`#ffffff`) text, theme-independent so white text stays >=4.5:1
 - Structure: `--container: 1280px`, `--gut`, `--sec`, `--sec-compact`, `--nav-h: 64px`, radii `--radius-surface: 0`, `--radius-control: 2px`, `--radius-dot: 50%`
-- Type: `--fs-*` scale (`display-xl`, `display-page`, `display-about`, `display-case`, `h2`, `h2-case`, `h3-project`, `lead`, `body-lg`, `body`, `body-sm`, `label`, `label-sm`) and `--tracking-*` (`display`, `h2`, `label`, `button`)
+- Type: `--fs-*` scale (`display-xl`, `display-page`, `display-index`, `display-contact`, `display-case`, `display-uses`, `display-about`, `display-cta`, `h2`, `h2-sub`, `h2-case`, `h3-project`, `lead`, `body-lg`, `body-md`, `body`, `body-sm`, `label`, `label-sm`) and `--tracking-*` (`display`, `display-tight`, `display-about`, `h2`, `label`, `button`)
 - Tailwind aliases (`tailwind.config.mjs`): colors `bg`, `surface`, `line`, `line-2`, `tint`, `ink` (= `--text`), `muted`, `link`, `link-h`, `blue`, `btn`, `btn-h`, `ok`; `max-w-container`; `rounded-control`; spacing `gut`, `sec`, `nav`
 - The old tokens (`--brand-blue`, `--brand-blue-text`, `--bg-page`, `--bg-card`, `--bg-blur`, `--nav-blur`, `--text-primary`, `--text-muted`, `--accent-link`, `--accent-hover`, `--btn-bg`, `--border-base`, `--shadow-base`, `--radius-sm/md/lg`, `--space-section`) no longer exist. There are no shadows
 
@@ -179,9 +179,9 @@ Key tokens:
 All inside `@layer components`, 2-space indentation throughout. Available classes:
 
 - Structure: `.wrap` (container + gutters), `.page-top`, `.section-gap`, `.rule-section` (1px top rule in `--text`), `.rule-line`
-- Type: `.eyebrow`, `.label-sm` (+ `.label-sm-link`), `.index`, `.display-xl`, `.display-page`, `.h2-section`, `.h3-project`, `.h-title`, `.lead`, `.body-lg`, `.body`, `.accent`
-- Actions: `.btn` with `.btn-primary` / `.btn-secondary` and sizes `.btn-sm` / `.btn-compact`; `.text-link`, `.list-link`, `.inline-link`; `.icon-btn` (+ `.icon-btn-lg`), `.mask-icon` (+ `-lg`, `-xl`), `.lang-toggle`
-- Labels: `.chip`, `.status`, `.status-dot` (+ `-ok`, `-link`, `-warn`), `.badge`
+- Type: `.eyebrow`, `.label-sm` (+ `.label-sm-link`), `.index` (+ `.index-muted`, `.index-link`), `.display-xl`, `.display-page` / `.display-index` / `.display-contact` (`PageIntro` sizes `page` / `index` / `contact`), `.display-case` / `.display-uses` / `.display-about` (lh .92 to .9, tighter tracking), `.display-cta` (`ContactBand`), `.h2-section`, `.h2-sub`, `.h3-project`, `.h-title`, `.lead`, `.body-lg`, `.body-md` (16px/1.75), `.body`, `.accent`
+- Actions: `.btn` with `.btn-primary` / `.btn-secondary` and sizes `.btn-sm` / `.btn-compact`; `.action-link`, `.list-link`, `.inline-link`; `.icon-btn` (+ `.icon-btn-lg`), `.mask-icon` (+ `-lg`, `-xl`), `.lang-toggle`
+- Labels: `.chip`, `.status`, `.status-dot` (+ `-ok`, `-link`, `-warn`, `-lg`), `.badge`
 - Patterns: `.cell-grid`, `.nav-link`, `.media-frame` (1200x630 images), `.photo-frame` (4:5 portrait), `.disclosure` (native `<details>` text state)
 - Removed: `.section`, `.section-title`, `.section-subtitle`, `.btn-ghost`, `.card`, `.card-plain`, `.link`, `.icon-*`, `.profile-photo`
 
@@ -192,7 +192,7 @@ All inside `@layer components`, 2-space indentation throughout. Available classe
 Atomic design under `src/components/`; the template is `src/layouts/Layout.astro`. Full prop reference in `COMPONENTS.md`.
 
 - **Atoms:** `Button` (`variant` primary/secondary, `size` md/sm/compact, optional `icon`; renders `<a>` or `<button>`), `TextLink` (`variant` text/list/inline), `IconLink` (icon-only, tinted via CSS mask with `--link`, >=44px target), `MaskIcon`, `Chip`, `StatusDot`, `Badge`, `Eyebrow`, `Index`. `Button`, `TextLink`, and `IconLink` forward `data-umami-event`; external links get `target="_blank"` + `rel="noopener noreferrer"` automatically
-- **Molecules:** `SectionHeader`, `PageIntro` (the page `h1`), `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure` (native `<details>`, no JS), `PullQuote`
+- **Molecules:** `SectionHeader`, `PageIntro` (the page `h1`; `size` `page` | `index` | `contact` | `case` | `uses` | `about`), `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure` (native `<details>`, no JS), `PullQuote`
 - **Organisms:** `NavBar` (sticky 64px header; active link = text color + 2px blue bar via `aria-current`; below 900px a full-screen overlay menu with numbered display links, "Blog W" primary and mailto secondary; language toggle is the text "EN"/"ES"), `Footer` (outlined wordmark SVG), `ContactBand` (home `#contact`, also closes services, about, and case studies), `Hero`, `FeaturedProjects`, `StackSection`, `StackGrid`, `AboutSection`, `ProjectRow`, `ProjectCard`, `ProjectsIndex`, `ProjectFilters`, `RepoCard`, `ServiceRow`, `ServicesDetail`, `LegalSection`, `NotFound`, `CaseStudy`, `CaseToc`, `CaseSection`
 - **Home sections** carry ids `hero`, `projects`, `stack`, `about`, `contact`. Case-study sections carry ids `cs-problem`, `cs-architecture`, `cs-decisions`, `cs-results`, `cs-learnings`
 - **RepoCard:** props `repo` (`GithubRepo`), `lang`, `variant` (`featured` | `resource`). Name is a plain `<span>`, stars are localized text (never a `★` glyph), and the card `<a>` has no `aria-label` so its accessible name comes from the visible content
@@ -287,6 +287,11 @@ If used as a template, these are the files containing Valentina's personal infor
 - **Images:** WebP for photos, SVG for icons. Always include `width`, `height`, and appropriate `alt`
 - **External links:** always `target="_blank"` + `rel="noopener noreferrer"` (handled automatically by `TextLink`, `IconLink`, and `Button`)
 - **Dark mode:** only via `.dark` class on `<html>`, never via `@media (prefers-color-scheme)`
+- **Component CSS must survive Tailwind's purge.** `@layer components` classes are kept only when the class appears as a complete literal string in `src/**`. Never assemble a component class from a fragment (`btn-${variant}`): map variants to literal class names (see `Button.astro`). `npm run css:check` (after `npm run build`, also run in CI `quality`) fails if any class declared in `src/styles/utilities.css` is missing from `dist/`.
+- **Component class names must not collide with Tailwind utilities.** A component class named like a utility (the old `.text-link` collided with `text-link` from the `link` color alias, so `hover:text-link` pulled in the whole underlined-uppercase style) is applied wherever the utility is. The underlined uppercase link is `.action-link`.
+- **No `!important` utilities (`!text-*`, `!h-*`) and no `style="font-size:..."` for repeated patterns.** Utilities already win over `@layer components`; add a token plus a component class (`.display-*`, `.h2-sub`, `.body-md`, `.index-muted`, `.status-dot-lg`) when a pattern repeats.
+- **Line-height is 1.6 by default**, as in the design (`body` and the Tailwind `fontSize` scale in `tailwind.config.mjs` carry `1.6`); headings, chips (1.2) and meta labels (1) set it explicitly. Do not combine a responsive `text-*` size with `leading-*` (the media-query size rule resets the leading).
+- **Never put `position: fixed` overlays inside an element with `backdrop-filter`**: it becomes their containing block. The mobile menu is a sibling of the sticky `<header>` in `NavBar.astro`.
 - **No em dashes:** never use the em-dash character (Unicode U+2014) anywhere in this repo (copy, comments, docs, commits, code). Use normal punctuation instead: colon for explanations, comma for asides, parentheses for parentheticals, hyphen for ranges/separators. Do not substitute an en-dash (U+2013) either; plain ASCII only. This applies to generated and edited content alike.
 - **No emojis:** never use emoji characters anywhere in this repo: data files, copy, comments, docs, commits, or code. This rule applies to Claude and all subagents without exception.
 - **Pre-delivery audit (mandatory for UI, content or config changes):** Before opening or updating a PR, audit and fix: SEO (one h1, title and description lengths, canonical, hreflang, valid JSON-LD, image `alt`/`width`/`height`, named links, `noopener`), GEO (keep `public/llms.txt` and `public/llms-full.txt` in sync with site facts), accessibility (axe-core with WCAG 2.0 to 2.2 AA and best-practice rules over every route, both themes and desktop plus mobile widths must report 0 violations; small text never uses `--blue`), and performance (CSS/JS size, preloaded LCP image, lazy below-the-fold images, `npm run csp:check`). Keep all docs updated in the same change.
@@ -311,6 +316,7 @@ npm run test:install  # One-time: download Chromium + system deps
 npm run lhci          # Lighthouse CI against ./dist (run `npm run build` first)
 npm run links         # linkinator: check ./dist for broken internal links (build first)
 npm run csp:check     # Verify every inline <script> in ./dist has a sha256 in vercel.json CSP (build first)
+npm run css:check     # Verify every component class in utilities.css survives into ./dist CSS (build first)
 ```
 
 > Run `npm run build` before `npm test`: the suite serves the static `dist/` via preview, it does not build for you.

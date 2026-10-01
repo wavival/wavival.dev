@@ -20,6 +20,16 @@ export default {
         "btn-h": "var(--btn-h)",
         ok: "var(--ok)",
       },
+      fontSize: {
+        xs: ["0.75rem", { lineHeight: "1.6" }],
+        sm: ["0.875rem", { lineHeight: "1.6" }],
+        base: ["1rem", { lineHeight: "1.6" }],
+        lg: ["1.125rem", { lineHeight: "1.6" }],
+        xl: ["1.25rem", { lineHeight: "1.6" }],
+        "2xl": ["1.5rem", { lineHeight: "1.6" }],
+        "3xl": ["1.875rem", { lineHeight: "1.6" }],
+        "4xl": ["2.25rem", { lineHeight: "1.6" }],
+      },
       fontFamily: {
         display: ["Raleway", "sans-serif"],
         body: ["Poppins", "sans-serif"],

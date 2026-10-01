@@ -84,7 +84,7 @@ const softwareItems = [
   ]}
 >
   <section class="wrap page-top">
-    <PageIntro eyebrow="Tools" size="about">
+    <PageIntro eyebrow="Tools" size="uses">
       <Fragment slot="title">What I build with</Fragment>
       <p class="body-lg m-0">
         Everything I use to build: the stack, the machine, and everyday apps. Not a list of trends,
@@ -93,12 +93,12 @@ const softwareItems = [
     </PageIntro>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
         <div class="flex items-baseline gap-[14px]"><Index>01</Index><Eyebrow>Stack</Eyebrow></div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           What I develop with
         </h2>
-        <p class="body m-0 mt-3">
+        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
           The stack I use daily and the reasoning behind each choice: solid backend, functional
           frontend, applied AI, and security by design.
         </p>
@@ -120,14 +120,14 @@ const softwareItems = [
     </div>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
         <div class="flex items-baseline gap-[14px]">
           <Index>02</Index><Eyebrow>Hardware</Eyebrow>
         </div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           Where I build it
         </h2>
-        <p class="body m-0 mt-3">
+        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
           Modest setup on purpose. If an app runs smoothly here, it runs anywhere: it forces me to
           really optimize, not cover up with hardware.
         </p>
@@ -148,14 +148,14 @@ const softwareItems = [
     </div>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
         <div class="flex items-baseline gap-[14px]">
           <Index>03</Index><Eyebrow>Software</Eyebrow>
         </div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           My everyday tools
         </h2>
-        <p class="body m-0 mt-3">
+        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
           The apps where I live while building: editing, AI, terminal, and the productivity flow
           that keeps me focused.
         </p>
@@ -181,7 +181,7 @@ const softwareItems = [
           id="repos"
           class="rule-section section-gap flex scroll-mt-24 flex-wrap gap-x-12 gap-y-6"
         >
-          <div class="flex flex-none flex-col lg:basis-[260px] lg:self-start">
+          <div class="flex flex-[0_0_260px] flex-col lg:self-start">
             <div class="flex items-baseline gap-[14px]">
               <Fragment>
                 <Index>04</Index>
@@ -191,7 +191,7 @@ const softwareItems = [
             <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
               Learn, build, share
             </h2>
-            <p class="body m-0 mt-3">
+            <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
               {githubUser.public_repos} public repos · {githubUser.followers} followers
             </p>
             <TextLink

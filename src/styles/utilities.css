@@ -55,6 +55,14 @@
     color: var(--blue-text);
   }
 
+  .index-muted {
+    color: var(--muted);
+  }
+
+  .index-link {
+    color: var(--link);
+  }
+
   .display-xl {
     font-family: var(--font-display);
     font-weight: 800;
@@ -64,10 +72,50 @@
     color: var(--text);
   }
 
-  .display-page {
+  .display-page,
+  .display-index,
+  .display-contact {
     font-family: var(--font-display);
     font-weight: 800;
     font-size: var(--fs-display-page);
+    line-height: 0.95;
+    letter-spacing: var(--tracking-display);
+    color: var(--text);
+  }
+
+  .display-index {
+    font-size: var(--fs-display-index);
+  }
+
+  .display-contact {
+    font-size: var(--fs-display-contact);
+  }
+
+  .display-case,
+  .display-uses,
+  .display-about {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-display-case);
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display-tight);
+    color: var(--text);
+  }
+
+  .display-uses {
+    font-size: var(--fs-display-uses);
+  }
+
+  .display-about {
+    font-size: var(--fs-display-about);
+    line-height: 0.9;
+    letter-spacing: var(--tracking-display-about);
+  }
+
+  .display-cta {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-display-cta);
     line-height: 0.95;
     letter-spacing: var(--tracking-display);
     color: var(--text);
@@ -79,6 +127,15 @@
     font-size: var(--fs-h2);
     line-height: 1;
     letter-spacing: var(--tracking-h2);
+    color: var(--text);
+  }
+
+  .h2-sub {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--fs-h2-sub);
+    line-height: 1;
+    letter-spacing: -0.03em;
     color: var(--text);
   }
 
@@ -114,6 +171,13 @@
     text-wrap: pretty;
   }
 
+  .body-md {
+    font-size: var(--fs-body-md);
+    line-height: 1.75;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
   .body {
     font-size: var(--fs-body-sm);
     line-height: 1.75;
@@ -135,7 +199,6 @@
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 13px;
-    line-height: 1.2;
     letter-spacing: var(--tracking-button);
     text-transform: uppercase;
     text-decoration: none;
@@ -180,7 +243,7 @@
     letter-spacing: 0.12em;
   }
 
-  .text-link {
+  .action-link {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 12px;
@@ -192,7 +255,7 @@
     transition: color 0.2s;
   }
 
-  .text-link:hover {
+  .action-link:hover {
     color: var(--link-h);
   }
 
@@ -311,6 +374,11 @@
     height: 7px;
     border-radius: var(--radius-dot);
     background: var(--muted);
+  }
+
+  .status-dot-lg {
+    width: 8px;
+    height: 8px;
   }
 
   .status-dot-ok {
