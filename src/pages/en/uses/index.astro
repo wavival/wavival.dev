@@ -1,11 +1,18 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Link from "@/components/ui/Link.astro";
-import RepoCard from "@/components/ui/RepoCard.astro";
+import PageIntro from "@/components/molecules/PageIntro.astro";
+import ChipList from "@/components/molecules/ChipList.astro";
+import Button from "@/components/atoms/Button.astro";
+import TextLink from "@/components/atoms/TextLink.astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Index from "@/components/atoms/Index.astro";
+import Eyebrow from "@/components/atoms/Eyebrow.astro";
+import { siteRoutes } from "@/i18n/utils";
+import RepoCard from "@/components/organisms/RepoCard.astro";
 import { stack } from "@/data/stack";
 import { fetchGithubProfile, curateRepos } from "@/data/github";
 
-const base = import.meta.env.BASE_URL;
+const routes = siteRoutes("en", import.meta.env.BASE_URL);
 
 const { user: githubUser, repos: githubRepos } = await fetchGithubProfile("wavival");
 const { featured: featuredRepos, resources: resourceRepos } = curateRepos(githubRepos);
@@ -22,6 +29,48 @@ const breadcrumbLd = JSON.stringify({
     { "@type": "ListItem", position: 2, name: "Uses", item: "https://www.wavival.dev/en/uses/" },
   ],
 });
+const hardwareItems = [
+  {
+    title: "Machine",
+    sub: "My everyday machine",
+    tools: ["Intel Core i5", "16 GB RAM", "1 TB", "Linux · Fedora"],
+  },
+  {
+    title: "Peripherals",
+    sub: "What I touch daily",
+    tools: [
+      'LG 27" ultrawide monitor (built-in audio)',
+      "Genius keyboard",
+      "Wired ergonomic mouse",
+      "HP 1080p camera (built-in mic)",
+    ],
+  },
+];
+const softwareItems = [
+  {
+    title: "Code and AI",
+    sub: "Where I write and reason",
+    tools: [
+      "VS Code",
+      "Cursor",
+      "Claude (app · chat · Code · Design)",
+      "OpenAI",
+      "OpenClaw",
+      "ChatGPT",
+      "Codex",
+    ],
+  },
+  {
+    title: "Terminal and APIs",
+    sub: "The backend of the day",
+    tools: ["Warp", "WSL (Ubuntu)", "Postman"],
+  },
+  {
+    title: "Productivity and browsing",
+    sub: "To not lose track",
+    tools: ["Todoist", "Focus To-Do", "Notepad", "Firefox"],
+  },
+];
 ---
 
 <Layout
@@ -34,215 +83,179 @@ const breadcrumbLd = JSON.stringify({
     { hreflang: "x-default", href: "https://www.wavival.dev/herramientas/" },
   ]}
 >
-  <section class="section">
-    <p class="section-subtitle">Tools</p>
-    <h1 class="section-title">What I build with</h1>
-    <p class="text-[var(--text-muted)] leading-relaxed max-w-3xl mt-4">
-      Everything I use to build: the stack, the machine, and everyday apps. Not a list of trends,
-      these are the tools I use to deliver real products.
-    </p>
-
-    <div class="mt-16 pt-10 border-t border-[var(--border-base)]">
-      <p class="section-subtitle">Stack</p>
-      <h2 class="font-display font-bold text-2xl text-[var(--text-primary)]">
-        What I develop with
-      </h2>
-      <p class="text-[var(--text-muted)] leading-relaxed max-w-3xl mt-3">
-        The stack I use daily and the reasoning behind each choice: solid backend, functional
-        frontend, applied AI, and security by design.
+  <section class="wrap page-top">
+    <PageIntro eyebrow="Tools" size="about">
+      <Fragment slot="title">What I build with</Fragment>
+      <p class="body-lg m-0">
+        Everything I use to build: the stack, the machine, and everyday apps. Not a list of trends,
+        these are the tools I use to deliver real products.
       </p>
+    </PageIntro>
 
-      <div class="flex flex-col gap-10 mt-10 max-w-3xl">
+    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
+      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+        <div class="flex items-baseline gap-[14px]"><Index>01</Index><Eyebrow>Stack</Eyebrow></div>
+        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
+          What I develop with
+        </h2>
+        <p class="body m-0 mt-3">
+          The stack I use daily and the reasoning behind each choice: solid backend, functional
+          frontend, applied AI, and security by design.
+        </p>
+      </div>
+      <div class="min-w-0 flex-1 basis-[480px]">
         {
           stack.map((s) => (
-            <section data-aos="fade-up">
-              <div class="flex items-baseline gap-3 flex-wrap">
-                <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-                  {s.category}
-                </h3>
-                <span class="text-xs italic text-[var(--text-muted)]">
-                  {s.descriptionEn ?? s.description}
-                </span>
+            <div class="flex flex-col gap-3 border-b border-line py-7">
+              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <h3 class="h-title m-0 text-2xl">{s.category}</h3>
+                <span class="text-[13px] text-muted">{s.descriptionEn ?? s.description}</span>
               </div>
-              {(s.whyEn ?? s.why) && (
-                <p class="text-[var(--text-muted)] leading-relaxed mt-2">{s.whyEn ?? s.why}</p>
-              )}
-              <div class="flex flex-wrap gap-2 mt-4">
-                {(s.toolsEn ?? s.tools).map((t) => (
-                  <span class="chip !text-[var(--text-primary)]">{t}</span>
-                ))}
-              </div>
-            </section>
+              {(s.whyEn ?? s.why) && <p class="body m-0">{s.whyEn ?? s.why}</p>}
+              <ChipList items={s.toolsEn ?? s.tools} />
+            </div>
           ))
         }
       </div>
     </div>
 
-    <div class="mt-16 pt-10 border-t border-[var(--border-base)]">
-      <p class="section-subtitle">Hardware</p>
-      <h2 class="font-display font-bold text-2xl text-[var(--text-primary)]">Where I build it</h2>
-      <p class="text-[var(--text-muted)] leading-relaxed max-w-3xl mt-3">
-        Modest setup on purpose. If an app runs smoothly here, it runs anywhere: it forces me to
-        really optimize, not cover up with hardware.
-      </p>
-
-      <div class="flex flex-col gap-10 mt-10 max-w-3xl">
-        <section data-aos="fade-up">
-          <div class="flex items-baseline gap-3 flex-wrap">
-            <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">Machine</h3>
-            <span class="text-xs italic text-[var(--text-muted)]">My everyday machine</span>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span class="chip !text-[var(--text-primary)]">Intel Core i5</span>
-            <span class="chip !text-[var(--text-primary)]">16 GB RAM</span>
-            <span class="chip !text-[var(--text-primary)]">1 TB</span>
-            <span class="chip !text-[var(--text-primary)]">Linux · Fedora</span>
-          </div>
-        </section>
-
-        <section data-aos="fade-up">
-          <div class="flex items-baseline gap-3 flex-wrap">
-            <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">Peripherals</h3>
-            <span class="text-xs italic text-[var(--text-muted)]">What I touch daily</span>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span class="chip !text-[var(--text-primary)]"
-              >LG 27" ultrawide monitor (built-in audio)</span
-            >
-            <span class="chip !text-[var(--text-primary)]">Genius keyboard</span>
-            <span class="chip !text-[var(--text-primary)]">Wired ergonomic mouse</span>
-            <span class="chip !text-[var(--text-primary)]">HP 1080p camera (built-in mic)</span>
-          </div>
-        </section>
+    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
+      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+        <div class="flex items-baseline gap-[14px]">
+          <Index>02</Index><Eyebrow>Hardware</Eyebrow>
+        </div>
+        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
+          Where I build it
+        </h2>
+        <p class="body m-0 mt-3">
+          Modest setup on purpose. If an app runs smoothly here, it runs anywhere: it forces me to
+          really optimize, not cover up with hardware.
+        </p>
+      </div>
+      <div class="min-w-0 flex-1 basis-[480px]">
+        {
+          hardwareItems.map((it) => (
+            <div class="flex flex-col gap-3 border-b border-line py-7">
+              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <h3 class="h-title m-0 text-2xl">{it.title}</h3>
+                <span class="text-[13px] text-muted">{it.sub}</span>
+              </div>
+              <ChipList items={it.tools} />
+            </div>
+          ))
+        }
       </div>
     </div>
 
-    <div class="mt-16 pt-10 border-t border-[var(--border-base)]">
-      <p class="section-subtitle">Software</p>
-      <h2 class="font-display font-bold text-2xl text-[var(--text-primary)]">My everyday tools</h2>
-      <p class="text-[var(--text-muted)] leading-relaxed max-w-3xl mt-3">
-        The apps where I live while building: editing, AI, terminal, and the productivity flow that
-        keeps me focused.
-      </p>
-
-      <div class="flex flex-col gap-10 mt-10 max-w-3xl">
-        <section data-aos="fade-up">
-          <div class="flex items-baseline gap-3 flex-wrap">
-            <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">Code and AI</h3>
-            <span class="text-xs italic text-[var(--text-muted)]">Where I write and reason</span>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span class="chip !text-[var(--text-primary)]">VS Code</span>
-            <span class="chip !text-[var(--text-primary)]">Cursor</span>
-            <span class="chip !text-[var(--text-primary)]">Claude (app · chat · Code · Design)</span
-            >
-            <span class="chip !text-[var(--text-primary)]">OpenAI</span>
-            <span class="chip !text-[var(--text-primary)]">OpenClaw</span>
-            <span class="chip !text-[var(--text-primary)]">ChatGPT</span>
-            <span class="chip !text-[var(--text-primary)]">Codex</span>
-          </div>
-        </section>
-
-        <section data-aos="fade-up">
-          <div class="flex items-baseline gap-3 flex-wrap">
-            <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-              Terminal and APIs
-            </h3>
-            <span class="text-xs italic text-[var(--text-muted)]">The backend of the day</span>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span class="chip !text-[var(--text-primary)]">Warp</span>
-            <span class="chip !text-[var(--text-primary)]">WSL (Ubuntu)</span>
-            <span class="chip !text-[var(--text-primary)]">Postman</span>
-          </div>
-        </section>
-
-        <section data-aos="fade-up">
-          <div class="flex items-baseline gap-3 flex-wrap">
-            <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-              Productivity and browsing
-            </h3>
-            <span class="text-xs italic text-[var(--text-muted)]">To not lose track</span>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span class="chip !text-[var(--text-primary)]">Todoist</span>
-            <span class="chip !text-[var(--text-primary)]">Focus To-Do</span>
-            <span class="chip !text-[var(--text-primary)]">Notepad</span>
-            <span class="chip !text-[var(--text-primary)]">Firefox</span>
-          </div>
-        </section>
+    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
+      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+        <div class="flex items-baseline gap-[14px]">
+          <Index>03</Index><Eyebrow>Software</Eyebrow>
+        </div>
+        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
+          My everyday tools
+        </h2>
+        <p class="body m-0 mt-3">
+          The apps where I live while building: editing, AI, terminal, and the productivity flow
+          that keeps me focused.
+        </p>
+      </div>
+      <div class="min-w-0 flex-1 basis-[480px]">
+        {
+          softwareItems.map((it) => (
+            <div class="flex flex-col gap-3 border-b border-line py-7">
+              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <h3 class="h-title m-0 text-2xl">{it.title}</h3>
+                <span class="text-[13px] text-muted">{it.sub}</span>
+              </div>
+              <ChipList items={it.tools} />
+            </div>
+          ))
+        }
       </div>
     </div>
 
     {
       githubUser && (
-        <div id="repos" class="mt-16 pt-10 border-t border-[var(--border-base)] scroll-mt-24">
-          <p class="section-subtitle">GitHub</p>
-          <h2 class="font-display font-bold text-2xl text-[var(--text-primary)]">
-            Learn, build, share
-          </h2>
-          <p class="text-[var(--text-muted)] leading-relaxed max-w-3xl mt-3">
-            {githubUser.public_repos} public repos · {githubUser.followers} followers ·{" "}
-            <Link
+        <div
+          id="repos"
+          class="rule-section section-gap flex scroll-mt-24 flex-wrap gap-x-12 gap-y-6"
+        >
+          <div class="flex flex-none flex-col lg:basis-[260px] lg:self-start">
+            <div class="flex items-baseline gap-[14px]">
+              <Fragment>
+                <Index>04</Index>
+                <Eyebrow>GitHub</Eyebrow>
+              </Fragment>
+            </div>
+            <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
+              Learn, build, share
+            </h2>
+            <p class="body m-0 mt-3">
+              {githubUser.public_repos} public repos · {githubUser.followers} followers
+            </p>
+            <TextLink
               href={githubUser.html_url}
               target="_blank"
-              class="inline"
+              class="mt-3 self-start"
               aria-label="See Valentina Ramirez's full GitHub profile"
             >
               See full profile
-            </Link>
-          </p>
-
-          {featuredRepos.length > 0 && (
-            <div
-              class="mt-10 rounded-2xl border border-[var(--border-base)] bg-gradient-to-br from-[var(--bg-blur)] to-[var(--bg-card)] p-6 md:p-8"
-              data-aos="fade-up"
-            >
-              <span class="inline-flex items-center rounded-full bg-[var(--btn-bg)] px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
-                Featured
-              </span>
-              <h3 class="font-display font-bold text-2xl text-[var(--text-primary)] mt-4">
-                NullBreach
-              </h3>
-              <p class="text-sm text-[var(--text-muted)] leading-relaxed mt-2 max-w-2xl">
-                My flagship project: AI-powered security analysis. A Next.js app using OpenAI and
-                Prisma, with its source open on GitHub.
-              </p>
-              <div class="grid gap-4 mt-6 sm:grid-cols-2">
-                {featuredRepos.map((repo) => (
-                  <RepoCard repo={repo} lang="en" />
-                ))}
+            </TextLink>
+          </div>
+          <div class="flex min-w-0 flex-1 basis-[480px] flex-col gap-10">
+            {featuredRepos.length > 0 && (
+              <div class="border border-line border-t-2 border-t-blue bg-surface p-6 md:p-10">
+                <Badge>Featured</Badge>
+                <h3 class="h-title m-0 mt-4 text-4xl tracking-[-0.03em]">NullBreach</h3>
+                <p class="body m-0 mt-[10px]">
+                  My flagship project: AI-powered security analysis. A Next.js app using OpenAI and
+                  Prisma, with its source open on GitHub.
+                </p>
+                <div
+                  class="mt-5 grid gap-3"
+                  style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))"
+                >
+                  {featuredRepos.map((repo) => (
+                    <RepoCard repo={repo} lang="en" />
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-
-          {resourceRepos.length > 0 && (
-            <div class="mt-12">
-              <h3 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-                Resources to learn from
-              </h3>
-              <p class="text-[var(--text-muted)] leading-relaxed max-w-3xl mt-2">
-                I take courses on Platzi, YouTube, and other sources, and turn what I learn into
-                public repos so other people can learn too.
-              </p>
-              <ul class="grid gap-4 mt-8 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl" role="list">
-                {resourceRepos.map((repo) => (
-                  <li>
-                    <RepoCard repo={repo} lang="en" variant="resource" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+            )}
+            {resourceRepos.length > 0 && (
+              <div>
+                <h3 class="h-title m-0 text-2xl">Resources to learn from</h3>
+                <p class="body m-0 mt-2">
+                  I take courses on Platzi, YouTube, and other sources, and turn what I learn into
+                  public repos so other people can learn too.
+                </p>
+                <ul
+                  class="m-0 mt-6 grid list-none gap-3 p-0"
+                  role="list"
+                  style="grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))"
+                >
+                  {resourceRepos.map((repo) => (
+                    <li>
+                      <RepoCard repo={repo} lang="en" variant="resource" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       )
     }
 
-    <div class="mt-16 pt-10 border-t border-[var(--border-base)] flex flex-wrap gap-5">
-      <Link href={`${base}en/projects`} aria-label="See projects where I use this stack">
-        See projects
-      </Link>
-      <Link href={`${base}en/services`} aria-label="See services"> See services </Link>
+    <div class="section-gap rule-line flex flex-wrap gap-3 pt-8">
+      <Button
+        variant="secondary"
+        href={routes.projects}
+        aria-label="See projects where I use this stack">See projects</Button
+      >
+      <Button variant="secondary" href={routes.services} aria-label="See services"
+        >See services</Button
+      >
     </div>
   </section>
   <script is:inline type="application/ld+json" set:html={breadcrumbLd} />

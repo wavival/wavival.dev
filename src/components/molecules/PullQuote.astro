@@ -1,0 +1,19 @@
+---
+interface Props {
+  size?: "md" | "lg";
+  class?: string;
+}
+
+const { size = "md", class: extra = "" } = Astro.props;
+const fontSize = size === "lg" ? "clamp(28px,3.6vw,52px)" : "clamp(26px,3.2vw,46px)";
+---
+
+<blockquote class={`m-0 ${extra}`.trim()}>
+  <p
+    class="h-title m-0"
+    style={`font-size:${fontSize};line-height:1.12;letter-spacing:-0.025em;text-wrap:pretty`}
+  >
+    <slot />
+  </p>
+  <slot name="footer" />
+</blockquote>

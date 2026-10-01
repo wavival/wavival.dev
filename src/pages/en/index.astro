@@ -1,10 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Hero from "@/components/sections/Hero.astro";
-import Projects from "@/components/sections/Projects.astro";
-import Stack from "@/components/sections/Stack.astro";
-import About from "@/components/sections/About.astro";
-import Contact from "@/components/sections/Contact.astro";
+import Hero from "@/components/organisms/Hero.astro";
+import FeaturedProjects from "@/components/organisms/FeaturedProjects.astro";
+import StackSection from "@/components/organisms/StackSection.astro";
+import AboutSection from "@/components/organisms/AboutSection.astro";
+import ContactBand from "@/components/organisms/ContactBand.astro";
 
 const title = "Valentina Ramírez | Full Stack Developer";
 const description =
@@ -24,8 +24,8 @@ const description =
   ]}
 >
   <Hero lang="en" />
-  <Projects featured lang="en" />
-  <Stack lang="en" />
-  <About lang="en" />
-  <Contact lang="en" />
+  <FeaturedProjects lang="en" />
+  <StackSection lang="en" />
+  <AboutSection lang="en" />
+  <ContactBand lang="en" />
 </Layout>

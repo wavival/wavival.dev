@@ -2,47 +2,39 @@
 interface Props {
   href: string;
   target?: "_blank" | "_self";
+  /** underlined display link, plain list link, or inline underlined body link */
+  variant?: "text" | "list" | "inline";
   class?: string;
-  icon?: string;
+  hreflang?: string;
   "aria-label"?: string;
   "aria-current"?: "page" | undefined;
   "data-umami-event"?: string;
 }
 
-const ICONS_BASE = `${import.meta.env.BASE_URL}icons/ui`;
-
 const {
   href,
   target = "_self",
+  variant = "text",
   class: extra = "",
-  icon,
+  hreflang,
   "aria-label": ariaLabel,
   "aria-current": ariaCurrent,
   "data-umami-event": umamiEvent,
 } = Astro.props;
 
 const rel = target === "_blank" ? "noopener noreferrer" : undefined;
+const base = variant === "list" ? "list-link" : variant === "inline" ? "inline-link" : "text-link";
 ---
 
 <a
   href={href}
   target={target}
   rel={rel}
-  class={`link ${extra}`}
+  hreflang={hreflang}
+  class={`${base} ${extra}`.trim()}
   aria-label={ariaLabel}
   aria-current={ariaCurrent}
   data-umami-event={umamiEvent}
 >
-  {
-    icon && (
-      <img
-        src={`${ICONS_BASE}/${icon}.svg`}
-        alt=""
-        width="24"
-        height="24"
-        class="w-[24px] h-[24px] shrink-0"
-      />
-    )
-  }
   <slot />
 </a>

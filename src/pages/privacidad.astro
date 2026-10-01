@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Link from "@/components/ui/Link.astro";
+import LegalSection from "@/components/organisms/LegalSection.astro";
+import TextLink from "@/components/atoms/TextLink.astro";
+import PageIntro from "@/components/molecules/PageIntro.astro";
 
 const email = "wavival.dev@luminaw.co";
 
@@ -20,75 +22,63 @@ const lastUpdate = "17 de junio de 2026";
     { hreflang: "x-default", href: "https://www.wavival.dev/privacidad/" },
   ]}
 >
-  <section class="section">
-    <p class="section-subtitle">Legal</p>
-    <h1 class="section-title">Política de privacidad</h1>
-    <p class="text-sm text-[var(--text-muted)] mt-2">Última actualización: {lastUpdate}</p>
+  <section class="wrap page-top">
+    <PageIntro eyebrow="Legal">
+      <Fragment slot="title">Política de privacidad</Fragment>
+      <p class="m-0 text-sm text-muted">Última actualización: {lastUpdate}</p>
+    </PageIntro>
 
-    <div class="flex flex-col gap-10 mt-10 max-w-3xl">
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Responsable</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+    <div class="mt-16 border-t border-ink">
+      <LegalSection index="01" title="Responsable">
+        <p class="body m-0 !text-base">
           Este sitio (wavival.dev) es el portafolio personal de Valentina Ramírez, Full Stack
           Developer y fundadora de Lúmina W. Para cualquier asunto sobre tus datos, escribe a
-          <Link href={`mailto:${email}`} class="!lowercase">{email}</Link>.
+          <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink>.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Qué datos recojo</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="02" title="Qué datos recojo">
+        <p class="body m-0 !text-base">
           Este sitio es estático y no tiene formularios de contacto: no recojo nombre, correo ni
           ningún dato que tú escribas aquí. El contacto ocurre por canales externos (correo,
           WhatsApp, Calendly), donde aplican las políticas de cada servicio.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Analítica y cookies</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="03" title="Analítica y cookies">
+        <p class="body m-0 !text-base">
           Si la analítica está activada, uso Umami: una herramienta sin cookies y enfocada en la
           privacidad. Mide de forma agregada y anónima cómo se usa el sitio (páginas vistas, país,
           tipo de dispositivo, de dónde llega la visita). No instala cookies, no rastrea entre
           sitios y no identifica personas; tampoco se comparten datos con fines publicitarios.
         </p>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-3">
+        <p class="body m-0 !text-base">
           Como no se usan cookies de seguimiento, este sitio no necesita un banner de
           consentimiento.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">
-          Servicios de terceros
-        </h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="04" title="Servicios de terceros">
+        <p class="body m-0 !text-base">
           En la página de contacto, el sitio carga el calendario de Calendly. Este servicio puede
           registrar tu IP por el simple hecho de servir el recurso. Las tipografías se sirven desde
           el propio sitio (sin terceros). El alojamiento es de Vercel, que mantiene registros
           técnicos (logs) estándar de servidor. Cada proveedor trata esos datos bajo su propia
           política.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Tus derechos</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="05" title="Tus derechos">
+        <p class="body m-0 !text-base">
           Bajo la Ley 1581 de 2012 (Habeas Data, Colombia) y normas equivalentes como el GDPR,
           tienes derecho a conocer, actualizar, rectificar y solicitar la supresión de tus datos, y
           a revocar cualquier autorización. Como este sitio no almacena datos personales tuyos, la
           mayoría de estas solicitudes se gestionan ante los servicios de terceros mencionados. Para
-          dudas, escribe a <Link href={`mailto:${email}`} class="!lowercase">{email}</Link>.
+          dudas, escribe a <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink>.
         </p>
-      </section>
-
-      <section data-aos="fade-up">
-        <h2 class="font-display font-bold text-xl text-[var(--brand-blue)]">Cambios</h2>
-        <p class="text-[var(--text-muted)] leading-relaxed mt-2">
+      </LegalSection>
+      <LegalSection index="06" title="Cambios">
+        <p class="body m-0 !text-base">
           Si esta política cambia, actualizaré la fecha de arriba. El uso continuado del sitio
           implica la aceptación de la versión vigente.
         </p>
-      </section>
+      </LegalSection>
     </div>
   </section>
 </Layout>

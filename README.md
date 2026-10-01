@@ -49,7 +49,7 @@ Related docs: [DESIGN.md](./DESIGN.md) · [COMPONENTS.md](./COMPONENTS.md) · [C
 | Scripts       | TypeScript (vanilla, no client-side framework)                                                                                |
 | i18n          | Bilingual: ES default at root, EN mirror under `/en/`, slug map in `src/i18n/utils.ts`                                        |
 | Sitemap       | `@astrojs/sitemap` (auto-generated at build, both locales)                                                                    |
-| Scroll reveal | Custom IntersectionObserver (`[data-aos]` + `.aos-in`), respects `prefers-reduced-motion`; no JS animation library            |
+| Design        | "Señal v4": static editorial UI (1px rules, Raleway 800 display scale, one blue signal), atomic components; no scroll-reveal  |
 | Navigation    | View Transitions via Astro `<ClientRouter />` (SPA-like same-origin swaps; no full-screen loader)                             |
 | Fonts         | Self-hosted latin-subset `woff2` (Poppins static + Raleway variable), `@font-face` with `font-display: swap`; no Google Fonts |
 | Analytics     | Umami (cookieless), env-driven, conditionally injected                                                                        |
@@ -109,12 +109,12 @@ Copy `.env.example` to `.env` for local development. In Vercel, set them under _
 ## Project conventions
 
 - **No hardcoded colors.** Every color reference uses `var(--token-name)` from `src/styles/tokens.css`.
-- **Utility classes for repeats.** `.section`, `.btn-primary`, `.card`, `.chip`, `.link`, etc. live in `@layer utilities` (`src/styles/utilities.css`).
+- **Component classes for repeats.** `.wrap`, `.btn-primary`, `.eyebrow`, `.chip`, `.nav-link`, etc. live in `@layer components` (`src/styles/utilities.css`).
 - **Astro components** type props with `interface Props` in the frontmatter.
-- **Locale-aware routing.** Shared section components take a `lang` prop and pick targets with the `isEn ? "/en/..." : "/<es-slug>"` ternary; never hardcode a route that ignores `lang`. The ES↔EN slug map in `src/i18n/utils.ts` is the single source of truth.
-- **External links** go through `Link.astro` / `Button.astro`, which both apply `rel="noopener noreferrer"` automatically when `target="_blank"`.
+- **Locale-aware routing.** Organisms take a `lang` prop and resolve targets with `siteRoutes(lang, base)` from `src/i18n/utils.ts`; never hardcode a route that ignores `lang`. The ES↔EN slug map in `src/i18n/utils.ts` is the single source of truth.
+- **External links** go through `TextLink` / `IconLink` / `Button`, which all apply `rel="noopener noreferrer"` automatically when `target="_blank"`.
 - **Images:** WebP for photos, SVG for icons. Always include explicit `width` + `height` HTML attributes to prevent CLS. Decorative icons use `alt=""`.
-- **Dark mode** uses the `.dark` class on `<html>`, never `@media (prefers-color-scheme)`. A blocking `is:inline` script in `Layout.astro` `<head>` applies the saved theme before first paint to avoid FOUC.
+- **Dark mode** uses the `.dark` class on `<html>`, never `@media (prefers-color-scheme)`. A blocking `is:inline` script in `Layout.astro` `<head>` applies the theme before first paint to avoid FOUC. Dark is the default (`.dark` unless `localStorage.theme` is `light`; the OS preference is not consulted).
 - **No client-side frameworks.** Vanilla TypeScript in `src/scripts/` is the only client code.
 - **No em dashes, no emojis** anywhere in the repo (copy, code, comments, commits, docs).
 
@@ -151,10 +151,11 @@ Multi-page static site with a bilingual routing scheme. The home is a single-pag
 ```
 src/
 ├── components/
-│   ├── sections/        # Hero · Projects · Stack · About · Contact
-│   └── ui/              # Button · Link · NavBar · Footer · RepoCard
-├── data/                # projects.ts · stack.ts · github.ts (build-time GitHub fetch)
-├── i18n/                # ui.ts (strings) · utils.ts (slug map + helpers)
+│   ├── atoms/           # Button · TextLink · IconLink · MaskIcon · Chip · StatusDot · Badge · Eyebrow · Index
+│   ├── molecules/       # SectionHeader · PageIntro · ChipList · ProjectMeta · ProjectActions · Metric · DefRow · SocialLinks · ThemeToggle · Disclosure · PullQuote
+│   └── organisms/       # NavBar · Footer · ContactBand · Hero · FeaturedProjects · StackSection · StackGrid · AboutSection · ProjectRow · ProjectCard · ProjectsIndex · ProjectFilters · RepoCard · ServiceRow · ServicesDetail · LegalSection · NotFound · CaseStudy · CaseToc · CaseSection
+├── data/                # projects.ts · projectView.ts · stack.ts · github.ts (build-time GitHub fetch)
+├── i18n/                # ui.ts (strings) · utils.ts (slug map, siteRoutes, ariaCurrent, helpers)
 ├── layouts/
 │   └── Layout.astro     # Full <head> · ClientRouter · pre-paint theme · skip link · NavBar · Footer
 ├── pages/
@@ -165,13 +166,13 @@ src/
 │   ├── herramientas.astro · privacidad.astro
 │   └── en/              # EN mirror: index, 404, projects/, services, about, contact, uses, privacy
 ├── scripts/
-│   ├── nav.ts           # Mobile menu: inert/focus trap, Escape, focus restore
+│   ├── nav.ts           # Mobile overlay menu: inert/focus trap, Escape, focus restore
 │   ├── theme.ts         # Dark/light toggle + localStorage + theme-color sync (post-paint)
 │   └── vitals.ts        # Core Web Vitals RUM → Umami (only when Umami env set)
 └── styles/
-    ├── global.css       # Imports + body base + prefers-reduced-motion
-    ├── tokens.css       # CSS custom properties (design tokens)
-    └── utilities.css    # @layer utilities: custom classes
+    ├── global.css       # Imports + fonts + body base + focus outline + prefers-reduced-motion
+    ├── tokens.css       # CSS custom properties (design tokens, dark overrides)
+    └── utilities.css    # @layer components: component classes
 public/
 ├── brand/               # logo-w.webp
 ├── fonts/               # Self-hosted woff2: Poppins 400/500/600 + Raleway variable
@@ -199,35 +200,35 @@ The main README banner lives in `assets/banner.png`. Project OG cards are final 
 ```astro
 <Layout lang="es">
   <Hero lang="es" />
-  <Projects lang="es" />
-  <Stack lang="es" />
-  <About lang="es" />
-  <Contact lang="es" />
+  <FeaturedProjects lang="es" />
+  <StackSection lang="es" />
+  <AboutSection lang="es" />
+  <ContactBand lang="es" />
 </Layout>
 ```
 
-`Layout.astro` owns the entire document head (meta, OG, Twitter, JSON-LD, conditional Umami, self-hosted font preloads, scroll-reveal init, pre-paint theme script), the skip link, the `<NavBar />`, and the `<Footer />`. It derives `lang` from the URL (`getLangFromUrl`), driving `<html lang>`, `og:locale`, translations, and the home-only `ProfilePage` `inLanguage`. Pages render inside `<main id="main-content">`.
+`Layout.astro` owns the entire document head (meta, OG, Twitter, JSON-LD, conditional Umami, self-hosted font preloads, pre-paint theme script), the skip link, the sticky `<NavBar />`, and the `<Footer />`. It derives `lang` from the URL (`getLangFromUrl`), driving `<html lang>`, `og:locale`, translations, and the home-only `ProfilePage` `inLanguage`. Pages render inside `<main id="main-content">`.
 
 ### Design tokens
 
-`src/styles/tokens.css` defines every color, radius, shadow, and section spacing as a CSS custom property on `:root` and overrides the subset that needs to invert on `.dark`. Components reference them via `var(--token)`; no hex codes in component files.
+`src/styles/tokens.css` defines every color, structure value, and type-scale step as a CSS custom property on `:root` and overrides the subset that needs to invert on `.dark` (dark is the default theme). Components reference them via `var(--token)` or the matching Tailwind aliases; no hex codes in component files. There are no shadows: the design uses 1px rules.
 
-Brand palette quick-reference:
+Quick reference:
 
-| Token               | Hex                          | Usage                                            |
-| ------------------- | ---------------------------- | ------------------------------------------------ |
-| `--brand-blue`      | `#407bff`                    | Decorative only (fills, borders, large text)     |
-| `--brand-blue-text` | `#1565c0` / `#5b8cff` (dark) | Accessible small blue text (subtitles, chips)    |
-| `--accent-link`     | `#1565c0` / `#5b8cff` (dark) | Links, icon anchors, focus rings                 |
-| `--accent-hover`    | `#0f4c91` / `#82a8ff` (dark) | Link / button hover                              |
-| `--btn-bg`          | `#1565c0`                    | `.btn-primary` fill (white text, AA both themes) |
-| `--bg-page`         | `#f0f4ff` / `#0f1117` (dark) | Body background                                  |
-| `--text-primary`    | `#1a1a2e` / `#e8eaf6` (dark) | Headings, copy                                   |
-| `--text-muted`      | `#4b5563` / `#9ca3af` (dark) | Secondary copy                                   |
+| Token                 | Light / dark                                 | Usage                                       |
+| --------------------- | -------------------------------------------- | ------------------------------------------- |
+| `--bg`                | `#f0f4ff` / `#0f1117`                        | Page background                             |
+| `--surface`           | `#ffffff` / `#1a1f2e`                        | Cards, bands                                |
+| `--line` / `--line-2` | `#e2e8f0` / `#2d3748`, `#cbd5e1` / `#4a5568` | 1px rules and borders                       |
+| `--text` / `--muted`  | `#1a1a2e` / `#e8eaf6`, `#4b5563` / `#9ca3af` | Copy and secondary copy                     |
+| `--link` / `--link-h` | `#1565c0` / `#5b8cff`, `#0f4c91` / `#82a8ff` | Links, icons, focus, small blue text        |
+| `--blue`              | `#407bff`                                    | Fills, borders, bars, large text only       |
+| `--blue-text`         | `#1565c0` / `#407bff` (dark)                 | Small blue text (index numbers)             |
+| `--btn` / `--btn-h`   | `#1565c0` / `#0f4c91`                        | Primary button fill (white `--on-btn` text) |
 
-Interactive blue is one value per theme (`#1565c0` light / `#5b8cff` dark) across buttons, links, icon anchors, and UI SVGs. The previous brighter accent was retired: it failed AA (3.24:1 white-on-fill).
+Interactive blue is one value per theme (`#1565c0` light / `#5b8cff` dark) across buttons, links, and icons. The previous brighter accent was retired: it failed AA (3.24:1 white-on-fill). Design source: Claude Design project `wavival-dev-v4`.
 
-Full token table, dark overrides, utility classes, typography, motion, and A11Y notes: **[DESIGN.md](./DESIGN.md)**.
+Full token table, type scale, class catalog, composition rules, and A11Y notes: **[DESIGN.md](./DESIGN.md)**.
 
 ## SEO and accessibility
 
@@ -254,21 +255,21 @@ Full token table, dark overrides, utility classes, typography, motion, and A11Y 
 - Skip link to `#main-content` (visible on focus)
 - Heading hierarchy: one `h1` per page, `h2` per section, `h3` inside cards
 - `aria-label` on every interactive element
-- `aria-expanded` + `aria-controls` on the mobile menu trigger; Escape closes the menu
+- `aria-expanded` + `aria-controls` on the mobile menu trigger; the menu is a full-screen overlay below 900px, `inert` while closed, Escape closes it
 - `role="list"` on desktop nav `<ul>`
 - Decorative `<img>` always has `alt=""`
-- `focus-visible:ring-2 focus-visible:ring-[var(--accent-link)]` on icon-only buttons
-- WCAG AA contrast verified for `--text-muted` over `--bg-page` in both themes
+- Global `:focus-visible` outline in `--link` (2px, 2px offset) on every interactive element
+- WCAG AA contrast verified for `--muted` over `--bg` in both themes
 
 ## Performance
 
 - Pre-paint theme script (sync `is:inline` in `<head>`) applies `.dark` before first paint (zero FOUC) and re-applies on `astro:after-swap` so the theme never flashes across View Transitions.
-- View Transitions (`<ClientRouter />`): same-origin navigations swap without a full reload. DOM-binding scripts (theme, mobile nav, scroll reveal) re-run on `astro:page-load`.
-- Hero portrait: WebP, `fetchpriority="high"`, `decoding="async"`, explicit dimensions, plus `<link rel="preload" as="image">` in `<head>` (gated by `preloadHero`, only on home + about) to win LCP.
+- View Transitions (`<ClientRouter />`): same-origin navigations swap without a full reload. DOM-binding scripts (theme, mobile nav, project filters) re-run on `astro:page-load`.
+- Hero portrait: WebP, `fetchpriority="high"`, `decoding="async"`, explicit dimensions (4:5 frame, 320x400), plus `<link rel="preload" as="image">` in `<head>` (gated by `preloadHero`, only on home + about) to win LCP.
 - Fonts: self-hosted latin-subset `woff2` in `public/fonts/` (Poppins 400/500/600 static + Raleway variable `wght` 600-800), `@font-face` with `font-display: swap`; critical weights (Poppins 400 + Raleway variable) preloaded. No Google Fonts request or `preconnect`.
 - Umami analytics: cookieless, conditionally rendered (no Umami vars = no script tag = no network call). Core Web Vitals RUM (`src/scripts/vitals.ts`) is bundled and run under the same gate.
 - Every icon `<img>` has explicit `width` + `height` to prevent CLS.
-- Scroll reveal: IntersectionObserver reveals each `[data-aos]` element once, then `unobserve`s. Under `prefers-reduced-motion` (or no IntersectionObserver support), elements show immediately with no transition.
+- No scroll reveal or JS animation: the design is static. The case-study accordion is native `<details>`.
 - Astro: `compressHTML: true`, `build.inlineStylesheets: 'auto'`: small critical CSS inlined into the document.
 - Vercel serves `/_astro/*`, `/images/*`, `/brand/*`, `/icons/*`, and `/fonts/*` with `Cache-Control: public, max-age=31536000, immutable`.
 - Lighthouse CI asserts category scores per commit (a11y + SEO are hard errors, perf + best-practices are warnings) against the built `dist/`.
@@ -288,12 +289,13 @@ Two Playwright projects run by default: `chromium-desktop` (Desktop Chrome) and 
 
 | Suite                 | Covers                                                                                 |
 | --------------------- | -------------------------------------------------------------------------------------- |
-| `home.spec.ts`        | Single h1, canonical/OG host, JSON-LD types, hero image attrs, skip link               |
+| `home.spec.ts`        | Single h1, canonical/OG host, JSON-LD types, hero image attrs (height 400), skip link  |
 | `routes.spec.ts`      | All ES + EN routes and project case studies render (one h1 each)                       |
 | `i18n.spec.ts`        | `lang` attrs, per-locale CV, hreflang, language toggle                                 |
-| `i18n-utils.spec.ts`  | Pure-unit: `getAltLangUrl` and slug map in `src/i18n/utils.ts`                         |
+| `i18n-utils.spec.ts`  | Pure-unit: `getAltLangUrl`, slug map, and `siteRoutes` in `src/i18n/utils.ts`          |
 | `redirects.spec.ts`   | Pure-unit: locks deployment redirects, the API proxy, and microfrontend path ownership |
-| `theme.spec.ts`       | Pre-paint dark/light from `localStorage`; toggle flips + persists                      |
+| `theme.spec.ts`       | Default dark, light via `localStorage`; toggle flips + persists                        |
+| `projects.spec.ts`    | Project filters narrow the grid and update `aria-pressed` (ES + EN)                    |
 | `mobile-menu.spec.ts` | Open/close, `aria-expanded`, Escape, link-click closes menu                            |
 | `not-found.spec.ts`   | `/404` renders heading and emits `noindex`                                             |
 | `seo.spec.ts`         | `robots.txt` content + localized `<loc>` entries in generated sitemap                  |
@@ -357,25 +359,25 @@ You're welcome to clone this repo as a base for your own portfolio. Design syste
 
 ### Files to replace
 
-| File                                      | Data to change                                                                |
-| ----------------------------------------- | ----------------------------------------------------------------------------- |
-| `src/layouts/Layout.astro`                | Default title, description, JSON-LD (Person + Organization + WebSite), `site` |
-| `astro.config.mjs`                        | `site` URL                                                                    |
-| `src/components/sections/Hero.astro`      | Name, tagline, CV URL, social links                                           |
-| `src/data/projects.ts`                    | Projects (title, tag, stack, problem, solution, links)                        |
-| `src/data/stack.ts`                       | Stack categories and tools                                                    |
-| `src/components/sections/About.astro`     | Bio, personal quote, additional links                                         |
-| `src/components/sections/Contact.astro`   | Contact email                                                                 |
-| `src/components/ui/NavBar.astro`          | CTA email, blog URL                                                           |
-| `src/components/ui/Footer.astro`          | Name in copyright, Lúmina W links                                             |
-| `src/i18n/ui.ts`                          | UI strings (ES + EN)                                                          |
-| `public/robots.txt` · `public/llms.txt`   | Sitemap URL · personal description, projects, links                           |
-| `public/cv_valentina_ramirez_{es,en}.pdf` | CV files (rename + update `cvHref` in `src/i18n/utils.ts`)                    |
-| `public/images/profile.webp`              | Profile photo                                                                 |
-| `public/brand/logo-w.*`                   | Brand logo (regenerate favicon/manifest icons with `sharp`)                   |
-| `.env.example`                            | `PUBLIC_UMAMI_SRC`, `PUBLIC_UMAMI_ID`                                         |
+| File                                          | Data to change                                                                |
+| --------------------------------------------- | ----------------------------------------------------------------------------- |
+| `src/layouts/Layout.astro`                    | Default title, description, JSON-LD (Person + Organization + WebSite), `site` |
+| `astro.config.mjs`                            | `site` URL                                                                    |
+| `src/components/organisms/Hero.astro`         | Name, tagline, CV URL, social links                                           |
+| `src/data/projects.ts`                        | Projects (title, tag, stack, problem, solution, links)                        |
+| `src/data/stack.ts`                           | Stack categories and tools                                                    |
+| `src/components/organisms/AboutSection.astro` | Bio, personal quote, additional links                                         |
+| `src/components/organisms/ContactBand.astro`  | Contact email                                                                 |
+| `src/components/organisms/NavBar.astro`       | CTA email, blog URL                                                           |
+| `src/components/organisms/Footer.astro`       | Name in copyright, Lúmina W links                                             |
+| `src/i18n/ui.ts`                              | UI strings (ES + EN)                                                          |
+| `public/robots.txt` · `public/llms.txt`       | Sitemap URL · personal description, projects, links                           |
+| `public/cv_valentina_ramirez_{es,en}.pdf`     | CV files (rename + update `cvHref` in `src/i18n/utils.ts`)                    |
+| `public/images/profile.webp`                  | Profile photo                                                                 |
+| `public/brand/logo-w.*`                       | Brand logo (regenerate favicon/manifest icons with `sharp`)                   |
+| `.env.example`                                | `PUBLIC_UMAMI_SRC`, `PUBLIC_UMAMI_ID`                                         |
 
-Token, typography, and utility-class values are centralized in `src/styles/`, so you can re-skin without touching components.
+Token, typography, and component-class values are centralized in `src/styles/`, so you can re-skin without touching components.
 
 ## Troubleshooting
 

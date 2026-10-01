@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("theme toggle", () => {
+  test("defaults to dark when no preference is saved", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveClass(/dark/);
+  });
+
   test("respects saved dark preference before paint (no FOUC)", async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem("theme", "dark"));
     await page.goto("/");

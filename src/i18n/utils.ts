@@ -77,3 +77,42 @@ export function cvHref(lang: Lang, base: string): string {
 export function homeHref(lang: Lang): string {
   return lang === "en" ? "/en" : "/";
 }
+
+export interface SiteRoutes {
+  home: string;
+  projects: string;
+  services: string;
+  about: string;
+  contact: string;
+  uses: string;
+  privacy: string;
+  stack: string;
+  project: (slug: string) => string;
+}
+
+/** Localized internal routes, resolved against the site base. */
+export function siteRoutes(lang: Lang, base: string = "/"): SiteRoutes {
+  const en = lang === "en";
+  const path = (es: string, enPath: string) => `${base}${en ? enPath : es}`;
+  const home = en ? `${base}en` : base;
+  return {
+    home,
+    projects: path("proyectos", "en/projects"),
+    services: path("servicios", "en/services"),
+    about: path("sobre-mi", "en/about"),
+    contact: path("contacto", "en/contact"),
+    uses: path("herramientas", "en/uses"),
+    privacy: path("privacidad", "en/privacy"),
+    stack: `${home}#stack`,
+    project: (slug: string) => path(`proyectos/${slug}`, `en/projects/${slug}`),
+  };
+}
+
+const normalizePath = (p: string) => p.replace(/\/+$/, "") || "/";
+
+/** "page" when href (without hash) points at the current pathname. */
+export function ariaCurrent(href: string, current: URL): "page" | undefined {
+  const url = new URL(href, current);
+  if (url.hash) return undefined;
+  return normalizePath(url.pathname) === normalizePath(current.pathname) ? "page" : undefined;
+}

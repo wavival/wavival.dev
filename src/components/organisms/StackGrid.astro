@@ -1,0 +1,28 @@
+---
+import ChipList from "@/components/molecules/ChipList.astro";
+import { stack } from "@/data/stack";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+---
+
+<div class="cell-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))">
+  {
+    stack.map((s, i) => (
+      <article class="flex flex-col gap-4 p-7 transition-colors hover:bg-tint">
+        <span class="index !text-muted">{String(i + 1).padStart(2, "0")}</span>
+        <div>
+          <h3 class="h-title m-0 text-2xl tracking-[-0.01em] !text-link">{s.category}</h3>
+          <p class="m-0 mt-[6px] text-sm text-muted">
+            {isEn ? (s.descriptionEn ?? s.description) : s.description}
+          </p>
+        </div>
+        <ChipList items={isEn ? (s.toolsEn ?? s.tools) : s.tools} class="mt-auto" />
+      </article>
+    ))
+  }
+</div>

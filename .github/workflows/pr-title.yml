@@ -1,0 +1,18 @@
+name: PR title
+
+# Thin caller. Logic in lumina-w/agents (shared-pr-title.yml).
+# lumina-w/agents must stay public: GitHub does not let a repo outside an
+# organization call that organization's private repos' reusable workflows.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches: [dev, stg, main]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title:
+    uses: lumina-w/agents/.github/workflows/shared-pr-title.yml@v4
+    with:
+      config-file: commitlint.config.cjs
