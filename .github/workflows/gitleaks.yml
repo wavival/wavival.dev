@@ -1,0 +1,16 @@
+name: Secret scan
+
+# Thin caller. Logic in lumina-w/agents (shared-gitleaks.yml). Replaces the
+# security_scan job formerly inlined in ci.yml.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [dev, stg, main]
+
+permissions: {}
+
+jobs:
+  gitleaks:
+    uses: lumina-w/agents/.github/workflows/shared-gitleaks.yml@v4
+    secrets: inherit

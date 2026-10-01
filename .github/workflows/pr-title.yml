@@ -1,0 +1,15 @@
+name: PR title
+
+# Thin caller. Logic in lumina-w/agents (shared-pr-title.yml).
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches: [dev, stg, main]
+
+permissions: {}
+
+jobs:
+  pr-title:
+    uses: lumina-w/agents/.github/workflows/shared-pr-title.yml@v4
+    with:
+      config-file: commitlint.config.cjs

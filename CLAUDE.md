@@ -28,14 +28,14 @@ Personal portfolio of **Valentina Ramírez**, Full Stack Developer (Django · Re
 - **husky** + **lint-staged**: `.husky/pre-commit` runs `lint-staged` (ESLint `--fix` + Prettier on staged files); `.husky/commit-msg` runs the repository Commitlint rules and, when installed, the shared checker at `~/.claude/git-hooks/commit-msg`
 - **Node 22.x** (repo pins `.nvmrc` → `22`; all CI jobs read it via `node-version-file: ".nvmrc"`)
 
-The production target is **Vercel**. `vercel.json` defines the security headers, cache rules, legacy redirects, and `/api/*` compatibility proxy. CI (`.github/workflows/ci.yml`) runs `commitlint`, `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks).
+The production target is **Vercel**. `vercel.json` defines the security headers, cache rules, legacy redirects, and `/api/*` compatibility proxy. `commit-lint.yml` and `pr-title.yml` are thin callers of `lumina-w/agents`' `shared-commitlint.yml`/`shared-pr-title.yml` (local `commitlint.config.cjs`, not yet extending the private `@lumina-w/dev-standards` package pending a deploy key). `gitleaks.yml` and `validate-pr-base.yml` are thin callers of the same repo's `shared-gitleaks.yml`/`shared-validate-pr-base.yml`. CI (`.github/workflows/ci.yml`) runs `quality` (dependency audit (`npm audit --audit-level=high --omit=dev`) → format check → lint (`npm run lint`) → type check (`astro check`) → build → CSP hash check (`npm run csp:check`)), `tests` (Playwright), `lighthouse` (Lighthouse CI), and `links` (linkinator).
 
 ## Delivery governance
 
 - `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
 - Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges them manually with a merge commit, not squash or rebase, to preserve branch ancestry.
-- Protected branch checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
-- `validate-pr-base` accepts human work branches into `dev`, `dev` into `stg`, and `stg` into `main`.
+- Protected branch checks are `commitlint`, `pr-title`, `quality`, `tests`, `gitleaks`, and `validate-base`. The first four are thin callers of `lumina-w/agents`' reusable workflows (`shared-commitlint.yml`, `shared-pr-title.yml`, `shared-gitleaks.yml`, `shared-validate-pr-base.yml`); `quality` and `tests` stay in this repo's own `ci.yml`.
+- `validate-base` (`shared-validate-pr-base.yml`) accepts `dev` into `stg` and `stg` into `main`; it does not itself enforce work-branch naming into `dev` (that is a convention, not a CI check, same as the Lúmina W product repos).
 - `auto-merge-dev` enables merge-commit auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with the built-in GitHub token and write permissions. It does not use squash or rebase.
 - `delete-merged-branches` runs every 12 hours and reports merged `feature/*`, `fix/*`, and `chore/*` remote branch cleanup candidates. Actual scheduled deletion needs explicit human approval.
 - Commit messages use strict Conventional Commits in the form `type(scope): message`. Portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
@@ -124,7 +124,11 @@ microfrontends.json    # Vercel path ownership: default portfolio + /nullbreach 
 vercel.json            # Vercel headers, cache, redirects, and /api compatibility proxy
 lighthouserc.json     # Lighthouse CI config (staticDistDir + category assertions)
 .nvmrc                # Node version pin (22)
-.github/workflows/ci.yml  # commitlint, quality, tests, lighthouse, links, security scan
+.github/workflows/ci.yml  # quality, tests, lighthouse, links
+.github/workflows/commit-lint.yml    # Thin caller: lumina-w/agents shared-commitlint.yml
+.github/workflows/pr-title.yml       # Thin caller: lumina-w/agents shared-pr-title.yml
+.github/workflows/gitleaks.yml       # Thin caller: lumina-w/agents shared-gitleaks.yml
+.github/workflows/validate-pr-base.yml # Thin caller: lumina-w/agents shared-validate-pr-base.yml
 postcss.config.cjs    # Tailwind 3 PostCSS processing
 eslint.config.mjs     # ESLint flat config (astro + typescript-eslint + prettier)
 .husky/pre-commit     # Runs lint-staged (ESLint --fix + Prettier on staged files)
