@@ -1,6 +1,6 @@
-name: Validate PR base
+name: PR title
 
-# Thin caller. Logic in lumina-w/agents (shared-validate-pr-base.yml).
+# Thin caller. Logic in lumina-w/agents (shared-pr-title.yml).
 # lumina-w/agents must stay public: GitHub does not let a repo outside an
 # organization call that organization's private repos' reusable workflows.
 on:
@@ -12,5 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  validate-base:
-    uses: lumina-w/agents/.github/workflows/shared-validate-pr-base.yml@v4
+  pr-title:
+    uses: lumina-w/agents/.github/workflows/shared-pr-title.yml@v4
+    with:
+      config-file: commitlint.config.cjs
