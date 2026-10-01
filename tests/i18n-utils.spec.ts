@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getAltLangUrl } from "../src/i18n/utils";
+import { getAltLangUrl, siteRoutes } from "../src/i18n/utils";
 
 const alt = (path: string) => getAltLangUrl(new URL(`https://www.wavival.dev${path}`));
 
@@ -43,5 +43,25 @@ test.describe("language toggle target (getAltLangUrl)", () => {
 
   test("unknown ES path falls back to /en", () => {
     expect(alt("/no-existe")).toEqual({ href: "/en", lang: "en" });
+  });
+});
+
+test.describe("localized routes (siteRoutes)", () => {
+  test("ES routes use Spanish slugs", () => {
+    const r = siteRoutes("es", "/");
+    expect(r.home).toBe("/");
+    expect(r.projects).toBe("/proyectos");
+    expect(r.uses).toBe("/herramientas");
+    expect(r.stack).toBe("/#stack");
+    expect(r.project("terracore")).toBe("/proyectos/terracore");
+  });
+
+  test("EN routes mirror under /en with English slugs", () => {
+    const r = siteRoutes("en", "/");
+    expect(r.home).toBe("/en");
+    expect(r.projects).toBe("/en/projects");
+    expect(r.uses).toBe("/en/uses");
+    expect(r.stack).toBe("/en#stack");
+    expect(r.project("terracore")).toBe("/en/projects/terracore");
   });
 });

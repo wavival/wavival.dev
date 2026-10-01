@@ -1,6 +1,6 @@
 # DESIGN.md: Design System
 
-Design tokens, typography, color, and utility classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`.
+Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "Señal v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
 Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE.md](./CLAUDE.md)
 
@@ -8,173 +8,217 @@ Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE
 
 - [Principles](#principles)
 - [Tokens](#tokens)
-  - [Brand](#brand)
-  - [Backgrounds](#backgrounds)
-  - [Typography colors](#typography-colors)
-  - [Accent / interactive](#accent--interactive)
-  - [Borders, shadows, radii](#borders-shadows-radii)
-  - [Spacing](#spacing)
-  - [Dark mode overrides](#dark-mode-overrides)
+  - [Colors](#colors)
+  - [Structure](#structure)
+  - [Type scale](#type-scale)
+  - [Tailwind aliases](#tailwind-aliases)
 - [Typography](#typography)
-- [Utility classes](#utility-classes)
+- [Composition rules](#composition-rules)
+- [Component classes](#component-classes)
+- [Component catalog](#component-catalog)
+- [Page inventory](#page-inventory)
 - [Dark mode strategy](#dark-mode-strategy)
 - [Motion](#motion)
 - [Accessibility](#accessibility)
 
 ## Principles
 
-- **Tokens over hardcoded values.** Every color, radius, and shadow lives in `src/styles/tokens.css` as a CSS custom property. Components reference them via `var(--token)`.
-- **Tailwind for layout, utilities for repeats.** Tailwind classes handle one-off positioning; recurring patterns (`.section`, `.btn-primary`, `.card`) live in `src/styles/utilities.css` under `@layer utilities`.
-- **`.dark` class, not media query.** Dark mode is toggled by the user. `tailwind.config.mjs` sets `darkMode: 'class'`.
-- **Two fonts, two roles.** Raleway for display (headings, buttons, uppercase labels); Poppins for body.
+Concept "Señal": the page reads like an editorial index, with one blue signal on a quiet field.
+
+- **Rules, not boxes.** Structure comes from 1px lines (`--line`, `--line-2`, and `--text` for section rules), never from shadow cards. There are no shadows and surfaces have `0` radius.
+- **Editorial scale.** Raleway 800 display type at large sizes, tight tracking, numbered indexes (`01`, `02`) as wayfinding.
+- **One blue signal.** `--blue` marks indexes, bars, and fills; `--link` is the single interactive blue for text, links, icons, and focus; `--btn` fills the primary button.
+- **Icons only where they work.** Icons appear on icon-only buttons and on the primary button. Text buttons and text links carry no icons or arrows.
+- **One column narrative.** Content runs at the full container width (`--container: 1280px`) in a single column, vertically centered in its band.
+- **State as text.** The accordion shows "Ver"/"Cerrar" (ES) or "View"/"Close" (EN) instead of a rotating chevron.
+- **Tokens over hardcoded values.** Every color and size lives in `src/styles/tokens.css` as a CSS custom property. Components use `var(--token)` or the Tailwind alias that maps to it.
+- **`.dark` class, not media query.** Dark is the default theme and is toggled by the user. `tailwind.config.mjs` sets `darkMode: 'class'`.
+- **Static.** No scroll reveal and no JS animation; the only client behavior is the theme toggle, the mobile menu, the project filters, and optional analytics.
 
 ## Tokens
 
-All tokens live in `src/styles/tokens.css`. Defined on `:root`, overridden on `.dark`.
+All tokens live in `src/styles/tokens.css`. Defined on `:root` (light) and overridden on `.dark`. Tokens not listed under `.dark` are theme-independent.
 
-### Brand
+### Colors
 
-| Token               | Light     | Dark      | Usage                                                                                         |
-| ------------------- | --------- | --------- | --------------------------------------------------------------------------------------------- |
-| `--brand-blue`      | `#407bff` | (same)    | Decorative only: fills, borders, shadows, large/display text (>=3:1). Fails AA for small text |
-| `--brand-blue-text` | `#1565c0` | `#5b8cff` | Accessible blue for small text (subtitles, chips, labels), >=4.5:1                            |
-| `--brand-dark`      | `#1b1f28` | (same)    | Reserved dark surface                                                                         |
-| `--brand-light`     | `#dee9ff` | (same)    | Reserved light surface                                                                        |
+| Token       | Light                    | Dark                    | Usage                                                                                   |
+| ----------- | ------------------------ | ----------------------- | --------------------------------------------------------------------------------------- |
+| `--bg`      | `#f0f4ff`                | `#0f1117`               | Page background                                                                         |
+| `--surface` | `#ffffff`                | `#1a1f2e`               | Cards, bands (`ContactBand`), frames                                                    |
+| `--line`    | `#e2e8f0`                | `#2d3748`               | Default 1px rules and borders                                                           |
+| `--line-2`  | `#cbd5e1`                | `#4a5568`               | Stronger borders (secondary button)                                                     |
+| `--tint`    | `rgba(64,123,255,0.06)`  | `rgba(64,123,255,0.08)` | Subtle blue wash                                                                        |
+| `--text`    | `#1a1a2e`                | `#e8eaf6`               | Headings, primary copy, section rules                                                   |
+| `--muted`   | `#4b5563`                | `#9ca3af`               | Secondary copy (about 5.9:1 light, 7.4:1 dark on `--bg`)                                |
+| `--link`    | `#1565c0`                | `#5b8cff`               | Links, icons (mask tint), focus outline, small blue text (5.13:1 light, 5.93:1 dark)    |
+| `--link-h`  | `#0f4c91`                | `#82a8ff`               | Link hover                                                                              |
+| `--blue`    | `#407bff`                | (same)                  | Fills, borders, indexes, selection, scrollbar, large/display text only (fails AA small) |
+| `--btn`     | `#1565c0`                | (same)                  | `.btn-primary` and `.badge` fill                                                        |
+| `--btn-h`   | `#0f4c91`                | (same)                  | `.btn-primary` hover fill                                                               |
+| `--on-btn`  | `#ffffff`                | (same)                  | Text on `--btn` (5.67:1)                                                                |
+| `--nav`     | `rgba(240,244,255,0.85)` | `rgba(15,17,23,0.85)`   | Sticky header fill (with backdrop blur)                                                 |
+| `--ok`      | `#15803d`                | `#4ade80`               | Success/available status dot                                                            |
+| `--warn`    | `#c2410c`                | `#fb923c`               | Warning status dot                                                                      |
 
-### Backgrounds
+The button fill is theme-independent so white text stays at or above 4.5:1 in both themes (the retired dodger-blue accent was only 3.24:1).
 
-| Token        | Light                    | Dark                    | Usage                     |
-| ------------ | ------------------------ | ----------------------- | ------------------------- |
-| `--bg-page`  | `#f0f4ff`                | `#0f1117`               | Body background           |
-| `--bg-card`  | `#ffffff`                | `#1a1f2e`               | Card hover background     |
-| `--bg-blur`  | `rgba(64,123,255,0.06)`  | `rgba(64,123,255,0.08)` | Subtle blue tint surface  |
-| `--nav-blur` | `rgba(240,244,255,0.85)` | `rgba(15,17,23,0.85)`   | NavBar backdrop blur fill |
+### Structure
 
-### Typography colors
+| Token              | Value                      | Usage                                          |
+| ------------------ | -------------------------- | ---------------------------------------------- |
+| `--container`      | `1280px`                   | Max content width (`.wrap`, `max-w-container`) |
+| `--gut`            | `clamp(20px, 4vw, 48px)`   | Horizontal page gutter                         |
+| `--sec`            | `clamp(80px, 10vw, 144px)` | Vertical gap between sections                  |
+| `--sec-compact`    | `clamp(56px, 7vw, 96px)`   | Tighter section gap                            |
+| `--nav-h`          | `64px`                     | Sticky header height                           |
+| `--radius-surface` | `0`                        | Cards, frames, bands                           |
+| `--radius-control` | `2px`                      | Buttons, chips, icon buttons                   |
+| `--radius-dot`     | `50%`                      | Status dots                                    |
+| `--font-display`   | `"Raleway", sans-serif`    | Headings, buttons, labels                      |
+| `--font-body`      | `"Poppins", sans-serif`    | Body copy                                      |
 
-| Token            | Light     | Dark      | Usage                             |
-| ---------------- | --------- | --------- | --------------------------------- |
-| `--text-primary` | `#1a1a2e` | `#e8eaf6` | Headings, primary copy            |
-| `--text-muted`   | `#4b5563` | `#9ca3af` | Secondary copy, descriptions      |
-| `--text-button`  | `#ffffff` | (same)    | Text on `.btn-primary` background |
+### Type scale
 
-WCAG AA verified: muted on `--bg-page` ≈ 5.9:1 (light) and ≈ 7.4:1 (dark).
+| Token                | Value                      | Used by                     |
+| -------------------- | -------------------------- | --------------------------- |
+| `--fs-display-xl`    | `clamp(36px, 5.2vw, 80px)` | `.display-xl` (home `h1`)   |
+| `--fs-display-page`  | `clamp(44px, 7vw, 108px)`  | `.display-page` (page `h1`) |
+| `--fs-display-about` | `clamp(56px, 10vw, 160px)` | `PageIntro size="about"`    |
+| `--fs-display-case`  | `clamp(52px, 9vw, 148px)`  | `PageIntro size="case"`     |
+| `--fs-h2`            | `clamp(36px, 5vw, 72px)`   | `.h2-section`               |
+| `--fs-h2-case`       | `clamp(30px, 3.4vw, 48px)` | `CaseSection` heading       |
+| `--fs-h3-project`    | `clamp(40px, 6vw, 88px)`   | `.h3-project`               |
+| `--fs-lead`          | `clamp(22px, 2.2vw, 30px)` | `.lead`                     |
+| `--fs-body-lg`       | `18px`                     | `.body-lg`                  |
+| `--fs-body`          | `16px`                     | Body base                   |
+| `--fs-body-sm`       | `15px`                     | `.body`                     |
+| `--fs-label`         | `12px`                     | `.eyebrow`                  |
+| `--fs-label-sm`      | `11px`                     | `.label-sm`, `.badge`       |
+| `--tracking-display` | `-0.04em`                  | Display and project titles  |
+| `--tracking-h2`      | `-0.035em`                 | `.h2-section`               |
+| `--tracking-label`   | `0.16em`                   | Uppercase labels            |
+| `--tracking-button`  | `0.1em`                    | `.btn`                      |
 
-### Accent / interactive
+### Tailwind aliases
 
-| Token            | Light     | Dark      | Usage                                                                          |
-| ---------------- | --------- | --------- | ------------------------------------------------------------------------------ |
-| `--accent-link`  | `#1565c0` | `#5b8cff` | Link + icon-anchor text, focus rings, `.btn-ghost` border/text                 |
-| `--accent-hover` | `#0f4c91` | `#82a8ff` | Link / ghost-button hover state                                                |
-| `--btn-bg`       | `#1565c0` | (same)    | `.btn-primary` fill + `.btn-ghost` hover fill (white text >=4.5:1 both themes) |
-| `--btn-bg-hover` | `#0f4c91` | (same)    | `.btn-primary` hover fill                                                      |
+`tailwind.config.mjs` maps tokens so utilities stay token-driven:
 
-All interactive blue resolves to one value per theme (`#1565c0` light / `#5b8cff` dark) across buttons, links, icon anchors, and the UI SVGs (which hardcode `fill="#1565c0"`, recolor in-file). The previous brighter accent (a dodger-blue) was retired: white-on-it was only 3.24:1 and failed AA.
+| Group     | Aliases                                                                                                                |
+| --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Colors    | `bg`, `surface`, `line`, `line-2`, `tint`, `ink` (= `--text`), `muted`, `link`, `link-h`, `blue`, `btn`, `btn-h`, `ok` |
+| Max width | `max-w-container`                                                                                                      |
+| Radius    | `rounded-control`                                                                                                      |
+| Spacing   | `gut`, `sec`, `nav` (for example `h-nav`, `top-nav`, `px-gut`)                                                         |
 
-WCAG AA verified: button white-on-`#1565c0` = 5.67:1; link text on `--bg-page` = 5.13:1 (light) / 5.93:1 (dark).
-
-### Borders, shadows, radii
-
-| Token           | Light                              | Dark                         |
-| --------------- | ---------------------------------- | ---------------------------- |
-| `--border-base` | `#e2e8f0`                          | `#2d3748`                    |
-| `--shadow-base` | `0 4px 24px rgba(64,123,255,0.08)` | `0 4px 24px rgba(0,0,0,0.3)` |
-| `--radius-sm`   | `6px`                              | (same)                       |
-| `--radius-md`   | `12px`                             | (same)                       |
-| `--radius-lg`   | `20px`                             | (same)                       |
-
-### Spacing
-
-| Token             | Value  | Usage                |
-| ----------------- | ------ | -------------------- |
-| `--space-section` | `96px` | Vertical section gap |
-
-Most layout spacing is Tailwind-driven (`gap-`, `py-`, `px-`). The token exists for one-off section rhythm.
-
-### Dark mode overrides
-
-Only the subset of tokens that need to invert live under `.dark` in `tokens.css`: `--bg-page`, `--bg-card`, `--bg-blur`, `--nav-blur`, `--text-primary`, `--text-muted`, `--border-base`, `--shadow-base`, plus the interactive blues `--brand-blue-text`, `--accent-link`, and `--accent-hover` (which lighten so blue text stays legible on the dark background). The shape is a normal selector block:
-
-```css
-.dark {
-  --bg-page: #0f1117;
-  --bg-card: #1a1f2e;
-  --text-primary: #e8eaf6;
-  /* ...remaining inverted tokens */
-}
-```
-
-The decorative `--brand-blue` fill, radii, and spacing stay constant across themes; the interactive blues (`--brand-blue-text`, `--accent-link`, `--accent-hover`) and `--btn-bg`/`--btn-bg-hover` invert as noted above (`--btn-bg` stays constant so white button text passes AA in both themes).
+The pre-v4 tokens (`--brand-blue`, `--brand-blue-text`, `--bg-page`, `--bg-card`, `--bg-blur`, `--nav-blur`, `--text-primary`, `--text-muted`, `--accent-link`, `--accent-hover`, `--btn-bg`, `--border-base`, `--shadow-base`, `--radius-sm/md/lg`, `--space-section`) were removed.
 
 ## Typography
 
-Configured in `tailwind.config.mjs`:
+Configured in `tailwind.config.mjs` and `tokens.css`:
 
-| Family  | Tailwind class | Stack                 |
-| ------- | -------------- | --------------------- |
-| Display | `font-display` | `Raleway, sans-serif` |
-| Body    | `font-body`    | `Poppins, sans-serif` |
+| Family  | Tailwind class | Stack                 | Role                                                         |
+| ------- | -------------- | --------------------- | ------------------------------------------------------------ |
+| Display | `font-display` | `Raleway, sans-serif` | Display and titles (800), buttons, uppercase labels, indexes |
+| Body    | `font-body`    | `Poppins, sans-serif` | Body copy                                                    |
 
-Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` (`font-display: swap`) in `global.css`. Poppins ships as static weights; Raleway is a single variable `woff2` (`wght` 600-800, one `@font-face` with `font-weight: 600 800`). Critical weights (Poppins 400 + Raleway variable) are preloaded in `Layout.astro`. No Google Fonts request or `preconnect`.
+Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` (`font-display: swap`) in `global.css`. Poppins ships as static weights (400, 500, 600); Raleway is a single variable `woff2` (`wght` 600-800, one `@font-face` with `font-weight: 600 800`). Critical weights (Poppins 400 + Raleway variable) are preloaded in `Layout.astro`. No Google Fonts request or `preconnect`.
 
-**Weight palette:**
+## Composition rules
 
-| Family  | Weights loaded                    |
-| ------- | --------------------------------- |
-| Poppins | 400, 500, 600 (static files)      |
-| Raleway | 600-800 (single variable `woff2`) |
+- Pages sit inside `.wrap` (container + gutters). Vertical rhythm comes from `.page-top`, `.section-gap`, and `--sec` / `--sec-compact`.
+- Each section opens with a `.rule-section` (1px top rule in `--text`), an optional `.index` number, an `.eyebrow` label, and a display heading (`SectionHeader`).
+- Lists and grids are drawn with `border-top` / `.cell-grid` lines, not card shadows.
+- Media sit in a `.media-frame` (1200x630, 1px border) or `.photo-frame` (4:5 portrait with a 4px blue bar).
+- One `h1` per page: `Hero` on home, `PageIntro` elsewhere. Sections use `h2`, cards and rows use `h3`.
+- The header is sticky (64px, `--nav` fill with backdrop blur), not fixed, so `<main>` has no top padding. The active link shows text color plus a 2px blue bar.
+- Below 900px the menu is a full-screen overlay with numbered display links, a "Blog W" primary button and a mailto secondary button.
+- The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
+- `ContactBand` closes the home and also services, about, and case studies.
+- Accordions are native `<details>` (`Disclosure`) with the state shown as text.
 
-## Utility classes
+## Component classes
 
-All inside `@layer utilities` in `src/styles/utilities.css`, 2-space indentation.
+All inside `@layer components` in `src/styles/utilities.css`, 2-space indentation.
 
-| Class               | Purpose                                                                                                                                                              |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.section`          | Section container: `max-w-5xl mx-auto px-6 py-24`                                                                                                                    |
-| `.section-title`    | `h2` heading (3xl, display, bold)                                                                                                                                    |
-| `.section-subtitle` | Uppercase blue label above title (xs, tracked widest)                                                                                                                |
-| `.btn-primary`      | Solid button, `px-[14px] py-[12px]`, `background-color: var(--btn-bg)`. Hover: `background-color: var(--btn-bg-hover)` + `translateX(4px)`. Has `focus-visible` ring |
-| `.btn-ghost`        | Outline button (`--accent-link` border/text). Hover: fills `--btn-bg` + white text. Has `focus-visible` ring                                                         |
-| `.chip`             | Pill badge for tech tags (rounded-full, border, xs)                                                                                                                  |
-| `.card`             | Surface with 4px bottom border. Hover: `scale(1.02)` + `--bg-card` fill                                                                                              |
-| `.card-plain`       | Borderless card. Hover: `translateX(6px)`                                                                                                                            |
-| `.nav-link`         | Muted uppercase link, hover to `--accent-link`                                                                                                                       |
-| `.link`             | Inline text link. Hover: `translateX(4px)`                                                                                                                           |
-| `.icon`             | Base icon utility: `shrink-0`, transition                                                                                                                            |
-| `.icon-sm/md/lg/xl` | `w-4/5/6/8` paired sizing                                                                                                                                            |
+| Class                                                | Purpose                                                                                                                                                               |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.wrap`                                              | Container: full width, `max-width: var(--container)`, `padding-inline: var(--gut)`                                                                                    |
+| `.page-top`                                          | Top padding for standalone pages, `--sec` bottom                                                                                                                      |
+| `.section-gap`                                       | `margin-top: var(--sec)`                                                                                                                                              |
+| `.rule-section`                                      | Section opener: 24px top padding, 1px top border in `--text`                                                                                                          |
+| `.rule-line`                                         | 1px top border in `--line`                                                                                                                                            |
+| `.eyebrow`                                           | Uppercase Raleway 700 label in `--link` (`--fs-label`)                                                                                                                |
+| `.label-sm` (+ `.label-sm-link`)                     | Smaller uppercase label in `--muted` (or `--link`)                                                                                                                    |
+| `.index`                                             | Raleway 800 number in `--blue`                                                                                                                                        |
+| `.display-xl`, `.display-page`                       | Display headings (home / page `h1`)                                                                                                                                   |
+| `.h2-section`, `.h3-project`, `.h-title`             | Section heading, project title, generic Raleway 800 title                                                                                                             |
+| `.lead`, `.body-lg`, `.body`                         | Lead paragraph, large body, small body (muted)                                                                                                                        |
+| `.accent`                                            | `--blue` text for display emphasis                                                                                                                                    |
+| `.btn`                                               | Base button: Raleway 700, uppercase, `--radius-control`; `.btn-primary` (fill `--btn`), `.btn-secondary` (`--line-2` outline), sizes `.btn-sm`, `.btn-compact` (44px) |
+| `.text-link`, `.list-link`, `.inline-link`           | Underlined uppercase link, list link (`aria-current` to `--link`), in-prose link                                                                                      |
+| `.icon-btn` (+ `.icon-btn-lg`)                       | 44px (50px) bordered icon button                                                                                                                                      |
+| `.mask-icon` (+ `-lg`, `-xl`)                        | Icon tinted with `--link` through CSS mask (`--icon` custom property)                                                                                                 |
+| `.lang-toggle`                                       | 44px text toggle "EN"/"ES"                                                                                                                                            |
+| `.chip`                                              | Bordered tag, 2px radius                                                                                                                                              |
+| `.status`, `.status-dot` (+ `-ok`, `-link`, `-warn`) | Status label with a 7px dot                                                                                                                                           |
+| `.badge`                                             | Solid `--btn` label                                                                                                                                                   |
+| `.cell-grid`                                         | Grid drawn with 1px borders                                                                                                                                           |
+| `.nav-link`                                          | Header link; `aria-current="page"` gets text color and a 2px `--blue` bar                                                                                             |
+| `.media-frame`, `.photo-frame`                       | 1200x630 image frame; 4:5 portrait frame with a 4px blue bottom bar                                                                                                   |
+| `.disclosure`                                        | Native `<details>` styling: hides the marker, swaps `.when-closed` / `.when-open` text                                                                                |
 
-### Component coverage by class
+Removed with v4: `.section`, `.section-title`, `.section-subtitle`, `.btn-ghost`, `.card`, `.card-plain`, `.link`, `.icon`, `.icon-sm/md/lg/xl`, `.profile-photo`.
 
-| Class          | Where it's applied                                                            |
-| -------------- | ----------------------------------------------------------------------------- |
-| `.section`     | All section components (`Hero`, `Projects`, `Stack`, `About`, `Contact`)      |
-| `.btn-primary` | `Button.astro` (single source)                                                |
-| `.link`        | `Link.astro` (single source)                                                  |
-| `.card`        | `Projects.astro` items                                                        |
-| `.card-plain`  | `Stack.astro` items                                                           |
-| `.chip`        | `Hero.astro` specialty tags, `Projects.astro` stack tags, `Stack.astro` tools |
+## Component catalog
+
+Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.md)):
+
+- **Atoms:** `Button`, `TextLink`, `IconLink`, `MaskIcon`, `Chip`, `StatusDot`, `Badge`, `Eyebrow`, `Index`
+- **Molecules:** `SectionHeader`, `PageIntro`, `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure`, `PullQuote`
+- **Organisms:** `NavBar`, `Footer`, `ContactBand`, `Hero`, `FeaturedProjects`, `StackSection`, `StackGrid`, `AboutSection`, `ProjectRow`, `ProjectCard`, `ProjectsIndex`, `ProjectFilters`, `RepoCard`, `ServiceRow`, `ServicesDetail`, `LegalSection`, `NotFound`, `CaseStudy`, `CaseToc`, `CaseSection`
+- **Template:** `src/layouts/Layout.astro`
+
+## Page inventory
+
+| Page (ES / EN)                             | Composition                                                                                                                |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `/` and `/en`                              | `Hero` (#hero), `FeaturedProjects` (#projects), `StackSection` (#stack), `AboutSection` (#about), `ContactBand` (#contact) |
+| `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                           |
+| `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy`: sections `cs-problem`, `cs-architecture`, `cs-decisions`, `cs-results`, `cs-learnings`, closing `ContactBand` |
+| `/servicios` and `/en/services`            | `PageIntro`, `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                |
+| `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `PullQuote`, `ContactBand`                                                                  |
+| `/contacto` and `/en/contact`              | `PageIntro`, contact channels with `SectionHeader`                                                                         |
+| `/herramientas` and `/en/uses`             | `PageIntro`, stack breakdown with `ChipList`, `RepoCard`s in `#repos`                                                      |
+| `/privacidad` and `/en/privacy`            | `PageIntro`, `LegalSection`s                                                                                               |
+| `/404` and `/en/404`                       | `NotFound` (noindex)                                                                                                       |
 
 ## Dark mode strategy
 
-- `tailwind.config.mjs` to `darkMode: 'class'`
-- **Initial state applied pre-paint.** A synchronous `<script is:inline>` at the top of `<head>` (in `Layout.astro`) reads `localStorage["theme"]` (falling back to `prefers-color-scheme: dark`) and adds `.dark` to `<html>` before stylesheets load. This eliminates FOUC.
-- **Post-paint behavior** is owned by `src/scripts/theme.ts`: it syncs the sun/moon icons to the already-applied state, then handles toggle clicks. Each click flips `.dark` on `<html>`, writes `localStorage["theme"]`, and re-syncs icons.
-- Toggle swaps two icon `<img>` elements (sun/moon) via `.hidden` class, no JS-rendered SVG.
-- Never use `@media (prefers-color-scheme)` in CSS for styling; the `.dark` class is the single source of truth.
+- `tailwind.config.mjs` sets `darkMode: 'class'`.
+- **Dark is the default.** A synchronous `<script is:inline>` at the top of `<head>` (in `Layout.astro`) adds `.dark` to `<html>` before stylesheets load unless `localStorage["theme"] === "light"`. It no longer follows `prefers-color-scheme`. The `theme-color` meta defaults to `#0f1117`. This eliminates FOUC.
+- **Post-paint behavior** is owned by `src/scripts/theme.ts`: it syncs the sun/moon `MaskIcon`s and the state-aware `aria-label` to the already-applied state, then handles toggle clicks. Each click flips `.dark` on `<html>`, writes `localStorage["theme"]`, and re-syncs icons and the meta.
+- The dark overrides in `tokens.css` are `--bg`, `--surface`, `--line`, `--line-2`, `--tint`, `--text`, `--muted`, `--link`, `--link-h`, `--nav`, `--ok`, `--warn`.
+- Never use `@media (prefers-color-scheme)` in CSS; the `.dark` class is the single source of truth.
 
 ## Motion
 
-| Source                                        | Behavior                                                                                                                                                                              |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `global.css`                                  | Universal `*` selector transitions `border-color` (0.3s ease) only. `html` transitions `color` (0.3s); `body` transitions `background-color` and `color` (0.3s each).                 |
-| `.card` (utilities + global)                  | Hover lift via `transform: scale(1.02)` on a bouncy `cubic-bezier(0.34, 1.56, 0.64, 1)` curve, plus `background-color`, `box-shadow`, and `opacity` transitions                       |
-| Scroll reveal (`Layout.astro` + `global.css`) | Custom IntersectionObserver toggles `.aos-in` on `[data-aos]` elements as they enter; the fade/slide and timing live in `global.css`. Reveals once, then `unobserve`s. No AOS library |
-| `prefers-reduced-motion`                      | All animations/transitions clamped to `0.01ms`; the scroll reveal shows elements immediately (no transition, observer skipped)                                                        |
+The design is static. There is no scroll reveal (`[data-aos]` and `.aos-in` were removed) and no accordion script.
+
+| Source                   | Behavior                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `global.css`             | `body` transitions `background-color` and `color` (0.3s); `html` uses smooth scroll with `scroll-padding-top: 88px` |
+| Component classes        | Short color/border-color transitions (0.2s to 0.25s) on buttons, links, icon buttons, frames                        |
+| Mobile menu              | Opacity/translate transition (300ms) on the overlay                                                                 |
+| `prefers-reduced-motion` | All animations/transitions clamped to `0.01ms` and smooth scroll disabled                                           |
 
 The reduce-motion override lives in `global.css`:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
@@ -188,11 +232,14 @@ The reduce-motion override lives in `global.css`:
 
 ## Accessibility
 
-- All interactive elements have `aria-label`.
-- Focus rings: `focus-visible:ring-2 focus-visible:ring-[var(--accent-link)]` on every interactive element: `.btn-primary`, `.btn-ghost`, `.link`/icon anchors (baked into the utility classes), plus the NavBar theme toggle, language toggle, hamburger, and the skip link.
+- Visible focus on every interactive element through the global `:focus-visible { outline: 2px solid var(--link); outline-offset: 2px }` in `global.css`.
+- All controls without visible text have an `aria-label`; controls with visible text keep that text inside the `aria-label` (Label-in-Name).
 - Skip link to `#main-content` (`Layout.astro`), visible only on focus.
-- Heading hierarchy: single `h1` in `Hero`, one `h2` per section, `h3` inside cards.
-- Decorative `<img>` always has `alt=""`. Content images have descriptive `alt`.
-- Mobile menu (`src/scripts/nav.ts`): `aria-expanded` + `aria-controls`; `inert` while closed (links never tabbable), focus moves to the first link on open, Tab is trapped, Escape closes and restores focus to the hamburger. The hamburger `aria-label` is localized + state-aware.
-- `aria-current="page"` on the active NavBar + Footer link, styled with an underline (not color alone).
-- WCAG AA contrast verified in both themes: `--text-muted` over `--bg-page` (≈5.9:1 light / ≈7.4:1 dark), button white-on-`#1565c0` (5.67:1), and interactive blue text on `--bg-page` (5.13:1 light / 5.93:1 dark).
+- Heading hierarchy: single `h1` (`Hero` on home, `PageIntro` elsewhere), `h2` per section, `h3` in cards and rows.
+- Decorative `<img>` and `MaskIcon`s are hidden from assistive tech (`alt=""` / `aria-hidden`). Content images have descriptive `alt`.
+- Icon-only controls (`.icon-btn`, `.lang-toggle`, `IconLink`) are at least 44x44 px.
+- Mobile menu (`src/scripts/nav.ts`): `aria-expanded` + `aria-controls`; the overlay is `inert` while closed, focus moves to the first link on open, Tab is trapped, Escape closes and restores focus to the hamburger. The hamburger `aria-label` is localized and state-aware.
+- `aria-current="page"` on the active NavBar and Footer link (via `ariaCurrent()`), shown beyond color: a 2px blue bar in the header.
+- Project filters expose state with `aria-pressed`; the "no results" block is `role="status"`.
+- The accordion is native `<details>`/`<summary>`, so keyboard and screen-reader behavior come from the browser.
+- WCAG AA contrast verified in both themes: `--muted` on `--bg` (about 5.9:1 light / 7.4:1 dark), white `--on-btn` on `--btn` (5.67:1), `--link` on `--bg` (5.13:1 light / 5.93:1 dark). `--blue` is limited to fills, borders, indexes, and large text.

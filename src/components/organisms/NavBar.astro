@@ -1,0 +1,159 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import MaskIcon from "@/components/atoms/MaskIcon.astro";
+import ThemeToggle from "@/components/molecules/ThemeToggle.astro";
+import {
+  getLangFromUrl,
+  useTranslations,
+  getAltLangUrl,
+  siteRoutes,
+  ariaCurrent,
+} from "@/i18n/utils";
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const BASE = import.meta.env.BASE_URL;
+const lang: Lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = siteRoutes(lang, BASE);
+const alt = getAltLangUrl(Astro.url);
+
+const links = [
+  { href: r.projects, label: t("nav.projects") },
+  { href: r.services, label: t("nav.services") },
+  { href: r.stack, label: t("nav.stack") },
+  { href: r.about, label: t("nav.about") },
+];
+
+const projectsActive =
+  Astro.url.pathname.startsWith(r.projects) && ariaCurrent(r.projects, Astro.url) === undefined;
+const current = (href: string) =>
+  ariaCurrent(href, Astro.url) ?? (href === r.projects && projectsActive ? "page" : undefined);
+
+const mobileLinks = [
+  { href: r.home, label: t("nav.home") },
+  ...links,
+  { href: r.contact, label: t("nav.contact") },
+];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-line bg-[var(--nav)] backdrop-blur-[14px]"
+  style="-webkit-backdrop-filter: blur(14px)"
+>
+  <nav aria-label={t("nav.mainAria")} class="wrap flex h-nav items-center justify-between gap-6">
+    <a
+      href={r.home}
+      aria-label={t("nav.homeAria")}
+      class="flex items-center gap-3 text-ink no-underline hover:text-ink"
+    >
+      <img
+        src={`${BASE}brand/logo-w.webp`}
+        alt=""
+        width="54"
+        height="40"
+        class="block h-10 w-[54px] object-contain"
+      />
+      <span class="h-title text-[15px] tracking-[-0.01em]">wavival.dev</span>
+    </a>
+
+    <div class="hidden items-center gap-8 min-[900px]:flex">
+      <ul class="m-0 flex h-nav list-none gap-7 p-0" role="list">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} class="nav-link" aria-current={current(l.href)}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="flex items-center gap-2">
+        <a href={alt.href} hreflang={alt.lang} aria-label={t("nav.toggleAria")} class="lang-toggle"
+          >{t("nav.toggleLabel")}</a
+        >
+        <ThemeToggle placement="desktop" label={t("nav.theme")} />
+        <Button
+          href="mailto:wavival.dev@luminaw.co"
+          icon="send-email-white"
+          size="compact"
+          data-umami-event="contacto-email"
+          aria-label={t("common.emailAria")}
+        >
+          {t("nav.contactCta")}
+        </Button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[6px] min-[900px]:hidden">
+      <a href={alt.href} hreflang={alt.lang} aria-label={t("nav.toggleAria")} class="lang-toggle"
+        >{t("nav.toggleLabel")}</a
+      >
+      <ThemeToggle placement="mobile" label={t("nav.theme")} />
+      <button
+        id="menu-btn"
+        type="button"
+        class="icon-btn"
+        aria-label={t("nav.openMenu")}
+        data-label-open={t("nav.openMenu")}
+        data-label-close={t("nav.closeMenu")}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span id="icon-open"><MaskIcon name="open-menu" size="xl" /></span>
+        <span id="icon-close" class="hidden"><MaskIcon name="close-menu" size="xl" /></span>
+      </button>
+    </div>
+  </nav>
+
+  <nav
+    id="mobile-menu"
+    aria-label={t("nav.mobileAria")}
+    class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-[45] flex translate-y-2 flex-col overflow-auto bg-bg px-gut pb-10 pt-6 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
+    inert
+  >
+    <ul class="m-0 flex list-none flex-col p-0" role="list">
+      {
+        mobileLinks.map((l, i) => (
+          <li class="border-b border-line">
+            <a
+              href={l.href}
+              aria-current={current(l.href)}
+              class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link"
+            >
+              <span class="index w-6">{String(i + 1).padStart(2, "0")}</span>
+              <span class="h-title text-[34px] leading-none tracking-[-0.02em]">{l.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-auto flex flex-col items-start gap-4 pt-8">
+      <Button
+        href="https://blog.luminaw.co"
+        target="_blank"
+        icon="read-more-white"
+        aria-label={t("footer.blogAria")}
+      >
+        {t("nav.blog")}
+      </Button>
+      <Button
+        href="mailto:wavival.dev@luminaw.co"
+        variant="secondary"
+        data-umami-event="contacto-email"
+        aria-label={t("common.emailAria")}
+      >
+        {t("nav.contactCta")}
+      </Button>
+    </div>
+  </nav>
+</header>
+
+<script>
+  import "@/scripts/nav.ts";
+  import "@/scripts/theme.ts";
+</script>

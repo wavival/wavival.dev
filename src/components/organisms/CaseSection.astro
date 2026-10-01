@@ -1,0 +1,25 @@
+---
+import Index from "@/components/atoms/Index.astro";
+
+interface Props {
+  id: string;
+  n: string;
+  title: string;
+  gap?: string;
+}
+
+const { id, n, title, gap = "mb-8" } = Astro.props;
+---
+
+<section id={id} class="scroll-mt-24">
+  <header class={`flex items-baseline gap-5 border-t border-ink pt-5 ${gap}`}>
+    <Index class="text-[15px]">{n}</Index>
+    <h2
+      class="h-title m-0 leading-[1.05]"
+      style="font-size:var(--fs-h2-case);letter-spacing:-0.03em;text-wrap:pretty"
+    >
+      {title}
+    </h2>
+  </header>
+  <slot />
+</section>

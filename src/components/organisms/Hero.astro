@@ -1,0 +1,124 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import SocialLinks from "@/components/molecules/SocialLinks.astro";
+import { cvHref, siteRoutes } from "@/i18n/utils";
+
+interface Props {
+  lang?: "es" | "en";
+}
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+const base = import.meta.env.BASE_URL;
+const r = siteRoutes(lang, base);
+const cv = cvHref(lang, base);
+const cvFile = cv.slice(base.length);
+
+const stats = isEn
+  ? [
+      { value: "3 apps", label: "in production" },
+      { value: "Lúmina W", label: "founder" },
+      { value: "24h", label: "response time" },
+    ]
+  : [
+      { value: "3 apps", label: "en producción" },
+      { value: "Lúmina W", label: "fundadora" },
+      { value: "24h", label: "tiempo de respuesta" },
+    ];
+---
+
+<section id="hero" class="wrap" style="padding-top:clamp(32px,5vw,72px);padding-bottom:var(--sec)">
+  <div
+    class="flex flex-wrap justify-between gap-x-6 gap-y-3 border-b border-line pb-[18px] font-display text-xs font-bold uppercase tracking-[0.16em] text-muted"
+  >
+    <span>Valentina Ramírez · Colombia · COT (UTC-5)</span>
+    <span class="inline-flex items-center gap-[10px]">
+      <span class="status-dot status-dot-ok !h-2 !w-2" aria-hidden="true"></span>
+      {
+        isEn
+          ? "Limited availability · I respond within 24h"
+          : "Disponibilidad limitada · Respondo en 24h"
+      }
+    </span>
+  </div>
+
+  <h1 class="display-xl" style="margin:clamp(36px,5vw,64px) 0;text-wrap:balance">
+    Full Stack Developer.
+    <span class="accent">
+      {isEn ? "The code I ship, I also break." : "El código que firmo también lo rompo."}
+    </span>
+  </h1>
+
+  <div class="flex flex-wrap items-start gap-x-[clamp(32px,5vw,80px)] gap-y-10">
+    <figure class="m-0 min-w-[240px] flex-[0_1_320px]">
+      <div class="photo-frame">
+        <img
+          src={`${base}images/profile.webp`}
+          alt={isEn ? "Profile photo of Valentina Ramírez" : "Foto de perfil de Valentina Ramírez"}
+          fetchpriority="high"
+          decoding="async"
+          width="320"
+          height="400"
+        />
+      </div>
+      <figcaption class="mt-3 text-xs text-muted">
+        {isEn ? "Fig. 01: Founder of Lúmina W" : "Fig. 01: Fundadora de Lúmina W"}
+      </figcaption>
+    </figure>
+
+    <div class="flex min-w-0 max-w-[680px] flex-[1_1_440px] flex-col gap-6">
+      <p class="lead m-0">
+        {
+          isEn
+            ? "I'm Valentina Ramírez, a Colombian Full Stack Developer working with Django, React, and Next.js."
+            : "Soy Valentina Ramírez, Full Stack Developer colombiana con experiencia en Django, React y Next.js."
+        }
+      </p>
+      <p class="body-lg m-0 text-[17px] leading-[1.7]">
+        {
+          isEn
+            ? "I deliver real applications: multi-user, complex business logic, my own APIs, and frontends people actually use. Offensive mindset to write code that doesn't break, with AI integrated where it counts."
+            : "Entrego aplicaciones reales: multiusuario, lógica de negocio compleja, APIs propias y frontends que la gente usa. Mentalidad ofensiva para escribir código que no se rompe, con IA integrada donde resuelve."
+        }
+      </p>
+      <div class="mt-2 flex flex-wrap items-center gap-3">
+        <Button
+          href={cv}
+          download={cvFile}
+          icon="download-cv-white"
+          data-umami-event={isEn ? "cv-descarga-en" : "cv-descarga-es"}
+          aria-label={isEn
+            ? "Download Valentina Ramírez's CV in PDF"
+            : "Descargar CV de Valentina Ramírez en PDF"}
+        >
+          {isEn ? "Download CV" : "Descargar CV"}
+        </Button>
+        <Button
+          href={r.services}
+          variant="secondary"
+          aria-label={isEn
+            ? "See Valentina Ramírez's full services"
+            : "Ver los servicios de Valentina Ramírez"}
+        >
+          {isEn ? "See services" : "Ver servicios"}
+        </Button>
+        <SocialLinks lang={lang} size="lg" items={["linkedin", "github"]} />
+      </div>
+      <dl
+        class="m-0 mt-4 grid border-t border-line"
+        style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"
+      >
+        {
+          stats.map((s) => (
+            <div class="pr-5 pt-5">
+              <dt class="h-title text-[28px] leading-none tracking-[-0.03em] sm:text-4xl">
+                {s.value}
+              </dt>
+              <dd class="m-0 mt-2 text-[13px] text-muted">{s.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

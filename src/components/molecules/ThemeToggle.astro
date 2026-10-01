@@ -1,0 +1,16 @@
+---
+import MaskIcon from "@/components/atoms/MaskIcon.astro";
+
+interface Props {
+  /** "desktop" or "mobile": suffix for the ids scripts/theme.ts binds to. */
+  placement: "desktop" | "mobile";
+  label: string;
+}
+
+const { placement, label } = Astro.props;
+---
+
+<button id={`theme-toggle-${placement}`} type="button" aria-label={label} class="icon-btn">
+  <span id={`sun-${placement}`} class="hidden"><MaskIcon name="sun" /></span>
+  <span id={`moon-${placement}`}><MaskIcon name="moon" /></span>
+</button>

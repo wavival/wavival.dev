@@ -1,0 +1,18 @@
+---
+import StatusDot from "@/components/atoms/StatusDot.astro";
+
+interface Props {
+  index: string;
+  tag: string;
+  tone: "green" | "blue" | "orange" | "gray";
+  overline?: string;
+}
+
+const { index, tag, tone, overline } = Astro.props;
+---
+
+<div class="flex flex-wrap items-center gap-4">
+  <span class="index leading-none">{index}</span>
+  <StatusDot tone={tone}>{tag}</StatusDot>
+  {overline && <span class="label-sm label-sm-link leading-none">{overline}</span>}
+</div>

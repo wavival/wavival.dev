@@ -1,0 +1,85 @@
+---
+interface Props {
+  lang?: "es" | "en";
+  counts: Record<string, number>;
+}
+
+const { lang = "es", counts } = Astro.props;
+const isEn = lang === "en";
+
+const defs = [
+  { key: "all", label: isEn ? "All" : "Todos" },
+  { key: "full-stack", label: "Full Stack" },
+  { key: "ia", label: isEn ? "AI" : "IA" },
+  { key: "pwa", label: "PWA" },
+  { key: "landing", label: "Landing" },
+  { key: "diseno", label: isEn ? "Design" : "Diseño" },
+];
+---
+
+<div
+  id="project-filters"
+  role="group"
+  aria-label={isEn ? "Filter projects" : "Filtrar proyectos"}
+  class="flex flex-wrap border-y border-line"
+>
+  {
+    defs.map(({ key, label }) => (
+      <button
+        type="button"
+        data-filter={key}
+        data-active={key === "all" ? "true" : undefined}
+        aria-pressed={key === "all" ? "true" : "false"}
+        class="filter-btn inline-flex items-center gap-[10px] border-0 border-r border-line bg-transparent px-5 py-4 font-display text-xs font-bold uppercase tracking-[0.12em] text-muted transition-colors hover:text-link"
+      >
+        {label}
+        <span class="font-body font-medium tracking-normal opacity-70">
+          {String(counts[key] ?? 0).padStart(2, "0")}
+        </span>
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .filter-btn[data-active="true"] {
+    background-color: var(--btn);
+    color: var(--on-btn);
+  }
+</style>
+
+<script>
+  function initProjectFilters() {
+    const container = document.getElementById("project-filters");
+    if (!container) return;
+
+    const buttons = container.querySelectorAll<HTMLButtonElement>("[data-filter]");
+    const cards = document.querySelectorAll<HTMLElement>("[data-project-card]");
+    const noResults = document.getElementById("projects-no-results");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter ?? "all";
+
+        buttons.forEach((b) => {
+          const active = b === btn;
+          if (active) b.setAttribute("data-active", "true");
+          else b.removeAttribute("data-active");
+          b.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+
+        let visible = 0;
+        cards.forEach((card) => {
+          const cardFilters = (card.dataset.filters ?? "").split(" ").filter(Boolean);
+          const show = filter === "all" || cardFilters.includes(filter);
+          if (show) visible++;
+          card.style.display = show ? "" : "none";
+        });
+
+        noResults?.classList.toggle("hidden", visible > 0);
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initProjectFilters);
+</script>

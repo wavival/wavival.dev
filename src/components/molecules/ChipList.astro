@@ -1,0 +1,25 @@
+---
+import Chip from "@/components/atoms/Chip.astro";
+
+interface Props {
+  items: string[];
+  label?: string;
+  class?: string;
+}
+
+const { items, label, class: extra = "" } = Astro.props;
+---
+
+<ul
+  class={`m-0 flex list-none flex-wrap gap-[6px] p-0 ${extra}`.trim()}
+  role="list"
+  aria-label={label}
+>
+  {
+    items.map((item) => (
+      <li>
+        <Chip>{item}</Chip>
+      </li>
+    ))
+  }
+</ul>

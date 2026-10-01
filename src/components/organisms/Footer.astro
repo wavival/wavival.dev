@@ -1,0 +1,125 @@
+---
+import TextLink from "@/components/atoms/TextLink.astro";
+import SocialLinks from "@/components/molecules/SocialLinks.astro";
+import { getLangFromUrl, useTranslations, siteRoutes, ariaCurrent } from "@/i18n/utils";
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const BASE = import.meta.env.BASE_URL;
+const lang: Lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = siteRoutes(lang, BASE);
+const year = new Date().getFullYear();
+const isEn = lang === "en";
+
+const siteLinks = [
+  { href: r.projects, label: t("nav.projects") },
+  { href: r.services, label: t("nav.services") },
+  { href: r.stack, label: t("nav.stack") },
+  { href: r.about, label: t("nav.about") },
+  { href: r.contact, label: t("nav.contact") },
+];
+---
+
+<footer class="overflow-hidden border-t border-line">
+  <div class="wrap pb-8 pt-[72px]">
+    <div class="flex flex-wrap justify-between gap-x-16 gap-y-12">
+      <div class="flex max-w-[360px] flex-[1_1_280px] flex-col gap-5">
+        <a href={r.home} aria-label={t("nav.homeAria")}>
+          <img
+            src={`${BASE}brand/logo-w.webp`}
+            alt=""
+            width="64"
+            height="48"
+            class="block h-12 w-16 object-contain"
+          />
+        </a>
+        <p class="m-0 text-sm leading-[1.6] text-ink">{t("footer.tagline")}</p>
+        <SocialLinks lang={lang} />
+      </div>
+
+      <div class="flex flex-wrap gap-x-20 gap-y-12">
+        <nav aria-label={t("footer.siteNavAria")} class="flex min-w-[160px] flex-col gap-3">
+          <h2 class="label-sm m-0 mb-1">{t("footer.navHeading")}</h2>
+          {
+            siteLinks.map((l) => (
+              <TextLink variant="list" href={l.href} aria-current={ariaCurrent(l.href, Astro.url)}>
+                {l.label}
+              </TextLink>
+            ))
+          }
+        </nav>
+
+        <nav aria-label={t("footer.resourcesAria")} class="flex min-w-[160px] flex-col gap-3">
+          <h2 class="label-sm m-0 mb-1">{t("footer.resourcesHeading")}</h2>
+          <TextLink
+            variant="list"
+            href="https://github.com/wavival?tab=repositories"
+            target="_blank"
+            aria-label={t("footer.reposAria")}
+          >
+            {t("footer.repos")}
+          </TextLink>
+          <TextLink
+            variant="list"
+            href={r.uses}
+            aria-label={t("footer.usesAria")}
+            aria-current={ariaCurrent(r.uses, Astro.url)}
+          >
+            {t("footer.uses")}
+          </TextLink>
+          <TextLink
+            variant="list"
+            href="https://blog.luminaw.co"
+            target="_blank"
+            aria-label={t("footer.blogAria")}
+          >
+            {t("nav.blog")}
+          </TextLink>
+          <TextLink
+            variant="list"
+            href={r.privacy}
+            aria-label={t("footer.privacyAria")}
+            aria-current={ariaCurrent(r.privacy, Astro.url)}
+          >
+            {t("footer.privacy")}
+          </TextLink>
+        </nav>
+      </div>
+    </div>
+
+    <div
+      class="mt-[72px] flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-y border-line py-6"
+    >
+      <p class="m-0 text-[15px] text-ink">{t("footer.cta")}</p>
+      <TextLink href="https://luminaw.co" target="_blank" aria-label={t("footer.luminaAria")}>
+        {t("footer.discover")}
+      </TextLink>
+    </div>
+
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 1000 150"
+      preserveAspectRatio="none"
+      class="mt-10 block h-auto w-full opacity-[.55]"
+      style="-webkit-mask-image:linear-gradient(to bottom,#000 30%,transparent 100%);mask-image:linear-gradient(to bottom,#000 30%,transparent 100%)"
+    >
+      <text
+        x="2"
+        y="132"
+        textLength="996"
+        lengthAdjust="spacingAndGlyphs"
+        style="font-family:Raleway,sans-serif;font-weight:800;font-size:178px;letter-spacing:-0.04em;fill:none;stroke:var(--line-2);stroke-width:1px;vector-effect:non-scaling-stroke"
+        >wavival.dev</text
+      >
+    </svg>
+
+    <div class="mt-8 flex flex-wrap justify-between gap-3 text-xs text-muted">
+      <span>© {year} Valentina Ramírez</span>
+      <span>{isEn ? "Made in Colombia" : "Hecho en Colombia"}</span>
+    </div>
+  </div>
+</footer>

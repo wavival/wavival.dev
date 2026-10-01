@@ -1,0 +1,76 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import Eyebrow from "@/components/atoms/Eyebrow.astro";
+import { siteRoutes } from "@/i18n/utils";
+
+interface Props {
+  lang?: "es" | "en";
+  showServicesLink?: boolean;
+}
+
+const { lang = "es", showServicesLink = true } = Astro.props;
+const isEn = lang === "en";
+const r = siteRoutes(lang, import.meta.env.BASE_URL);
+---
+
+<section id="contact" class="border-t border-line bg-surface">
+  <div class="wrap py-sec">
+    <Eyebrow>{isEn ? "One click away" : "A un click"}</Eyebrow>
+    <h2
+      class="display-xl m-0 mt-5 max-w-[1100px]"
+      style="font-size:clamp(40px,6.4vw,100px);text-wrap:balance"
+    >
+      {isEn ? "Your next idea deserves" : "Tu próxima idea merece"}
+      <span class="accent">{isEn ? "code that can carry it." : "código que la sostenga."}</span>
+    </h2>
+    <div
+      class="mt-12 flex flex-wrap items-end justify-between gap-x-16 gap-y-8 border-t border-line pt-8"
+    >
+      <div class="flex max-w-[620px] flex-[1_1_420px] flex-col gap-3">
+        <p class="body-lg m-0 text-[17px]">
+          {
+            isEn
+              ? "I design and build complete products: from the backend to the interface your users love. With integrated AI and security by design."
+              : "Diseño y construyo productos completos: del backend a la interfaz que tus usuarios aman. Con IA integrada y seguridad desde el diseño."
+          }
+        </p>
+        <p class="m-0 text-sm text-muted">
+          {isEn ? "Projects from " : "Proyectos desde "}
+          <strong class="font-semibold text-ink">
+            {isEn ? "COP 2,000,000 / USD 500" : "COP 2.000.000 / USD 500"}
+          </strong>
+          {
+            isEn
+              ? " depending on scope (MVP from 3-6 weeks). Limited availability, I respond within 24h."
+              : " según alcance (MVP desde 3-6 semanas). Disponibilidad limitada, respondo en 24h."
+          }
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <Button
+          href={r.contact}
+          icon="send-email-white"
+          data-umami-event="cta-quiero-producto"
+          aria-label={isEn ? "Go to the contact page" : "Ir a la página de contacto"}
+        >
+          {isEn ? "Start my project" : "Quiero mi producto"}
+        </Button>
+        {
+          showServicesLink && (
+            <Button
+              href={r.services}
+              variant="secondary"
+              aria-label={
+                isEn
+                  ? "See Valentina Ramírez's full services"
+                  : "Ver los servicios completos de Valentina Ramírez"
+              }
+            >
+              {isEn ? "See services" : "Ver servicios"}
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

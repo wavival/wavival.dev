@@ -1,7 +1,7 @@
 ---
 import "@/styles/global.css";
-import NavBar from "@/components/ui/NavBar.astro";
-import Footer from "@/components/ui/Footer.astro";
+import NavBar from "@/components/organisms/NavBar.astro";
+import Footer from "@/components/organisms/Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import { getLangFromUrl, useTranslations, type Lang } from "@/i18n/utils";
 
@@ -156,7 +156,7 @@ const jsonLd = JSON.stringify({
 });
 ---
 
-<html lang={lang} class="scroll-smooth">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -165,18 +165,16 @@ const jsonLd = JSON.stringify({
       (function () {
         function applyTheme() {
           try {
-            const t = localStorage.getItem("theme");
-            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            const dark = t === "dark" || (t === null && prefersDark);
+            const dark = localStorage.getItem("theme") !== "light";
             document.documentElement.classList.toggle("dark", dark);
-            // Keep browser chrome (theme-color) in sync with the class-based theme,
-            // which can diverge from the OS prefers-color-scheme. Null on first parse
-            // (meta not yet reached); set on astro:after-swap when the doc is parsed.
+            // Keep browser chrome (theme-color) in sync with the class-based theme.
+            // Null on first parse (meta not yet reached); set on astro:after-swap.
             document
               .querySelector('meta[name="theme-color"]')
               ?.setAttribute("content", dark ? "#0f1117" : "#f0f4ff");
           } catch {
-            /* localStorage unavailable: keep default theme */
+            /* localStorage unavailable: default to the dark theme */
+            document.documentElement.classList.add("dark");
           }
         }
         applyTheme();
@@ -238,7 +236,7 @@ const jsonLd = JSON.stringify({
     />
     <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
     <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`} />
-    <meta name="theme-color" content="#f0f4ff" />
+    <meta name="theme-color" content="#0f1117" />
     <link
       rel="preload"
       as="font"
@@ -265,44 +263,17 @@ const jsonLd = JSON.stringify({
     }
     {UMAMI_SRC && UMAMI_ID && <script is:inline defer src={UMAMI_SRC} data-website-id={UMAMI_ID} />}
     {UMAMI_SRC && UMAMI_ID && <script>import "@/scripts/vitals";</script>}
-    <script>
-      function revealOnScroll() {
-        const els = document.querySelectorAll("[data-aos]");
-        if (!els.length) return;
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (reduceMotion || !("IntersectionObserver" in window)) {
-          els.forEach((el) => el.classList.add("aos-in"));
-          return;
-        }
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("aos-in");
-                io.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0, rootMargin: "0px 0px -100px 0px" }
-        );
-        els.forEach((el) => io.observe(el));
-      }
-
-      // astro:page-load fires on the initial load and after every View Transitions
-      // navigation, so freshly-swapped [data-aos] elements get re-observed.
-      document.addEventListener("astro:page-load", revealOnScroll);
-    </script>
     <script is:inline type="application/ld+json" set:html={jsonLd} />
   </head>
-  <body class="bg-[var(--bg-page)] text-[var(--text-primary)] antialiased">
+  <body class="bg-bg text-ink antialiased">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#1565c0] focus:text-white focus:rounded-lg focus:font-semibold focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-control focus:bg-btn focus:px-4 focus:py-2 focus:font-display focus:text-xs focus:font-bold focus:uppercase focus:tracking-[0.1em] focus:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
     >
       {t("common.skip")}
     </a>
     <NavBar lang={lang as Lang} />
-    <main id="main-content" class="pt-16">
+    <main id="main-content">
       <slot />
     </main>
     <Footer lang={lang as Lang} />

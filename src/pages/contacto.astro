@@ -1,6 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Link from "@/components/ui/Link.astro";
+import PageIntro from "@/components/molecules/PageIntro.astro";
+import SectionHeader from "@/components/molecules/SectionHeader.astro";
+import Button from "@/components/atoms/Button.astro";
+import TextLink from "@/components/atoms/TextLink.astro";
+import MaskIcon from "@/components/atoms/MaskIcon.astro";
+import Index from "@/components/atoms/Index.astro";
 
 const email = "wavival.dev@luminaw.co";
 const whatsappNumber = "573016560222";
@@ -40,7 +45,6 @@ const contactSchema = JSON.stringify({
 const channels = [
   {
     icon: "send-email-white",
-    iconWrap: "bg-[var(--brand-blue)]",
     title: "Correo",
     body: "Cuéntame tu proyecto con calma. Respondo en 24h.",
     href: `mailto:${email}`,
@@ -51,7 +55,6 @@ const channels = [
   },
   {
     icon: "whatsapp",
-    iconWrap: "bg-[var(--bg-blur)]",
     title: "WhatsApp",
     body: "Para dudas rápidas o arrancar de una.",
     href: whatsappHref,
@@ -62,7 +65,6 @@ const channels = [
   },
   {
     icon: "calendar-blue",
-    iconWrap: "bg-[var(--bg-blur)]",
     title: "Llamada 30 min",
     body: "Sin compromiso. Agenda en tu zona horaria; coordino desde COT (UTC-5).",
     href: "#agenda",
@@ -71,6 +73,11 @@ const channels = [
     ariaLabel: "Ir al calendario para agendar una llamada",
     event: "contacto-calendly",
   },
+];
+const steps = [
+  "Eliges un horario que te sirva.",
+  "Hablamos 30 min de tu idea.",
+  "Te envío una propuesta clara.",
 ];
 ---
 
@@ -83,92 +90,86 @@ const channels = [
     { hreflang: "x-default", href: "https://www.wavival.dev/contacto/" },
   ]}
 >
-  <section class="section" data-aos="fade-up">
-    <p class="section-subtitle">Hablemos</p>
-    <h1 class="section-title">
-      Tu próxima idea merece <span class="text-[var(--brand-blue)]">código que la sostenga.</span>
-    </h1>
-    <p class="text-[var(--text-muted)] leading-relaxed mt-4 max-w-2xl">
-      ¿Tienes un producto en mente? Elige cómo prefieres empezar. Diseño y construyo productos
-      completos, del backend a la interfaz, con IA integrada y seguridad desde el diseño.
-    </p>
+  <section class="wrap page-top">
+    <PageIntro eyebrow="Hablemos">
+      <Fragment slot="title"
+        >Tu próxima idea merece <span class="accent">código que la sostenga.</span></Fragment
+      >
+      <p class="body-lg m-0">
+        ¿Tienes un producto en mente? Elige cómo prefieres empezar. Diseño y construyo productos
+        completos, del backend a la interfaz, con IA integrada y seguridad desde el diseño.
+      </p>
+    </PageIntro>
 
-    <div class="grid gap-6 md:grid-cols-3 mt-10">
+    <div
+      class="mt-16 grid border-t border-ink"
+      style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))"
+    >
       {
-        channels.map((c) => (
-          <article class="card flex flex-col gap-4 !p-6">
-            <span
-              class={`flex items-center justify-center w-12 h-12 rounded-[var(--radius-md)] ${c.iconWrap}`}
-            >
-              <img
-                src={`${import.meta.env.BASE_URL}icons/ui/${c.icon}.svg`}
-                alt=""
-                width="24"
-                height="24"
-                class="w-[24px] h-[24px]"
-              />
-            </span>
-            <div class="flex flex-col gap-1">
-              <h3 class="font-display font-bold text-lg text-[var(--text-primary)]">{c.title}</h3>
-              <p class="text-sm text-[var(--text-muted)] leading-relaxed">{c.body}</p>
+        channels.map((c, i) => (
+          <article class="flex flex-col gap-5 border-b border-line py-8 pr-7">
+            <div class="flex items-center justify-between">
+              <Index>{String(i + 1).padStart(2, "0")}</Index>
+              <span class="inline-flex h-12 w-12 items-center justify-center border border-line bg-tint">
+                <MaskIcon name={c.icon} size="lg" />
+              </span>
             </div>
-            <Link
+            <h2 class="h-title m-0 text-[32px] tracking-[-0.02em]">{c.title}</h2>
+            <p class="body m-0">{c.body}</p>
+            <Button
+              variant="secondary"
+              size="sm"
+              class="mt-auto self-start"
               href={c.href}
               target={c.target}
-              class="!text-sm mt-auto"
               aria-label={c.ariaLabel}
               data-umami-event={c.event}
             >
               {c.cta}
-            </Link>
+            </Button>
           </article>
         ))
       }
     </div>
 
-    <p class="text-xs text-[var(--text-muted)] mt-6">
-      Proyectos desde <strong class="text-[var(--text-primary)]">COP 2.000.000 / USD 500</strong> según
-      alcance. Disponibilidad limitada.
+    <p class="body mt-6 mb-0">
+      Proyectos desde <strong class="font-semibold text-ink">COP 2.000.000 / USD 500</strong> según alcance.
+      Disponibilidad limitada.
     </p>
   </section>
 
-  <section id="agenda" class="section !pt-0" data-aos="fade-up">
-    <h2 class="font-display font-bold text-2xl text-[var(--text-primary)] mb-6">
-      Agenda una llamada de descubrimiento
-    </h2>
-
-    <ol class="grid gap-4 md:grid-cols-3 mb-10">
-      {
-        [
-          { n: "1", text: "Eliges un horario que te sirva." },
-          { n: "2", text: "Hablamos 30 min de tu idea." },
-          { n: "3", text: "Te envío una propuesta clara." },
-        ].map((step) => (
-          <li class="flex items-center gap-3 text-sm text-[var(--text-muted)]">
-            <span class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full bg-[var(--brand-blue)] text-white font-display font-bold">
-              {step.n}
-            </span>
-            {step.text}
-          </li>
-        ))
-      }
-    </ol>
+  <section id="agenda" class="wrap pb-[var(--sec)]">
+    <SectionHeader title="Agenda una llamada de descubrimiento" class="mb-10">
+      <ol
+        class="m-0 mt-8 grid list-none gap-x-8 gap-y-4 p-0"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))"
+      >
+        {
+          steps.map((text, i) => (
+            <li class="flex items-baseline gap-[14px] text-[15px] text-ink">
+              <span class="h-title text-[28px] text-blue">{i + 1}</span>
+              {text}
+            </li>
+          ))
+        }
+      </ol>
+    </SectionHeader>
 
     <div
       id="calendly-embed"
       role="region"
       aria-label="Calendario para agendar una llamada de 30 minutos"
-      class="rounded-[var(--radius-md)] overflow-hidden border border-[var(--border-base)]"
+      class="overflow-hidden border border-line bg-bg"
     >
       <noscript>
-        <p class="text-[var(--text-muted)] leading-relaxed p-6">
+        <p class="body m-0 p-6">
           El calendario necesita JavaScript. Agenda directamente en
-          <Link
+          <TextLink
+            variant="inline"
             href={calendlyUrl}
             target="_blank"
-            class="inline"
-            aria-label="Abrir el calendario de Calendly">Calendly</Link
-          > o escríbeme a <Link href={`mailto:${email}`} class="inline">{email}</Link>.
+            aria-label="Abrir el calendario de Calendly">Calendly</TextLink
+          > o escríbeme a <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink>.
         </p>
       </noscript>
     </div>
