@@ -80,25 +80,31 @@ The button fill is theme-independent so white text stays at or above 4.5:1 in bo
 
 ### Type scale
 
-| Token                | Value                      | Used by                     |
-| -------------------- | -------------------------- | --------------------------- |
-| `--fs-display-xl`    | `clamp(36px, 5.2vw, 80px)` | `.display-xl` (home `h1`)   |
-| `--fs-display-page`  | `clamp(44px, 7vw, 108px)`  | `.display-page` (page `h1`) |
-| `--fs-display-about` | `clamp(56px, 10vw, 160px)` | `PageIntro size="about"`    |
-| `--fs-display-case`  | `clamp(52px, 9vw, 148px)`  | `PageIntro size="case"`     |
-| `--fs-h2`            | `clamp(36px, 5vw, 72px)`   | `.h2-section`               |
-| `--fs-h2-case`       | `clamp(30px, 3.4vw, 48px)` | `CaseSection` heading       |
-| `--fs-h3-project`    | `clamp(40px, 6vw, 88px)`   | `.h3-project`               |
-| `--fs-lead`          | `clamp(22px, 2.2vw, 30px)` | `.lead`                     |
-| `--fs-body-lg`       | `18px`                     | `.body-lg`                  |
-| `--fs-body`          | `16px`                     | Body base                   |
-| `--fs-body-sm`       | `15px`                     | `.body`                     |
-| `--fs-label`         | `12px`                     | `.eyebrow`                  |
-| `--fs-label-sm`      | `11px`                     | `.label-sm`, `.badge`       |
-| `--tracking-display` | `-0.04em`                  | Display and project titles  |
-| `--tracking-h2`      | `-0.035em`                 | `.h2-section`               |
-| `--tracking-label`   | `0.16em`                   | Uppercase labels            |
-| `--tracking-button`  | `0.1em`                    | `.btn`                      |
+| Token                  | Value                       | Used by                                             |
+| ---------------------- | --------------------------- | --------------------------------------------------- |
+| `--fs-display-xl`      | `clamp(36px, 5.2vw, 80px)`  | `.display-xl` (home `h1`)                           |
+| `--fs-display-page`    | `clamp(44px, 7vw, 108px)`   | `.display-page` (page `h1`)                         |
+| `--fs-display-index`   | `clamp(48px, 8vw, 120px)`   | `.display-index` (`/proyectos` `h1`)                |
+| `--fs-display-contact` | `clamp(44px, 7.4vw, 116px)` | `.display-contact` (`/contacto` `h1`)               |
+| `--fs-display-case`    | `clamp(52px, 9vw, 148px)`   | `.display-case` (case study `h1`, lh .92)           |
+| `--fs-display-uses`    | `clamp(52px, 9vw, 140px)`   | `.display-uses` (`/herramientas` `h1`, lh .92)      |
+| `--fs-display-about`   | `clamp(56px, 10vw, 160px)`  | `.display-about` (`/sobre-mi` `h1`, lh .9, -0.05em) |
+| `--fs-display-cta`     | `clamp(40px, 6.4vw, 100px)` | `.display-cta` (`ContactBand` `h2`)                 |
+| `--fs-h2-sub`          | `clamp(32px, 4vw, 56px)`    | `.h2-sub` (sub-section `h2`)                        |
+| `--fs-body-md`         | `16px`                      | `.body-md` (legal copy, "Qué construyo")            |
+| `--fs-h2`              | `clamp(36px, 5vw, 72px)`    | `.h2-section`                                       |
+| `--fs-h2-case`         | `clamp(30px, 3.4vw, 48px)`  | `CaseSection` heading                               |
+| `--fs-h3-project`      | `clamp(40px, 6vw, 88px)`    | `.h3-project`                                       |
+| `--fs-lead`            | `clamp(22px, 2.2vw, 30px)`  | `.lead`                                             |
+| `--fs-body-lg`         | `18px`                      | `.body-lg`                                          |
+| `--fs-body`            | `16px`                      | Body base                                           |
+| `--fs-body-sm`         | `15px`                      | `.body`                                             |
+| `--fs-label`           | `12px`                      | `.eyebrow`                                          |
+| `--fs-label-sm`        | `11px`                      | `.label-sm`, `.badge`                               |
+| `--tracking-display`   | `-0.04em`                   | Display and project titles                          |
+| `--tracking-h2`        | `-0.035em`                  | `.h2-section`                                       |
+| `--tracking-label`     | `0.16em`                    | Uppercase labels                                    |
+| `--tracking-button`    | `0.1em`                     | `.btn`                                              |
 
 ### Tailwind aliases
 
@@ -136,6 +142,8 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 - The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
 - `ContactBand` closes the home and also services, about, and case studies.
 - Accordions are native `<details>` (`Disclosure`) with the state shown as text.
+- Line-height defaults to 1.6 (body and the Tailwind `fontSize` scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
+- The mobile menu overlay is a sibling of the sticky `<header>`, never a child: `backdrop-filter` on the header would otherwise become the containing block of the `fixed` overlay.
 
 ## Component classes
 
@@ -156,7 +164,7 @@ All inside `@layer components` in `src/styles/utilities.css`, 2-space indentatio
 | `.lead`, `.body-lg`, `.body`                         | Lead paragraph, large body, small body (muted)                                                                                                                        |
 | `.accent`                                            | `--blue` text for display emphasis                                                                                                                                    |
 | `.btn`                                               | Base button: Raleway 700, uppercase, `--radius-control`; `.btn-primary` (fill `--btn`), `.btn-secondary` (`--line-2` outline), sizes `.btn-sm`, `.btn-compact` (44px) |
-| `.text-link`, `.list-link`, `.inline-link`           | Underlined uppercase link, list link (`aria-current` to `--link`), in-prose link                                                                                      |
+| `.action-link`, `.list-link`, `.inline-link`         | Underlined uppercase link, list link (`aria-current` to `--link`), in-prose link                                                                                      |
 | `.icon-btn` (+ `.icon-btn-lg`)                       | 44px (50px) bordered icon button                                                                                                                                      |
 | `.mask-icon` (+ `-lg`, `-xl`)                        | Icon tinted with `--link` through CSS mask (`--icon` custom property)                                                                                                 |
 | `.lang-toggle`                                       | 44px text toggle "EN"/"ES"                                                                                                                                            |

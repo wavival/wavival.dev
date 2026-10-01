@@ -109,49 +109,51 @@ const mobileLinks = [
       </button>
     </div>
   </nav>
-
-  <nav
-    id="mobile-menu"
-    aria-label={t("nav.mobileAria")}
-    class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-[45] flex translate-y-2 flex-col overflow-auto bg-bg px-gut pb-10 pt-6 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
-    inert
-  >
-    <ul class="m-0 flex list-none flex-col p-0" role="list">
-      {
-        mobileLinks.map((l, i) => (
-          <li class="border-b border-line">
-            <a
-              href={l.href}
-              aria-current={current(l.href)}
-              class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link"
-            >
-              <span class="index w-6">{String(i + 1).padStart(2, "0")}</span>
-              <span class="h-title text-[34px] leading-none tracking-[-0.02em]">{l.label}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <div class="mt-auto flex flex-col items-start gap-4 pt-8">
-      <Button
-        href="https://blog.luminaw.co"
-        target="_blank"
-        icon="read-more-white"
-        aria-label={t("footer.blogAria")}
-      >
-        {t("nav.blog")}
-      </Button>
-      <Button
-        href="mailto:wavival.dev@luminaw.co"
-        variant="secondary"
-        data-umami-event="contacto-email"
-        aria-label={t("common.emailAria")}
-      >
-        {t("nav.contactCta")}
-      </Button>
-    </div>
-  </nav>
 </header>
+
+<nav
+  id="mobile-menu"
+  aria-label={t("nav.mobileAria")}
+  class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-[45] flex translate-y-2 flex-col overflow-auto bg-bg px-gut pb-10 pt-6 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
+  inert
+>
+  <ul class="m-0 flex list-none flex-col p-0" role="list">
+    {
+      mobileLinks.map((l, i) => (
+        <li class="border-b border-line">
+          <a
+            href={l.href}
+            aria-current={current(l.href)}
+            class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link"
+          >
+            <span class="index w-6">{String(i + 1).padStart(2, "0")}</span>
+            <span class="h-title text-[34px] leading-none tracking-[-0.02em] text-[color:inherit]">
+              {l.label}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="mt-auto flex flex-col items-start gap-4 pt-8">
+    <Button
+      href="https://blog.luminaw.co"
+      target="_blank"
+      icon="read-more-white"
+      aria-label={t("footer.blogAria")}
+    >
+      {t("nav.blog")}
+    </Button>
+    <Button
+      href="mailto:wavival.dev@luminaw.co"
+      variant="secondary"
+      data-umami-event="contacto-email"
+      aria-label={t("common.emailAria")}
+    >
+      {t("nav.contactCta")}
+    </Button>
+  </div>
+</nav>
 
 <script>
   import "@/scripts/nav.ts";
