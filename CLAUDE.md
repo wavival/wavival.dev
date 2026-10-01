@@ -34,11 +34,11 @@ The production target is **Vercel**. `vercel.json` defines the security headers,
 
 - `main` is production, `stg` is staging, and `dev` is the integration base for human `feature/*`, `fix/*`, and `chore/*` work branches.
 - Every human work PR targets `dev`. Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges them manually with a merge commit, not squash or rebase, to preserve branch ancestry.
-- Protected branch checks are `commitlint`, `pr-title`, `quality`, `tests`, `gitleaks`, and `validate-base`. The first four are thin callers of `lumina-w/agents`' reusable workflows (`shared-commitlint.yml`, `shared-pr-title.yml`, `shared-gitleaks.yml`, `shared-validate-pr-base.yml`); `quality` and `tests` stay in this repo's own `ci.yml`. `commit-lint.yml` and `pr-title.yml` clone `@lumina-w/dev-standards` at tag `v0.6.0` (`dev-standards-ref`) with the `DEV_STANDARDS_DEPLOY_KEY` deploy-key secret, so `commitlint.config.cjs` can `extends: ["@lumina-w/dev-standards/commitlint"]`.
+- Protected branch checks are `commitlint`, `pr-title`, `quality`, `tests`, `gitleaks`, and `validate-base`. The first four are thin callers of `lumina-w/agents`' reusable workflows (`shared-commitlint.yml`, `shared-pr-title.yml`, `shared-gitleaks.yml`, `shared-validate-pr-base.yml`); `quality` and `tests` stay in this repo's own `ci.yml`.
 - `validate-base` (`shared-validate-pr-base.yml`) accepts `dev` into `stg` and `stg` into `main`; it does not itself enforce work-branch naming into `dev` (that is a convention, not a CI check, same as the Lúmina W product repos).
 - `auto-merge-dev` enables merge-commit auto-merge for non-draft `feature/*`, `fix/*`, and `chore/*` PRs to `dev` with the built-in GitHub token and write permissions. It does not use squash or rebase.
 - `delete-merged-branches` runs every 12 hours and reports merged `feature/*`, `fix/*`, and `chore/*` remote branch cleanup candidates. Actual scheduled deletion needs explicit human approval.
-- Commit messages use strict Conventional Commits in the form `type(scope): message`, per `@lumina-w/dev-standards/commitlint`. Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Scopes: `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, `a11y`, `billing`. 72-character header limit, not counting a squash-merge ` (#123)` suffix.
+- Commit messages use strict Conventional Commits in the form `type(scope): message`. Portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
 
 ---
 
