@@ -189,18 +189,18 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 
 ## Page inventory
 
-| Page (ES / EN)                             | Composition                                                                                                                |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| `/` and `/en`                              | `Hero` (#hero), `FeaturedProjects` (#projects), `StackSection` (#stack), `AboutSection` (#about), `ContactBand` (#contact) |
-| `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                           |
-| `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy`: sections `cs-problem`, `cs-architecture`, `cs-decisions`, `cs-results`, `cs-learnings`, closing `ContactBand` |
-| `/servicios` and `/en/services`            | `PageIntro`, `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                |
-| `/cotizar` and `/en/quote`                 | `PageIntro`, two-column field grid, service checklist, and in-place confirmation                                           |
-| `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `PullQuote`, `ContactBand`                                                                  |
-| `/contacto` and `/en/contact`              | `PageIntro`, contact channels with `SectionHeader`                                                                         |
-| `/herramientas` and `/en/uses`             | `PageIntro`, stack breakdown with `ChipList`, `RepoCard`s in `#repos`                                                      |
-| `/privacidad` and `/en/privacy`            | `PageIntro`, `LegalSection`s                                                                                               |
-| `/404` and `/en/404`                       | `NotFound` (noindex)                                                                                                       |
+| Page (ES / EN)                             | Composition                                                                                                                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/` and `/en`                              | `Hero` (#hero), `FeaturedProjects` (#projects), `StackSection` (#stack), `AboutSection` (#about), `ContactBand` (#contact)                                                    |
+| `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                                                                              |
+| `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy`: sections `cs-problem`, `cs-architecture`, `cs-design` (only when the project sets `design`), `cs-decisions`, `cs-results`, `cs-learnings`, closing `ContactBand` |
+| `/servicios` and `/en/services`            | `PageIntro`, `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                                                                   |
+| `/cotizar` and `/en/quote`                 | `PageIntro`, two-column field grid, service checklist, and in-place confirmation                                                                                              |
+| `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `PullQuote`, `ContactBand`                                                                                                                     |
+| `/contacto` and `/en/contact`              | `PageIntro`, contact channels with `SectionHeader`                                                                                                                            |
+| `/herramientas` and `/en/uses`             | `PageIntro`, stack breakdown with `ChipList`, `RepoCard`s in `#repos`                                                                                                         |
+| `/privacidad` and `/en/privacy`            | `PageIntro`, `LegalSection`s                                                                                                                                                  |
+| `/404` and `/en/404`                       | `NotFound` (noindex)                                                                                                                                                          |
 
 ## Dark mode strategy
 

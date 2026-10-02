@@ -148,7 +148,7 @@ Path: `src/data/projects.ts`. Exports the `projects: Project[]` array plus the `
 - `title`, `slug`, `tag`, `tagColor` (`green` / `blue` / `orange` / `gray`), `stack: string[]`
 - Optional cover image: `image`, `imageAlt`, `imageWidth`, `imageHeight`
 - `filters?: string[]` (any of `full-stack`, `ai`, `pwa`, `landing`, `design`, `security`) used by `ProjectFilters`
-- `problem`, `solution`, and optional case-study content: `architecture`, `decisions`, `results`, `learnings`, `painPoints`, `modules`, `chainSteps`, `chainStepsTitle`, `metrics`
+- `problem`, `solution`, and optional case-study content: `architecture`, `decisions`, `results`, `learnings`, `painPoints`, `modules`, `chainSteps`, `chainStepsTitle`, `design` (string list, own section), `metrics`
 - `links: ProjectLink[]` (`{ href, text, ariaLabel, event? }`; `event` becomes `data-umami-event`)
 - `designLink?: ProjectLink` is rendered only in the internal case study; it is not included in project cards or rows
 - `caseStudy?: boolean` (true means the slug gets its own `/proyectos/<slug>` + `/en/projects/<slug>` case-study page)
@@ -157,7 +157,7 @@ Path: `src/data/projects.ts`. Exports the `projects: Project[]` array plus the `
 - `schemaType?: "SoftwareApplication" | "WebSite" | "CreativeWork"` (drives the case-study JSON-LD)
 - `en?: ProjectEn` (English overrides: `imageAlt`, `tag`, `problem`, `solution`, `links`, `designLink`, plus the optional case-study fields). `projectView()` (below) and the case-study pages read `p.en?.<field> ?? p.<field>` when `isEn`.
 
-Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **OKroot PWA** (`okroot`, SoftwareApplication), **OKroot Landing** (`okroot-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set on the home (`FeaturedProjects`): `terracore`, `okroot`, `nullbreach`.
+Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **OKroot PWA** (`okroot`, SoftwareApplication), **OKroot Landing** (`okroot-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **wavival.dev** (`wavival-dev`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set on the home (`FeaturedProjects`): `terracore`, `okroot`, `nullbreach`.
 
 ### `projectView.ts`
 
@@ -208,7 +208,7 @@ Single-page assembly. Both pass `alternates` (es / en / x-default) to `Layout`; 
 
 ### `proyectos/[slug].astro`, `en/projects/[slug].astro`
 
-Dynamic case-study pages generated from the `projects` array (one per `caseStudy: true` slug). Render `CaseStudy` (problem, architecture, decisions, results, learnings under ids `cs-*`, plus metrics and a closing `ContactBand`), and emit per-page JSON-LD (`SoftwareApplication` / `WebSite` / `CreativeWork` per `project.schemaType`, plus `BreadcrumbList`).
+Dynamic case-study pages generated from the `projects` array (one per `caseStudy: true` slug). Render `CaseStudy` (problem, architecture, design, decisions, results, learnings under ids `cs-*`, plus metrics and a closing `ContactBand`), and emit per-page JSON-LD (`SoftwareApplication` / `WebSite` / `CreativeWork` per `project.schemaType`, plus `BreadcrumbList`).
 
 ### Other standalone pages
 
