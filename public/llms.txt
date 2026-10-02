@@ -20,7 +20,7 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 
 ## Projects
 
-- [TerraCore (live)](https://terracoreapp.co): Multitenancy agricultural operations PWA: inventory, livestock health, real-time dashboards, and offline-first workflows. Django · DRF · PostgreSQL · JWT · React · TypeScript · Tailwind CSS. Reduced administrative task time by 42% in pilot farms (Urabá, Colombia). Case study: https://www.wavival.dev/proyectos/terracore
+- [TerraCore (live)](https://terracoreapp.co): Multi-user, offline-first PWA for farms in Colombia: livestock, crops, supplies, production, animal health, and finances in connected modules. Django · DRF · PostgreSQL · Celery · Redis · JWT · React · TypeScript · Dexie · Tailwind CSS. In production and under validation with clients in Antioquia, Colombia. Case study: https://www.wavival.dev/proyectos/terracore
 - [OKroot (live)](https://okroot.co/): Offline-first PWA with AI-powered food-label scanner for celiac, diabetic, and lactose-intolerant users. Django · DRF · PostgreSQL · React · TypeScript · Claude API · PWA. Case study: https://www.wavival.dev/proyectos/okroot
 - [NullBreach (live)](https://www.wavival.dev/nullbreach/): Next.js security application with OWASP-aligned code analysis, OpenAI chat, NextAuth, Prisma, and Prisma Postgres. Its marketing landing remains in Astro. Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
 - [Blog Lúmina W (live)](https://blog.luminaw.co): Technical blog presented as a PWA and migrated to Next.js. Case study: https://www.wavival.dev/proyectos/blog-lumina-w

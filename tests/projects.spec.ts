@@ -65,6 +65,6 @@ test.describe("projects index filters", () => {
     await disclosure.locator("summary").click();
     await expect(disclosure).not.toHaveAttribute("open", "");
 
-    await expect(page.locator("[data-learnings-cards] > article")).toHaveCount(1);
+    await expect(page.locator("[data-learnings-cards] > article")).toHaveCount(6);
   });
 });

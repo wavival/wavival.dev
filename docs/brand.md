@@ -219,7 +219,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 
 ### TerraCore (producto de Lúmina W)
 
-- Producto funcional y comercial: SaaS multitenancy para fincas medianas en Colombia (PWA offline-first). Django, DRF, PostgreSQL, React, TypeScript.
+- Producto en producción y en venta activa, en validación con clientes en Antioquia, Colombia: SaaS multitenancy para fincas medianas en Colombia (PWA offline-first). Django, DRF, PostgreSQL, React, TypeScript.
 - Landing `terracoreapp.co`; app `app.terracoreapp.co`.
 - Solo el plan Semilla se trata como disponible actualmente. Los planes Profesional y Enterprise que muestra la landing no se mencionan como disponibles.
 - No se usa públicamente la cifra de reducción de tiempo administrativo (42%), aunque el sitio actual todavía la publique. No se copia a contenido.
@@ -254,7 +254,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Canales V1: Instagram y LinkedIn. Idioma: español.
 - Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes que descubren Lúmina W y sus productos a través de wavival.
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
-- TerraCore: funcional y comercial; solo Semilla disponible. OKroot: funcional en early access.
+- TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - No usar públicamente la cifra del 42%.
 - Servicios dirigen prioritariamente a Lúmina W.
 - No usar nombres ni experiencias de terceros del CV en V1.

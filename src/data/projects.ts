@@ -6,6 +6,18 @@ export interface ProjectLink {
   event?: string;
 }
 
+export interface ProjectChain {
+  title: string;
+  steps: string[];
+}
+
+export interface ProjectRoadmap {
+  now: string[];
+  next: string[];
+  later: string[];
+  out?: string[];
+}
+
 export interface ProjectEn {
   imageAlt?: string;
   tag?: string;
@@ -24,7 +36,9 @@ export interface ProjectEn {
   modules?: { name: string; text: string }[];
   chainSteps?: string[];
   chainStepsTitle?: string;
+  chains?: ProjectChain[];
   design?: string[];
+  roadmap?: ProjectRoadmap;
 }
 
 export interface Project {
@@ -65,8 +79,12 @@ export interface Project {
   chainSteps?: string[];
   /** Heading for the chainSteps callout. */
   chainStepsTitle?: string;
+  /** Several cascade examples; takes precedence over chainSteps when set. */
+  chains?: ProjectChain[];
   /** Design notes shown in their own case-study section. */
   design?: string[];
+  /** Product roadmap shown as the last case-study section. */
+  roadmap?: ProjectRoadmap;
   /** Architecture decisions rendered as structured cards (context / trade-off / decision). */
   decisions?: { title: string; context: string; tradeoff: string; decision: string }[];
   /** Key metric stat cards shown above the results list. */
@@ -91,7 +109,7 @@ export const projects: Project[] = [
     title: "TerraCore PWA",
     slug: "terracore",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-terracore.webp",
@@ -99,25 +117,38 @@ export const projects: Project[] = [
       "Dashboard de TerraCore: métricas en tiempo real, gráficas de producción y distribución de ganado",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Django", "DRF", "PostgreSQL", "JWT", "React", "TypeScript", "Tailwind CSS"],
+    stack: [
+      "Django",
+      "DRF",
+      "PostgreSQL",
+      "Celery",
+      "Redis",
+      "JWT",
+      "React",
+      "TypeScript",
+      "Dexie",
+      "Tailwind CSS",
+    ],
     appCategory: "BusinessApplication",
     programmingLanguage: ["Python", "TypeScript", "SQL"],
     summary:
-      "PWA multitenancy para fincas medianas en Colombia. Centraliza animales, inventario, producción, salud y costos en una plataforma offline-first; redujo el tiempo administrativo 42% en fincas piloto. Django, DRF, PostgreSQL, React.",
+      "PWA multiusuario y offline-first para fincas colombianas. Registra animales, cultivos, insumos, producción, salud animal y finanzas en un solo sistema donde cada acción en un módulo actualiza los demás. Django, DRF, PostgreSQL, React y Dexie.",
     filters: ["full-stack", "pwa", "design"],
     problem:
       "Los productores agropecuarios en Colombia no contaban con software diseñado para ellos: los ERPs existentes eran demasiado complejos, y Excel con login no alcanzaba para gestionar animales, sanidad y producción al mismo tiempo. La operación terminaba repartida entre cuadernos, hojas de cálculo y grupos de WhatsApp.",
     solution:
-      "TerraCore centraliza en una sola pantalla todo lo que una finca mediana necesita gestionar: animales, inventario, producción, salud animal, costos y finanzas. Reemplaza Excel, cuadernos y WhatsApp como herramientas operativas. Construida desde el campo con productores reales de Urabá, atiende bovino, porcino, equino, ovino, caprino, avícola y cultivos asociados (plátano, cacao, maíz) en Colombia.",
+      "TerraCore centraliza en una sola plataforma lo que una finca mediana necesita gestionar: animales, cultivos, insumos, producción, salud animal y finanzas. Los módulos están conectados entre sí, así que una acción en el campo actualiza los demás registros, y todo funciona sin señal. Lo usa un equipo completo, con roles y permisos por sede. Reemplaza Excel, cuadernos y WhatsApp como herramientas operativas y atiende bovino, porcino, equino, ovino, caprino, avícola y cultivos asociados (plátano, cacao, maíz) en Colombia.",
     architecture: [
-      "Arquitectura multitenancy: cada organización opera en su propio espacio de datos aislado sobre una sola instancia del backend.",
-      "API REST con Django REST Framework, autenticación JWT y control de acceso por tres roles con permisos diferenciados: Administrador, Operario y Colaborador.",
-      "PWA instalable desde el navegador en Android e iOS sin pasar por App Store: Service Worker persiste registros sin señal y sincroniza en batch al recuperar la red.",
-      "Seis módulos integrados: Dashboard con KPIs en tiempo real, animales (ID, raza, peso, salud, ubicación), insumos con alertas de stock mínimo, costos operativos por lote, producción por lotes y salud animal con vacunas e historial sanitario.",
-      "Importación desde CSV para un onboarding sin fricción y exportación CSV en cualquier momento: portabilidad total de los datos del productor, sin lock-in.",
-      "Modelado relacional en PostgreSQL: organizaciones, usuarios, animales, lotes, insumos y registros de producción.",
-      "Frontend en React + TypeScript consumiendo la API propia; diseño responsivo con Tailwind CSS.",
-      "TLS en todos los endpoints; cumplimiento Ley 1581 de Habeas Data sin minería de datos para terceros ni entrenamiento de modelos con datos del usuario.",
+      "Backend en Django 6 y DRF sobre PostgreSQL 16. Celery con Redis ejecuta las tareas programadas (cobros y alertas). Autenticación JWT: access de 24 horas y refresh de 180 días con rotación.",
+      "Multitenancy estricta: el tenant sale del JWT, nunca del body ni de la URL, y todo queryset se filtra por tenant antes de responder.",
+      "Lógica de negocio en servicios con transacciones y bloqueo de filas. Cada endpoint valida rol, plan y sede, y los errores siguen un contrato uniforme.",
+      "Frontend en React 19, TypeScript, Vite y Tailwind 4, con una carpeta por módulo y un hook de estado por módulo.",
+      "PWA instalable en Android e iOS sin pasar por tiendas. El Service Worker cachea la app y las lecturas; los datos viven en una base local (IndexedDB con Dexie) y cada escritura entra a una cola de salida (outbox).",
+      "Sincronización con un endpoint que cubre diez modelos: push en orden de dependencias, pull paginado por cursor y versión por registro. El servidor responde aceptado, conflicto o rechazo con motivo, y revalida igual que la API REST.",
+      "Offline más allá de los registros: una cola de acciones diferidas (invitar usuarios, cambiar roles) y lecturas guardadas para abrir cada pantalla sin red. Solo pagar con tarjeta exige conexión.",
+      "Importación CSV para el onboarding y exportación CSV con aprobación de un administrador.",
+      "Seguridad: documentación de la API restringida a staff y una ronda de hardening sobre sincronización, exportaciones, facturación y alcance por sede.",
+      "Infraestructura en Docker y Nginx sobre VPS, con staging aislado y flujo dev, stg y main. La imagen se publica en GHCR con escaneo Trivy y se despliega por digest. Más de 1.000 pruebas automatizadas en cada repositorio.",
     ],
     links: [
       {
@@ -128,21 +159,49 @@ export const projects: Project[] = [
       },
     ],
     designLink: {
-      href: DESIGN_PLACEHOLDER_URL,
+      href: "https://terracore-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de TerraCore",
     },
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
-      "Caso de estudio de TerraCore: SaaS de gestión agroindustrial para fincas medianas en Colombia. Django, DRF, PostgreSQL y React. PWA offline-first, multitenancy.",
+      "Caso de estudio de TerraCore: PWA multiusuario y offline-first para fincas colombianas. Django, DRF, PostgreSQL y React. Módulos conectados y en producción.",
+    design: [
+      "El producto nace de un diseño propio en Claude Design, con un prototipo navegable (botón Ver diseño).",
+      "Verde profundo como color primario y ámbar como acento sobre neutros cálidos. Inter para texto y Poppins para títulos.",
+      "Atomic design con tokens CSS compartidos con la landing: átomos, moléculas y organismos de layout.",
+      "Navegación responsive: panel lateral desde 1024 px y barra inferior con hoja Más en móvil. Ambas salen de la misma fuente y una prueba falla si se desalinean.",
+      "El estado offline siempre es visible: banner, contador de pendientes, marca Pendiente en cada fila y bandeja de rechazos.",
+      "Con una sede activa, una etiqueta de alcance dice siempre si la pantalla muestra esa sede o todas.",
+      "Formularios pensados para Colombia: teléfono con indicativo y banderas en SVG, y documento CC o CE. URLs en español y tour guiado en el primer uso.",
+    ],
     results: [
-      "Reducción de -42% en tiempo de tareas administrativas medida en fincas piloto.",
-      "Operación agropecuaria completa centralizada en una plataforma, reemplazando el flujo en Excel, cuadernos y WhatsApp.",
+      "Producto funcional en producción.",
+      "En validación con clientes en Antioquia, Colombia.",
     ],
     learnings: [
-      "El aislamiento de datos multitenant condiciona cada decisión de modelado: definir el límite de tenant temprano evita reescrituras.",
+      "Aprendí a diseñar, desarrollar y construir un producto completo desde cero (fullstack), con despliegue, y a depurarlo, probarlo y corregirlo.",
+      "Definir el límite del tenant temprano evita reescrituras: el aislamiento de datos condiciona cada decisión de modelado.",
+      "Offline-first cambia el modelo de datos: UUID generado en el cliente, versión por registro y borrado suave en cada modelo sincronizable.",
+      "El sync no puede saltarse validaciones: se corrigió para validar igual que la API REST (roles, plan y sede).",
+      "El stock offline se sincroniza como diferencia y no como valor absoluto, para no pisar movimientos hechos desde otro dispositivo.",
+      "Conectar módulos obliga a decidir quién es dueño de cada dato: la sede de una vacuna es la de su animal.",
     ],
+    roadmap: {
+      now: ["Producto en producción y venta activa."],
+      next: [
+        "Eliminar el subsistema viejo de vacunación.",
+        "Llevar el histórico de Finanzas a nivel de sede.",
+      ],
+      later: [
+        "Mano de obra y costos fijos y variables (hoy en cero).",
+        "Reportes a medida, API de integraciones y base DIAN y NIIF.",
+      ],
+      out: [
+        "Forecasting financiero, facturación electrónica completa, multimoneda y reportes PDF automáticos.",
+      ],
+    },
     painPoints: [
       {
         title: "Sin trazabilidad",
@@ -153,100 +212,162 @@ export const projects: Project[] = [
         title: "Sin señal, sin datos",
         text: "En el corral no hay internet. El registro queda para después, y después nunca llega.",
       },
+      {
+        title: "Datos desconectados",
+        text: "El cuaderno dice que se vacunó, pero no cuánto insumo gastó ni cuánto costó.",
+      },
     ],
     modules: [
       {
-        name: "Dashboard",
-        text: "KPIs en tiempo real: animales activos, producción mensual, insumos, alertas e ingresos estimados.",
+        name: "Panel",
+        text: "Métricas calculadas desde el dispositivo: vacunas vencidas y próximas, stock bajo y actividad pendiente.",
       },
       {
         name: "Animales",
-        text: "Registro completo: ID, raza, peso, estado de salud y ubicación por potrero.",
+        text: "Código único, estado de salud, sede y detalle con historial de vacunación.",
+      },
+      {
+        name: "Cultivos",
+        text: "Tipo, estado, área y fecha de siembra, con búsqueda y filtros.",
       },
       {
         name: "Insumos",
-        text: "Alimentos, medicamentos y suministros con alertas de stock mínimo y proveedor.",
+        text: "Stock, mínimo, costo unitario e historial de movimientos con su razón.",
       },
       {
-        name: "Costos",
-        text: "Registro de costos operativos por lote: insumos, mano de obra y gastos asociados a la producción.",
+        name: "Herramientas",
+        text: "Equipo, costo de compra y mantenimiento.",
       },
       {
         name: "Producción",
-        text: "Lotes de leche, huevos y cultivos con trazabilidad de insumos y horas.",
+        text: "Lotes con insumos usados, precio de venta y margen.",
       },
       {
-        name: "Salud Animal",
-        text: "Vacunas, alertas de refuerzo e historial sanitario por animal.",
+        name: "Salud animal",
+        text: "Vacunas con insumo aplicado, costo y fecha de refuerzo.",
+      },
+      {
+        name: "Finanzas",
+        text: "Resumen, histórico, rentabilidad por lote, proveedores, compras y pérdidas, según el plan.",
+      },
+      {
+        name: "Sedes y permisos",
+        text: "Cada usuario ve solo las sedes que le corresponden.",
+      },
+      {
+        name: "Usuarios y roles",
+        text: "Administrador, Operario y Colaborador (solo lectura, según el plan), con invitaciones y topes por plan.",
+      },
+      {
+        name: "Suscripción",
+        text: "Plan, pago, historial y cancelación.",
+      },
+      {
+        name: "Actividad",
+        text: "Notificaciones por módulo y bandeja de rechazos de sincronización.",
       },
     ],
-    chainStepsTitle: "Si registras una vacuna, pasan tres cosas solas.",
-    chainSteps: [
-      'Vacuna aplicada (ej. Triple Bovina a "La Canela")',
-      "Insumo descontado automáticamente (-1 dosis del stock)",
-      "Próximo refuerzo agendado (en 14 días)",
-      "Estado de salud del animal actualizado",
+    chains: [
+      {
+        title: "Registras una vacuna y pasa esto solo",
+        steps: [
+          "Vacuna aplicada a un animal, con insumo, cantidad, costo y fecha de refuerzo.",
+          "El insumo se descuenta en la misma transacción. Si no hay stock, el registro tampoco se crea.",
+          'El historial de Insumos deja un movimiento "Vacuna registrada".',
+          "El detalle del animal muestra la vacuna en su historial.",
+          "El Panel cuenta las vacunas vencidas o próximas a vencer (30 días).",
+          "El costo del tratamiento suma al gasto en salud del P&L del período.",
+          "Si el stock cae bajo el mínimo, se alerta al equipo.",
+          "Si el registro se borra, el insumo vuelve al stock.",
+        ],
+      },
+      {
+        title: "Registras un lote de producción",
+        steps: [
+          "Cada insumo usado se descuenta, validando el stock agrupado por insumo (todo o nada).",
+          'El lote deja el movimiento "Producción registrada".',
+          "Se calcula el costo del lote (cantidad por costo unitario) contra su ingreso (cantidad por precio de venta).",
+          "Si el costo supera el ingreso, se alerta al administrador.",
+          "El ingreso entra al P&L del período.",
+        ],
+      },
+      {
+        title: "Cambias la sede activa",
+        steps: [
+          "Todas las pantallas se recortan a esa sede.",
+          "Una etiqueta de alcance indica si ves una sede o todas.",
+          "La vacuna hereda la sede de su animal.",
+        ],
+      },
+      {
+        title: "Todo esto sin señal",
+        steps: [
+          "El mismo flujo se guarda en el dispositivo.",
+          "Al volver la red se aplica en el servidor con las mismas reglas: stock, roles, plan y sede.",
+        ],
+      },
     ],
     decisions: [
       {
         title: "Offline-first con PWA",
-        context: "En potreros y corrales la señal es intermitente o inexistente.",
-        tradeoff:
-          "Una web app tradicional fallaría. Una app nativa requeriría publicación en stores y más mantenimiento.",
-        decision:
-          "PWA con Service Worker que persiste registros localmente y sincroniza en batch cuando vuelve la red. Se instala desde el navegador en Android e iOS sin pasar por App Store.",
-      },
-      {
-        title: "Módulos acoplados con eventos internos",
         context:
-          "Cada acción del campo tiene consecuencias en otros registros (vacuna, insumo, salud, agenda).",
+          "En corrales y potreros la señal es intermitente o inexistente, y el registro queda para después.",
         tradeoff:
-          "Módulos aislados son más fáciles de mantener pero obligan al usuario a actualizar cada sección manualmente.",
+          "Una web tradicional falla sin red. Una app nativa exige tiendas y doble mantenimiento.",
         decision:
-          "Arquitectura de eventos internos: una acción dispara actualizaciones en cascada en todos los módulos relacionados.",
+          "PWA instalable con base local en IndexedDB (Dexie). Cada escritura va a una cola y se sincroniza al volver la red. El Service Worker cachea la app y las lecturas.",
       },
       {
-        title: "Multirol sin complejidad para el usuario",
+        title: "Módulos integrados con reglas en el servidor",
+        context: "Una acción de campo toca varios registros: vacuna, insumo, animal y costo.",
+        tradeoff:
+          "Módulos aislados son simples, pero obligan a registrar lo mismo varias veces. Conectarlos obliga a decidir quién es dueño de cada dato.",
+        decision:
+          "La lógica vive en servicios con transacciones y bloqueo de filas. El animal es dueño de la sede de sus vacunas y los módulos se importan en una sola dirección.",
+      },
+      {
+        title: "Multiusuario con roles y sedes",
         context:
-          "Una finca tiene administradores, operarios de campo y colaboradores con necesidades de información distintas.",
-        tradeoff:
-          "Un solo rol lo ve todo (riesgo de exposición y sobrecarga); demasiados roles complican la gestión.",
+          "Una finca la opera un equipo de 2 a 10 personas con funciones distintas, en una o varias sedes.",
+        tradeoff: "Un solo rol expone todo. Demasiados roles se vuelven inmanejables.",
         decision:
-          "Tres roles con permisos diferenciados: Administrador, Operario y Colaborador. Cada usuario ve solo lo que necesita según su flujo de trabajo.",
+          "Tres roles, permisos por sede, topes de usuarios y sedes por plan e invitaciones con clave temporal.",
       },
       {
-        title: "Cumplimiento Ley 1581 de 2012 desde el diseño",
+        title: "Multitenancy estricta",
         context:
-          "Los datos de producción y sanidad animal son sensibles para el productor. La confianza es bloqueante.",
-        tradeoff:
-          "Almacenar más datos mejora el producto pero aumenta la responsabilidad legal y la desconfianza.",
+          "Varias empresas comparten una sola instancia y los datos de una nunca deben llegar a otra.",
+        tradeoff: "Instancias separadas aíslan mejor pero multiplican la operación y el costo.",
         decision:
-          "Sin minería de datos para terceros, sin entrenamiento de modelos con datos del usuario. TLS en todos los endpoints.",
+          "El tenant sale del JWT y nunca del body ni de la URL. Todo queryset se filtra por tenant antes de responder.",
       },
       {
-        title: "Portabilidad de datos garantizada",
+        title: "Sincronización sin pisar datos",
+        context:
+          "Dos dispositivos pueden editar el mismo registro o mover el mismo stock sin conexión.",
+        tradeoff:
+          "Última escritura gana es simple pero pierde datos. Resolver conflictos exige versionado y más código.",
+        decision:
+          "Cada registro lleva versión y el servidor responde aceptado, conflicto o rechazo con motivo. El stock offline viaja como diferencia, no como valor absoluto.",
+      },
+      {
+        title: "Portabilidad de datos",
         context:
           "Los productores desconfían de plataformas que retienen sus datos o dificultan la salida.",
-        tradeoff:
-          "El lock-in de datos puede retener usuarios a corto plazo pero destruye la confianza y frena la adopción inicial.",
+        tradeoff: "Exportar sin control facilita fugas. Bloquear la salida destruye la confianza.",
         decision:
-          "Importación y exportación CSV en cualquier momento y sin restricciones. Los datos del productor son del productor.",
+          "Importación y exportación CSV disponibles, y la exportación pasa por la aprobación de un administrador.",
       },
-    ],
-    metrics: [
-      { metric: "-42%", label: "tiempo administrativo", note: "fincas piloto" },
-      { metric: "1 semana", label: "tiempo de onboarding", note: "sin consultores" },
-      { metric: "6 módulos", label: "integrados", note: "en una sola plataforma" },
     ],
     en: {
       summary:
-        "Multitenancy PWA for mid-sized farms in Colombia. Centralizes livestock, inventory, production, health, and costs in one offline-first platform; cut administrative time by 42% in pilot farms. Django, DRF, PostgreSQL, React.",
+        "Multi-user, offline-first PWA for farms in Colombia. It records livestock, crops, supplies, production, animal health, and finances in one system where every action in one module updates the others. Django, DRF, PostgreSQL, React, and Dexie.",
       imageAlt:
         "TerraCore dashboard: real-time metrics, production charts, and livestock distribution",
       problem:
         "Agricultural producers in Colombia had no software designed for them: existing ERPs were too complex, and an Excel sheet with login was not enough to manage livestock, animal health, and production simultaneously. Operations were scattered across notebooks, spreadsheets, and WhatsApp groups.",
       solution:
-        "TerraCore centralizes on a single screen everything a mid-sized farm needs to manage: livestock, inventory, production, animal health, costs, and finances. It replaces Excel, notebooks, and WhatsApp as operational tools. Built from the field with real producers in Urabá, it covers cattle, swine, equine, ovine, caprine, poultry, and associated crops (plantain, cacao, corn) in Colombia.",
+        "TerraCore centralizes on a single platform what a mid-sized farm needs to manage: livestock, crops, supplies, production, animal health, and finances. The modules are connected, so an action in the field updates the other records, and everything works without signal. A whole team uses it, with roles and per-facility permissions. It replaces Excel, notebooks, and WhatsApp as operational tools and covers cattle, swine, equine, ovine, caprine, poultry, and associated crops (plantain, cacao, corn) in Colombia.",
       links: [
         {
           href: "https://app.terracoreapp.co",
@@ -256,22 +377,59 @@ export const projects: Project[] = [
         },
       ],
       designLink: {
-        href: DESIGN_PLACEHOLDER_URL,
+        href: "https://terracore-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View TerraCore design",
       },
       metaDescription:
-        "TerraCore case study: agro-industrial SaaS for mid-sized farms in Colombia. Django, DRF, PostgreSQL, React. Offline-first PWA with multitenancy.",
+        "TerraCore case study: multi-user, offline-first PWA for farms in Colombia. Django, DRF, PostgreSQL, and React. Connected modules and live in production.",
       architecture: [
-        "Multitenancy architecture: each organization operates in its own isolated data space on a single backend instance.",
-        "REST API with Django REST Framework, JWT authentication, and role-based access control across three roles: Administrator, Operator, and Collaborator.",
-        "Installable PWA from the browser on Android and iOS without going through the App Store: Service Worker persists records without signal and syncs in batch when connectivity is restored.",
-        "Six integrated modules: Dashboard with real-time KPIs, livestock (ID, breed, weight, health, location), supplies with minimum stock alerts, operating costs per batch, batch production, and animal health with vaccines and health history.",
-        "CSV import for frictionless onboarding and CSV export at any time: full data portability for the producer, no lock-in.",
-        "Relational modeling in PostgreSQL: organizations, users, animals, batches, supplies, and production records.",
-        "Frontend in React + TypeScript consuming the own API; responsive design with Tailwind CSS.",
-        "TLS on all endpoints; Ley 1581 Habeas Data compliance with no data mining for third parties and no model training with user data.",
+        "Backend in Django 6 and DRF on PostgreSQL 16. Celery with Redis runs the scheduled tasks (billing and alerts). JWT authentication: 24-hour access token and 180-day refresh token with rotation.",
+        "Strict multitenancy: the tenant comes from the JWT, never from the body or the URL, and every queryset is filtered by tenant before responding.",
+        "Business logic in services with transactions and row locking. Every endpoint validates role, plan, and facility, and errors follow a uniform contract.",
+        "Frontend in React 19, TypeScript, Vite, and Tailwind 4, with one folder and one state hook per module.",
+        "Installable PWA on Android and iOS without app stores. The Service Worker caches the app and reads; data lives in a local database (IndexedDB with Dexie) and every write enters an outbox queue.",
+        "Sync through one endpoint covering ten models: push in dependency order, cursor-paginated pull, and a version per record. The server answers accepted, conflict, or rejected with a reason, and revalidates like the REST API.",
+        "Offline beyond records: a queue of deferred actions (inviting users, changing roles) and saved reads so every screen opens without network. Only card payment needs a connection.",
+        "CSV import for onboarding and CSV export with administrator approval.",
+        "Security: API documentation restricted to staff and a hardening round over sync, exports, billing, and facility scope.",
+        "Infrastructure on Docker and Nginx over a VPS, with isolated staging and a dev, stg, and main flow. The image is published to GHCR with Trivy scanning and deployed by digest. More than 1,000 automated tests in each repository.",
       ],
+      design: [
+        "The product starts from its own design in Claude Design, with a clickable prototype (View design button).",
+        "Deep green as the primary color and amber as the accent over warm neutrals. Inter for text and Poppins for headings.",
+        "Atomic design with CSS tokens shared with the landing: atoms, molecules, and layout organisms.",
+        "Responsive navigation: a side panel from 1024 px and a bottom bar with a More sheet on mobile. Both come from the same source and a test fails if they drift apart.",
+        "Offline state is always visible: banner, pending counter, a Pending mark on every row, and a rejections tray.",
+        "With an active facility, a scope badge always says whether the screen shows that facility or all of them.",
+        "Forms built for Colombia: phone with dial code and SVG flags, and CC or CE identity document. Spanish URLs and a guided tour on first use.",
+      ],
+      results: [
+        "Functional product in production.",
+        "Under validation with clients in Antioquia, Colombia.",
+      ],
+      learnings: [
+        "I learned to design, develop, and build a complete product from scratch (fullstack), with deployment, and to debug it, test it, and fix it.",
+        "Defining the tenant boundary early avoids rewrites: data isolation conditions every modeling decision.",
+        "Offline-first changes the data model: client-generated UUIDs, a version per record, and soft delete on every syncable model.",
+        "Sync cannot skip validations: it was fixed to validate like the REST API (roles, plan, and facility).",
+        "Offline stock syncs as a difference and not as an absolute value, so it does not overwrite movements made from another device.",
+        "Connecting modules forces you to decide who owns each piece of data: a vaccine's facility is its animal's facility.",
+      ],
+      roadmap: {
+        now: ["Product in production and in active sales."],
+        next: [
+          "Remove the old vaccination subsystem.",
+          "Bring the Finance history down to the facility level.",
+        ],
+        later: [
+          "Labor and fixed and variable costs (currently zero).",
+          "Custom reports, an integrations API, and a DIAN and NIIF base.",
+        ],
+        out: [
+          "Financial forecasting, full electronic invoicing, multi-currency, and automatic PDF reports.",
+        ],
+      },
       painPoints: [
         {
           title: "No traceability",
@@ -282,91 +440,150 @@ export const projects: Project[] = [
           title: "No signal, no data",
           text: "There is no internet in the paddock. The record is left for later, and later never comes.",
         },
+        {
+          title: "Disconnected data",
+          text: "The notebook says it was vaccinated, but not how much supply it used or what it cost.",
+        },
       ],
       modules: [
         {
           name: "Dashboard",
-          text: "Real-time KPIs: active animals, monthly production, supplies, alerts, and estimated revenue.",
+          text: "Metrics computed on the device: expired and upcoming vaccines, low stock, and pending activity.",
         },
         {
           name: "Livestock",
-          text: "Complete record: ID, breed, weight, health status, and location by paddock.",
+          text: "Unique code, health status, facility, and a detail view with vaccination history.",
+        },
+        {
+          name: "Crops",
+          text: "Type, status, area, and planting date, with search and filters.",
         },
         {
           name: "Supplies",
-          text: "Feed, medications, and supplies with minimum stock alerts and supplier info.",
+          text: "Stock, minimum, unit cost, and a movement history with its reason.",
         },
         {
-          name: "Costs",
-          text: "Operating cost records per batch: supplies, labor, and expenses associated with production.",
+          name: "Tools",
+          text: "Equipment, purchase cost, and maintenance.",
         },
         {
           name: "Production",
-          text: "Milk, egg, and crop batches with supply and hours traceability.",
+          text: "Batches with supplies used, sale price, and margin.",
         },
         {
-          name: "Animal Health",
-          text: "Vaccines, booster alerts, and health history per animal.",
+          name: "Animal health",
+          text: "Vaccines with the supply applied, cost, and booster date.",
+        },
+        {
+          name: "Finance",
+          text: "Summary, history, profitability per batch, suppliers, purchases, and losses, depending on the plan.",
+        },
+        {
+          name: "Facilities and permissions",
+          text: "Each user sees only the facilities that apply to them.",
+        },
+        {
+          name: "Users and roles",
+          text: "Administrator, Operator, and Collaborator (read-only, depending on the plan), with invitations and plan limits.",
+        },
+        {
+          name: "Subscription",
+          text: "Plan, payment, history, and cancellation.",
+        },
+        {
+          name: "Activity",
+          text: "Notifications per module and a sync rejections tray.",
         },
       ],
-      chainStepsTitle: "If you log a vaccine, three things happen automatically.",
-      chainSteps: [
-        "Vaccine applied (e.g. Triple Bovina on 'La Canela')",
-        "Supply automatically deducted (-1 dose from stock)",
-        "Next booster scheduled (in 14 days)",
-        "Animal health status updated",
+      chains: [
+        {
+          title: "You log a vaccine and this happens on its own",
+          steps: [
+            "Vaccine applied to an animal, with supply, quantity, cost, and booster date.",
+            "The supply is deducted in the same transaction. If there is no stock, the record is not created either.",
+            'The Supplies history gets a "Vaccine logged" movement.',
+            "The animal's detail view shows the vaccine in its history.",
+            "The Dashboard counts expired or soon-to-expire vaccines (30 days).",
+            "The treatment cost adds to the health expense of the period P&L.",
+            "If stock drops below the minimum, the team is alerted.",
+            "If the record is deleted, the supply returns to stock.",
+          ],
+        },
+        {
+          title: "You log a production batch",
+          steps: [
+            "Each supply used is deducted, validating stock grouped per supply (all or nothing).",
+            'The batch leaves a "Production logged" movement.',
+            "The batch cost (quantity times unit cost) is computed against its revenue (quantity times sale price).",
+            "If the cost exceeds revenue, the administrator is alerted.",
+            "The revenue enters the period P&L.",
+          ],
+        },
+        {
+          title: "You change the active facility",
+          steps: [
+            "Every screen is scoped to that facility.",
+            "A scope badge shows whether you are seeing one facility or all.",
+            "A vaccine inherits its animal's facility.",
+          ],
+        },
+        {
+          title: "All of this without signal",
+          steps: [
+            "The same flow is saved on the device.",
+            "When the network returns it is applied on the server with the same rules: stock, roles, plan, and facility.",
+          ],
+        },
       ],
       decisions: [
         {
           title: "Offline-first with PWA",
-          context: "In paddocks and pens the signal is intermittent or nonexistent.",
-          tradeoff:
-            "A traditional web app would fail. A native app would require store publishing and more maintenance.",
-          decision:
-            "PWA with Service Worker that persists records locally and syncs in batch when connectivity returns. Installs from the browser on Android and iOS without going through the App Store.",
-        },
-        {
-          title: "Coupled modules with internal events",
           context:
-            "Every field action has consequences on other records (vaccine, supply, health, schedule).",
+            "In pens and paddocks the signal is intermittent or nonexistent, and the record is left for later.",
           tradeoff:
-            "Isolated modules are easier to maintain but force the user to update each section manually.",
+            "A traditional web app fails without network. A native app requires stores and double maintenance.",
           decision:
-            "Internal event architecture: one action triggers cascade updates across all related modules.",
+            "Installable PWA with a local IndexedDB database (Dexie). Every write goes to a queue and syncs when the network returns. The Service Worker caches the app and reads.",
         },
         {
-          title: "Multi-role without complexity for the user",
+          title: "Integrated modules with server-side rules",
+          context: "A field action touches several records: vaccine, supply, animal, and cost.",
+          tradeoff:
+            "Isolated modules are simple, but force you to log the same thing several times. Connecting them forces you to decide who owns each piece of data.",
+          decision:
+            "Logic lives in services with transactions and row locking. The animal owns the facility of its vaccines and modules import in one direction only.",
+        },
+        {
+          title: "Multi-user with roles and facilities",
           context:
-            "A farm has administrators, field operators, and collaborators with different information needs.",
-          tradeoff:
-            "A single role sees everything (exposure risk and overload); too many roles complicate management.",
+            "A farm is run by a team of 2 to 10 people with different duties, in one or several facilities.",
+          tradeoff: "A single role exposes everything. Too many roles become unmanageable.",
           decision:
-            "Three roles with differentiated permissions: Administrator, Operator, and Collaborator. Each user sees only what they need based on their workflow.",
+            "Three roles, per-facility permissions, user and facility limits per plan, and invitations with a temporary password.",
         },
         {
-          title: "Ley 1581 de 2012 compliance by design",
+          title: "Strict multitenancy",
           context:
-            "Production and animal health data are sensitive to the producer. Trust is a blocker.",
-          tradeoff:
-            "Storing more data improves the product but increases legal liability and distrust.",
+            "Several companies share one instance and one company's data must never reach another.",
+          tradeoff: "Separate instances isolate better but multiply operations and cost.",
           decision:
-            "No data mining for third parties, no model training with user data. TLS on all endpoints.",
+            "The tenant comes from the JWT and never from the body or the URL. Every queryset is filtered by tenant before responding.",
         },
         {
-          title: "Guaranteed data portability",
+          title: "Sync without overwriting data",
+          context: "Two devices can edit the same record or move the same stock while offline.",
+          tradeoff:
+            "Last write wins is simple but loses data. Resolving conflicts requires versioning and more code.",
+          decision:
+            "Every record carries a version and the server answers accepted, conflict, or rejected with a reason. Offline stock travels as a difference, not an absolute value.",
+        },
+        {
+          title: "Data portability",
           context: "Producers distrust platforms that retain their data or make exit difficult.",
-          tradeoff:
-            "Data lock-in can retain users in the short term but destroys trust and slows initial adoption.",
+          tradeoff: "Unchecked export makes leaks easier. Blocking exit destroys trust.",
           decision:
-            "CSV import and export at any time with no restrictions. The producer's data belongs to the producer.",
+            "CSV import and export available, and export goes through administrator approval.",
         },
-      ],
-      results: [
-        "-42% reduction in administrative task time measured in pilot farms.",
-        "Complete agricultural operation centralized on one platform, replacing the workflow in Excel, notebooks, and WhatsApp.",
-      ],
-      learnings: [
-        "Multitenant data isolation conditions every modeling decision: defining the tenant boundary early avoids rewrites.",
       ],
     },
   },
@@ -473,7 +690,6 @@ export const projects: Project[] = [
     results: [
       "Flujo de conversión completo en 8 secciones: desde el dolor del productor hasta CTA de demo.",
       "Tres planes publicados con precio en COP, features explícitas por plan y condiciones claras de IVA y cancelación.",
-      "Métrica central comunicada: -42% en tiempo administrativo medido en fincas piloto.",
     ],
     learnings: [
       "Una landing SaaS para un nicho no tecnológico necesita hablar el idioma del cliente: cada sección se redactó con vocabulario del campo, no del software.",
@@ -600,7 +816,6 @@ export const projects: Project[] = [
       results: [
         "Complete conversion flow in 8 sections: from producer pain to demo CTA.",
         "Three plans published with COP pricing, explicit features per plan, and clear VAT and cancellation terms.",
-        "Central metric communicated: -42% in administrative time measured in pilot farms.",
       ],
       learnings: [
         "A SaaS landing for a non-technical niche must speak the client's language: every section was written in field vocabulary, not software vocabulary.",

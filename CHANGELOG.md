@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Case studies can render a `roadmap` section (now, next, later, out of scope) and several `chains` cascades; id `cs-roadmap`.
 - `wavival.dev` case study (`/proyectos/wavival-dev` and `/en/projects/wavival-dev`) focused on the Señal v4 design, with the Claude Design prototype link and an OG card.
 - Optional `design` field for case studies, rendered as its own section (`cs-design`).
 - Bilingual quote pages with service preselection, multi-service selection, a 500-word project brief, and an in-page confirmation.
@@ -16,7 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- TerraCore PWA case study rewritten from the repositories: connected modules (vaccine, supply, animal, finance), why offline-first, multi-user and multitenancy, design (with the Claude Design prototype link), results, learnings, and roadmap. Status: in production, in active sales, under validation with clients in Antioquia, Colombia. `llms.txt`, `llms-full.txt`, `docs/brand.md`, and `docs/commercial.md` aligned.
+
 - Delivery governance docs: note that auto-merge merges into `dev` do not trigger the push-based `commitlint` check (leaving the `dev` to `stg` promotion PR blocked) and that `stg` must be synced into `dev` when the promotion PR is `behind`.
+
+### Removed
+
+- The unvalidated 42% administrative-time figure, the one-week onboarding and "6 modules" metric cards, and the pilot-farm and Urabá producer claims from the TerraCore case studies and AI-discovery files.
 
 ### Fixed
 
