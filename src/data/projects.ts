@@ -598,7 +598,7 @@ export const projects: Project[] = [
     slug: "terracore-landing",
     quoteType: "landing",
     datePublished: "2026-06-18",
-    dateModified: "2026-06-18",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-terracore.webp",
@@ -606,23 +606,37 @@ export const projects: Project[] = [
       "Landing de TerraCore: propuesta de valor y planes para productores agropecuarios colombianos",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
+    stack: [
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vercel Functions",
+      "Supabase",
+      "Brevo",
+      "Playwright",
+      "GA4",
+      "SEO",
+      "A11y",
+    ],
     filters: ["landing", "design"],
+    summary:
+      "Landing estática de conversión para TerraCore, la PWA de gestión agropecuaria. Lleva al productor del dolor a la demo, muestra el producto, los planes con precio en COP y la privacidad, y captura solicitudes de diagnóstico en una función serverless. Astro, Tailwind CSS y Supabase.",
     problem:
-      "Una plataforma SaaS sin una landing de conversión pierde el tráfico orgánico antes de que el productor llegue a la app: hay que presentar el producto, los módulos y los planes en una sola pantalla.",
+      "Una plataforma SaaS sin una landing de conversión pierde el tráfico antes de que el productor llegue a la app. Hay que explicarle qué cambia frente a Excel, cuadernos y WhatsApp, enseñarle el producto, decirle cuánto cuesta y darle una forma simple de pedir una demo.",
     solution:
-      "Landing que comunica la propuesta de valor de TerraCore a productores agropecuarios colombianos, muestra los módulos del SaaS, el flujo de integración en cascada y los tres planes de precios, y dirige al registro de la plataforma.",
+      "Landing en Astro que parte del dolor del productor, explica los módulos y cómo se conectan entre sí, enseña capturas reales del producto, responde la objeción de privacidad antes de hablar de precios y publica tres planes con precio en COP. Todos los botones llevan a un solo formulario de diagnóstico, con WhatsApp como alternativa directa.",
     architecture: [
-      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Vercel.",
-      "Flujo de conversión vertical en 8 secciones: Hero, propuesta de valor, 6 módulos, integración en cascada, UX para el campo, beneficios, precios y FAQ.",
-      "Tres planes con precio explícito en COP: Semilla ($2.5M/mes, 1 sede, 5 usuarios), Profesional ($5M/mes, 3 sedes, 15 usuarios) y Enterprise (desde $10M/mes, ilimitado).",
-      "Sección de privacidad y seguridad dedicada: Ley 1581 de 2012, TLS en endpoints, sin minería de datos y exportación CSV garantizada.",
-      "Formulario de demo conectado a Supabase (Postgres gestionado), sin servidor propio que construir ni mantener; CTAs adicionales a canal de WhatsApp directo.",
-      "Google Analytics (GA4) para tracking de comportamiento: sesiones, scroll depth por sección, clics en CTAs y origen del tráfico.",
-      "SEO técnico completo: title, meta-description, og:*, twitter:*, canonical y schema markup.",
-      "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
-      "Tailwind CSS con modo claro/oscuro.",
+      "Astro 7 con salida estática, sin adaptador ni framework de interfaz: el JavaScript es vanilla, en un script por componente. Se despliega en Vercel y la rama de staging usa el preview.",
+      "Atomic design con alias de importación por capa (átomos, moléculas, organismos y plantilla). Los tokens de color, tipografía y espacio viven en un solo archivo CSS y Tailwind los extiende. Inter, Poppins y JetBrains Mono van autoalojadas, sin pedir fuentes a terceros.",
+      "Embudo de conversión en 13 secciones: Hero, Impacto, franja de confianza, Módulos, Producto, Beneficios, Seguridad, Planes, Preguntas y cierre. Métricas, casos de éxito y testimonios están construidos pero ocultos hasta tener datos reales.",
+      "Los datos de cada sección son TypeScript tipado en un solo archivo (planes, impacto, beneficios y preguntas). Las preguntas alimentan el acordeón visible y el JSON-LD FAQPage desde la misma fuente.",
+      "Tres planes con precio en COP: Semilla ($2.500.000/mes, 1 sede, 5 usuarios), Profesional ($5.000.000/mes, hasta 5 sedes, 10 usuarios) y Enterprise (precio base de $10.000.000/mes, sedes y usuarios ilimitados). Cada botón de plan abre el formulario con el tamaño de operación ya elegido.",
+      "Formulario de diagnóstico que envía JSON a una función de Vercel (api/lead.ts, sin dependencias de npm). Valida y normaliza los datos, guarda el lead en Supabase y avisa por correo con Brevo. Un correo repetido no crea otra fila y la notificación nunca bloquea el guardado.",
+      "Antispam sin captcha: campo trampa y tiempo mínimo de llenado en el cliente, y la misma comprobación en el servidor. Solo guarda en producción; en staging valida y responde que el almacenamiento está desactivado.",
+      "Analítica: GA4 opcional por variable de entorno, con eventos en cada CTA (Hero, planes, WhatsApp y formulario), más Vercel Web Analytics y Speed Insights. Botón flotante de WhatsApp en todas las páginas.",
+      "SEO técnico: title, description, canonical, Open Graph y Twitter, sitemap, robots.txt y llms.txt. JSON-LD con Organization, WebSite, SoftwareApplication con sus ofertas y FAQPage.",
+      "Seguridad en cabeceras desde vercel.json: CSP restrictiva, HSTS, X-Frame-Options DENY y Permissions-Policy.",
+      "Calidad: Vitest para la lógica, Playwright para el flujo (landing, formulario, planes, FAQ y menú móvil) y Lighthouse en cada PR con accesibilidad como umbral que bloquea. Una prueba ata los precios y límites de la landing a lo que el producto hace de verdad.",
     ],
     painPoints: [
       {
@@ -635,36 +649,48 @@ export const projects: Project[] = [
       },
       {
         title: "Desconfianza en los datos",
-        text: "El productor no quiere que sus costos y producción salgan de la finca. Sin una sección de privacidad explícita, la confianza no se gana.",
+        text: "El productor no quiere que sus costos y su producción salgan de la finca. Sin una sección de privacidad explícita, la confianza no se gana.",
+      },
+      {
+        title: "Poca señal en el campo",
+        text: "Si el producto funciona sin internet, la landing tiene que decirlo desde el primer pantallazo y sin letra pequeña.",
       },
     ],
     modules: [
       {
-        name: "Seis módulos",
-        text: "Dashboard, Animales, Insumos, Herramientas, Producción y Salud Animal. Cada uno con campos reales del flujo de la finca.",
+        name: "Hero con promesa y demo",
+        text: "Titular 'Reemplaza Excel y WhatsApp', chip de que funciona sin internet, botón al diagnóstico y demo en video en un lightbox.",
+      },
+      {
+        name: "Módulos contados desde el dolor",
+        text: "Animales, insumos, herramientas, producción y salud animal, cada uno en un bento que empieza por el problema que resuelve y no por la función.",
       },
       {
         name: "Integración en cascada",
-        text: "Flujo visual: vacuna aplicada, insumo descontado, refuerzo agendado, estado actualizado. Demuestra el valor diferencial antes de los precios.",
+        text: "Flujo visual: vacuna aplicada, insumo descontado, próximo refuerzo. Y stock mínimo, alerta al administrador. Demuestra el valor diferencial antes de los precios.",
       },
       {
-        name: "UX para el campo",
-        text: "Sidebar con contexto siempre claro, tablas con filas altas y números tabulares, alertas críticas sobre notificaciones genéricas.",
+        name: "Capturas reales del producto",
+        text: "Pestañas de Dashboard, Animales, Insumos, Producción y Salud Animal con capturas de la app, rotación automática y botón de pausa.",
       },
       {
-        name: "Seguridad y privacidad",
-        text: "Sección dedicada: Ley 1581, TLS, roles y permisos, exportación CSV en 48h y garantía de no minería de datos.",
+        name: "Privacidad y seguridad",
+        text: "Cinco compromisos: cifrado en tránsito, roles y permisos, exportación CSV con aprobación y 90 días para descargar los datos, sin minería de datos y respaldo nocturno.",
+      },
+      {
+        name: "Planes y formulario",
+        text: "Tres planes en un carrusel con precio, límites y alcance, preguntas frecuentes y un formulario de diagnóstico gratuito con WhatsApp como alternativa.",
       },
     ],
     decisions: [
       {
         title: "Copy al dolor, no al producto",
         context:
-          "El productor agropecuario no busca 'SaaS agroindustrial'. Busca dejar de usar Excel y cuadernos.",
+          "El productor agropecuario no busca 'SaaS agroindustrial'. Busca dejar de usar Excel, cuadernos y grupos de WhatsApp.",
         tradeoff:
-          "Un copy técnico no conecta con el campo. Un copy de dolor sí, pero requiere conocer la operación real.",
+          "Un copy técnico no conecta con el campo. Un copy de dolor sí, pero exige conocer la operación real.",
         decision:
-          "Hero sin una sola mención al stack. 'Sin Excel. Sin cuadernos. Sin WhatsApp.' + beneficio de la primera semana como promesa concreta.",
+          "Hero sin una sola mención al stack: 'Reemplaza Excel y WhatsApp en tu operación agrícola' y 'No se trata de ganar más, sino de dejar de perder'. Una tabla de antes y después refuerza el contraste.",
       },
       {
         title: "Integración antes de precios",
@@ -673,39 +699,75 @@ export const projects: Project[] = [
         tradeoff:
           "Ir directo a precios antes de demostrar el valor diferencial baja la conversión.",
         decision:
-          "Sección de flujo en cascada ('Si registras una vacuna...') antes de la tabla de precios. El usuario entiende el valor antes de ver el costo.",
+          "El bloque de integración ('Una acción. Todo el sistema al día.') va dentro de Módulos, antes de la sección de planes. El usuario entiende el valor antes de ver el costo.",
       },
       {
-        title: "Google Analytics para iterar con datos reales",
+        title: "Confianza antes del precio",
         context:
-          "Sin métricas de comportamiento, el diseño de la landing es intuición: no se sabe qué secciones leen, dónde abandonan ni qué CTA convierte.",
+          "Los datos de producción y costos son sensibles para el productor, y la desconfianza bloquea la compra.",
         tradeoff:
-          "GA añade un script de terceros con implicaciones de privacidad que hay que declarar en la política de cookies y el banner de consentimiento.",
+          "Omitir la privacidad asume una confianza que en el agro hay que ganar de forma explícita. Ponerla antes de los planes alarga la página.",
         decision:
-          "Google Analytics con consentimiento explícito de cookies. Permite rastrear sesiones, scroll depth por sección, clics en CTAs y origen del tráfico para iterar el diseño con datos reales.",
+          "La sección de seguridad va justo antes de Planes, con compromisos concretos: sin minería de datos ni entrenamiento de IA, exportación CSV y 90 días para descargar todo si el cliente se va.",
       },
       {
-        title: "Sección de privacidad dedicada",
+        title: "Un solo embudo hacia el formulario",
         context:
-          "Los datos de producción y costos son sensibles para el productor. La confianza es bloqueante.",
+          "Tres planes con tres destinos dispersan los leads y dificultan saber qué pidió cada visitante.",
         tradeoff:
-          "Omitirla asume confianza. En el sector agro, la confianza hay que ganársela explícitamente.",
+          "Un destino único pierde la compra directa del plan. A cambio, cada solicitud llega completa y con contexto.",
         decision:
-          "Sección completa con Ley 1581, TLS, roles, exportación CSV y garantía de no minería de datos ni entrenamiento de IA.",
+          "Los tres botones de plan llevan al mismo formulario y preseleccionan el tamaño de operación del plan. Primero un diagnóstico de 30 minutos y, si encaja, 14 días de prueba sin tarjeta.",
       },
+      {
+        title: "Estática, con una sola función de servidor",
+        context:
+          "Una landing no necesita un backend propio, pero el formulario tiene que guardar leads sin exponer llaves.",
+        tradeoff:
+          "Una función serverless no corre bajo el servidor de desarrollo de Astro, y staging no tiene base de datos.",
+        decision:
+          "El sitio es estático y el formulario habla con una función de Vercel que usa la llave de servicio de Supabase solo en el servidor. Fuera de producción valida y no guarda.",
+      },
+      {
+        title: "Sin prueba social inventada",
+        context:
+          "Una landing de un producto en validación está tentada a llenar métricas, casos y testimonios de relleno.",
+        tradeoff:
+          "Esas secciones aportan confianza, pero con datos falsos la restan. Dejarlas fuera hoy cuesta conversión.",
+        decision:
+          "Las tres secciones están construidas y ocultas hasta tener datos reales. Además, una prueba automática compara los precios y límites de la landing con lo que hace el producto.",
+      },
+    ],
+    design: [
+      "El diseño parte de un prototipo navegable, accesible desde el botón Ver diseño.",
+      "Verde profundo como color primario y ámbar como acento sobre neutros cálidos, en la misma familia visual que la PWA.",
+      "Poppins para titulares, Inter para texto y JetBrains Mono para cifras y detalles. Las tres van autoalojadas.",
+      "Secciones numeradas con un eyebrow editorial y un ritmo que alterna fondos claros y oscuros para separar cada paso del embudo.",
+      "Módulos en bento con minivistas del producto (tablas y tarjetas de métricas) en vez de ilustraciones genéricas.",
+      "Capturas reales en pestañas con rotación automática y pausa, y planes en un carrusel con flechas y pausa.",
+      "Menú de hamburguesa bajo 1000 px, botón flotante de WhatsApp y skip link en todas las páginas.",
     ],
     results: [
-      "Flujo de conversión completo en 8 secciones: desde el dolor del productor hasta CTA de demo.",
-      "Tres planes publicados con precio en COP, features explícitas por plan y condiciones claras de IVA y cancelación.",
+      "Landing en producción, con el formulario de diagnóstico guardando solicitudes y avisando por correo.",
+      "Tres planes publicados con precio en COP, límites claros por plan y condiciones de cancelación visibles.",
     ],
     learnings: [
-      "Una landing SaaS para un nicho no tecnológico necesita hablar el idioma del cliente: cada sección se redactó con vocabulario del campo, no del software.",
-      "Separar la demostración del valor (integración en cascada) de la sección de precios reduce la barrera cognitiva: el productor llega a los planes habiendo entendido ya qué diferencia a TerraCore de Excel.",
+      "Aprendí a diseñar, construir y desplegar una landing de conversión completa, desde la propuesta hasta el formulario que guarda leads, y a depurarla, probarla y medirla.",
+      "Una landing para un nicho no tecnológico tiene que hablar el idioma del cliente: cada sección se redactó con vocabulario de la finca, no del software.",
+      "Separar la demostración del valor de la sección de precios baja la barrera: el productor llega a los planes habiendo entendido ya qué diferencia a TerraCore de Excel.",
+      "Un precio o un límite copiado a mano en varios sitios se desalinea. Los datos viven en un solo archivo y una prueba los compara con el producto.",
+      "Es más barato dejar una sección de prueba social oculta hasta tener datos reales que retirar cifras inventadas.",
+      "Un sitio estático puede tener formulario sin servidor propio, pero hay que decidir qué pasa en staging: validar sin guardar evita mezclar datos de prueba con leads reales.",
     ],
+    roadmap: {
+      now: ["Landing en producción captando solicitudes de diagnóstico."],
+      next: ["Activar métricas, casos de éxito y testimonios cuando existan datos reales."],
+      later: [],
+    },
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de TerraCore Landing: landing de conversión en Astro y Tailwind CSS para productores agropecuarios colombianos. Propuesta de valor y CRO.",
+      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes con precio para el agro colombiano.",
     links: [
       {
         href: "https://terracoreapp.co",
@@ -719,12 +781,14 @@ export const projects: Project[] = [
       ariaLabel: "Ver diseño de TerraCore Landing",
     },
     en: {
+      summary:
+        "Static conversion landing for TerraCore, the farm-management PWA. It takes the producer from pain to demo, shows the product, the plans with COP pricing, and privacy, and captures diagnostic requests in a serverless function. Astro, Tailwind CSS, and Supabase.",
       imageAlt:
         "TerraCore landing: value proposition and plans for Colombian agricultural producers",
       problem:
-        "A SaaS platform without a conversion landing loses organic traffic before the producer even reaches the app: it needs to present the product, modules, and plans on a single screen.",
+        "A SaaS platform without a conversion landing loses traffic before the producer reaches the app. It has to explain what changes compared to Excel, notebooks, and WhatsApp, show the product, state the price, and offer a simple way to ask for a demo.",
       solution:
-        "Landing that communicates TerraCore's value proposition to Colombian agricultural producers, shows the SaaS modules, the cascade integration flow, and the three pricing plans, and directs to platform registration.",
+        "Astro landing that starts from the producer's pain, explains the modules and how they connect, shows real product screenshots, answers the privacy objection before talking about pricing, and publishes three plans with COP pricing. Every button leads to a single diagnostic form, with WhatsApp as a direct alternative.",
       links: [
         {
           href: "https://terracoreapp.co",
@@ -738,18 +802,19 @@ export const projects: Project[] = [
         ariaLabel: "View TerraCore Landing design",
       },
       metaDescription:
-        "TerraCore Landing case study: conversion landing in Astro and Tailwind CSS for Colombian agricultural producers. Value proposition and CRO.",
+        "TerraCore Landing case study: static Astro and Tailwind CSS landing with a Supabase-backed form, technical SEO, and priced plans for Colombian agriculture.",
       architecture: [
-        "Astro with static output: section components, optimized build, and continuous deployment to Vercel.",
-        "Vertical conversion flow in 8 sections: Hero, value proposition, 6 modules, cascade integration, field UX, benefits, pricing, and FAQ.",
-        "Three plans with explicit pricing in COP: Seed ($2.5M/mo, 1 location, 5 users), Professional ($5M/mo, 3 locations, 15 users), and Enterprise (from $10M/mo, unlimited).",
-        "Dedicated privacy and security section: Ley 1581 de 2012, TLS on endpoints, no data mining, and guaranteed CSV export.",
-        "Demo form connected to Supabase (managed Postgres), no own server to build or maintain; additional CTAs to a direct WhatsApp channel.",
-        "Google Analytics (GA4) for behavior tracking: sessions, scroll depth per section, CTA clicks, and traffic source.",
-        "Full technical SEO: title, meta-description, og:*, twitter:*, canonical, and schema markup.",
-        "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Vercel.",
-        "Tailwind CSS with light/dark mode.",
+        "Astro 7 with static output, no adapter and no UI framework: JavaScript is vanilla, in one script per component. Deployed on Vercel, and the staging branch uses the preview.",
+        "Atomic design with an import alias per layer (atoms, molecules, organisms, and template). Color, type, and spacing tokens live in a single CSS file and Tailwind extends them. Inter, Poppins, and JetBrains Mono are self-hosted, with no third-party font requests.",
+        "Conversion funnel in 13 sections: Hero, Impact, trust strip, Modules, Product, Benefits, Security, Plans, FAQ, and closing. Metrics, case studies, and testimonials are built but hidden until real data exists.",
+        "Each section's data is typed TypeScript in a single file (plans, impact, benefits, and FAQ). The FAQ feeds both the visible accordion and the FAQPage JSON-LD from the same source.",
+        "Three plans with COP pricing: Seed ($2,500,000/month, 1 facility, 5 users), Professional ($5,000,000/month, up to 5 facilities, 10 users), and Enterprise (base price of $10,000,000/month, unlimited facilities and users). Each plan button opens the form with the operation size already selected.",
+        "Diagnostic form that posts JSON to a Vercel function (api/lead.ts, no npm dependencies). It validates and normalizes the data, stores the lead in Supabase, and notifies by email through Brevo. A repeated email does not create another row and the notification never blocks the save.",
+        "Anti-spam without a captcha: a honeypot field and a minimum fill time on the client, and the same check on the server. It only stores in production; on staging it validates and answers that storage is disabled.",
+        "Analytics: GA4 optional through an environment variable, with events on every CTA (Hero, plans, WhatsApp, and form), plus Vercel Web Analytics and Speed Insights. Floating WhatsApp button on every page.",
+        "Technical SEO: title, description, canonical, Open Graph and Twitter, sitemap, robots.txt, and llms.txt. JSON-LD with Organization, WebSite, SoftwareApplication with its offers, and FAQPage.",
+        "Security through headers from vercel.json: a restrictive CSP, HSTS, X-Frame-Options DENY, and Permissions-Policy.",
+        "Quality: Vitest for logic, Playwright for the flow (landing, form, plans, FAQ, and mobile menu), and Lighthouse on every PR with accessibility as a blocking threshold. A test ties the landing's prices and limits to what the product actually does.",
       ],
       painPoints: [
         {
@@ -764,34 +829,46 @@ export const projects: Project[] = [
           title: "Distrust around data",
           text: "The producer does not want their costs and production data leaving the farm. Without an explicit privacy section, trust is never earned.",
         },
+        {
+          title: "Little signal in the field",
+          text: "If the product works without internet, the landing has to say so from the first screen and without fine print.",
+        },
       ],
       modules: [
         {
-          name: "Six modules",
-          text: "Dashboard, Livestock, Supplies, Tools, Production, and Animal Health. Each with real fields from the farm workflow.",
+          name: "Hero with promise and demo",
+          text: "'Replace Excel and WhatsApp' headline, a works-without-internet chip, a button to the diagnostic, and a demo video in a lightbox.",
+        },
+        {
+          name: "Modules told from the pain",
+          text: "Livestock, supplies, tools, production, and animal health, each in a bento that starts from the problem it solves and not from the feature.",
         },
         {
           name: "Cascade integration",
-          text: "Visual flow: vaccine applied, supply deducted, booster scheduled, status updated. Demonstrates differential value before pricing.",
+          text: "Visual flow: vaccine applied, supply deducted, next booster. And minimum stock, alert to the administrator. Demonstrates differential value before pricing.",
         },
         {
-          name: "Field UX",
-          text: "Sidebar with always-clear context, tables with large rows and tabular numbers, critical alerts above generic notifications.",
+          name: "Real product screenshots",
+          text: "Tabs for Dashboard, Livestock, Supplies, Production, and Animal Health with app screenshots, automatic rotation, and a pause button.",
         },
         {
-          name: "Security and privacy",
-          text: "Dedicated section: Ley 1581, TLS, roles and permissions, CSV export in 48h, and guarantee of no data mining or AI training.",
+          name: "Privacy and security",
+          text: "Five commitments: encryption in transit, roles and permissions, CSV export with approval and 90 days to download data, no data mining, and nightly backup.",
+        },
+        {
+          name: "Plans and form",
+          text: "Three plans in a carousel with price, limits, and scope, frequently asked questions, and a free diagnostic form with WhatsApp as an alternative.",
         },
       ],
       decisions: [
         {
           title: "Copy focused on the pain, not the product",
           context:
-            "The agricultural producer does not search for 'agro-industrial SaaS'. They search to stop using Excel and notebooks.",
+            "The agricultural producer does not search for 'agro-industrial SaaS'. They search to stop using Excel, notebooks, and WhatsApp groups.",
           tradeoff:
             "Technical copy does not connect with the field. Pain-focused copy does, but requires knowing the real operation.",
           decision:
-            "Hero with no mention of the stack. 'No Excel. No notebooks. No WhatsApp.' plus a first-week benefit as a concrete promise.",
+            "Hero with no mention of the stack: 'Replace Excel and WhatsApp in your farm operation' and 'It is not about earning more, it is about losing less'. A before and after table reinforces the contrast.",
         },
         {
           title: "Integration before pricing",
@@ -800,34 +877,71 @@ export const projects: Project[] = [
           tradeoff:
             "Going straight to pricing before demonstrating differential value lowers conversion.",
           decision:
-            "Cascade flow section ('If you log a vaccine...') before the pricing table. The user understands the value before seeing the cost.",
+            "The integration block ('One action. The whole system up to date.') sits inside Modules, before the plans section. The user understands the value before seeing the cost.",
         },
         {
-          title: "Google Analytics to iterate with real data",
+          title: "Trust before pricing",
           context:
-            "Without behavioral metrics, landing design is intuition: you do not know which sections are read, where users drop off, or which CTA converts.",
+            "Production and cost data are sensitive to the producer, and distrust blocks the purchase.",
           tradeoff:
-            "GA adds a third-party script with privacy implications that must be declared in the cookie policy and consent banner.",
+            "Omitting privacy assumes a trust that in agriculture must be earned explicitly. Placing it before the plans makes the page longer.",
           decision:
-            "Google Analytics with explicit cookie consent. Allows tracking sessions, scroll depth per section, CTA clicks, and traffic source to iterate the design with real data.",
+            "The security section sits right before Plans, with concrete commitments: no data mining or AI training, CSV export, and 90 days to download everything if the customer leaves.",
         },
         {
-          title: "Dedicated privacy section",
-          context: "Production and cost data are sensitive to the producer. Trust is a blocker.",
+          title: "A single funnel to the form",
+          context:
+            "Three plans with three destinations scatter the leads and make it hard to know what each visitor asked for.",
           tradeoff:
-            "Omitting it assumes trust. In the agricultural sector, trust must be earned explicitly.",
+            "A single destination loses direct plan purchase. In return, every request arrives complete and with context.",
           decision:
-            "Complete section with Ley 1581, TLS, roles, CSV export, and guarantee of no data mining or AI training.",
+            "The three plan buttons lead to the same form and preselect the plan's operation size. First a 30-minute diagnostic and, if it fits, a 14-day trial with no card.",
         },
+        {
+          title: "Static, with a single server function",
+          context:
+            "A landing does not need its own backend, but the form has to store leads without exposing keys.",
+          tradeoff:
+            "A serverless function does not run under Astro's dev server, and staging has no database.",
+          decision:
+            "The site is static and the form talks to a Vercel function that uses Supabase's service key only on the server. Outside production it validates and does not store.",
+        },
+        {
+          title: "No invented social proof",
+          context:
+            "A landing for a product under validation is tempted to fill in placeholder metrics, cases, and testimonials.",
+          tradeoff:
+            "Those sections add trust, but with fake data they take it away. Leaving them out today costs conversion.",
+          decision:
+            "The three sections are built and hidden until real data exists. In addition, an automated test compares the landing's prices and limits with what the product does.",
+        },
+      ],
+      design: [
+        "The design starts from a clickable prototype, reachable from the View design button.",
+        "Deep green as the primary color and amber as the accent over warm neutrals, in the same visual family as the PWA.",
+        "Poppins for headlines, Inter for text, and JetBrains Mono for figures and details. All three are self-hosted.",
+        "Numbered sections with an editorial eyebrow and a rhythm that alternates light and dark backgrounds to separate each funnel step.",
+        "Modules in a bento with product mini-views (tables and metric cards) instead of generic illustrations.",
+        "Real screenshots in tabs with automatic rotation and pause, and plans in a carousel with arrows and pause.",
+        "Hamburger menu below 1000 px, a floating WhatsApp button, and a skip link on every page.",
       ],
       results: [
-        "Complete conversion flow in 8 sections: from producer pain to demo CTA.",
-        "Three plans published with COP pricing, explicit features per plan, and clear VAT and cancellation terms.",
+        "Landing in production, with the diagnostic form storing requests and notifying by email.",
+        "Three plans published with COP pricing, clear limits per plan, and visible cancellation terms.",
       ],
       learnings: [
-        "A SaaS landing for a non-technical niche must speak the client's language: every section was written in field vocabulary, not software vocabulary.",
-        "Separating the value demonstration (cascade integration) from the pricing section reduces cognitive load: the producer arrives at the plans having already understood what differentiates TerraCore from Excel.",
+        "I learned to design, build, and deploy a complete conversion landing, from the proposal to the form that stores leads, and to debug it, test it, and measure it.",
+        "A landing for a non-technical niche must speak the client's language: every section was written in farm vocabulary, not software vocabulary.",
+        "Separating the value demonstration from the pricing section lowers the barrier: the producer arrives at the plans having already understood what differentiates TerraCore from Excel.",
+        "A price or limit copied by hand in several places drifts apart. The data lives in one file and a test compares it with the product.",
+        "It is cheaper to keep a social proof section hidden until real data exists than to pull invented figures.",
+        "A static site can have a form without its own server, but you have to decide what happens on staging: validating without storing avoids mixing test data with real leads.",
       ],
+      roadmap: {
+        now: ["Landing in production capturing diagnostic requests."],
+        next: ["Activate metrics, case studies, and testimonials once real data exists."],
+        later: [],
+      },
     },
   },
   {
