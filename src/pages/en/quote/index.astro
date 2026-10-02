@@ -1,0 +1,61 @@
+---
+import QuoteForm from "@/components/organisms/QuoteForm.astro";
+import PageIntro from "@/components/molecules/PageIntro.astro";
+import { siteRoutes } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+
+const base = import.meta.env.BASE_URL;
+const r = siteRoutes("en", base);
+const selectedService = Astro.url.searchParams.get("service") ?? undefined;
+const services = [
+  { id: "custom-web-applications", label: "Custom web applications" },
+  { id: "rest-apis-backend", label: "REST APIs and backend" },
+  { id: "security-appsec", label: "Security and AppSec" },
+  { id: "ai-integrations", label: "AI integrations" },
+];
+const validSelection = services.some((service) => service.id === selectedService)
+  ? selectedService
+  : undefined;
+---
+
+<Layout
+  title="Request a quote | Valentina Ramirez"
+  description="Tell me about your project and receive a response within 24 hours."
+  lang="en"
+  alternates={[
+    { hreflang: "es", href: "https://www.wavival.dev/cotizar/" },
+    { hreflang: "en", href: "https://www.wavival.dev/en/quote/" },
+    { hreflang: "x-default", href: "https://www.wavival.dev/cotizar/" },
+  ]}
+>
+  <section class="wrap page-top">
+    <PageIntro eyebrow="Quote">
+      <Fragment slot="title">Let's talk about your project</Fragment>
+      <p class="body-lg m-0">Tell me what you need. I will reply within 24 hours.</p>
+    </PageIntro>
+    <div class="mt-16 border-t border-ink pt-10">
+      <QuoteForm
+        services={services}
+        selectedService={validSelection}
+        privacyHref={r.privacy}
+        labels={{
+          name: "Name",
+          email: "Email",
+          phone: "Phone with country code",
+          business: "Business or company",
+          services: "Services you are interested in",
+          description: "Describe your project",
+          descriptionHint: "0/500",
+          submit: "Send quote request",
+          sending: "Sending",
+          successTitle: "Thank you for reaching out",
+          success: "I received your information. I will reply within 24 hours.",
+          error: "Your quote request could not be sent. Please try again.",
+          privacyPrefix: "By submitting, you accept the processing of your data under the",
+          privacyLink: "privacy policy",
+          privacySuffix: ".",
+        }}
+      />
+    </div>
+  </section>
+</Layout>

@@ -141,7 +141,7 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 - Below 900px the menu is a full-screen overlay with numbered display links, a "Blog W" primary button and a mailto secondary button.
 - The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
 - `ContactBand` closes the home and also services, about, and case studies.
-- Accordions are native `<details>` (`Disclosure`) with the state shown as text.
+- Accordions are native `<details>` (`Disclosure`) with the state shown as text and a short open/close transition.
 - Line-height defaults to 1.6 (body and the Tailwind `fontSize` scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
 - The mobile menu overlay is a sibling of the sticky `<header>`, never a child: `backdrop-filter` on the header would otherwise become the containing block of the `fixed` overlay.
 
@@ -195,6 +195,7 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 | `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                           |
 | `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy`: sections `cs-problem`, `cs-architecture`, `cs-decisions`, `cs-results`, `cs-learnings`, closing `ContactBand` |
 | `/servicios` and `/en/services`            | `PageIntro`, `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                |
+| `/cotizar` and `/en/quote`                 | `PageIntro`, two-column field grid, service checklist, and in-place confirmation                                           |
 | `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `PullQuote`, `ContactBand`                                                                  |
 | `/contacto` and `/en/contact`              | `PageIntro`, contact channels with `SectionHeader`                                                                         |
 | `/herramientas` and `/en/uses`             | `PageIntro`, stack breakdown with `ChipList`, `RepoCard`s in `#repos`                                                      |
@@ -211,14 +212,15 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 
 ## Motion
 
-The design is static. There is no scroll reveal (`[data-aos]` and `.aos-in` were removed) and no accordion script.
+The design is static. There is no scroll reveal (`[data-aos]` and `.aos-in` were removed). Navigation and disclosures use only short functional motion.
 
-| Source                   | Behavior                                                                                                            |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `global.css`             | `body` transitions `background-color` and `color` (0.3s); `html` uses smooth scroll with `scroll-padding-top: 88px` |
-| Component classes        | Short color/border-color transitions (0.2s to 0.25s) on buttons, links, icon buttons, frames                        |
-| Mobile menu              | Opacity/translate transition (300ms) on the overlay                                                                 |
-| `prefers-reduced-motion` | All animations/transitions clamped to `0.01ms` and smooth scroll disabled                                           |
+| Source                   | Behavior                                                                                                                                                                                                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `global.css`             | `body` transitions `background-color` and `color` (0.3s); `html` uses smooth scroll with `scroll-padding-top: 88px`; View Transitions fade between routes and the persistent W-logo loader appears immediately during navigation for at least one second |
+| Component classes        | Short color/border-color transitions (0.2s to 0.25s) on buttons, links, icon buttons, frames                                                                                                                                                             |
+| Mobile menu              | Opacity/translate transition (300ms) on the overlay                                                                                                                                                                                                      |
+| `Disclosure`             | Native `<details>` content expands in 220ms and closes in 180ms through the Web Animations API                                                                                                                                                           |
+| `prefers-reduced-motion` | All animations/transitions clamped to `0.01ms` and smooth scroll disabled                                                                                                                                                                                |
 
 The reduce-motion override lives in `global.css`:
 

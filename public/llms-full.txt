@@ -69,6 +69,8 @@ Pricing: projects from COP 2,000,000 / USD 500 depending on scope (MVP from 3 to
 
 Services page: https://www.wavival.dev/servicios
 
+Quote page: https://www.wavival.dev/cotizar. Visitors can select one or more services and send a project brief. Valentina replies within 24 hours.
+
 ## Contact
 
 - Email: wavival.dev@luminaw.co

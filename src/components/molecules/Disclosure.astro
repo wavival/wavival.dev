@@ -9,7 +9,7 @@ interface Props {
 const { index, title, openLabel, closeLabel } = Astro.props;
 ---
 
-<details class="disclosure border-b border-line">
+<details class="disclosure border-b border-line" data-disclosure>
   <summary class="group flex items-baseline gap-5 py-6 text-ink transition-colors hover:text-link">
     <span class="index w-7 flex-none">{index}</span>
     <span
@@ -20,7 +20,72 @@ const { index, title, openLabel, closeLabel } = Astro.props;
       <span class="when-closed">{openLabel}</span><span class="when-open">{closeLabel}</span>
     </span>
   </summary>
-  <div class="pb-7 pl-12">
+  <div class="disclosure-content pb-7 pl-12" data-disclosure-content>
     <slot />
   </div>
 </details>
+
+<script>
+  function initDisclosures() {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.querySelectorAll<HTMLDetailsElement>("[data-disclosure]").forEach((disclosure) => {
+      const summary = disclosure.querySelector("summary");
+      const content = disclosure.querySelector<HTMLElement>("[data-disclosure-content]");
+      if (!summary || !content || disclosure.dataset.disclosureReady) return;
+
+      disclosure.dataset.disclosureReady = "true";
+      let closing = false;
+      let animation: Animation | undefined;
+
+      summary.addEventListener("click", (event) => {
+        if (reducedMotion || !disclosure.open || closing) return;
+
+        event.preventDefault();
+        closing = true;
+        content.inert = true;
+        animation?.cancel();
+
+        animation = content.animate(
+          [
+            { height: `${content.offsetHeight}px`, opacity: 1 },
+            { height: "0px", opacity: 0 },
+          ],
+          { duration: 180, easing: "ease-in", fill: "forwards" }
+        );
+
+        animation.finished
+          .then(() => {
+            disclosure.open = false;
+            content.inert = false;
+          })
+          .catch(() => undefined)
+          .finally(() => {
+            closing = false;
+          });
+      });
+
+      disclosure.addEventListener("toggle", () => {
+        if (reducedMotion || !disclosure.open || closing) return;
+
+        animation?.cancel();
+        animation = content.animate(
+          [
+            { height: "0px", opacity: 0 },
+            { height: `${content.scrollHeight}px`, opacity: 1 },
+          ],
+          { duration: 220, easing: "ease-out" }
+        );
+
+        animation.finished
+          .then(() => {
+            content.style.height = "";
+            content.style.opacity = "";
+          })
+          .catch(() => undefined);
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initDisclosures);
+</script>

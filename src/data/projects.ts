@@ -14,6 +14,7 @@ export interface ProjectEn {
   /** Short TL;DR shown above the numbered sections. Falls back to the first sentence of `solution`. */
   summary?: string;
   links: ProjectLink[];
+  designLink?: ProjectLink;
   metaDescription?: string;
   architecture?: string[];
   decisions?: { title: string; context: string; tradeoff: string; decision: string }[];
@@ -35,7 +36,7 @@ export interface Project {
   imageWidth?: number;
   imageHeight?: number;
   stack: string[];
-  /** Filter tags: full-stack, ia, pwa, landing, diseno */
+  /** Filter tags: full-stack, ai, pwa, landing, design, security */
   filters?: string[];
   problem: string;
   solution: string;
@@ -43,6 +44,8 @@ export interface Project {
   summary?: string;
   architecture?: string[];
   links: ProjectLink[];
+  /** Design prototype link shown only inside the case study. */
+  designLink?: ProjectLink;
   /** When true, this project gets its own /projects/<slug> case-study page. */
   caseStudy?: boolean;
   /** Points to an existing case-study slug instead of generating a new page. */
@@ -78,6 +81,8 @@ export interface Project {
   en?: ProjectEn;
 }
 
+const DESIGN_PLACEHOLDER_URL = "https://www.figma.com/";
+
 export const projects: Project[] = [
   {
     title: "TerraCore PWA",
@@ -96,7 +101,7 @@ export const projects: Project[] = [
     programmingLanguage: ["Python", "TypeScript", "SQL"],
     summary:
       "PWA multitenancy para fincas medianas en Colombia. Centraliza animales, inventario, producción, salud y costos en una plataforma offline-first; redujo el tiempo administrativo 42% en fincas piloto. Django, DRF, PostgreSQL, React.",
-    filters: ["full-stack", "pwa"],
+    filters: ["full-stack", "pwa", "design"],
     problem:
       "Los productores agropecuarios en Colombia no contaban con software diseñado para ellos: los ERPs existentes eran demasiado complejos, y Excel con login no alcanzaba para gestionar animales, sanidad y producción al mismo tiempo. La operación terminaba repartida entre cuadernos, hojas de cálculo y grupos de WhatsApp.",
     solution:
@@ -119,6 +124,11 @@ export const projects: Project[] = [
         event: "ver-app-terracore",
       },
     ],
+    designLink: {
+      href: DESIGN_PLACEHOLDER_URL,
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de TerraCore",
+    },
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
@@ -242,6 +252,11 @@ export const projects: Project[] = [
           event: "ver-app-terracore",
         },
       ],
+      designLink: {
+        href: DESIGN_PLACEHOLDER_URL,
+        text: "View design",
+        ariaLabel: "View TerraCore design",
+      },
       metaDescription:
         "TerraCore case study: agro-industrial SaaS for mid-sized farms in Colombia. Django, DRF, PostgreSQL, React. Offline-first PWA with multitenancy.",
       architecture: [
@@ -365,7 +380,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 630,
     stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
-    filters: ["landing", "diseno"],
+    filters: ["landing", "design"],
     problem:
       "Una plataforma SaaS sin una landing de conversión pierde el tráfico orgánico antes de que el productor llegue a la app: hay que presentar el producto, los módulos y los planes en una sola pantalla.",
     solution:
@@ -472,6 +487,11 @@ export const projects: Project[] = [
         ariaLabel: "Ver landing de TerraCore",
       },
     ],
+    designLink: {
+      href: DESIGN_PLACEHOLDER_URL,
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de TerraCore Landing",
+    },
     en: {
       imageAlt:
         "TerraCore landing: value proposition and plans for Colombian agricultural producers",
@@ -486,6 +506,11 @@ export const projects: Project[] = [
           ariaLabel: "Visit TerraCore landing",
         },
       ],
+      designLink: {
+        href: DESIGN_PLACEHOLDER_URL,
+        text: "View design",
+        ariaLabel: "View TerraCore Landing design",
+      },
       metaDescription:
         "TerraCore Landing case study: conversion landing in Astro and Tailwind CSS for Colombian agricultural producers. Value proposition and CRO.",
       architecture: [
@@ -596,7 +621,7 @@ export const projects: Project[] = [
     programmingLanguage: ["Python", "TypeScript", "SQL"],
     summary:
       "PWA offline-first que escanea etiquetas de alimentos con IA (Claude API) y dice al instante si puedes comer un producto según tus restricciones (celíaco, diabético, intolerante a la lactosa). Django, DRF, PostgreSQL, React.",
-    filters: ["full-stack", "ia", "pwa"],
+    filters: ["full-stack", "ai", "pwa", "design"],
     problem:
       "Comer con celiaquía, diabetes o intolerancia a la lactosa implica leer cada etiqueta, descifrar ingredientes escondidos bajo otros nombres y buscar recetas que cumplan varias restricciones a la vez, todo de forma manual y dispersa.",
     solution:
@@ -616,6 +641,11 @@ export const projects: Project[] = [
         event: "ver-app-root",
       },
     ],
+    designLink: {
+      href: DESIGN_PLACEHOLDER_URL,
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de OKroot",
+    },
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
@@ -717,6 +747,11 @@ export const projects: Project[] = [
           event: "ver-app-root",
         },
       ],
+      designLink: {
+        href: DESIGN_PLACEHOLDER_URL,
+        text: "View design",
+        ariaLabel: "View OKroot design",
+      },
       metaDescription:
         "OKroot case study: offline-first PWA with AI food label scanner (Claude API) for celiac, diabetic, and lactose-intolerant users. Architecture and decisions.",
       architecture: [
@@ -821,7 +856,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 630,
     stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
-    filters: ["landing", "diseno"],
+    filters: ["landing", "design"],
     problem:
       "Una app con múltiples restricciones dietéticas necesita comunicar con precisión a quién está dirigida y qué hace antes de que el usuario la instale o la pruebe.",
     solution:
@@ -853,6 +888,11 @@ export const projects: Project[] = [
         ariaLabel: "Ver landing de OKroot",
       },
     ],
+    designLink: {
+      href: DESIGN_PLACEHOLDER_URL,
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de OKroot Landing",
+    },
     en: {
       imageAlt: "OKroot landing: AI food label scanner for dietary restrictions",
       problem:
@@ -866,6 +906,11 @@ export const projects: Project[] = [
           ariaLabel: "Visit OKroot landing",
         },
       ],
+      designLink: {
+        href: DESIGN_PLACEHOLDER_URL,
+        text: "View design",
+        ariaLabel: "View OKroot Landing design",
+      },
       metaDescription:
         "OKroot Landing case study: landing in Astro and Tailwind CSS that communicates the AI label scanner and compatible dietary restrictions.",
       architecture: [
@@ -910,7 +955,7 @@ export const projects: Project[] = [
     programmingLanguage: ["TypeScript", "SQL"],
     summary:
       "Aplicación de seguridad con Next.js, análisis de código alineado con OWASP y chat con OpenAI. Prisma Postgres guarda usuarios, consultas y análisis. Landing en Astro.",
-    filters: ["full-stack", "ia"],
+    filters: ["full-stack", "ai"],
     problem:
       "Revisar código con criterio OWASP o resolver una duda puntual de ciberseguridad implica saltar entre scanners pesados, documentación dispersa y foros desactualizados.",
     solution:
@@ -1154,7 +1199,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 630,
     stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
-    filters: ["landing", "diseno"],
+    filters: ["landing", "design"],
     problem:
       "Toda empresa necesita una presencia digital que comunique con claridad quién es y qué hace.",
     solution:
@@ -1222,6 +1267,11 @@ export const projects: Project[] = [
     metaDescription:
       "Caso de estudio de Lúmina W: landing completa con Astro, Tailwind CSS y Supabase. SEO técnico, formulario de contacto y deploy continuo en Vercel.",
     links: [{ href: "https://luminaw.co", text: "Ver sitio", ariaLabel: "Ver sitio de Lúmina W" }],
+    designLink: {
+      href: DESIGN_PLACEHOLDER_URL,
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de Lúmina W",
+    },
     en: {
       imageAlt: "Lumina W landing: brand tagline and call to action",
       problem:
@@ -1229,6 +1279,11 @@ export const projects: Project[] = [
       solution:
         "I designed and implemented the complete Lumina W landing: Astro architecture, Tailwind CSS styling, Supabase-backed contact form, full technical SEO, and continuous deployment.",
       links: [{ href: "https://luminaw.co", text: "Visit site", ariaLabel: "Visit Lumina W" }],
+      designLink: {
+        href: DESIGN_PLACEHOLDER_URL,
+        text: "View design",
+        ariaLabel: "View Lumina W design",
+      },
       metaDescription:
         "Lumina W case study: complete landing with Astro, Tailwind CSS, and Supabase. Technical SEO, contact form, and continuous deployment to Vercel.",
       architecture: [
@@ -1304,7 +1359,7 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 630,
     stack: ["Next.js", "PWA"],
-    filters: ["pwa"],
+    filters: ["full-stack", "ai", "pwa", "design"],
     problem:
       "El conocimiento técnico generado en proyectos reales necesita un canal propio para llegar a la comunidad sin depender de plataformas externas.",
     solution:
@@ -1324,6 +1379,11 @@ export const projects: Project[] = [
         ariaLabel: "Ver blog de Lúmina W",
       },
     ],
+    designLink: {
+      href: DESIGN_PLACEHOLDER_URL,
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de Blog Lúmina W",
+    },
     en: {
       imageAlt:
         "Lumina W blog: technical content on web development, cybersecurity, and digital products",
@@ -1338,6 +1398,11 @@ export const projects: Project[] = [
           ariaLabel: "Visit Lumina W blog",
         },
       ],
+      designLink: {
+        href: DESIGN_PLACEHOLDER_URL,
+        text: "View design",
+        ariaLabel: "View Lumina W Blog design",
+      },
       metaDescription:
         "Lumina W Blog case study: a Next.js PWA for technical content on web development, cybersecurity, and products.",
       architecture: ["Blog application developed with Next.js and presented as a PWA."],
@@ -1358,7 +1423,7 @@ export const projects: Project[] = [
     imageWidth: 1280,
     imageHeight: 853,
     stack: ["Nmap", "Gobuster", "Netcat", "Python", "MITRE ATT&CK", "PTES", "Linux", "DockerLabs"],
-    filters: [],
+    filters: ["security"],
     problem:
       "¿Qué tan vulnerable es un sistema mal configurado ante un atacante con acceso inicial mínimo?",
     solution:

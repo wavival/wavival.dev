@@ -1,0 +1,60 @@
+---
+import QuoteForm from "@/components/organisms/QuoteForm.astro";
+import PageIntro from "@/components/molecules/PageIntro.astro";
+import { siteRoutes } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+
+const base = import.meta.env.BASE_URL;
+const r = siteRoutes("es", base);
+const selectedService = Astro.url.searchParams.get("service") ?? undefined;
+const services = [
+  { id: "custom-web-applications", label: "Aplicaciones web a medida" },
+  { id: "rest-apis-backend", label: "APIs REST y backend" },
+  { id: "security-appsec", label: "Seguridad y AppSec" },
+  { id: "ai-integrations", label: "Integraciones de IA" },
+];
+const validSelection = services.some((service) => service.id === selectedService)
+  ? selectedService
+  : undefined;
+---
+
+<Layout
+  title="Cotiza tu proyecto | Valentina Ramírez"
+  description="Cuéntame sobre tu proyecto y recibe una respuesta en un máximo de 24 horas."
+  alternates={[
+    { hreflang: "es", href: "https://www.wavival.dev/cotizar/" },
+    { hreflang: "en", href: "https://www.wavival.dev/en/quote/" },
+    { hreflang: "x-default", href: "https://www.wavival.dev/cotizar/" },
+  ]}
+>
+  <section class="wrap page-top">
+    <PageIntro eyebrow="Cotización">
+      <Fragment slot="title">Hablemos de tu proyecto</Fragment>
+      <p class="body-lg m-0">Cuéntame qué necesitas. Te responderé en un máximo de 24 horas.</p>
+    </PageIntro>
+    <div class="mt-16 border-t border-ink pt-10">
+      <QuoteForm
+        services={services}
+        selectedService={validSelection}
+        privacyHref={r.privacy}
+        labels={{
+          name: "Nombre",
+          email: "Correo",
+          phone: "Teléfono con indicativo",
+          business: "Negocio o empresa",
+          services: "Servicios que te interesan",
+          description: "Describe tu proyecto",
+          descriptionHint: "0/500",
+          submit: "Enviar cotización",
+          sending: "Enviando",
+          successTitle: "Gracias por contactar",
+          success: "Recibí tu información. Te responderé en un máximo de 24 horas.",
+          error: "No fue posible enviar la cotización. Inténtalo de nuevo.",
+          privacyPrefix: "Al enviar aceptas el tratamiento de tus datos según la",
+          privacyLink: "política de privacidad",
+          privacySuffix: ".",
+        }}
+      />
+    </div>
+  </section>
+</Layout>

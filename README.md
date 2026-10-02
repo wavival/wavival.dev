@@ -1,425 +1,251 @@
 <h1 align="left">
-  <img src="assets/logo-w.png" width="48px" valign="middle">
-  Valentina Ramírez • Portfolio
+  <img src="assets/logo-w.png" width="48" valign="middle" alt="logo-w">
+  Valentina Ramírez · Portfolio v4
 </h1>
 
-![Banner principal](assets/banner.png)
+![Portfolio banner](assets/banner.png)
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-wavival.dev-407bff?style=for-the-badge&logo=vercel&logoColor=white)](https://www.wavival.dev)
-[![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-407bff?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
-[![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-407bff?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
-[![CI](https://github.com/wavival/wavival.dev/actions/workflows/ci.yml/badge.svg)](https://github.com/wavival/wavival.dev/actions/workflows/ci.yml)
+[![Portfolio](https://img.shields.io/badge/Portfolio-wavival.dev-1565c0?style=for-the-badge&logo=vercel&logoColor=white)](https://www.wavival.dev)
+[![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
+[![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Portfolio of **Valentina Ramírez**, Full Stack Developer (Django · React), Founder of [Lúmina W](https://luminaw.co). Third iteration of the site, built with Astro 7 and Tailwind 3. Static-rendered, bilingual (ES default, EN), dark-mode aware, SEO + A11Y + performance first. Deployed on Vercel as the default application for `wavival.dev`.
+> Version 4 of the personal portfolio for Valentina Ramírez, backend developer focused on application security and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
-## Table of contents
+## Contents
 
+- [Local development](#local-development)
+  - [Requirements](#requirements)
+  - [Environment variables](#environment-variables)
+  - [Commands](#commands)
 - [Stack](#stack)
-- [Local setup](#local-setup)
-  - [npm scripts](#npm-scripts)
-- [Environment variables](#environment-variables)
-- [Project conventions](#project-conventions)
-- [Delivery flow](#delivery-flow)
 - [Architecture](#architecture)
-  - [Routing and i18n](#routing-and-i18n)
-  - [File structure](#file-structure)
-  - [Page composition](#page-composition)
-  - [Design tokens](#design-tokens)
-- [SEO and accessibility](#seo-and-accessibility)
-- [Performance](#performance)
-- [Testing and CI](#testing-and-ci)
-- [Deploying to Vercel](#deploying-to-vercel)
-  - [One-time setup](#one-time-setup)
-  - [What's already in the repo](#whats-already-in-the-repo)
-  - [Security headers and cache](#security-headers-and-cache)
-  - [Redirects and proxies](#redirects-and-proxies)
-- [Using as a template](#using-as-a-template)
-- [Troubleshooting](#troubleshooting)
-- [Roadmap / known gaps](#roadmap--known-gaps)
+  - [Project structure](#project-structure)
+- [Routes and internationalization](#routes-and-internationalization)
+  - [Locale routes](#locale-routes)
+  - [Microfrontends](#microfrontends)
+- [Design system](#design-system)
+  - [Principles](#principles)
+- [SEO, discovery and accessibility](#seo-discovery-and-accessibility)
+  - [SEO and discovery](#seo-and-discovery)
+  - [Accessibility](#accessibility)
+- [Testing and quality](#testing-and-quality)
+  - [Local validation](#local-validation)
+  - [CI gates](#ci-gates)
+- [Delivery flow](#delivery-flow)
+  - [Branch model](#branch-model)
+- [Deployment](#deployment)
+  - [Vercel](#vercel)
+- [Repository documentation](#repository-documentation)
 - [License](#license)
+- [Contact](#contact)
 
-Related docs: [DESIGN.md](./DESIGN.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE.md](./CLAUDE.md) · [AGENTS.md](./AGENTS.md)
+## Local development
 
-## Stack
+### Requirements
 
-| Layer         | Choice                                                                                                                        |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Build         | Astro 7 (static output, `compressHTML`, `inlineStylesheets: 'auto'`)                                                          |
-| Styling       | Tailwind CSS 3 via PostCSS (`darkMode: 'class'`) + CSS custom property tokens                                                 |
-| Scripts       | TypeScript (vanilla, no client-side framework)                                                                                |
-| i18n          | Bilingual: ES default at root, EN mirror under `/en/`, slug map in `src/i18n/utils.ts`                                        |
-| Sitemap       | `@astrojs/sitemap` (auto-generated at build, both locales)                                                                    |
-| Design        | "Señal v4": static editorial UI (1px rules, Raleway 800 display scale, one blue signal), atomic components; no scroll-reveal  |
-| Navigation    | View Transitions via Astro `<ClientRouter />` (SPA-like same-origin swaps; no full-screen loader)                             |
-| Fonts         | Self-hosted latin-subset `woff2` (Poppins static + Raleway variable), `@font-face` with `font-display: swap`; no Google Fonts |
-| Analytics     | Umami (cookieless), env-driven, conditionally injected                                                                        |
-| Web vitals    | `web-vitals` RUM (`src/scripts/vitals.ts`): reports LCP/INP/CLS/FCP/TTFB to Umami, same env gate as analytics                 |
-| GitHub widget | Build-time fetch of profile + non-fork repos (`src/data/github.ts`) on `/herramientas` + `/en/uses`; fails soft               |
-| LLM discovery | `/llms.txt` + `/llms-full.txt` (llmstxt.org spec) for AI-assistant discovery, separate from Google SEO and Search Console     |
-| Testing       | Playwright (Chromium desktop + mobile) + pure-unit specs                                                                      |
-| Perf budget   | Lighthouse CI (`@lhci/cli`, `lighthouserc.json`)                                                                              |
-| Link check    | linkinator (crawls built `dist/` for broken internal links)                                                                   |
-| Formatting    | Prettier + `prettier-plugin-astro`                                                                                            |
-| CI            | GitHub Actions: quality gate → E2E + Lighthouse + links                                                                       |
-| Hosting       | Vercel (static portfolio + path-based microfrontends + security headers + cache + redirects)                                  |
-
-## Local setup
+- Node `22.x`, pinned in [`.nvmrc`](./.nvmrc)
+- npm
 
 ```bash
 git clone git@github.com:wavival/wavival.dev.git
 cd wavival.dev
-nvm use                           # Node 22 (pinned in .nvmrc)
-npm install
-cp .env.example .env              # optional: Umami vars (all optional)
-npm run dev                       # http://localhost:4321
+nvm use
+npm ci
+cp .env.example .env
+npm run dev
 ```
 
-**Requires:** Node `22.x` (declared in `package.json` engines; pinned in `.nvmrc` → `22`; all CI jobs read it via `node-version-file`).
+The development server runs at `http://localhost:4321`.
 
-### npm scripts
+### Environment variables
 
-| Script                 | What it does                                                                                    |
-| ---------------------- | ----------------------------------------------------------------------------------------------- |
-| `npm run dev`          | Astro dev server with HMR at `localhost:4321`                                                   |
-| `npm run build`        | `astro build` → static output in `./dist/`                                                      |
-| `npm run preview`      | Serve the production build locally                                                              |
-| `npm run check`        | `astro check` (type / diagnostic check, run in CI)                                              |
-| `npm run format`       | Prettier write across the repo                                                                  |
-| `npm run format:check` | Prettier check (no writes), used in CI                                                          |
-| `npm test`             | Playwright E2E (boots `preview` on port 4329)                                                   |
-| `npm run test:ui`      | Playwright in interactive UI mode                                                               |
-| `npm run test:install` | Install Playwright Chromium browser + system deps                                               |
-| `npm run lhci`         | Lighthouse CI against `./dist` (build first)                                                    |
-| `npm run links`        | linkinator over `./dist` for broken links (build first)                                         |
-| `npm run csp:check`    | Verify every inline `dist/` script has a matching sha256 in the `vercel.json` CSP (build first) |
-| `npm run css:check`    | Verify every component class in `utilities.css` survives into the built CSS (build first)       |
+The Umami values are optional. Analytics and Core Web Vitals reporting are emitted only when both are set. `BREVO_API_KEY` is required in Vercel for quote delivery and must remain server-only.
 
-> `lhci` and `links` run against the built output: run `npm run build` before them locally.
+| Variable           | Purpose           |
+| ------------------ | ----------------- |
+| `PUBLIC_UMAMI_SRC` | Umami script URL. |
+| `PUBLIC_UMAMI_ID`  | Umami website ID. |
 
-## Environment variables
+See [`.env.example`](./.env.example) for the local template.
 
-All client-exposed vars use the `PUBLIC_` prefix (Astro convention). They are baked into the static build at compile time; there is no runtime config. Every one is optional, and the associated script/meta tag is only emitted when its var(s) are set.
+### Commands
 
-| Variable           | Required | Example                            | Notes                                                                       |
-| ------------------ | -------- | ---------------------------------- | --------------------------------------------------------------------------- |
-| `PUBLIC_UMAMI_SRC` | No       | `https://cloud.umami.is/script.js` | Umami script URL. Both Umami vars must be set or no `<script>` is injected. |
-| `PUBLIC_UMAMI_ID`  | No       | `xxxxxxxx-uuid`                    | Umami website ID. Cookieless, no Google Analytics.                          |
+| Command                | Purpose                                                     |
+| ---------------------- | ----------------------------------------------------------- |
+| `npm run dev`          | Starts Astro with HMR on port 4321.                         |
+| `npm run build`        | Builds the static site into `dist/`.                        |
+| `npm run preview`      | Serves the production build locally.                        |
+| `npm run check`        | Runs Astro diagnostics and type checks.                     |
+| `npm run lint`         | Runs ESLint.                                                |
+| `npm run format:check` | Checks Prettier formatting.                                 |
+| `npm test`             | Runs Playwright against a production preview on port 4329.  |
+| `npm run lhci`         | Runs Lighthouse CI against `dist/`. Build first.            |
+| `npm run links`        | Checks built links in `dist/`. Build first.                 |
+| `npm run csp:check`    | Validates CSP hashes after a build.                         |
+| `npm run css:check`    | Ensures component CSS classes survive the production build. |
 
-Copy `.env.example` to `.env` for local development. In Vercel, set them under _Project Settings > Environment Variables_.
+## Stack
 
-## Project conventions
-
-- **No hardcoded colors.** Every color reference uses `var(--token-name)` from `src/styles/tokens.css`.
-- **Component classes for repeats.** `.wrap`, `.btn-primary`, `.eyebrow`, `.chip`, `.nav-link`, etc. live in `@layer components` (`src/styles/utilities.css`).
-- **Astro components** type props with `interface Props` in the frontmatter.
-- **Locale-aware routing.** Organisms take a `lang` prop and resolve targets with `siteRoutes(lang, base)` from `src/i18n/utils.ts`; never hardcode a route that ignores `lang`. The ES↔EN slug map in `src/i18n/utils.ts` is the single source of truth.
-- **External links** go through `TextLink` / `IconLink` / `Button`, which all apply `rel="noopener noreferrer"` automatically when `target="_blank"`.
-- **Images:** WebP for photos, SVG for icons. Always include explicit `width` + `height` HTML attributes to prevent CLS. Decorative icons use `alt=""`.
-- **Dark mode** uses the `.dark` class on `<html>`, never `@media (prefers-color-scheme)`. A blocking `is:inline` script in `Layout.astro` `<head>` applies the theme before first paint to avoid FOUC. Dark is the default (`.dark` unless `localStorage.theme` is `light`; the OS preference is not consulted).
-- **No client-side frameworks.** Vanilla TypeScript in `src/scripts/` is the only client code.
-- **No em dashes, no emojis** anywhere in the repo (copy, code, comments, commits, docs).
-
-Full design-token reference and utility-class catalog: see [DESIGN.md](./DESIGN.md). Component-by-component prop tables: see [COMPONENTS.md](./COMPONENTS.md).
-
-## Delivery flow
-
-- `main` is production, `stg` is staging, and `dev` is the integration base.
-- Create human work branches from `dev` with `feature/*`, `fix/*`, or `chore/*` names.
-- Open every human work PR to `dev`.
-- Promotion PRs move only `dev` to `stg` and `stg` to `main`; Valentina merges promotion PRs manually.
-- Required checks are `commitlint`, `quality`, `tests`, `security scan`, and `validate-pr-base`.
-- Commit messages use `type(scope): message`. Allowed portfolio scopes are `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, and `a11y`.
-
-See [AGENTS.md](./AGENTS.md) for the complete delivery rules for coding agents.
+| Layer                | Choice                                                                 |
+| -------------------- | ---------------------------------------------------------------------- |
+| Framework            | Astro 7, static pages plus one Vercel Function for quote delivery.     |
+| Styling              | Tailwind CSS 3, PostCSS, CSS custom properties.                        |
+| Components           | Astro, organized with atomic design.                                   |
+| Client scripts       | Vanilla TypeScript.                                                    |
+| Internationalization | Spanish at root and English under `/en/`.                              |
+| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.  |
+| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables. |
+| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.            |
+| Hosting              | Vercel with Microfrontends.                                            |
 
 ## Architecture
 
-Multi-page static site with a bilingual routing scheme. The home is a single-page assembly of sections; the rest are standalone pages plus one dynamic route (`proyectos/[slug]`).
+The site is statically rendered with Astro 7. Tailwind CSS 3 supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` sends quote requests through Brevo to `wavival.dev@luminaw.co`.
 
-### Routing and i18n
+### Project structure
 
-- **Spanish (default)** lives at the root with Spanish slugs:
-  `/`, `/proyectos`, `/proyectos/[slug]`, `/servicios`, `/sobre-mi`, `/contacto`, `/herramientas`, `/privacidad`, `/404`
-- **English** mirrors it under `/en/` with English slugs:
-  `/en`, `/en/projects`, `/en/projects/[slug]`, `/en/services`, `/en/about`, `/en/contact`, `/en/uses`, `/en/privacy`, `/en/404`
-- The ES↔EN slug mapping is the single source of truth in `src/i18n/utils.ts` (`EN_PAGE_MAP`, reverse `ES_PAGE_MAP`, and the `proyectos/<slug>` ↔ `en/projects/<slug>` special-case in `getAltLangUrl`). The language toggle reads from here, so any new page or slug rename MUST update this map.
-- Per-locale assets resolve through helpers in `src/i18n/utils.ts`: `cvHref(lang, base)` returns `cv_valentina_ramirez_<es|en>.pdf`. UI strings come from `src/i18n/ui.ts` via `useTranslations(lang)`.
-- Legacy English-word ES routes (`/projects`, `/services`, `/about`, `/contact`, `/uses`) are permanently redirected to the Spanish slugs in `vercel.json`.
-- `microfrontends.json` makes `wavival-dev` the default Vercel application. It serves `/` and every unassigned path; the separate `nullbreach` project exclusively serves `/nullbreach` and `/nullbreach/:path*`.
-
-### File structure
-
-```
+```text
 src/
-├── components/
-│   ├── atoms/           # Button · TextLink · IconLink · MaskIcon · Chip · StatusDot · Badge · Eyebrow · Index
-│   ├── molecules/       # SectionHeader · PageIntro · ChipList · ProjectMeta · ProjectActions · Metric · DefRow · SocialLinks · ThemeToggle · Disclosure · PullQuote
-│   └── organisms/       # NavBar · Footer · ContactBand · Hero · FeaturedProjects · StackSection · StackGrid · AboutSection · ProjectRow · ProjectCard · ProjectsIndex · ProjectFilters · RepoCard · ServiceRow · ServicesDetail · LegalSection · NotFound · CaseStudy · CaseToc · CaseSection
-├── data/                # projects.ts · projectView.ts · stack.ts · github.ts (build-time GitHub fetch)
-├── i18n/                # ui.ts (strings) · utils.ts (slug map, siteRoutes, ariaCurrent, helpers)
-├── layouts/
-│   └── Layout.astro     # Full <head> · ClientRouter · pre-paint theme · skip link · NavBar · Footer
-├── pages/
-│   ├── index.astro      # ES home: composes all sections
-│   ├── 404.astro        # ES error page (noindex)
-│   ├── proyectos/       # index.astro + [slug].astro (dynamic case studies)
-│   ├── servicios.astro · sobre-mi.astro · contacto.astro
-│   ├── herramientas.astro · privacidad.astro
-│   └── en/              # EN mirror: index, 404, projects/, services, about, contact, uses, privacy
-├── scripts/
-│   ├── nav.ts           # Mobile overlay menu: inert/focus trap, Escape, focus restore
-│   ├── theme.ts         # Dark/light toggle + localStorage + theme-color sync (post-paint)
-│   └── vitals.ts        # Core Web Vitals RUM → Umami (only when Umami env set)
-└── styles/
-    ├── global.css       # Imports + fonts + body base + focus outline + prefers-reduced-motion
-    ├── tokens.css       # CSS custom properties (design tokens, dark overrides)
-    └── utilities.css    # @layer components: component classes
-public/
-├── brand/               # logo-w.webp
-├── fonts/               # Self-hosted woff2: Poppins 400/500/600 + Raleway variable
-├── icons/ui/            # Decorative SVG icons
-├── images/              # profile.webp · optimized 1200x630 OG banners · project covers
-├── cv_valentina_ramirez_es.pdf · cv_valentina_ramirez_en.pdf
-├── favicon.ico · apple-touch-icon.png · icon-{192,512}.png · icon-maskable-512.png
-├── site.webmanifest     # Web app manifest (icons derived from brand/logo-w.webp)
-├── llms.txt · llms-full.txt # llmstxt.org index + long-form companion for AI assistants
-├── .well-known/security.txt # RFC 9116 security contact
-└── robots.txt           # Points at /sitemap-index.xml (generated)
-scripts/check-csp-hashes.mjs # Verifies inline-script sha256 hashes against the vercel.json CSP
-tests/                   # Playwright E2E + pure-unit specs
-lighthouserc.json        # Lighthouse CI config (staticDistDir + category assertions)
-.nvmrc                   # Node version pin (22)
-.github/workflows/ci.yml # commitlint, quality, tests, lighthouse, links, security scan
+├── components/          atoms, molecules and organisms
+├── pages/cotizar.astro  Spanish quote page; English mirror lives in pages/en/quote/
+├── data/                projects, stack, GitHub build-time data and view models
+├── i18n/                copy, slug map, localized routes and accessibility helpers
+├── layouts/             Layout.astro, the shared document shell and metadata owner
+├── pages/               Spanish routes and the English mirror
+├── scripts/             navigation, theme and optional RUM behavior
+└── styles/              global CSS, design tokens and component classes
+
+public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
+scripts/                 build-time validation scripts
+tests/                   Playwright browser and unit-style specs
+docs/                    brand, commercial and pending-product documentation
+assets/                  README-only visual assets
 ```
 
-The favicon/manifest icon set in `public/` is generated from `public/brand/logo-w.webp` with `sharp` (maskable variant gets a dark `#0f1117` safe-zone background). Regenerate if the logo changes.
+`Layout.astro` owns the shared head, canonical URL, hreflang tags, Open Graph and Twitter metadata, JSON-LD, theme pre-paint logic, navigation loader, navigation, footer, and skip link. Project content is defined in `src/data/projects.ts`; `projectView.ts` adapts it for localized rendering.
 
-The main README banner lives in `assets/banner.png`. Project OG cards are final optimized WebP files in `public/images/`, with a 1200x630 canvas, cover crop, and metadata stripped for efficient Open Graph and Twitter previews. Their source PNGs are not kept as duplicate assets.
+## Routes and internationalization
 
-### Page composition
+Spanish is the default locale at the root. English is mirrored below `/en/`.
 
-```astro
-<Layout lang="es">
-  <Hero lang="es" />
-  <FeaturedProjects lang="es" />
-  <StackSection lang="es" />
-  <AboutSection lang="es" />
-  <ContactBand lang="es" />
-</Layout>
-```
+### Locale routes
 
-`Layout.astro` owns the entire document head (meta, OG, Twitter, JSON-LD, conditional Umami, self-hosted font preloads, pre-paint theme script), the skip link, the sticky `<NavBar />`, and the `<Footer />`. It derives `lang` from the URL (`getLangFromUrl`), driving `<html lang>`, `og:locale`, translations, and the home-only `ProfilePage` `inLanguage`. Pages render inside `<main id="main-content">`.
+| Spanish          | English         |
+| ---------------- | --------------- |
+| `/`              | `/en/`          |
+| `/proyectos/`    | `/en/projects/` |
+| `/servicios/`    | `/en/services/` |
+| `/cotizar/`      | `/en/quote/`    |
+| `/sobre-mi/`     | `/en/about/`    |
+| `/contacto/`     | `/en/contact/`  |
+| `/herramientas/` | `/en/uses/`     |
+| `/privacidad/`   | `/en/privacy/`  |
 
-### Design tokens
+Case studies live at `/proyectos/[slug]/` and `/en/projects/[slug]/`. `src/i18n/utils.ts` is the source of truth for language pairs, localized routes, alternate URLs, active navigation, and CV links. Update its slug map whenever a page or slug changes.
 
-`src/styles/tokens.css` defines every color, structure value, and type-scale step as a CSS custom property on `:root` and overrides the subset that needs to invert on `.dark` (dark is the default theme). Components reference them via `var(--token)` or the matching Tailwind aliases; no hex codes in component files. There are no shadows: the design uses 1px rules.
+### Microfrontends
 
-Quick reference:
+The Vercel Microfrontends contract reserves `/nullbreach` and `/nullbreach/:path*` for the independent NullBreach project. This portfolio owns all remaining paths.
 
-| Token                 | Light / dark                                 | Usage                                       |
-| --------------------- | -------------------------------------------- | ------------------------------------------- |
-| `--bg`                | `#f0f4ff` / `#0f1117`                        | Page background                             |
-| `--surface`           | `#ffffff` / `#1a1f2e`                        | Cards, bands                                |
-| `--line` / `--line-2` | `#e2e8f0` / `#2d3748`, `#cbd5e1` / `#4a5568` | 1px rules and borders                       |
-| `--text` / `--muted`  | `#1a1a2e` / `#e8eaf6`, `#4b5563` / `#9ca3af` | Copy and secondary copy                     |
-| `--link` / `--link-h` | `#1565c0` / `#5b8cff`, `#0f4c91` / `#82a8ff` | Links, icons, focus, small blue text        |
-| `--blue`              | `#407bff`                                    | Fills, borders, bars, large text only       |
-| `--blue-text`         | `#1565c0` / `#407bff` (dark)                 | Small blue text (index numbers)             |
-| `--btn` / `--btn-h`   | `#1565c0` / `#0f4c91`                        | Primary button fill (white `--on-btn` text) |
+## Design system
 
-Interactive blue is one value per theme (`#1565c0` light / `#5b8cff` dark) across buttons, links, and icons. The previous brighter accent was retired: it failed AA (3.24:1 white-on-fill). Design source: Claude Design project `wavival-dev-v4`.
+### Principles
 
-Full token table, type scale, class catalog, composition rules, and A11Y notes: **[DESIGN.md](./DESIGN.md)**.
+Version 4 uses the Señal v4 system:
 
-## SEO and accessibility
+- One-column editorial composition at the full container width.
+- Raleway 800 for display typography and Poppins for body copy.
+- One accessible blue signal for interactive elements.
+- 1px rules instead of shadowed cards.
+- Static content with native `<details>` disclosures, no scroll-reveal behavior.
+- Atomic components in `src/components/atoms`, `molecules`, and `organisms`.
+- Dark theme by default, controlled with the `.dark` class and persisted in `localStorage`.
 
-`Layout.astro` ships a full baseline so every route inherits it automatically.
+Tokens live in `src/styles/tokens.css`; component classes live in `src/styles/utilities.css`. Use the token names and complete literal component class names to preserve Tailwind output.
 
-**SEO:**
+## SEO, discovery and accessibility
 
-- Meta title, description, author, robots (`max-snippet:-1`, `max-image-preview:large`)
-- Canonical URL built from `Astro.url.pathname` against `https://www.wavival.dev`
-- Reciprocal `hreflang` (es / en / x-default) on every page via the `alternates` prop; ES/EN pair point at each other, `x-default` at the Spanish slug
-- OpenGraph (image with dimensions + `alt`, `og:locale` plus `og:locale:alternate`)
-- Twitter Card (`summary_large_image`)
-- JSON-LD `@graph`: `Person` + `Organization` (Lúmina W) + `WebSite` on every page, plus a home-only `ProfilePage`; per-page `BreadcrumbList`, `Service` + `FAQPage` (`/servicios` + `/en/services`), `ContactPage` (`/contacto` + `/en/contact`), and `SoftwareApplication` | `WebSite` | `CreativeWork` per case study
-- `lang` on `<html>` driven from the URL via `getLangFromUrl` (`es` default, `en` on `/en/`)
-- `/sitemap-index.xml` auto-generated by `@astrojs/sitemap` with ES and EN URLs plus reciprocal `hreflang` links (`es`, `en`, `x-default`), referenced from `/robots.txt`
-- Open Graph locale metadata uses `es_CO` / `en_US`; these are separate from the `hreflang` language codes and do not replace them
-- Google Search Console is the source of truth for indexing: verify the `wavival.dev` Domain property, submit `https://www.wavival.dev/sitemap-index.xml`, inspect the home and key project URLs, and monitor Page indexing, Core Web Vitals, Manual actions, Security issues, and Search performance
-- `/llms.txt` (index) + `/llms-full.txt` (long-form companion) describe the site for AI assistants per [llmstxt.org](https://llmstxt.org)
-- `/.well-known/security.txt` (RFC 9116): security contact, expiry, canonical URL
-- Build-time GitHub widget on `/herramientas` + `/en/uses`: `src/data/github.ts` fetches the public profile + non-fork repos in frontmatter (unauthenticated, fails soft), rendered via `RepoCard.astro`
+### SEO and discovery
 
-**A11Y:**
+Every route receives a shared metadata baseline from `Layout.astro`:
 
-- Skip link to `#main-content` (visible on focus)
-- Heading hierarchy: one `h1` per page, `h2` per section, `h3` inside cards
-- `aria-label` on every interactive element
-- `aria-expanded` + `aria-controls` on the mobile menu trigger; the menu is a full-screen overlay below 900px, `inert` while closed, Escape closes it
-- `role="list"` on desktop nav `<ul>`
-- Decorative `<img>` always has `alt=""`
-- Global `:focus-visible` outline in `--link` (2px, 2px offset) on every interactive element
-- WCAG AA contrast verified for `--muted` over `--bg` in both themes
+- Canonical URLs and reciprocal `es`, `en`, and `x-default` hreflang alternates.
+- Locale-specific default Open Graph cards: `og-card-es.webp` and `og-card-en.webp`, both 1200x630 WebP. Case studies use their own cards.
+- Open Graph, Twitter Card, structured data, sitemap, and robots metadata.
+- `Person`, `Organization`, and `WebSite` JSON-LD on all pages, plus page-specific structured data where applicable.
+- `public/llms.txt` and `public/llms-full.txt` for AI discovery.
+- Umami and Core Web Vitals reporting only when `PUBLIC_UMAMI_SRC` and `PUBLIC_UMAMI_ID` are both configured.
 
-## Performance
+### Accessibility
 
-- Pre-paint theme script (sync `is:inline` in `<head>`) applies `.dark` before first paint (zero FOUC) and re-applies on `astro:after-swap` so the theme never flashes across View Transitions.
-- View Transitions (`<ClientRouter />`): same-origin navigations swap without a full reload. DOM-binding scripts (theme, mobile nav, project filters) re-run on `astro:page-load`.
-- Hero portrait: WebP, `fetchpriority="high"`, `decoding="async"`, explicit dimensions (4:5 frame, 320x400), plus `<link rel="preload" as="image">` in `<head>` (gated by `preloadHero`, only on home + about) to win LCP.
-- Fonts: self-hosted latin-subset `woff2` in `public/fonts/` (Poppins 400/500/600 static + Raleway variable `wght` 600-800), `@font-face` with `font-display: swap`; critical weights (Poppins 400 + Raleway variable) preloaded. No Google Fonts request or `preconnect`.
-- Umami analytics: cookieless, conditionally rendered (no Umami vars = no script tag = no network call). Core Web Vitals RUM (`src/scripts/vitals.ts`) is bundled and run under the same gate.
-- Every icon `<img>` has explicit `width` + `height` to prevent CLS.
-- No scroll reveal or JS animation: the design is static. The case-study accordion is native `<details>`.
-- Astro: `compressHTML: true`, `build.inlineStylesheets: 'auto'`: small critical CSS inlined into the document.
-- Vercel serves `/_astro/*`, `/images/*`, `/brand/*`, `/icons/*`, and `/fonts/*` with `Cache-Control: public, max-age=31536000, immutable`.
-- Lighthouse CI asserts category scores per commit (a11y + SEO are hard errors, perf + best-practices are warnings) against the built `dist/`.
+Accessibility behavior includes a visible skip link, localized state labels, a keyboard-safe mobile menu, native disclosures, 44px icon control targets, explicit image dimensions, and a single visible `<h1>` per route. The automated suite checks desktop and mobile rendering, routes, SEO, i18n, theme behavior, project filters, and design regressions.
 
-## Testing and CI
+## Testing and quality
 
-End-to-end and unit specs live in `tests/` and run against `astro preview` on port **4329** (`reuseExistingServer: false`, so a `npm run dev` server on 4321 is never reused: a dev server emits no sitemap and uses localhost canonicals, which would fail the SEO/i18n specs).
+### Local validation
+
+Run the complete browser suite after building:
 
 ```bash
-npm run test:install       # one-time: download Chromium + system deps
-npm run build              # the suite serves the static dist/, it does not build for you
-npm test                   # boot preview on 4329, run full suite
-npm run test:ui            # Playwright UI mode for local debugging
+npm run build
+npm test
 ```
 
-Two Playwright projects run by default: `chromium-desktop` (Desktop Chrome) and `chromium-mobile` (Pixel 5).
+### CI gates
 
-| Suite                 | Covers                                                                                 |
-| --------------------- | -------------------------------------------------------------------------------------- |
-| `home.spec.ts`        | Single h1, canonical/OG host, JSON-LD types, hero image attrs (height 400), skip link  |
-| `routes.spec.ts`      | All ES + EN routes and project case studies render (one h1 each)                       |
-| `i18n.spec.ts`        | `lang` attrs, per-locale CV, hreflang, language toggle                                 |
-| `i18n-utils.spec.ts`  | Pure-unit: `getAltLangUrl`, slug map, and `siteRoutes` in `src/i18n/utils.ts`          |
-| `redirects.spec.ts`   | Pure-unit: locks deployment redirects, the API proxy, and microfrontend path ownership |
-| `theme.spec.ts`       | Default dark, light via `localStorage`; toggle flips + persists                        |
-| `projects.spec.ts`    | Project filters narrow the grid and update `aria-pressed` (ES + EN)                    |
-| `mobile-menu.spec.ts` | Open/close, `aria-expanded`, Escape, link-click closes menu                            |
-| `not-found.spec.ts`   | `/404` renders heading and emits `noindex`                                             |
-| `seo.spec.ts`         | `robots.txt` content + localized `<loc>` entries in generated sitemap                  |
+The CI workflow also runs dependency audit, formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. Pull requests additionally validate commit messages, titles, secrets, and the allowed base branch.
 
-CI (`.github/workflows/ci.yml`) runs on every push and PR to `dev`, `stg`, and `main`: `commitlint`, `quality` (dependency audit via `npm audit --audit-level=high --omit=dev` → format check → lint → type check via `astro check` → build → CSP hash check via `npm run csp:check`), `tests` (Playwright), `lighthouse` (Lighthouse CI), `links` (linkinator), and `security scan` (gitleaks). All jobs read the Node version from `.nvmrc`.
+## Delivery flow
 
-## Deploying to Vercel
+### Branch model
 
-### One-time setup
+```text
+feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
+```
 
-1. **Create project:** import this repository as the Vercel project named `wavival-dev`.
-2. **Build settings:** use the Astro preset, `npm run build`, `dist`, and Node 22.
-3. **Environment variables:** add both values to Preview and Production if Umami is enabled:
-   - `PUBLIC_UMAMI_SRC` + `PUBLIC_UMAMI_ID` (both required to enable analytics)
-4. **Microfrontends:** create a Vercel microfrontends group containing `wavival-dev` and `nullbreach`; select `wavival-dev` as the default application.
-5. **Custom domain:** assign `wavival.dev` to `wavival-dev`.
-6. **Deploy:** deploy NullBreach first, then deploy this default application so `microfrontends.json` activates the shared-domain routes.
+- `main` is production, `stg` is staging, and `dev` is the integration branch.
+- Work branches target `dev` through pull requests.
+- Promotions are only `dev` to `stg` and `stg` to `main`, merged manually with merge commits.
+- Conventional Commit messages follow `type(scope): message`.
+- Automated checks include commit title and message validation, quality, Playwright, Lighthouse, internal links, Gitleaks, and pull-request base validation.
+- Vercel configuration, redirects, security headers, cache policies, and the `/api/*` compatibility proxy live in [`vercel.json`](./vercel.json).
 
-### What's already in the repo
+## Deployment
 
-- `microfrontends.json`: routes `/nullbreach` and its descendants to the independent `nullbreach` Vercel project; all other paths remain on `wavival-dev`.
-- `vercel.json`: security headers, immutable cache for static assets, legacy redirects, and the `/api/*` compatibility proxy.
-- `astro.config.mjs`: `site: "https://www.wavival.dev"`, bilingual sitemap integration, HTML compression.
-- `postcss.config.cjs` and `tailwind.config.mjs`: Tailwind 3 processing for Astro styles.
-- `public/robots.txt`, `public/llms.txt`, `public/llms-full.txt`: `sitemap-index.xml` generated at build; AI-assistant descriptors.
-- `public/.well-known/security.txt`: RFC 9116 security contact.
-- `scripts/check-csp-hashes.mjs`: CI guard that keeps the CSP inline-script hashes in sync with the build.
-- `.github/workflows/ci.yml`: commitlint, quality, tests, lighthouse, links, and security scan gates.
+### Vercel
 
-### Security headers and cache
+Vercel builds the project with `npm run build`, installs dependencies with `npm ci`, serves `dist/`, and deploys `api/quote.ts` as the quote-delivery function. Set `BREVO_API_KEY` in Vercel and verify `wavival.dev@luminaw.co` as a Brevo sender. The site is available at `https://www.wavival.dev`.
 
-`vercel.json` declares these policies:
+`microfrontends.json` defines the Vercel development and path-ownership contract. `vercel.json` defines redirects, the NullBreach API rewrite, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
 
-| Header                                                          | Value                                                                                                                                                                                       |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Content-Security-Policy`                                       | Hash-based `script-src` (per-inline-script `sha256-`, no `unsafe-inline`) + Umami Cloud + Calendly; `font-src 'self'`; `connect-src` allows Umami + `nullbreach-api.wavival.dev` + Calendly |
-| `Strict-Transport-Security`                                     | `max-age=63072000; includeSubDomains; preload`                                                                                                                                              |
-| `X-Frame-Options`                                               | `DENY`                                                                                                                                                                                      |
-| `X-Content-Type-Options`                                        | `nosniff`                                                                                                                                                                                   |
-| `Referrer-Policy`                                               | `strict-origin-when-cross-origin`                                                                                                                                                           |
-| `Permissions-Policy`                                            | Locks camera, microphone, geolocation                                                                                                                                                       |
-| Cache (`/_astro/`, `/images/`, `/brand/`, `/icons/`, `/fonts/`) | `public, max-age=31536000, immutable`                                                                                                                                                       |
+## Repository documentation
 
-The `script-src` is hash-based: each inline script carries its own `sha256-` hash, so adding or editing an inline script means its hash drifts and the browser would block it. `npm run csp:check` (a CI step, run after `build`) catches that drift before deploy. If you add a third-party endpoint (Sentry, PostHog, etc.) update `script-src` / `connect-src` in the CSP too.
-
-### Redirects and proxies
-
-Vercel uses two routing layers:
-
-- `microfrontends.json` assigns `/nullbreach` and `/nullbreach/:path*` to the independent `nullbreach` project.
-- `vercel.json` preserves `/api/:path*` as a compatibility proxy to `https://nullbreach-api.wavival.dev/api/:path*`.
-- `vercel.json` preserves the legacy English-word redirects.
-
-Every future independent application must receive a unique, non-overlapping prefix in `microfrontends.json`. Routes not assigned there continue to resolve to the portfolio. Okroot lives on its own domain (`okroot.co` landing, `app.okroot.co` PWA), so it is not proxied here.
-
-## Using as a template
-
-You're welcome to clone this repo as a base for your own portfolio. Design system, layout primitives, i18n scaffold, and SEO/A11Y baseline are reusable.
-
-**Do not copy the personal content:** copy, images, projects, and contact details belong to Valentina Ramírez and are not covered by the license.
-
-### Files to replace
-
-| File                                          | Data to change                                                                |
-| --------------------------------------------- | ----------------------------------------------------------------------------- |
-| `src/layouts/Layout.astro`                    | Default title, description, JSON-LD (Person + Organization + WebSite), `site` |
-| `astro.config.mjs`                            | `site` URL                                                                    |
-| `src/components/organisms/Hero.astro`         | Name, tagline, CV URL, social links                                           |
-| `src/data/projects.ts`                        | Projects (title, tag, stack, problem, solution, links)                        |
-| `src/data/stack.ts`                           | Stack categories and tools                                                    |
-| `src/components/organisms/AboutSection.astro` | Bio, personal quote, additional links                                         |
-| `src/components/organisms/ContactBand.astro`  | Contact email                                                                 |
-| `src/components/organisms/NavBar.astro`       | CTA email, blog URL                                                           |
-| `src/components/organisms/Footer.astro`       | Name in copyright, Lúmina W links                                             |
-| `src/i18n/ui.ts`                              | UI strings (ES + EN)                                                          |
-| `public/robots.txt` · `public/llms.txt`       | Sitemap URL · personal description, projects, links                           |
-| `public/cv_valentina_ramirez_{es,en}.pdf`     | CV files (rename + update `cvHref` in `src/i18n/utils.ts`)                    |
-| `public/images/profile.webp`                  | Profile photo                                                                 |
-| `public/brand/logo-w.*`                       | Brand logo (regenerate favicon/manifest icons with `sharp`)                   |
-| `.env.example`                                | `PUBLIC_UMAMI_SRC`, `PUBLIC_UMAMI_ID`                                         |
-
-Token, typography, and component-class values are centralized in `src/styles/`, so you can re-skin without touching components.
-
-## Troubleshooting
-
-| Symptom                                          | Fix                                                                                                                                         |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dark mode flashes on first paint                 | The pre-paint script lives at the top of `<head>` in `Layout.astro`. Don't move it below other tags.                                        |
-| Fonts flash unstyled (FOUT)                      | Fonts are self-hosted in `public/fonts/` with `font-display: swap` and critical weights preloaded. A brief swap is expected and acceptable. |
-| `npm test` fails with stale content              | Run `npm run build` first: the suite serves the static `dist/`, it does not build for you.                                                  |
-| Playwright fails locally with "browsers missing" | Run `npm run test:install` once.                                                                                                            |
-| Language toggle points at a wrong URL            | Update the slug map (`EN_PAGE_MAP` / `getAltLangUrl`) in `src/i18n/utils.ts` after any page or slug rename.                                 |
-| Umami not firing                                 | Confirm both `PUBLIC_UMAMI_SRC` and `PUBLIC_UMAMI_ID` are set and the build was triggered after setting them.                               |
-| CSP blocks a new third-party script              | Edit `Content-Security-Policy` in `vercel.json` to add the origin to `script-src` / `connect-src`.                                          |
-
-## Roadmap / known gaps
-
-- **Visual regression.** Playwright covers structure + behavior, not pixels. Add `toHaveScreenshot()` baselines once the design is frozen.
-- **Image variants.** No `<picture>` / `srcset` for the hero portrait. Acceptable for current LCP, but multi-resolution would help retina.
+| Document                                                                   | Scope                                                                                                 |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                       |
+| [DESIGN.md](./DESIGN.md)                                                   | Señal v4 tokens, type scale, component classes, composition, and accessibility rules.                 |
+| [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                             |
+| [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                      |
+| [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries. |
+| [docs/commercial.md](./docs/commercial.md)                                 | Living commercial offer, ideal client, permitted claims, CTAs, and content risks.                     |
+| [docs/blog-w-stack-pendiente.md](./docs/blog-w-stack-pendiente.md)         | Confirmed and pending Blog W stack facts.                                                             |
+| [public/cv_valentina_ramirez_es.pdf](./public/cv_valentina_ramirez_es.pdf) | Spanish downloadable CV.                                                                              |
+| [public/cv_valentina_ramirez_en.pdf](./public/cv_valentina_ramirez_en.pdf) | English downloadable CV.                                                                              |
+| [public/llms.txt](./public/llms.txt)                                       | Public AI-discovery index.                                                                            |
+| [public/llms-full.txt](./public/llms-full.txt)                             | Public long-form AI-discovery companion.                                                              |
+| [public/robots.txt](./public/robots.txt)                                   | Public crawler directives and sitemap location.                                                       |
+| [public/.well-known/security.txt](./public/.well-known/security.txt)       | Public RFC 9116 security contact.                                                                     |
+| [SECURITY.md](./SECURITY.md)                                               | Private vulnerability-reporting policy for the repository and deployed site.                          |
+| [.env.example](./.env.example)                                             | Local environment-variable template.                                                                  |
+| [LICENSE](./LICENSE)                                                       | MIT license.                                                                                          |
 
 ## License
 
-This project is licensed under the **MIT License**, with the following clarification:
-
-- **Clone**: Clone this repository freely
-- **Fork**: Fork and create your own version
-- **Contribute**: Pull requests and contributions welcome
-- **Learn**: Use this code to study and learn frontend architecture
-- **Modify**: Adapt the code to your needs
-- **Attribution**: Please credit the original author (Valentina Ramírez / @wavival)
-
-The **content** (copy, images, projects, CV, brand assets) belongs to Valentina Ramírez and is **not** covered by the MIT license. See the [LICENSE](./LICENSE) file for the full text.
-
-Copyright © 2026 Valentina Ramírez.
+MIT. See [LICENSE](./LICENSE).
 
 ## Contact
 
-![Banner principal](assets/footer.png)
-
-<h3 align="left">
-  <img src="assets/logo-w.png" width="48px" valign="middle">
-  Valentina Ramírez • @wavival
-</h3>
+<img src="assets/logo-w.png" alt="Wavival logo" width="48" align="middle"> **Valentina Ramírez · @wavival**
 
 > Thanks for getting here. Let's build great things.
 
