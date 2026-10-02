@@ -28,6 +28,7 @@ const PROJECT_SLUGS = [
   "nullbreach",
   "lumina-w",
   "blog-lumina-w",
+  "wavival-dev",
   "forgotten-portal",
   "terracore-landing",
   "okroot-landing",

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `wavival.dev` case study (`/proyectos/wavival-dev` and `/en/projects/wavival-dev`) focused on the Señal v4 design, with the Claude Design prototype link and an OG card.
+- Optional `design` field for case studies, rendered as its own section (`cs-design`).
 - Bilingual quote pages with service preselection, multi-service selection, a 500-word project brief, and an in-page confirmation.
 - `api/quote.ts` Vercel Function: validates quote submissions and sends a formatted transactional email through Brevo to `wavival.dev@luminaw.co`.
 

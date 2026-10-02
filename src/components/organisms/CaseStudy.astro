@@ -37,6 +37,7 @@ const chainTitle =
   en?.chainStepsTitle ??
   project.chainStepsTitle ??
   (isEn ? "Example action chain" : "Ejemplo de cadena de acciones");
+const design = en?.design ?? project.design;
 const metrics = project.metrics;
 
 const t = isEn
@@ -49,6 +50,7 @@ const t = isEn
       problem: "The problem",
       architecture: "What I built",
       decisions: "Architecture decisions",
+      design: "Design",
       results: "Results",
       learnings: "Learnings",
       context: "Context",
@@ -72,6 +74,7 @@ const t = isEn
       problem: "El problema",
       architecture: "Qué construí",
       decisions: "Decisiones de arquitectura",
+      design: "Diseño",
       results: "Resultados",
       learnings: "Aprendizajes",
       context: "Contexto",
@@ -90,6 +93,7 @@ const t = isEn
 const sections = [
   { key: "problem", label: t.problem, show: true },
   { key: "architecture", label: t.architecture, show: !!architecture },
+  { key: "design", label: t.design, show: !!design },
   { key: "decisions", label: t.decisions, show: !!decisions },
   { key: "results", label: t.results, show: !!results },
   { key: "learnings", label: t.learnings, show: !!learnings },
@@ -282,6 +286,26 @@ const externalActions = [
                 </ol>
               </div>
             )}
+          </CaseSection>
+        )
+      }
+
+      {
+        design && (
+          <CaseSection id={sec("design").id} n={sec("design").n} title={t.design}>
+            <ol
+              class="m-0 grid list-none gap-x-10 gap-y-0 p-0"
+              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"
+            >
+              {design.map((d, i) => (
+                <li class="flex gap-4 border-b border-line py-[18px]">
+                  <span class="index w-7 flex-none text-sm index-link">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p class="body m-0 text-[15px] leading-[1.7]">{d}</p>
+                </li>
+              ))}
+            </ol>
           </CaseSection>
         )
       }
