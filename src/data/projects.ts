@@ -1656,11 +1656,11 @@ export const projects: Project[] = [
     stack: ["Astro", "TypeScript", "Tailwind CSS", "Vercel", "Playwright"],
     filters: ["design"],
     summary:
-      "Este portfolio como caso de diseño: el sistema Señal v4, editorial y estático, con reglas en lugar de cajas, una sola señal azul y contraste AA en ambos temas. Bilingüe, sobre Astro y Tailwind, diseñado en Claude Design.",
+      "Este portfolio como caso de diseño: el sistema @wavival | Design System v4, editorial y estático, con reglas en lugar de cajas, una sola señal azul y contraste AA en ambos temas. Bilingüe, sobre Astro y Tailwind, diseñado en Claude Design.",
     problem:
       "Un portafolio de desarrolladora suele terminar como plantilla: tarjetas con sombra, acentos de color que no pasan contraste, animación que compite con el contenido y un diseño que en el código ya no se parece al prototipo. Necesitaba un sitio que fuera en sí mismo la prueba de mi criterio técnico y de diseño: rápido, accesible, bilingüe y con una identidad reconocible.",
     solution:
-      "wavival.dev es mi portafolio y también un caso de diseño. El sistema se llama Señal v4: la página se lee como un índice editorial, con reglas de 1px en lugar de cajas, titulares grandes en Raleway 800, índices numerados y una sola señal azul sobre un campo tranquilo. Nació en Claude Design como prototipo y sistema de diseño, y se llevó al código con paridad de tokens. Es bilingüe (español en la raíz, inglés bajo /en), estático y oscuro por defecto.",
+      "wavival.dev es mi portafolio y también un caso de diseño. El sistema se llama @wavival | Design System v4: la página se lee como un índice editorial, con reglas de 1px en lugar de cajas, titulares grandes en Raleway 800, índices numerados y una sola señal azul sobre un campo tranquilo. Nació en Claude Design como prototipo y sistema de diseño, y se llevó al código con paridad de tokens. Es bilingüe (español en la raíz, inglés bajo /en), estático y oscuro por defecto.",
     painPoints: [
       {
         title: "Plantilla genérica",
@@ -1690,13 +1690,7 @@ export const projects: Project[] = [
       "Despliegue en Vercel con microfrontends (el portafolio y NullBreach comparten dominio) y una única función serverless para el formulario de cotización, que envía por Brevo.",
       "Flujo dev, stg y main con commitlint, pruebas E2E con Playwright, Lighthouse CI y verificación de enlaces como puertas de calidad.",
     ],
-    links: [
-      {
-        href: "https://www.wavival.dev",
-        text: "Ver sitio",
-        ariaLabel: "Ver sitio wavival.dev",
-      },
-    ],
+    links: [],
     designLink: {
       href: "https://wavival-prototype.netlify.app/",
       text: "Ver diseño",
@@ -1705,10 +1699,10 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de wavival.dev: el portfolio como diseño. Sistema Señal v4, editorial y estático, bilingüe, con contraste AA. Astro, Tailwind y Vercel.",
+      "Caso de estudio de wavival.dev: el portfolio como diseño. @wavival | Design System v4, editorial y estático, bilingüe, con contraste AA. Astro y Tailwind.",
     design: [
-      'Concepto "Señal": la página se lee como un índice editorial, con una señal azul sobre un campo tranquilo.',
-      "Diseñado en Claude Design (proyecto wavival-dev-v4), con un prototipo navegable y un sistema de diseño propio. El sitio replica el prototipo token a token.",
+      "Sistema @wavival | Design System v4: la página se lee como un índice editorial, con una señal azul sobre un campo tranquilo.",
+      "Diseñado en Claude Design, con un prototipo navegable y un sistema de diseño propio. El sitio replica el prototipo token a token.",
       "Reglas, no cajas: la estructura sale de líneas de 1px. No hay sombras, las superficies tienen radio 0 y los controles 2px.",
       "Una sola señal azul con roles separados: un azul para texto, íconos y foco; otro para rellenos y texto grande; otro para los índices; y otro para el botón primario. Cada uno pasa contraste en su uso.",
       "Escala editorial: Raleway 800 en tamaños fluidos con interlineado de 0,9 a 1 en titulares y tracking negativo; Poppins para el cuerpo. Ambas autohospedadas.",
@@ -1791,27 +1785,21 @@ export const projects: Project[] = [
     ],
     en: {
       summary:
-        "This portfolio as a design case: the Señal v4 system, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
+        "This portfolio as a design case: the @wavival | Design System v4, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
       imageAlt:
         "wavival.dev tools page in dark theme: header, editorial Raleway title, a 1px rule, and a numbered index",
       problem:
         "A developer portfolio often ends up as a template: shadow cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
       solution:
-        "wavival.dev is my portfolio and also a design case. The system is called Señal v4: the page reads like an editorial index, with 1px rules instead of boxes, large Raleway 800 headlines, numbered indexes, and a single blue signal on a quiet field. It started in Claude Design as a prototype and design system, and was brought to code with token parity. It is bilingual (Spanish at the root, English under /en), static, and dark by default.",
-      links: [
-        {
-          href: "https://www.wavival.dev",
-          text: "View site",
-          ariaLabel: "View wavival.dev site",
-        },
-      ],
+        "wavival.dev is my portfolio and also a design case. The system is called @wavival | Design System v4: the page reads like an editorial index, with 1px rules instead of boxes, large Raleway 800 headlines, numbered indexes, and a single blue signal on a quiet field. It started in Claude Design as a prototype and design system, and was brought to code with token parity. It is bilingual (Spanish at the root, English under /en), static, and dark by default.",
+      links: [],
       designLink: {
         href: "https://wavival-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View wavival.dev design",
       },
       metaDescription:
-        "wavival.dev case study: the portfolio as design. Señal v4 system, editorial and static, bilingual, with AA contrast. Built with Astro, Tailwind, and Vercel.",
+        "wavival.dev case study: the portfolio as design. @wavival | Design System v4, editorial, static, bilingual, AA contrast. Built with Astro and Tailwind.",
       painPoints: [
         {
           title: "Generic template",
@@ -1842,8 +1830,8 @@ export const projects: Project[] = [
         "A dev, stg, and main flow with commitlint, Playwright E2E tests, Lighthouse CI, and link checking as quality gates.",
       ],
       design: [
-        'Concept "Señal": the page reads like an editorial index, with one blue signal on a quiet field.',
-        "Designed in Claude Design (project wavival-dev-v4), with a clickable prototype and its own design system. The site replicates the prototype token by token.",
+        "@wavival | Design System v4: the page reads like an editorial index, with one blue signal on a quiet field.",
+        "Designed in Claude Design, with a clickable prototype and its own design system. The site replicates the prototype token by token.",
         "Rules, not boxes: structure comes from 1px lines. There are no shadows, surfaces have radius 0, and controls have 2px.",
         "A single blue signal with separate roles: one blue for text, icons, and focus; another for fills and large text; another for the indexes; and another for the primary button. Each one passes contrast in its use.",
         "Editorial scale: Raleway 800 in fluid sizes with 0.9 to 1 line height on headlines and negative tracking; Poppins for body. Both self-hosted.",

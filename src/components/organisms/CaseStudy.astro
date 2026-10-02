@@ -3,6 +3,7 @@ import Button from "@/components/atoms/Button.astro";
 import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
+import Bento from "@/components/molecules/Bento.astro";
 import Metric from "@/components/molecules/Metric.astro";
 import Disclosure from "@/components/molecules/Disclosure.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
@@ -12,6 +13,7 @@ import { caseStudies, type Project } from "@/data/projects";
 import { projectView } from "@/data/projectView";
 import { quoteTypeHref } from "@/data/quoteTypes";
 import { siteRoutes, type Lang } from "@/i18n/utils";
+import { bentoStyles } from "@/utils/bento";
 
 interface Props {
   project: Project;
@@ -45,6 +47,9 @@ const chains =
 const design = en?.design ?? project.design;
 const roadmap = en?.roadmap ?? project.roadmap;
 const metrics = project.metrics;
+const painStyles = bentoStyles(painPoints?.length ?? 0);
+const moduleStyles = bentoStyles(modules?.length ?? 0);
+const learningStyles = bentoStyles(learnings?.length ?? 0);
 
 const t = isEn
   ? {
@@ -107,6 +112,16 @@ const t = isEn
       backAria: "Volver a todos los proyectos",
       quote: "Cotizar un proyecto así",
     };
+
+const roadmapColumns = roadmap
+  ? [
+      { label: t.roadmapNow, items: roadmap.now },
+      { label: t.roadmapNext, items: roadmap.next },
+      { label: t.roadmapLater, items: roadmap.later },
+      ...(roadmap.out ? [{ label: t.roadmapOut, items: roadmap.out }] : []),
+    ]
+  : [];
+const roadmapStyles = bentoStyles(roadmapColumns.length);
 
 const sections = [
   { key: "problem", label: t.problem, show: true },
@@ -245,19 +260,16 @@ const externalActions = [
         </p>
         {
           painPoints && (
-            <div
-              class="cell-grid mt-10"
-              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))"
-            >
-              {painPoints.map((pp) => (
-                <div class="p-6">
+            <Bento cells class="mt-10">
+              {painPoints.map((pp, i) => (
+                <div class="p-6" style={painStyles[i]}>
                   <h3 class="h-title m-0 text-lg">{pp.title}</h3>
                   <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
                     {pp.text}
                   </p>
                 </div>
               ))}
-            </div>
+            </Bento>
           )
         }
       </CaseSection>
@@ -279,19 +291,16 @@ const externalActions = [
               ))}
             </ol>
             {modules && (
-              <div
-                class="mt-10 grid gap-4"
-                style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))"
-              >
-                {modules.map((m) => (
-                  <div class="border border-line bg-surface p-6">
+              <Bento class="mt-10 gap-4">
+                {modules.map((m, i) => (
+                  <div class="border border-line bg-surface p-6" style={moduleStyles[i]}>
                     <h3 class="h-title m-0 text-lg">{m.name}</h3>
                     <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
                       {m.text}
                     </p>
                   </div>
                 ))}
-              </div>
+              </Bento>
             )}
             {chains &&
               chains.map((chain) => (
@@ -402,20 +411,16 @@ const externalActions = [
             title={t.learnings}
             gap="mb-6"
           >
-            <div
-              class="grid gap-4"
-              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))"
-              data-learnings-cards
-            >
+            <Bento class="gap-4" data-learnings-cards>
               {learnings.map((x, i) => (
-                <article class="border border-line bg-surface p-6">
+                <article class="border border-line bg-surface p-6" style={learningStyles[i]}>
                   <span class="index">{String(i + 1).padStart(2, "0")}</span>
                   <p class="mt-4 mb-0 text-base leading-[1.7] text-muted" style="text-wrap:pretty">
                     {x}
                   </p>
                 </article>
               ))}
-            </div>
+            </Bento>
           </CaseSection>
         )
       }
@@ -423,17 +428,9 @@ const externalActions = [
       {
         roadmap && (
           <CaseSection id={sec("roadmap").id} n={sec("roadmap").n} title={t.roadmap} gap="mb-6">
-            <div
-              class="cell-grid"
-              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))"
-            >
-              {[
-                { label: t.roadmapNow, items: roadmap.now },
-                { label: t.roadmapNext, items: roadmap.next },
-                { label: t.roadmapLater, items: roadmap.later },
-                ...(roadmap.out ? [{ label: t.roadmapOut, items: roadmap.out }] : []),
-              ].map((col) => (
-                <div class="p-6">
+            <Bento cells>
+              {roadmapColumns.map((col, i) => (
+                <div class="p-6" style={roadmapStyles[i]}>
                   <h3 class="label-sm m-0">{col.label}</h3>
                   <ul class="m-0 mt-4 flex list-none flex-col gap-3 p-0">
                     {col.items.map((item) => (
@@ -444,7 +441,7 @@ const externalActions = [
                   </ul>
                 </div>
               ))}
-            </div>
+            </Bento>
           </CaseSection>
         )
       }

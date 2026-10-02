@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
+import Bento from "@/components/molecules/Bento.astro";
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
 import PullQuote from "@/components/molecules/PullQuote.astro";
@@ -9,6 +10,7 @@ import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
 import { cvHref, siteRoutes } from "@/i18n/utils";
+import { bentoStyles } from "@/utils/bento";
 
 const base = import.meta.env.BASE_URL;
 const lang = "en";
@@ -36,6 +38,7 @@ const method = [
     body: "They are not decorations glued on at the end: they enter the design from the first endpoint, not when something has already broken in production.",
   },
 ];
+const methodStyles = bentoStyles(method.length);
 
 const education = [
   { name: "SENA", detail: "Software Analysis and Development" },
@@ -123,17 +126,17 @@ const breadcrumbLd = JSON.stringify({
     </dl>
 
     <SectionHeader label="Method" title="How I work" class="section-gap mb-10" />
-    <div class="cell-grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))]">
+    <Bento cells>
       {
         method.map((m, i) => (
-          <div class="px-7 py-8">
+          <div class="px-7 py-8" style={methodStyles[i]}>
             <span class="index">{String(i + 1).padStart(2, "0")}</span>
             <h3 class="h-title m-0 mt-4 text-2xl leading-[1.15]">{m.title}</h3>
             <p class="m-0 mt-3 text-[15px] leading-[1.7] text-muted [text-wrap:pretty]">{m.body}</p>
           </div>
         ))
       }
-    </div>
+    </Bento>
 
     <div
       class="section-gap flex flex-wrap items-end gap-x-16 gap-y-6 border border-line bg-surface p-[clamp(32px,4vw,64px)]"

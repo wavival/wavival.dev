@@ -87,4 +87,29 @@ test.describe("quote form", () => {
 
     await expect(page.getByRole("heading", { name: "Gracias por contactar" })).toBeVisible();
   });
+
+  test("marks required fields with a red asterisk and a tooltip", async ({ page }) => {
+    await page.goto("/cotizar");
+    await expect(page.getByText("Campos obligatorios")).toBeVisible();
+    const marks = page.locator(".quote-form abbr.quote-required");
+    await expect(marks.first()).toHaveAttribute("title", "Obligatorio");
+    expect(await marks.count()).toBeGreaterThanOrEqual(7);
+
+    await page.goto("/en/quote");
+    await expect(page.getByText("Required fields")).toBeVisible();
+    await expect(page.locator(".quote-form abbr.quote-required").first()).toHaveAttribute(
+      "title",
+      "Required"
+    );
+  });
+
+  test("the submit button keeps its natural width and is centered", async ({ page }) => {
+    await page.goto("/cotizar");
+    const form = await page.locator("[data-quote-form]").boundingBox();
+    const button = await page.locator(".quote-form button[type=submit]").boundingBox();
+    expect(button!.width).toBeLessThan(form!.width * 0.7);
+    const buttonCenter = button!.x + button!.width / 2;
+    const formCenter = form!.x + form!.width / 2;
+    expect(Math.abs(buttonCenter - formCenter)).toBeLessThan(2);
+  });
 });

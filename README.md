@@ -113,6 +113,7 @@ src/
 ├── layouts/             Layout.astro, the shared document shell and metadata owner
 ├── pages/               Spanish routes and the English mirror
 ├── scripts/             navigation, theme and optional RUM behavior
+├── utils/               pure helpers (bento grid spans)
 └── styles/              global CSS, design tokens and component classes
 
 public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
