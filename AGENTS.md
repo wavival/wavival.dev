@@ -35,6 +35,7 @@ Update the source document affected by a change. Update the README only when its
 - Open work pull requests to `dev`.
 - Promote only `dev` to `stg` and `stg` to `main`.
 - Do not push directly to protected branches.
+- Before opening or updating a pull request, check that it has no conflicts with its base branch, with other local and remote branches, or with other open pull requests (for example `git merge-tree --write-tree --name-only <other> <head>`), and resolve or report any conflict before requesting review.
 - Use Conventional Commits: `type(scope): message`.
 - Do not merge or promote while required checks are failing, pending, cancelled, skipped, or unavailable.
 

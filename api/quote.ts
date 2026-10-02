@@ -8,6 +8,15 @@ const SERVICE_LABELS: Record<string, string> = {
   "ai-integrations": "Integraciones de IA",
 };
 
+const PROJECT_TYPE_LABELS: Record<string, string> = {
+  "web-app": "Aplicación web o PWA",
+  landing: "Landing page o sitio web",
+  "api-backend": "API y backend",
+  design: "Diseño de interfaz y prototipo",
+  security: "Seguridad y AppSec",
+  ai: "Producto con IA",
+};
+
 interface QuotePayload {
   name?: unknown;
   email?: unknown;
@@ -15,6 +24,7 @@ interface QuotePayload {
   business?: unknown;
   description?: unknown;
   services?: unknown;
+  projectTypes?: unknown;
   website?: unknown;
 }
 
@@ -46,6 +56,7 @@ const quoteEmail = (quote: {
   business: string;
   description: string;
   services: string[];
+  projectTypes: string[];
 }) => {
   const detailRows = [
     ["Nombre", quote.name],
@@ -53,7 +64,9 @@ const quoteEmail = (quote: {
     ["Teléfono", quote.phone],
     ["Empresa", quote.business],
     ["Servicios", quote.services.join(", ")],
+    ["Tipo de proyecto", quote.projectTypes.join(", ")],
   ]
+    .filter(([, value]) => value)
     .map(
       ([label, value]) =>
         `<tr><td style="padding:12px 16px;border-bottom:1px solid #d1d5db;color:#4b5563;font:600 12px Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em;vertical-align:top">${label}</td><td style="padding:12px 16px;border-bottom:1px solid #d1d5db;color:#111827;font:15px Arial,sans-serif">${escapeHtml(value)}</td></tr>`
@@ -84,6 +97,10 @@ async function handler(request: Request): Promise<Response> {
     ? payload.services.filter((service): service is string => typeof service === "string")
     : [];
   const selectedServices = [...new Set(services)].filter((service) => service in SERVICE_LABELS);
+  const projectTypes = Array.isArray(payload.projectTypes)
+    ? payload.projectTypes.filter((type): type is string => typeof type === "string")
+    : [];
+  const selectedTypes = [...new Set(projectTypes)].filter((type) => type in PROJECT_TYPE_LABELS);
   const words = description ? description.split(/\s+/).length : 0;
 
   if (
@@ -93,7 +110,7 @@ async function handler(request: Request): Promise<Response> {
     !/^\+[1-9]\d{7,14}$/.test(phone) ||
     words === 0 ||
     words > 500 ||
-    selectedServices.length === 0
+    selectedServices.length + selectedTypes.length === 0
   ) {
     return json({ error: "Invalid request" }, 400);
   }
@@ -120,6 +137,7 @@ async function handler(request: Request): Promise<Response> {
         business,
         description,
         services: selectedServices.map((service) => SERVICE_LABELS[service]),
+        projectTypes: selectedTypes.map((type) => PROJECT_TYPE_LABELS[type]),
       }),
       tags: ["quote"],
     }),

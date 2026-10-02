@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Quote form project-type mode: every case study has a `quoteType` and a "Cotizar un proyecto así" button that opens the quote page with `?type=<type>`, showing the project types (web app, landing, API, design, security, AI) instead of the services. `api/quote.ts` accepts `projectTypes`.
+
 - `wavival.dev` case study (`/proyectos/wavival-dev` and `/en/projects/wavival-dev`) focused on the Señal v4 design, with the Claude Design prototype link and an OG card.
 - Optional `design` field for case studies, rendered as its own section (`cs-design`).
 - Bilingual quote pages with service preselection, multi-service selection, a 500-word project brief, and an in-page confirmation.

@@ -10,6 +10,7 @@ import CaseSection from "@/components/organisms/CaseSection.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
 import { caseStudies, type Project } from "@/data/projects";
 import { projectView } from "@/data/projectView";
+import { quoteTypeHref } from "@/data/quoteTypes";
 import { siteRoutes, type Lang } from "@/i18n/utils";
 
 interface Props {
@@ -64,6 +65,7 @@ const t = isEn
       prevAria: "Previous project",
       nextAria: "Next project",
       backAria: "Back to all projects",
+      quote: "Quote a project like this",
     }
   : {
       projects: "Proyectos",
@@ -88,6 +90,7 @@ const t = isEn
       prevAria: "Proyecto anterior",
       nextAria: "Proyecto siguiente",
       backAria: "Volver a todos los proyectos",
+      quote: "Cotizar un proyecto así",
     };
 
 const sections = [
@@ -143,24 +146,29 @@ const externalActions = [
           {t.by}
           <a href={r.about} class="text-ink">Valentina Ramírez</a><br />{dateLabel}
         </p>
-        {
-          externalActions.length > 0 && (
-            <div class="flex flex-wrap gap-3">
-              {externalActions.map((a) => (
-                <Button
-                  href={a.href}
-                  target="_blank"
-                  variant="secondary"
-                  size="sm"
-                  aria-label={a.ariaLabel}
-                  data-umami-event={a.event}
-                >
-                  {a.text}
-                </Button>
-              ))}
-            </div>
-          )
-        }
+        <div class="flex flex-wrap gap-3">
+          {
+            externalActions.map((a) => (
+              <Button
+                href={a.href}
+                target="_blank"
+                variant="secondary"
+                size="sm"
+                aria-label={a.ariaLabel}
+                data-umami-event={a.event}
+              >
+                {a.text}
+              </Button>
+            ))
+          }
+          <Button
+            href={quoteTypeHref(r.quote, project.quoteType)}
+            size="sm"
+            data-umami-event="cotizar-desde-proyecto"
+          >
+            {t.quote}
+          </Button>
+        </div>
       </div>
     </div>
   </header>
