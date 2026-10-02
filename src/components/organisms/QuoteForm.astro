@@ -8,6 +8,7 @@ interface ServiceOption {
 
 interface Props {
   services: ServiceOption[];
+  projectTypes: ServiceOption[];
   selectedService?: string;
   labels: {
     name: string;
@@ -15,6 +16,7 @@ interface Props {
     phone: string;
     business: string;
     services: string;
+    projectTypes: string;
     description: string;
     descriptionHint: string;
     submit: string;
@@ -29,7 +31,7 @@ interface Props {
   privacyHref: string;
 }
 
-const { services, selectedService, labels, privacyHref } = Astro.props;
+const { services, projectTypes, selectedService, labels, privacyHref } = Astro.props;
 ---
 
 <div class="quote-form-wrap">
@@ -66,7 +68,7 @@ const { services, selectedService, labels, privacyHref } = Astro.props;
       </label>
     </div>
 
-    <fieldset class="quote-fieldset">
+    <fieldset class="quote-fieldset" data-quote-group="services">
       <legend>{labels.services}</legend>
       <div class="quote-checklist">
         {
@@ -79,6 +81,20 @@ const { services, selectedService, labels, privacyHref } = Astro.props;
                 checked={selectedService === service.id}
               />
               <span>{service.label}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="quote-fieldset" data-quote-group="types" hidden disabled>
+      <legend>{labels.projectTypes}</legend>
+      <div class="quote-checklist">
+        {
+          projectTypes.map((type) => (
+            <label class="quote-check">
+              <input name="projectTypes" type="checkbox" value={type.id} />
+              <span>{type.label}</span>
             </label>
           ))
         }
@@ -119,12 +135,25 @@ const { services, selectedService, labels, privacyHref } = Astro.props;
     const submit = form.querySelector<HTMLButtonElement>("[data-quote-submit]");
     const success = document.querySelector<HTMLElement>("[data-quote-success]");
     const maxWords = 500;
-    const serviceFromUrl = new URLSearchParams(window.location.search).get("service");
+    const params = new URLSearchParams(window.location.search);
+    const servicesGroup = form.querySelector<HTMLFieldSetElement>('[data-quote-group="services"]');
+    const typesGroup = form.querySelector<HTMLFieldSetElement>('[data-quote-group="types"]');
+    const inputIn = (group: HTMLFieldSetElement | null, value: string | null) =>
+      group
+        ? Array.from(group.querySelectorAll<HTMLInputElement>("input")).find(
+            (input) => input.value === value
+          )
+        : undefined;
 
-    if (serviceFromUrl) {
-      const selectedFromUrl = Array.from(
-        form.querySelectorAll<HTMLInputElement>('input[name="services"]')
-      ).find((input) => input.value === serviceFromUrl);
+    const typeFromUrl = inputIn(typesGroup, params.get("type"));
+    if (typeFromUrl && servicesGroup && typesGroup) {
+      servicesGroup.hidden = true;
+      servicesGroup.disabled = true;
+      typesGroup.hidden = false;
+      typesGroup.disabled = false;
+      typeFromUrl.checked = true;
+    } else {
+      const selectedFromUrl = inputIn(servicesGroup, params.get("service"));
       if (selectedFromUrl && !selectedFromUrl.checked) selectedFromUrl.click();
     }
 
@@ -146,12 +175,15 @@ const { services, selectedService, labels, privacyHref } = Astro.props;
         return;
       }
 
+      const activeGroup = form.querySelector<HTMLFieldSetElement>(
+        "[data-quote-group]:not([hidden])"
+      );
       const selected = Array.from(
-        form.querySelectorAll<HTMLInputElement>('input[name="services"]:checked')
+        activeGroup?.querySelectorAll<HTMLInputElement>("input:checked") ?? []
       );
       if (selected.length === 0) {
         error?.removeAttribute("hidden");
-        form.querySelector<HTMLInputElement>('input[name="services"]')?.focus();
+        activeGroup?.querySelector<HTMLInputElement>("input")?.focus();
         return;
       }
 
@@ -169,7 +201,9 @@ const { services, selectedService, labels, privacyHref } = Astro.props;
         business: String(data.get("business") ?? ""),
         description: String(data.get("description") ?? ""),
         website: String(data.get("website") ?? ""),
-        services: selected.map((input) => input.value),
+        [activeGroup?.dataset.quoteGroup === "types" ? "projectTypes" : "services"]: selected.map(
+          (input) => input.value
+        ),
       };
 
       try {

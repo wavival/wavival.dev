@@ -1,3 +1,5 @@
+import type { QuoteProjectType } from "@/data/quoteTypes";
+
 export interface ProjectLink {
   href: string;
   text: string;
@@ -44,6 +46,8 @@ export interface ProjectEn {
 export interface Project {
   title: string;
   slug: string;
+  /** Project type preselected in the quote form when coming from this case study. */
+  quoteType: QuoteProjectType;
   tag: string;
   tagColor: "green" | "blue" | "orange" | "gray";
   image?: string;
@@ -108,6 +112,7 @@ export const projects: Project[] = [
   {
     title: "TerraCore PWA",
     slug: "terracore",
+    quoteType: "web-app",
     datePublished: "2026-06-16",
     dateModified: "2026-10-02",
     tag: "Live",
@@ -590,6 +595,7 @@ export const projects: Project[] = [
   {
     title: "TerraCore Landing",
     slug: "terracore-landing",
+    quoteType: "landing",
     datePublished: "2026-06-18",
     dateModified: "2026-06-18",
     tag: "Live",
@@ -826,6 +832,7 @@ export const projects: Project[] = [
   {
     title: "OKroot PWA",
     slug: "okroot",
+    quoteType: "web-app",
     datePublished: "2026-06-16",
     dateModified: "2026-09-26",
     tag: "Live",
@@ -1065,6 +1072,7 @@ export const projects: Project[] = [
   {
     title: "OKroot Landing",
     slug: "okroot-landing",
+    quoteType: "landing",
     datePublished: "2026-06-18",
     dateModified: "2026-09-26",
     tag: "Live",
@@ -1152,6 +1160,7 @@ export const projects: Project[] = [
   {
     title: "NullBreach",
     slug: "nullbreach",
+    quoteType: "security",
     datePublished: "2026-06-16",
     dateModified: "2026-09-25",
     tag: "Live",
@@ -1408,6 +1417,7 @@ export const projects: Project[] = [
   {
     title: "Lúmina W",
     slug: "lumina-w",
+    quoteType: "landing",
     datePublished: "2026-06-16",
     dateModified: "2026-06-16",
     tag: "Live",
@@ -1567,6 +1577,7 @@ export const projects: Project[] = [
   {
     title: "Blog Lúmina W",
     slug: "blog-lumina-w",
+    quoteType: "web-app",
     datePublished: "2026-06-18",
     dateModified: "2026-09-25",
     tag: "Live",
@@ -1632,6 +1643,7 @@ export const projects: Project[] = [
   {
     title: "wavival.dev",
     slug: "wavival-dev",
+    quoteType: "design",
     datePublished: "2026-10-01",
     dateModified: "2026-10-02",
     tag: "Live",
@@ -1916,6 +1928,7 @@ export const projects: Project[] = [
   {
     title: "Forgotten Portal",
     slug: "forgotten-portal",
+    quoteType: "security",
     datePublished: "2026-06-16",
     dateModified: "2026-06-16",
     tag: "Laboratorio",

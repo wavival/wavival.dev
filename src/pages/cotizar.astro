@@ -1,6 +1,7 @@
 ---
 import QuoteForm from "@/components/organisms/QuoteForm.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
+import { quoteProjectTypeOptions } from "@/data/quoteTypes";
 import { siteRoutes } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
 
@@ -35,6 +36,7 @@ const validSelection = services.some((service) => service.id === selectedService
     <div class="mt-16 border-t border-ink pt-10">
       <QuoteForm
         services={services}
+        projectTypes={quoteProjectTypeOptions("es")}
         selectedService={validSelection}
         privacyHref={r.privacy}
         labels={{
@@ -43,6 +45,7 @@ const validSelection = services.some((service) => service.id === selectedService
           phone: "Teléfono con indicativo",
           business: "Negocio o empresa",
           services: "Servicios que te interesan",
+          projectTypes: "Tipo de proyecto",
           description: "Describe tu proyecto",
           descriptionHint: "0/500",
           submit: "Enviar cotización",
