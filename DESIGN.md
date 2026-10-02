@@ -1,6 +1,6 @@
 # DESIGN.md: Design System
 
-Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "Señal v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
+Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
 Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE.md](./CLAUDE.md)
 
@@ -23,7 +23,7 @@ Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE
 
 ## Principles
 
-Concept "Señal": the page reads like an editorial index, with one blue signal on a quiet field.
+Concept: the page reads like an editorial index, with one blue signal on a quiet field.
 
 - **Rules, not boxes.** Structure comes from 1px lines (`--line`, `--line-2`, and `--text` for section rules), never from shadow cards. There are no shadows and surfaces have `0` radius.
 - **Editorial scale.** Raleway 800 display type at large sizes, tight tracking, numbered indexes (`01`, `02`) as wayfinding.
@@ -60,6 +60,7 @@ All tokens live in `src/styles/tokens.css`. Defined on `:root` (light) and overr
 | `--nav`       | `rgba(240,244,255,0.85)` | `rgba(15,17,23,0.85)`   | Sticky header fill (with backdrop blur)                                              |
 | `--ok`        | `#15803d`                | `#4ade80`               | Success/available status dot                                                         |
 | `--warn`      | `#c2410c`                | `#fb923c`               | Warning status dot                                                                   |
+| `--danger`    | `#b91c1c`                | `#fca5a5`               | Error text and the required-field asterisk                                           |
 
 The button fill is theme-independent so white text stays at or above 4.5:1 in both themes (the retired dodger-blue accent was only 3.24:1).
 
@@ -134,7 +135,7 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 
 - Pages sit inside `.wrap` (container + gutters). Vertical rhythm comes from `.page-top`, `.section-gap`, and `--sec` / `--sec-compact`.
 - Each section opens with a `.rule-section` (1px top rule in `--text`), an optional `.index` number, an `.eyebrow` label, and a display heading (`SectionHeader`).
-- Lists and grids are drawn with `border-top` / `.cell-grid` lines, not card shadows.
+- Lists and grids are drawn with `border-top` / `.cell-grid` lines, not card shadows. Card grids use `Bento` so rows fill the 12 columns with irregular spans and no card is left alone in a corner.
 - Media sit in a `.media-frame` (1200x630, 1px border) or `.photo-frame` (4:5 portrait with a 4px blue bar).
 - One `h1` per page: `Hero` on home, `PageIntro` elsewhere. Sections use `h2`, cards and rows use `h3`.
 - The header is sticky (64px, `--nav` fill with backdrop blur), not fixed, so `<main>` has no top padding. The active link shows text color plus a 2px blue bar.
@@ -172,6 +173,7 @@ All inside `@layer components` in `src/styles/utilities.css`, 2-space indentatio
 | `.status`, `.status-dot` (+ `-ok`, `-link`, `-warn`) | Status label with a 7px dot                                                                                                                                           |
 | `.badge`                                             | Solid `--btn` label                                                                                                                                                   |
 | `.cell-grid`                                         | Grid drawn with 1px borders                                                                                                                                           |
+| `.bento-wrap`, `.bento`                              | Irregular grid sized by its container: 1 column, 2 from 480px, 12 from 760px; children take `--span` from `src/utils/bento.ts`                                        |
 | `.nav-link`                                          | Header link; `aria-current="page"` gets text color and a 2px `--blue` bar                                                                                             |
 | `.media-frame`, `.photo-frame`                       | 1200x630 image frame; 4:5 portrait frame with a 4px blue bottom bar                                                                                                   |
 | `.disclosure`                                        | Native `<details>` styling: hides the marker, swaps `.when-closed` / `.when-open` text                                                                                |
@@ -183,7 +185,7 @@ Removed with v4: `.section`, `.section-title`, `.section-subtitle`, `.btn-ghost`
 Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.md)):
 
 - **Atoms:** `Button`, `TextLink`, `IconLink`, `MaskIcon`, `Chip`, `StatusDot`, `Badge`, `Eyebrow`, `Index`
-- **Molecules:** `SectionHeader`, `PageIntro`, `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure`, `PullQuote`
+- **Molecules:** `SectionHeader`, `PageIntro`, `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure`, `PullQuote`, `Bento`
 - **Organisms:** `NavBar`, `Footer`, `ContactBand`, `Hero`, `FeaturedProjects`, `StackSection`, `StackGrid`, `AboutSection`, `ProjectRow`, `ProjectCard`, `ProjectsIndex`, `ProjectFilters`, `RepoCard`, `ServiceRow`, `ServicesDetail`, `LegalSection`, `NotFound`, `CaseStudy`, `CaseToc`, `CaseSection`
 - **Template:** `src/layouts/Layout.astro`
 

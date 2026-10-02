@@ -1,5 +1,7 @@
 ---
+import Bento from "@/components/molecules/Bento.astro";
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
+import { bentoStyles } from "@/utils/bento";
 
 interface Props {
   fit: {
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const { fit, processTitle, processLabel, process, faqTitle, faqs } = Astro.props;
+const processStyles = bentoStyles(process.length);
 ---
 
 <div
@@ -57,13 +60,10 @@ const { fit, processTitle, processLabel, process, faqTitle, faqs } = Astro.props
 </div>
 
 <SectionHeader label={processLabel} title={processTitle} class="section-gap mb-12" />
-<ol
-  class="m-0 grid list-none gap-8 p-0"
-  style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))"
->
+<Bento as="ol" class="m-0 list-none gap-8 p-0">
   {
-    process.map((p) => (
-      <li class="flex flex-col gap-3.5">
+    process.map((p, i) => (
+      <li class="flex flex-col gap-3.5" style={processStyles[i]}>
         <div class="flex items-center gap-3">
           <span class="h-title text-[56px] leading-none tracking-[-0.04em] text-blue">
             {p.step}
@@ -75,7 +75,7 @@ const { fit, processTitle, processLabel, process, faqTitle, faqs } = Astro.props
       </li>
     ))
   }
-</ol>
+</Bento>
 
 <SectionHeader
   label="FAQ"

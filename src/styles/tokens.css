@@ -15,6 +15,7 @@
   --nav: rgba(240, 244, 255, 0.85);
   --ok: #15803d;
   --warn: #c2410c;
+  --danger: #b91c1c;
   --on-btn: #ffffff;
 
   --container: 1280px;
@@ -72,4 +73,5 @@
   --nav: rgba(15, 17, 23, 0.85);
   --ok: #4ade80;
   --warn: #fb923c;
+  --danger: #fca5a5;
 }

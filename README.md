@@ -113,6 +113,7 @@ src/
 ├── layouts/             Layout.astro, the shared document shell and metadata owner
 ├── pages/               Spanish routes and the English mirror
 ├── scripts/             navigation, theme and optional RUM behavior
+├── utils/               pure helpers (bento grid spans)
 └── styles/              global CSS, design tokens and component classes
 
 public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
@@ -151,7 +152,7 @@ The Vercel Microfrontends contract reserves `/nullbreach` and `/nullbreach/:path
 
 ### Principles
 
-Version 4 uses the Señal v4 system:
+Version 4 uses the @wavival | Design System v4:
 
 - One-column editorial composition at the full container width.
 - Raleway 800 for display typography and Poppins for body copy.
@@ -221,9 +222,9 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 ## Repository documentation
 
 | Document                                                                   | Scope                                                                                                 |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                       |
-| [DESIGN.md](./DESIGN.md)                                                   | Señal v4 tokens, type scale, component classes, composition, and accessibility rules.                 |
+| [DESIGN.md](./DESIGN.md)                                                   | @wavival                                                                                              | Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
 | [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                             |
 | [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                      |
 | [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries. |

@@ -27,6 +27,8 @@ interface Props {
     privacyPrefix: string;
     privacyLink: string;
     privacySuffix: string;
+    required: string;
+    requiredTip: string;
   };
   privacyHref: string;
 }
@@ -36,6 +38,11 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
 
 <div class="quote-form-wrap">
   <form class="quote-form" data-quote-form novalidate>
+    <p class="quote-required-note">
+      <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+      {labels.required}
+    </p>
+
     <div class="quote-field quote-honeypot" aria-hidden="true">
       <label for="quote-website">Website</label>
       <input id="quote-website" name="website" type="text" tabindex="-1" autocomplete="off" />
@@ -43,15 +50,24 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
 
     <div class="quote-form-grid">
       <label class="quote-field">
-        <span>{labels.name}</span>
+        <span>
+          {labels.name}
+          <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+        </span>
         <input name="name" type="text" autocomplete="name" required maxlength="120" />
       </label>
       <label class="quote-field">
-        <span>{labels.email}</span>
+        <span>
+          {labels.email}
+          <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+        </span>
         <input name="email" type="email" autocomplete="email" required maxlength="254" />
       </label>
       <label class="quote-field">
-        <span>{labels.phone}</span>
+        <span>
+          {labels.phone}
+          <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+        </span>
         <input
           name="phone"
           type="tel"
@@ -63,13 +79,19 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
         />
       </label>
       <label class="quote-field">
-        <span>{labels.business}</span>
+        <span>
+          {labels.business}
+          <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+        </span>
         <input name="business" type="text" autocomplete="organization" required maxlength="160" />
       </label>
     </div>
 
     <fieldset class="quote-fieldset" data-quote-group="services">
-      <legend>{labels.services}</legend>
+      <legend>
+        {labels.services}
+        <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+      </legend>
       <div class="quote-checklist">
         {
           services.map((service) => (
@@ -88,7 +110,10 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
     </fieldset>
 
     <fieldset class="quote-fieldset" data-quote-group="types" hidden disabled>
-      <legend>{labels.projectTypes}</legend>
+      <legend>
+        {labels.projectTypes}
+        <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+      </legend>
       <div class="quote-checklist">
         {
           projectTypes.map((type) => (
@@ -102,7 +127,10 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
     </fieldset>
 
     <label class="quote-field">
-      <span>{labels.description}</span>
+      <span>
+        {labels.description}
+        <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+      </span>
       <textarea name="description" rows="7" maxlength="5000" required data-quote-description
       ></textarea>
       <small class="quote-hint" data-quote-words>{labels.descriptionHint}</small>

@@ -9,14 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Bento` molecule and `src/utils/bento.ts`: card grids with irregular column spans whose rows always fill the 12 columns (no lone card in a corner), applied to case-study pain points, modules, learnings and roadmap, the stack grid, the services process and the about method.
+- Quote form: red asterisk with a tooltip on required fields, a "Campos obligatorios" note, and a `--danger` token.
 - Case studies can render a `roadmap` section (now, next, later, out of scope) and several `chains` cascades; id `cs-roadmap`.
-- `wavival.dev` case study (`/proyectos/wavival-dev` and `/en/projects/wavival-dev`) focused on the Señal v4 design, with the Claude Design prototype link and an OG card.
+- `wavival.dev` case study (`/proyectos/wavival-dev` and `/en/projects/wavival-dev`) focused on the @wavival | Design System v4 design, with the Claude Design prototype link and an OG card.
 - Optional `design` field for case studies, rendered as its own section (`cs-design`).
+- Optional `designSystemLink` for case studies, shown beside the design prototype link; set on the `wavival.dev` case study.
 - Bilingual quote pages with service preselection, multi-service selection, a 500-word project brief, and an in-page confirmation.
 - `api/quote.ts` Vercel Function: validates quote submissions and sends a formatted transactional email through Brevo to `wavival.dev@luminaw.co`.
 - Quote form project-type mode: every case study has a `quoteType` and a "Cotizar un proyecto así" button that opens the quote page with `?type=<type>`, showing the project types (web app, landing, API, design, security, AI) instead of the services. `api/quote.ts` accepts `projectTypes`.
 
 ### Changed
+
+- Case-study design links point to each project's Netlify prototype (TerraCore, TerraCore Landing, OKroot, OKroot Landing, Lúmina W, Blog W, wavival.dev) instead of the generic placeholder.
+
+- Quote form: the submit button is centered with its natural width instead of full width.
+- The design system is named "@wavival | Design System v4" in the `wavival.dev` case study and the AI-discovery files; that case study has no site link, only the prototype and the design system.
 
 - TerraCore PWA case study rewritten from the repositories: connected modules (vaccine, supply, animal, finance), why offline-first, multi-user and multitenancy, design (with the Claude Design prototype link), results, learnings, and roadmap. Status: in production, in active sales, under validation with clients in Antioquia, Colombia. `llms.txt`, `llms-full.txt`, `docs/brand.md`, and `docs/commercial.md` aligned.
 
@@ -40,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `npm run css:check` (`scripts/check-component-css.mjs`, run in CI `quality`) and `tests/design.spec.ts` as guards against purged component CSS, hover typography regressions, a collapsed mobile menu, and mobile horizontal overflow.
-- "Señal v4" UI design (UI only, content unchanged), from the Claude Design project `wavival-dev-v4`: 1px rules instead of shadow cards, editorial Raleway 800 display scale, numbered indexes, and a single blue signal.
+- "@wavival | Design System v4" UI design (UI only, content unchanged), from the Claude Design project `wavival-dev-v4`: 1px rules instead of shadow cards, editorial Raleway 800 display scale, numbered indexes, and a single blue signal.
 - Atomic component structure (`src/components/atoms`, `molecules`, `organisms`) replacing `ui/` and `sections/`, plus `ContactBand` shared at the end of home, services, about, and case studies.
 - `siteRoutes()` and `ariaCurrent()` helpers in `src/i18n/utils.ts` and the `projectView()` helper in `src/data/projectView.ts`.
 - Tests: `tests/projects.spec.ts` (filters), `siteRoutes` cases in `tests/i18n-utils.spec.ts`, and a default-dark case in `tests/theme.spec.ts`.
