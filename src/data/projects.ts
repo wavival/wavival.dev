@@ -1713,7 +1713,7 @@ export const projects: Project[] = [
     slug: "nullbreach",
     quoteType: "security",
     datePublished: "2026-06-16",
-    dateModified: "2026-09-25",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-nullbreach.webp",
@@ -1722,29 +1722,36 @@ export const projects: Project[] = [
     imageHeight: 630,
     stack: [
       "Next.js",
+      "React",
       "TypeScript",
+      "Tailwind CSS",
       "NextAuth",
       "Prisma",
       "PostgreSQL",
       "OpenAI API",
-      "Astro (landing)",
+      "Vercel",
     ],
     appCategory: "SecurityApplication",
     programmingLanguage: ["TypeScript", "SQL"],
     summary:
-      "Aplicación de seguridad con Next.js, análisis de código alineado con OWASP y chat con OpenAI. Prisma Postgres guarda usuarios, consultas y análisis. Landing en Astro.",
+      "Asistente de seguridad de aplicaciones de código abierto. Una persona con cuenta pega un fragmento de código y recibe un análisis orientado a OWASP con severidad, impacto y remediación, o hace una pregunta de desarrollo seguro en un chat. Todo queda guardado por usuario. Una sola aplicación Next.js con Prisma Postgres, montada bajo wavival.dev/nullbreach.",
     filters: ["full-stack", "ai"],
     problem:
-      "Revisar código con criterio OWASP o resolver una duda puntual de ciberseguridad implica saltar entre scanners pesados, documentación dispersa y foros desactualizados.",
+      "Un hallazgo de seguridad sirve poco si no dice qué tan grave es, qué impacto tiene y cómo se corrige. Y una duda puntual sobre un fragmento de código rara vez justifica montar y afinar un escáner de reglas.",
     solution:
-      "Aplicación autenticada para analizar fragmentos de código con guía OWASP y consultar al asistente de seguridad. Las preguntas, respuestas y análisis quedan guardados por usuario.",
+      "Una aplicación con cuenta donde el usuario pega código (hasta 20.000 caracteres) y recibe un análisis orientado a OWASP con severidad, impacto y remediación, o pregunta en un chat de seguridad (hasta 4.000 caracteres). Las consultas y los análisis se guardan por usuario, y el código es abierto con licencia MIT.",
     architecture: [
-      "OpenAI Responses API analiza fragmentos de código en busca de vulnerabilidades alineadas con OWASP y explica severidad, impacto y remediación.",
-      "Aplicación Next.js App Router que reúne interfaz, autenticación, rutas API e integración con OpenAI.",
-      "Chat de seguridad con OpenAI; las preguntas y respuestas se guardan en el historial de cada usuario.",
-      "Prisma ORM y Prisma Postgres para usuarios, historial de chat y análisis de código.",
-      "NextAuth Credentials con sesiones JWT en cookies HTTP-only.",
-      "La landing de NullBreach continúa en Astro; la aplicación principal se despliega como proyecto Next.js independiente.",
+      "Una sola aplicación Next.js (App Router, React y TypeScript) con tres áreas internas que son carpetas y no paquetes: la landing pública (features/landing), el frontend autenticado (app y components) y el backend (app/api, lib y prisma). El repositorio tiene un único despliegue.",
+      "Montada bajo wavival.dev/nullbreach con Vercel Microfrontends: el portafolio es la aplicación por defecto y NullBreach es un proyecto hijo independiente. Next.js reescribe el prefijo público y toda navegación y llamada a la API pasa por una función única de rutas (appPath).",
+      "Análisis y chat en el servidor: el cliente envía el texto a una ruta que exige sesión, valida que no esté vacío ni supere el límite (4.000 caracteres la pregunta, 20.000 el código, con 413 si lo supera) y solo entonces llama a la OpenAI Responses API. La clave de OpenAI y el modelo (variable de entorno) viven solo en el servidor y en un único módulo.",
+      "La instrucción del modelo pide consejo práctico basado en OWASP; la de análisis pide explicar severidad, impacto y remediación. La respuesta es texto libre, se muestra como texto plano y no como HTML, y se guarda junto con la pregunta o el código enviado.",
+      "Autenticación con NextAuth: credenciales (correo y clave con bcrypt, costo 12, de 8 a 128 caracteres) y Google OAuth opcional, con sesiones JWT en cookies HTTP-only. Una cuenta de Google se enlaza por correo normalizado.",
+      "Recuperación de clave: se genera un token aleatorio, se guarda solo su hash SHA-256 con una hora de vigencia y un solo uso, y el enlace sale por Brevo. La respuesta no revela si el correo existe.",
+      "Prisma ORM sobre Prisma Postgres con cuatro modelos: usuarios, historial de chat (pregunta, respuesta y modelo), análisis de código y tokens de recuperación. Borrar un usuario borra en cascada sus registros, y hay índices por usuario y fecha. El historial en pantalla muestra las diez últimas preguntas.",
+      "Autorización en dos capas: un proxy rechaza con 401 las rutas privadas de chat, análisis e historial antes de ejecutarlas, y cada ruta vuelve a comprobar la sesión. Cabeceras contra framing, sniffing de tipo, fuga de referrer y permisos del navegador innecesarios.",
+      "Documentación de la API en docs/api.md, con Swagger UI y un documento OpenAPI servidos por la propia aplicación, y un endpoint de salud que comprueba la base de datos sin llamar a OpenAI.",
+      "Entrega con compuertas: ramas de trabajo hacia dev, stg y main, un solo camino y siempre por PR. GitHub Actions construye, aplica migraciones, despliega, comprueba la salud y corre Playwright contra el despliegue. Staging y producción usan bases Prisma Postgres y secretos separados, y los despliegues automáticos de Git están desactivados.",
+      "CI en cada PR: lint, formato, tipos, validación de Prisma, pruebas con cobertura y build, además de commitlint, auditoría de dependencias de severidad alta y escaneo de secretos con gitleaks.",
     ],
     links: [
       {
@@ -1762,100 +1769,144 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
-      "Caso de estudio de NullBreach: aplicación Next.js de seguridad con OpenAI y Prisma Postgres, más una landing en Astro.",
-    results: [
-      "Análisis con OpenAI Responses API que entrega hallazgos de seguridad alineados con OWASP, con severidad, impacto y recomendaciones de remediación.",
-      "Historial de chat por usuario persistido en Prisma Postgres junto con los análisis de código.",
-      "Aplicación Next.js con autenticación NextAuth, sesiones JWT y datos persistidos con Prisma Postgres.",
-    ],
-    learnings: [
-      "Usar un modelo de lenguaje para revisar código exige presentar sus hallazgos como asistencia de análisis y no como una verificación determinista.",
-      "Concentrar la interfaz, autenticación y rutas API en una aplicación Next.js simplifica el despliegue y mantiene una sola frontera de aplicación.",
-      "El análisis de seguridad con un modelo requiere instrucciones claras sobre el marco OWASP, la severidad, el impacto y las recomendaciones que debe incluir.",
-    ],
+      "Caso de estudio de NullBreach: app Next.js de código abierto con chat y análisis de código orientado a OWASP, NextAuth y Prisma Postgres.",
     painPoints: [
       {
-        title: "Scanners con curva alta",
-        text: "Semgrep o SonarQube resuelven mucho, pero montar y afinar las reglas cuesta un tiempo que una duda puntual no justifica.",
+        title: "Hallazgos sin remediación",
+        text: "Una lista de patrones no basta si no explica la severidad, el impacto y cómo corregir el riesgo.",
       },
       {
-        title: "Respuestas dispersas",
-        text: "La guía vive repartida entre documentación densa y foros que envejecen mal.",
+        title: "Dudas que se pierden",
+        text: "Una consulta de seguridad resuelta hoy se vuelve a necesitar mañana, y sin historial hay que repetirla.",
       },
       {
-        title: "Hallazgos sin guía accionable",
-        text: "Una lista de patrones no basta si no explica la severidad, el impacto y cómo remediarlos.",
+        title: "Una IA que se toma con criterio",
+        text: "La respuesta de un modelo puede equivocarse. Hay que presentarla como asistencia de análisis, no como el resultado de un escáner determinista.",
       },
     ],
     modules: [
       {
         name: "Análisis de código",
-        text: "Envía un fragmento a OpenAI para recibir hallazgos alineados con OWASP, su impacto y recomendaciones.",
+        text: "Pega un fragmento y recibe hallazgos orientados a OWASP con severidad, impacto y remediación.",
       },
       {
-        name: "Historial del chat",
-        text: "Consulta preguntas y respuestas anteriores guardadas en tu cuenta.",
+        name: "Chat de seguridad",
+        text: "Pregunta sobre vulnerabilidades, controles y desarrollo seguro, y recibe una respuesta práctica.",
       },
       {
-        name: "Recomendaciones de remediación",
-        text: "El análisis explica la severidad e impacto y sugiere cómo corregir los riesgos identificados.",
+        name: "Historial",
+        text: "Las diez últimas preguntas del chat quedan a la vista, guardadas en tu cuenta.",
       },
       {
-        name: "Código abierto",
-        text: "El código de la aplicación está abierto en github.com/wavival/nullbreach.",
+        name: "Cuenta",
+        text: "Registro con correo y clave, ingreso con Google y recuperación de clave por correo.",
       },
+      {
+        name: "Landing bilingüe",
+        text: "Página pública en español e inglés, indexable, con las rutas privadas fuera del índice.",
+      },
+      {
+        name: "API documentada",
+        text: "Referencia en docs/api.md, Swagger UI, documento OpenAPI y endpoint de salud.",
+      },
+    ],
+    chainStepsTitle: "Del fragmento al hallazgo",
+    chainSteps: [
+      "El usuario pega un fragmento de código en el analizador.",
+      "El proxy y la ruta comprueban la sesión, que el texto no esté vacío y que no supere 20.000 caracteres.",
+      "El servidor llama a la OpenAI Responses API con instrucciones para analizar el código según OWASP y explicar severidad, impacto y remediación.",
+      "La respuesta se guarda como análisis del usuario y se devuelve para mostrarla como texto.",
     ],
     decisions: [
       {
-        title: "OpenAI para análisis orientado a OWASP",
+        title: "Una sola aplicación con tres áreas internas",
         context:
-          "Una revisión manual de código requiere conocimientos de seguridad y tiempo para explicar el impacto y las correcciones.",
+          "El producto necesita una landing pública, un frontend autenticado y un backend con base de datos y proveedor de IA.",
         tradeoff:
-          "Las respuestas de un modelo pueden equivocarse y no deben presentarse como resultados deterministas de un escáner.",
+          "Separarlos en tres despliegues añade contratos y operación que un proyecto de una persona no necesita todavía. Con carpetas, los límites dependen de la disciplina y no del compilador.",
         decision:
-          "OpenAI Responses API recibe el código con instrucciones de análisis alineadas con OWASP y explica severidad, impacto y remediación.",
+          "Un solo despliegue Next.js con landing, frontend y backend en carpetas distintas, listo para extraerse a paquetes sin cambiar la ruta pública.",
       },
       {
-        title: "Historial de chat por usuario",
-        context: "Las consultas y respuestas deben quedar asociadas a la cuenta que las realizó.",
-        tradeoff: "Sin persistencia, el usuario perdería el registro de sus consultas anteriores.",
-        decision:
-          "NextAuth Credentials con sesiones JWT y Prisma Postgres para guardar usuarios, conversaciones y análisis.",
-      },
-      {
-        title: "NextAuth para sesiones por usuario",
+        title: "Montada bajo wavival.dev con Microfrontends",
         context:
-          "Las sesiones necesitan asociar de forma segura el historial de cada persona con su cuenta.",
+          "La app debe vivir en el mismo dominio del portafolio sin atar su ciclo de despliegue al de él.",
         tradeoff:
-          "Las sesiones deben proteger el acceso y mantener separado el historial de cada cuenta.",
+          "El prefijo /nullbreach obliga a mantener sincronizados microfrontends.json, los rewrites, el basePath de NextAuth y cada enlace y llamada a la API.",
         decision:
-          "NextAuth Credentials usa sesiones JWT en cookies HTTP-only para proteger el acceso a la aplicación.",
+          "Vercel Microfrontends enruta /nullbreach al proyecto independiente, y una función única de rutas (appPath) construye todas las URLs del navegador.",
       },
       {
-        title: "Next.js para la aplicación",
+        title: "Un modelo de lenguaje como asistencia, en un solo módulo",
         context:
-          "La aplicación requiere interfaz autenticada, chat, análisis de código y rutas API.",
-        tradeoff: "Separar frontend y backend añade despliegues y contratos entre servicios.",
+          "Revisar código a mano exige conocimiento de seguridad y tiempo para explicar impacto y corrección.",
+        tradeoff:
+          "La respuesta es texto libre y puede equivocarse: no es la salida de un escáner y no reemplaza una revisión experta.",
         decision:
-          "Next.js App Router reúne interfaz, autenticación y rutas API; Astro sigue reservado para la landing.",
+          "Un único módulo de servidor llama a la OpenAI Responses API con instrucciones basadas en OWASP. La clave nunca llega al navegador y los límites de tamaño se aplican antes de la llamada y de guardar.",
       },
       {
-        title: "Prisma Postgres como persistencia",
-        context: "Usuarios, chats y análisis necesitan persistencia relacional gestionada.",
+        title: "NextAuth con credenciales y Google",
+        context: "Cada persona debe ver solo su propio historial y sus propios análisis.",
         tradeoff:
-          "Mantener el acceso a datos separado de las rutas de interfaz facilita el modelado y las migraciones.",
+          "Las sesiones JWT no guardan estado en el servidor, y enlazar Google por correo supone confiar en el correo verificado por Google.",
         decision:
-          "Prisma ORM sobre Prisma Postgres modela y persiste usuarios, historial de chat y análisis de código.",
+          "Credenciales con bcrypt y Google OAuth opcional, con sesión JWT en cookie HTTP-only. Los datos se consultan siempre por el identificador del usuario de la sesión.",
       },
+      {
+        title: "Recuperación de clave con token de un solo uso",
+        context:
+          "Quien olvida la clave necesita recuperarla sin que la respuesta revele qué correos tienen cuenta.",
+        tradeoff:
+          "Depende de un proveedor de correo externo, y sin él configurado el enlace solo se imprime en desarrollo.",
+        decision:
+          "Token aleatorio de 32 bytes, solo su hash SHA-256 guardado, una hora de vigencia, un solo uso y la misma respuesta exista o no la cuenta.",
+      },
+      {
+        title: "Autorización en dos capas",
+        context:
+          "Las rutas de chat y análisis llaman a un proveedor de pago y escriben en la base de datos.",
+        tradeoff:
+          "Comprobar la sesión dos veces duplica una línea en cada ruta, pero un cambio en el proxy no deja una ruta abierta.",
+        decision:
+          "Un proxy responde 401 a las rutas privadas antes de ejecutarlas y cada ruta repite la comprobación.",
+      },
+      {
+        title: "Un solo camino de entrega, con compuertas",
+        context:
+          "Una aplicación con claves de IA y base de datos no debe llegar a producción sin pasar por staging.",
+        tradeoff:
+          "Los PR de promoción y las comprobaciones desplegadas agregan pasos, y las bases de staging y producción se mantienen por separado.",
+        decision:
+          "Ramas de trabajo hacia dev, stg y main siempre por PR. GitHub Actions construye, migra, despliega, comprueba la salud y corre Playwright. Los despliegues automáticos de Git están desactivados.",
+      },
+    ],
+    design: [
+      "Interfaz de terminal: paneles con comandos de prompt como $ nullbreach scan ./src y tipografía monoespaciada.",
+      "Landing con un solo h1, encabezados ordenados, referencias de navegación, enlace para saltar al contenido y foco visible por teclado, con animaciones que respetan prefers-reduced-motion.",
+      "Rutas en español e inglés con canónica y alternates por idioma. El sitemap lista solo las dos landings, y el robots y los metadatos dejan fuera la API, el ingreso y el área privada.",
+      "Las respuestas del modelo se muestran como texto con saltos de línea y no como HTML, y los errores usan role alert con mensajes que no revelan detalles internos.",
+    ],
+    results: [
+      "Chat y análisis de código con la OpenAI Responses API, con límites de 4.000 y 20.000 caracteres aplicados antes de llamar al modelo.",
+      "Preguntas, respuestas y análisis guardados por usuario en Prisma Postgres, con el historial del chat visible en pantalla.",
+      "Código abierto con licencia MIT, referencia de API con Swagger UI y OpenAPI, y un endpoint de salud.",
+      "Entrega con staging y producción separados, migraciones aplicadas en el despliegue y pruebas E2E contra lo desplegado.",
+    ],
+    learnings: [
+      "Un modelo de lenguaje que revisa código debe presentarse como asistencia de análisis y no como una verificación determinista.",
+      "Autenticar y limitar el tamaño antes de llamar a un proveedor de pago protege el costo y la base de datos al mismo tiempo.",
+      "Montar una app bajo el prefijo de otro dominio exige una sola función de rutas y varios archivos de configuración sincronizados.",
+      "Con carpetas bien separadas, una sola aplicación puede tener landing, frontend y backend sin pagar el costo de tres despliegues.",
     ],
     en: {
       summary:
-        "Next.js security application with OWASP-aligned code analysis, OpenAI chat, and persistent data in Prisma Postgres. Marketing landing in Astro.",
+        "Open-source application security assistant. A signed-in user pastes a code snippet and gets an OWASP-oriented analysis with severity, impact and remediation, or asks a secure-development question in a chat. Everything is stored per user. A single Next.js application with Prisma Postgres, mounted under wavival.dev/nullbreach.",
       imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
       problem:
-        "Reviewing code with OWASP criteria or resolving a specific cybersecurity question means jumping between heavy scanners, scattered documentation, and outdated forums.",
+        "A security finding is of little use if it does not say how serious it is, what its impact is and how to fix it. And a quick question about a code snippet rarely justifies setting up and tuning a rule-based scanner.",
       solution:
-        "An authenticated application for analyzing code snippets with OWASP-aligned guidance and asking the security assistant. Questions, answers, and analyses are stored per user.",
+        "An application with accounts where the user pastes code (up to 20,000 characters) and gets an OWASP-oriented analysis with severity, impact and remediation, or asks a security chat (up to 4,000 characters). Questions and analyses are stored per user, and the code is open source under the MIT license.",
       links: [
         {
           href: "https://www.wavival.dev/nullbreach/",
@@ -1870,98 +1921,147 @@ export const projects: Project[] = [
         },
       ],
       metaDescription:
-        "NullBreach case study: Next.js security application with OpenAI and Prisma Postgres, plus an Astro landing page.",
+        "NullBreach case study: open-source Next.js app with an OWASP-oriented code analyzer and security chat, NextAuth and Prisma Postgres.",
       architecture: [
-        "OpenAI Responses API analyzes code snippets for OWASP-aligned vulnerabilities, severity, impact, and remediation.",
-        "Next.js App Router application combining the interface, authentication, API route handlers, and OpenAI integration.",
-        "OpenAI security chat; questions and answers are stored in each user's history.",
-        "Prisma ORM and Prisma Postgres for users, chat history, and code analyses.",
-        "NextAuth Credentials with JWT sessions in HTTP-only cookies.",
-        "The NullBreach landing remains in Astro; the main application deploys as an independent Next.js project.",
+        "A single Next.js application (App Router, React and TypeScript) with three internal areas that are folders, not packages: the public landing (features/landing), the authenticated frontend (app and components) and the backend (app/api, lib and prisma). The repository has one deployment.",
+        "Mounted under wavival.dev/nullbreach with Vercel Microfrontends: the portfolio is the default application and NullBreach is an independent child project. Next.js rewrites the public prefix and every navigation and API call goes through a single route helper (appPath).",
+        "Analysis and chat run on the server: the client sends the text to a route that requires a session, checks that it is not empty or over the limit (4,000 characters for a question, 20,000 for code, with a 413 above that) and only then calls the OpenAI Responses API. The OpenAI key and the model (an environment variable) live only on the server, in a single module.",
+        "The model instruction asks for practical advice grounded in OWASP; the analysis one asks to explain severity, impact and remediation. The answer is free text, rendered as plain text and not as HTML, and stored with the question or code that was sent.",
+        "Authentication with NextAuth: credentials (email and password with bcrypt, cost 12, 8 to 128 characters) and optional Google OAuth, with JWT sessions in HTTP-only cookies. A Google account is linked by normalized email.",
+        "Password recovery: a random token is generated, only its SHA-256 hash is stored with a one-hour lifetime and a single use, and the link is sent through Brevo. The response does not reveal whether the email exists.",
+        "Prisma ORM on Prisma Postgres with four models: users, chat history (question, answer and model), code analyses and recovery tokens. Deleting a user cascades to their records, and there are indexes by user and date. The on-screen history shows the last ten questions.",
+        "Authorization in two layers: a proxy rejects the private chat, analysis and history routes with a 401 before they run, and each route checks the session again. Response headers restrict framing, type sniffing, referrer leakage and unneeded browser permissions.",
+        "API documentation in docs/api.md, with a Swagger UI and an OpenAPI document served by the application itself, and a health endpoint that checks the database without calling OpenAI.",
+        "Gated delivery: work branches to dev, stg and main, a single path and always through a PR. GitHub Actions builds, applies migrations, deploys, checks health and runs Playwright against the deployment. Staging and production use separate Prisma Postgres databases and secrets, and automatic Git deployments are turned off.",
+        "CI on every PR: lint, formatting, types, Prisma validation, tests with coverage and build, plus commitlint, a high-severity dependency audit and a gitleaks secret scan.",
       ],
       painPoints: [
         {
-          title: "Scanners with a steep curve",
-          text: "Semgrep or SonarQube solve a lot, but setting up and tuning the rules costs time a quick question does not justify.",
+          title: "Findings without remediation",
+          text: "A list of patterns is not enough if it does not explain severity, impact and how to fix the risk.",
         },
         {
-          title: "Scattered answers",
-          text: "Guidance is spread across dense documentation and forums that age badly.",
+          title: "Questions that get lost",
+          text: "A security question answered today is needed again tomorrow, and without history it has to be asked again.",
         },
         {
-          title: "Findings without guidance",
-          text: "A list of patterns is not enough if it does not explain severity, impact, and remediation.",
+          title: "AI that needs judgment",
+          text: "A model's answer can be wrong. It has to be presented as analysis assistance, not as the output of a deterministic scanner.",
         },
       ],
       modules: [
         {
-          name: "OWASP analysis",
-          text: "Submit a snippet to OpenAI for OWASP-aligned findings, impact, and remediation guidance.",
+          name: "Code analysis",
+          text: "Paste a snippet and get OWASP-oriented findings with severity, impact and remediation.",
         },
         {
-          name: "Security chat history",
-          text: "Ask security questions and review the questions and answers saved to your account.",
+          name: "Security chat",
+          text: "Ask about vulnerabilities, controls and secure development and get a practical answer.",
         },
         {
-          name: "Remediation guidance",
-          text: "The analysis explains severity and impact and suggests how to fix identified risks.",
+          name: "History",
+          text: "The last ten chat questions stay in view, saved to your account.",
         },
         {
-          name: "Open source",
-          text: "The application source is open at github.com/wavival/nullbreach.",
+          name: "Account",
+          text: "Sign-up with email and password, Google sign-in and password recovery by email.",
         },
+        {
+          name: "Bilingual landing",
+          text: "Public page in Spanish and English, indexable, with the private routes kept out of the index.",
+        },
+        {
+          name: "Documented API",
+          text: "Reference in docs/api.md, Swagger UI, an OpenAPI document and a health endpoint.",
+        },
+      ],
+      chainStepsTitle: "From snippet to finding",
+      chainSteps: [
+        "The user pastes a code snippet into the analyzer.",
+        "The proxy and the route check the session, that the text is not empty and that it is under 20,000 characters.",
+        "The server calls the OpenAI Responses API with instructions to analyze the code against OWASP and explain severity, impact and remediation.",
+        "The answer is stored as the user's analysis and returned to be shown as text.",
       ],
       decisions: [
         {
-          title: "OpenAI for OWASP-aligned analysis",
+          title: "One application with three internal areas",
           context:
-            "Manual code review requires security knowledge and time to explain impact and remediation.",
+            "The product needs a public landing, an authenticated frontend and a backend with a database and an AI provider.",
           tradeoff:
-            "Model responses can be wrong and should not be presented as deterministic scanner results.",
+            "Splitting them into three deployments adds contracts and operations a one-person project does not need yet. With folders, the boundaries depend on discipline and not on the compiler.",
           decision:
-            "OpenAI Responses API receives code with OWASP-aligned analysis instructions and explains severity, impact, and remediation.",
+            "A single Next.js deployment with the landing, frontend and backend in separate folders, ready to be extracted into packages without changing the public path.",
         },
         {
-          title: "Per-user chat history",
+          title: "Mounted under wavival.dev with Microfrontends",
           context:
-            "Questions and answers need to be associated with the account that submitted them.",
-          tradeoff: "Without persistence, users would lose the record of their previous questions.",
-          decision:
-            "NextAuth Credentials with JWT sessions and Prisma Postgres to store users, conversations, and analyses.",
-        },
-        {
-          title: "NextAuth for per-user sessions",
-          context: "Sessions need to associate each person's history with their account securely.",
-          tradeoff: "Sessions must protect access and keep each account's history separate.",
-          decision:
-            "NextAuth Credentials uses JWT sessions in HTTP-only cookies to protect access to the application.",
-        },
-        {
-          title: "Next.js for the application",
-          context:
-            "The application needs an authenticated interface, chat, code analysis, and API routes.",
-          tradeoff: "Separating frontend and backend adds deployments and service contracts.",
-          decision:
-            "Next.js App Router combines the interface, authentication, and API routes; Astro remains for the landing page.",
-        },
-        {
-          title: "Prisma Postgres for persistence",
-          context: "Users, chats, and analyses need managed relational persistence.",
+            "The app has to live on the portfolio's domain without tying its deployment cycle to it.",
           tradeoff:
-            "Keeping data access separate from interface routes helps manage the data model and migrations.",
+            "The /nullbreach prefix forces microfrontends.json, the rewrites, the NextAuth basePath and every link and API call to stay in sync.",
           decision:
-            "Prisma ORM on Prisma Postgres models and persists users, chat history, and code analyses.",
+            "Vercel Microfrontends routes /nullbreach to the independent project, and a single route helper (appPath) builds every browser URL.",
         },
+        {
+          title: "A language model as assistance, in one module",
+          context:
+            "Reviewing code by hand takes security knowledge and time to explain impact and fixes.",
+          tradeoff:
+            "The answer is free text and can be wrong: it is not scanner output and does not replace an expert review.",
+          decision:
+            "A single server module calls the OpenAI Responses API with OWASP-based instructions. The key never reaches the browser and size limits apply before the call and before storing.",
+        },
+        {
+          title: "NextAuth with credentials and Google",
+          context: "Each person should see only their own history and analyses.",
+          tradeoff:
+            "JWT sessions hold no state on the server, and linking Google by email means trusting the email Google verified.",
+          decision:
+            "Credentials with bcrypt and optional Google OAuth, with a JWT session in an HTTP-only cookie. Data is always queried by the session user's id.",
+        },
+        {
+          title: "Password recovery with a single-use token",
+          context:
+            "Someone who forgets their password needs to recover it without the response revealing which emails have an account.",
+          tradeoff:
+            "It depends on an external email provider, and without it configured the link is only printed in development.",
+          decision:
+            "A random 32-byte token, only its SHA-256 hash stored, one hour of validity, a single use and the same response whether or not the account exists.",
+        },
+        {
+          title: "Authorization in two layers",
+          context: "The chat and analysis routes call a paid provider and write to the database.",
+          tradeoff:
+            "Checking the session twice repeats a line in every route, but a change in the proxy does not leave a route open.",
+          decision:
+            "A proxy answers 401 to the private routes before they run and each route repeats the check.",
+        },
+        {
+          title: "A single gated delivery path",
+          context:
+            "An application with AI keys and a database should not reach production without passing through staging.",
+          tradeoff:
+            "Promotion PRs and deployed checks add steps, and the staging and production databases are kept apart.",
+          decision:
+            "Work branches to dev, stg and main, always through a PR. GitHub Actions builds, migrates, deploys, checks health and runs Playwright. Automatic Git deployments are off.",
+        },
+      ],
+      design: [
+        "Terminal interface: panels with prompt commands like $ nullbreach scan ./src and monospaced type.",
+        "Landing with a single h1, ordered headings, navigation landmarks, a skip link and visible keyboard focus, with animations that respect prefers-reduced-motion.",
+        "Spanish and English routes with a canonical URL and language alternates. The sitemap lists only the two landings, and robots and metadata keep the API, sign-in and private area out.",
+        "Model answers are shown as text with line breaks, not as HTML, and errors use role alert with messages that do not reveal internal details.",
       ],
       results: [
-        "OpenAI Responses API analyzes code snippets for OWASP-aligned findings, severity, impact, and remediation guidance.",
-        "Chat questions and answers are stored in Prisma Postgres as user-specific history.",
-        "NextAuth credentials authentication with JWT sessions and Prisma Postgres persistence in a single Next.js application.",
+        "Chat and code analysis through the OpenAI Responses API, with limits of 4,000 and 20,000 characters applied before the model is called.",
+        "Questions, answers and analyses stored per user in Prisma Postgres, with the chat history visible on screen.",
+        "Open source under the MIT license, an API reference with Swagger UI and OpenAPI, and a health endpoint.",
+        "Delivery with separate staging and production, migrations applied at deploy time and E2E tests against what was deployed.",
       ],
       learnings: [
-        "Using a language model to review code means presenting its findings as analysis assistance rather than deterministic verification.",
-        "Combining the interface, authentication, and API route handlers in Next.js keeps the application boundary and deployment straightforward.",
-        "Security analysis with a language model requires clear instructions about the OWASP framework, severity, impact, and the recommendations it should include.",
+        "A language model that reviews code should be presented as analysis assistance, not as deterministic verification.",
+        "Authenticating and limiting size before calling a paid provider protects cost and the database at the same time.",
+        "Mounting an app under another domain's prefix takes a single route helper and several configuration files kept in sync.",
+        "With well-separated folders, a single application can hold a landing, a frontend and a backend without paying for three deployments.",
       ],
     },
   },
