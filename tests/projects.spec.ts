@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { caseStudies } from "../src/data/projects";
 
 test.describe("projects index filters", () => {
   test("filtering narrows the grid and updates aria-pressed", async ({ page }) => {
@@ -66,5 +67,22 @@ test.describe("projects index filters", () => {
     await expect(disclosure).not.toHaveAttribute("open", "");
 
     await expect(page.locator("[data-learnings-cards] > article")).toHaveCount(6);
+  });
+
+  test("design links point to Netlify prototypes and only wavival.dev has a design system", async ({
+    page,
+  }) => {
+    for (const project of caseStudies) {
+      if (project.designLink) {
+        expect(project.designLink.href).toMatch(/^https:\/\/[a-z-]+-prototype\.netlify\.app\/$/);
+      }
+      await page.goto(`/proyectos/${project.slug}`);
+      await expect(page.locator('a:has-text("Ver sistema de diseño")')).toHaveCount(
+        project.slug === "wavival-dev" ? 1 : 0
+      );
+    }
+
+    await page.goto("/proyectos/wavival-dev");
+    await expect(page.locator('a:has-text("Ver sitio")')).toHaveCount(0);
   });
 });

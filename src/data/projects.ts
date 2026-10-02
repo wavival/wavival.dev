@@ -109,8 +109,6 @@ export interface Project {
   en?: ProjectEn;
 }
 
-const DESIGN_PLACEHOLDER_URL = "https://www.figma.com/";
-
 export const projects: Project[] = [
   {
     title: "TerraCore PWA",
@@ -167,7 +165,7 @@ export const projects: Project[] = [
       },
     ],
     designLink: {
-      href: "https://terracore-prototype.netlify.app/",
+      href: "https://terracore-pwa-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de TerraCore",
     },
@@ -385,7 +383,7 @@ export const projects: Project[] = [
         },
       ],
       designLink: {
-        href: "https://terracore-prototype.netlify.app/",
+        href: "https://terracore-pwa-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View TerraCore design",
       },
@@ -716,7 +714,7 @@ export const projects: Project[] = [
       },
     ],
     designLink: {
-      href: DESIGN_PLACEHOLDER_URL,
+      href: "https://terracore-landing-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de TerraCore Landing",
     },
@@ -735,7 +733,7 @@ export const projects: Project[] = [
         },
       ],
       designLink: {
-        href: DESIGN_PLACEHOLDER_URL,
+        href: "https://terracore-landing-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View TerraCore Landing design",
       },
@@ -870,7 +868,7 @@ export const projects: Project[] = [
       },
     ],
     designLink: {
-      href: DESIGN_PLACEHOLDER_URL,
+      href: "https://okroot-pwa-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de OKroot",
     },
@@ -976,7 +974,7 @@ export const projects: Project[] = [
         },
       ],
       designLink: {
-        href: DESIGN_PLACEHOLDER_URL,
+        href: "https://okroot-pwa-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View OKroot design",
       },
@@ -1118,7 +1116,7 @@ export const projects: Project[] = [
       },
     ],
     designLink: {
-      href: DESIGN_PLACEHOLDER_URL,
+      href: "https://okroot-landing-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de OKroot Landing",
     },
@@ -1136,7 +1134,7 @@ export const projects: Project[] = [
         },
       ],
       designLink: {
-        href: DESIGN_PLACEHOLDER_URL,
+        href: "https://okroot-landing-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View OKroot Landing design",
       },
@@ -1499,7 +1497,7 @@ export const projects: Project[] = [
       "Caso de estudio de Lúmina W: landing completa con Astro, Tailwind CSS y Supabase. SEO técnico, formulario de contacto y deploy continuo en Vercel.",
     links: [{ href: "https://luminaw.co", text: "Ver sitio", ariaLabel: "Ver sitio de Lúmina W" }],
     designLink: {
-      href: DESIGN_PLACEHOLDER_URL,
+      href: "https://luminaw-landing-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de Lúmina W",
     },
@@ -1511,7 +1509,7 @@ export const projects: Project[] = [
         "I designed and implemented the complete Lumina W landing: Astro architecture, Tailwind CSS styling, Supabase-backed contact form, full technical SEO, and continuous deployment.",
       links: [{ href: "https://luminaw.co", text: "Visit site", ariaLabel: "Visit Lumina W" }],
       designLink: {
-        href: DESIGN_PLACEHOLDER_URL,
+        href: "https://luminaw-landing-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View Lumina W design",
       },
@@ -1612,7 +1610,7 @@ export const projects: Project[] = [
       },
     ],
     designLink: {
-      href: DESIGN_PLACEHOLDER_URL,
+      href: "https://blog-w-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de Blog Lúmina W",
     },
@@ -1631,7 +1629,7 @@ export const projects: Project[] = [
         },
       ],
       designLink: {
-        href: DESIGN_PLACEHOLDER_URL,
+        href: "https://blog-w-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View Lumina W Blog design",
       },
