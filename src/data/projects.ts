@@ -1630,6 +1630,290 @@ export const projects: Project[] = [
     },
   },
   {
+    title: "wavival.dev",
+    slug: "wavival-dev",
+    datePublished: "2026-10-01",
+    dateModified: "2026-10-02",
+    tag: "Live",
+    tagColor: "green",
+    image: "images/og-wavival-dev.webp",
+    imageAlt:
+      "Página de herramientas de wavival.dev en tema oscuro: encabezado, título editorial en Raleway, regla de 1px e índice numerado",
+    imageWidth: 1200,
+    imageHeight: 630,
+    stack: ["Astro", "TypeScript", "Tailwind CSS", "Vercel", "Playwright"],
+    filters: ["design"],
+    summary:
+      "Este portfolio como caso de diseño: el sistema Señal v4, editorial y estático, con reglas en lugar de cajas, una sola señal azul y contraste AA en ambos temas. Bilingüe, sobre Astro y Tailwind, diseñado en Claude Design.",
+    problem:
+      "Un portafolio de desarrolladora suele terminar como plantilla: tarjetas con sombra, acentos de color que no pasan contraste, animación que compite con el contenido y un diseño que en el código ya no se parece al prototipo. Necesitaba un sitio que fuera en sí mismo la prueba de mi criterio técnico y de diseño: rápido, accesible, bilingüe y con una identidad reconocible.",
+    solution:
+      "wavival.dev es mi portafolio y también un caso de diseño. El sistema se llama Señal v4: la página se lee como un índice editorial, con reglas de 1px en lugar de cajas, titulares grandes en Raleway 800, índices numerados y una sola señal azul sobre un campo tranquilo. Nació en Claude Design como prototipo y sistema de diseño, y se llevó al código con paridad de tokens. Es bilingüe (español en la raíz, inglés bajo /en), estático y oscuro por defecto.",
+    painPoints: [
+      {
+        title: "Plantilla genérica",
+        text: "Tarjetas con sombra y radios por todas partes: se ve como cualquier otro portafolio.",
+      },
+      {
+        title: "Contraste frágil",
+        text: "El azul de acento anterior solo llegaba a 3,24:1 con texto blanco, por debajo de AA.",
+      },
+      {
+        title: "Decoración sobre contenido",
+        text: "Animación al hacer scroll e iconos en cada enlace compiten con lo que importa.",
+      },
+      {
+        title: "Prototipo y código distintos",
+        text: "El diseño dice una cosa y el sitio publicado otra, porque nada obliga a mantenerlos iguales.",
+      },
+    ],
+    architecture: [
+      "Astro 7 con salida estática y TypeScript. Tailwind 3 mapeado a tokens CSS, y scripts de cliente en TypeScript vanilla solo para el tema, el menú móvil y los filtros de proyectos.",
+      "Estructura atómica (átomos, moléculas, organismos y una plantilla única). Los organismos reciben el idioma y las rutas localizadas salen de una sola función.",
+      "i18n propio: español en la raíz e inglés bajo /en, con el mapa de slugs como única fuente de verdad para el selector de idioma, el sitemap y los hreflang.",
+      "Contenido tipado (proyectos y stack) con campos paralelos para inglés. Todos los casos de estudio se generan desde un solo arreglo.",
+      "SEO y descubrimiento: JSON-LD con Person, Organization y WebSite, OpenGraph por proyecto, sitemap con alternates recíprocos y llms.txt para asistentes de IA.",
+      "Rendimiento: fuentes autohospedadas en subconjunto latino, precarga de la imagen LCP solo donde se usa y View Transitions entre rutas. Core Web Vitals se reportan a Umami cuando hay configuración.",
+      "Seguridad de cabeceras: CSP por hashes, sin unsafe-inline en scripts, con una guardia en CI que recalcula los hashes de cada script inline.",
+      "Despliegue en Vercel con microfrontends (el portafolio y NullBreach comparten dominio) y una única función serverless para el formulario de cotización, que envía por Brevo.",
+      "Flujo dev, stg y main con commitlint, pruebas E2E con Playwright, Lighthouse CI y verificación de enlaces como puertas de calidad.",
+    ],
+    links: [
+      {
+        href: "https://www.wavival.dev",
+        text: "Ver sitio",
+        ariaLabel: "Ver sitio wavival.dev",
+      },
+    ],
+    designLink: {
+      href: "https://wavival-prototype.netlify.app/",
+      text: "Ver diseño",
+      ariaLabel: "Ver diseño de wavival.dev",
+    },
+    caseStudy: true,
+    schemaType: "WebSite",
+    metaDescription:
+      "Caso de estudio de wavival.dev: el portfolio como diseño. Sistema Señal v4, editorial y estático, bilingüe, con contraste AA. Astro, Tailwind y Vercel.",
+    design: [
+      'Concepto "Señal": la página se lee como un índice editorial, con una señal azul sobre un campo tranquilo.',
+      "Diseñado en Claude Design (proyecto wavival-dev-v4), con un prototipo navegable y un sistema de diseño propio. El sitio replica el prototipo token a token.",
+      "Reglas, no cajas: la estructura sale de líneas de 1px. No hay sombras, las superficies tienen radio 0 y los controles 2px.",
+      "Una sola señal azul con roles separados: un azul para texto, íconos y foco; otro para rellenos y texto grande; otro para los índices; y otro para el botón primario. Cada uno pasa contraste en su uso.",
+      "Escala editorial: Raleway 800 en tamaños fluidos con interlineado de 0,9 a 1 en titulares y tracking negativo; Poppins para el cuerpo. Ambas autohospedadas.",
+      "Índices numerados (01, 02) como guía de lectura, y cada sección abre con una regla de 1px.",
+      "Una columna al ancho completo del contenedor (1280px), con el ritmo vertical definido por tokens de espacio.",
+      "Íconos solo donde funcionan: en los botones de solo ícono y en el botón primario. Los enlaces y botones de texto no llevan flechas.",
+      'El estado se dice con texto: el acordeón es un details nativo que muestra "Ver" y "Cerrar" en lugar de un chevron.',
+      "Oscuro por defecto y alternable. Un script previo al primer pintado aplica el tema sin parpadeo, el tema va por clase y no por media query, y el color del navegador se sincroniza.",
+      "La accesibilidad como restricción de diseño: foco visible de 2px, contraste AA calculado por token en ambos temas, objetivos táctiles de 44px, menú móvil con foco atrapado y respeto de prefers-reduced-motion.",
+      "Movimiento mínimo y funcional: sin animación al hacer scroll, solo transiciones cortas, View Transitions entre rutas y un acordeón de 220ms.",
+      "El sistema está documentado: tokens, clases de componente y catálogo viven en DESIGN.md y COMPONENTS.md.",
+    ],
+    decisions: [
+      {
+        title: "Reglas en lugar de cajas",
+        context:
+          "Las tarjetas con sombra y radio son el patrón por defecto de casi cualquier portafolio.",
+        tradeoff:
+          "Sin sombras ni radios, la jerarquía depende de la tipografía y el espacio, y exige más cuidado.",
+        decision:
+          "Estructura con líneas de 1px, superficies con radio 0 y listas dibujadas con bordes. La jerarquía la llevan la escala y los índices.",
+      },
+      {
+        title: "Una señal azul, cuatro roles",
+        context:
+          "El acento anterior solo alcanzaba 3,24:1 con texto blanco y un mismo azul no pasa contraste en texto pequeño y en rellenos a la vez.",
+        tradeoff:
+          "Cuatro tokens de azul son más para mantener que uno, pero un solo azul obliga a ceder contraste o presencia.",
+        decision:
+          "Un azul por rol (texto y foco, rellenos y texto grande, índices, botón primario). El relleno del botón es igual en ambos temas para que el texto blanco se mantenga sobre 4,5:1.",
+      },
+      {
+        title: "Escala editorial con tipografía autohospedada",
+        context:
+          "La identidad del sitio depende de titulares grandes y compactos, y de que carguen sin saltos.",
+        tradeoff:
+          "Autohospedar exige generar los subconjuntos y precargar; una fuente de terceros es más simple pero añade una petición y un punto de falla.",
+        decision:
+          "Raleway variable (600 a 800) y Poppins estática en subconjunto latino y woff2, con font-display swap y precarga solo de los pesos críticos.",
+      },
+      {
+        title: "Estático y sin animación de scroll",
+        context:
+          "Una animación que oculta contenido hasta que aparece compite con la lectura y con el rendimiento.",
+        tradeoff:
+          "Un sitio estático se siente menos espectacular, pero el diseño se apoya en la tipografía y el ritmo.",
+        decision:
+          "Sin scroll reveal ni librería de animación. Acordeón nativo con el estado en texto y solo transiciones cortas, todas desactivadas con prefers-reduced-motion.",
+      },
+      {
+        title: "Oscuro por defecto, por clase",
+        context:
+          "Seguir la preferencia del sistema deja el diseño en manos del dispositivo, y cambiar el tema tras el primer pintado produce un parpadeo.",
+        tradeoff:
+          "Fijar el oscuro como inicio ignora la preferencia del sistema, y un script inline obliga a mantener el CSP por hashes.",
+        decision:
+          "Un script síncrono al inicio del head aplica la clase dark antes de cargar los estilos, salvo que el usuario haya guardado el tema claro. El CSP incluye el hash de ese script.",
+      },
+      {
+        title: "Español en la raíz, inglés bajo /en",
+        context:
+          "El sitio atiende a clientes en español y en inglés, y cada página necesita su equivalente.",
+        tradeoff:
+          "Slugs traducidos mejoran el SEO local pero obligan a mantener el mapeo entre idiomas.",
+        decision:
+          "Slugs en español en la raíz y en inglés bajo /en, con un único mapa que alimenta el selector de idioma, el sitemap y los hreflang.",
+      },
+    ],
+    results: [
+      "Sitio bilingüe en producción en www.wavival.dev, con 34 páginas estáticas entre español e inglés.",
+      "Diseño implementado con paridad respecto al prototipo de Claude Design.",
+      "Puertas de calidad en cada cambio: pruebas E2E con Playwright, Lighthouse CI (accesibilidad y SEO con mínimo 0,9), verificación de enlaces rotos, de hashes CSP y de clases CSS.",
+    ],
+    learnings: [
+      "Un sistema de diseño solo vale si se traduce a tokens: cada color y tamaño vive como variable CSS y los componentes no llevan valores sueltos.",
+      "El contraste se decide en el token: el acento anterior (3,24:1) obligó a separar un azul por rol.",
+      "Tailwind purga las clases construidas por fragmentos (btn-${variant}). Los componentes deben usar nombres de clase completos.",
+      "Un backdrop-filter convierte al elemento en contenedor de sus hijos fixed: el menú móvil tuvo que ser hermano del header y no hijo.",
+      "Un componente con el mismo nombre que una utilidad de Tailwind arrastra sus estilos donde se use la utilidad: .text-link pasó a llamarse .action-link.",
+    ],
+    en: {
+      summary:
+        "This portfolio as a design case: the Señal v4 system, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
+      imageAlt:
+        "wavival.dev tools page in dark theme: header, editorial Raleway title, a 1px rule, and a numbered index",
+      problem:
+        "A developer portfolio often ends up as a template: shadow cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
+      solution:
+        "wavival.dev is my portfolio and also a design case. The system is called Señal v4: the page reads like an editorial index, with 1px rules instead of boxes, large Raleway 800 headlines, numbered indexes, and a single blue signal on a quiet field. It started in Claude Design as a prototype and design system, and was brought to code with token parity. It is bilingual (Spanish at the root, English under /en), static, and dark by default.",
+      links: [
+        {
+          href: "https://www.wavival.dev",
+          text: "View site",
+          ariaLabel: "View wavival.dev site",
+        },
+      ],
+      designLink: {
+        href: "https://wavival-prototype.netlify.app/",
+        text: "View design",
+        ariaLabel: "View wavival.dev design",
+      },
+      metaDescription:
+        "wavival.dev case study: the portfolio as design. Señal v4 system, editorial and static, bilingual, with AA contrast. Built with Astro, Tailwind, and Vercel.",
+      painPoints: [
+        {
+          title: "Generic template",
+          text: "Shadow cards and radii everywhere: it looks like any other portfolio.",
+        },
+        {
+          title: "Fragile contrast",
+          text: "The previous accent blue only reached 3.24:1 with white text, below AA.",
+        },
+        {
+          title: "Decoration over content",
+          text: "Scroll animation and icons on every link compete with what matters.",
+        },
+        {
+          title: "Prototype and code drift apart",
+          text: "The design says one thing and the published site another, because nothing forces them to stay equal.",
+        },
+      ],
+      architecture: [
+        "Astro 7 with static output and TypeScript. Tailwind 3 mapped to CSS tokens, and client scripts in vanilla TypeScript only for the theme, the mobile menu, and the project filters.",
+        "Atomic structure (atoms, molecules, organisms, and a single template). Organisms receive the language and localized routes come from a single function.",
+        "Own i18n: Spanish at the root and English under /en, with the slug map as the single source of truth for the language toggle, the sitemap, and hreflang.",
+        "Typed content (projects and stack) with parallel English fields. Every case study is generated from a single array.",
+        "SEO and discovery: JSON-LD with Person, Organization, and WebSite, per-project OpenGraph, a sitemap with reciprocal alternates, and llms.txt for AI assistants.",
+        "Performance: self-hosted fonts in a Latin subset, LCP image preload only where it is used, and View Transitions between routes. Core Web Vitals are reported to Umami when configured.",
+        "Header security: hash-based CSP, no unsafe-inline on scripts, with a CI guard that recomputes the hash of every inline script.",
+        "Deployment on Vercel with microfrontends (the portfolio and NullBreach share a domain) and a single serverless function for the quote form, which sends through Brevo.",
+        "A dev, stg, and main flow with commitlint, Playwright E2E tests, Lighthouse CI, and link checking as quality gates.",
+      ],
+      design: [
+        'Concept "Señal": the page reads like an editorial index, with one blue signal on a quiet field.',
+        "Designed in Claude Design (project wavival-dev-v4), with a clickable prototype and its own design system. The site replicates the prototype token by token.",
+        "Rules, not boxes: structure comes from 1px lines. There are no shadows, surfaces have radius 0, and controls have 2px.",
+        "A single blue signal with separate roles: one blue for text, icons, and focus; another for fills and large text; another for the indexes; and another for the primary button. Each one passes contrast in its use.",
+        "Editorial scale: Raleway 800 in fluid sizes with 0.9 to 1 line height on headlines and negative tracking; Poppins for body. Both self-hosted.",
+        "Numbered indexes (01, 02) as a reading guide, and every section opens with a 1px rule.",
+        "A single column at the full container width (1280px), with vertical rhythm defined by spacing tokens.",
+        "Icons only where they work: on icon-only buttons and on the primary button. Text links and buttons carry no arrows.",
+        'State is told with text: the accordion is a native details element that shows "View" and "Close" instead of a chevron.',
+        "Dark by default and toggleable. A script before first paint applies the theme without flicker, the theme is class-based and not a media query, and the browser color stays in sync.",
+        "Accessibility as a design constraint: 2px visible focus, AA contrast computed per token in both themes, 44px touch targets, a mobile menu with trapped focus, and respect for prefers-reduced-motion.",
+        "Minimal, functional motion: no scroll animation, only short transitions, View Transitions between routes, and a 220ms accordion.",
+        "The system is documented: tokens, component classes, and the catalog live in DESIGN.md and COMPONENTS.md.",
+      ],
+      decisions: [
+        {
+          title: "Rules instead of boxes",
+          context: "Shadow and radius cards are the default pattern of almost any portfolio.",
+          tradeoff:
+            "Without shadows or radii, hierarchy depends on typography and space, and demands more care.",
+          decision:
+            "Structure with 1px lines, radius-0 surfaces, and lists drawn with borders. Hierarchy comes from the scale and the indexes.",
+        },
+        {
+          title: "One blue signal, four roles",
+          context:
+            "The previous accent only reached 3.24:1 with white text, and a single blue cannot pass contrast for small text and for fills at once.",
+          tradeoff:
+            "Four blue tokens are more to maintain than one, but a single blue forces you to give up contrast or presence.",
+          decision:
+            "One blue per role (text and focus, fills and large text, indexes, primary button). The button fill is the same in both themes so white text stays above 4.5:1.",
+        },
+        {
+          title: "Editorial scale with self-hosted type",
+          context:
+            "The site identity depends on large, tight headlines that load without layout jumps.",
+          tradeoff:
+            "Self-hosting requires generating the subsets and preloading; a third-party font is simpler but adds a request and a point of failure.",
+          decision:
+            "Variable Raleway (600 to 800) and static Poppins in Latin subset and woff2, with font-display swap and preload only for the critical weights.",
+        },
+        {
+          title: "Static, with no scroll animation",
+          context:
+            "An animation that hides content until it appears competes with reading and with performance.",
+          tradeoff:
+            "A static site feels less spectacular, but the design leans on typography and rhythm.",
+          decision:
+            "No scroll reveal and no animation library. A native accordion with state in text and only short transitions, all disabled with prefers-reduced-motion.",
+        },
+        {
+          title: "Dark by default, by class",
+          context:
+            "Following the system preference leaves the design to the device, and switching theme after first paint causes a flicker.",
+          tradeoff:
+            "Fixing dark as the start ignores the system preference, and an inline script forces the CSP to stay hash-based.",
+          decision:
+            "A synchronous script at the top of the head applies the dark class before styles load, unless the user saved the light theme. The CSP includes that script's hash.",
+        },
+        {
+          title: "Spanish at the root, English under /en",
+          context:
+            "The site serves clients in Spanish and English, and each page needs its equivalent.",
+          tradeoff:
+            "Translated slugs improve local SEO but require maintaining the mapping between languages.",
+          decision:
+            "Spanish slugs at the root and English slugs under /en, with a single map feeding the language toggle, the sitemap, and hreflang.",
+        },
+      ],
+      results: [
+        "Bilingual site in production at www.wavival.dev, with 34 static pages across Spanish and English.",
+        "Design implemented with parity to the Claude Design prototype.",
+        "Quality gates on every change: Playwright E2E tests, Lighthouse CI (accessibility and SEO with a 0.9 minimum), and checks for broken links, CSP hashes, and CSS classes.",
+      ],
+      learnings: [
+        "A design system is only worth something if it becomes tokens: every color and size lives as a CSS variable and components carry no loose values.",
+        "Contrast is decided in the token: the previous accent (3.24:1) forced separating one blue per role.",
+        "Tailwind purges classes built from fragments (btn-${variant}). Components must use complete class names.",
+        "A backdrop-filter makes the element the container of its fixed children: the mobile menu had to be a sibling of the header and not a child.",
+        "A component named like a Tailwind utility inherits its styles wherever the utility is used: .text-link became .action-link.",
+      ],
+    },
+  },
+  {
     title: "Forgotten Portal",
     slug: "forgotten-portal",
     datePublished: "2026-06-16",

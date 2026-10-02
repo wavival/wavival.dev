@@ -157,7 +157,7 @@ Path: `src/data/projects.ts`. Exports the `projects: Project[]` array plus the `
 - `schemaType?: "SoftwareApplication" | "WebSite" | "CreativeWork"` (drives the case-study JSON-LD)
 - `en?: ProjectEn` (English overrides: `imageAlt`, `tag`, `problem`, `solution`, `links`, `designLink`, plus the optional case-study fields). `projectView()` (below) and the case-study pages read `p.en?.<field> ?? p.<field>` when `isEn`.
 
-Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **OKroot PWA** (`okroot`, SoftwareApplication), **OKroot Landing** (`okroot-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set on the home (`FeaturedProjects`): `terracore`, `okroot`, `nullbreach`.
+Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **OKroot PWA** (`okroot`, SoftwareApplication), **OKroot Landing** (`okroot-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **wavival.dev** (`wavival-dev`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set on the home (`FeaturedProjects`): `terracore`, `okroot`, `nullbreach`.
 
 ### `projectView.ts`
 

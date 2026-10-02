@@ -58,6 +58,14 @@ Blog PWA migrated to Next.js, publishing technical content about web development
 
 Case study: https://www.wavival.dev/proyectos/blog-lumina-w · Live: https://blog.luminaw.co
 
+## wavival.dev (case study)
+
+This portfolio as a design case. The system is called Señal v4: the page reads like an editorial index, with 1px rules instead of boxes, Raleway 800 display type, numbered indexes, and a single blue signal on a quiet field. It was designed in Claude Design (prototype and design system) and brought to code with token parity. Design decisions: rules instead of boxes, one blue per role to pass contrast, self-hosted editorial type, a static site with no scroll animation, dark by default through a class, and Spanish at the root with English under /en. Accessibility is a design constraint: 2px visible focus, AA contrast per token in both themes, 44px touch targets, and prefers-reduced-motion support.
+
+Stack: Astro, TypeScript, Tailwind CSS, Vercel, Playwright.
+
+Case study: https://www.wavival.dev/proyectos/wavival-dev · Live: https://www.wavival.dev
+
 ## Forgotten Portal (pentesting writeup)
 
 A full offensive pentest exercise over DockerLabs: recon, a PHP upload exploit, a reverse shell, and privilege escalation to root. Documented with PTES methodology, CWE-classified vulnerabilities, and TTPs mapped to MITRE ATT&CK.
