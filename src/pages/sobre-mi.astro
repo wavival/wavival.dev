@@ -76,17 +76,18 @@ const breadcrumbLd = JSON.stringify({
       <div class="flex min-w-0 flex-[1_1_480px] flex-col gap-7">
         <p
           class="h-title m-0"
-          style="font-size:clamp(24px,2.6vw,36px);line-height:1.2;text-wrap:pretty"
+          style="font-size:clamp(24px,2.6vw,36px);line-height:1.2;letter-spacing:-0.02em;text-wrap:pretty"
         >
           Soy Valentina Ramírez. Construyo productos de principio a fin, del modelo de datos a la
           interfaz que la gente usa, y fundé <span class="accent">Lúmina W</span> para hacerlo con criterio
           propio.
         </p>
         <ChipList
+          loose
           label="Áreas de foco"
           items={["Django · DRF", "React · TypeScript", "Next.js", "PostgreSQL", "IA", "Seguridad"]}
         />
-        <p class="body-lg m-0 max-w-[640px]" style="text-wrap:pretty">
+        <p class="m-0 max-w-[640px] text-[17px] leading-[1.75] text-muted [text-wrap:pretty]">
           Llegué al código sin un camino trazado y lo aprendí a fuerza de construir. Esa ruta
           autodidacta me dejó una forma de trabajar concreta: no me conformo con que algo funcione,
           necesito entender por qué funciona. Es la diferencia entre copiar una solución y poder
@@ -109,7 +110,7 @@ const breadcrumbLd = JSON.stringify({
 
     <dl
       aria-label="En resumen"
-      class="section-gap m-0 grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] border-t border-ink border-b border-b-line"
+      class="section-gap grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] border-t border-ink border-b border-b-line"
     >
       {
         summary.map((s) => (
@@ -132,10 +133,8 @@ const breadcrumbLd = JSON.stringify({
         method.map((m, i) => (
           <div class="px-7 py-8">
             <span class="index">{String(i + 1).padStart(2, "0")}</span>
-            <h3 class="h3-project m-0 mt-4">{m.title}</h3>
-            <p class="body m-0 mt-3" style="text-wrap:pretty">
-              {m.body}
-            </p>
+            <h3 class="h-title m-0 mt-4 text-2xl leading-[1.15]">{m.title}</h3>
+            <p class="m-0 mt-3 text-[15px] leading-[1.7] text-muted [text-wrap:pretty]">{m.body}</p>
           </div>
         ))
       }
@@ -145,8 +144,8 @@ const breadcrumbLd = JSON.stringify({
       class="section-gap flex flex-wrap items-end gap-x-16 gap-y-6 border border-line bg-surface p-[clamp(32px,4vw,64px)]"
     >
       <div class="flex-[1_1_480px]">
-        <h2 class="h2-section m-0" style="font-size:clamp(32px,4vw,56px)">Qué construyo</h2>
-        <p class="body-lg m-0 mt-5 max-w-[760px]" style="text-wrap:pretty">
+        <h2 class="h2-sub m-0">Qué construyo</h2>
+        <p class="body-md m-0 mt-5 max-w-[760px]">
           Aplicaciones reales, no demos: sistemas multiusuario con lógica de negocio compleja, APIs
           propias y productos que viven en producción. Desde un SaaS agroindustrial offline-first
           hasta análisis de código con criterio OWASP, me interesa el software que resuelve un
@@ -163,7 +162,7 @@ const breadcrumbLd = JSON.stringify({
       class="section-gap grid grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))] gap-x-12 gap-y-12"
     >
       <div>
-        <h3 class="h3-project m-0 mb-2" style="font-size:28px">Formación en paralelo</h3>
+        <h3 class="h-title m-0 mb-2 text-[28px] tracking-[-0.02em]">Formación en paralelo</h3>
         {
           education.map((e) => (
             <div class="flex justify-between gap-4 border-b border-line py-[18px]">
@@ -189,14 +188,15 @@ const breadcrumbLd = JSON.stringify({
         </div>
       </div>
       <div>
-        <h3 class="h3-project m-0 mb-5" style="font-size:28px">Fuera del código</h3>
-        <p class="body m-0" style="text-wrap:pretty">
+        <h3 class="h-title m-0 mb-5 text-[28px] tracking-[-0.02em]">Fuera del código</h3>
+        <p class="body m-0 [text-wrap:pretty]">
           Lo que más disfruto también me enseña a trabajar: la batería me dio estructura y ritmo, la
           cocina me enseñó a seguir un proceso y a improvisar cuando hace falta, y la música y la
           lectura me mantienen la curiosidad encendida. Aprender no se apaga cuando cierro el
           portátil: es la forma en que vivo dentro y fuera del código.
         </p>
         <ChipList
+          loose
           class="mt-5"
           label="Intereses fuera del código"
           items={["Batería", "Cocina", "Música", "Lectura"]}

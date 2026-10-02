@@ -1,7 +1,6 @@
 ---
 import Button from "@/components/atoms/Button.astro";
 import StatusDot from "@/components/atoms/StatusDot.astro";
-import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
 import Metric from "@/components/molecules/Metric.astro";
@@ -121,15 +120,12 @@ const externalActions = view.actions.filter((a) => a.external);
         {view.tag}
       </StatusDot>
     </div>
-    <h1
-      class="h-title m-0"
-      style="margin-top:clamp(32px,4vw,56px);font-size:var(--fs-display-case);line-height:0.92;letter-spacing:-0.045em;text-wrap:pretty"
-    >
+    <h1 class="display-case m-0 [text-wrap:pretty]" style="margin-top:clamp(32px,4vw,56px)">
       {project.title}
     </h1>
     <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6">
       <p
-        class="body-lg m-0 max-w-[760px] flex-[1_1_520px]"
+        class="body-lg m-0 max-w-[760px] flex-[1_1_520px] leading-[1.65]"
         style="font-size:clamp(17px,1.5vw,20px)"
       >
         {view.solution}
@@ -201,7 +197,7 @@ const externalActions = view.actions.filter((a) => a.external);
 
     <div class="flex min-w-0 flex-auto flex-col" style="gap:clamp(64px,7vw,104px)">
       <div class="border-t-2 border-blue bg-tint px-8 py-7">
-        <Eyebrow as="div" class="mb-[10px] !text-[11px] !tracking-[0.16em]">{t.summary}</Eyebrow>
+        <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
         <p
           class="h-title m-0 leading-[1.45]"
           style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
@@ -209,7 +205,7 @@ const externalActions = view.actions.filter((a) => a.external);
           {view.summary}
         </p>
       </div>
-      <ChipList items={project.stack} label={t.stack} class="min-[900px]:!hidden" />
+      <ChipList items={project.stack} label={t.stack} class="min-[900px]:hidden" />
 
       <CaseSection id={sec("problem").id} n={sec("problem").n} title={t.problem}>
         <p class="m-0 max-w-[820px] text-[18px] leading-[1.75] text-ink" style="text-wrap:pretty">
@@ -243,10 +239,10 @@ const externalActions = view.actions.filter((a) => a.external);
             >
               {architecture.map((a, i) => (
                 <li class="flex gap-4 border-b border-line py-[18px]">
-                  <span class="index w-7 flex-none text-sm !text-link">
+                  <span class="index w-7 flex-none text-sm index-link">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p class="body m-0 text-[15px]">{a}</p>
+                  <p class="body m-0 text-[15px] leading-[1.7]">{a}</p>
                 </li>
               ))}
             </ol>

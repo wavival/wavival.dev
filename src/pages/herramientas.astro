@@ -88,7 +88,7 @@ const softwareItems = [
   ]}
 >
   <section class="wrap page-top">
-    <PageIntro eyebrow="Herramientas" size="about">
+    <PageIntro eyebrow="Herramientas" size="uses">
       <Fragment slot="title">Con qué construyo</Fragment>
       <p class="body-lg m-0">
         Todo lo que uso para construir: el stack, la máquina y las apps del día a día. No es una
@@ -97,12 +97,12 @@ const softwareItems = [
     </PageIntro>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
         <div class="flex items-baseline gap-[14px]"><Index>01</Index><Eyebrow>Stack</Eyebrow></div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           Con qué desarrollo
         </h2>
-        <p class="body m-0 mt-3">
+        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
           El stack que uso a diario y la razón detrás de cada elección: backend sólido, frontend
           funcional, IA aplicada y seguridad desde el diseño.
         </p>
@@ -124,14 +124,14 @@ const softwareItems = [
     </div>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
         <div class="flex items-baseline gap-[14px]">
           <Index>02</Index><Eyebrow>Hardware</Eyebrow>
         </div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           Dónde lo construyo
         </h2>
-        <p class="body m-0 mt-3">
+        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
           Equipo modesto a propósito. Si una app corre fluida acá, corre en cualquier lado: me
           obliga a optimizar de verdad, no a tapar con hardware.
         </p>
@@ -152,14 +152,14 @@ const softwareItems = [
     </div>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-none flex-col lg:basis-[260px] lg:sticky lg:top-24 lg:self-start">
+      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
         <div class="flex items-baseline gap-[14px]">
           <Index>03</Index><Eyebrow>Software</Eyebrow>
         </div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           Mis herramientas del día a día
         </h2>
-        <p class="body m-0 mt-3">
+        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
           Las apps donde vivo mientras construyo: edición, IA, terminal y el flujo de productividad
           que me mantiene enfocada.
         </p>
@@ -185,7 +185,7 @@ const softwareItems = [
           id="repos"
           class="rule-section section-gap flex scroll-mt-24 flex-wrap gap-x-12 gap-y-6"
         >
-          <div class="flex flex-none flex-col lg:basis-[260px] lg:self-start">
+          <div class="flex flex-[0_0_260px] flex-col lg:self-start">
             <div class="flex items-baseline gap-[14px]">
               <Fragment>
                 <Index>04</Index>
@@ -195,7 +195,7 @@ const softwareItems = [
             <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
               Aprendo, construyo, comparto
             </h2>
-            <p class="body m-0 mt-3">
+            <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
               {githubUser.public_repos} repos públicos · {githubUser.followers} seguidores
             </p>
             <TextLink

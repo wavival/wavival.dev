@@ -3,22 +3,25 @@ import Eyebrow from "@/components/atoms/Eyebrow.astro";
 
 interface Props {
   eyebrow: string;
-  /** Font-size token for the h1. */
-  size?: "page" | "about" | "case";
+  /** Display scale of the h1; each size maps to a `.display-*` class. */
+  size?: "page" | "index" | "contact" | "case" | "uses" | "about";
   class?: string;
 }
 
 const { eyebrow, size = "page", class: extra = "" } = Astro.props;
-const fontSize = {
-  page: "var(--fs-display-page)",
-  about: "var(--fs-display-about)",
-  case: "var(--fs-display-case)",
+const headingClass = {
+  page: "display-page",
+  index: "display-index",
+  contact: "display-contact [text-wrap:balance]",
+  case: "display-case",
+  uses: "display-uses",
+  about: "display-about",
 }[size];
 ---
 
 <div class={extra}>
   <Eyebrow>{eyebrow}</Eyebrow>
-  <h1 class="display-page mt-5 mb-0" style={`font-size:${fontSize}`}>
+  <h1 class={`${headingClass} mt-5 mb-0`}>
     <slot name="title" />
   </h1>
   <div class="mt-7">

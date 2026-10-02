@@ -4,14 +4,19 @@ import Chip from "@/components/atoms/Chip.astro";
 interface Props {
   items: string[];
   label?: string;
+  /** Inherit the body line-height instead of the compact chip leading. */
+  loose?: boolean;
   class?: string;
 }
 
-const { items, label, class: extra = "" } = Astro.props;
+const { items, label, loose = false, class: extra = "" } = Astro.props;
+const looseClass = loose ? "[&_.chip]:leading-[1.6]" : "";
 ---
 
 <ul
-  class={`m-0 flex list-none flex-wrap gap-[6px] p-0 ${extra}`.trim()}
+  class={`m-0 flex list-none flex-wrap gap-[6px] p-0 ${looseClass} ${extra}`
+    .replace(/\s+/g, " ")
+    .trim()}
   role="list"
   aria-label={label}
 >

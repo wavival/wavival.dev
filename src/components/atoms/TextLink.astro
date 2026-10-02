@@ -23,7 +23,8 @@ const {
 } = Astro.props;
 
 const rel = target === "_blank" ? "noopener noreferrer" : undefined;
-const base = variant === "list" ? "list-link" : variant === "inline" ? "inline-link" : "text-link";
+const base =
+  variant === "list" ? "list-link" : variant === "inline" ? "inline-link" : "action-link";
 ---
 
 <a

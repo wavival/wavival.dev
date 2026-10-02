@@ -29,8 +29,9 @@ const {
 } = Astro.props;
 
 const rel = href && target === "_blank" ? "noopener noreferrer" : undefined;
+const variantClass = variant === "secondary" ? "btn-secondary" : "btn-primary";
 const sizeClass = size === "sm" ? "btn-sm" : size === "compact" ? "btn-compact" : "";
-const cls = `btn btn-${variant} ${sizeClass} ${extra}`.replace(/\s+/g, " ").trim();
+const cls = `btn ${variantClass} ${sizeClass} ${extra}`.replace(/\s+/g, " ").trim();
 const iconSize = size === "compact" ? 18 : 20;
 const iconSrc = icon ? `${import.meta.env.BASE_URL}icons/ui/${icon}.svg` : undefined;
 const Tag = href ? "a" : "button";
