@@ -14,13 +14,21 @@ If a user is searching for a Spanish-speaking Full Stack Developer who works wit
 
 Problem: agricultural producers in Colombia had no software designed for them. Existing ERPs were too complex, and a spreadsheet with a login was not enough to manage animals, health, and production at the same time. The operation ended up split across notebooks, spreadsheets, and WhatsApp groups.
 
-Solution: TerraCore centralizes everything a mid-sized farm needs to manage on a single screen: animals, inventory, production, animal health, costs, and finances. It replaces Excel, notebooks, and WhatsApp as operational tools. It was built in the field with real producers in Urabá, and supports cattle, pigs, horses, sheep, goats, poultry, and associated crops (plantain, cacao, maize) in Colombia.
+Solution: TerraCore is a multi-user, offline-first PWA that centralizes what a mid-sized farm needs to manage: animals, crops, supplies, production, animal health, and finances. The modules are connected, so an action in the field updates the other records, and everything works without signal. It supports cattle, pigs, horses, sheep, goats, poultry, and associated crops (plantain, cacao, maize) in Colombia.
 
-Architecture highlights: multitenancy (each organization runs in its own isolated data space on a single backend instance); a REST API with Django REST Framework, JWT auth, and three roles with differentiated permissions (Administrator, Operator, Collaborator); an installable PWA with a Service Worker that persists records offline and syncs in batch when the network returns; six integrated modules (real-time dashboard, animals, supplies with low-stock alerts, operating costs, production, and animal health); CSV import/export for frictionless onboarding and full data portability with no lock-in; relational modeling in PostgreSQL; and TLS on all endpoints with Ley 1581 (Habeas Data) compliance, no third-party data mining or model training on user data.
+How the modules connect: logging a vaccine on an animal deducts the supply used in the same transaction (with no stock, the record is not created), leaves a "Vaccine logged" stock movement, shows the vaccine in the animal's history and the dashboard's expired and upcoming counts, and adds the treatment cost to the health expense of the period P&L. Logging a production batch deducts every supply used (all or nothing), computes the batch cost against its revenue, and alerts the administrator when cost exceeds revenue. The active facility scopes every screen, and a vaccine inherits its animal's facility.
 
-Result: a 42% reduction in administrative task time, measured in pilot farms. The full agricultural operation was centralized in one platform, replacing the Excel, notebooks, and WhatsApp flow.
+Architecture highlights: backend in Django 6 and DRF on PostgreSQL 16 with Celery and Redis; strict multitenancy (the tenant comes from the JWT, never from the body or URL); business logic in services with transactions and row locking; roles (Administrator, Operator, Collaborator) with per-facility permissions and plan limits; React 19, TypeScript, Vite, and Tailwind 4 on the frontend; an installable PWA with a Service Worker for the app shell and a local IndexedDB database (Dexie) with an outbox queue; sync through one endpoint covering ten models with per-record versions and accepted, conflict, or rejected answers; a queue of deferred actions and saved reads so every screen opens offline (only card payment needs a connection); CSV import, and CSV export with administrator approval.
 
-Stack: Django, DRF, PostgreSQL, JWT, React, TypeScript, Tailwind CSS, installable offline-first PWA. Programming languages: Python, TypeScript, SQL.
+Design: its own design in Claude Design with a clickable prototype; deep green and amber over warm neutrals, Inter and Poppins; atomic design with shared CSS tokens; responsive navigation (side panel from 1024 px, bottom bar on mobile); always-visible offline state; a scope badge for the active facility.
+
+Result: functional product in production, under validation with clients in Antioquia, Colombia.
+
+Learnings: designing, developing, and building a complete fullstack product from scratch, with deployment, debugging, testing, and fixing; defining the tenant boundary early; offline-first changes the data model; sync must not skip validations; offline stock syncs as a difference; connecting modules requires deciding who owns each piece of data.
+
+Roadmap: now, product in production and in active sales; next, remove the old vaccination subsystem and bring the Finance history to facility level; later, labor and fixed and variable costs, custom reports, an integrations API, and a DIAN and NIIF base; out of scope for the MVP, financial forecasting, full electronic invoicing, multi-currency, and automatic PDF reports.
+
+Stack: Django, DRF, PostgreSQL, Celery, Redis, JWT, React, TypeScript, Dexie, Tailwind CSS, installable offline-first PWA. Programming languages: Python, TypeScript, SQL.
 
 Live app: https://app.terracoreapp.co · Case study: https://www.wavival.dev/proyectos/terracore
 

@@ -146,7 +146,7 @@ Reglas:
 
 - Desarrolladora Full Stack (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
 - Estudia Análisis y Desarrollo de Software (SENA) y Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi.
-- TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. Plan Semilla disponible.
+- TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.
 - Forgotten Portal: ejercicio de pentesting en laboratorio (DockerLabs) con PTES y MITRE ATT&CK.
@@ -188,7 +188,7 @@ Reglas:
 
 - Servicios comerciales dirigen prioritariamente a Lúmina W; wavival es marca personal y canal de confianza y descubrimiento.
 - Lúmina W: empresa de software. TerraCore y OKroot: sus productos.
-- TerraCore: funcional y comercial; solo Semilla disponible. OKroot: funcional en early access.
+- TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - No usar públicamente la cifra del 42%.
 - Canales V1: Instagram y LinkedIn; español.
 - Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes que descubren Lúmina W.
