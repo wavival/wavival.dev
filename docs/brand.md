@@ -214,7 +214,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 
 - Empresa de software fundada por Valentina. Diseña, construye y mantiene productos y software a medida.
 - Dos frentes: desarrollo a medida y productos propios (TerraCore, OKroot).
-- Presencia: `luminaw.co` (landing) y Blog W en `blog.luminaw.co` (Next.js, PWA).
+- Presencia: `luminaw.co` (landing) y Blog W en `blog.luminaw.co` (Next.js, bilingüe, con cuentas y comunidad).
 - Los servicios comerciales se dirigen prioritariamente a Lúmina W. wavival trae confianza y descubrimiento.
 
 ### TerraCore (producto de Lúmina W)
@@ -238,7 +238,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 
 ### Blog W
 
-- Blog de Lúmina W (Next.js, PWA). Solo se afirma Next.js y PWA; el resto del stack no se menciona (`docs/blog-w-stack-pendiente.md`).
+- Blog de Lúmina W: plataforma bilingüe en Next.js con cuentas, aprobación de artículos, comentarios moderados, newsletter y traducción con la API de Claude. No se afirma que sea PWA: el repositorio no tiene manifest ni service worker (`docs/blog-w-stack-pendiente.md`).
 
 ### Regla de marca
 
@@ -272,7 +272,7 @@ Ninguno de estos bloquea el arranque de V1. Cada uno bloquea únicamente la piez
 - Pieza sobre el detalle de un módulo concreto de TerraCore: verificar que el módulo esté disponible (el CV interno lo describe como "en desarrollo", el caso de estudio como integrado).
 - Pieza que cite un modelo de acceso o precio de OKroot: [PENDIENTE], no existe en el repositorio.
 - Pieza sobre la relación comercial de NullBreach con Lúmina W: no se hace en V1.
-- Pieza sobre el stack de Blog W más allá de Next.js y PWA: [PENDIENTE].
+- Pieza que presente Blog W como PWA: [PENDIENTE], no está en el repositorio.
 - Pieza sobre legislación o cumplimiento (Ley 1581): [PENDIENTE] texto validado.
 - Pieza que cite el plan Semilla con precio: confirmar vigencia del precio publicado en la landing.
 - Pieza que cite experiencia o trayectoria en años: no se usa; el sitio no la respalda.

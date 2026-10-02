@@ -2230,7 +2230,7 @@ export const projects: Project[] = [
     slug: "blog-lumina-w",
     quoteType: "web-app",
     datePublished: "2026-06-18",
-    dateModified: "2026-09-25",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-blogw.webp",
@@ -2238,20 +2238,43 @@ export const projects: Project[] = [
       "Blog de Lúmina W: contenido técnico sobre desarrollo web, ciberseguridad y productos digitales",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Next.js", "PWA"],
-    filters: ["full-stack", "ai", "pwa", "design"],
-    problem:
-      "El conocimiento técnico generado en proyectos reales necesita un canal propio para llegar a la comunidad sin depender de plataformas externas.",
-    solution:
-      "Blog PWA de Lúmina W, migrado a Next.js, con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales en blog.luminaw.co.",
-    architecture: ["Aplicación del blog desarrollada con Next.js y presentada como PWA."],
-    results: [
-      "Blog en producción con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales.",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Prisma",
+      "PostgreSQL",
+      "Supabase",
+      "NextAuth",
+      "Brevo",
+      "Claude API",
+      "Vercel",
     ],
-    caseStudy: true,
-    schemaType: "WebSite",
-    metaDescription:
-      "Caso de estudio del Blog de Lúmina W: PWA desarrollada con Next.js para publicar contenido técnico sobre desarrollo web, ciberseguridad y productos.",
+    summary:
+      "Plataforma de blog bilingüe (español e inglés) con comunidad: cuentas, comentarios, likes, guardados, perfiles y newsletter. Cualquier cuenta escribe un artículo y la administradora lo aprueba antes de publicarlo. Los artículos publicados se traducen con la API de Claude. Next.js, Prisma y PostgreSQL, desplegada en Vercel.",
+    filters: ["full-stack", "ai", "design"],
+    problem:
+      "El conocimiento técnico que sale de proyectos reales necesita un canal propio, con control sobre el contenido, los comentarios y las suscripciones, sin depender de una plataforma externa. El sitio anterior era estático, con un CMS de archivos, y no tenía cuentas ni comunidad.",
+    solution:
+      "Una aplicación Next.js con base de datos que reemplazó al sitio anterior. Publica artículos en español e inglés, deja que cualquier cuenta proponga uno y lo pone en una cola de aprobación, y suma comentarios con moderación, guardados, perfiles, seguimiento entre cuentas y newsletter por idioma.",
+    architecture: [
+      "Aplicación Next.js (App Router, React y TypeScript) con Prisma sobre PostgreSQL en Supabase, y Tailwind CSS para los estilos. Reemplazó a un sitio anterior en Astro con Decap CMS. El layout es dinámico a propósito: el build en CI no necesita base de datos.",
+      "Los artículos viven de dos formas: archivos Markdown en el repositorio (seis hoy, tres por idioma) que un importador sube a la base en cada build de producción, y artículos escritos por cuentas dentro de la aplicación. El importador crea o actualiza por idioma y slug, y nunca toca autoría, likes, guardados ni comentarios.",
+      "Flujo de publicación: un artículo pasa por borrador, pendiente, publicado o rechazado. Cualquier cuenta puede escribir y enviar a revisión, solo la administradora publica directo, y editar un artículo publicado desde una cuenta que no es la de ella lo devuelve a pendiente. El slug queda fijo al publicar.",
+      "Bilingüe: español sin prefijo e inglés bajo /en, con rutas traducidas (articulos, categoria, cuenta) y un middleware que las reescribe a las rutas internas. Cada idioma es una fila de Post enlazada con el original, y likes, guardados y comentarios se anclan siempre al original.",
+      "Traducción automática: al publicar un original, y solo si hay clave configurada, una tarea en segundo plano manda título, descripción, cuerpo y etiquetas a la API de Claude como datos, valida la respuesta y guarda la versión en el otro idioma. La administradora puede reintentarla desde el panel. Los artículos de archivo traen sus propias traducciones.",
+      "Comunidad: comentarios con hilos de hasta 2000 caracteres, likes, guardados, perfiles públicos y seguimiento. La moderación de comentarios es un filtro local por reglas (términos bloqueados y tope de enlaces), sin llamar a ningún modelo: lo que coincide queda pendiente y la administradora lo aprueba o rechaza.",
+      "Newsletter con Brevo: una lista por idioma, suscripción desde el sitio y envío de prueba o campaña desde el panel de administración, con el enlace de baja de Brevo. Las notificaciones de respuesta, seguimiento y guardado también salen por correo, además de dentro del blog.",
+      "Cuentas con correo y clave verificados por correo, más Google, GitHub y LinkedIn cuando están configurados, e invitaciones que llegan con el correo ya verificado. Un proveedor externo solo se acepta si confirma el correo. Cuenta bloqueada 15 minutos tras 5 intentos fallidos, y suspensión y cierre de sesiones desde el panel.",
+      "Los permisos se leen de la base de datos en cada petición y no del token de sesión. El administrador no es un rol en la base: es el correo definido en una variable de entorno, que además está protegido de suspensión y borrado.",
+      "Seguridad por capas: limitador de frecuencia guardado en Postgres con una sola sentencia atómica por llamada (falla cerrado en credenciales y tokens), verificación de origen en las rutas que escriben, CSP con nonce por petición, cabeceras HSTS, anti-framing y anti-sniffing, y Markdown pasado por un sanitizador antes de renderizarse.",
+      "Imágenes: el tipo se detecta por los primeros bytes del archivo y no por la cabecera, se rechaza SVG, y sharp las convierte a WebP con límite de lado según el uso (portada, cuerpo o avatar) antes de guardarlas en un bucket de Supabase Storage. La llave de servicio solo existe en un módulo del servidor.",
+      "SEO y descubrimiento: sitemap dinámico con alternates por idioma, robots con un grupo aparte para crawlers de IA, llms.txt, feed RSS por idioma y JSON-LD (Organization, WebSite, BlogPosting, Blog, CollectionPage, ProfilePage y BreadcrumbList). La búsqueda usa coincidencia insensible a mayúsculas sobre título, descripción, cuerpo, autor y etiquetas.",
+      "Analítica con consentimiento: GA4 se carga solo si la persona acepta y si hay un identificador configurado, y el enlace entre dominios cubre luminaw.co, terracoreapp.co y okroot.co.",
+      "Calidad y entrega: 28 archivos de pruebas unitarias con vitest sobre lógica pura, lint y build en cada PR, escaneo de secretos con gitleaks y flujo dev, stg y main. En producción, el build de Vercel aplica las migraciones y corre el importador de artículos.",
+      "Un generador de portadas arma las imágenes de 1200 por 630 en WebP, una por idioma, con un tope de 150 KB, a partir de una especificación JSON y un arte SVG.",
+    ],
     links: [
       {
         href: "https://blog.luminaw.co",
@@ -2264,13 +2287,169 @@ export const projects: Project[] = [
       text: "Ver diseño",
       ariaLabel: "Ver diseño de Blog Lúmina W",
     },
+    caseStudy: true,
+    schemaType: "WebSite",
+    metaDescription:
+      "Caso de estudio del Blog de Lúmina W: plataforma Next.js bilingüe con cuentas, moderación, newsletter y traducción de artículos con la API de Claude.",
+    painPoints: [
+      {
+        title: "Una plataforma ajena decide por ti",
+        text: "Publicar en una plataforma de terceros deja la audiencia, los comentarios y la suscripción en manos de otra empresa.",
+      },
+      {
+        title: "Un sitio estático no tiene comunidad",
+        text: "El sitio anterior publicaba bien, pero no tenía cuentas, comentarios ni una forma de que alguien más propusiera un artículo.",
+      },
+      {
+        title: "Dos idiomas son doble trabajo",
+        text: "Mantener cada artículo en español e inglés a mano duplica el esfuerzo de publicar.",
+      },
+      {
+        title: "Abrir comentarios abre el riesgo",
+        text: "Cualquier cuenta que escribe o comenta es una entrada para spam, enlaces dudosos y abuso de las rutas que envían correo.",
+      },
+    ],
+    modules: [
+      {
+        name: "Artículos y aprobación",
+        text: "Escribe en Markdown, envía a revisión y publica cuando la administradora aprueba, con motivo de devolución.",
+      },
+      {
+        name: "Comunidad",
+        text: "Comentarios con hilos, likes, guardados, perfiles públicos y seguimiento entre cuentas.",
+      },
+      {
+        name: "Español e inglés",
+        text: "Rutas, textos, correos y notificaciones en los dos idiomas, con traducción automática de los artículos.",
+      },
+      {
+        name: "Newsletter",
+        text: "Suscripción por idioma y envío de prueba o campaña desde el panel de administración.",
+      },
+      {
+        name: "Panel de administración",
+        text: "Cola de artículos y comentarios, destacados, invitaciones y gestión de usuarios: buscar, suspender, reactivar y eliminar.",
+      },
+      {
+        name: "Búsqueda y descubrimiento",
+        text: "Búsqueda con atajo de teclado, categorías, orden por popularidad, feed RSS, sitemap y llms.txt.",
+      },
+    ],
+    chainStepsTitle: "Del borrador al lector en dos idiomas",
+    chainSteps: [
+      "Una cuenta escribe un artículo en Markdown y lo envía a revisión.",
+      "La administradora lo aprueba, o lo devuelve con una nota que recibe como notificación.",
+      "Al publicarse, una tarea en segundo plano manda el contenido a la API de Claude como datos y valida la traducción.",
+      "La versión en el otro idioma se guarda enlazada al original y entra al sitemap con su alternate.",
+      "Los likes, guardados y comentarios de cualquiera de las dos versiones se acumulan en el original.",
+    ],
+    decisions: [
+      {
+        title: "Una aplicación con base de datos en lugar de un sitio estático",
+        context:
+          "El blog necesitaba cuentas, comentarios, aprobación de artículos, suscripciones y dos idiomas.",
+        tradeoff:
+          "Una aplicación dinámica depende de una base de datos y exige más cuidado de seguridad que un sitio de archivos.",
+        decision:
+          "Next.js con Prisma y PostgreSQL, y un layout dinámico para que el build no necesite la base. Los artículos de archivo se siguen versionando en el repositorio y se importan al desplegar.",
+      },
+      {
+        title: "Una fila por idioma, enlazada con el original",
+        context:
+          "Un artículo existe en dos idiomas con slugs distintos, pero la conversación a su alrededor es una sola.",
+        tradeoff: "Cada consulta de interacciones tiene que resolver primero cuál es el original.",
+        decision:
+          "Cada versión es una fila de Post con una referencia al original. Likes, guardados y comentarios se anclan siempre al original.",
+      },
+      {
+        title: "Claude para traducir, solo contenido ya publicado",
+        context: "Traducir a mano cada artículo duplica el trabajo de publicar.",
+        tradeoff:
+          "Una traducción de un modelo puede equivocarse y depende de una clave externa, así que se activa solo si hay clave.",
+        decision:
+          "Una tarea en segundo plano manda solo el artículo ya publicado, como datos y no como instrucciones, valida la respuesta antes de guardarla, y la administradora puede reintentarla. Ningún dato de cuentas ni comentarios sale hacia la API.",
+      },
+      {
+        title: "Moderación por reglas locales",
+        context:
+          "Los comentarios abiertos reciben spam y enlaces dudosos, y mandarlos a un modelo añade costo y envía texto de usuarios a un tercero.",
+        tradeoff:
+          "Un filtro por términos y por cantidad de enlaces es tosco: deja pasar lo que no coincide y retiene lo que sí aunque sea legítimo.",
+        decision:
+          "Un filtro local pone en pendiente los comentarios que coinciden y la administradora decide. Sus propios comentarios quedan exentos.",
+      },
+      {
+        title: "Limitador de frecuencia en la propia base",
+        context:
+          "Cada ruta que escribe, envía correo o recibe credenciales necesita un tope, y no se quería sumar infraestructura nueva.",
+        tradeoff:
+          "Usa la base de datos de la aplicación en cada llamada y es una ventana fija, menos precisa que una cola dedicada.",
+        decision:
+          "Una tabla en Postgres con una sola sentencia atómica por llamada, sin infraestructura nueva. Falla cerrado en credenciales y tokens, y abierto en el resto.",
+      },
+      {
+        title: "Permisos desde la base, no desde el token",
+        context:
+          "Un token de sesión guarda lo que era cierto al emitirse, pero una cuenta puede suspenderse o cambiar de clave después.",
+        tradeoff: "Cada petición autenticada hace una lectura a la base de datos.",
+        decision:
+          "Una función lee el usuario de la base y descarta la sesión si la cuenta está suspendida o su versión de sesión cambió. El token nunca decide un permiso.",
+      },
+      {
+        title: "Una sola administradora, definida por entorno",
+        context:
+          "Hace falta alguien que apruebe contenido, sin montar un sistema de roles para una persona.",
+        tradeoff:
+          "No hay roles delegables ni más de una administradora sin cambiar la configuración.",
+        decision:
+          "La administradora es el correo de una variable de entorno. Cada acción del panel comprueba esa condición en el servidor, y esa cuenta no se puede suspender ni borrar.",
+      },
+    ],
+    design: [
+      "Los estilos del prototipo diseñado aparte se portaron tal cual, y el tema vive en una sola hoja de estilos con Tailwind CSS 4 sin el reset base.",
+      "Artículo con barra de progreso de lectura, tabla de contenidos y tarjeta para compartir, con el menú nativo del dispositivo como camino para Instagram.",
+      "Portadas de 1200 por 630 por idioma, generadas desde una especificación y un arte SVG, con un tope de peso por imagen.",
+      "Accesibilidad trabajada en el código: enlace para saltar al contenido, menús con teclado y un diálogo de confirmación con el foco atrapado. Los cambios de contraste que alterarían el diseño están pendientes de decisión.",
+      "Selector de idioma que recuerda la elección en una cookie, y detección del idioma del navegador en la primera visita.",
+    ],
+    results: [
+      "Plataforma en producción en blog.luminaw.co, con cuentas, publicación con aprobación, comentarios con moderación y newsletter.",
+      "Seis artículos de archivo importados, tres en español y tres en inglés, y un flujo para publicar más desde la propia aplicación.",
+      "Traducción automática de artículos publicados al otro idioma, con reintento manual desde el panel.",
+      "Suite de 28 archivos de pruebas unitarias sobre lógica pura, con lint, build y escaneo de secretos en cada PR.",
+    ],
+    learnings: [
+      "Abrir cuentas y comentarios cambia el tipo de proyecto: casi cada ruta nueva necesita un límite de frecuencia, una verificación de origen y una decisión sobre qué pasa si falla.",
+      "Leer los permisos de la base en cada petición cuesta una consulta, pero evita que una suspensión o un cambio de clave llegue tarde.",
+      "Anclar las interacciones al artículo original en vez de a cada idioma evita partir una conversación en dos.",
+      "Un filtro local de moderación es predecible y barato, pero solo ordena la cola: la decisión sigue siendo de una persona.",
+      "Con dos idiomas, cada texto nuevo es trabajo por duplicado en los diccionarios, y conviene que el tipo de uno obligue a completar el otro.",
+    ],
+    roadmap: {
+      now: [
+        "Blog bilingüe en producción con comunidad, aprobación de artículos, newsletter y traducción automática.",
+        "Auditorías de seguridad, SEO y accesibilidad aplicadas al código.",
+      ],
+      next: [
+        "Artículos relacionados por etiquetas.",
+        "Eliminar la propia cuenta y cambiar el correo desde el perfil.",
+        "Reportar un comentario.",
+        "Alojar las fuentes en el propio sitio, monitoreo de errores y pruebas de extremo a extremo en CI.",
+      ],
+      later: [
+        "Generación de borradores con la API de Claude y n8n, y programación automática de publicaciones.",
+        "Compartir en redes desde n8n y panel de analítica.",
+      ],
+    },
     en: {
       imageAlt:
         "Lumina W blog: technical content on web development, cybersecurity, and digital products",
+      summary:
+        "Bilingual blog platform (Spanish and English) with community features: accounts, comments, likes, saves, profiles and a newsletter. Any account can write an article and the administrator approves it before it goes live. Published articles are translated with the Claude API. Next.js, Prisma and PostgreSQL, deployed on Vercel.",
       problem:
-        "Technical knowledge generated in real projects needs its own channel to reach the community without depending on external platforms.",
+        "Technical knowledge that comes out of real projects needs its own channel, with control over the content, the comments and the subscriptions, without depending on an outside platform. The previous site was static, with a file-based CMS, and had no accounts or community.",
       solution:
-        "Lumina W's Next.js blog PWA publishes technical content on web development, cybersecurity, and digital products at blog.luminaw.co.",
+        "A Next.js application with a database that replaced the previous site. It publishes articles in Spanish and English, lets any account propose one and puts it in an approval queue, and adds moderated comments, saves, profiles, following between accounts and a newsletter per language.",
       links: [
         {
           href: "https://blog.luminaw.co",
@@ -2284,11 +2463,174 @@ export const projects: Project[] = [
         ariaLabel: "View Lumina W Blog design",
       },
       metaDescription:
-        "Lumina W Blog case study: a Next.js PWA for technical content on web development, cybersecurity, and products.",
-      architecture: ["Blog application developed with Next.js and presented as a PWA."],
-      results: [
-        "Blog in production with technical content on web development, cybersecurity, and digital products.",
+        "Lumina W Blog case study: a bilingual Next.js platform with accounts, moderation, a newsletter and article translation with the Claude API.",
+      architecture: [
+        "Next.js application (App Router, React and TypeScript) with Prisma on PostgreSQL in Supabase, and Tailwind CSS for styling. It replaced a previous Astro site with Decap CMS. The layout is dynamic on purpose: the CI build does not need a database.",
+        "Articles live in two ways: Markdown files in the repository (six today, three per language) that an importer loads into the database on every production build, and articles written by accounts inside the application. The importer creates or updates by language and slug, and never touches authorship, likes, saves or comments.",
+        "Publishing flow: an article goes through draft, pending, published or rejected. Any account can write and submit for review, only the administrator publishes directly, and editing a published article from an account other than hers sends it back to pending. The slug is frozen once published.",
+        "Bilingual: Spanish without a prefix and English under /en, with translated routes (articulos, categoria, cuenta) and a middleware that rewrites them to the internal routes. Each language is a Post row linked to the original, and likes, saves and comments are always anchored to the original.",
+        "Automatic translation: when an original is published, and only if a key is configured, a background task sends the title, description, body and tags to the Claude API as data, validates the response and stores the version in the other language. The administrator can retry it from the panel. File-based articles ship with their own translations.",
+        "Community: threaded comments of up to 2,000 characters, likes, saves, public profiles and following. Comment moderation is a local rule filter (blocked terms and a link cap) that calls no model: anything that matches is held as pending and the administrator approves or rejects it.",
+        "Newsletter with Brevo: one list per language, sign-up from the site and a test or campaign send from the admin panel, with Brevo's unsubscribe link. Reply, follow and save notifications also go out by email, in addition to inside the blog.",
+        "Accounts with email and password verified by email, plus Google, GitHub and LinkedIn when configured, and invitations that arrive with the email already verified. An external provider is accepted only if it confirms the email. An account is locked for 15 minutes after 5 failed attempts, and suspension and session invalidation are available from the panel.",
+        "Permissions are read from the database on every request and not from the session token. The administrator is not a role in the database: it is the email set in an environment variable, which is also protected from suspension and deletion.",
+        "Layered security: a rate limiter stored in Postgres with a single atomic statement per call (it fails closed on credentials and tokens), an origin check on the routes that write, a per-request CSP with a nonce, HSTS, anti-framing and anti-sniffing headers, and Markdown passed through a sanitizer before it renders.",
+        "Images: the type is detected from the first bytes of the file and not from the header, SVG is rejected, and sharp converts them to WebP with a side limit by use (cover, body or avatar) before storing them in a Supabase Storage bucket. The service key exists only in one server module.",
+        "SEO and discovery: a dynamic sitemap with language alternates, robots with a separate group for AI crawlers, llms.txt, an RSS feed per language and JSON-LD (Organization, WebSite, BlogPosting, Blog, CollectionPage, ProfilePage and BreadcrumbList). Search uses case-insensitive matching over title, description, body, author and tags.",
+        "Analytics with consent: GA4 loads only if the person accepts and an identifier is configured, and the cross-domain link covers luminaw.co, terracoreapp.co and okroot.co.",
+        "Quality and delivery: 28 unit test files with vitest over pure logic, lint and build on every PR, secret scanning with gitleaks and a dev, stg and main flow. In production, the Vercel build applies migrations and runs the article importer.",
+        "A cover generator builds the 1200 by 630 WebP images, one per language, with a 150 KB cap, from a JSON spec and an SVG artwork.",
       ],
+      painPoints: [
+        {
+          title: "An outside platform decides for you",
+          text: "Publishing on a third-party platform leaves the audience, the comments and the subscription in someone else's hands.",
+        },
+        {
+          title: "A static site has no community",
+          text: "The previous site published fine, but had no accounts, no comments and no way for someone else to propose an article.",
+        },
+        {
+          title: "Two languages are double the work",
+          text: "Keeping every article in Spanish and English by hand doubles the effort of publishing.",
+        },
+        {
+          title: "Open comments open the risk",
+          text: "Every account that writes or comments is an entry point for spam, dubious links and abuse of the routes that send email.",
+        },
+      ],
+      modules: [
+        {
+          name: "Articles and approval",
+          text: "Write in Markdown, submit for review and publish when the administrator approves, with a note when it is sent back.",
+        },
+        {
+          name: "Community",
+          text: "Threaded comments, likes, saves, public profiles and following between accounts.",
+        },
+        {
+          name: "Spanish and English",
+          text: "Routes, texts, emails and notifications in both languages, with automatic translation of articles.",
+        },
+        {
+          name: "Newsletter",
+          text: "Sign-up per language and a test or campaign send from the admin panel.",
+        },
+        {
+          name: "Admin panel",
+          text: "Queue of articles and comments, featured posts, invitations and user management: search, suspend, reactivate and delete.",
+        },
+        {
+          name: "Search and discovery",
+          text: "Search with a keyboard shortcut, categories, popularity ordering, an RSS feed, a sitemap and llms.txt.",
+        },
+      ],
+      chainStepsTitle: "From draft to reader in two languages",
+      chainSteps: [
+        "An account writes an article in Markdown and submits it for review.",
+        "The administrator approves it, or sends it back with a note the author receives as a notification.",
+        "Once published, a background task sends the content to the Claude API as data and validates the translation.",
+        "The version in the other language is stored linked to the original and enters the sitemap with its alternate.",
+        "Likes, saves and comments on either version accumulate on the original.",
+      ],
+      decisions: [
+        {
+          title: "An application with a database instead of a static site",
+          context:
+            "The blog needed accounts, comments, article approval, subscriptions and two languages.",
+          tradeoff:
+            "A dynamic application depends on a database and needs more security care than a site of files.",
+          decision:
+            "Next.js with Prisma and PostgreSQL, and a dynamic layout so the build does not need the database. File-based articles stay versioned in the repository and are imported on deploy.",
+        },
+        {
+          title: "One row per language, linked to the original",
+          context:
+            "An article exists in two languages with different slugs, but the conversation around it is one.",
+          tradeoff: "Every interactions query has to resolve which one is the original first.",
+          decision:
+            "Each version is a Post row with a reference to the original. Likes, saves and comments are always anchored to the original.",
+        },
+        {
+          title: "Claude for translation, published content only",
+          context: "Translating every article by hand doubles the work of publishing.",
+          tradeoff:
+            "A model translation can be wrong and depends on an outside key, so it is only active when a key exists.",
+          decision:
+            "A background task sends only the already published article, as data and not as instructions, validates the response before storing it, and the administrator can retry it. No account or comment data goes to the API.",
+        },
+        {
+          title: "Moderation by local rules",
+          context:
+            "Open comments receive spam and dubious links, and sending them to a model adds cost and ships users' text to a third party.",
+          tradeoff:
+            "A filter by terms and link count is crude: it lets through what does not match and holds what does even if it is legitimate.",
+          decision:
+            "A local filter puts matching comments in pending and the administrator decides. Her own comments are exempt.",
+        },
+        {
+          title: "A rate limiter in the application's own database",
+          context:
+            "Every route that writes, sends email or takes credentials needs a cap, and the goal was to avoid adding new infrastructure.",
+          tradeoff:
+            "It uses the application's database on every call and is a fixed window, less precise than a dedicated queue.",
+          decision:
+            "A Postgres table with a single atomic statement per call, with no new infrastructure. It fails closed on credentials and tokens, and open on the rest.",
+        },
+        {
+          title: "Permissions from the database, not from the token",
+          context:
+            "A session token holds what was true when it was issued, but an account can be suspended or change its password later.",
+          tradeoff: "Every authenticated request makes a database read.",
+          decision:
+            "A function reads the user from the database and discards the session if the account is suspended or its session version changed. The token never decides a permission.",
+        },
+        {
+          title: "A single administrator, defined by environment",
+          context:
+            "Someone has to approve content, without building a roles system for one person.",
+          tradeoff:
+            "There are no delegable roles and no second administrator without changing the configuration.",
+          decision:
+            "The administrator is the email in an environment variable. Every panel action checks that condition on the server, and that account cannot be suspended or deleted.",
+        },
+      ],
+      design: [
+        "The styles of the separately designed prototype were ported as they were, and the theme lives in a single stylesheet with Tailwind CSS 4 without the base reset.",
+        "Article with a reading progress bar, a table of contents and a share card, with the device's native menu as the route for Instagram.",
+        "1200 by 630 covers per language, generated from a spec and an SVG artwork, with a weight cap per image.",
+        "Accessibility worked into the code: a skip link, keyboard menus and a confirmation dialog with trapped focus. The contrast changes that would alter the design are pending a decision.",
+        "A language switch that remembers the choice in a cookie, and detection of the browser language on the first visit.",
+      ],
+      results: [
+        "A platform in production at blog.luminaw.co, with accounts, publishing with approval, moderated comments and a newsletter.",
+        "Six file-based articles imported, three in Spanish and three in English, and a flow to publish more from the application itself.",
+        "Automatic translation of published articles into the other language, with a manual retry from the panel.",
+        "A suite of 28 unit test files over pure logic, with lint, build and secret scanning on every PR.",
+      ],
+      learnings: [
+        "Opening accounts and comments changes the kind of project: almost every new route needs a rate limit, an origin check and a decision about what happens when it fails.",
+        "Reading permissions from the database on every request costs a query, but keeps a suspension or a password change from arriving late.",
+        "Anchoring interactions to the original article instead of to each language avoids splitting a conversation in two.",
+        "A local moderation filter is predictable and cheap, but it only orders the queue: the decision is still a person's.",
+        "With two languages, every new text is double work in the dictionaries, and it helps that the type of one forces completing the other.",
+      ],
+      roadmap: {
+        now: [
+          "Bilingual blog in production with community, article approval, a newsletter and automatic translation.",
+          "Security, SEO and accessibility audits applied to the code.",
+        ],
+        next: [
+          "Related articles by tags.",
+          "Delete your own account and change your email from the profile.",
+          "Report a comment.",
+          "Self-hosted fonts, error monitoring and end-to-end tests in CI.",
+        ],
+        later: [
+          "Draft generation with the Claude API and n8n, and automatic scheduling of posts.",
+          "Sharing to social networks from n8n and an analytics panel.",
+        ],
+      },
     },
   },
   {

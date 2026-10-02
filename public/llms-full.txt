@@ -54,7 +54,7 @@ Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://gith
 
 ## Blog Lúmina W (case study)
 
-Blog PWA migrated to Next.js, publishing technical content about web development, cybersecurity, and digital products.
+Bilingual (Spanish and English) blog platform built with Next.js, Prisma, PostgreSQL on Supabase and NextAuth, publishing technical content about web development, cybersecurity, and digital products. Any account can write an article and the administrator approves it; comments are moderated by local rules; published articles are translated with the Claude API; the newsletter runs on Brevo. It replaced an earlier Astro site.
 
 Case study: https://www.wavival.dev/proyectos/blog-lumina-w · Live: https://blog.luminaw.co
 
