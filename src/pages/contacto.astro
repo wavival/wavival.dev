@@ -91,7 +91,7 @@ const steps = [
   ]}
 >
   <section class="wrap page-top">
-    <PageIntro eyebrow="Hablemos">
+    <PageIntro eyebrow="Hablemos" size="contact">
       <Fragment slot="title"
         >Tu próxima idea merece <span class="accent">código que la sostenga.</span></Fragment
       >
@@ -115,7 +115,7 @@ const steps = [
               </span>
             </div>
             <h2 class="h-title m-0 text-[32px] tracking-[-0.02em]">{c.title}</h2>
-            <p class="body m-0">{c.body}</p>
+            <p class="m-0 text-[15px] leading-[1.65] text-muted">{c.body}</p>
             <Button
               variant="secondary"
               size="sm"
@@ -132,14 +132,19 @@ const steps = [
       }
     </div>
 
-    <p class="body mt-6 mb-0">
+    <p class="mb-0 mt-6 text-sm text-muted">
       Proyectos desde <strong class="font-semibold text-ink">COP 2.000.000 / USD 500</strong> según alcance.
       Disponibilidad limitada.
     </p>
   </section>
 
   <section id="agenda" class="wrap pb-[var(--sec)]">
-    <SectionHeader title="Agenda una llamada de descubrimiento" class="mb-10">
+    <SectionHeader
+      label="Llamada de 30 min"
+      title="Agenda una llamada de descubrimiento"
+      titleClass="h2-sub"
+      class="mb-10"
+    >
       <ol
         class="m-0 mt-8 grid list-none gap-x-8 gap-y-4 p-0"
         style="grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))"

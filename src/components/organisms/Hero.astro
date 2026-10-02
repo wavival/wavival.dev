@@ -33,7 +33,7 @@ const stats = isEn
   >
     <span>Valentina Ramírez · Colombia · COT (UTC-5)</span>
     <span class="inline-flex items-center gap-[10px]">
-      <span class="status-dot status-dot-ok !h-2 !w-2" aria-hidden="true"></span>
+      <span class="status-dot status-dot-ok status-dot-lg" aria-hidden="true"></span>
       {
         isEn
           ? "Limited availability · I respond within 24h"
@@ -111,9 +111,7 @@ const stats = isEn
         {
           stats.map((s) => (
             <div class="pr-5 pt-5">
-              <dt class="h-title text-[28px] leading-none tracking-[-0.03em] sm:text-4xl">
-                {s.value}
-              </dt>
+              <dt class="h-title text-[36px] leading-none tracking-[-0.03em]">{s.value}</dt>
               <dd class="m-0 mt-2 text-[13px] text-muted">{s.label}</dd>
             </div>
           ))

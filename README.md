@@ -92,6 +92,7 @@ npm run dev                       # http://localhost:4321
 | `npm run lhci`         | Lighthouse CI against `./dist` (build first)                                                    |
 | `npm run links`        | linkinator over `./dist` for broken links (build first)                                         |
 | `npm run csp:check`    | Verify every inline `dist/` script has a matching sha256 in the `vercel.json` CSP (build first) |
+| `npm run css:check`    | Verify every component class in `utilities.css` survives into the built CSS (build first)       |
 
 > `lhci` and `links` run against the built output: run `npm run build` before them locally.
 
