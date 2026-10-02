@@ -26,7 +26,7 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 - [Blog Lúmina W (live)](https://blog.luminaw.co): Technical blog presented as a PWA and migrated to Next.js. Case study: https://www.wavival.dev/proyectos/blog-lumina-w
 - [Lúmina W (live)](https://luminaw.co): Studio landing: designed, built, and maintained by Valentina. Astro, Tailwind CSS, Supabase.
 - [wavival.dev (case study)](https://www.wavival.dev/proyectos/wavival-dev): This portfolio as a design case: the @wavival | Design System v4 (editorial, static, one blue signal, rules instead of boxes), bilingual, designed in Claude Design. Astro, TypeScript, Tailwind CSS, Vercel.
-- [Forgotten Portal (pentesting writeup)](https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/): Full pentest exercise: recon, PHP upload exploit, reverse shell, privilege escalation to root. Documented with PTES methodology and MITRE ATT&CK TTPs.
+- [Forgotten Portal (pentesting writeup)](https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/): Pentest exercise on a DockerLabs lab machine, in a controlled environment: PTES methodology, seven findings with CVSS and CWE, MITRE ATT&CK mapping, and technical and executive reports. Case study: https://www.wavival.dev/proyectos/forgotten-portal
 
 ## Stack
 

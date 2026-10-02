@@ -2579,7 +2579,7 @@ export const projects: Project[] = [
     slug: "forgotten-portal",
     quoteType: "security",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-10-02",
     tag: "Laboratorio",
     tagColor: "gray",
     image: "images/forgotten-portal.webp",
@@ -2588,16 +2588,20 @@ export const projects: Project[] = [
     imageHeight: 853,
     stack: ["Nmap", "Gobuster", "Netcat", "Python", "MITRE ATT&CK", "PTES", "Linux", "DockerLabs"],
     filters: ["security"],
+    summary:
+      "Ejercicio de pentesting sobre una máquina de laboratorio de DockerLabs, hecho en un entorno controlado durante el acelerador de ciberseguridad de Nodo EAFIT. Metodología PTES, siete hallazgos con CVSS y clasificación CWE, mapeo a MITRE ATT&CK, un informe técnico, un informe ejecutivo y 28 capturas de evidencia.",
     problem:
-      "¿Qué tan vulnerable es un sistema mal configurado ante un atacante con acceso inicial mínimo?",
+      "Qué tan lejos llega alguien sin credenciales contra un servidor mal configurado, y cómo se le explica ese riesgo tanto a un equipo técnico como a quien decide el presupuesto.",
     solution:
-      "Ejercicio completo de pentesting ofensivo sobre máquina virtual en DockerLabs, documentado con metodología PTES y TTPs mapeados a MITRE ATT&CK.",
+      "Un ejercicio completo sobre una máquina virtual de DockerLabs, sin salir del alcance del laboratorio, documentado con la metodología PTES. Cada hallazgo lleva severidad, puntaje CVSS, evidencia y remediación, y el resultado se entrega en dos informes para dos públicos.",
     architecture: [
-      "Reconocimiento con Nmap (puertos, servicios, versiones) y Gobuster (directorios expuestos).",
-      "Explotación de upload PHP sin validación (CWE-434) para ejecutar código remoto.",
-      "Reverse shell con Netcat y escalada de privilegios a root.",
-      "Vulnerabilidades clasificadas: CWE-615, CWE-434, CWE-312, CWE-321, CWE-269.",
-      "Writeup completo publicado con metodología PTES y TTPs de MITRE ATT&CK.",
+      "Alcance: un único contenedor Docker de DockerLabs (Ubuntu con Apache en el puerto 80 y OpenSSH en el 22), ejecutado el 23 de marzo de 2026. Nada fuera del contenedor entra en el alcance.",
+      "Metodología PTES en seis fases: preparación, exploración, análisis, ataque, acceso profundo y documentación. La documentación corre en paralelo con el resto, con una captura por paso.",
+      "Reconocimiento y enumeración con Nmap, Gobuster y la inspección del código fuente de la página, sin credenciales.",
+      "Siete hallazgos, ordenados por severidad: tres críticos, dos altos y dos medios, cada uno con vector y puntaje CVSS v3.1, componente afectado, probabilidad e impacto.",
+      "Clasificación CWE en el writeup, mapeo de las acciones a técnicas de MITRE ATT&CK y matriz de riesgo con el esquema de probabilidad por impacto de ISO/IEC 27005.",
+      "Dos entregables: un informe técnico de 18 páginas para el equipo de seguridad y un informe ejecutivo de 14 páginas con riesgo de negocio, exposición financiera y hoja de ruta de remediación priorizada.",
+      "Evidencia reproducible: 28 capturas anotadas en el repositorio, ligadas a cada paso del writeup. El material está bajo licencia MIT.",
     ],
     links: [
       {
@@ -2614,14 +2618,111 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "CreativeWork",
     metaDescription:
-      "Caso de estudio de Forgotten Portal: pentesting ofensivo sobre DockerLabs con metodología PTES, vulnerabilidades CWE y TTPs mapeados a MITRE ATT&CK.",
+      "Caso de estudio de Forgotten Portal: pentesting en laboratorio DockerLabs con PTES, siete hallazgos con CVSS y CWE, MITRE ATT&CK e informes técnico y ejecutivo.",
+    painPoints: [
+      {
+        title: "Información de más en el código público",
+        text: "Un comentario olvidado en el HTML dejaba ver un usuario del sistema y una ruta no publicada. Todo lo que el servidor envía al navegador es superficie de ataque.",
+      },
+      {
+        title: "Una carga de archivos sin control real",
+        text: "El formulario aceptaba tipos ejecutables y los guardaba dentro de la raíz web. Validar solo la extensión no basta.",
+      },
+      {
+        title: "Secretos donde no deben estar",
+        text: "Credenciales codificadas en un registro, una clave SSH repetida en todas las cuentas y su contraseña escrita en un documento interno. Codificar no es proteger.",
+      },
+      {
+        title: "Permisos de administración demasiado amplios",
+        text: "Una cuenta podía ejecutar como administrador una utilidad común sin contraseña. Un permiso de sudo sobre un binario que ejecuta comandos equivale a un acceso total.",
+      },
+    ],
+    modules: [
+      {
+        name: "Writeup paso a paso",
+        text: "Recorrido técnico en español con una captura por paso, publicado en el blog y en el repositorio.",
+      },
+      {
+        name: "Informe técnico",
+        text: "Siete hallazgos con CVSS, componente afectado, evidencia, remediación, mapeo a MITRE ATT&CK y matriz de riesgo.",
+      },
+      {
+        name: "Informe ejecutivo",
+        text: "El mismo trabajo traducido a riesgo de negocio, costo estimado de remediar frente al de una brecha y orden de prioridades.",
+      },
+      {
+        name: "Mapeo MITRE ATT&CK",
+        text: "Tácticas y técnicas ligadas a cada acción del ejercicio, en un archivo aparte.",
+      },
+      {
+        name: "Evidencia",
+        text: "28 capturas anotadas que cubren el ejercicio de principio a fin.",
+      },
+    ],
+    chainStepsTitle: "Cómo se encadenan los hallazgos",
+    chainSteps: [
+      "Información interna en el código fuente público (medio).",
+      "Carga de archivos sin restricción real, con ejecución de código en el servidor (crítico).",
+      "Directorio de cargas visible para cualquiera (medio).",
+      "Credenciales en un registro legible por el servicio web (alto).",
+      "Una misma clave SSH en todas las cuentas (crítico) y su contraseña en un documento interno (alto).",
+      "Permiso de sudo sin contraseña sobre un binario que ejecuta comandos (crítico).",
+    ],
+    decisions: [
+      {
+        title: "PTES como estructura",
+        context:
+          "Un ejercicio sin método se vuelve una lista de trucos y no se puede repetir ni comparar.",
+        tradeoff:
+          "Seguir seis fases exige documentar aunque el ejercicio sea de laboratorio y de una sola máquina.",
+        decision: "PTES en seis fases, con la documentación en paralelo y una captura por paso.",
+      },
+      {
+        title: "Dos informes para dos públicos",
+        context:
+          "Un equipo técnico necesita el detalle de cada hallazgo y quien decide necesita saber qué hacer primero y cuánto cuesta.",
+        tradeoff:
+          "Mantener dos documentos duplica la revisión, y cualquier cambio en un hallazgo debe reflejarse en ambos.",
+        decision:
+          "Un informe técnico con CVSS, evidencia y remediación, y uno ejecutivo con riesgo de negocio, costos y prioridades.",
+      },
+      {
+        title: "Cada hallazgo con severidad y remediación",
+        context: "Una lista de debilidades sin prioridad ni solución no ayuda a corregir nada.",
+        tradeoff:
+          "Puntuar con CVSS y probabilidad por impacto añade criterio propio que otra persona podría ver distinto.",
+        decision:
+          "Cada hallazgo lleva CVSS v3.1, probabilidad e impacto, clasificación CWE y una remediación concreta.",
+      },
+      {
+        title: "Un entorno controlado y sin datos reales",
+        context: "Practicar técnicas ofensivas solo es válido dentro de un alcance autorizado.",
+        tradeoff:
+          "Una máquina de laboratorio no tiene usuarios ni tráfico reales, así que el impacto de negocio del informe ejecutivo es estimado.",
+        decision:
+          "Un único contenedor de DockerLabs como alcance, con las cifras de impacto tomadas de una fuente publicada (IBM Cost of a Data Breach 2024).",
+      },
+    ],
+    results: [
+      "Siete hallazgos documentados, con tres críticos, dos altos y dos medios, cada uno con CVSS, evidencia y remediación.",
+      "Un informe técnico de 18 páginas y uno ejecutivo de 14, con matriz de riesgo, mapeo a MITRE ATT&CK y hoja de ruta de remediación.",
+      "28 capturas de evidencia ligadas al writeup, publicadas con licencia MIT junto al repositorio.",
+    ],
+    learnings: [
+      "Ningún hallazgo del ejercicio dependía de una vulnerabilidad desconocida: eran errores de configuración y hábitos de trabajo que se repiten en entornos reales.",
+      "Un solo error rara vez basta; el daño sale de encadenar varios hallazgos pequeños, así que corregir el eslabón más barato ya corta la cadena.",
+      "El mismo hallazgo se explica distinto según quién lo lee: el detalle técnico y el riesgo de negocio son dos documentos, no uno.",
+      "Los documentos deben coincidir entre sí: el writeup, el informe técnico y el ejecutivo tenían que contar los mismos siete hallazgos.",
+    ],
     en: {
       imageAlt: "Forgotten Portal: pentesting lab (DockerLabs)",
       tag: "Lab",
+      summary:
+        "Pentesting exercise on a DockerLabs lab machine, done in a controlled environment during the Nodo EAFIT cybersecurity accelerator. PTES methodology, seven findings with CVSS and CWE classification, MITRE ATT&CK mapping, a technical report, an executive report and 28 evidence screenshots.",
       problem:
-        "How vulnerable is a misconfigured system to an attacker with minimal initial access?",
+        "How far someone without credentials can get against a misconfigured server, and how to explain that risk both to a technical team and to whoever decides the budget.",
       solution:
-        "Complete offensive pentesting exercise on a virtual machine in DockerLabs, documented with PTES methodology and TTPs mapped to MITRE ATT&CK.",
+        "A complete exercise on a DockerLabs virtual machine, within the lab scope, documented with the PTES methodology. Each finding carries a severity, a CVSS score, evidence and remediation, and the result is delivered as two reports for two audiences.",
       links: [
         {
           href: "https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/",
@@ -2635,81 +2736,113 @@ export const projects: Project[] = [
         },
       ],
       metaDescription:
-        "Forgotten Portal case study: offensive pentesting on DockerLabs with PTES methodology, classified CWE vulnerabilities, and TTPs mapped to MITRE ATT&CK.",
+        "Forgotten Portal case study: DockerLabs pentesting lab with PTES, seven findings with CVSS and CWE, MITRE ATT&CK, and technical and executive reports.",
       architecture: [
-        "Reconnaissance with Nmap (ports, services, versions) and Gobuster (exposed directories).",
-        "Exploitation of PHP upload without validation (CWE-434) to execute remote code.",
-        "Reverse shell with Netcat and privilege escalation to root.",
-        "Vulnerabilities classified: CWE-615, CWE-434, CWE-312, CWE-321, CWE-269.",
-        "Complete writeup published with PTES methodology and MITRE ATT&CK TTPs.",
+        "Scope: a single DockerLabs Docker container (Ubuntu with Apache on port 80 and OpenSSH on 22), run on March 23, 2026. Nothing outside the container is in scope.",
+        "PTES methodology in six phases: preparation, exploration, analysis, attack, deep access and documentation. Documentation runs in parallel with the rest, with one screenshot per step.",
+        "Reconnaissance and enumeration with Nmap, Gobuster and an inspection of the page source, without credentials.",
+        "Seven findings, ordered by severity: three critical, two high and two medium, each with a CVSS v3.1 vector and score, affected component, likelihood and impact.",
+        "CWE classification in the writeup, a mapping of the actions to MITRE ATT&CK techniques and a risk matrix using the likelihood-by-impact scheme of ISO/IEC 27005.",
+        "Two deliverables: an 18-page technical report for the security team and a 14-page executive report with business risk, financial exposure and a prioritized remediation roadmap.",
+        "Reproducible evidence: 28 annotated screenshots in the repository, tied to each step of the writeup. The material is released under the MIT license.",
       ],
       painPoints: [
         {
-          title: "Credentials in the HTML",
-          text: "The username and hidden portal path were visible in the page source code comments.",
+          title: "Too much information in public code",
+          text: "A forgotten comment in the HTML exposed a system user and an unpublished path. Everything the server sends to the browser is attack surface.",
         },
         {
-          title: "Upload without real validation",
-          text: "The server accepted PHP files without verifying the real type: any web shell passed disguised as a legitimate document.",
+          title: "A file upload with no real control",
+          text: "The form accepted executable types and stored them inside the web root. Validating only the extension is not enough.",
         },
         {
-          title: "Shared SSH key",
-          text: "The same id_rsa was distributed across multiple system accounts, turning one access into an immediate lateral pivot.",
+          title: "Secrets where they should not be",
+          text: "Credentials encoded in a log, an SSH key repeated across all accounts and its passphrase written in an internal document. Encoding is not protecting.",
+        },
+        {
+          title: "Administration permissions that are too broad",
+          text: "One account could run a common utility as administrator without a password. A sudo permission on a binary that runs commands is the same as full access.",
         },
       ],
-      chainStepsTitle: "Attack chain: 7 phases, none depend on a zero-day.",
+      modules: [
+        {
+          name: "Step-by-step writeup",
+          text: "A technical walkthrough in Spanish with one screenshot per step, published on the blog and in the repository.",
+        },
+        {
+          name: "Technical report",
+          text: "Seven findings with CVSS, affected component, evidence, remediation, MITRE ATT&CK mapping and a risk matrix.",
+        },
+        {
+          name: "Executive report",
+          text: "The same work translated into business risk, the estimated cost of fixing versus a breach, and an order of priorities.",
+        },
+        {
+          name: "MITRE ATT&CK mapping",
+          text: "Tactics and techniques tied to each action of the exercise, in a separate file.",
+        },
+        {
+          name: "Evidence",
+          text: "28 annotated screenshots covering the exercise from start to finish.",
+        },
+      ],
+      chainStepsTitle: "How the findings chain together",
       chainSteps: [
-        "Reconnaissance: Nmap detects Apache 2.4.58 on port 80",
-        "Discovery: HTML comment exposes user 'Bob' and path /m4ch1n3_upload.html",
-        "Initial access: PHP web shell uploaded to /uploads via form with no validation",
-        "Remote shell: Bash payload over Netcat establishes interactive reverse shell",
-        "Horizontal escalation: Base64 credential in access_log decoded (alice:s3cr3tp@ssw0rd^487)",
-        "Lateral pivot: shared id_rsa allows moving to bob's account",
-        "Okroot: sudo tar without password exploited via GTFOBins, full system access",
+        "Internal information in the public source code (medium).",
+        "A file upload with no real restriction, allowing code execution on the server (critical).",
+        "An upload directory visible to anyone (medium).",
+        "Credentials in a log readable by the web service (high).",
+        "The same SSH key on every account (critical) and its passphrase in an internal document (high).",
+        "A passwordless sudo permission on a binary that runs commands (critical).",
+      ],
+      decisions: [
+        {
+          title: "PTES as the structure",
+          context:
+            "An exercise without a method becomes a list of tricks and cannot be repeated or compared.",
+          tradeoff:
+            "Following six phases means documenting even when the exercise is a single lab machine.",
+          decision:
+            "PTES in six phases, with documentation in parallel and one screenshot per step.",
+        },
+        {
+          title: "Two reports for two audiences",
+          context:
+            "A technical team needs the detail of each finding, and a decision maker needs to know what to do first and what it costs.",
+          tradeoff:
+            "Keeping two documents doubles the review, and any change to a finding has to appear in both.",
+          decision:
+            "A technical report with CVSS, evidence and remediation, and an executive one with business risk, costs and priorities.",
+        },
+        {
+          title: "Every finding with a severity and a remediation",
+          context: "A list of weaknesses with no priority or fix does not help correct anything.",
+          tradeoff:
+            "Scoring with CVSS and likelihood by impact adds judgment that someone else could see differently.",
+          decision:
+            "Each finding carries CVSS v3.1, likelihood and impact, a CWE classification and a concrete remediation.",
+        },
+        {
+          title: "A controlled environment with no real data",
+          context: "Practicing offensive techniques is only valid inside an authorized scope.",
+          tradeoff:
+            "A lab machine has no real users or traffic, so the business impact in the executive report is estimated.",
+          decision:
+            "A single DockerLabs container as the scope, with the impact figures taken from a published source (IBM Cost of a Data Breach 2024).",
+        },
       ],
       results: [
-        "Full machine compromise in 7 phases without using zero-day exploits: all vectors are configuration errors and human mistakes reproducible in real environments.",
-        "Five vulnerabilities identified and classified with CWE: information exposed in comments (CWE-615), unrestricted upload (CWE-434), credentials in logs (CWE-312), reused SSH key (CWE-321), and excessive sudo (CWE-269).",
-        "User flag captured and root access confirmed. Complete writeup documented with PTES methodology and TTPs mapped to MITRE ATT&CK.",
+        "Seven documented findings, three critical, two high and two medium, each with CVSS, evidence and remediation.",
+        "An 18-page technical report and a 14-page executive one, with a risk matrix, MITRE ATT&CK mapping and a remediation roadmap.",
+        "28 evidence screenshots tied to the writeup, published under the MIT license alongside the repository.",
       ],
       learnings: [
-        "Security does not end at server code: an HTML comment with a username and a hidden path is enough to launch a full attack. Everything the server sends to the browser is an attack surface.",
-        "Validating a file extension is not the same as validating its real type: a PHP web shell with an allowed extension executes arbitrary code on the server. Validation happens at the server-verified MIME type and by preventing the upload directory from executing code.",
+        "No finding in the exercise depended on an unknown vulnerability: they were configuration mistakes and work habits that repeat in real environments.",
+        "A single mistake is rarely enough; the damage comes from chaining several small findings, so fixing the cheapest link already breaks the chain.",
+        "The same finding reads differently depending on who reads it: the technical detail and the business risk are two documents, not one.",
+        "The documents have to agree with each other: the writeup, the technical report and the executive report had to tell the same seven findings.",
       ],
     },
-    painPoints: [
-      {
-        title: "Credenciales en el HTML",
-        text: "El nombre de usuario y la ruta del portal oculto estaban visibles en los comentarios del codigo fuente de la pagina.",
-      },
-      {
-        title: "Upload sin validacion real",
-        text: "El servidor aceptaba archivos PHP sin verificar el tipo real: cualquier web shell pasaba disfrazado de documento legitimo.",
-      },
-      {
-        title: "Clave SSH compartida",
-        text: "La misma id_rsa estaba distribuida en varias cuentas del sistema, convirtiendo un acceso en pivote lateral inmediato.",
-      },
-    ],
-    chainStepsTitle: "Cadena de ataque: 7 fases, ninguna depende de un zero-day.",
-    chainSteps: [
-      "Reconocimiento: Nmap detecta Apache 2.4.58 en el puerto 80",
-      "Descubrimiento: comentario HTML expone usuario 'Bob' y ruta /m4ch1n3_upload.html",
-      "Acceso inicial: web shell PHP subida a /uploads via formulario sin validacion",
-      "Shell remota: payload Bash sobre Netcat establece reverse shell interactiva",
-      "Escalada horizontal: credencial Base64 en access_log decodificada (alice:s3cr3tp@ssw0rd^487)",
-      "Pivote lateral: id_rsa compartida permite moverse a la cuenta de bob",
-      "Okroot: sudo tar sin contrasena explotado via GTFOBins, acceso total al sistema",
-    ],
-    results: [
-      "Compromiso total de la maquina en 7 fases sin usar exploits de dia cero: todos los vectores son errores de configuracion y errores humanos reproducibles en entornos reales.",
-      "Cinco vulnerabilidades identificadas y clasificadas con CWE: informacion expuesta en comentarios (CWE-615), upload sin restricciones (CWE-434), credenciales en logs (CWE-312), clave SSH reutilizada (CWE-321) y sudo excesivo (CWE-269).",
-      "User flag capturada y acceso root confirmado. Writeup completo documentado con metodologia PTES y TTPs mapeados a MITRE ATT&CK.",
-    ],
-    learnings: [
-      "La seguridad no termina en el codigo del servidor: un comentario HTML con un nombre de usuario y una ruta oculta basta para iniciar un ataque completo. Todo lo que el servidor envia al navegador es superficie de ataque.",
-      "Validar la extension de un archivo no es lo mismo que validar su tipo real: un web shell PHP con extension permitida ejecuta codigo arbitrario en el servidor. La validacion ocurre en el MIME type verificado en servidor y en evitar que el directorio de subida ejecute codigo.",
-    ],
   },
 ];
 

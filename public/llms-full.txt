@@ -68,9 +68,9 @@ Case study: https://www.wavival.dev/proyectos/wavival-dev
 
 ## Forgotten Portal (pentesting writeup)
 
-A full offensive pentest exercise over DockerLabs: recon, a PHP upload exploit, a reverse shell, and privilege escalation to root. Documented with PTES methodology, CWE-classified vulnerabilities, and TTPs mapped to MITRE ATT&CK.
+A pentest exercise on a DockerLabs lab machine, run in a controlled environment during the Nodo EAFIT cybersecurity accelerator (March 23, 2026). PTES methodology, seven findings (three critical, two high, two medium) with CVSS and CWE classification, TTPs mapped to MITRE ATT&CK, a technical report, an executive report and 28 evidence screenshots.
 
-Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/
+Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/ · Case study: https://www.wavival.dev/proyectos/forgotten-portal · Source: https://github.com/wavival/forgotten-portal-writeup
 
 ## Services
 
