@@ -29,6 +29,7 @@ export interface ProjectEn {
   summary?: string;
   links: ProjectLink[];
   designLink?: ProjectLink;
+  designSystemLink?: ProjectLink;
   metaDescription?: string;
   architecture?: string[];
   decisions?: { title: string; context: string; tradeoff: string; decision: string }[];
@@ -65,6 +66,8 @@ export interface Project {
   links: ProjectLink[];
   /** Design prototype link shown only inside the case study. */
   designLink?: ProjectLink;
+  /** Design system link shown only inside the case study. */
+  designSystemLink?: ProjectLink;
   /** When true, this project gets its own /projects/<slug> case-study page. */
   caseStudy?: boolean;
   /** Points to an existing case-study slug instead of generating a new page. */
@@ -1696,6 +1699,11 @@ export const projects: Project[] = [
       text: "Ver diseño",
       ariaLabel: "Ver diseño de wavival.dev",
     },
+    designSystemLink: {
+      href: "https://claude.ai/design/p/340457ab-7efe-4c7e-b9bf-6cda2abd21bd?via=share",
+      text: "Ver sistema de diseño",
+      ariaLabel: "Ver sistema de diseño de wavival.dev",
+    },
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
@@ -1797,6 +1805,11 @@ export const projects: Project[] = [
         href: "https://wavival-prototype.netlify.app/",
         text: "View design",
         ariaLabel: "View wavival.dev design",
+      },
+      designSystemLink: {
+        href: "https://claude.ai/design/p/340457ab-7efe-4c7e-b9bf-6cda2abd21bd?via=share",
+        text: "View design system",
+        ariaLabel: "View wavival.dev design system",
       },
       metaDescription:
         "wavival.dev case study: the portfolio as design. @wavival | Design System v4, editorial, static, bilingual, AA contrast. Built with Astro and Tailwind.",

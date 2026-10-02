@@ -28,6 +28,7 @@ const r = siteRoutes(lang, base);
 const view = projectView(project, lang, base);
 const en = isEn ? project.en : undefined;
 const designLink = en?.designLink ?? project.designLink;
+const designSystemLink = en?.designSystemLink ?? project.designSystemLink;
 
 const architecture = en?.architecture ?? project.architecture;
 const decisions = en?.decisions ?? project.decisions;
@@ -147,6 +148,7 @@ const number = String(idx + 1).padStart(2, "0");
 const externalActions = [
   ...view.actions.filter((a) => a.external),
   ...(designLink ? [{ ...designLink, external: true }] : []),
+  ...(designSystemLink ? [{ ...designSystemLink, external: true }] : []),
 ];
 ---
 
