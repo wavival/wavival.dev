@@ -720,6 +720,15 @@ export const projects: Project[] = [
           "Los tres botones de plan llevan al mismo formulario y preseleccionan el tamaño de operación del plan. Primero un diagnóstico de 30 minutos y, si encaja, 14 días de prueba sin tarjeta.",
       },
       {
+        title: "GA4 para iterar con datos reales",
+        context:
+          "Sin métricas de comportamiento, el diseño de la landing es intuición: no se sabe qué secciones se leen ni qué botón convierte.",
+        tradeoff:
+          "GA4 añade un script de terceros con implicaciones de privacidad, y hay que declararlo y poder apagarlo.",
+        decision:
+          "GA4 se activa solo si existe su variable de entorno y registra eventos en cada CTA (Hero, planes, WhatsApp y formulario). La política de privacidad lo declara junto con Vercel Web Analytics.",
+      },
+      {
         title: "Estática, con una sola función de servidor",
         context:
           "Una landing no necesita un backend propio, pero el formulario tiene que guardar leads sin exponer llaves.",
@@ -896,6 +905,15 @@ export const projects: Project[] = [
             "A single destination loses direct plan purchase. In return, every request arrives complete and with context.",
           decision:
             "The three plan buttons lead to the same form and preselect the plan's operation size. First a 30-minute diagnostic and, if it fits, a 14-day trial with no card.",
+        },
+        {
+          title: "GA4 to iterate with real data",
+          context:
+            "Without behavioral metrics, landing design is intuition: you do not know which sections are read or which button converts.",
+          tradeoff:
+            "GA4 adds a third-party script with privacy implications, and it has to be declared and switchable off.",
+          decision:
+            "GA4 turns on only when its environment variable exists and records events on every CTA (Hero, plans, WhatsApp, and form). The privacy policy declares it alongside Vercel Web Analytics.",
         },
         {
           title: "Static, with a single server function",
