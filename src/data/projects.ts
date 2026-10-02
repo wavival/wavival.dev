@@ -967,29 +967,46 @@ export const projects: Project[] = [
     slug: "okroot",
     quoteType: "web-app",
     datePublished: "2026-06-16",
-    dateModified: "2026-09-26",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-okroot.webp",
     imageAlt: "OKroot: PWA con scanner de etiquetas por IA y perfil de restricciones alimentarias",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Django", "DRF", "PostgreSQL", "React", "TypeScript", "Claude API", "PWA"],
+    stack: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Dexie",
+      "Django",
+      "DRF",
+      "PostgreSQL",
+      "Claude API",
+      "PWA",
+    ],
     appCategory: "HealthApplication",
     programmingLanguage: ["Python", "TypeScript", "SQL"],
     summary:
-      "PWA offline-first que escanea etiquetas de alimentos con IA (Claude API) y dice al instante si puedes comer un producto según tus restricciones (celíaco, diabético, intolerante a la lactosa). Django, DRF, PostgreSQL, React.",
+      "PWA para quien tiene celiaquía, diabetes o intolerancia a la lactosa, solas o combinadas. El usuario fotografía la etiqueta de un producto y una IA (Claude API) responde en segundos si puede comerlo según su perfil. Suma diario con macros, recetas, insights y mercado semanal. React, Django, DRF y PostgreSQL.",
     filters: ["full-stack", "ai", "pwa", "design"],
     problem:
-      "Comer con celiaquía, diabetes o intolerancia a la lactosa implica leer cada etiqueta, descifrar ingredientes escondidos bajo otros nombres y buscar recetas que cumplan varias restricciones a la vez, todo de forma manual y dispersa.",
+      "Comer con celiaquía, diabetes o intolerancia a la lactosa implica leer cada etiqueta, descifrar ingredientes escondidos bajo otros nombres y cruzar varias restricciones a la vez, todo a mano. Las apps que existen suelen validar una condición y dependen de una base de datos fija de productos.",
     solution:
-      "El usuario fotografía un producto y en segundos sabe si puede comerlo con sus restricciones activas (celiaquía, diabetes, intolerancia a la lactosa), combinables entre sí. OKroot va más allá del scanner: recetas curadas con filtrado estricto y diario alimentario offline para quien ya sabe qué no puede comer y quiere saber qué sí.",
+      "El usuario fotografía la etiqueta y recibe un veredicto con la razón concreta, calculado contra todas sus condiciones activas y contra los ingredientes que él mismo marcó como prohibidos. Alrededor del scanner hay un diario con macros y bitácora de salud, 50 recetas curadas, insights semanales y un mercado semanal. Se instala desde el navegador y guarda sin conexión lo que el usuario registra.",
     architecture: [
-      "PWA offline-first con Service Workers: el diario de consumo funciona sin conexión y sincroniza al recuperarla.",
-      "Scanner de etiquetas por IA: el usuario fotografía un producto y Claude API analiza los ingredientes contra su perfil de restricciones activo.",
-      "Perfil de salud persistente que condiciona todas las respuestas del modelo (celiaquía, diabetes tipo 2, intolerancia a la lactosa, combinables).",
-      "Sistema de recetas curadas con filtrado estricto por múltiples condiciones simultáneas.",
-      "Backend en Django REST Framework + PostgreSQL; frontend en React + TypeScript.",
+      "Frontend en React 18 y TypeScript estricto, con Vite, Tailwind CSS 4, React Router y rutas por feature cargadas bajo demanda. Zustand guarda la sesión, TanStack Query maneja los datos del servidor, y react-hook-form con zod valida los formularios. Una capa de fetch propia, sin Axios.",
+      "Backend en Django 5.1 y Django REST Framework sobre PostgreSQL, organizado en ocho apps (usuarios, scanner, diario, recetas, insights, mercado, pagos y sync). La lógica vive en services y las vistas solo orquestan. Todas las respuestas usan el mismo envoltorio de datos y de error.",
+      "Scanner en el servidor: el cliente valida tipo, tamaño (5 MB) y resolución mínima, y envía la imagen en base64. El servidor la valida otra vez (firma del archivo incluida), llama a Claude con un prompt que conoce las condiciones del usuario y sus ingredientes a evitar, y parsea una respuesta por líneas a un veredicto, riesgo de trazas, ingredientes problemáticos y macros.",
+      "La imagen no se guarda: va al modelo y se descarta. Si la etiqueta es ilegible, el servidor reemplaza el texto del modelo por una indicación concreta (borrosa, poca luz, reflejo, texto cortado, sin lista de ingredientes) en lugar de adivinar.",
+      "Perfil de salud como estado persistente: tres condiciones combinables, objetivo, datos físicos con cálculo de gasto calórico (Mifflin-St Jeor) e ingredientes a evitar. Un ingrediente marcado por el usuario fuerza el veredicto de rechazo en código, sin depender de que el modelo lo recuerde.",
+      "Diario con comidas y macros, resumen semanal y bitácora de salud (energía, piel y glucosa). Insights con alertas, racha, vaso de agua y una estimación glucémica simple para diabéticos. Mercado semanal armado desde las recetas favoritas y lo registrado en el diario.",
+      "Offline: el service worker (Workbox) precachea la app y las consultas a la API usan primero la red con respaldo en caché. Los escaneos, las comidas y los cambios de la lista de compras sin conexión quedan en una cola de IndexedDB (Dexie) y se envían por lotes a un endpoint de sync cuando vuelve la red.",
+      "Sync con idempotencia: cada operación lleva una clave UUID generada en el cliente y el servidor devuelve la entidad existente si la reconoce, así un reintento nunca duplica. El lote es de hasta 100 operaciones en orden, con reintentos espaciados y el servidor como fuente de verdad.",
+      "Cuota de escaneos reservada de forma atómica en la base antes de llamar al modelo y devuelta si la llamada falla, para que peticiones simultáneas no superen el tope. Suscripciones con checkout alojado de Stripe y MercadoPago y webhooks con firma verificada e idempotentes.",
+      "Seguridad: JWT de acceso corto con refresh rotativo y lista negra, login con Google verificado en el servidor, bloqueo por intentos fallidos, límites de tasa en Nginx y en DRF, y cabeceras HSTS y CSP.",
+      "Calidad y entrega: ruff, comprobación de migraciones, más de 500 pruebas de backend y más de 250 de frontend, escaneo de secretos y de vulnerabilidades críticas en la imagen. Las imágenes se publican en GHCR y el VPS despliega por digest inmutable, con Nginx por delante.",
     ],
     links: [
       {
@@ -1007,16 +1024,7 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
-      "Caso de estudio de OKroot: PWA offline-first con scanner de etiquetas por IA (Claude API) para celíacos, diabéticos e intolerantes a la lactosa.",
-    results: [
-      "Scanner de etiquetas funcional: el usuario fotografía un producto y Claude API analiza los ingredientes contra su perfil de restricciones activo, incluso cuando varias condiciones aplican a la vez.",
-      "Diario de consumo operativo sin conexión gracias al diseño offline-first; los registros se persisten en local y sincronizan al recuperar la red.",
-      "Núcleo completo en producción: perfil de salud persistente, scanner por IA y recetas con filtrado estricto sobre Django REST Framework, PostgreSQL y React.",
-    ],
-    learnings: [
-      "Offline-first no es una capa que se añade al final: condiciona el modelo de sincronización desde el primer endpoint y obliga a resolver conflictos de datos en vez de asumir una única fuente de verdad.",
-      "Para que las respuestas del modelo sean fiables, el perfil de salud no puede ir solo en el prompt: tratar las restricciones como estado persistente y verificable, y no como contexto que se pierde entre peticiones, es lo que evita falsos seguros al combinar celiaquía, diabetes e intolerancia a la lactosa.",
-    ],
+      "Caso de estudio de OKroot: PWA con scanner de etiquetas por IA (Claude API) para celiaquía, diabetes e intolerancia a la lactosa, con cola de sync offline.",
     painPoints: [
       {
         title: "Cada etiqueta, a mano",
@@ -1028,29 +1036,38 @@ export const projects: Project[] = [
       },
       {
         title: "Restricciones que se acumulan",
-        text: "Las soluciones existentes validan una condición a la vez, dispersas y sin funcionar sin conexión.",
+        text: "Las soluciones existentes validan una condición a la vez y dependen de una lista fija de productos.",
       },
     ],
     modules: [
       {
         name: "Scanner de etiquetas",
-        text: "Fotografía un producto y la IA analiza los ingredientes contra el perfil activo del usuario, incluyendo ingredientes ocultos bajo nombres técnicos.",
+        text: "Foto de la etiqueta y veredicto en cuatro niveles: apto, cuidado, no apto y sin datos. Muestra el ingrediente que lo decide, el riesgo de contaminación cruzada, una fila por condición activa y los macros leídos de la tabla nutricional.",
       },
       {
-        name: "Recetas curadas",
-        text: "Catálogo filtrado por restricciones múltiples: una receta se valida contra celiaquía, diabetes e intolerancia a la lactosa al mismo tiempo.",
+        name: "Perfil e ingredientes a evitar",
+        text: "Onboarding en cuatro pasos con las condiciones (combinables), el objetivo, los datos físicos y los ingredientes que el usuario no quiere ver. Se edita después desde el perfil.",
       },
       {
-        name: "Diario alimentario",
-        text: "Registro de consumo con soporte offline completo. Los registros se persisten localmente y sincronizan al recuperar la red.",
+        name: "Diario y bitácora de salud",
+        text: "Comidas por momento del día con calorías y macros, resumen semanal y registro diario de energía, piel y glucosa. Registrar comidas funciona sin conexión.",
+      },
+      {
+        name: "Recetas",
+        text: "50 recetas curadas, todas sin gluten, sin lactosa y sin azúcar. Se filtran por momento, tiempo, dificultad y favoritas, y las que contienen un ingrediente a evitar quedan fuera. Se pueden agregar al diario.",
+      },
+      {
+        name: "Insights y mercado semanal",
+        text: "Resumen semanal con alertas, racha de registro y vasos de agua. Un mercado semanal se arma con los ingredientes de las recetas favoritas y lo que se registró en el diario.",
       },
     ],
     chainStepsTitle: "Una foto, una respuesta. Esto pasa por debajo.",
     chainSteps: [
-      "Fotografías la etiqueta de un producto",
-      "Claude API lee los ingredientes, incluidos los nombres técnicos que esconden lactosa, gluten o azúcar",
-      "El análisis se cruza contra todas tus restricciones activas a la vez",
-      "Respuesta en segundos: puedes comerlo, o el ingrediente exacto que lo descarta",
+      "La app valida la foto: tipo, tamaño y resolución mínima",
+      "El servidor la revisa de nuevo y reserva un escaneo de la cuota antes de llamar al modelo",
+      "Claude lee los ingredientes con tus condiciones y tus ingredientes a evitar en el prompt",
+      "El servidor parsea la respuesta, aplica tus ingredientes prohibidos como regla dura y guarda el resultado",
+      "Respuesta en pantalla: puedes comerlo, o el ingrediente exacto que lo descarta",
     ],
     decisions: [
       {
@@ -1060,43 +1077,104 @@ export const projects: Project[] = [
         tradeoff:
           "Un producto más amplio alcanza más usuarios pero diluye la propuesta y baja el estándar de validación.",
         decision:
-          "OKroot está diseñada para quien tiene una condición médica diagnosticada. Eso define el catálogo, los criterios del scanner y cómo se presentan los resultados.",
+          "OKroot está pensada para quien ya tiene la condición. Eso define el prompt, los veredictos y la regla de que una duda se muestra como duda, nunca como un apto.",
       },
       {
-        title: "Restricciones compuestas: lógica AND, no OR",
+        title: "Condiciones combinables como estado, no como contexto",
         context:
-          "Un usuario puede tener celiaquía, diabetes e intolerancia a la lactosa al mismo tiempo. La mayoría de apps aplican restricciones en silo.",
+          "Un usuario puede tener las tres condiciones a la vez, y repetirlas en cada petición es una fuente de olvidos y de respuestas inconsistentes.",
         tradeoff:
-          "Validar una restricción es simple. Validar tres simultáneamente con ingredientes ocultos bajo nombres técnicos exige un modelo de perfil persistente y prompts específicos.",
+          "Validar una restricción es simple. Validar tres a la vez exige modelar el perfil y construir el prompt desde él.",
         decision:
-          "El perfil de salud es estado persistente, no contexto de sesión. Cada análisis del scanner valida contra todas las restricciones activas al mismo tiempo.",
+          "Las condiciones y los ingredientes a evitar viven en la base de datos. Cada escaneo arma su prompt desde ese perfil y valida contra todas las condiciones activas.",
       },
       {
-        title: "Claude API vs lista hardcodeada de ingredientes",
+        title: "Claude API en vez de una lista de ingredientes",
         context:
-          "Un ingrediente prohibido aparece bajo decenas de nombres: la lactosa como suero, caseína o lactosuero; el gluten como malta, sémola o espelta. Una lista fija envejece y nunca cubre todos los casos.",
+          "Un ingrediente prohibido aparece bajo decenas de nombres: la lactosa como suero, caseína o lactosuero; el gluten como malta, sémola o espelta. Una lista fija envejece y no cubre todos los casos.",
         tradeoff:
-          "Una lista hardcodeada es predecible y barata, pero exige mantenimiento constante y falla ante nombres nuevos o redacciones ambiguas.",
+          "Una lista es predecible y barata, pero exige mantenimiento y falla ante nombres nuevos. El modelo generaliza, pero puede equivocarse y cuesta por llamada.",
         decision:
-          "El análisis lo hace Claude API contra el perfil de restricciones activo: generaliza a nombres alternativos y redacciones que una lista fija no anticipa, y explica el ingrediente concreto por el que un producto se descarta.",
+          "El modelo analiza la etiqueta real con una lista de nombres técnicos en el prompt. Lo crítico no se le delega: el ingrediente que el usuario prohibió fuerza el rechazo en código, y una imagen ilegible recibe una indicación fija, no una conjetura.",
       },
       {
-        title: "PWA offline-first para el diario alimentario",
-        context: "El registro de consumo ocurre en el momento, no siempre con buena señal.",
+        title: "Una respuesta por líneas, parseada con reglas",
+        context:
+          "El resultado alimenta una pantalla con veredicto, condiciones, ingredientes y macros, y no puede romperse si el modelo cambia de redacción.",
         tradeoff:
-          "Una app web tradicional falla sin conexión. Una app nativa requiere publicación en stores y más mantenimiento.",
+          "Un formato por líneas con expresiones regulares es más frágil que un esquema estricto, pero es simple y fácil de probar.",
         decision:
-          "Service Worker que persiste el diario en IndexedDB y sincroniza en batch al recuperar la red, resolviendo conflictos contra el backend. Se instala desde el navegador sin pasar por App Store.",
+          "El servidor parsea cada campo por separado: un veredicto que no entiende queda como sin datos y un macro que no puede leer se descarta en lugar de inventarse.",
+      },
+      {
+        title: "La cuota se reserva antes de llamar al modelo",
+        context:
+          "Cada escaneo cuesta dinero, y dos peticiones simultáneas pueden pasar una comprobación hecha antes de que la otra descuente.",
+        tradeoff:
+          "Reservar antes obliga a devolver el escaneo si la llamada falla, y un reembolso mal hecho deja al usuario sin escaneos.",
+        decision:
+          "La reserva bloquea la fila de suscripción dentro de una transacción. Si la llamada al modelo falla, el escaneo se devuelve y el usuario recibe un resultado sin datos en lugar de un cobro perdido.",
+      },
+      {
+        title: "PWA con escritura offline, no una app nativa",
+        context:
+          "El registro de comidas ocurre en el momento, no siempre con buena señal, y el scanner necesita un servidor porque la IA no corre en el dispositivo.",
+        tradeoff:
+          "Una web tradicional falla sin conexión. Una app nativa exige publicar en stores y mantener dos bases de código.",
+        decision:
+          "Service worker que precachea la app y una cola de IndexedDB para los escaneos, las comidas y la lista de compras. Un escaneo sin red se procesa cuando vuelve la señal, no al instante. Se instala desde el navegador.",
+      },
+      {
+        title: "Sync por lotes con idempotencia, sin fusionar en el cliente",
+        context:
+          "Una cola offline que reintenta puede enviar la misma operación dos veces, y fusionar cambios en el cliente multiplica los casos raros.",
+        tradeoff:
+          "Sin fusión en el cliente, el servidor tiene la última palabra. A cambio, el modelo es simple y los reintentos son seguros.",
+        decision:
+          "Cada operación lleva una clave UUID y el servidor devuelve la entidad ya creada si la reconoce. Un fallo de una operación no frena el lote, y el cliente reintenta con esperas crecientes.",
       },
     ],
+    design: [
+      "El diseño parte de un prototipo navegable, accesible desde el botón Ver diseño.",
+      "Sistema de diseño propio, versión 2.0, con tokens en un solo archivo CSS. Violeta como color primario sobre neutros cálidos y colores propios para los veredictos apto, cuidado y no apto.",
+      "Bricolage Grotesque para titulares y Plus Jakarta Sans para texto, ambas autoalojadas. Íconos de Lucide con trazo uniforme.",
+      "El veredicto no depende solo del color: lleva una marca (visto, exclamación o equis) y una palabra grande, y se anuncia a lectores de pantalla con regiones en vivo.",
+      "Pensada para el teléfono: la interfaz vive dentro de un marco móvil con barra de navegación inferior de cuatro pestañas más una quinta de plan o de mercado.",
+      "Animación reducida a nada cuando el usuario lo pide, objetivos táctiles de 44 px en varios controles y anillos de foco visibles.",
+      "Todo el texto está en español de Colombia y en tuteo. Hoy la interfaz es solo clara, sin modo oscuro.",
+    ],
+    results: [
+      "Scanner en producción: foto de la etiqueta, veredicto con la razón concreta y soporte para las tres condiciones a la vez.",
+      "Núcleo completo en producción: perfil, scanner, diario con bitácora de salud, recetas, insights y mercado semanal sobre Django, PostgreSQL y React.",
+      "Cola de sync offline operativa para escaneos, comidas y lista de compras, con envío por lotes idempotente cuando vuelve la red.",
+    ],
+    learnings: [
+      "Un modelo de lenguaje decide bien lo ambiguo, pero lo crítico se asegura en código: el ingrediente que el usuario prohibió se aplica como regla dura, y una imagen ilegible recibe una respuesta fija en vez de una conjetura.",
+      "El perfil de salud tiene que ser estado persistente y no contexto de la conversación. Así cada petición lo reconstruye igual y no se pierde entre llamadas.",
+      "Reservar la cuota antes de llamar al modelo y devolverla si falla evita tanto el sobreuso concurrente como el cobro de un escaneo que no llegó.",
+      "Offline no es una capa que se añade al final: condiciona el modelo de sync desde el primer endpoint. Con claves de idempotencia por operación, los reintentos son seguros sin lógica de fusión en el cliente.",
+      "Decir con precisión qué funciona sin conexión importa. El scanner necesita servidor, así que un escaneo sin red se encola y se procesa al volver la señal.",
+      "El texto del producto, la documentación y el código se desalinean con facilidad: contar pruebas, versiones y alcance a mano deja cifras viejas.",
+    ],
+    roadmap: {
+      now: [
+        "PWA en producción en early access, con scanner, diario, recetas, insights, mercado semanal y suscripciones.",
+      ],
+      next: [
+        "Leer el diario y las recetas desde el almacenamiento local sin conexión: hoy solo el historial de escaneos se lee de la caché.",
+      ],
+      later: [
+        "Buscador de recetas según lo que hay en la nevera, planificado y aún sin implementar.",
+      ],
+    },
     en: {
       summary:
-        "Offline-first PWA that scans food labels with AI (Claude API) and instantly tells you whether you can eat a product based on your active restrictions (celiac, diabetes, lactose intolerance). Django, DRF, PostgreSQL, React.",
+        "PWA for people with celiac disease, diabetes or lactose intolerance, alone or combined. The user photographs a product label and an AI (Claude API) answers in seconds whether they can eat it for their profile. It adds a food diary with macros, recipes, insights and a weekly market. React, Django, DRF and PostgreSQL.",
       imageAlt: "OKroot: PWA with AI food-label scanner and dietary restriction profile",
       problem:
-        "Eating with celiac disease, diabetes, or lactose intolerance means reading every label, deciphering hidden ingredients listed under other names, and finding recipes that comply with multiple restrictions at the same time, all manually and scattered across sources.",
+        "Eating with celiac disease, diabetes or lactose intolerance means reading every label, deciphering ingredients hidden under other names and cross-checking several restrictions at once, all by hand. Existing apps usually validate one condition and rely on a fixed product database.",
       solution:
-        "The user photographs a product and within seconds knows whether they can eat it given their active restrictions (celiac disease, diabetes, lactose intolerance), combinable with each other. OKroot goes beyond the scanner: curated recipes with strict filtering and an offline food diary for those who already know what they cannot eat and want to know what they can.",
+        "The user photographs the label and gets a verdict with the specific reason, computed against all their active conditions and against the ingredients they marked as forbidden. Around the scanner there is a diary with macros and a health log, 50 curated recipes, weekly insights and a weekly market. It installs from the browser and keeps what the user logs without a connection.",
       links: [
         {
           href: "https://app.okroot.co/",
@@ -1111,13 +1189,19 @@ export const projects: Project[] = [
         ariaLabel: "View OKroot design",
       },
       metaDescription:
-        "OKroot case study: offline-first PWA with AI food label scanner (Claude API) for celiac, diabetic, and lactose-intolerant users. Architecture and decisions.",
+        "OKroot case study: PWA with an AI food label scanner (Claude API) for celiac disease, diabetes and lactose intolerance, with an offline sync queue.",
       architecture: [
-        "Offline-first PWA with Service Workers: the food diary works without connection and syncs when connectivity is restored.",
-        "AI food label scanner: the user photographs a product and Claude API analyzes the ingredients against their active restriction profile.",
-        "Persistent health profile that conditions all model responses (celiac disease, type 2 diabetes, lactose intolerance, combinable).",
-        "Curated recipe system with strict filtering by multiple simultaneous conditions.",
-        "Backend in Django REST Framework + PostgreSQL; frontend in React + TypeScript.",
+        "Frontend in React 18 and strict TypeScript, with Vite, Tailwind CSS 4, React Router and per-feature routes loaded on demand. Zustand holds the session, TanStack Query handles server data, and react-hook-form with zod validates forms. A custom fetch layer, no Axios.",
+        "Backend in Django 5.1 and Django REST Framework on PostgreSQL, organized in eight apps (users, scanner, diary, recipes, insights, market, payments and sync). Logic lives in services and views only orchestrate. Every response uses the same data and error envelope.",
+        "Scanner on the server: the client validates type, size (5 MB) and minimum resolution, and sends the image as base64. The server validates it again (file signature included), calls Claude with a prompt that knows the user's conditions and ingredients to avoid, and parses a line-based answer into a verdict, trace risk, problem ingredients and macros.",
+        "The image is not stored: it goes to the model and is discarded. If the label is unreadable, the server replaces the model's text with a concrete hint (blurry, low light, glare, cropped text, no ingredient list) instead of guessing.",
+        "Health profile as persistent state: three combinable conditions, goal, physical data with an energy expenditure calculation (Mifflin-St Jeor) and ingredients to avoid. An ingredient the user flagged forces the reject verdict in code, without relying on the model remembering it.",
+        "Diary with meals and macros, weekly summary and a health log (energy, skin and glucose). Insights with alerts, streak, water glasses and a simple glycemic estimate for diabetics. A weekly market built from favorite recipes and what was logged in the diary.",
+        "Offline: the service worker (Workbox) precaches the app and API reads go network-first with a cache fallback. Scans, meals and shopping list changes made without a connection are kept in an IndexedDB queue (Dexie) and sent in batches to a sync endpoint when the network returns.",
+        "Idempotent sync: each operation carries a client-generated UUID key and the server returns the existing entity if it recognizes it, so a retry never duplicates. A batch holds up to 100 operations in order, with spaced retries and the server as the source of truth.",
+        "Scan quota reserved atomically in the database before calling the model and returned if the call fails, so simultaneous requests cannot exceed the cap. Subscriptions with hosted Stripe and MercadoPago checkout and signature-verified, idempotent webhooks.",
+        "Security: short-lived JWT access with rotating, blacklisted refresh, server-verified Google login, lockout on failed attempts, rate limits in Nginx and DRF, and HSTS and CSP headers.",
+        "Quality and delivery: ruff, migration checks, more than 500 backend tests and more than 250 frontend tests, secret scanning and scanning for critical image vulnerabilities. Images are published to GHCR and the VPS deploys by immutable digest, with Nginx in front.",
       ],
       painPoints: [
         {
@@ -1126,80 +1210,139 @@ export const projects: Project[] = [
         },
         {
           title: "Ingredients in disguise",
-          text: "Lactose, gluten, or sugar show up under technical names few people recognize.",
+          text: "Lactose, gluten or sugar show up under technical names few people recognize.",
         },
         {
           title: "Restrictions that stack",
-          text: "Existing tools validate one condition at a time, scattered and useless offline.",
+          text: "Existing tools validate one condition at a time and rely on a fixed product list.",
         },
       ],
       modules: [
         {
           name: "Label scanner",
-          text: "Photograph a product and the AI analyzes the ingredients against the user's active profile, including hidden ingredients listed under technical names.",
+          text: "Photo of the label and a verdict on four levels: suitable, caution, not suitable and no data. It shows the deciding ingredient, the cross-contamination risk, one row per active condition and the macros read from the nutrition table.",
         },
         {
-          name: "Curated recipes",
-          text: "Catalog filtered by multiple restrictions: a recipe is validated against celiac disease, diabetes, and lactose intolerance simultaneously.",
+          name: "Profile and ingredients to avoid",
+          text: "Four-step onboarding with the conditions (combinable), the goal, physical data and the ingredients the user never wants to see. It is edited later from the profile.",
         },
         {
-          name: "Food diary",
-          text: "Consumption log with full offline support. Records are persisted locally and sync when connectivity is restored.",
+          name: "Diary and health log",
+          text: "Meals by time of day with calories and macros, a weekly summary and a daily log of energy, skin and glucose. Logging meals works without a connection.",
+        },
+        {
+          name: "Recipes",
+          text: "50 curated recipes, all gluten-free, lactose-free and sugar-free. They filter by meal, time, difficulty and favorites, and any that contain an ingredient to avoid are left out. They can be added to the diary.",
+        },
+        {
+          name: "Insights and weekly market",
+          text: "A weekly summary with alerts, logging streak and water glasses. A weekly market is built from the ingredients of favorite recipes and what was logged in the diary.",
         },
       ],
       chainStepsTitle: "One photo, one answer. Here is what happens underneath.",
       chainSteps: [
-        "You photograph a product's label",
-        "Claude API reads the ingredients, including the technical names that hide lactose, gluten, or sugar",
-        "The analysis is cross-checked against all your active restrictions at once",
-        "Answer in seconds: you can eat it, or the exact ingredient that rules it out",
+        "The app validates the photo: type, size and minimum resolution",
+        "The server checks it again and reserves one scan from the quota before calling the model",
+        "Claude reads the ingredients with your conditions and your ingredients to avoid in the prompt",
+        "The server parses the answer, applies your forbidden ingredients as a hard rule and stores the result",
+        "Answer on screen: you can eat it, or the exact ingredient that rules it out",
       ],
       decisions: [
         {
           title: "Real medical niche, not generic wellness",
           context:
-            "Many eat-healthy apps exist. People with celiac disease, diabetes, or intolerance have specific needs and real consequences if they make mistakes.",
+            "Many eat-healthy apps exist. People with celiac disease, diabetes or intolerance have specific needs and real consequences if they make mistakes.",
           tradeoff:
             "A broader product reaches more users but dilutes the proposition and lowers the validation standard.",
           decision:
-            "OKroot is designed for people with a diagnosed medical condition. That defines the catalog, scanner criteria, and how results are presented.",
+            "OKroot is built for people who already have the condition. That defines the prompt, the verdicts and the rule that a doubt is shown as a doubt, never as a suitable.",
         },
         {
-          title: "Compound restrictions: AND logic, not OR",
+          title: "Combinable conditions as state, not context",
           context:
-            "A user can have celiac disease, diabetes, and lactose intolerance simultaneously. Most apps apply restrictions in silos.",
+            "A user can have all three conditions at once, and repeating them in every request is a source of omissions and inconsistent answers.",
           tradeoff:
-            "Validating one restriction is simple. Validating three simultaneously with hidden ingredients under technical names requires a persistent profile model and specific prompts.",
+            "Validating one restriction is simple. Validating three at once requires modeling the profile and building the prompt from it.",
           decision:
-            "The health profile is persistent state, not session context. Each scanner analysis validates against all active restrictions at the same time.",
+            "The conditions and ingredients to avoid live in the database. Each scan builds its prompt from that profile and validates against all active conditions.",
         },
         {
-          title: "Claude API vs a hardcoded ingredient list",
+          title: "Claude API instead of an ingredient list",
           context:
-            "A restricted ingredient shows up under dozens of names: lactose as whey, casein, or milk solids; gluten as malt, semolina, or spelt. A fixed list ages and never covers every case.",
+            "A restricted ingredient shows up under dozens of names: lactose as whey, casein or milk solids; gluten as malt, semolina or spelt. A fixed list ages and does not cover every case.",
           tradeoff:
-            "A hardcoded list is predictable and cheap, but needs constant maintenance and breaks on new names or ambiguous wording.",
+            "A list is predictable and cheap, but needs maintenance and breaks on new names. The model generalizes, but it can be wrong and costs per call.",
           decision:
-            "Claude API runs the analysis against the active restriction profile: it generalizes to alternative names and phrasings a fixed list cannot anticipate, and explains the specific ingredient that rules a product out.",
+            "The model analyzes the real label with a list of technical names in the prompt. Anything critical is not delegated: the ingredient the user forbade forces the reject in code, and an unreadable image gets a fixed hint, not a guess.",
         },
         {
-          title: "Offline-first PWA for the food diary",
-          context: "Consumption logging happens in the moment, not always with a good signal.",
+          title: "A line-based answer, parsed with rules",
+          context:
+            "The result feeds a screen with verdict, conditions, ingredients and macros, and it cannot break if the model changes its wording.",
           tradeoff:
-            "A traditional web app fails without connection. A native app requires store publishing and more maintenance.",
+            "A line format with regular expressions is more fragile than a strict schema, but it is simple and easy to test.",
           decision:
-            "Service Worker that persists the diary in IndexedDB and syncs in batch when connectivity returns, resolving conflicts against the backend. Installs from the browser without going through the App Store.",
+            "The server parses each field separately: a verdict it does not understand becomes no data and a macro it cannot read is dropped instead of being invented.",
         },
+        {
+          title: "The quota is reserved before calling the model",
+          context:
+            "Every scan costs money, and two simultaneous requests can pass a check made before the other one deducts.",
+          tradeoff:
+            "Reserving first forces you to return the scan if the call fails, and a bad refund leaves the user without scans.",
+          decision:
+            "The reservation locks the subscription row inside a transaction. If the model call fails, the scan is returned and the user gets a no-data result instead of a lost charge.",
+        },
+        {
+          title: "PWA with offline writes, not a native app",
+          context:
+            "Meal logging happens in the moment, not always with a good signal, and the scanner needs a server because the AI does not run on the device.",
+          tradeoff:
+            "A traditional web app fails without a connection. A native app requires store publishing and two codebases.",
+          decision:
+            "A service worker that precaches the app and an IndexedDB queue for scans, meals and the shopping list. A scan made offline is processed when the signal returns, not instantly. It installs from the browser.",
+        },
+        {
+          title: "Batch sync with idempotency, no merging on the client",
+          context:
+            "An offline queue that retries can send the same operation twice, and merging changes on the client multiplies the edge cases.",
+          tradeoff:
+            "Without client-side merging, the server has the last word. In exchange, the model is simple and retries are safe.",
+          decision:
+            "Each operation carries a UUID key and the server returns the already created entity if it recognizes it. One failed operation does not stop the batch, and the client retries with growing delays.",
+        },
+      ],
+      design: [
+        "The design starts from a navigable prototype, reachable from the View design button.",
+        "A custom design system, version 2.0, with tokens in a single CSS file. Violet as the primary color on warm neutrals and dedicated colors for the suitable, caution and not suitable verdicts.",
+        "Bricolage Grotesque for headings and Plus Jakarta Sans for body text, both self-hosted. Lucide icons with a uniform stroke.",
+        "The verdict does not rely on color alone: it carries a mark (check, exclamation or cross) and a large word, and it is announced to screen readers with live regions.",
+        "Built for the phone: the interface lives inside a mobile frame with a four-tab bottom navigation plus a fifth tab for plan or market.",
+        "Animation is reduced to nothing when the user asks for it, touch targets are 44 px on several controls and focus rings are visible.",
+        "All text is in Colombian Spanish and in the informal register. Today the interface is light only, with no dark mode.",
       ],
       results: [
-        "Functional label scanner: the user photographs a product and Claude API analyzes the ingredients against their active restriction profile, even when multiple conditions apply simultaneously.",
-        "Operational offline food diary thanks to offline-first design; records are persisted locally and sync when connectivity is restored.",
-        "Complete core in production: persistent health profile, AI scanner, and recipes with strict filtering on Django REST Framework, PostgreSQL, and React.",
+        "Scanner in production: label photo, verdict with the specific reason and support for all three conditions at once.",
+        "Complete core in production: profile, scanner, diary with health log, recipes, insights and weekly market on Django, PostgreSQL and React.",
+        "Offline sync queue running for scans, meals and the shopping list, with idempotent batch delivery when the network returns.",
       ],
       learnings: [
-        "Offline-first is not a layer added at the end: it conditions the sync model from the first endpoint and forces resolving data conflicts instead of assuming a single source of truth.",
-        "For the model's responses to be reliable, the health profile cannot go only in the prompt: treating restrictions as persistent verifiable state, not context that is lost between requests, is what prevents false negatives when combining celiac disease, diabetes, and lactose intolerance.",
+        "A language model handles the ambiguous well, but the critical part is secured in code: the ingredient the user forbade is applied as a hard rule, and an unreadable image gets a fixed answer instead of a guess.",
+        "The health profile has to be persistent state and not conversation context. That way each request rebuilds it the same way and nothing is lost between calls.",
+        "Reserving the quota before calling the model and returning it on failure avoids both concurrent overuse and charging for a scan that never arrived.",
+        "Offline is not a layer added at the end: it conditions the sync model from the first endpoint. With per-operation idempotency keys, retries are safe without client-side merge logic.",
+        "Being precise about what works offline matters. The scanner needs a server, so a scan without a network is queued and processed when the signal returns.",
+        "Product copy, documentation and code drift apart easily: counting tests, versions and scope by hand leaves stale numbers behind.",
       ],
+      roadmap: {
+        now: [
+          "PWA in production in early access, with scanner, diary, recipes, insights, weekly market and subscriptions.",
+        ],
+        next: [
+          "Read the diary and recipes from local storage without a connection: today only the scan history is read from the cache.",
+        ],
+        later: ["Recipe finder based on what is in the fridge, planned and not yet implemented."],
+      },
     },
   },
   {
@@ -1207,39 +1350,181 @@ export const projects: Project[] = [
     slug: "okroot-landing",
     quoteType: "landing",
     datePublished: "2026-06-18",
-    dateModified: "2026-09-26",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-okroot.webp",
     imageAlt: "Landing de OKroot: scanner de etiquetas por IA para restricciones alimentarias",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
+    stack: [
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vercel Functions",
+      "Supabase",
+      "GA4",
+      "SEO",
+      "A11y",
+    ],
     filters: ["landing", "design"],
+    summary:
+      "Landing estática de OKroot que lleva a quien tiene celiaquía, diabetes o intolerancia a la lactosa desde el dolor de leer etiquetas hasta una lista de espera para el acceso anticipado. Suma un recetario con 16 recetas y páginas legales. Astro, Tailwind CSS y Supabase.",
     problem:
-      "Una app con múltiples restricciones dietéticas necesita comunicar con precisión a quién está dirigida y qué hace antes de que el usuario la instale o la pruebe.",
+      "Una app con varias restricciones dietéticas tiene que decir con precisión a quién sirve y qué hace antes de que alguien se anote. Y como trata temas de salud, no puede prometer lo que no es: ni afirmaciones médicas ni nombres de tecnología que no ayudan al usuario.",
     solution:
-      "Landing de OKroot que explica el scanner de etiquetas por IA, las restricciones activas compatibles (celiaquía, diabetes, intolerancia a la lactosa) y el acceso a la PWA.",
+      "Landing en Astro que parte del dolor cotidiano, muestra cómo funciona el scanner en tres pasos, compara con las apps que existen y presenta a la fundadora como primera usuaria. Todos los botones llevan a una lista de espera con consentimiento explícito, sin pedir datos de salud, y la analítica solo se carga si el visitante la acepta.",
     architecture: [
-      "Astro con output estático: componentes por sección y deploy continuo en Vercel.",
-      "Tailwind CSS para diseño responsivo.",
-      "SEO técnico: title, meta-description, Open Graph, Twitter Card, canonical y schema markup.",
-      "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
-      "Analíticas de Google (GA4): seguimiento de visitas y comportamiento del usuario.",
-      "Formulario de contacto conectado a Supabase (Postgres gestionado): captura de interesados en una base de datos propia, sin servidor propio que mantener.",
+      "Astro 5 con salida estática y Tailwind CSS 4 con la configuración en CSS. Sin adaptador ni framework de interfaz: el JavaScript es vanilla, un script por componente. Los íconos de Lucide se incrustan al compilar como SVG, sin JavaScript en el navegador.",
+      "Una página de aterrizaje de nueve secciones en orden fijo: Hero, Dolor, Cómo funciona, Comparación, Funciones, Casos de éxito, Precios, Lista de espera y Preguntas. Además hay páginas de Sobre mí, Contacto y Preguntas, y las cuatro legales (privacidad, términos, habeas data y cookies).",
+      "Recetario como colección de contenido: cada receta es un archivo Markdown validado en el build con un esquema de zod. Una receta que no lo cumple rompe la compilación y no llega a producción. El índice y una página por receta se generan en estático, con JSON-LD de receta y migas de pan.",
+      "Los datos de la sección de precios y el cupo de acceso anticipado viven en un solo archivo de constantes, y el contador de cupos admite solo un número real: con cero, la línea de escasez desaparece.",
+      "Lista de espera con nombre, correo y casilla de consentimiento obligatoria, más un campo trampa oculto. Envía JSON a una función de Vercel que valida y normaliza, y guarda en una tabla compartida de Supabase con la llave de servicio solo en el servidor. El navegador nunca habla con Supabase.",
+      "La función guarda únicamente nombre, correo, producto, fecha de consentimiento y la ruta de la página. No recibe ni guarda datos de salud ni la IP, y descarta cualquier campo extra. Un correo repetido responde 'ya estás dentro' sin crear otra fila, y solo guarda en producción: en preview valida y avisa que el almacenamiento está desactivado.",
+      "Analítica: GA4 con consentimiento. No se carga nunca por defecto; un banner de cookies guarda la preferencia y, solo si el visitante acepta, inyecta gtag.js con el ID de una variable de entorno. Si la variable no existe, no se hace ninguna petición. Un page_view manual cubre la navegación con transiciones.",
+      "Navegación con View Transitions como mejora progresiva: cada ruta sigue siendo un HTML real, y los scripts se vuelven a ejecutar en cada carga de página.",
+      "SEO técnico: title, description, canonical, Open Graph y Twitter, mapa del sitio automático y JSON-LD con Organization, WebSite, SoftwareApplication y FAQPage. Las preguntas frecuentes alimentan el acordeón y el esquema desde la misma fuente.",
+      "Seguridad desde vercel.json: CSP estricta con script-src 'self' y solo los orígenes de Google Analytics, HSTS, X-Frame-Options DENY, Permissions-Policy sin cámara ni micrófono y caché inmutable en los archivos con hash.",
+      "Calidad: la verificación es astro check (TypeScript y plantillas) más el build, que valida además el esquema de las recetas. CI corre ambos en cada pull request, con un audit de dependencias que informa pero no bloquea. No hay pruebas automatizadas de interfaz.",
+    ],
+    painPoints: [
+      {
+        title: "Leer cada etiqueta, una por una",
+        text: "El súper se vuelve una revisión de ingredientes, y 'almidón modificado' a las 8 de la noche no ayuda a nadie.",
+      },
+      {
+        title: "Cruzar varias condiciones en la misma comida",
+        text: "Celiaquía y diabetes a la vez, más la lactosa, y cada app resuelve una sola.",
+      },
+      {
+        title: "Recetas que parecían seguras",
+        text: "Descartar a posteriori lo que no lo era, y contar a mano los carbohidratos de cada plato.",
+      },
+      {
+        title: "Una promesa de salud que no se puede sostener",
+        text: "En un tema médico, un claim de más resta confianza y expone. Hay que decir qué hace la herramienta y qué no.",
+      },
+    ],
+    modules: [
+      {
+        name: "Hero con una promesa concreta",
+        text: "Titular 'Fotografía la etiqueta. Sabe en segundos si puedes comerla', las tres condiciones nombradas, un botón a la lista de espera y un mock del scanner animado.",
+      },
+      {
+        name: "Dolor, en seis escenas",
+        text: "Carrusel con las seis molestias cotidianas: swipe horizontal en móvil y desplazamiento anclado en escritorio.",
+      },
+      {
+        name: "Cómo funciona y comparación",
+        text: "Tres pasos (fotografía, análisis con IA y respuesta con la razón) y una tabla frente a otras apps: restricciones juntas, etiqueta real y alcance más allá del scanner.",
+      },
+      {
+        name: "Funciones y fundadora",
+        text: "Perfil persistente, recetas curadas y diario con soporte sin conexión, y una sección que presenta a la creadora como primera usuaria, con enlaces a su portafolio y redes.",
+      },
+      {
+        name: "Lista de espera y preguntas",
+        text: "Formulario con consentimiento explícito y nueve preguntas frecuentes que responden con límites claros: no es un reemplazo del médico y hoy solo lee etiquetas de ingredientes.",
+      },
+      {
+        name: "Recetario",
+        text: "16 recetas sin gluten con tiempos, ingredientes y notas. Los beneficios solo se publican si citan una fuente verificable.",
+      },
+    ],
+    decisions: [
+      {
+        title: "Acción antes que lista de condiciones",
+        context:
+          "Hay tres condiciones y un solo botón. Enumerarlas todas en el primer pantallazo diluye la acción.",
+        tradeoff: "Nombrar las condiciones da claridad. Ponerlas en un botón lo satura.",
+        decision:
+          "El titular promete la acción ('fotografía la etiqueta') y nombra las tres condiciones una sola vez, debajo. Todos los botones llevan al mismo destino: la lista de espera.",
+      },
+      {
+        title: "Copy sin stack ni claims médicos",
+        context:
+          "El usuario no necesita saber con qué se construyó, y en salud, palabras como diagnóstico o tratamiento prometen lo que la herramienta no es.",
+        tradeoff:
+          "Omitir el stack quita credibilidad técnica. Omitir los claims médicos limita el discurso.",
+        decision:
+          "El texto describe el beneficio y nunca la tecnología. Las respuestas aclaran que es una ayuda para decidir y no reemplaza al médico, y las recetas solo publican beneficios con fuente.",
+      },
+      {
+        title: "Una fundadora que es la primera usuaria",
+        context:
+          "Un producto de salud sin prueba social pierde confianza, pero inventar casos la destruye.",
+        tradeoff: "Un solo caso es poca evidencia. Uno real pesa más que varios de relleno.",
+        decision:
+          "La sección de casos de éxito cuenta la historia real de la creadora y deja un carrusel listo para sumar casos cuando existan, sin inventarlos.",
+      },
+      {
+        title: "Consentimiento antes de la analítica",
+        context:
+          "La landing habla de salud, y cargar un script de seguimiento por defecto contradice lo que promete.",
+        tradeoff:
+          "GA4 detrás de un banner pierde parte de las visitas, pero la política de cookies puede ser cierta.",
+        decision:
+          "GA4 solo se carga si el visitante acepta, y se apaga si no hay ID. El banner aclara que no se recopilan datos del perfil de salud.",
+      },
+      {
+        title: "La lista de espera no pide datos de salud",
+        context:
+          "Preguntar la condición al anotarse daría datos útiles, pero convertiría una lista de contactos en datos sensibles.",
+        tradeoff:
+          "Sin la condición no se puede segmentar. A cambio, no hay datos de salud que proteger.",
+        decision:
+          "El formulario pide nombre y correo, y la función guarda solo columnas de una lista blanca. Cualquier campo extra se descarta en el servidor.",
+      },
+      {
+        title: "Estática, con una sola función de servidor",
+        context:
+          "Una landing no necesita un backend propio, pero el formulario tiene que guardar sin exponer llaves.",
+        tradeoff:
+          "La función de Vercel no corre bajo el servidor de desarrollo de Astro, y el preview no tiene base de datos.",
+        decision:
+          "El sitio es estático y el formulario habla con una función que usa la llave de servicio solo en el servidor. Fuera de producción valida y no guarda.",
+      },
+      {
+        title: "Una tabla de contactos compartida",
+        context:
+          "Cada producto de Lúmina W tiene su lista de espera, y mantener una base por producto multiplica el trabajo.",
+        tradeoff:
+          "Una tabla compartida exige que cada función ponga su propio producto y que el script de la tabla sea idéntico en todos los repositorios.",
+        decision:
+          "Las listas de espera comparten una tabla con la clave única de producto y correo. La función fija el producto en el servidor y nunca lo lee de la petición.",
+      },
+    ],
+    design: [
+      "El diseño parte de un prototipo navegable, accesible desde el botón Ver diseño.",
+      "Violeta como color primario sobre fondos crema, en la misma familia visual que la app, con un hero en tarjeta de gradiente suave.",
+      "Fuentes autoalojadas y servidas desde el propio sitio, sin pedir nada a terceros.",
+      "Secciones con un eyebrow editorial, animaciones de aparición con IntersectionObserver y CSS puro, sin una librería de animación.",
+      "Iconografía en SVG incrustado: nunca flechas de texto en los botones ni rayas largas en el copy.",
+      "Un scanner animado en el hero que muestra el escaneo y el veredicto sin cargar el producto real.",
+      "Todo el contenido está en español y las rutas también (preguntas, contacto, sobre-mi, recetas).",
     ],
     results: [
-      "Landing publicada en producción con las secciones principales del scanner de etiquetas por IA, las restricciones alimentarias activas y el acceso directo a la PWA.",
-      "SEO técnico, accesibilidad WCAG AA y analíticas GA4 configuradas desde el lanzamiento.",
+      "Landing en producción con la lista de espera guardando solicitudes, recetario y páginas legales.",
+      "Analítica con consentimiento y SEO técnico con datos estructurados desde el lanzamiento.",
     ],
     learnings: [
-      "Comunicar tres restricciones alimentarias distintas en un solo CTA sin perder claridad exige priorizar la acción sobre la lista de condiciones: 'fotografía el producto' convierte más que enumerar las restricciones.",
+      "Comunicar tres restricciones en un solo llamado exige priorizar la acción sobre la lista de condiciones: fotografiar la etiqueta se entiende más rápido que enumerar lo que se tiene.",
+      "En un tema de salud, lo que no se promete vale tanto como lo que sí. Sin claims médicos, sin stack y sin casos inventados, cada frase se puede defender.",
+      "Una analítica que espera el consentimiento y un formulario que no pide datos de salud son decisiones de producto, no solo de cumplimiento.",
+      "Un esquema que valida el contenido en el build evita que una receta rota llegue a producción, aunque no haya pruebas automatizadas de interfaz.",
+      "Las cifras de precios, cupos y límites se desalinean cuando se copian en varias páginas: conviene una sola fuente y revisar el texto contra el producto.",
     ],
+    roadmap: {
+      now: ["Landing en producción captando la lista de espera del acceso anticipado."],
+      next: ["Sumar más casos de éxito: hoy la landing cuenta solo el de la fundadora."],
+      later: [
+        "Más idiomas y mercados, y más condiciones y combinaciones, según las preguntas frecuentes.",
+      ],
+    },
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de OKroot Landing: landing en Astro y Tailwind CSS que comunica el scanner de etiquetas por IA y las restricciones alimentarias compatibles.",
+      "Caso de estudio de OKroot Landing: landing estática en Astro y Tailwind CSS con lista de espera en Supabase, analítica con consentimiento y recetario.",
     links: [
       {
         href: "https://okroot.co/",
@@ -1253,11 +1538,13 @@ export const projects: Project[] = [
       ariaLabel: "Ver diseño de OKroot Landing",
     },
     en: {
+      summary:
+        "OKroot static landing that takes people with celiac disease, diabetes or lactose intolerance from the pain of reading labels to a waitlist for early access. It adds a recipe collection with 16 recipes and legal pages. Astro, Tailwind CSS and Supabase.",
       imageAlt: "OKroot landing: AI food label scanner for dietary restrictions",
       problem:
-        "A multi-restriction diet app needs to communicate with precision who it is for and what it does before the user installs or tries it.",
+        "An app with several dietary restrictions has to say precisely who it serves and what it does before anyone signs up. And because it deals with health, it cannot promise what it is not: no medical claims and no technology names that do not help the user.",
       solution:
-        "OKroot landing that explains the AI label scanner, the compatible active restrictions (celiac disease, diabetes, lactose intolerance), and access to the PWA.",
+        "An Astro landing that starts from everyday pain, shows how the scanner works in three steps, compares against existing apps and presents the founder as the first user. Every button leads to a waitlist with explicit consent, without asking for health data, and analytics only load if the visitor accepts them.",
       links: [
         {
           href: "https://okroot.co/",
@@ -1271,23 +1558,154 @@ export const projects: Project[] = [
         ariaLabel: "View OKroot Landing design",
       },
       metaDescription:
-        "OKroot Landing case study: landing in Astro and Tailwind CSS that communicates the AI label scanner and compatible dietary restrictions.",
+        "OKroot Landing case study: static landing in Astro and Tailwind CSS with a Supabase waitlist, consent-gated analytics and a recipe collection.",
       architecture: [
-        "Astro with static output: section components and continuous deployment to Vercel.",
-        "Tailwind CSS for responsive design.",
-        "Technical SEO: title, meta-description, Open Graph, Twitter Card, canonical, and schema markup.",
-        "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Vercel.",
-        "Google Analytics (GA4): visit tracking and user behavior.",
-        "Contact form connected to Supabase (managed Postgres): captures interested users in an owned database, with no own server to maintain.",
+        "Astro 5 with static output and Tailwind CSS 4 configured in CSS. No adapter and no UI framework: JavaScript is vanilla, one script per component. Lucide icons are inlined at build time as SVG, with no JavaScript in the browser.",
+        "A landing page of nine sections in a fixed order: Hero, Pain, How it works, Comparison, Features, Success stories, Pricing, Waitlist and FAQ. There are also About, Contact and FAQ pages, and the four legal ones (privacy, terms, habeas data and cookies).",
+        "A recipe collection as a content collection: each recipe is a Markdown file validated at build time with a zod schema. A recipe that does not comply breaks the build and never reaches production. The index and one page per recipe are generated statically, with recipe JSON-LD and breadcrumbs.",
+        "The pricing section data and the early access spots live in a single constants file, and the spots counter accepts only a real number: at zero, the scarcity line disappears.",
+        "A waitlist with name, email and a required consent checkbox, plus a hidden honeypot field. It sends JSON to a Vercel function that validates and normalizes, and stores in a shared Supabase table with the service key only on the server. The browser never talks to Supabase.",
+        "The function stores only name, email, product, consent date and the page path. It neither receives nor stores health data or the IP, and drops any extra field. A repeated email answers 'you are already in' without creating another row, and it only stores in production: in preview it validates and reports that storage is disabled.",
+        "Analytics: GA4 with consent. It never loads by default; a cookie banner stores the preference and, only if the visitor accepts, injects gtag.js with the ID from an environment variable. If the variable is missing, no request is made. A manual page_view covers navigation with transitions.",
+        "Navigation with View Transitions as progressive enhancement: each route is still a real HTML file, and scripts re-run on every page load.",
+        "Technical SEO: title, description, canonical, Open Graph and Twitter, automatic sitemap and JSON-LD with Organization, WebSite, SoftwareApplication and FAQPage. The FAQ feeds the accordion and the schema from the same source.",
+        "Security from vercel.json: strict CSP with script-src 'self' and only the Google Analytics origins, HSTS, X-Frame-Options DENY, a Permissions-Policy without camera or microphone and immutable caching on hashed files.",
+        "Quality: verification is astro check (TypeScript and templates) plus the build, which also validates the recipe schema. CI runs both on every pull request, with a dependency audit that reports but does not block. There are no automated UI tests.",
+      ],
+      painPoints: [
+        {
+          title: "Reading every label, one by one",
+          text: "The supermarket becomes an ingredient review, and 'modified starch' at 8 pm helps nobody.",
+        },
+        {
+          title: "Crossing several conditions in the same meal",
+          text: "Celiac disease and diabetes at once, plus lactose, and each app solves only one.",
+        },
+        {
+          title: "Recipes that looked safe",
+          text: "Discarding after the fact what was not safe, and counting the carbohydrates of every dish by hand.",
+        },
+        {
+          title: "A health promise that cannot be sustained",
+          text: "On a medical topic, one claim too many costs trust and exposes you. You have to say what the tool does and what it does not.",
+        },
+      ],
+      modules: [
+        {
+          name: "Hero with a concrete promise",
+          text: "Headline 'Photograph the label. Know in seconds if you can eat it', the three conditions named, a button to the waitlist and an animated scanner mock.",
+        },
+        {
+          name: "Pain, in six scenes",
+          text: "A carousel with the six everyday annoyances: horizontal swipe on mobile and pinned scrolling on desktop.",
+        },
+        {
+          name: "How it works and comparison",
+          text: "Three steps (photograph, AI analysis and an answer with the reason) and a table against other apps: restrictions together, the real label and scope beyond the scanner.",
+        },
+        {
+          name: "Features and founder",
+          text: "Persistent profile, curated recipes and a diary with offline support, and a section presenting the creator as the first user, with links to her portfolio and social profiles.",
+        },
+        {
+          name: "Waitlist and FAQ",
+          text: "A form with explicit consent and nine frequently asked questions that answer with clear limits: it is not a replacement for the doctor and today it only reads ingredient labels.",
+        },
+        {
+          name: "Recipe collection",
+          text: "16 gluten-free recipes with times, ingredients and notes. Benefits are only published if they cite a verifiable source.",
+        },
+      ],
+      decisions: [
+        {
+          title: "Action before the list of conditions",
+          context:
+            "There are three conditions and a single button. Listing them all on the first screen dilutes the action.",
+          tradeoff: "Naming the conditions gives clarity. Putting them in a button overloads it.",
+          decision:
+            "The headline promises the action ('photograph the label') and names the three conditions once, below. Every button leads to the same destination: the waitlist.",
+        },
+        {
+          title: "Copy without stack or medical claims",
+          context:
+            "The user does not need to know what it was built with, and in health, words like diagnosis or treatment promise what the tool is not.",
+          tradeoff:
+            "Leaving out the stack removes technical credibility. Leaving out medical claims limits the pitch.",
+          decision:
+            "The text describes the benefit and never the technology. The answers clarify that it is an aid for deciding and does not replace the doctor, and recipes only publish benefits with a source.",
+        },
+        {
+          title: "A founder who is the first user",
+          context:
+            "A health product without social proof loses trust, but inventing cases destroys it.",
+          tradeoff:
+            "A single case is little evidence. A real one weighs more than several filler ones.",
+          decision:
+            "The success stories section tells the creator's real story and leaves a carousel ready to add cases when they exist, without inventing them.",
+        },
+        {
+          title: "Consent before analytics",
+          context:
+            "The landing talks about health, and loading a tracking script by default contradicts what it promises.",
+          tradeoff: "GA4 behind a banner loses some visits, but the cookie policy can be true.",
+          decision:
+            "GA4 only loads if the visitor accepts, and it turns off if there is no ID. The banner clarifies that no health profile data is collected.",
+        },
+        {
+          title: "The waitlist does not ask for health data",
+          context:
+            "Asking for the condition when signing up would give useful data, but would turn a contact list into sensitive data.",
+          tradeoff:
+            "Without the condition you cannot segment. In exchange, there is no health data to protect.",
+          decision:
+            "The form asks for name and email, and the function stores only allow-listed columns. Any extra field is dropped on the server.",
+        },
+        {
+          title: "Static, with a single server function",
+          context:
+            "A landing does not need its own backend, but the form has to store without exposing keys.",
+          tradeoff:
+            "The Vercel function does not run under Astro's dev server, and preview has no database.",
+          decision:
+            "The site is static and the form talks to a function that uses the service key only on the server. Outside production it validates and does not store.",
+        },
+        {
+          title: "A shared contacts table",
+          context:
+            "Each Lúmina W product has its own waitlist, and keeping one database per product multiplies the work.",
+          tradeoff:
+            "A shared table requires each function to set its own product and the table script to be identical across repositories.",
+          decision:
+            "The waitlists share a table with a unique key on product and email. The function sets the product on the server and never reads it from the request.",
+        },
+      ],
+      design: [
+        "The design starts from a navigable prototype, reachable from the View design button.",
+        "Violet as the primary color on cream backgrounds, in the same visual family as the app, with a hero in a soft gradient card.",
+        "Fonts are self-hosted and served from the site itself, requesting nothing from third parties.",
+        "Sections with an editorial eyebrow, reveal animations with IntersectionObserver and pure CSS, without an animation library.",
+        "Iconography as inlined SVG: never text arrows in buttons nor long dashes in the copy.",
+        "An animated scanner in the hero that shows the scan and the verdict without loading the real product.",
+        "All content is in Spanish and so are the routes (preguntas, contacto, sobre-mi, recetas).",
       ],
       results: [
-        "Landing published in production with the main sections of the AI label scanner, the active dietary restrictions, and direct access to the PWA.",
-        "Technical SEO, WCAG AA accessibility, and GA4 analytics configured from launch.",
+        "Landing in production with the waitlist storing requests, a recipe collection and legal pages.",
+        "Consent-gated analytics and technical SEO with structured data from launch.",
       ],
       learnings: [
-        "Communicating three distinct dietary restrictions in a single CTA without losing clarity requires prioritizing the action over the conditions list: 'photograph the product' converts better than listing the restrictions.",
+        "Communicating three restrictions in a single call requires prioritizing the action over the list of conditions: photographing the label is understood faster than listing what you have.",
+        "On a health topic, what you do not promise is worth as much as what you do. With no medical claims, no stack and no invented cases, every sentence can be defended.",
+        "Analytics that wait for consent and a form that does not ask for health data are product decisions, not only compliance ones.",
+        "A schema that validates content at build time prevents a broken recipe from reaching production, even without automated UI tests.",
+        "Pricing, spots and limits drift apart when copied across several pages: one source is better, and the text should be checked against the product.",
       ],
+      roadmap: {
+        now: ["Landing in production collecting the early access waitlist."],
+        next: ["Add more success stories: today the landing tells only the founder's."],
+        later: [
+          "More languages and markets, and more conditions and combinations, according to the FAQ.",
+        ],
+      },
     },
   },
   {
