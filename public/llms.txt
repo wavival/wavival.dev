@@ -10,6 +10,7 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 
 - [Portfolio (canonical)](https://www.wavival.dev): Live site with bio, projects, and stack
 - [Services](https://www.wavival.dev/servicios): What she builds for clients: custom web apps, REST APIs, AI integrations, AppSec
+- [Request a quote](https://www.wavival.dev/cotizar): Send a project brief and receive a response within 24 hours
 - [Uses](https://www.wavival.dev/herramientas): The stack and tools she works with, and why she chooses each
 - [GitHub @wavival](https://github.com/wavival): Open-source projects
 - [LinkedIn](https://linkedin.com/in/wavival): Professional profile

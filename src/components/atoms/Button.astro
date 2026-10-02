@@ -12,6 +12,7 @@ interface Props {
   download?: string;
   "aria-label"?: string;
   "data-umami-event"?: string;
+  "data-sending"?: string;
 }
 
 const {
@@ -26,6 +27,7 @@ const {
   download,
   "aria-label": ariaLabel,
   "data-umami-event": umamiEvent,
+  "data-sending": sendingLabel,
 } = Astro.props;
 
 const rel = href && target === "_blank" ? "noopener noreferrer" : undefined;
@@ -47,6 +49,7 @@ const Tag = href ? "a" : "button";
   class={cls}
   aria-label={ariaLabel}
   data-umami-event={umamiEvent}
+  data-sending={sendingLabel}
 >
   {
     iconSrc && variant === "primary" && (

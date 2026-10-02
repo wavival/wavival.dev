@@ -21,7 +21,9 @@ const isEn = lang === "en";
   data-project-row
 >
   <ProjectMeta index={index} tag={p.tag} tone={p.tone} overline={p.overline} />
-  <div class="mb-7 mt-5 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+  <div
+    class="mb-7 mt-5 flex flex-col items-start gap-4 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:items-center min-[640px]:justify-between min-[640px]:gap-x-8 min-[640px]:gap-y-4"
+  >
     <h3 class="h3-project m-0 min-w-0 flex-auto">
       {
         p.caseHref ? (
@@ -33,7 +35,10 @@ const isEn = lang === "en";
         )
       }
     </h3>
-    <ProjectActions actions={p.actions} class="ml-auto justify-end" />
+    <ProjectActions
+      actions={p.actions}
+      class="ml-0 self-center min-[640px]:ml-auto min-[640px]:self-auto min-[640px]:justify-end"
+    />
   </div>
   <dl class="m-0 border-t border-line">
     <DefRow label={isEn ? "The challenge" : "El reto"}>

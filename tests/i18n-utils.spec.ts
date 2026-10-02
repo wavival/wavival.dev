@@ -12,6 +12,7 @@ test.describe("language toggle target (getAltLangUrl)", () => {
     ["/proyectos", "/en/projects"],
     ["/sobre-mi", "/en/about"],
     ["/servicios", "/en/services"],
+    ["/cotizar", "/en/quote"],
     ["/contacto", "/en/contact"],
     ["/herramientas", "/en/uses"],
     ["/privacidad", "/en/privacy"],
@@ -29,6 +30,7 @@ test.describe("language toggle target (getAltLangUrl)", () => {
     ["/en/projects", "/proyectos"],
     ["/en/about", "/sobre-mi"],
     ["/en/services", "/servicios"],
+    ["/en/quote", "/cotizar"],
     ["/en/contact", "/contacto"],
     ["/en/uses", "/herramientas"],
     ["/en/privacy", "/privacidad"],
@@ -51,6 +53,7 @@ test.describe("localized routes (siteRoutes)", () => {
     const r = siteRoutes("es", "/");
     expect(r.home).toBe("/");
     expect(r.projects).toBe("/proyectos");
+    expect(r.quote).toBe("/cotizar");
     expect(r.uses).toBe("/herramientas");
     expect(r.stack).toBe("/#stack");
     expect(r.project("terracore")).toBe("/proyectos/terracore");
@@ -60,6 +63,7 @@ test.describe("localized routes (siteRoutes)", () => {
     const r = siteRoutes("en", "/");
     expect(r.home).toBe("/en");
     expect(r.projects).toBe("/en/projects");
+    expect(r.quote).toBe("/en/quote");
     expect(r.uses).toBe("/en/uses");
     expect(r.stack).toBe("/en#stack");
     expect(r.project("terracore")).toBe("/en/projects/terracore");

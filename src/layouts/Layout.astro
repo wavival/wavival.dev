@@ -46,8 +46,9 @@ const canonicalURL = new URL(Astro.url.pathname, site);
 const isHome = ["/", "/en", "/en/"].includes(Astro.url.pathname);
 const buildDate = new Date().toISOString();
 const personImage = new URL(image, site);
-const socialCard = ogImage ? new URL(ogImage, site) : new URL("/images/og-card.webp", site);
-const socialCardType = (ogImage ?? "/images/og-card.webp").endsWith(".webp")
+const defaultSocialCard = `/images/og-card-${lang}.webp`;
+const socialCard = ogImage ? new URL(ogImage, site) : new URL(defaultSocialCard, site);
+const socialCardType = (ogImage ?? defaultSocialCard).endsWith(".webp")
   ? "image/webp"
   : "image/png";
 const socialCardAlt =
@@ -160,6 +161,59 @@ const jsonLd = JSON.stringify({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () {
+        if (window.__navigationLoaderReady) return;
+        window.__navigationLoaderReady = true;
+
+        const minimumDuration = 1000;
+        let startedAt = 0;
+        let hideTimer;
+        const loader = () => document.getElementById("navigation-loader");
+        const showLoader = () => {
+          window.clearTimeout(hideTimer);
+          startedAt = performance.now();
+          loader()?.classList.add("is-active");
+        };
+
+        document.addEventListener(
+          "click",
+          (event) => {
+            if (
+              event.defaultPrevented ||
+              event.button !== 0 ||
+              event.metaKey ||
+              event.ctrlKey ||
+              event.shiftKey
+            ) {
+              return;
+            }
+
+            const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+            if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+
+            const target = new URL(link.href, window.location.href);
+            const current = new URL(window.location.href);
+            const isSameDocument =
+              target.pathname === current.pathname &&
+              target.search === current.search &&
+              target.hash !== "";
+
+            if (target.origin === current.origin && !isSameDocument) showLoader();
+          },
+          true
+        );
+
+        document.addEventListener("astro:before-preparation", () => {
+          if (!loader()?.classList.contains("is-active")) showLoader();
+        });
+
+        document.addEventListener("astro:page-load", () => {
+          const remaining = Math.max(0, minimumDuration - (performance.now() - startedAt));
+          hideTimer = window.setTimeout(() => loader()?.classList.remove("is-active"), remaining);
+        });
+      })();
+    </script>
     <ClientRouter />
     <script is:inline>
       (function () {
@@ -266,6 +320,9 @@ const jsonLd = JSON.stringify({
     <script is:inline type="application/ld+json" set:html={jsonLd} />
   </head>
   <body class="bg-bg text-ink antialiased">
+    <div id="navigation-loader" transition:persist aria-hidden="true">
+      <img src={`${import.meta.env.BASE_URL}brand/logo-w.webp`} alt="" width="54" height="40" />
+    </div>
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-control focus:bg-btn focus:px-4 focus:py-2 focus:font-display focus:text-xs focus:font-bold focus:uppercase focus:tracking-[0.1em] focus:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"

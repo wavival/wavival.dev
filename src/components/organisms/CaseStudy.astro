@@ -24,6 +24,7 @@ const base = import.meta.env.BASE_URL;
 const r = siteRoutes(lang, base);
 const view = projectView(project, lang, base);
 const en = isEn ? project.en : undefined;
+const designLink = en?.designLink ?? project.designLink;
 
 const architecture = en?.architecture ?? project.architecture;
 const decisions = en?.decisions ?? project.decisions;
@@ -105,7 +106,10 @@ const idx = caseStudies.findIndex((p) => p.slug === project.slug);
 const prevProject = idx > 0 ? caseStudies[idx - 1] : null;
 const nextProject = idx < caseStudies.length - 1 ? caseStudies[idx + 1] : null;
 const number = String(idx + 1).padStart(2, "0");
-const externalActions = view.actions.filter((a) => a.external);
+const externalActions = [
+  ...view.actions.filter((a) => a.external),
+  ...(designLink ? [{ ...designLink, external: true }] : []),
+];
 ---
 
 <article>
@@ -349,16 +353,20 @@ const externalActions = view.actions.filter((a) => a.external);
             title={t.learnings}
             gap="mb-6"
           >
-            <ul class="m-0 list-none p-0">
-              {learnings.map((x) => (
-                <li
-                  class="mb-3 border-l-2 border-line-2 py-[18px] pr-0 pl-6 text-base leading-[1.7] text-muted"
-                  style="text-wrap:pretty"
-                >
-                  {x}
-                </li>
+            <div
+              class="grid gap-4"
+              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))"
+              data-learnings-cards
+            >
+              {learnings.map((x, i) => (
+                <article class="border border-line bg-surface p-6">
+                  <span class="index">{String(i + 1).padStart(2, "0")}</span>
+                  <p class="mt-4 mb-0 text-base leading-[1.7] text-muted" style="text-wrap:pretty">
+                    {x}
+                  </p>
+                </article>
               ))}
-            </ul>
+            </div>
           </CaseSection>
         )
       }

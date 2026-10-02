@@ -8,12 +8,13 @@ const { lang = "es", counts } = Astro.props;
 const isEn = lang === "en";
 
 const defs = [
-  { key: "all", label: isEn ? "All" : "Todos" },
+  { key: "all", label: "All" },
   { key: "full-stack", label: "Full Stack" },
-  { key: "ia", label: isEn ? "AI" : "IA" },
+  { key: "ai", label: "AI" },
   { key: "pwa", label: "PWA" },
   { key: "landing", label: "Landing" },
-  { key: "diseno", label: isEn ? "Design" : "Diseño" },
+  { key: "design", label: "Design" },
+  { key: "security", label: "Security" },
 ];
 ---
 
@@ -56,10 +57,13 @@ const defs = [
     const buttons = container.querySelectorAll<HTMLButtonElement>("[data-filter]");
     const cards = document.querySelectorAll<HTMLElement>("[data-project-card]");
     const noResults = document.getElementById("projects-no-results");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let filterRun = 0;
 
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const filter = btn.dataset.filter ?? "all";
+        const run = ++filterRun;
 
         buttons.forEach((b) => {
           const active = b === btn;
@@ -72,8 +76,40 @@ const defs = [
         cards.forEach((card) => {
           const cardFilters = (card.dataset.filters ?? "").split(" ").filter(Boolean);
           const show = filter === "all" || cardFilters.includes(filter);
-          if (show) visible++;
-          card.style.display = show ? "" : "none";
+          if (show) {
+            visible++;
+            const wasHidden = card.style.display === "none";
+            card.style.display = "";
+            if (wasHidden && !reduceMotion) {
+              card.animate(
+                [
+                  { opacity: 0, transform: "translateY(8px)" },
+                  { opacity: 1, transform: "translateY(0)" },
+                ],
+                { duration: 220, easing: "ease-out" }
+              );
+            }
+            return;
+          }
+
+          if (reduceMotion) {
+            card.style.display = "none";
+            return;
+          }
+
+          card
+            .animate(
+              [
+                { opacity: 1, transform: "translateY(0)" },
+                { opacity: 0, transform: "translateY(-8px)" },
+              ],
+              { duration: 160, easing: "ease-in" }
+            )
+            .finished.then(() => {
+              if (filterRun === run && !cardFilters.includes(filter) && filter !== "all") {
+                card.style.display = "none";
+              }
+            });
         });
 
         noResults?.classList.toggle("hidden", visible > 0);

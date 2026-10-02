@@ -1,0 +1,193 @@
+---
+import Button from "@/components/atoms/Button.astro";
+
+interface ServiceOption {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  services: ServiceOption[];
+  selectedService?: string;
+  labels: {
+    name: string;
+    email: string;
+    phone: string;
+    business: string;
+    services: string;
+    description: string;
+    descriptionHint: string;
+    submit: string;
+    sending: string;
+    successTitle: string;
+    success: string;
+    error: string;
+    privacyPrefix: string;
+    privacyLink: string;
+    privacySuffix: string;
+  };
+  privacyHref: string;
+}
+
+const { services, selectedService, labels, privacyHref } = Astro.props;
+---
+
+<div class="quote-form-wrap">
+  <form class="quote-form" data-quote-form novalidate>
+    <div class="quote-field quote-honeypot" aria-hidden="true">
+      <label for="quote-website">Website</label>
+      <input id="quote-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="quote-form-grid">
+      <label class="quote-field">
+        <span>{labels.name}</span>
+        <input name="name" type="text" autocomplete="name" required maxlength="120" />
+      </label>
+      <label class="quote-field">
+        <span>{labels.email}</span>
+        <input name="email" type="email" autocomplete="email" required maxlength="254" />
+      </label>
+      <label class="quote-field">
+        <span>{labels.phone}</span>
+        <input
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder="+57 300 000 0000"
+          required
+          maxlength="24"
+        />
+      </label>
+      <label class="quote-field">
+        <span>{labels.business}</span>
+        <input name="business" type="text" autocomplete="organization" required maxlength="160" />
+      </label>
+    </div>
+
+    <fieldset class="quote-fieldset">
+      <legend>{labels.services}</legend>
+      <div class="quote-checklist">
+        {
+          services.map((service) => (
+            <label class="quote-check">
+              <input
+                name="services"
+                type="checkbox"
+                value={service.id}
+                checked={selectedService === service.id}
+              />
+              <span>{service.label}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <label class="quote-field">
+      <span>{labels.description}</span>
+      <textarea name="description" rows="7" maxlength="5000" required data-quote-description
+      ></textarea>
+      <small class="quote-hint" data-quote-words>{labels.descriptionHint}</small>
+    </label>
+
+    <p class="quote-privacy">
+      {labels.privacyPrefix}
+      <a class="inline-link" href={privacyHref}>{labels.privacyLink}</a>{labels.privacySuffix}
+    </p>
+    <p class="quote-error" role="alert" data-quote-error hidden>{labels.error}</p>
+    <Button type="submit" data-quote-submit data-sending={labels.sending}>{labels.submit}</Button>
+  </form>
+
+  <section class="quote-success" data-quote-success hidden tabindex="-1" aria-live="polite">
+    <p class="eyebrow">Wavival</p>
+    <h2 class="h2-section">{labels.successTitle}</h2>
+    <p class="body-md m-0">{labels.success}</p>
+  </section>
+</div>
+
+<script>
+  const setupQuoteForm = () => {
+    const form = document.querySelector<HTMLFormElement>("[data-quote-form]");
+    if (!form || form.dataset.ready === "true") return;
+    form.dataset.ready = "true";
+
+    const description = form.querySelector<HTMLTextAreaElement>("[data-quote-description]");
+    const words = form.querySelector<HTMLElement>("[data-quote-words]");
+    const error = form.querySelector<HTMLElement>("[data-quote-error]");
+    const submit = form.querySelector<HTMLButtonElement>("[data-quote-submit]");
+    const success = document.querySelector<HTMLElement>("[data-quote-success]");
+    const maxWords = 500;
+    const serviceFromUrl = new URLSearchParams(window.location.search).get("service");
+
+    if (serviceFromUrl) {
+      const selectedFromUrl = Array.from(
+        form.querySelectorAll<HTMLInputElement>('input[name="services"]')
+      ).find((input) => input.value === serviceFromUrl);
+      if (selectedFromUrl && !selectedFromUrl.checked) selectedFromUrl.click();
+    }
+
+    const updateWordCount = () => {
+      if (!description || !words) return;
+      const count = description.value.trim() ? description.value.trim().split(/\s+/).length : 0;
+      words.textContent = `${count}/${maxWords}`;
+      description.setCustomValidity(count > maxWords ? "Maximum word count exceeded." : "");
+    };
+
+    description?.addEventListener("input", updateWordCount);
+    updateWordCount();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      updateWordCount();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const selected = Array.from(
+        form.querySelectorAll<HTMLInputElement>('input[name="services"]:checked')
+      );
+      if (selected.length === 0) {
+        error?.removeAttribute("hidden");
+        form.querySelector<HTMLInputElement>('input[name="services"]')?.focus();
+        return;
+      }
+
+      error?.setAttribute("hidden", "");
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = submit.dataset.sending ?? submit.textContent;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        name: String(data.get("name") ?? ""),
+        email: String(data.get("email") ?? ""),
+        phone: String(data.get("phone") ?? ""),
+        business: String(data.get("business") ?? ""),
+        description: String(data.get("description") ?? ""),
+        website: String(data.get("website") ?? ""),
+        services: selected.map((input) => input.value),
+      };
+
+      try {
+        const response = await fetch("/api/quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) throw new Error("Quote request failed");
+        form.hidden = true;
+        success?.removeAttribute("hidden");
+        success?.focus();
+      } catch {
+        error?.removeAttribute("hidden");
+        if (submit) submit.disabled = false;
+      }
+    });
+  };
+
+  document.addEventListener("astro:page-load", setupQuoteForm);
+</script>
