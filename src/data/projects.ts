@@ -2070,93 +2070,180 @@ export const projects: Project[] = [
     slug: "lumina-w",
     quoteType: "landing",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-lumina-w.webp",
     imageAlt: "Landing de Lúmina W: hero con tagline de marca y llamado a la acción",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
+    stack: [
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vercel Functions",
+      "Supabase",
+      "Brevo",
+      "GA4",
+      "SEO",
+      "A11y",
+    ],
+    summary:
+      "Sitio de Lúmina W, empresa de software de Medellín. Bilingüe (español e inglés), estático, con una landing de doce bloques que separa dos caminos (desarrollo a medida y producto propio en SaaS), una página de productos con TerraCore y OKroot, y un formulario de contacto que guarda cada solicitud en Supabase y avisa por correo. Astro, Tailwind CSS y una Función de Vercel.",
     filters: ["landing", "design"],
     problem:
-      "Toda empresa necesita una presencia digital que comunique con claridad quién es y qué hace.",
+      "Una empresa de software que vende dos cosas distintas, proyectos a medida y producto propio por suscripción, necesita explicarlas sin mezclarlas. Y necesita recibir solicitudes de contacto con datos suficientes para responder, sin montar un backend completo para una página de presentación.",
     solution:
-      "Diseñé e implementé la landing completa de Lúmina W: arquitectura con Astro, estilos con Tailwind CSS, formulario de contacto sobre Supabase, SEO técnico completo y deploy continuo.",
+      "Un sitio estático con dos caminos explícitos desde la primera pantalla, un proceso de cuatro fases para cada uno, una página de productos y un formulario que recoge lo necesario (necesidad, etapa y consentimiento) y lo guarda de forma segura. Está en español y en inglés, con SEO técnico y analítica solo con consentimiento.",
     architecture: [
-      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Vercel.",
-      "SEO técnico completo: title, meta-description, og:*, twitter:*, canonical y schema markup.",
-      "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
-      "Analíticas de Google (GA4): seguimiento de visitas, scroll depth y comportamiento del usuario.",
-      "Formulario de contacto sobre Supabase (Postgres gestionado): nombre, empresa, correo y mensaje persistidos en una base de datos propia, sin servidor que mantener.",
-      "Diseño responsivo con Tailwind CSS y modo claro/oscuro.",
-      "Estructura de dos tracks de negocio: desarrollo a medida y SaaS en alquiler (TerraCore), cada uno con su propio flujo de fases.",
+      "Astro 6 con salida estática y Tailwind CSS 4. Doce componentes montan la landing en un orden fijo: portada, bifurcación entre los dos caminos, problema, agitación, cinta de frases, solución, proceso, manifiesto, por qué nosotros, producto, preguntas frecuentes y contacto. Cada sección tiene un ancla que coincide con la barra de navegación y el pie.",
+      "Español por defecto en la raíz e inglés bajo /en, con las dos copias en diccionarios tipados: el diccionario en inglés exige las mismas claves que el español, así que una clave que falte rompe el build. Las páginas de productos y contacto tienen ruta traducida, y las legales conservan el mismo nombre.",
+      "Formulario de contacto: el navegador manda un JSON a una Función de Vercel que valida los campos (nombre, empresa, correo, teléfono, necesidad, etapa y mensaje), exige el consentimiento y descarta en silencio lo que llegue por un campo trampa oculto. Los valores de necesidad y etapa son códigos fijos en inglés, así que una opción se guarda igual en los dos idiomas.",
+      "La Función guarda cada solicitud en Supabase con la llave de servicio, que vive solo en el servidor, y completa la fecha de consentimiento, el origen y el agente de usuario por su cuenta. No guarda la IP. Si el correo ya existe, responde que todo salió bien sin crear otra fila, y avisa igual al buzón interno.",
+      "El aviso interno sale por Brevo y es de mejor esfuerzo: si el correo falla, la solicitud ya quedó guardada. El almacenamiento solo corre en producción de Vercel, así que en las previsualizaciones el formulario responde 503 por diseño.",
+      "La tabla de solicitudes es una sola, compartida con las landings de TerraCore y OKroot, con una columna de producto y una restricción de unicidad por producto y correo. Tiene seguridad por filas activada y sin permisos para los roles públicos: solo la Función puede escribir.",
+      "SEO técnico: un grafo JSON-LD con ProfessionalService, WebSite y WebPage, más FAQPage en las preguntas frecuentes, canónica propia, hreflang entre es, en y x-default, sitemap con alternates y un robots.txt que permite de forma explícita a 21 rastreadores de IA, junto con un llms.txt.",
+      "Analítica con consentimiento: Google Analytics 4 se carga solo si la persona acepta el aviso de cookies, y la decisión se guarda en el almacenamiento local, sin cookies propias. El aviso no bloquea la página y aparece tras desplazarse un poco.",
+      "Rendimiento y entrega: imágenes en WebP con dimensiones explícitas, fuentes con swap, caché inmutable de un año para los recursos con hash y las imágenes, y cabeceras de seguridad (HSTS, anti-framing, anti-sniffing, referrer y permisos). El despliegue en Vercel es continuo desde main.",
+      "Accesibilidad trabajada en el código: enlace para saltar al contenido, foco visible, etiquetas por campo con errores anunciados y mensaje de éxito con rol de estado, y respeto de prefers-reduced-motion. Un respaldo sin JavaScript deja visible el contenido que aparece al desplazarse.",
+      "Calidad: formato y build en cada PR, con escaneo de secretos con gitleaks y el flujo dev, stg y main. No hay pruebas automáticas ni medición de Lighthouse guardada en el repositorio.",
     ],
-    painPoints: [
-      {
-        title: "Sin presencia digital",
-        text: "Sin landing, Lúmina W no tenía dónde enviar prospectos, comunicar la propuesta ni cerrar una conversación comercial.",
-      },
-      {
-        title: "Dos servicios difíciles de comunicar juntos",
-        text: "Desarrollo a medida y SaaS tienen compradores distintos. Mezclarlos sin estructura confunde en vez de convertir.",
-      },
-    ],
-    decisions: [
-      {
-        title: "Dos tracks explícitos en vez de un solo servicio",
-        context:
-          "Lúmina W ofrece desarrollo a medida y SaaS. Los compradores de cada track tienen necesidades, tiempos y presupuestos distintos.",
-        tradeoff:
-          "Una landing genérica de 'hacemos software' no convierte. Separar los tracks añade complejidad visual pero clarifica la propuesta.",
-        decision:
-          "Sección de servicios con dos columnas claras: desarrollo a medida (proceso en 4 fases) y SaaS en alquiler (TerraCore). Cada track tiene su propio CTA.",
-      },
-      {
-        title: "TerraCore como prueba de capacidad",
-        context:
-          "Un cliente potencial necesita ver producto real, no solo promesas de desarrollo a medida.",
-        tradeoff:
-          "Dedicar espacio a TerraCore en la landing de la agencia puede distraer. No hacerlo deja el argumento de capacidad sin evidencia.",
-        decision:
-          "Sección dedicada a TerraCore con módulos, características y CTA. Funciona como caso de uso propio que prueba que Lúmina W construye lo que predica.",
-      },
-      {
-        title: "Formulario sobre Supabase, sin servidor propio",
-        context:
-          "Una landing de agencia necesita capturar leads desde el primer día sin infraestructura propia de backend.",
-        tradeoff:
-          "Construir y hostear un backend de contacto propio toma tiempo y es sobredimensionado para una landing. Supabase aporta Postgres gestionado y API instantánea, asi que los leads quedan en una base de datos propia y consultable sin montar servidor.",
-        decision:
-          "Supabase para el formulario de contacto: Postgres gestionado con API instantánea, sin servidor que mantener y con los leads guardados en una base de datos propia y consultable.",
-      },
-    ],
-    results: [
-      "Landing completa de Lúmina W en producción con dos tracks de servicio diferenciados y formulario de contacto funcional.",
-      "TerraCore visible como producto propio dentro de la landing, funcionando como prueba de capacidad de la agencia.",
-      "Formulario de contacto activo sobre Supabase: captura nombre, empresa, correo y mensaje en Postgres gestionado, sin servidor propio que mantener.",
-    ],
-    learnings: [
-      "Comunicar dos servicios distintos (desarrollo a medida y SaaS) en una sola landing exige estructura clara: sin separar los tracks por comprador, la propuesta se diluye.",
-      "Supabase da una base de datos propia y consultable sin montar servidor: para una agencia en arranque, esa decisión redujo el tiempo de lanzamiento y dejó los leads bajo control propio.",
-    ],
-    caseStudy: true,
-    schemaType: "WebSite",
-    metaDescription:
-      "Caso de estudio de Lúmina W: landing completa con Astro, Tailwind CSS y Supabase. SEO técnico, formulario de contacto y deploy continuo en Vercel.",
     links: [{ href: "https://luminaw.co", text: "Ver sitio", ariaLabel: "Ver sitio de Lúmina W" }],
     designLink: {
       href: "https://luminaw-landing-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de Lúmina W",
     },
+    caseStudy: true,
+    schemaType: "WebSite",
+    metaDescription:
+      "Caso de estudio de Lúmina W: sitio bilingüe con Astro y Tailwind CSS, dos caminos de servicio, formulario sobre Vercel y Supabase, SEO técnico y consentimiento de cookies.",
+    painPoints: [
+      {
+        title: "Dos ofertas con compradores distintos",
+        text: "El desarrollo a medida y un producto por suscripción tienen tiempos, presupuestos y preguntas diferentes. Mezclados sin estructura, confunden.",
+      },
+      {
+        title: "Un contacto que cuesta",
+        text: "Un formulario con un solo campo de mensaje obliga a responder con preguntas antes de poder cotizar. Uno demasiado largo espanta.",
+      },
+      {
+        title: "Dos idiomas sin duplicar el trabajo",
+        text: "Mantener una copia en inglés a mano deja cadenas viejas y claves olvidadas.",
+      },
+      {
+        title: "Datos de contacto sin un backend propio",
+        text: "Guardar solicitudes exige una base de datos y un punto de escritura seguro, y montar un servidor para una página de presentación es desproporcionado.",
+      },
+    ],
+    modules: [
+      {
+        name: "Dos caminos",
+        text: "Una bifurcación en la primera pantalla separa el producto propio en SaaS del desarrollo a medida, y cada uno tiene su propio proceso.",
+      },
+      {
+        name: "Proceso por camino",
+        text: "Cuatro fases para el desarrollo a medida y cuatro para el producto, con las reglas de trabajo de cada una.",
+      },
+      {
+        name: "Productos",
+        text: "TerraCore y OKroot en la landing y en una página propia, con su estado y su enlace.",
+      },
+      {
+        name: "Preguntas frecuentes",
+        text: "Diez preguntas con respuesta, también publicadas como datos estructurados.",
+      },
+      {
+        name: "Formulario de contacto",
+        text: "Recoge necesidad, etapa y consentimiento, guarda la solicitud y avisa por correo.",
+      },
+      {
+        name: "Español e inglés",
+        text: "Dos copias completas, con rutas traducidas, hreflang y un selector de idioma.",
+      },
+    ],
+    decisions: [
+      {
+        title: "Dos caminos explícitos en vez de un solo servicio",
+        context:
+          "Lúmina W ofrece desarrollo a medida y un producto propio en SaaS, y quien compra cada uno llega con preguntas distintas.",
+        tradeoff:
+          "Una frase general de desarrollo de software convence menos, pero separar los caminos añade una decisión en la primera pantalla.",
+        decision:
+          "Una sección de bifurcación, una solución en dos servicios y un proceso con cuatro fases para cada camino, cada uno con su propio llamado a la acción.",
+      },
+      {
+        title: "Productos propios como evidencia",
+        context:
+          "Quien evalúa a una empresa de software quiere ver producto funcionando, no solo promesas de desarrollo a medida.",
+        tradeoff:
+          "Dedicar espacio a los productos puede restar protagonismo al servicio, y su estado cambia con el tiempo.",
+        decision:
+          "TerraCore y OKroot aparecen en la landing y en una página de productos, con el estado y el enlace de cada uno definidos en el diccionario de textos.",
+      },
+      {
+        title: "Función de Vercel con Supabase, y no un servidor propio",
+        context:
+          "El sitio necesita guardar solicitudes de contacto desde el primer día, y montar un backend para una landing es desproporcionado.",
+        tradeoff:
+          "Hay una pieza de servidor, aunque pequeña, que mantener, y el formulario no funciona en las previsualizaciones, donde no hay base de datos.",
+        decision:
+          "Una Función de Vercel valida, aplica la honeypot y el consentimiento, y escribe en Supabase con la llave de servicio en el servidor. El navegador nunca habla con Supabase.",
+      },
+      {
+        title: "Una tabla de solicitudes compartida entre las landings",
+        context:
+          "Lúmina W, TerraCore y OKroot reciben solicitudes con casi los mismos datos, y tres bases sueltas habrían multiplicado el trabajo.",
+        tradeoff:
+          "Si alguien escribe dos veces con el mismo correo, la segunda no se guarda: el aviso interno la menciona, pero la tabla conserva solo la primera.",
+        decision:
+          "Una sola tabla con una columna de producto y unicidad por producto y correo, con el mismo esquema copiado en los tres repositorios.",
+      },
+      {
+        title: "Diccionarios tipados para dos idiomas",
+        context:
+          "Cada texto nuevo debe existir en español e inglés, y una cadena olvidada se nota solo cuando alguien cambia de idioma.",
+        tradeoff: "Obliga a traducir todo cambio al mismo tiempo, incluso uno pequeño.",
+        decision:
+          "El diccionario en inglés está tipado con el del español, así que una clave que falte rompe el build.",
+      },
+      {
+        title: "Analítica solo con consentimiento",
+        context:
+          "El sitio mide visitas con Google Analytics 4, y esa medición requiere el permiso de quien visita.",
+        tradeoff:
+          "Sin la aceptación no hay datos de ese visitante, y el aviso aparece tras desplazarse para no tapar la primera pantalla.",
+        decision:
+          "El script de Analytics se inyecta solo después de aceptar y la decisión queda en el almacenamiento local, sin cookies propias.",
+      },
+    ],
+    design: [
+      "Sistema editorial y sobrio: bordes rectos (radios de 0, 2 y 4 píxeles), líneas de un píxel en lugar de sombras y una sola hoja de estilos con los tokens.",
+      "Azul como color principal para enlaces, etiquetas y foco, y ámbar como acento solo de relleno. Cuando el ámbar es texto sobre fondo claro se usa una versión más oscura para mantener el contraste.",
+      "Cabinet Grotesk para los títulos y Switzer para el texto, cargadas desde Fontshare con swap.",
+      "Página clara con superficies oscuras fijas (contacto, pie, productos y la barra de navegación). No hay selector de tema.",
+      "Los llamados a la acción llevan solo texto, sin flechas ni iconos, y la regla del proyecto es no usar guiones como conector en los textos.",
+    ],
+    results: [
+      "Sitio de Lúmina W en producción en luminaw.co, en español e inglés, con los dos caminos de servicio diferenciados.",
+      "Formulario de contacto que guarda cada solicitud con su necesidad, su etapa y su consentimiento en una tabla compartida, y avisa por correo.",
+      "TerraCore y OKroot presentados en la landing y en una página propia.",
+      "SEO técnico con datos estructurados, hreflang, sitemap, robots para rastreadores de IA y llms.txt.",
+    ],
+    learnings: [
+      "Para una página de presentación, una Función pequeña frente a Supabase resuelve el contacto sin un backend que mantener, pero obliga a decidir qué pasa en las previsualizaciones, donde no hay base de datos.",
+      "Pedir necesidad y etapa en el formulario, con valores fijos, hace que la primera respuesta ya pueda ser una propuesta y que los datos se comparen entre idiomas.",
+      "Las promesas del texto deben ser algo que el código haga: decir que se recibe una confirmación por correo exige que la Función envíe ese correo.",
+      "Un diccionario tipado convierte una traducción olvidada en un error de build en lugar de en una página a medias.",
+    ],
     en: {
       imageAlt: "Lumina W landing: brand tagline and call to action",
+      summary:
+        "Website of Lumina W, a software company in Medellín. Bilingual (Spanish and English), static, with a twelve-block landing page that separates two paths (custom development and its own SaaS product), a products page with TerraCore and OKroot, and a contact form that stores each request in Supabase and notifies by email. Astro, Tailwind CSS and a Vercel Function.",
       problem:
-        "Every company needs a digital presence that clearly communicates who they are and what they do.",
+        "A software company that sells two different things, custom projects and its own product by subscription, needs to explain them without mixing them up. And it needs to receive contact requests with enough data to answer, without building a full backend for a presentation page.",
       solution:
-        "I designed and implemented the complete Lumina W landing: Astro architecture, Tailwind CSS styling, Supabase-backed contact form, full technical SEO, and continuous deployment.",
+        "A static site with two explicit paths from the first screen, a four-phase process for each, a products page, and a form that collects what is needed (need, stage and consent) and stores it safely. It is in Spanish and English, with technical SEO and analytics only with consent.",
       links: [{ href: "https://luminaw.co", text: "Visit site", ariaLabel: "Visit Lumina W" }],
       designLink: {
         href: "https://luminaw-landing-prototype.netlify.app/",
@@ -2164,64 +2251,137 @@ export const projects: Project[] = [
         ariaLabel: "View Lumina W design",
       },
       metaDescription:
-        "Lumina W case study: complete landing with Astro, Tailwind CSS, and Supabase. Technical SEO, contact form, and continuous deployment to Vercel.",
+        "Lumina W case study: a bilingual site with Astro and Tailwind CSS, two service paths, a form on Vercel and Supabase, technical SEO and cookie consent.",
       architecture: [
-        "Astro with static output: section components, optimized build, and continuous deployment to Vercel.",
-        "Full technical SEO: title, meta-description, og:*, twitter:*, canonical, and schema markup.",
-        "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Vercel.",
-        "Google Analytics (GA4): session tracking, scroll depth, and user behavior.",
-        "Contact form on Supabase (managed Postgres): name, company, email, and message persisted in an owned database, with no server to maintain.",
-        "Responsive design with Tailwind CSS and light/dark mode.",
-        "Two-track business structure: custom development and SaaS rental (TerraCore), each with its own phase flow.",
+        "Astro 6 with static output and Tailwind CSS 4. Twelve components assemble the landing in a fixed order: hero, a fork between the two paths, problem, agitation, a phrase ribbon, solution, process, manifesto, why us, product, FAQ and contact. Each section has an anchor that matches the navigation bar and the footer.",
+        "Spanish by default at the root and English under /en, with both copies in typed dictionaries: the English dictionary requires the same keys as the Spanish one, so a missing key breaks the build. The products and contact pages have a translated route, and the legal pages keep the same name.",
+        "Contact form: the browser sends JSON to a Vercel Function that validates the fields (name, company, email, phone, need, stage and message), requires consent and silently drops whatever arrives through a hidden trap field. The need and stage values are fixed English codes, so an option is stored the same way in both languages.",
+        "The Function stores each request in Supabase with the service key, which lives only on the server, and fills in the consent date, the source and the user agent itself. It does not store the IP. If the email already exists, it answers that everything went fine without creating another row, and still notifies the internal inbox.",
+        "The internal notice goes out through Brevo and is best effort: if the email fails, the request is already stored. Storage only runs in Vercel production, so on previews the form answers 503 by design.",
+        "The requests table is a single one, shared with the TerraCore and OKroot landings, with a product column and a uniqueness constraint per product and email. It has row-level security on and no permissions for the public roles: only the Function can write.",
+        "Technical SEO: a JSON-LD graph with ProfessionalService, WebSite and WebPage, plus FAQPage on the FAQ, a self canonical, hreflang between es, en and x-default, a sitemap with alternates and a robots.txt that explicitly allows 21 AI crawlers, together with an llms.txt.",
+        "Analytics with consent: Google Analytics 4 loads only if the person accepts the cookie notice, and the decision is stored in local storage, with no first-party cookies. The notice does not block the page and appears after a little scrolling.",
+        "Performance and delivery: WebP images with explicit dimensions, fonts with swap, a one-year immutable cache for hashed assets and images, and security headers (HSTS, anti-framing, anti-sniffing, referrer and permissions). Deployment on Vercel is continuous from main.",
+        "Accessibility worked into the code: a skip link, visible focus, a label per field with announced errors and a success message with a status role, and respect for prefers-reduced-motion. A no-JavaScript fallback keeps the content that appears on scroll visible.",
+        "Quality: formatting and build on every PR, with secret scanning through gitleaks and the dev, stg and main flow. There are no automated tests and no Lighthouse measurement stored in the repository.",
       ],
       painPoints: [
         {
-          title: "No digital presence",
-          text: "Without a landing, Lumina W had nowhere to send prospects, communicate the proposition, or close a commercial conversation.",
+          title: "Two offers with different buyers",
+          text: "Custom development and a subscription product have different timelines, budgets and questions. Mixed without structure, they confuse.",
         },
         {
-          title: "Two services hard to communicate together",
-          text: "Custom development and SaaS have different buyers. Mixing them without structure confuses instead of converting.",
+          title: "A contact that costs",
+          text: "A form with a single message field forces a reply with questions before you can quote. One that is too long scares people off.",
+        },
+        {
+          title: "Two languages without duplicating the work",
+          text: "Maintaining an English copy by hand leaves stale strings and forgotten keys.",
+        },
+        {
+          title: "Contact data without a backend of your own",
+          text: "Storing requests needs a database and a safe write point, and standing up a server for a presentation page is out of proportion.",
+        },
+      ],
+      modules: [
+        {
+          name: "Two paths",
+          text: "A fork on the first screen separates the own SaaS product from custom development, and each has its own process.",
+        },
+        {
+          name: "Process per path",
+          text: "Four phases for custom development and four for the product, with the working rules of each.",
+        },
+        {
+          name: "Products",
+          text: "TerraCore and OKroot on the landing and on a page of their own, with their status and link.",
+        },
+        {
+          name: "FAQ",
+          text: "Ten questions with answers, also published as structured data.",
+        },
+        {
+          name: "Contact form",
+          text: "It collects need, stage and consent, stores the request and notifies by email.",
+        },
+        {
+          name: "Spanish and English",
+          text: "Two complete copies, with translated routes, hreflang and a language switch.",
         },
       ],
       decisions: [
         {
-          title: "Two explicit tracks instead of one service",
+          title: "Two explicit paths instead of a single service",
           context:
-            "Lumina W offers custom development and SaaS. Buyers for each track have different needs, timelines, and budgets.",
+            "Lumina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
           tradeoff:
-            "A generic 'we make software' landing does not convert. Separating the tracks adds visual complexity but clarifies the proposition.",
+            "A general software-development line persuades less, but separating the paths adds a decision on the first screen.",
           decision:
-            "Services section with two clear columns: custom development (4-phase process) and SaaS rental (TerraCore). Each track has its own CTA.",
+            "A fork section, a solution in two services and a process with four phases for each path, each with its own call to action.",
         },
         {
-          title: "TerraCore as proof of capability",
+          title: "Own products as evidence",
           context:
-            "A potential client needs to see a real product, not just custom development promises.",
+            "Someone evaluating a software company wants to see a product working, not only custom development promises.",
           tradeoff:
-            "Dedicating space to TerraCore on the agency landing may distract. Not doing it leaves the capability argument without evidence.",
+            "Giving space to the products can take attention from the service, and their status changes over time.",
           decision:
-            "Section dedicated to TerraCore with modules, features, and CTA. It works as a proprietary case that proves Lumina W builds what it preaches.",
+            "TerraCore and OKroot appear on the landing and on a products page, with each one's status and link defined in the text dictionary.",
         },
         {
-          title: "Contact form on Supabase, no own server",
+          title: "A Vercel Function with Supabase, not a server of its own",
           context:
-            "An agency landing needs to capture leads from day one without own backend infrastructure.",
+            "The site needs to store contact requests from day one, and building a backend for a landing is out of proportion.",
           tradeoff:
-            "Building and hosting an own contact backend takes time and is oversized for a landing. Supabase provides managed Postgres and an instant API, so leads land in an owned, queryable database with no server to run.",
+            "There is a small server piece to maintain, and the form does not work on previews, where there is no database.",
           decision:
-            "Supabase for the contact form: managed Postgres with an instant API, no server to maintain, and leads stored in an owned, queryable database.",
+            "A Vercel Function validates, applies the honeypot and the consent, and writes to Supabase with the service key on the server. The browser never talks to Supabase.",
         },
+        {
+          title: "One requests table shared across the landings",
+          context:
+            "Lumina W, TerraCore and OKroot receive requests with almost the same data, and three separate databases would have tripled the work.",
+          tradeoff:
+            "If someone writes twice with the same email, the second is not stored: the internal notice mentions it, but the table keeps only the first.",
+          decision:
+            "A single table with a product column and uniqueness per product and email, with the same schema copied into the three repositories.",
+        },
+        {
+          title: "Typed dictionaries for two languages",
+          context:
+            "Every new text must exist in Spanish and English, and a forgotten string shows only when someone switches language.",
+          tradeoff: "It forces translating every change at the same time, even a small one.",
+          decision:
+            "The English dictionary is typed with the Spanish one, so a missing key breaks the build.",
+        },
+        {
+          title: "Analytics only with consent",
+          context:
+            "The site measures visits with Google Analytics 4, and that measurement requires the visitor's permission.",
+          tradeoff:
+            "Without acceptance there is no data for that visitor, and the notice appears after scrolling so it does not cover the first screen.",
+          decision:
+            "The Analytics script is injected only after accepting and the decision is kept in local storage, with no first-party cookies.",
+        },
+      ],
+      design: [
+        "An editorial, sober system: straight edges (radii of 0, 2 and 4 pixels), one-pixel lines instead of shadows and a single stylesheet with the tokens.",
+        "Blue as the main color for links, tags and focus, and amber as a fill-only accent. When amber is text on a light background, a darker version is used to keep the contrast.",
+        "Cabinet Grotesk for headings and Switzer for body text, loaded from Fontshare with swap.",
+        "A light page with fixed dark surfaces (contact, footer, products and the navigation bar). There is no theme switch.",
+        "Calls to action carry text only, with no arrows or icons, and the project rule is not to use dashes as a connector in texts.",
       ],
       results: [
-        "Complete Lumina W landing in production with two differentiated service tracks and functional contact form.",
-        "TerraCore visible as a proprietary product within the landing, functioning as proof of agency capability.",
-        "Active contact form on Supabase: captures name, company, email, and message in managed Postgres, with no own server to maintain.",
+        "Lumina W site in production at luminaw.co, in Spanish and English, with the two service paths differentiated.",
+        "A contact form that stores each request with its need, its stage and its consent in a shared table, and notifies by email.",
+        "TerraCore and OKroot presented on the landing and on a page of their own.",
+        "Technical SEO with structured data, hreflang, a sitemap, robots for AI crawlers and llms.txt.",
       ],
       learnings: [
-        "Communicating two distinct services (custom development and SaaS) on a single landing requires clear structure: without separating tracks by buyer, the proposition is diluted.",
-        "Supabase gives an owned, queryable database without standing up a server: for a starting agency, that decision reduced launch time and kept the leads under own control.",
+        "For a presentation page, a small Function in front of Supabase solves contact without a backend to maintain, but it forces a decision about what happens on previews, where there is no database.",
+        "Asking for need and stage in the form, with fixed values, means the first reply can already be a proposal and the data compares across languages.",
+        "The promises in the copy must be something the code does: saying a confirmation email is received requires the Function to send that email.",
+        "A typed dictionary turns a forgotten translation into a build error instead of a half-translated page.",
       ],
     },
   },

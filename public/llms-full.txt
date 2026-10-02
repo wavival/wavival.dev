@@ -52,6 +52,16 @@ Stack: Next.js, React, TypeScript, Tailwind CSS, NextAuth (credentials and Googl
 
 Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
 
+## Lúmina W (case study)
+
+Problem: a software company that sells custom projects and its own SaaS product needs to explain both without mixing them, and to receive contact requests without building a full backend.
+
+Solution: a bilingual static site with two explicit service paths, a four-phase process for each, a products page (TerraCore and OKroot) and a contact form that collects need, stage and consent, stores the request in Supabase through a Vercel Function and notifies by email. Technical SEO, llms.txt, and Google Analytics only with consent.
+
+Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, Brevo, GA4. Programming languages: TypeScript, SQL.
+
+Case study: https://www.wavival.dev/proyectos/lumina-w · Live: https://luminaw.co
+
 ## Blog Lúmina W (case study)
 
 Bilingual (Spanish and English) blog platform built with Next.js, Prisma, PostgreSQL on Supabase and NextAuth, publishing technical content about web development, cybersecurity, and digital products. Any account can write an article and the administrator approves it; comments are moderated by local rules; published articles are translated with the Claude API; the newsletter runs on Brevo. It replaced an earlier Astro site.
