@@ -1,6 +1,6 @@
 # DESIGN.md: Design System
 
-Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "Señal v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
+Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
 Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE.md](./CLAUDE.md)
 
@@ -23,7 +23,7 @@ Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE
 
 ## Principles
 
-Concept "Señal": the page reads like an editorial index, with one blue signal on a quiet field.
+Concept: the page reads like an editorial index, with one blue signal on a quiet field.
 
 - **Rules, not boxes.** Structure comes from 1px lines (`--line`, `--line-2`, and `--text` for section rules), never from shadow cards. There are no shadows and surfaces have `0` radius.
 - **Editorial scale.** Raleway 800 display type at large sizes, tight tracking, numbered indexes (`01`, `02`) as wayfinding.
