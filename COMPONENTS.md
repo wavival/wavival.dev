@@ -146,17 +146,19 @@ Path: `src/data/projects.ts`. Exports the `projects: Project[]` array plus the `
 
 `Project` key fields:
 
-- `title`, `slug`, `tag`, `tagColor` (`green` / `blue` / `orange` / `gray`), `stack: string[]`
+- `title`, `slug`, `quoteType` (`web-app` / `landing` / `api-backend` / `design` / `security` / `ai`; preselects the quote form project type, `api-backend` is unused today), `tag`, `tagColor` (`green` / `blue` / `orange` / `gray`), `stack: string[]`
+- `summary?` (short TL;DR above the numbered sections; falls back to the first sentence of `solution`)
+- `datePublished?` and `dateModified?` (ISO dates for the case-study JSON-LD), `appCategory?` and `programmingLanguage?` (SoftwareApplication only)
 - Optional cover image: `image`, `imageAlt`, `imageWidth`, `imageHeight`
 - `filters?: string[]` (any of `full-stack`, `ai`, `pwa`, `landing`, `design`, `security`) used by `ProjectFilters`
 - `problem`, `solution`, and optional case-study content: `architecture`, `decisions`, `results`, `learnings`, `painPoints`, `modules`, `chainSteps`, `chainStepsTitle`, `chains` (several `{ title, steps }` cascades; takes precedence over `chainSteps`), `design` (string list), `roadmap` (`{ now, next, later, out? }`), `metrics`
 - `links: ProjectLink[]` (`{ href, text, ariaLabel, event? }`; `event` becomes `data-umami-event`)
-- `designLink?: ProjectLink` is rendered only in the internal case study; it is not included in project cards or rows
+- `designLink?: ProjectLink` and `designSystemLink?: ProjectLink` are rendered only in the internal case study; they are not included in project cards or rows
 - `caseStudy?: boolean` (true means the slug gets its own `/proyectos/<slug>` + `/en/projects/<slug>` case-study page)
 - `linkedCaseStudy?: string` (points at an existing case-study slug instead of generating a new page; available on the type, currently unused)
 - `metaDescription?` (case-study meta description)
 - `schemaType?: "SoftwareApplication" | "WebSite" | "CreativeWork"` (drives the case-study JSON-LD)
-- `en?: ProjectEn` (English overrides: `imageAlt`, `tag`, `problem`, `solution`, `links`, `designLink`, plus the optional case-study fields). `projectView()` (below) and the case-study pages read `p.en?.<field> ?? p.<field>` when `isEn`.
+- `en?: ProjectEn` (English overrides: `imageAlt`, `tag`, `problem`, `solution`, `summary`, `links`, `designLink`, `designSystemLink`, `metaDescription`, plus every optional case-study field: `architecture`, `decisions`, `results`, `learnings`, `painPoints`, `modules`, `chainSteps`, `chainStepsTitle`, `chains`, `design`, `roadmap`). `projectView()` (below) and the case-study pages read `p.en?.<field> ?? p.<field>` when `isEn`.
 
 Current projects (in array order): **TerraCore PWA** (`terracore`, SoftwareApplication), **TerraCore Landing** (`terracore-landing`, WebSite), **OKroot PWA** (`okroot`, SoftwareApplication), **OKroot Landing** (`okroot-landing`, WebSite), **NullBreach** (`nullbreach`, SoftwareApplication), **Lúmina W** (`lumina-w`, WebSite), **Blog Lúmina W** (`blog-lumina-w`, WebSite), **wavival.dev** (`wavival-dev`, WebSite), **Forgotten Portal** (`forgotten-portal`, CreativeWork). Featured set on the home (`FeaturedProjects`): `terracore`, `okroot`, `nullbreach`.
 

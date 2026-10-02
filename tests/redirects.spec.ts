@@ -62,9 +62,7 @@ test("vercel routes nullbreach as an independent child application", () => {
   expect(microfrontends.applications["wavival-dev"].routing).toBeUndefined();
 });
 
-test("vercel preserves the legacy nullbreach API proxy", () => {
-  expect(vercel.rewrites).toContainEqual({
-    source: "/api/:path*",
-    destination: "https://nullbreach-api.wavival.dev/api/:path*",
-  });
+test("vercel does not proxy /api to an external host", () => {
+  expect(vercel.rewrites ?? []).toEqual([]);
+  expect(JSON.stringify(vercel)).not.toContain("nullbreach-api");
 });

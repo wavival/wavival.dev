@@ -57,6 +57,8 @@ const projectLd = JSON.stringify({
   name: project.title,
   description: metaDesc,
   url: pageURL,
+  inLanguage: "en-US",
+  ...(project.image ? { image: `${site}/${project.image}` } : {}),
   author: { "@id": `${site}/#person` },
   datePublished: toIsoDateTime(datePublished),
   dateModified: toIsoDateTime(dateModified),

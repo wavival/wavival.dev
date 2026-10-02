@@ -18,7 +18,7 @@ test.describe("projects index filters", () => {
           (els) => els.filter((el) => (el as HTMLElement).style.display !== "none").length
         )
       )
-      .toBe(3);
+      .toBe(caseStudies.filter((p) => p.filters?.includes("ai")).length);
 
     await page.locator('#project-filters [data-filter="all"]').click();
     const restored = await cards.evaluateAll(
