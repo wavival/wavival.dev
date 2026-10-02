@@ -36,7 +36,7 @@ Live app: https://app.terracoreapp.co · Case study: https://www.wavival.dev/pro
 
 Problem: people with celiac disease, diabetes, or lactose intolerance must manually read every food label and cross-reference hidden ingredients against several dietary restrictions at once.
 
-Solution: an offline-first PWA where users photograph a product and immediately know whether they can eat it based on their active restrictions (celiac, diabetes, lactose intolerance), which are combinable. Features include an AI-powered label scanner via the Claude API, curated recipes with strict filtering, and an offline food diary.
+Solution: a PWA where users photograph a product label and know within seconds whether they can eat it based on their active restrictions (celiac, diabetes, lactose intolerance), which are combinable. Features include an AI-powered label scanner via the Claude API, a food diary with macros and a health log, 50 curated recipes, weekly insights, and a weekly market. Meals, scans, and the shopping list made without a connection are queued locally and synced in idempotent batches.
 
 Stack: Django, DRF, PostgreSQL, React, TypeScript, Claude API, PWA. Programming languages: Python, TypeScript, SQL.
 
