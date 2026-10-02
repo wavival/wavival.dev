@@ -630,7 +630,7 @@ export const projects: Project[] = [
       "Atomic design con alias de importación por capa (átomos, moléculas, organismos y plantilla). Los tokens de color, tipografía y espacio viven en un solo archivo CSS y Tailwind los extiende. Inter, Poppins y JetBrains Mono van autoalojadas, sin pedir fuentes a terceros.",
       "Embudo de conversión en 13 secciones: Hero, Impacto, franja de confianza, Módulos, Producto, Beneficios, Seguridad, Planes, Preguntas y cierre. Métricas, casos de éxito y testimonios están construidos pero ocultos hasta tener datos reales.",
       "Los datos de cada sección son TypeScript tipado en un solo archivo (planes, impacto, beneficios y preguntas). Las preguntas alimentan el acordeón visible y el JSON-LD FAQPage desde la misma fuente.",
-      "Tres planes con precio en COP: Semilla ($2.500.000/mes, 1 sede, 5 usuarios), Profesional ($5.000.000/mes, hasta 5 sedes, 10 usuarios) y Enterprise (precio base de $10.000.000/mes, sedes y usuarios ilimitados). Cada botón de plan abre el formulario con el tamaño de operación ya elegido.",
+      "Tres planes con precio en COP: Semilla ($2.500.000/mes, 1 sede, 5 usuarios), Profesional ($5.000.000/mes, hasta 5 sedes, 10 usuarios) y Enterprise (precio base de $10.000.000/mes, sedes y usuarios ilimitados). Cada botón de plan abre el formulario con el tamaño de operación ya elegido. Lo que se vende coincide con lo que el backend hace cumplir: topes de sedes y usuarios, rol Colaborador, Herramientas y exportación CSV desde Profesional, y pérdidas en Finanzas solo en Enterprise.",
       "Formulario de diagnóstico que envía JSON a una función de Vercel (api/lead.ts, sin dependencias de npm). Valida y normaliza los datos, guarda el lead en Supabase y avisa por correo con Brevo. Un correo repetido no crea otra fila y la notificación nunca bloquea el guardado.",
       "Antispam sin captcha: campo trampa y tiempo mínimo de llenado en el cliente, y la misma comprobación en el servidor. Solo guarda en producción; en staging valida y responde que el almacenamiento está desactivado.",
       "Analítica: GA4 opcional por variable de entorno, con eventos en cada CTA (Hero, planes, WhatsApp y formulario), más Vercel Web Analytics y Speed Insights. Botón flotante de WhatsApp en todas las páginas.",
@@ -663,11 +663,11 @@ export const projects: Project[] = [
       },
       {
         name: "Módulos contados desde el dolor",
-        text: "Animales, insumos, herramientas, producción y salud animal, cada uno en un bento que empieza por el problema que resuelve y no por la función.",
+        text: "Animales, insumos, herramientas (desde el plan Profesional), producción y salud animal, cada uno en un bento que empieza por el problema que resuelve y no por la función.",
       },
       {
         name: "Integración en cascada",
-        text: "Flujo visual: vacuna aplicada, insumo descontado, próximo refuerzo. Y stock mínimo, alerta al administrador. Demuestra el valor diferencial antes de los precios.",
+        text: "Flujo visual: vacuna aplicada, insumo descontado y fecha de vencimiento con alerta. Y stock mínimo, alerta al administrador. Es lo que el producto hace y demuestra el valor diferencial antes de los precios.",
       },
       {
         name: "Capturas reales del producto",
@@ -675,7 +675,7 @@ export const projects: Project[] = [
       },
       {
         name: "Privacidad y seguridad",
-        text: "Cinco compromisos: cifrado en tránsito, roles y permisos, exportación CSV con aprobación y 90 días para descargar los datos, sin minería de datos y respaldo nocturno.",
+        text: "Cinco compromisos: cifrado en tránsito, roles y permisos, exportación CSV con aprobación de un administrador, sin minería de datos y respaldo nocturno.",
       },
       {
         name: "Planes y formulario",
@@ -708,7 +708,7 @@ export const projects: Project[] = [
         tradeoff:
           "Omitir la privacidad asume una confianza que en el agro hay que ganar de forma explícita. Ponerla antes de los planes alarga la página.",
         decision:
-          "La sección de seguridad va justo antes de Planes, con compromisos concretos: sin minería de datos ni entrenamiento de IA, exportación CSV y 90 días para descargar todo si el cliente se va.",
+          "La sección de seguridad va justo antes de Planes, con compromisos concretos: sin minería de datos ni entrenamiento de IA y exportación CSV con aprobación de un administrador.",
       },
       {
         title: "Un solo embudo hacia el formulario",
@@ -808,7 +808,7 @@ export const projects: Project[] = [
         "Atomic design with an import alias per layer (atoms, molecules, organisms, and template). Color, type, and spacing tokens live in a single CSS file and Tailwind extends them. Inter, Poppins, and JetBrains Mono are self-hosted, with no third-party font requests.",
         "Conversion funnel in 13 sections: Hero, Impact, trust strip, Modules, Product, Benefits, Security, Plans, FAQ, and closing. Metrics, case studies, and testimonials are built but hidden until real data exists.",
         "Each section's data is typed TypeScript in a single file (plans, impact, benefits, and FAQ). The FAQ feeds both the visible accordion and the FAQPage JSON-LD from the same source.",
-        "Three plans with COP pricing: Seed ($2,500,000/month, 1 facility, 5 users), Professional ($5,000,000/month, up to 5 facilities, 10 users), and Enterprise (base price of $10,000,000/month, unlimited facilities and users). Each plan button opens the form with the operation size already selected.",
+        "Three plans with COP pricing: Seed ($2,500,000/month, 1 facility, 5 users), Professional ($5,000,000/month, up to 5 facilities, 10 users), and Enterprise (base price of $10,000,000/month, unlimited facilities and users). Each plan button opens the form with the operation size already selected. What is sold matches what the backend enforces: facility and user caps, the Collaborator role, Tools and CSV export from Professional, and losses in Finance only on Enterprise.",
         "Diagnostic form that posts JSON to a Vercel function (api/lead.ts, no npm dependencies). It validates and normalizes the data, stores the lead in Supabase, and notifies by email through Brevo. A repeated email does not create another row and the notification never blocks the save.",
         "Anti-spam without a captcha: a honeypot field and a minimum fill time on the client, and the same check on the server. It only stores in production; on staging it validates and answers that storage is disabled.",
         "Analytics: GA4 optional through an environment variable, with events on every CTA (Hero, plans, WhatsApp, and form), plus Vercel Web Analytics and Speed Insights. Floating WhatsApp button on every page.",
@@ -841,11 +841,11 @@ export const projects: Project[] = [
         },
         {
           name: "Modules told from the pain",
-          text: "Livestock, supplies, tools, production, and animal health, each in a bento that starts from the problem it solves and not from the feature.",
+          text: "Livestock, supplies, tools (from the Professional plan), production, and animal health, each in a bento that starts from the problem it solves and not from the feature.",
         },
         {
           name: "Cascade integration",
-          text: "Visual flow: vaccine applied, supply deducted, next booster. And minimum stock, alert to the administrator. Demonstrates differential value before pricing.",
+          text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it demonstrates differential value before pricing.",
         },
         {
           name: "Real product screenshots",
@@ -853,7 +853,7 @@ export const projects: Project[] = [
         },
         {
           name: "Privacy and security",
-          text: "Five commitments: encryption in transit, roles and permissions, CSV export with approval and 90 days to download data, no data mining, and nightly backup.",
+          text: "Five commitments: encryption in transit, roles and permissions, CSV export with administrator approval, no data mining, and nightly backup.",
         },
         {
           name: "Plans and form",
@@ -886,7 +886,7 @@ export const projects: Project[] = [
           tradeoff:
             "Omitting privacy assumes a trust that in agriculture must be earned explicitly. Placing it before the plans makes the page longer.",
           decision:
-            "The security section sits right before Plans, with concrete commitments: no data mining or AI training, CSV export, and 90 days to download everything if the customer leaves.",
+            "The security section sits right before Plans, with concrete commitments: no data mining or AI training and CSV export with administrator approval.",
         },
         {
           title: "A single funnel to the form",
