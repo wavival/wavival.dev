@@ -44,17 +44,27 @@ Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: htt
 
 ## NullBreach (case study)
 
-Problem: reviewing code for OWASP compliance or getting a security answer usually means jumping between heavy scanners, scattered documentation, and outdated forums.
+Problem: a security finding is of little use without severity, impact and remediation, and a quick question about a snippet rarely justifies setting up a rule-based scanner.
 
-Solution: an authenticated Next.js app where developers submit code for OpenAI analysis guided by OWASP practices and ask security questions. Questions, answers, and code analyses are stored per user.
+Solution: an open-source Next.js application where a signed-in user pastes code (up to 20,000 characters) for an OWASP-oriented analysis by OpenAI, or asks a security chat (up to 4,000 characters). Questions, answers and analyses are stored per user. The model output is analysis assistance, not deterministic verification.
 
-Stack: Next.js, TypeScript, NextAuth Credentials, JWT sessions, Prisma ORM, Prisma Postgres, OpenAI Responses API. Its marketing landing remains in Astro. Programming languages: TypeScript, SQL.
+Stack: Next.js, React, TypeScript, Tailwind CSS, NextAuth (credentials and Google OAuth), JWT sessions, Prisma ORM, Prisma Postgres, OpenAI Responses API, Vercel. Single Next.js deployment (landing, frontend and backend as internal folders) mounted under wavival.dev/nullbreach with Vercel Microfrontends. Programming languages: TypeScript, SQL.
 
 Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
 
+## Lúmina W (case study)
+
+Problem: a software company that sells custom projects and its own SaaS product needs to explain both without mixing them, and to receive contact requests without building a full backend.
+
+Solution: a bilingual static site with two explicit service paths, a four-phase process for each, a products page (TerraCore and OKroot) and a contact form that collects need, stage and consent, stores the request in Supabase through a Vercel Function and notifies by email. Technical SEO, llms.txt, and Google Analytics only with consent.
+
+Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, Brevo, GA4. Programming languages: TypeScript, SQL.
+
+Case study: https://www.wavival.dev/proyectos/lumina-w · Live: https://luminaw.co
+
 ## Blog Lúmina W (case study)
 
-Blog PWA migrated to Next.js, publishing technical content about web development, cybersecurity, and digital products.
+Bilingual (Spanish and English) blog platform built with Next.js, Prisma, PostgreSQL on Supabase and NextAuth, publishing technical content about web development, cybersecurity, and digital products. Any account can write an article and the administrator approves it; comments are moderated by local rules; published articles are translated with the Claude API; the newsletter runs on Brevo. It replaced an earlier Astro site.
 
 Case study: https://www.wavival.dev/proyectos/blog-lumina-w · Live: https://blog.luminaw.co
 
@@ -68,9 +78,9 @@ Case study: https://www.wavival.dev/proyectos/wavival-dev
 
 ## Forgotten Portal (pentesting writeup)
 
-A full offensive pentest exercise over DockerLabs: recon, a PHP upload exploit, a reverse shell, and privilege escalation to root. Documented with PTES methodology, CWE-classified vulnerabilities, and TTPs mapped to MITRE ATT&CK.
+A pentest exercise on a DockerLabs lab machine, run in a controlled environment during the Nodo EAFIT cybersecurity accelerator (March 23, 2026). PTES methodology, seven findings (three critical, two high, two medium) with CVSS and CWE classification, TTPs mapped to MITRE ATT&CK, a technical report, an executive report and 28 evidence screenshots.
 
-Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/
+Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/ · Case study: https://www.wavival.dev/proyectos/forgotten-portal · Source: https://github.com/wavival/forgotten-portal-writeup
 
 ## Services
 

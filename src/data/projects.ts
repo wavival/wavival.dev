@@ -1713,7 +1713,7 @@ export const projects: Project[] = [
     slug: "nullbreach",
     quoteType: "security",
     datePublished: "2026-06-16",
-    dateModified: "2026-09-25",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-nullbreach.webp",
@@ -1722,29 +1722,36 @@ export const projects: Project[] = [
     imageHeight: 630,
     stack: [
       "Next.js",
+      "React",
       "TypeScript",
+      "Tailwind CSS",
       "NextAuth",
       "Prisma",
       "PostgreSQL",
       "OpenAI API",
-      "Astro (landing)",
+      "Vercel",
     ],
     appCategory: "SecurityApplication",
     programmingLanguage: ["TypeScript", "SQL"],
     summary:
-      "Aplicación de seguridad con Next.js, análisis de código alineado con OWASP y chat con OpenAI. Prisma Postgres guarda usuarios, consultas y análisis. Landing en Astro.",
+      "Asistente de seguridad de aplicaciones de código abierto. Una persona con cuenta pega un fragmento de código y recibe un análisis orientado a OWASP con severidad, impacto y remediación, o hace una pregunta de desarrollo seguro en un chat. Todo queda guardado por usuario. Una sola aplicación Next.js con Prisma Postgres, montada bajo wavival.dev/nullbreach.",
     filters: ["full-stack", "ai"],
     problem:
-      "Revisar código con criterio OWASP o resolver una duda puntual de ciberseguridad implica saltar entre scanners pesados, documentación dispersa y foros desactualizados.",
+      "Un hallazgo de seguridad sirve poco si no dice qué tan grave es, qué impacto tiene y cómo se corrige. Y una duda puntual sobre un fragmento de código rara vez justifica montar y afinar un escáner de reglas.",
     solution:
-      "Aplicación autenticada para analizar fragmentos de código con guía OWASP y consultar al asistente de seguridad. Las preguntas, respuestas y análisis quedan guardados por usuario.",
+      "Una aplicación con cuenta donde el usuario pega código (hasta 20.000 caracteres) y recibe un análisis orientado a OWASP con severidad, impacto y remediación, o pregunta en un chat de seguridad (hasta 4.000 caracteres). Las consultas y los análisis se guardan por usuario, y el código es abierto con licencia MIT.",
     architecture: [
-      "OpenAI Responses API analiza fragmentos de código en busca de vulnerabilidades alineadas con OWASP y explica severidad, impacto y remediación.",
-      "Aplicación Next.js App Router que reúne interfaz, autenticación, rutas API e integración con OpenAI.",
-      "Chat de seguridad con OpenAI; las preguntas y respuestas se guardan en el historial de cada usuario.",
-      "Prisma ORM y Prisma Postgres para usuarios, historial de chat y análisis de código.",
-      "NextAuth Credentials con sesiones JWT en cookies HTTP-only.",
-      "La landing de NullBreach continúa en Astro; la aplicación principal se despliega como proyecto Next.js independiente.",
+      "Una sola aplicación Next.js (App Router, React y TypeScript) con tres áreas internas que son carpetas y no paquetes: la landing pública (features/landing), el frontend autenticado (app y components) y el backend (app/api, lib y prisma). El repositorio tiene un único despliegue.",
+      "Montada bajo wavival.dev/nullbreach con Vercel Microfrontends: el portafolio es la aplicación por defecto y NullBreach es un proyecto hijo independiente. Next.js reescribe el prefijo público y toda navegación y llamada a la API pasa por una función única de rutas (appPath).",
+      "Análisis y chat en el servidor: el cliente envía el texto a una ruta que exige sesión, valida que no esté vacío ni supere el límite (4.000 caracteres la pregunta, 20.000 el código, con 413 si lo supera) y solo entonces llama a la OpenAI Responses API. La clave de OpenAI y el modelo (variable de entorno) viven solo en el servidor y en un único módulo.",
+      "La instrucción del modelo pide consejo práctico basado en OWASP; la de análisis pide explicar severidad, impacto y remediación. La respuesta es texto libre, se muestra como texto plano y no como HTML, y se guarda junto con la pregunta o el código enviado.",
+      "Autenticación con NextAuth: credenciales (correo y clave con bcrypt, costo 12, de 8 a 128 caracteres) y Google OAuth opcional, con sesiones JWT en cookies HTTP-only. Una cuenta de Google se enlaza por correo normalizado.",
+      "Recuperación de clave: se genera un token aleatorio, se guarda solo su hash SHA-256 con una hora de vigencia y un solo uso, y el enlace sale por Brevo. La respuesta no revela si el correo existe.",
+      "Prisma ORM sobre Prisma Postgres con cuatro modelos: usuarios, historial de chat (pregunta, respuesta y modelo), análisis de código y tokens de recuperación. Borrar un usuario borra en cascada sus registros, y hay índices por usuario y fecha. El historial en pantalla muestra las diez últimas preguntas.",
+      "Autorización en dos capas: un proxy rechaza con 401 las rutas privadas de chat, análisis e historial antes de ejecutarlas, y cada ruta vuelve a comprobar la sesión. Cabeceras contra framing, sniffing de tipo, fuga de referrer y permisos del navegador innecesarios.",
+      "Documentación de la API en docs/api.md, con Swagger UI y un documento OpenAPI servidos por la propia aplicación, y un endpoint de salud que comprueba la base de datos sin llamar a OpenAI.",
+      "Entrega con compuertas: ramas de trabajo hacia dev, stg y main, un solo camino y siempre por PR. GitHub Actions construye, aplica migraciones, despliega, comprueba la salud y corre Playwright contra el despliegue. Staging y producción usan bases Prisma Postgres y secretos separados, y los despliegues automáticos de Git están desactivados.",
+      "CI en cada PR: lint, formato, tipos, validación de Prisma, pruebas con cobertura y build, además de commitlint, auditoría de dependencias de severidad alta y escaneo de secretos con gitleaks.",
     ],
     links: [
       {
@@ -1762,100 +1769,144 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "SoftwareApplication",
     metaDescription:
-      "Caso de estudio de NullBreach: aplicación Next.js de seguridad con OpenAI y Prisma Postgres, más una landing en Astro.",
-    results: [
-      "Análisis con OpenAI Responses API que entrega hallazgos de seguridad alineados con OWASP, con severidad, impacto y recomendaciones de remediación.",
-      "Historial de chat por usuario persistido en Prisma Postgres junto con los análisis de código.",
-      "Aplicación Next.js con autenticación NextAuth, sesiones JWT y datos persistidos con Prisma Postgres.",
-    ],
-    learnings: [
-      "Usar un modelo de lenguaje para revisar código exige presentar sus hallazgos como asistencia de análisis y no como una verificación determinista.",
-      "Concentrar la interfaz, autenticación y rutas API en una aplicación Next.js simplifica el despliegue y mantiene una sola frontera de aplicación.",
-      "El análisis de seguridad con un modelo requiere instrucciones claras sobre el marco OWASP, la severidad, el impacto y las recomendaciones que debe incluir.",
-    ],
+      "Caso de estudio de NullBreach: app Next.js de código abierto con chat y análisis de código orientado a OWASP, NextAuth y Prisma Postgres.",
     painPoints: [
       {
-        title: "Scanners con curva alta",
-        text: "Semgrep o SonarQube resuelven mucho, pero montar y afinar las reglas cuesta un tiempo que una duda puntual no justifica.",
+        title: "Hallazgos sin remediación",
+        text: "Una lista de patrones no basta si no explica la severidad, el impacto y cómo corregir el riesgo.",
       },
       {
-        title: "Respuestas dispersas",
-        text: "La guía vive repartida entre documentación densa y foros que envejecen mal.",
+        title: "Dudas que se pierden",
+        text: "Una consulta de seguridad resuelta hoy se vuelve a necesitar mañana, y sin historial hay que repetirla.",
       },
       {
-        title: "Hallazgos sin guía accionable",
-        text: "Una lista de patrones no basta si no explica la severidad, el impacto y cómo remediarlos.",
+        title: "Una IA que se toma con criterio",
+        text: "La respuesta de un modelo puede equivocarse. Hay que presentarla como asistencia de análisis, no como el resultado de un escáner determinista.",
       },
     ],
     modules: [
       {
         name: "Análisis de código",
-        text: "Envía un fragmento a OpenAI para recibir hallazgos alineados con OWASP, su impacto y recomendaciones.",
+        text: "Pega un fragmento y recibe hallazgos orientados a OWASP con severidad, impacto y remediación.",
       },
       {
-        name: "Historial del chat",
-        text: "Consulta preguntas y respuestas anteriores guardadas en tu cuenta.",
+        name: "Chat de seguridad",
+        text: "Pregunta sobre vulnerabilidades, controles y desarrollo seguro, y recibe una respuesta práctica.",
       },
       {
-        name: "Recomendaciones de remediación",
-        text: "El análisis explica la severidad e impacto y sugiere cómo corregir los riesgos identificados.",
+        name: "Historial",
+        text: "Las diez últimas preguntas del chat quedan a la vista, guardadas en tu cuenta.",
       },
       {
-        name: "Código abierto",
-        text: "El código de la aplicación está abierto en github.com/wavival/nullbreach.",
+        name: "Cuenta",
+        text: "Registro con correo y clave, ingreso con Google y recuperación de clave por correo.",
       },
+      {
+        name: "Landing bilingüe",
+        text: "Página pública en español e inglés, indexable, con las rutas privadas fuera del índice.",
+      },
+      {
+        name: "API documentada",
+        text: "Referencia en docs/api.md, Swagger UI, documento OpenAPI y endpoint de salud.",
+      },
+    ],
+    chainStepsTitle: "Del fragmento al hallazgo",
+    chainSteps: [
+      "El usuario pega un fragmento de código en el analizador.",
+      "El proxy y la ruta comprueban la sesión, que el texto no esté vacío y que no supere 20.000 caracteres.",
+      "El servidor llama a la OpenAI Responses API con instrucciones para analizar el código según OWASP y explicar severidad, impacto y remediación.",
+      "La respuesta se guarda como análisis del usuario y se devuelve para mostrarla como texto.",
     ],
     decisions: [
       {
-        title: "OpenAI para análisis orientado a OWASP",
+        title: "Una sola aplicación con tres áreas internas",
         context:
-          "Una revisión manual de código requiere conocimientos de seguridad y tiempo para explicar el impacto y las correcciones.",
+          "El producto necesita una landing pública, un frontend autenticado y un backend con base de datos y proveedor de IA.",
         tradeoff:
-          "Las respuestas de un modelo pueden equivocarse y no deben presentarse como resultados deterministas de un escáner.",
+          "Separarlos en tres despliegues añade contratos y operación que un proyecto de una persona no necesita todavía. Con carpetas, los límites dependen de la disciplina y no del compilador.",
         decision:
-          "OpenAI Responses API recibe el código con instrucciones de análisis alineadas con OWASP y explica severidad, impacto y remediación.",
+          "Un solo despliegue Next.js con landing, frontend y backend en carpetas distintas, listo para extraerse a paquetes sin cambiar la ruta pública.",
       },
       {
-        title: "Historial de chat por usuario",
-        context: "Las consultas y respuestas deben quedar asociadas a la cuenta que las realizó.",
-        tradeoff: "Sin persistencia, el usuario perdería el registro de sus consultas anteriores.",
-        decision:
-          "NextAuth Credentials con sesiones JWT y Prisma Postgres para guardar usuarios, conversaciones y análisis.",
-      },
-      {
-        title: "NextAuth para sesiones por usuario",
+        title: "Montada bajo wavival.dev con Microfrontends",
         context:
-          "Las sesiones necesitan asociar de forma segura el historial de cada persona con su cuenta.",
+          "La app debe vivir en el mismo dominio del portafolio sin atar su ciclo de despliegue al de él.",
         tradeoff:
-          "Las sesiones deben proteger el acceso y mantener separado el historial de cada cuenta.",
+          "El prefijo /nullbreach obliga a mantener sincronizados microfrontends.json, los rewrites, el basePath de NextAuth y cada enlace y llamada a la API.",
         decision:
-          "NextAuth Credentials usa sesiones JWT en cookies HTTP-only para proteger el acceso a la aplicación.",
+          "Vercel Microfrontends enruta /nullbreach al proyecto independiente, y una función única de rutas (appPath) construye todas las URLs del navegador.",
       },
       {
-        title: "Next.js para la aplicación",
+        title: "Un modelo de lenguaje como asistencia, en un solo módulo",
         context:
-          "La aplicación requiere interfaz autenticada, chat, análisis de código y rutas API.",
-        tradeoff: "Separar frontend y backend añade despliegues y contratos entre servicios.",
+          "Revisar código a mano exige conocimiento de seguridad y tiempo para explicar impacto y corrección.",
+        tradeoff:
+          "La respuesta es texto libre y puede equivocarse: no es la salida de un escáner y no reemplaza una revisión experta.",
         decision:
-          "Next.js App Router reúne interfaz, autenticación y rutas API; Astro sigue reservado para la landing.",
+          "Un único módulo de servidor llama a la OpenAI Responses API con instrucciones basadas en OWASP. La clave nunca llega al navegador y los límites de tamaño se aplican antes de la llamada y de guardar.",
       },
       {
-        title: "Prisma Postgres como persistencia",
-        context: "Usuarios, chats y análisis necesitan persistencia relacional gestionada.",
+        title: "NextAuth con credenciales y Google",
+        context: "Cada persona debe ver solo su propio historial y sus propios análisis.",
         tradeoff:
-          "Mantener el acceso a datos separado de las rutas de interfaz facilita el modelado y las migraciones.",
+          "Las sesiones JWT no guardan estado en el servidor, y enlazar Google por correo supone confiar en el correo verificado por Google.",
         decision:
-          "Prisma ORM sobre Prisma Postgres modela y persiste usuarios, historial de chat y análisis de código.",
+          "Credenciales con bcrypt y Google OAuth opcional, con sesión JWT en cookie HTTP-only. Los datos se consultan siempre por el identificador del usuario de la sesión.",
       },
+      {
+        title: "Recuperación de clave con token de un solo uso",
+        context:
+          "Quien olvida la clave necesita recuperarla sin que la respuesta revele qué correos tienen cuenta.",
+        tradeoff:
+          "Depende de un proveedor de correo externo, y sin él configurado el enlace solo se imprime en desarrollo.",
+        decision:
+          "Token aleatorio de 32 bytes, solo su hash SHA-256 guardado, una hora de vigencia, un solo uso y la misma respuesta exista o no la cuenta.",
+      },
+      {
+        title: "Autorización en dos capas",
+        context:
+          "Las rutas de chat y análisis llaman a un proveedor de pago y escriben en la base de datos.",
+        tradeoff:
+          "Comprobar la sesión dos veces duplica una línea en cada ruta, pero un cambio en el proxy no deja una ruta abierta.",
+        decision:
+          "Un proxy responde 401 a las rutas privadas antes de ejecutarlas y cada ruta repite la comprobación.",
+      },
+      {
+        title: "Un solo camino de entrega, con compuertas",
+        context:
+          "Una aplicación con claves de IA y base de datos no debe llegar a producción sin pasar por staging.",
+        tradeoff:
+          "Los PR de promoción y las comprobaciones desplegadas agregan pasos, y las bases de staging y producción se mantienen por separado.",
+        decision:
+          "Ramas de trabajo hacia dev, stg y main siempre por PR. GitHub Actions construye, migra, despliega, comprueba la salud y corre Playwright. Los despliegues automáticos de Git están desactivados.",
+      },
+    ],
+    design: [
+      "Interfaz de terminal: paneles con comandos de prompt como $ nullbreach scan ./src y tipografía monoespaciada.",
+      "Landing con un solo h1, encabezados ordenados, referencias de navegación, enlace para saltar al contenido y foco visible por teclado, con animaciones que respetan prefers-reduced-motion.",
+      "Rutas en español e inglés con canónica y alternates por idioma. El sitemap lista solo las dos landings, y el robots y los metadatos dejan fuera la API, el ingreso y el área privada.",
+      "Las respuestas del modelo se muestran como texto con saltos de línea y no como HTML, y los errores usan role alert con mensajes que no revelan detalles internos.",
+    ],
+    results: [
+      "Chat y análisis de código con la OpenAI Responses API, con límites de 4.000 y 20.000 caracteres aplicados antes de llamar al modelo.",
+      "Preguntas, respuestas y análisis guardados por usuario en Prisma Postgres, con el historial del chat visible en pantalla.",
+      "Código abierto con licencia MIT, referencia de API con Swagger UI y OpenAPI, y un endpoint de salud.",
+      "Entrega con staging y producción separados, migraciones aplicadas en el despliegue y pruebas E2E contra lo desplegado.",
+    ],
+    learnings: [
+      "Un modelo de lenguaje que revisa código debe presentarse como asistencia de análisis y no como una verificación determinista.",
+      "Autenticar y limitar el tamaño antes de llamar a un proveedor de pago protege el costo y la base de datos al mismo tiempo.",
+      "Montar una app bajo el prefijo de otro dominio exige una sola función de rutas y varios archivos de configuración sincronizados.",
+      "Con carpetas bien separadas, una sola aplicación puede tener landing, frontend y backend sin pagar el costo de tres despliegues.",
     ],
     en: {
       summary:
-        "Next.js security application with OWASP-aligned code analysis, OpenAI chat, and persistent data in Prisma Postgres. Marketing landing in Astro.",
+        "Open-source application security assistant. A signed-in user pastes a code snippet and gets an OWASP-oriented analysis with severity, impact and remediation, or asks a secure-development question in a chat. Everything is stored per user. A single Next.js application with Prisma Postgres, mounted under wavival.dev/nullbreach.",
       imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
       problem:
-        "Reviewing code with OWASP criteria or resolving a specific cybersecurity question means jumping between heavy scanners, scattered documentation, and outdated forums.",
+        "A security finding is of little use if it does not say how serious it is, what its impact is and how to fix it. And a quick question about a code snippet rarely justifies setting up and tuning a rule-based scanner.",
       solution:
-        "An authenticated application for analyzing code snippets with OWASP-aligned guidance and asking the security assistant. Questions, answers, and analyses are stored per user.",
+        "An application with accounts where the user pastes code (up to 20,000 characters) and gets an OWASP-oriented analysis with severity, impact and remediation, or asks a security chat (up to 4,000 characters). Questions and analyses are stored per user, and the code is open source under the MIT license.",
       links: [
         {
           href: "https://www.wavival.dev/nullbreach/",
@@ -1870,98 +1921,147 @@ export const projects: Project[] = [
         },
       ],
       metaDescription:
-        "NullBreach case study: Next.js security application with OpenAI and Prisma Postgres, plus an Astro landing page.",
+        "NullBreach case study: open-source Next.js app with an OWASP-oriented code analyzer and security chat, NextAuth and Prisma Postgres.",
       architecture: [
-        "OpenAI Responses API analyzes code snippets for OWASP-aligned vulnerabilities, severity, impact, and remediation.",
-        "Next.js App Router application combining the interface, authentication, API route handlers, and OpenAI integration.",
-        "OpenAI security chat; questions and answers are stored in each user's history.",
-        "Prisma ORM and Prisma Postgres for users, chat history, and code analyses.",
-        "NextAuth Credentials with JWT sessions in HTTP-only cookies.",
-        "The NullBreach landing remains in Astro; the main application deploys as an independent Next.js project.",
+        "A single Next.js application (App Router, React and TypeScript) with three internal areas that are folders, not packages: the public landing (features/landing), the authenticated frontend (app and components) and the backend (app/api, lib and prisma). The repository has one deployment.",
+        "Mounted under wavival.dev/nullbreach with Vercel Microfrontends: the portfolio is the default application and NullBreach is an independent child project. Next.js rewrites the public prefix and every navigation and API call goes through a single route helper (appPath).",
+        "Analysis and chat run on the server: the client sends the text to a route that requires a session, checks that it is not empty or over the limit (4,000 characters for a question, 20,000 for code, with a 413 above that) and only then calls the OpenAI Responses API. The OpenAI key and the model (an environment variable) live only on the server, in a single module.",
+        "The model instruction asks for practical advice grounded in OWASP; the analysis one asks to explain severity, impact and remediation. The answer is free text, rendered as plain text and not as HTML, and stored with the question or code that was sent.",
+        "Authentication with NextAuth: credentials (email and password with bcrypt, cost 12, 8 to 128 characters) and optional Google OAuth, with JWT sessions in HTTP-only cookies. A Google account is linked by normalized email.",
+        "Password recovery: a random token is generated, only its SHA-256 hash is stored with a one-hour lifetime and a single use, and the link is sent through Brevo. The response does not reveal whether the email exists.",
+        "Prisma ORM on Prisma Postgres with four models: users, chat history (question, answer and model), code analyses and recovery tokens. Deleting a user cascades to their records, and there are indexes by user and date. The on-screen history shows the last ten questions.",
+        "Authorization in two layers: a proxy rejects the private chat, analysis and history routes with a 401 before they run, and each route checks the session again. Response headers restrict framing, type sniffing, referrer leakage and unneeded browser permissions.",
+        "API documentation in docs/api.md, with a Swagger UI and an OpenAPI document served by the application itself, and a health endpoint that checks the database without calling OpenAI.",
+        "Gated delivery: work branches to dev, stg and main, a single path and always through a PR. GitHub Actions builds, applies migrations, deploys, checks health and runs Playwright against the deployment. Staging and production use separate Prisma Postgres databases and secrets, and automatic Git deployments are turned off.",
+        "CI on every PR: lint, formatting, types, Prisma validation, tests with coverage and build, plus commitlint, a high-severity dependency audit and a gitleaks secret scan.",
       ],
       painPoints: [
         {
-          title: "Scanners with a steep curve",
-          text: "Semgrep or SonarQube solve a lot, but setting up and tuning the rules costs time a quick question does not justify.",
+          title: "Findings without remediation",
+          text: "A list of patterns is not enough if it does not explain severity, impact and how to fix the risk.",
         },
         {
-          title: "Scattered answers",
-          text: "Guidance is spread across dense documentation and forums that age badly.",
+          title: "Questions that get lost",
+          text: "A security question answered today is needed again tomorrow, and without history it has to be asked again.",
         },
         {
-          title: "Findings without guidance",
-          text: "A list of patterns is not enough if it does not explain severity, impact, and remediation.",
+          title: "AI that needs judgment",
+          text: "A model's answer can be wrong. It has to be presented as analysis assistance, not as the output of a deterministic scanner.",
         },
       ],
       modules: [
         {
-          name: "OWASP analysis",
-          text: "Submit a snippet to OpenAI for OWASP-aligned findings, impact, and remediation guidance.",
+          name: "Code analysis",
+          text: "Paste a snippet and get OWASP-oriented findings with severity, impact and remediation.",
         },
         {
-          name: "Security chat history",
-          text: "Ask security questions and review the questions and answers saved to your account.",
+          name: "Security chat",
+          text: "Ask about vulnerabilities, controls and secure development and get a practical answer.",
         },
         {
-          name: "Remediation guidance",
-          text: "The analysis explains severity and impact and suggests how to fix identified risks.",
+          name: "History",
+          text: "The last ten chat questions stay in view, saved to your account.",
         },
         {
-          name: "Open source",
-          text: "The application source is open at github.com/wavival/nullbreach.",
+          name: "Account",
+          text: "Sign-up with email and password, Google sign-in and password recovery by email.",
         },
+        {
+          name: "Bilingual landing",
+          text: "Public page in Spanish and English, indexable, with the private routes kept out of the index.",
+        },
+        {
+          name: "Documented API",
+          text: "Reference in docs/api.md, Swagger UI, an OpenAPI document and a health endpoint.",
+        },
+      ],
+      chainStepsTitle: "From snippet to finding",
+      chainSteps: [
+        "The user pastes a code snippet into the analyzer.",
+        "The proxy and the route check the session, that the text is not empty and that it is under 20,000 characters.",
+        "The server calls the OpenAI Responses API with instructions to analyze the code against OWASP and explain severity, impact and remediation.",
+        "The answer is stored as the user's analysis and returned to be shown as text.",
       ],
       decisions: [
         {
-          title: "OpenAI for OWASP-aligned analysis",
+          title: "One application with three internal areas",
           context:
-            "Manual code review requires security knowledge and time to explain impact and remediation.",
+            "The product needs a public landing, an authenticated frontend and a backend with a database and an AI provider.",
           tradeoff:
-            "Model responses can be wrong and should not be presented as deterministic scanner results.",
+            "Splitting them into three deployments adds contracts and operations a one-person project does not need yet. With folders, the boundaries depend on discipline and not on the compiler.",
           decision:
-            "OpenAI Responses API receives code with OWASP-aligned analysis instructions and explains severity, impact, and remediation.",
+            "A single Next.js deployment with the landing, frontend and backend in separate folders, ready to be extracted into packages without changing the public path.",
         },
         {
-          title: "Per-user chat history",
+          title: "Mounted under wavival.dev with Microfrontends",
           context:
-            "Questions and answers need to be associated with the account that submitted them.",
-          tradeoff: "Without persistence, users would lose the record of their previous questions.",
-          decision:
-            "NextAuth Credentials with JWT sessions and Prisma Postgres to store users, conversations, and analyses.",
-        },
-        {
-          title: "NextAuth for per-user sessions",
-          context: "Sessions need to associate each person's history with their account securely.",
-          tradeoff: "Sessions must protect access and keep each account's history separate.",
-          decision:
-            "NextAuth Credentials uses JWT sessions in HTTP-only cookies to protect access to the application.",
-        },
-        {
-          title: "Next.js for the application",
-          context:
-            "The application needs an authenticated interface, chat, code analysis, and API routes.",
-          tradeoff: "Separating frontend and backend adds deployments and service contracts.",
-          decision:
-            "Next.js App Router combines the interface, authentication, and API routes; Astro remains for the landing page.",
-        },
-        {
-          title: "Prisma Postgres for persistence",
-          context: "Users, chats, and analyses need managed relational persistence.",
+            "The app has to live on the portfolio's domain without tying its deployment cycle to it.",
           tradeoff:
-            "Keeping data access separate from interface routes helps manage the data model and migrations.",
+            "The /nullbreach prefix forces microfrontends.json, the rewrites, the NextAuth basePath and every link and API call to stay in sync.",
           decision:
-            "Prisma ORM on Prisma Postgres models and persists users, chat history, and code analyses.",
+            "Vercel Microfrontends routes /nullbreach to the independent project, and a single route helper (appPath) builds every browser URL.",
         },
+        {
+          title: "A language model as assistance, in one module",
+          context:
+            "Reviewing code by hand takes security knowledge and time to explain impact and fixes.",
+          tradeoff:
+            "The answer is free text and can be wrong: it is not scanner output and does not replace an expert review.",
+          decision:
+            "A single server module calls the OpenAI Responses API with OWASP-based instructions. The key never reaches the browser and size limits apply before the call and before storing.",
+        },
+        {
+          title: "NextAuth with credentials and Google",
+          context: "Each person should see only their own history and analyses.",
+          tradeoff:
+            "JWT sessions hold no state on the server, and linking Google by email means trusting the email Google verified.",
+          decision:
+            "Credentials with bcrypt and optional Google OAuth, with a JWT session in an HTTP-only cookie. Data is always queried by the session user's id.",
+        },
+        {
+          title: "Password recovery with a single-use token",
+          context:
+            "Someone who forgets their password needs to recover it without the response revealing which emails have an account.",
+          tradeoff:
+            "It depends on an external email provider, and without it configured the link is only printed in development.",
+          decision:
+            "A random 32-byte token, only its SHA-256 hash stored, one hour of validity, a single use and the same response whether or not the account exists.",
+        },
+        {
+          title: "Authorization in two layers",
+          context: "The chat and analysis routes call a paid provider and write to the database.",
+          tradeoff:
+            "Checking the session twice repeats a line in every route, but a change in the proxy does not leave a route open.",
+          decision:
+            "A proxy answers 401 to the private routes before they run and each route repeats the check.",
+        },
+        {
+          title: "A single gated delivery path",
+          context:
+            "An application with AI keys and a database should not reach production without passing through staging.",
+          tradeoff:
+            "Promotion PRs and deployed checks add steps, and the staging and production databases are kept apart.",
+          decision:
+            "Work branches to dev, stg and main, always through a PR. GitHub Actions builds, migrates, deploys, checks health and runs Playwright. Automatic Git deployments are off.",
+        },
+      ],
+      design: [
+        "Terminal interface: panels with prompt commands like $ nullbreach scan ./src and monospaced type.",
+        "Landing with a single h1, ordered headings, navigation landmarks, a skip link and visible keyboard focus, with animations that respect prefers-reduced-motion.",
+        "Spanish and English routes with a canonical URL and language alternates. The sitemap lists only the two landings, and robots and metadata keep the API, sign-in and private area out.",
+        "Model answers are shown as text with line breaks, not as HTML, and errors use role alert with messages that do not reveal internal details.",
       ],
       results: [
-        "OpenAI Responses API analyzes code snippets for OWASP-aligned findings, severity, impact, and remediation guidance.",
-        "Chat questions and answers are stored in Prisma Postgres as user-specific history.",
-        "NextAuth credentials authentication with JWT sessions and Prisma Postgres persistence in a single Next.js application.",
+        "Chat and code analysis through the OpenAI Responses API, with limits of 4,000 and 20,000 characters applied before the model is called.",
+        "Questions, answers and analyses stored per user in Prisma Postgres, with the chat history visible on screen.",
+        "Open source under the MIT license, an API reference with Swagger UI and OpenAPI, and a health endpoint.",
+        "Delivery with separate staging and production, migrations applied at deploy time and E2E tests against what was deployed.",
       ],
       learnings: [
-        "Using a language model to review code means presenting its findings as analysis assistance rather than deterministic verification.",
-        "Combining the interface, authentication, and API route handlers in Next.js keeps the application boundary and deployment straightforward.",
-        "Security analysis with a language model requires clear instructions about the OWASP framework, severity, impact, and the recommendations it should include.",
+        "A language model that reviews code should be presented as analysis assistance, not as deterministic verification.",
+        "Authenticating and limiting size before calling a paid provider protects cost and the database at the same time.",
+        "Mounting an app under another domain's prefix takes a single route helper and several configuration files kept in sync.",
+        "With well-separated folders, a single application can hold a landing, a frontend and a backend without paying for three deployments.",
       ],
     },
   },
@@ -1970,93 +2070,180 @@ export const projects: Project[] = [
     slug: "lumina-w",
     quoteType: "landing",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-lumina-w.webp",
     imageAlt: "Landing de Lúmina W: hero con tagline de marca y llamado a la acción",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Astro", "Tailwind CSS", "Supabase", "SEO", "A11y", "GA4", "Performance"],
+    stack: [
+      "Astro",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vercel Functions",
+      "Supabase",
+      "Brevo",
+      "GA4",
+      "SEO",
+      "A11y",
+    ],
+    summary:
+      "Sitio de Lúmina W, empresa de software de Medellín. Bilingüe (español e inglés), estático, con una landing de doce bloques que separa dos caminos (desarrollo a medida y producto propio en SaaS), una página de productos con TerraCore y OKroot, y un formulario de contacto que guarda cada solicitud en Supabase y avisa por correo. Astro, Tailwind CSS y una Función de Vercel.",
     filters: ["landing", "design"],
     problem:
-      "Toda empresa necesita una presencia digital que comunique con claridad quién es y qué hace.",
+      "Una empresa de software que vende dos cosas distintas, proyectos a medida y producto propio por suscripción, necesita explicarlas sin mezclarlas. Y necesita recibir solicitudes de contacto con datos suficientes para responder, sin montar un backend completo para una página de presentación.",
     solution:
-      "Diseñé e implementé la landing completa de Lúmina W: arquitectura con Astro, estilos con Tailwind CSS, formulario de contacto sobre Supabase, SEO técnico completo y deploy continuo.",
+      "Un sitio estático con dos caminos explícitos desde la primera pantalla, un proceso de cuatro fases para cada uno, una página de productos y un formulario que recoge lo necesario (necesidad, etapa y consentimiento) y lo guarda de forma segura. Está en español y en inglés, con SEO técnico y analítica solo con consentimiento.",
     architecture: [
-      "Astro con output estático: componentes por sección, build optimizado y deploy continuo en Vercel.",
-      "SEO técnico completo: title, meta-description, og:*, twitter:*, canonical y schema markup.",
-      "Accesibilidad (a11y): jerarquía de encabezados, aria-labels y contraste WCAG AA.",
-      "Performance: output estático, imágenes WebP y caché inmutable en Vercel.",
-      "Analíticas de Google (GA4): seguimiento de visitas, scroll depth y comportamiento del usuario.",
-      "Formulario de contacto sobre Supabase (Postgres gestionado): nombre, empresa, correo y mensaje persistidos en una base de datos propia, sin servidor que mantener.",
-      "Diseño responsivo con Tailwind CSS y modo claro/oscuro.",
-      "Estructura de dos tracks de negocio: desarrollo a medida y SaaS en alquiler (TerraCore), cada uno con su propio flujo de fases.",
+      "Astro 6 con salida estática y Tailwind CSS 4. Doce componentes montan la landing en un orden fijo: portada, bifurcación entre los dos caminos, problema, agitación, cinta de frases, solución, proceso, manifiesto, por qué nosotros, producto, preguntas frecuentes y contacto. Cada sección tiene un ancla que coincide con la barra de navegación y el pie.",
+      "Español por defecto en la raíz e inglés bajo /en, con las dos copias en diccionarios tipados: el diccionario en inglés exige las mismas claves que el español, así que una clave que falte rompe el build. Las páginas de productos y contacto tienen ruta traducida, y las legales conservan el mismo nombre.",
+      "Formulario de contacto: el navegador manda un JSON a una Función de Vercel que valida los campos (nombre, empresa, correo, teléfono, necesidad, etapa y mensaje), exige el consentimiento y descarta en silencio lo que llegue por un campo trampa oculto. Los valores de necesidad y etapa son códigos fijos en inglés, así que una opción se guarda igual en los dos idiomas.",
+      "La Función guarda cada solicitud en Supabase con la llave de servicio, que vive solo en el servidor, y completa la fecha de consentimiento, el origen y el agente de usuario por su cuenta. No guarda la IP. Si el correo ya existe, responde que todo salió bien sin crear otra fila, y avisa igual al buzón interno.",
+      "El aviso interno sale por Brevo y es de mejor esfuerzo: si el correo falla, la solicitud ya quedó guardada. El almacenamiento solo corre en producción de Vercel, así que en las previsualizaciones el formulario responde 503 por diseño.",
+      "La tabla de solicitudes es una sola, compartida con las landings de TerraCore y OKroot, con una columna de producto y una restricción de unicidad por producto y correo. Tiene seguridad por filas activada y sin permisos para los roles públicos: solo la Función puede escribir.",
+      "SEO técnico: un grafo JSON-LD con ProfessionalService, WebSite y WebPage, más FAQPage en las preguntas frecuentes, canónica propia, hreflang entre es, en y x-default, sitemap con alternates y un robots.txt que permite de forma explícita a 21 rastreadores de IA, junto con un llms.txt.",
+      "Analítica con consentimiento: Google Analytics 4 se carga solo si la persona acepta el aviso de cookies, y la decisión se guarda en el almacenamiento local, sin cookies propias. El aviso no bloquea la página y aparece tras desplazarse un poco.",
+      "Rendimiento y entrega: imágenes en WebP con dimensiones explícitas, fuentes con swap, caché inmutable de un año para los recursos con hash y las imágenes, y cabeceras de seguridad (HSTS, anti-framing, anti-sniffing, referrer y permisos). El despliegue en Vercel es continuo desde main.",
+      "Accesibilidad trabajada en el código: enlace para saltar al contenido, foco visible, etiquetas por campo con errores anunciados y mensaje de éxito con rol de estado, y respeto de prefers-reduced-motion. Un respaldo sin JavaScript deja visible el contenido que aparece al desplazarse.",
+      "Calidad: formato y build en cada PR, con escaneo de secretos con gitleaks y el flujo dev, stg y main. No hay pruebas automáticas ni medición de Lighthouse guardada en el repositorio.",
     ],
-    painPoints: [
-      {
-        title: "Sin presencia digital",
-        text: "Sin landing, Lúmina W no tenía dónde enviar prospectos, comunicar la propuesta ni cerrar una conversación comercial.",
-      },
-      {
-        title: "Dos servicios difíciles de comunicar juntos",
-        text: "Desarrollo a medida y SaaS tienen compradores distintos. Mezclarlos sin estructura confunde en vez de convertir.",
-      },
-    ],
-    decisions: [
-      {
-        title: "Dos tracks explícitos en vez de un solo servicio",
-        context:
-          "Lúmina W ofrece desarrollo a medida y SaaS. Los compradores de cada track tienen necesidades, tiempos y presupuestos distintos.",
-        tradeoff:
-          "Una landing genérica de 'hacemos software' no convierte. Separar los tracks añade complejidad visual pero clarifica la propuesta.",
-        decision:
-          "Sección de servicios con dos columnas claras: desarrollo a medida (proceso en 4 fases) y SaaS en alquiler (TerraCore). Cada track tiene su propio CTA.",
-      },
-      {
-        title: "TerraCore como prueba de capacidad",
-        context:
-          "Un cliente potencial necesita ver producto real, no solo promesas de desarrollo a medida.",
-        tradeoff:
-          "Dedicar espacio a TerraCore en la landing de la agencia puede distraer. No hacerlo deja el argumento de capacidad sin evidencia.",
-        decision:
-          "Sección dedicada a TerraCore con módulos, características y CTA. Funciona como caso de uso propio que prueba que Lúmina W construye lo que predica.",
-      },
-      {
-        title: "Formulario sobre Supabase, sin servidor propio",
-        context:
-          "Una landing de agencia necesita capturar leads desde el primer día sin infraestructura propia de backend.",
-        tradeoff:
-          "Construir y hostear un backend de contacto propio toma tiempo y es sobredimensionado para una landing. Supabase aporta Postgres gestionado y API instantánea, asi que los leads quedan en una base de datos propia y consultable sin montar servidor.",
-        decision:
-          "Supabase para el formulario de contacto: Postgres gestionado con API instantánea, sin servidor que mantener y con los leads guardados en una base de datos propia y consultable.",
-      },
-    ],
-    results: [
-      "Landing completa de Lúmina W en producción con dos tracks de servicio diferenciados y formulario de contacto funcional.",
-      "TerraCore visible como producto propio dentro de la landing, funcionando como prueba de capacidad de la agencia.",
-      "Formulario de contacto activo sobre Supabase: captura nombre, empresa, correo y mensaje en Postgres gestionado, sin servidor propio que mantener.",
-    ],
-    learnings: [
-      "Comunicar dos servicios distintos (desarrollo a medida y SaaS) en una sola landing exige estructura clara: sin separar los tracks por comprador, la propuesta se diluye.",
-      "Supabase da una base de datos propia y consultable sin montar servidor: para una agencia en arranque, esa decisión redujo el tiempo de lanzamiento y dejó los leads bajo control propio.",
-    ],
-    caseStudy: true,
-    schemaType: "WebSite",
-    metaDescription:
-      "Caso de estudio de Lúmina W: landing completa con Astro, Tailwind CSS y Supabase. SEO técnico, formulario de contacto y deploy continuo en Vercel.",
     links: [{ href: "https://luminaw.co", text: "Ver sitio", ariaLabel: "Ver sitio de Lúmina W" }],
     designLink: {
       href: "https://luminaw-landing-prototype.netlify.app/",
       text: "Ver diseño",
       ariaLabel: "Ver diseño de Lúmina W",
     },
+    caseStudy: true,
+    schemaType: "WebSite",
+    metaDescription:
+      "Caso de estudio de Lúmina W: sitio bilingüe con Astro y Tailwind CSS, dos caminos de servicio, formulario sobre Vercel y Supabase, SEO técnico y consentimiento de cookies.",
+    painPoints: [
+      {
+        title: "Dos ofertas con compradores distintos",
+        text: "El desarrollo a medida y un producto por suscripción tienen tiempos, presupuestos y preguntas diferentes. Mezclados sin estructura, confunden.",
+      },
+      {
+        title: "Un contacto que cuesta",
+        text: "Un formulario con un solo campo de mensaje obliga a responder con preguntas antes de poder cotizar. Uno demasiado largo espanta.",
+      },
+      {
+        title: "Dos idiomas sin duplicar el trabajo",
+        text: "Mantener una copia en inglés a mano deja cadenas viejas y claves olvidadas.",
+      },
+      {
+        title: "Datos de contacto sin un backend propio",
+        text: "Guardar solicitudes exige una base de datos y un punto de escritura seguro, y montar un servidor para una página de presentación es desproporcionado.",
+      },
+    ],
+    modules: [
+      {
+        name: "Dos caminos",
+        text: "Una bifurcación en la primera pantalla separa el producto propio en SaaS del desarrollo a medida, y cada uno tiene su propio proceso.",
+      },
+      {
+        name: "Proceso por camino",
+        text: "Cuatro fases para el desarrollo a medida y cuatro para el producto, con las reglas de trabajo de cada una.",
+      },
+      {
+        name: "Productos",
+        text: "TerraCore y OKroot en la landing y en una página propia, con su estado y su enlace.",
+      },
+      {
+        name: "Preguntas frecuentes",
+        text: "Diez preguntas con respuesta, también publicadas como datos estructurados.",
+      },
+      {
+        name: "Formulario de contacto",
+        text: "Recoge necesidad, etapa y consentimiento, guarda la solicitud y avisa por correo.",
+      },
+      {
+        name: "Español e inglés",
+        text: "Dos copias completas, con rutas traducidas, hreflang y un selector de idioma.",
+      },
+    ],
+    decisions: [
+      {
+        title: "Dos caminos explícitos en vez de un solo servicio",
+        context:
+          "Lúmina W ofrece desarrollo a medida y un producto propio en SaaS, y quien compra cada uno llega con preguntas distintas.",
+        tradeoff:
+          "Una frase general de desarrollo de software convence menos, pero separar los caminos añade una decisión en la primera pantalla.",
+        decision:
+          "Una sección de bifurcación, una solución en dos servicios y un proceso con cuatro fases para cada camino, cada uno con su propio llamado a la acción.",
+      },
+      {
+        title: "Productos propios como evidencia",
+        context:
+          "Quien evalúa a una empresa de software quiere ver producto funcionando, no solo promesas de desarrollo a medida.",
+        tradeoff:
+          "Dedicar espacio a los productos puede restar protagonismo al servicio, y su estado cambia con el tiempo.",
+        decision:
+          "TerraCore y OKroot aparecen en la landing y en una página de productos, con el estado y el enlace de cada uno definidos en el diccionario de textos.",
+      },
+      {
+        title: "Función de Vercel con Supabase, y no un servidor propio",
+        context:
+          "El sitio necesita guardar solicitudes de contacto desde el primer día, y montar un backend para una landing es desproporcionado.",
+        tradeoff:
+          "Hay una pieza de servidor, aunque pequeña, que mantener, y el formulario no funciona en las previsualizaciones, donde no hay base de datos.",
+        decision:
+          "Una Función de Vercel valida, aplica la honeypot y el consentimiento, y escribe en Supabase con la llave de servicio en el servidor. El navegador nunca habla con Supabase.",
+      },
+      {
+        title: "Una tabla de solicitudes compartida entre las landings",
+        context:
+          "Lúmina W, TerraCore y OKroot reciben solicitudes con casi los mismos datos, y tres bases sueltas habrían multiplicado el trabajo.",
+        tradeoff:
+          "Si alguien escribe dos veces con el mismo correo, la segunda no se guarda: el aviso interno la menciona, pero la tabla conserva solo la primera.",
+        decision:
+          "Una sola tabla con una columna de producto y unicidad por producto y correo, con el mismo esquema copiado en los tres repositorios.",
+      },
+      {
+        title: "Diccionarios tipados para dos idiomas",
+        context:
+          "Cada texto nuevo debe existir en español e inglés, y una cadena olvidada se nota solo cuando alguien cambia de idioma.",
+        tradeoff: "Obliga a traducir todo cambio al mismo tiempo, incluso uno pequeño.",
+        decision:
+          "El diccionario en inglés está tipado con el del español, así que una clave que falte rompe el build.",
+      },
+      {
+        title: "Analítica solo con consentimiento",
+        context:
+          "El sitio mide visitas con Google Analytics 4, y esa medición requiere el permiso de quien visita.",
+        tradeoff:
+          "Sin la aceptación no hay datos de ese visitante, y el aviso aparece tras desplazarse para no tapar la primera pantalla.",
+        decision:
+          "El script de Analytics se inyecta solo después de aceptar y la decisión queda en el almacenamiento local, sin cookies propias.",
+      },
+    ],
+    design: [
+      "Sistema editorial y sobrio: bordes rectos (radios de 0, 2 y 4 píxeles), líneas de un píxel en lugar de sombras y una sola hoja de estilos con los tokens.",
+      "Azul como color principal para enlaces, etiquetas y foco, y ámbar como acento solo de relleno. Cuando el ámbar es texto sobre fondo claro se usa una versión más oscura para mantener el contraste.",
+      "Cabinet Grotesk para los títulos y Switzer para el texto, cargadas desde Fontshare con swap.",
+      "Página clara con superficies oscuras fijas (contacto, pie, productos y la barra de navegación). No hay selector de tema.",
+      "Los llamados a la acción llevan solo texto, sin flechas ni iconos, y la regla del proyecto es no usar guiones como conector en los textos.",
+    ],
+    results: [
+      "Sitio de Lúmina W en producción en luminaw.co, en español e inglés, con los dos caminos de servicio diferenciados.",
+      "Formulario de contacto que guarda cada solicitud con su necesidad, su etapa y su consentimiento en una tabla compartida, y avisa por correo.",
+      "TerraCore y OKroot presentados en la landing y en una página propia.",
+      "SEO técnico con datos estructurados, hreflang, sitemap, robots para rastreadores de IA y llms.txt.",
+    ],
+    learnings: [
+      "Para una página de presentación, una Función pequeña frente a Supabase resuelve el contacto sin un backend que mantener, pero obliga a decidir qué pasa en las previsualizaciones, donde no hay base de datos.",
+      "Pedir necesidad y etapa en el formulario, con valores fijos, hace que la primera respuesta ya pueda ser una propuesta y que los datos se comparen entre idiomas.",
+      "Las promesas del texto deben ser algo que el código haga: decir que se recibe una confirmación por correo exige que la Función envíe ese correo.",
+      "Un diccionario tipado convierte una traducción olvidada en un error de build en lugar de en una página a medias.",
+    ],
     en: {
       imageAlt: "Lumina W landing: brand tagline and call to action",
+      summary:
+        "Website of Lumina W, a software company in Medellín. Bilingual (Spanish and English), static, with a twelve-block landing page that separates two paths (custom development and its own SaaS product), a products page with TerraCore and OKroot, and a contact form that stores each request in Supabase and notifies by email. Astro, Tailwind CSS and a Vercel Function.",
       problem:
-        "Every company needs a digital presence that clearly communicates who they are and what they do.",
+        "A software company that sells two different things, custom projects and its own product by subscription, needs to explain them without mixing them up. And it needs to receive contact requests with enough data to answer, without building a full backend for a presentation page.",
       solution:
-        "I designed and implemented the complete Lumina W landing: Astro architecture, Tailwind CSS styling, Supabase-backed contact form, full technical SEO, and continuous deployment.",
+        "A static site with two explicit paths from the first screen, a four-phase process for each, a products page, and a form that collects what is needed (need, stage and consent) and stores it safely. It is in Spanish and English, with technical SEO and analytics only with consent.",
       links: [{ href: "https://luminaw.co", text: "Visit site", ariaLabel: "Visit Lumina W" }],
       designLink: {
         href: "https://luminaw-landing-prototype.netlify.app/",
@@ -2064,64 +2251,137 @@ export const projects: Project[] = [
         ariaLabel: "View Lumina W design",
       },
       metaDescription:
-        "Lumina W case study: complete landing with Astro, Tailwind CSS, and Supabase. Technical SEO, contact form, and continuous deployment to Vercel.",
+        "Lumina W case study: a bilingual site with Astro and Tailwind CSS, two service paths, a form on Vercel and Supabase, technical SEO and cookie consent.",
       architecture: [
-        "Astro with static output: section components, optimized build, and continuous deployment to Vercel.",
-        "Full technical SEO: title, meta-description, og:*, twitter:*, canonical, and schema markup.",
-        "Accessibility (a11y): heading hierarchy, aria-labels, and WCAG AA contrast.",
-        "Performance: static output, WebP images, and immutable cache on Vercel.",
-        "Google Analytics (GA4): session tracking, scroll depth, and user behavior.",
-        "Contact form on Supabase (managed Postgres): name, company, email, and message persisted in an owned database, with no server to maintain.",
-        "Responsive design with Tailwind CSS and light/dark mode.",
-        "Two-track business structure: custom development and SaaS rental (TerraCore), each with its own phase flow.",
+        "Astro 6 with static output and Tailwind CSS 4. Twelve components assemble the landing in a fixed order: hero, a fork between the two paths, problem, agitation, a phrase ribbon, solution, process, manifesto, why us, product, FAQ and contact. Each section has an anchor that matches the navigation bar and the footer.",
+        "Spanish by default at the root and English under /en, with both copies in typed dictionaries: the English dictionary requires the same keys as the Spanish one, so a missing key breaks the build. The products and contact pages have a translated route, and the legal pages keep the same name.",
+        "Contact form: the browser sends JSON to a Vercel Function that validates the fields (name, company, email, phone, need, stage and message), requires consent and silently drops whatever arrives through a hidden trap field. The need and stage values are fixed English codes, so an option is stored the same way in both languages.",
+        "The Function stores each request in Supabase with the service key, which lives only on the server, and fills in the consent date, the source and the user agent itself. It does not store the IP. If the email already exists, it answers that everything went fine without creating another row, and still notifies the internal inbox.",
+        "The internal notice goes out through Brevo and is best effort: if the email fails, the request is already stored. Storage only runs in Vercel production, so on previews the form answers 503 by design.",
+        "The requests table is a single one, shared with the TerraCore and OKroot landings, with a product column and a uniqueness constraint per product and email. It has row-level security on and no permissions for the public roles: only the Function can write.",
+        "Technical SEO: a JSON-LD graph with ProfessionalService, WebSite and WebPage, plus FAQPage on the FAQ, a self canonical, hreflang between es, en and x-default, a sitemap with alternates and a robots.txt that explicitly allows 21 AI crawlers, together with an llms.txt.",
+        "Analytics with consent: Google Analytics 4 loads only if the person accepts the cookie notice, and the decision is stored in local storage, with no first-party cookies. The notice does not block the page and appears after a little scrolling.",
+        "Performance and delivery: WebP images with explicit dimensions, fonts with swap, a one-year immutable cache for hashed assets and images, and security headers (HSTS, anti-framing, anti-sniffing, referrer and permissions). Deployment on Vercel is continuous from main.",
+        "Accessibility worked into the code: a skip link, visible focus, a label per field with announced errors and a success message with a status role, and respect for prefers-reduced-motion. A no-JavaScript fallback keeps the content that appears on scroll visible.",
+        "Quality: formatting and build on every PR, with secret scanning through gitleaks and the dev, stg and main flow. There are no automated tests and no Lighthouse measurement stored in the repository.",
       ],
       painPoints: [
         {
-          title: "No digital presence",
-          text: "Without a landing, Lumina W had nowhere to send prospects, communicate the proposition, or close a commercial conversation.",
+          title: "Two offers with different buyers",
+          text: "Custom development and a subscription product have different timelines, budgets and questions. Mixed without structure, they confuse.",
         },
         {
-          title: "Two services hard to communicate together",
-          text: "Custom development and SaaS have different buyers. Mixing them without structure confuses instead of converting.",
+          title: "A contact that costs",
+          text: "A form with a single message field forces a reply with questions before you can quote. One that is too long scares people off.",
+        },
+        {
+          title: "Two languages without duplicating the work",
+          text: "Maintaining an English copy by hand leaves stale strings and forgotten keys.",
+        },
+        {
+          title: "Contact data without a backend of your own",
+          text: "Storing requests needs a database and a safe write point, and standing up a server for a presentation page is out of proportion.",
+        },
+      ],
+      modules: [
+        {
+          name: "Two paths",
+          text: "A fork on the first screen separates the own SaaS product from custom development, and each has its own process.",
+        },
+        {
+          name: "Process per path",
+          text: "Four phases for custom development and four for the product, with the working rules of each.",
+        },
+        {
+          name: "Products",
+          text: "TerraCore and OKroot on the landing and on a page of their own, with their status and link.",
+        },
+        {
+          name: "FAQ",
+          text: "Ten questions with answers, also published as structured data.",
+        },
+        {
+          name: "Contact form",
+          text: "It collects need, stage and consent, stores the request and notifies by email.",
+        },
+        {
+          name: "Spanish and English",
+          text: "Two complete copies, with translated routes, hreflang and a language switch.",
         },
       ],
       decisions: [
         {
-          title: "Two explicit tracks instead of one service",
+          title: "Two explicit paths instead of a single service",
           context:
-            "Lumina W offers custom development and SaaS. Buyers for each track have different needs, timelines, and budgets.",
+            "Lumina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
           tradeoff:
-            "A generic 'we make software' landing does not convert. Separating the tracks adds visual complexity but clarifies the proposition.",
+            "A general software-development line persuades less, but separating the paths adds a decision on the first screen.",
           decision:
-            "Services section with two clear columns: custom development (4-phase process) and SaaS rental (TerraCore). Each track has its own CTA.",
+            "A fork section, a solution in two services and a process with four phases for each path, each with its own call to action.",
         },
         {
-          title: "TerraCore as proof of capability",
+          title: "Own products as evidence",
           context:
-            "A potential client needs to see a real product, not just custom development promises.",
+            "Someone evaluating a software company wants to see a product working, not only custom development promises.",
           tradeoff:
-            "Dedicating space to TerraCore on the agency landing may distract. Not doing it leaves the capability argument without evidence.",
+            "Giving space to the products can take attention from the service, and their status changes over time.",
           decision:
-            "Section dedicated to TerraCore with modules, features, and CTA. It works as a proprietary case that proves Lumina W builds what it preaches.",
+            "TerraCore and OKroot appear on the landing and on a products page, with each one's status and link defined in the text dictionary.",
         },
         {
-          title: "Contact form on Supabase, no own server",
+          title: "A Vercel Function with Supabase, not a server of its own",
           context:
-            "An agency landing needs to capture leads from day one without own backend infrastructure.",
+            "The site needs to store contact requests from day one, and building a backend for a landing is out of proportion.",
           tradeoff:
-            "Building and hosting an own contact backend takes time and is oversized for a landing. Supabase provides managed Postgres and an instant API, so leads land in an owned, queryable database with no server to run.",
+            "There is a small server piece to maintain, and the form does not work on previews, where there is no database.",
           decision:
-            "Supabase for the contact form: managed Postgres with an instant API, no server to maintain, and leads stored in an owned, queryable database.",
+            "A Vercel Function validates, applies the honeypot and the consent, and writes to Supabase with the service key on the server. The browser never talks to Supabase.",
         },
+        {
+          title: "One requests table shared across the landings",
+          context:
+            "Lumina W, TerraCore and OKroot receive requests with almost the same data, and three separate databases would have tripled the work.",
+          tradeoff:
+            "If someone writes twice with the same email, the second is not stored: the internal notice mentions it, but the table keeps only the first.",
+          decision:
+            "A single table with a product column and uniqueness per product and email, with the same schema copied into the three repositories.",
+        },
+        {
+          title: "Typed dictionaries for two languages",
+          context:
+            "Every new text must exist in Spanish and English, and a forgotten string shows only when someone switches language.",
+          tradeoff: "It forces translating every change at the same time, even a small one.",
+          decision:
+            "The English dictionary is typed with the Spanish one, so a missing key breaks the build.",
+        },
+        {
+          title: "Analytics only with consent",
+          context:
+            "The site measures visits with Google Analytics 4, and that measurement requires the visitor's permission.",
+          tradeoff:
+            "Without acceptance there is no data for that visitor, and the notice appears after scrolling so it does not cover the first screen.",
+          decision:
+            "The Analytics script is injected only after accepting and the decision is kept in local storage, with no first-party cookies.",
+        },
+      ],
+      design: [
+        "An editorial, sober system: straight edges (radii of 0, 2 and 4 pixels), one-pixel lines instead of shadows and a single stylesheet with the tokens.",
+        "Blue as the main color for links, tags and focus, and amber as a fill-only accent. When amber is text on a light background, a darker version is used to keep the contrast.",
+        "Cabinet Grotesk for headings and Switzer for body text, loaded from Fontshare with swap.",
+        "A light page with fixed dark surfaces (contact, footer, products and the navigation bar). There is no theme switch.",
+        "Calls to action carry text only, with no arrows or icons, and the project rule is not to use dashes as a connector in texts.",
       ],
       results: [
-        "Complete Lumina W landing in production with two differentiated service tracks and functional contact form.",
-        "TerraCore visible as a proprietary product within the landing, functioning as proof of agency capability.",
-        "Active contact form on Supabase: captures name, company, email, and message in managed Postgres, with no own server to maintain.",
+        "Lumina W site in production at luminaw.co, in Spanish and English, with the two service paths differentiated.",
+        "A contact form that stores each request with its need, its stage and its consent in a shared table, and notifies by email.",
+        "TerraCore and OKroot presented on the landing and on a page of their own.",
+        "Technical SEO with structured data, hreflang, a sitemap, robots for AI crawlers and llms.txt.",
       ],
       learnings: [
-        "Communicating two distinct services (custom development and SaaS) on a single landing requires clear structure: without separating tracks by buyer, the proposition is diluted.",
-        "Supabase gives an owned, queryable database without standing up a server: for a starting agency, that decision reduced launch time and kept the leads under own control.",
+        "For a presentation page, a small Function in front of Supabase solves contact without a backend to maintain, but it forces a decision about what happens on previews, where there is no database.",
+        "Asking for need and stage in the form, with fixed values, means the first reply can already be a proposal and the data compares across languages.",
+        "The promises in the copy must be something the code does: saying a confirmation email is received requires the Function to send that email.",
+        "A typed dictionary turns a forgotten translation into a build error instead of a half-translated page.",
       ],
     },
   },
@@ -2130,7 +2390,7 @@ export const projects: Project[] = [
     slug: "blog-lumina-w",
     quoteType: "web-app",
     datePublished: "2026-06-18",
-    dateModified: "2026-09-25",
+    dateModified: "2026-10-02",
     tag: "Live",
     tagColor: "green",
     image: "images/og-blogw.webp",
@@ -2138,20 +2398,43 @@ export const projects: Project[] = [
       "Blog de Lúmina W: contenido técnico sobre desarrollo web, ciberseguridad y productos digitales",
     imageWidth: 1200,
     imageHeight: 630,
-    stack: ["Next.js", "PWA"],
-    filters: ["full-stack", "ai", "pwa", "design"],
-    problem:
-      "El conocimiento técnico generado en proyectos reales necesita un canal propio para llegar a la comunidad sin depender de plataformas externas.",
-    solution:
-      "Blog PWA de Lúmina W, migrado a Next.js, con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales en blog.luminaw.co.",
-    architecture: ["Aplicación del blog desarrollada con Next.js y presentada como PWA."],
-    results: [
-      "Blog en producción con contenido técnico sobre desarrollo web, ciberseguridad y productos digitales.",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Prisma",
+      "PostgreSQL",
+      "Supabase",
+      "NextAuth",
+      "Brevo",
+      "Claude API",
+      "Vercel",
     ],
-    caseStudy: true,
-    schemaType: "WebSite",
-    metaDescription:
-      "Caso de estudio del Blog de Lúmina W: PWA desarrollada con Next.js para publicar contenido técnico sobre desarrollo web, ciberseguridad y productos.",
+    summary:
+      "Plataforma de blog bilingüe (español e inglés) con comunidad: cuentas, comentarios, likes, guardados, perfiles y newsletter. Cualquier cuenta escribe un artículo y la administradora lo aprueba antes de publicarlo. Los artículos publicados se traducen con la API de Claude. Next.js, Prisma y PostgreSQL, desplegada en Vercel.",
+    filters: ["full-stack", "ai", "design"],
+    problem:
+      "El conocimiento técnico que sale de proyectos reales necesita un canal propio, con control sobre el contenido, los comentarios y las suscripciones, sin depender de una plataforma externa. El sitio anterior era estático, con un CMS de archivos, y no tenía cuentas ni comunidad.",
+    solution:
+      "Una aplicación Next.js con base de datos que reemplazó al sitio anterior. Publica artículos en español e inglés, deja que cualquier cuenta proponga uno y lo pone en una cola de aprobación, y suma comentarios con moderación, guardados, perfiles, seguimiento entre cuentas y newsletter por idioma.",
+    architecture: [
+      "Aplicación Next.js (App Router, React y TypeScript) con Prisma sobre PostgreSQL en Supabase, y Tailwind CSS para los estilos. Reemplazó a un sitio anterior en Astro con Decap CMS. El layout es dinámico a propósito: el build en CI no necesita base de datos.",
+      "Los artículos viven de dos formas: archivos Markdown en el repositorio (seis hoy, tres por idioma) que un importador sube a la base en cada build de producción, y artículos escritos por cuentas dentro de la aplicación. El importador crea o actualiza por idioma y slug, y nunca toca autoría, likes, guardados ni comentarios.",
+      "Flujo de publicación: un artículo pasa por borrador, pendiente, publicado o rechazado. Cualquier cuenta puede escribir y enviar a revisión, solo la administradora publica directo, y editar un artículo publicado desde una cuenta que no es la de ella lo devuelve a pendiente. El slug queda fijo al publicar.",
+      "Bilingüe: español sin prefijo e inglés bajo /en, con rutas traducidas (articulos, categoria, cuenta) y un middleware que las reescribe a las rutas internas. Cada idioma es una fila de Post enlazada con el original, y likes, guardados y comentarios se anclan siempre al original.",
+      "Traducción automática: al publicar un original, y solo si hay clave configurada, una tarea en segundo plano manda título, descripción, cuerpo y etiquetas a la API de Claude como datos, valida la respuesta y guarda la versión en el otro idioma. La administradora puede reintentarla desde el panel. Los artículos de archivo traen sus propias traducciones.",
+      "Comunidad: comentarios con hilos de hasta 2000 caracteres, likes, guardados, perfiles públicos y seguimiento. La moderación de comentarios es un filtro local por reglas (términos bloqueados y tope de enlaces), sin llamar a ningún modelo: lo que coincide queda pendiente y la administradora lo aprueba o rechaza.",
+      "Newsletter con Brevo: una lista por idioma, suscripción desde el sitio y envío de prueba o campaña desde el panel de administración, con el enlace de baja de Brevo. Las notificaciones de respuesta, seguimiento y guardado también salen por correo, además de dentro del blog.",
+      "Cuentas con correo y clave verificados por correo, más Google, GitHub y LinkedIn cuando están configurados, e invitaciones que llegan con el correo ya verificado. Un proveedor externo solo se acepta si confirma el correo. Cuenta bloqueada 15 minutos tras 5 intentos fallidos, y suspensión y cierre de sesiones desde el panel.",
+      "Los permisos se leen de la base de datos en cada petición y no del token de sesión. El administrador no es un rol en la base: es el correo definido en una variable de entorno, que además está protegido de suspensión y borrado.",
+      "Seguridad por capas: limitador de frecuencia guardado en Postgres con una sola sentencia atómica por llamada (falla cerrado en credenciales y tokens), verificación de origen en las rutas que escriben, CSP con nonce por petición, cabeceras HSTS, anti-framing y anti-sniffing, y Markdown pasado por un sanitizador antes de renderizarse.",
+      "Imágenes: el tipo se detecta por los primeros bytes del archivo y no por la cabecera, se rechaza SVG, y sharp las convierte a WebP con límite de lado según el uso (portada, cuerpo o avatar) antes de guardarlas en un bucket de Supabase Storage. La llave de servicio solo existe en un módulo del servidor.",
+      "SEO y descubrimiento: sitemap dinámico con alternates por idioma, robots con un grupo aparte para crawlers de IA, llms.txt, feed RSS por idioma y JSON-LD (Organization, WebSite, BlogPosting, Blog, CollectionPage, ProfilePage y BreadcrumbList). La búsqueda usa coincidencia insensible a mayúsculas sobre título, descripción, cuerpo, autor y etiquetas.",
+      "Analítica con consentimiento: GA4 se carga solo si la persona acepta y si hay un identificador configurado, y el enlace entre dominios cubre luminaw.co, terracoreapp.co y okroot.co.",
+      "Calidad y entrega: 28 archivos de pruebas unitarias con vitest sobre lógica pura, lint y build en cada PR, escaneo de secretos con gitleaks y flujo dev, stg y main. En producción, el build de Vercel aplica las migraciones y corre el importador de artículos.",
+      "Un generador de portadas arma las imágenes de 1200 por 630 en WebP, una por idioma, con un tope de 150 KB, a partir de una especificación JSON y un arte SVG.",
+    ],
     links: [
       {
         href: "https://blog.luminaw.co",
@@ -2164,13 +2447,169 @@ export const projects: Project[] = [
       text: "Ver diseño",
       ariaLabel: "Ver diseño de Blog Lúmina W",
     },
+    caseStudy: true,
+    schemaType: "WebSite",
+    metaDescription:
+      "Caso de estudio del Blog de Lúmina W: plataforma Next.js bilingüe con cuentas, moderación, newsletter y traducción de artículos con la API de Claude.",
+    painPoints: [
+      {
+        title: "Una plataforma ajena decide por ti",
+        text: "Publicar en una plataforma de terceros deja la audiencia, los comentarios y la suscripción en manos de otra empresa.",
+      },
+      {
+        title: "Un sitio estático no tiene comunidad",
+        text: "El sitio anterior publicaba bien, pero no tenía cuentas, comentarios ni una forma de que alguien más propusiera un artículo.",
+      },
+      {
+        title: "Dos idiomas son doble trabajo",
+        text: "Mantener cada artículo en español e inglés a mano duplica el esfuerzo de publicar.",
+      },
+      {
+        title: "Abrir comentarios abre el riesgo",
+        text: "Cualquier cuenta que escribe o comenta es una entrada para spam, enlaces dudosos y abuso de las rutas que envían correo.",
+      },
+    ],
+    modules: [
+      {
+        name: "Artículos y aprobación",
+        text: "Escribe en Markdown, envía a revisión y publica cuando la administradora aprueba, con motivo de devolución.",
+      },
+      {
+        name: "Comunidad",
+        text: "Comentarios con hilos, likes, guardados, perfiles públicos y seguimiento entre cuentas.",
+      },
+      {
+        name: "Español e inglés",
+        text: "Rutas, textos, correos y notificaciones en los dos idiomas, con traducción automática de los artículos.",
+      },
+      {
+        name: "Newsletter",
+        text: "Suscripción por idioma y envío de prueba o campaña desde el panel de administración.",
+      },
+      {
+        name: "Panel de administración",
+        text: "Cola de artículos y comentarios, destacados, invitaciones y gestión de usuarios: buscar, suspender, reactivar y eliminar.",
+      },
+      {
+        name: "Búsqueda y descubrimiento",
+        text: "Búsqueda con atajo de teclado, categorías, orden por popularidad, feed RSS, sitemap y llms.txt.",
+      },
+    ],
+    chainStepsTitle: "Del borrador al lector en dos idiomas",
+    chainSteps: [
+      "Una cuenta escribe un artículo en Markdown y lo envía a revisión.",
+      "La administradora lo aprueba, o lo devuelve con una nota que recibe como notificación.",
+      "Al publicarse, una tarea en segundo plano manda el contenido a la API de Claude como datos y valida la traducción.",
+      "La versión en el otro idioma se guarda enlazada al original y entra al sitemap con su alternate.",
+      "Los likes, guardados y comentarios de cualquiera de las dos versiones se acumulan en el original.",
+    ],
+    decisions: [
+      {
+        title: "Una aplicación con base de datos en lugar de un sitio estático",
+        context:
+          "El blog necesitaba cuentas, comentarios, aprobación de artículos, suscripciones y dos idiomas.",
+        tradeoff:
+          "Una aplicación dinámica depende de una base de datos y exige más cuidado de seguridad que un sitio de archivos.",
+        decision:
+          "Next.js con Prisma y PostgreSQL, y un layout dinámico para que el build no necesite la base. Los artículos de archivo se siguen versionando en el repositorio y se importan al desplegar.",
+      },
+      {
+        title: "Una fila por idioma, enlazada con el original",
+        context:
+          "Un artículo existe en dos idiomas con slugs distintos, pero la conversación a su alrededor es una sola.",
+        tradeoff: "Cada consulta de interacciones tiene que resolver primero cuál es el original.",
+        decision:
+          "Cada versión es una fila de Post con una referencia al original. Likes, guardados y comentarios se anclan siempre al original.",
+      },
+      {
+        title: "Claude para traducir, solo contenido ya publicado",
+        context: "Traducir a mano cada artículo duplica el trabajo de publicar.",
+        tradeoff:
+          "Una traducción de un modelo puede equivocarse y depende de una clave externa, así que se activa solo si hay clave.",
+        decision:
+          "Una tarea en segundo plano manda solo el artículo ya publicado, como datos y no como instrucciones, valida la respuesta antes de guardarla, y la administradora puede reintentarla. Ningún dato de cuentas ni comentarios sale hacia la API.",
+      },
+      {
+        title: "Moderación por reglas locales",
+        context:
+          "Los comentarios abiertos reciben spam y enlaces dudosos, y mandarlos a un modelo añade costo y envía texto de usuarios a un tercero.",
+        tradeoff:
+          "Un filtro por términos y por cantidad de enlaces es tosco: deja pasar lo que no coincide y retiene lo que sí aunque sea legítimo.",
+        decision:
+          "Un filtro local pone en pendiente los comentarios que coinciden y la administradora decide. Sus propios comentarios quedan exentos.",
+      },
+      {
+        title: "Limitador de frecuencia en la propia base",
+        context:
+          "Cada ruta que escribe, envía correo o recibe credenciales necesita un tope, y no se quería sumar infraestructura nueva.",
+        tradeoff:
+          "Usa la base de datos de la aplicación en cada llamada y es una ventana fija, menos precisa que una cola dedicada.",
+        decision:
+          "Una tabla en Postgres con una sola sentencia atómica por llamada, sin infraestructura nueva. Falla cerrado en credenciales y tokens, y abierto en el resto.",
+      },
+      {
+        title: "Permisos desde la base, no desde el token",
+        context:
+          "Un token de sesión guarda lo que era cierto al emitirse, pero una cuenta puede suspenderse o cambiar de clave después.",
+        tradeoff: "Cada petición autenticada hace una lectura a la base de datos.",
+        decision:
+          "Una función lee el usuario de la base y descarta la sesión si la cuenta está suspendida o su versión de sesión cambió. El token nunca decide un permiso.",
+      },
+      {
+        title: "Una sola administradora, definida por entorno",
+        context:
+          "Hace falta alguien que apruebe contenido, sin montar un sistema de roles para una persona.",
+        tradeoff:
+          "No hay roles delegables ni más de una administradora sin cambiar la configuración.",
+        decision:
+          "La administradora es el correo de una variable de entorno. Cada acción del panel comprueba esa condición en el servidor, y esa cuenta no se puede suspender ni borrar.",
+      },
+    ],
+    design: [
+      "Los estilos del prototipo diseñado aparte se portaron tal cual, y el tema vive en una sola hoja de estilos con Tailwind CSS 4 sin el reset base.",
+      "Artículo con barra de progreso de lectura, tabla de contenidos y tarjeta para compartir, con el menú nativo del dispositivo como camino para Instagram.",
+      "Portadas de 1200 por 630 por idioma, generadas desde una especificación y un arte SVG, con un tope de peso por imagen.",
+      "Accesibilidad trabajada en el código: enlace para saltar al contenido, menús con teclado y un diálogo de confirmación con el foco atrapado. Los cambios de contraste que alterarían el diseño están pendientes de decisión.",
+      "Selector de idioma que recuerda la elección en una cookie, y detección del idioma del navegador en la primera visita.",
+    ],
+    results: [
+      "Plataforma en producción en blog.luminaw.co, con cuentas, publicación con aprobación, comentarios con moderación y newsletter.",
+      "Seis artículos de archivo importados, tres en español y tres en inglés, y un flujo para publicar más desde la propia aplicación.",
+      "Traducción automática de artículos publicados al otro idioma, con reintento manual desde el panel.",
+      "Suite de 28 archivos de pruebas unitarias sobre lógica pura, con lint, build y escaneo de secretos en cada PR.",
+    ],
+    learnings: [
+      "Abrir cuentas y comentarios cambia el tipo de proyecto: casi cada ruta nueva necesita un límite de frecuencia, una verificación de origen y una decisión sobre qué pasa si falla.",
+      "Leer los permisos de la base en cada petición cuesta una consulta, pero evita que una suspensión o un cambio de clave llegue tarde.",
+      "Anclar las interacciones al artículo original en vez de a cada idioma evita partir una conversación en dos.",
+      "Un filtro local de moderación es predecible y barato, pero solo ordena la cola: la decisión sigue siendo de una persona.",
+      "Con dos idiomas, cada texto nuevo es trabajo por duplicado en los diccionarios, y conviene que el tipo de uno obligue a completar el otro.",
+    ],
+    roadmap: {
+      now: [
+        "Blog bilingüe en producción con comunidad, aprobación de artículos, newsletter y traducción automática.",
+        "Auditorías de seguridad, SEO y accesibilidad aplicadas al código.",
+      ],
+      next: [
+        "Artículos relacionados por etiquetas.",
+        "Eliminar la propia cuenta y cambiar el correo desde el perfil.",
+        "Reportar un comentario.",
+        "Alojar las fuentes en el propio sitio, monitoreo de errores y pruebas de extremo a extremo en CI.",
+      ],
+      later: [
+        "Generación de borradores con la API de Claude y n8n, y programación automática de publicaciones.",
+        "Compartir en redes desde n8n y panel de analítica.",
+      ],
+    },
     en: {
       imageAlt:
         "Lumina W blog: technical content on web development, cybersecurity, and digital products",
+      summary:
+        "Bilingual blog platform (Spanish and English) with community features: accounts, comments, likes, saves, profiles and a newsletter. Any account can write an article and the administrator approves it before it goes live. Published articles are translated with the Claude API. Next.js, Prisma and PostgreSQL, deployed on Vercel.",
       problem:
-        "Technical knowledge generated in real projects needs its own channel to reach the community without depending on external platforms.",
+        "Technical knowledge that comes out of real projects needs its own channel, with control over the content, the comments and the subscriptions, without depending on an outside platform. The previous site was static, with a file-based CMS, and had no accounts or community.",
       solution:
-        "Lumina W's Next.js blog PWA publishes technical content on web development, cybersecurity, and digital products at blog.luminaw.co.",
+        "A Next.js application with a database that replaced the previous site. It publishes articles in Spanish and English, lets any account propose one and puts it in an approval queue, and adds moderated comments, saves, profiles, following between accounts and a newsletter per language.",
       links: [
         {
           href: "https://blog.luminaw.co",
@@ -2184,11 +2623,174 @@ export const projects: Project[] = [
         ariaLabel: "View Lumina W Blog design",
       },
       metaDescription:
-        "Lumina W Blog case study: a Next.js PWA for technical content on web development, cybersecurity, and products.",
-      architecture: ["Blog application developed with Next.js and presented as a PWA."],
-      results: [
-        "Blog in production with technical content on web development, cybersecurity, and digital products.",
+        "Lumina W Blog case study: a bilingual Next.js platform with accounts, moderation, a newsletter and article translation with the Claude API.",
+      architecture: [
+        "Next.js application (App Router, React and TypeScript) with Prisma on PostgreSQL in Supabase, and Tailwind CSS for styling. It replaced a previous Astro site with Decap CMS. The layout is dynamic on purpose: the CI build does not need a database.",
+        "Articles live in two ways: Markdown files in the repository (six today, three per language) that an importer loads into the database on every production build, and articles written by accounts inside the application. The importer creates or updates by language and slug, and never touches authorship, likes, saves or comments.",
+        "Publishing flow: an article goes through draft, pending, published or rejected. Any account can write and submit for review, only the administrator publishes directly, and editing a published article from an account other than hers sends it back to pending. The slug is frozen once published.",
+        "Bilingual: Spanish without a prefix and English under /en, with translated routes (articulos, categoria, cuenta) and a middleware that rewrites them to the internal routes. Each language is a Post row linked to the original, and likes, saves and comments are always anchored to the original.",
+        "Automatic translation: when an original is published, and only if a key is configured, a background task sends the title, description, body and tags to the Claude API as data, validates the response and stores the version in the other language. The administrator can retry it from the panel. File-based articles ship with their own translations.",
+        "Community: threaded comments of up to 2,000 characters, likes, saves, public profiles and following. Comment moderation is a local rule filter (blocked terms and a link cap) that calls no model: anything that matches is held as pending and the administrator approves or rejects it.",
+        "Newsletter with Brevo: one list per language, sign-up from the site and a test or campaign send from the admin panel, with Brevo's unsubscribe link. Reply, follow and save notifications also go out by email, in addition to inside the blog.",
+        "Accounts with email and password verified by email, plus Google, GitHub and LinkedIn when configured, and invitations that arrive with the email already verified. An external provider is accepted only if it confirms the email. An account is locked for 15 minutes after 5 failed attempts, and suspension and session invalidation are available from the panel.",
+        "Permissions are read from the database on every request and not from the session token. The administrator is not a role in the database: it is the email set in an environment variable, which is also protected from suspension and deletion.",
+        "Layered security: a rate limiter stored in Postgres with a single atomic statement per call (it fails closed on credentials and tokens), an origin check on the routes that write, a per-request CSP with a nonce, HSTS, anti-framing and anti-sniffing headers, and Markdown passed through a sanitizer before it renders.",
+        "Images: the type is detected from the first bytes of the file and not from the header, SVG is rejected, and sharp converts them to WebP with a side limit by use (cover, body or avatar) before storing them in a Supabase Storage bucket. The service key exists only in one server module.",
+        "SEO and discovery: a dynamic sitemap with language alternates, robots with a separate group for AI crawlers, llms.txt, an RSS feed per language and JSON-LD (Organization, WebSite, BlogPosting, Blog, CollectionPage, ProfilePage and BreadcrumbList). Search uses case-insensitive matching over title, description, body, author and tags.",
+        "Analytics with consent: GA4 loads only if the person accepts and an identifier is configured, and the cross-domain link covers luminaw.co, terracoreapp.co and okroot.co.",
+        "Quality and delivery: 28 unit test files with vitest over pure logic, lint and build on every PR, secret scanning with gitleaks and a dev, stg and main flow. In production, the Vercel build applies migrations and runs the article importer.",
+        "A cover generator builds the 1200 by 630 WebP images, one per language, with a 150 KB cap, from a JSON spec and an SVG artwork.",
       ],
+      painPoints: [
+        {
+          title: "An outside platform decides for you",
+          text: "Publishing on a third-party platform leaves the audience, the comments and the subscription in someone else's hands.",
+        },
+        {
+          title: "A static site has no community",
+          text: "The previous site published fine, but had no accounts, no comments and no way for someone else to propose an article.",
+        },
+        {
+          title: "Two languages are double the work",
+          text: "Keeping every article in Spanish and English by hand doubles the effort of publishing.",
+        },
+        {
+          title: "Open comments open the risk",
+          text: "Every account that writes or comments is an entry point for spam, dubious links and abuse of the routes that send email.",
+        },
+      ],
+      modules: [
+        {
+          name: "Articles and approval",
+          text: "Write in Markdown, submit for review and publish when the administrator approves, with a note when it is sent back.",
+        },
+        {
+          name: "Community",
+          text: "Threaded comments, likes, saves, public profiles and following between accounts.",
+        },
+        {
+          name: "Spanish and English",
+          text: "Routes, texts, emails and notifications in both languages, with automatic translation of articles.",
+        },
+        {
+          name: "Newsletter",
+          text: "Sign-up per language and a test or campaign send from the admin panel.",
+        },
+        {
+          name: "Admin panel",
+          text: "Queue of articles and comments, featured posts, invitations and user management: search, suspend, reactivate and delete.",
+        },
+        {
+          name: "Search and discovery",
+          text: "Search with a keyboard shortcut, categories, popularity ordering, an RSS feed, a sitemap and llms.txt.",
+        },
+      ],
+      chainStepsTitle: "From draft to reader in two languages",
+      chainSteps: [
+        "An account writes an article in Markdown and submits it for review.",
+        "The administrator approves it, or sends it back with a note the author receives as a notification.",
+        "Once published, a background task sends the content to the Claude API as data and validates the translation.",
+        "The version in the other language is stored linked to the original and enters the sitemap with its alternate.",
+        "Likes, saves and comments on either version accumulate on the original.",
+      ],
+      decisions: [
+        {
+          title: "An application with a database instead of a static site",
+          context:
+            "The blog needed accounts, comments, article approval, subscriptions and two languages.",
+          tradeoff:
+            "A dynamic application depends on a database and needs more security care than a site of files.",
+          decision:
+            "Next.js with Prisma and PostgreSQL, and a dynamic layout so the build does not need the database. File-based articles stay versioned in the repository and are imported on deploy.",
+        },
+        {
+          title: "One row per language, linked to the original",
+          context:
+            "An article exists in two languages with different slugs, but the conversation around it is one.",
+          tradeoff: "Every interactions query has to resolve which one is the original first.",
+          decision:
+            "Each version is a Post row with a reference to the original. Likes, saves and comments are always anchored to the original.",
+        },
+        {
+          title: "Claude for translation, published content only",
+          context: "Translating every article by hand doubles the work of publishing.",
+          tradeoff:
+            "A model translation can be wrong and depends on an outside key, so it is only active when a key exists.",
+          decision:
+            "A background task sends only the already published article, as data and not as instructions, validates the response before storing it, and the administrator can retry it. No account or comment data goes to the API.",
+        },
+        {
+          title: "Moderation by local rules",
+          context:
+            "Open comments receive spam and dubious links, and sending them to a model adds cost and ships users' text to a third party.",
+          tradeoff:
+            "A filter by terms and link count is crude: it lets through what does not match and holds what does even if it is legitimate.",
+          decision:
+            "A local filter puts matching comments in pending and the administrator decides. Her own comments are exempt.",
+        },
+        {
+          title: "A rate limiter in the application's own database",
+          context:
+            "Every route that writes, sends email or takes credentials needs a cap, and the goal was to avoid adding new infrastructure.",
+          tradeoff:
+            "It uses the application's database on every call and is a fixed window, less precise than a dedicated queue.",
+          decision:
+            "A Postgres table with a single atomic statement per call, with no new infrastructure. It fails closed on credentials and tokens, and open on the rest.",
+        },
+        {
+          title: "Permissions from the database, not from the token",
+          context:
+            "A session token holds what was true when it was issued, but an account can be suspended or change its password later.",
+          tradeoff: "Every authenticated request makes a database read.",
+          decision:
+            "A function reads the user from the database and discards the session if the account is suspended or its session version changed. The token never decides a permission.",
+        },
+        {
+          title: "A single administrator, defined by environment",
+          context:
+            "Someone has to approve content, without building a roles system for one person.",
+          tradeoff:
+            "There are no delegable roles and no second administrator without changing the configuration.",
+          decision:
+            "The administrator is the email in an environment variable. Every panel action checks that condition on the server, and that account cannot be suspended or deleted.",
+        },
+      ],
+      design: [
+        "The styles of the separately designed prototype were ported as they were, and the theme lives in a single stylesheet with Tailwind CSS 4 without the base reset.",
+        "Article with a reading progress bar, a table of contents and a share card, with the device's native menu as the route for Instagram.",
+        "1200 by 630 covers per language, generated from a spec and an SVG artwork, with a weight cap per image.",
+        "Accessibility worked into the code: a skip link, keyboard menus and a confirmation dialog with trapped focus. The contrast changes that would alter the design are pending a decision.",
+        "A language switch that remembers the choice in a cookie, and detection of the browser language on the first visit.",
+      ],
+      results: [
+        "A platform in production at blog.luminaw.co, with accounts, publishing with approval, moderated comments and a newsletter.",
+        "Six file-based articles imported, three in Spanish and three in English, and a flow to publish more from the application itself.",
+        "Automatic translation of published articles into the other language, with a manual retry from the panel.",
+        "A suite of 28 unit test files over pure logic, with lint, build and secret scanning on every PR.",
+      ],
+      learnings: [
+        "Opening accounts and comments changes the kind of project: almost every new route needs a rate limit, an origin check and a decision about what happens when it fails.",
+        "Reading permissions from the database on every request costs a query, but keeps a suspension or a password change from arriving late.",
+        "Anchoring interactions to the original article instead of to each language avoids splitting a conversation in two.",
+        "A local moderation filter is predictable and cheap, but it only orders the queue: the decision is still a person's.",
+        "With two languages, every new text is double work in the dictionaries, and it helps that the type of one forces completing the other.",
+      ],
+      roadmap: {
+        now: [
+          "Bilingual blog in production with community, article approval, a newsletter and automatic translation.",
+          "Security, SEO and accessibility audits applied to the code.",
+        ],
+        next: [
+          "Related articles by tags.",
+          "Delete your own account and change your email from the profile.",
+          "Report a comment.",
+          "Self-hosted fonts, error monitoring and end-to-end tests in CI.",
+        ],
+        later: [
+          "Draft generation with the Claude API and n8n, and automatic scheduling of posts.",
+          "Sharing to social networks from n8n and an analytics panel.",
+        ],
+      },
     },
   },
   {
@@ -2479,7 +3081,7 @@ export const projects: Project[] = [
     slug: "forgotten-portal",
     quoteType: "security",
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: "2026-10-02",
     tag: "Laboratorio",
     tagColor: "gray",
     image: "images/forgotten-portal.webp",
@@ -2488,16 +3090,20 @@ export const projects: Project[] = [
     imageHeight: 853,
     stack: ["Nmap", "Gobuster", "Netcat", "Python", "MITRE ATT&CK", "PTES", "Linux", "DockerLabs"],
     filters: ["security"],
+    summary:
+      "Ejercicio de pentesting sobre una máquina de laboratorio de DockerLabs, hecho en un entorno controlado durante el acelerador de ciberseguridad de Nodo EAFIT. Metodología PTES, siete hallazgos con CVSS y clasificación CWE, mapeo a MITRE ATT&CK, un informe técnico, un informe ejecutivo y 28 capturas de evidencia.",
     problem:
-      "¿Qué tan vulnerable es un sistema mal configurado ante un atacante con acceso inicial mínimo?",
+      "Qué tan lejos llega alguien sin credenciales contra un servidor mal configurado, y cómo se le explica ese riesgo tanto a un equipo técnico como a quien decide el presupuesto.",
     solution:
-      "Ejercicio completo de pentesting ofensivo sobre máquina virtual en DockerLabs, documentado con metodología PTES y TTPs mapeados a MITRE ATT&CK.",
+      "Un ejercicio completo sobre una máquina virtual de DockerLabs, sin salir del alcance del laboratorio, documentado con la metodología PTES. Cada hallazgo lleva severidad, puntaje CVSS, evidencia y remediación, y el resultado se entrega en dos informes para dos públicos.",
     architecture: [
-      "Reconocimiento con Nmap (puertos, servicios, versiones) y Gobuster (directorios expuestos).",
-      "Explotación de upload PHP sin validación (CWE-434) para ejecutar código remoto.",
-      "Reverse shell con Netcat y escalada de privilegios a root.",
-      "Vulnerabilidades clasificadas: CWE-615, CWE-434, CWE-312, CWE-321, CWE-269.",
-      "Writeup completo publicado con metodología PTES y TTPs de MITRE ATT&CK.",
+      "Alcance: un único contenedor Docker de DockerLabs (Ubuntu con Apache en el puerto 80 y OpenSSH en el 22), ejecutado el 23 de marzo de 2026. Nada fuera del contenedor entra en el alcance.",
+      "Metodología PTES en seis fases: preparación, exploración, análisis, ataque, acceso profundo y documentación. La documentación corre en paralelo con el resto, con una captura por paso.",
+      "Reconocimiento y enumeración con Nmap, Gobuster y la inspección del código fuente de la página, sin credenciales.",
+      "Siete hallazgos, ordenados por severidad: tres críticos, dos altos y dos medios, cada uno con vector y puntaje CVSS v3.1, componente afectado, probabilidad e impacto.",
+      "Clasificación CWE en el writeup, mapeo de las acciones a técnicas de MITRE ATT&CK y matriz de riesgo con el esquema de probabilidad por impacto de ISO/IEC 27005.",
+      "Dos entregables: un informe técnico de 18 páginas para el equipo de seguridad y un informe ejecutivo de 14 páginas con riesgo de negocio, exposición financiera y hoja de ruta de remediación priorizada.",
+      "Evidencia reproducible: 28 capturas anotadas en el repositorio, ligadas a cada paso del writeup. El material está bajo licencia MIT.",
     ],
     links: [
       {
@@ -2514,14 +3120,111 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "CreativeWork",
     metaDescription:
-      "Caso de estudio de Forgotten Portal: pentesting ofensivo sobre DockerLabs con metodología PTES, vulnerabilidades CWE y TTPs mapeados a MITRE ATT&CK.",
+      "Caso de estudio de Forgotten Portal: pentesting en laboratorio DockerLabs con PTES, siete hallazgos con CVSS y CWE, MITRE ATT&CK e informes técnico y ejecutivo.",
+    painPoints: [
+      {
+        title: "Información de más en el código público",
+        text: "Un comentario olvidado en el HTML dejaba ver un usuario del sistema y una ruta no publicada. Todo lo que el servidor envía al navegador es superficie de ataque.",
+      },
+      {
+        title: "Una carga de archivos sin control real",
+        text: "El formulario aceptaba tipos ejecutables y los guardaba dentro de la raíz web. Validar solo la extensión no basta.",
+      },
+      {
+        title: "Secretos donde no deben estar",
+        text: "Credenciales codificadas en un registro, una clave SSH repetida en todas las cuentas y su contraseña escrita en un documento interno. Codificar no es proteger.",
+      },
+      {
+        title: "Permisos de administración demasiado amplios",
+        text: "Una cuenta podía ejecutar como administrador una utilidad común sin contraseña. Un permiso de sudo sobre un binario que ejecuta comandos equivale a un acceso total.",
+      },
+    ],
+    modules: [
+      {
+        name: "Writeup paso a paso",
+        text: "Recorrido técnico en español con una captura por paso, publicado en el blog y en el repositorio.",
+      },
+      {
+        name: "Informe técnico",
+        text: "Siete hallazgos con CVSS, componente afectado, evidencia, remediación, mapeo a MITRE ATT&CK y matriz de riesgo.",
+      },
+      {
+        name: "Informe ejecutivo",
+        text: "El mismo trabajo traducido a riesgo de negocio, costo estimado de remediar frente al de una brecha y orden de prioridades.",
+      },
+      {
+        name: "Mapeo MITRE ATT&CK",
+        text: "Tácticas y técnicas ligadas a cada acción del ejercicio, en un archivo aparte.",
+      },
+      {
+        name: "Evidencia",
+        text: "28 capturas anotadas que cubren el ejercicio de principio a fin.",
+      },
+    ],
+    chainStepsTitle: "Cómo se encadenan los hallazgos",
+    chainSteps: [
+      "Información interna en el código fuente público (medio).",
+      "Carga de archivos sin restricción real, con ejecución de código en el servidor (crítico).",
+      "Directorio de cargas visible para cualquiera (medio).",
+      "Credenciales en un registro legible por el servicio web (alto).",
+      "Una misma clave SSH en todas las cuentas (crítico) y su contraseña en un documento interno (alto).",
+      "Permiso de sudo sin contraseña sobre un binario que ejecuta comandos (crítico).",
+    ],
+    decisions: [
+      {
+        title: "PTES como estructura",
+        context:
+          "Un ejercicio sin método se vuelve una lista de trucos y no se puede repetir ni comparar.",
+        tradeoff:
+          "Seguir seis fases exige documentar aunque el ejercicio sea de laboratorio y de una sola máquina.",
+        decision: "PTES en seis fases, con la documentación en paralelo y una captura por paso.",
+      },
+      {
+        title: "Dos informes para dos públicos",
+        context:
+          "Un equipo técnico necesita el detalle de cada hallazgo y quien decide necesita saber qué hacer primero y cuánto cuesta.",
+        tradeoff:
+          "Mantener dos documentos duplica la revisión, y cualquier cambio en un hallazgo debe reflejarse en ambos.",
+        decision:
+          "Un informe técnico con CVSS, evidencia y remediación, y uno ejecutivo con riesgo de negocio, costos y prioridades.",
+      },
+      {
+        title: "Cada hallazgo con severidad y remediación",
+        context: "Una lista de debilidades sin prioridad ni solución no ayuda a corregir nada.",
+        tradeoff:
+          "Puntuar con CVSS y probabilidad por impacto añade criterio propio que otra persona podría ver distinto.",
+        decision:
+          "Cada hallazgo lleva CVSS v3.1, probabilidad e impacto, clasificación CWE y una remediación concreta.",
+      },
+      {
+        title: "Un entorno controlado y sin datos reales",
+        context: "Practicar técnicas ofensivas solo es válido dentro de un alcance autorizado.",
+        tradeoff:
+          "Una máquina de laboratorio no tiene usuarios ni tráfico reales, así que el impacto de negocio del informe ejecutivo es estimado.",
+        decision:
+          "Un único contenedor de DockerLabs como alcance, con las cifras de impacto tomadas de una fuente publicada (IBM Cost of a Data Breach 2024).",
+      },
+    ],
+    results: [
+      "Siete hallazgos documentados, con tres críticos, dos altos y dos medios, cada uno con CVSS, evidencia y remediación.",
+      "Un informe técnico de 18 páginas y uno ejecutivo de 14, con matriz de riesgo, mapeo a MITRE ATT&CK y hoja de ruta de remediación.",
+      "28 capturas de evidencia ligadas al writeup, publicadas con licencia MIT junto al repositorio.",
+    ],
+    learnings: [
+      "Ningún hallazgo del ejercicio dependía de una vulnerabilidad desconocida: eran errores de configuración y hábitos de trabajo que se repiten en entornos reales.",
+      "Un solo error rara vez basta; el daño sale de encadenar varios hallazgos pequeños, así que corregir el eslabón más barato ya corta la cadena.",
+      "El mismo hallazgo se explica distinto según quién lo lee: el detalle técnico y el riesgo de negocio son dos documentos, no uno.",
+      "Los documentos deben coincidir entre sí: el writeup, el informe técnico y el ejecutivo tenían que contar los mismos siete hallazgos.",
+    ],
     en: {
       imageAlt: "Forgotten Portal: pentesting lab (DockerLabs)",
       tag: "Lab",
+      summary:
+        "Pentesting exercise on a DockerLabs lab machine, done in a controlled environment during the Nodo EAFIT cybersecurity accelerator. PTES methodology, seven findings with CVSS and CWE classification, MITRE ATT&CK mapping, a technical report, an executive report and 28 evidence screenshots.",
       problem:
-        "How vulnerable is a misconfigured system to an attacker with minimal initial access?",
+        "How far someone without credentials can get against a misconfigured server, and how to explain that risk both to a technical team and to whoever decides the budget.",
       solution:
-        "Complete offensive pentesting exercise on a virtual machine in DockerLabs, documented with PTES methodology and TTPs mapped to MITRE ATT&CK.",
+        "A complete exercise on a DockerLabs virtual machine, within the lab scope, documented with the PTES methodology. Each finding carries a severity, a CVSS score, evidence and remediation, and the result is delivered as two reports for two audiences.",
       links: [
         {
           href: "https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/",
@@ -2535,81 +3238,113 @@ export const projects: Project[] = [
         },
       ],
       metaDescription:
-        "Forgotten Portal case study: offensive pentesting on DockerLabs with PTES methodology, classified CWE vulnerabilities, and TTPs mapped to MITRE ATT&CK.",
+        "Forgotten Portal case study: DockerLabs pentesting lab with PTES, seven findings with CVSS and CWE, MITRE ATT&CK, and technical and executive reports.",
       architecture: [
-        "Reconnaissance with Nmap (ports, services, versions) and Gobuster (exposed directories).",
-        "Exploitation of PHP upload without validation (CWE-434) to execute remote code.",
-        "Reverse shell with Netcat and privilege escalation to root.",
-        "Vulnerabilities classified: CWE-615, CWE-434, CWE-312, CWE-321, CWE-269.",
-        "Complete writeup published with PTES methodology and MITRE ATT&CK TTPs.",
+        "Scope: a single DockerLabs Docker container (Ubuntu with Apache on port 80 and OpenSSH on 22), run on March 23, 2026. Nothing outside the container is in scope.",
+        "PTES methodology in six phases: preparation, exploration, analysis, attack, deep access and documentation. Documentation runs in parallel with the rest, with one screenshot per step.",
+        "Reconnaissance and enumeration with Nmap, Gobuster and an inspection of the page source, without credentials.",
+        "Seven findings, ordered by severity: three critical, two high and two medium, each with a CVSS v3.1 vector and score, affected component, likelihood and impact.",
+        "CWE classification in the writeup, a mapping of the actions to MITRE ATT&CK techniques and a risk matrix using the likelihood-by-impact scheme of ISO/IEC 27005.",
+        "Two deliverables: an 18-page technical report for the security team and a 14-page executive report with business risk, financial exposure and a prioritized remediation roadmap.",
+        "Reproducible evidence: 28 annotated screenshots in the repository, tied to each step of the writeup. The material is released under the MIT license.",
       ],
       painPoints: [
         {
-          title: "Credentials in the HTML",
-          text: "The username and hidden portal path were visible in the page source code comments.",
+          title: "Too much information in public code",
+          text: "A forgotten comment in the HTML exposed a system user and an unpublished path. Everything the server sends to the browser is attack surface.",
         },
         {
-          title: "Upload without real validation",
-          text: "The server accepted PHP files without verifying the real type: any web shell passed disguised as a legitimate document.",
+          title: "A file upload with no real control",
+          text: "The form accepted executable types and stored them inside the web root. Validating only the extension is not enough.",
         },
         {
-          title: "Shared SSH key",
-          text: "The same id_rsa was distributed across multiple system accounts, turning one access into an immediate lateral pivot.",
+          title: "Secrets where they should not be",
+          text: "Credentials encoded in a log, an SSH key repeated across all accounts and its passphrase written in an internal document. Encoding is not protecting.",
+        },
+        {
+          title: "Administration permissions that are too broad",
+          text: "One account could run a common utility as administrator without a password. A sudo permission on a binary that runs commands is the same as full access.",
         },
       ],
-      chainStepsTitle: "Attack chain: 7 phases, none depend on a zero-day.",
+      modules: [
+        {
+          name: "Step-by-step writeup",
+          text: "A technical walkthrough in Spanish with one screenshot per step, published on the blog and in the repository.",
+        },
+        {
+          name: "Technical report",
+          text: "Seven findings with CVSS, affected component, evidence, remediation, MITRE ATT&CK mapping and a risk matrix.",
+        },
+        {
+          name: "Executive report",
+          text: "The same work translated into business risk, the estimated cost of fixing versus a breach, and an order of priorities.",
+        },
+        {
+          name: "MITRE ATT&CK mapping",
+          text: "Tactics and techniques tied to each action of the exercise, in a separate file.",
+        },
+        {
+          name: "Evidence",
+          text: "28 annotated screenshots covering the exercise from start to finish.",
+        },
+      ],
+      chainStepsTitle: "How the findings chain together",
       chainSteps: [
-        "Reconnaissance: Nmap detects Apache 2.4.58 on port 80",
-        "Discovery: HTML comment exposes user 'Bob' and path /m4ch1n3_upload.html",
-        "Initial access: PHP web shell uploaded to /uploads via form with no validation",
-        "Remote shell: Bash payload over Netcat establishes interactive reverse shell",
-        "Horizontal escalation: Base64 credential in access_log decoded (alice:s3cr3tp@ssw0rd^487)",
-        "Lateral pivot: shared id_rsa allows moving to bob's account",
-        "Okroot: sudo tar without password exploited via GTFOBins, full system access",
+        "Internal information in the public source code (medium).",
+        "A file upload with no real restriction, allowing code execution on the server (critical).",
+        "An upload directory visible to anyone (medium).",
+        "Credentials in a log readable by the web service (high).",
+        "The same SSH key on every account (critical) and its passphrase in an internal document (high).",
+        "A passwordless sudo permission on a binary that runs commands (critical).",
+      ],
+      decisions: [
+        {
+          title: "PTES as the structure",
+          context:
+            "An exercise without a method becomes a list of tricks and cannot be repeated or compared.",
+          tradeoff:
+            "Following six phases means documenting even when the exercise is a single lab machine.",
+          decision:
+            "PTES in six phases, with documentation in parallel and one screenshot per step.",
+        },
+        {
+          title: "Two reports for two audiences",
+          context:
+            "A technical team needs the detail of each finding, and a decision maker needs to know what to do first and what it costs.",
+          tradeoff:
+            "Keeping two documents doubles the review, and any change to a finding has to appear in both.",
+          decision:
+            "A technical report with CVSS, evidence and remediation, and an executive one with business risk, costs and priorities.",
+        },
+        {
+          title: "Every finding with a severity and a remediation",
+          context: "A list of weaknesses with no priority or fix does not help correct anything.",
+          tradeoff:
+            "Scoring with CVSS and likelihood by impact adds judgment that someone else could see differently.",
+          decision:
+            "Each finding carries CVSS v3.1, likelihood and impact, a CWE classification and a concrete remediation.",
+        },
+        {
+          title: "A controlled environment with no real data",
+          context: "Practicing offensive techniques is only valid inside an authorized scope.",
+          tradeoff:
+            "A lab machine has no real users or traffic, so the business impact in the executive report is estimated.",
+          decision:
+            "A single DockerLabs container as the scope, with the impact figures taken from a published source (IBM Cost of a Data Breach 2024).",
+        },
       ],
       results: [
-        "Full machine compromise in 7 phases without using zero-day exploits: all vectors are configuration errors and human mistakes reproducible in real environments.",
-        "Five vulnerabilities identified and classified with CWE: information exposed in comments (CWE-615), unrestricted upload (CWE-434), credentials in logs (CWE-312), reused SSH key (CWE-321), and excessive sudo (CWE-269).",
-        "User flag captured and root access confirmed. Complete writeup documented with PTES methodology and TTPs mapped to MITRE ATT&CK.",
+        "Seven documented findings, three critical, two high and two medium, each with CVSS, evidence and remediation.",
+        "An 18-page technical report and a 14-page executive one, with a risk matrix, MITRE ATT&CK mapping and a remediation roadmap.",
+        "28 evidence screenshots tied to the writeup, published under the MIT license alongside the repository.",
       ],
       learnings: [
-        "Security does not end at server code: an HTML comment with a username and a hidden path is enough to launch a full attack. Everything the server sends to the browser is an attack surface.",
-        "Validating a file extension is not the same as validating its real type: a PHP web shell with an allowed extension executes arbitrary code on the server. Validation happens at the server-verified MIME type and by preventing the upload directory from executing code.",
+        "No finding in the exercise depended on an unknown vulnerability: they were configuration mistakes and work habits that repeat in real environments.",
+        "A single mistake is rarely enough; the damage comes from chaining several small findings, so fixing the cheapest link already breaks the chain.",
+        "The same finding reads differently depending on who reads it: the technical detail and the business risk are two documents, not one.",
+        "The documents have to agree with each other: the writeup, the technical report and the executive report had to tell the same seven findings.",
       ],
     },
-    painPoints: [
-      {
-        title: "Credenciales en el HTML",
-        text: "El nombre de usuario y la ruta del portal oculto estaban visibles en los comentarios del codigo fuente de la pagina.",
-      },
-      {
-        title: "Upload sin validacion real",
-        text: "El servidor aceptaba archivos PHP sin verificar el tipo real: cualquier web shell pasaba disfrazado de documento legitimo.",
-      },
-      {
-        title: "Clave SSH compartida",
-        text: "La misma id_rsa estaba distribuida en varias cuentas del sistema, convirtiendo un acceso en pivote lateral inmediato.",
-      },
-    ],
-    chainStepsTitle: "Cadena de ataque: 7 fases, ninguna depende de un zero-day.",
-    chainSteps: [
-      "Reconocimiento: Nmap detecta Apache 2.4.58 en el puerto 80",
-      "Descubrimiento: comentario HTML expone usuario 'Bob' y ruta /m4ch1n3_upload.html",
-      "Acceso inicial: web shell PHP subida a /uploads via formulario sin validacion",
-      "Shell remota: payload Bash sobre Netcat establece reverse shell interactiva",
-      "Escalada horizontal: credencial Base64 en access_log decodificada (alice:s3cr3tp@ssw0rd^487)",
-      "Pivote lateral: id_rsa compartida permite moverse a la cuenta de bob",
-      "Okroot: sudo tar sin contrasena explotado via GTFOBins, acceso total al sistema",
-    ],
-    results: [
-      "Compromiso total de la maquina en 7 fases sin usar exploits de dia cero: todos los vectores son errores de configuracion y errores humanos reproducibles en entornos reales.",
-      "Cinco vulnerabilidades identificadas y clasificadas con CWE: informacion expuesta en comentarios (CWE-615), upload sin restricciones (CWE-434), credenciales en logs (CWE-312), clave SSH reutilizada (CWE-321) y sudo excesivo (CWE-269).",
-      "User flag capturada y acceso root confirmado. Writeup completo documentado con metodologia PTES y TTPs mapeados a MITRE ATT&CK.",
-    ],
-    learnings: [
-      "La seguridad no termina en el codigo del servidor: un comentario HTML con un nombre de usuario y una ruta oculta basta para iniciar un ataque completo. Todo lo que el servidor envia al navegador es superficie de ataque.",
-      "Validar la extension de un archivo no es lo mismo que validar su tipo real: un web shell PHP con extension permitida ejecuta codigo arbitrario en el servidor. La validacion ocurre en el MIME type verificado en servidor y en evitar que el directorio de subida ejecute codigo.",
-    ],
   },
 ];
 

@@ -16,17 +16,17 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 - [LinkedIn](https://linkedin.com/in/wavival): Professional profile
 - [CV (PDF)](https://www.wavival.dev/cv_valentina_ramirez_es.pdf): Resume
 - [Lúmina W](https://luminaw.co): Studio she founded: services and product roadmap
-- [Blog W](https://blog.luminaw.co): Next.js PWA for technical writing, pentesting writeups, and build notes
+- [Blog W](https://blog.luminaw.co): Bilingual Next.js blog platform with accounts, comments, a newsletter, and article translation with the Claude API
 
 ## Projects
 
 - [TerraCore (live)](https://terracoreapp.co): Multi-user, offline-first PWA for farms in Colombia: livestock, crops, supplies, production, animal health, and finances in connected modules. Django · DRF · PostgreSQL · Celery · Redis · JWT · React · TypeScript · Dexie · Tailwind CSS. In production and under validation with clients in Antioquia, Colombia. Case study: https://www.wavival.dev/proyectos/terracore
 - [OKroot (live)](https://okroot.co/): PWA with an AI-powered food-label scanner (Claude API) for celiac, diabetic, and lactose-intolerant users, with an offline sync queue for scans, meals, and the shopping list. Django · DRF · PostgreSQL · React · TypeScript · Claude API · PWA. Case study: https://www.wavival.dev/proyectos/okroot
-- [NullBreach (live)](https://www.wavival.dev/nullbreach/): Next.js security application with OWASP-aligned code analysis, OpenAI chat, NextAuth, Prisma, and Prisma Postgres. Its marketing landing remains in Astro. Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
-- [Blog Lúmina W (live)](https://blog.luminaw.co): Technical blog presented as a PWA and migrated to Next.js. Case study: https://www.wavival.dev/proyectos/blog-lumina-w
-- [Lúmina W (live)](https://luminaw.co): Studio landing: designed, built, and maintained by Valentina. Astro, Tailwind CSS, Supabase.
+- [NullBreach (live)](https://www.wavival.dev/nullbreach/): Open-source Next.js application security assistant: OWASP-oriented code analysis and security chat with OpenAI, NextAuth (credentials and Google), Prisma, and Prisma Postgres, mounted under wavival.dev/nullbreach with Vercel Microfrontends. Case study: https://www.wavival.dev/proyectos/nullbreach · Source: https://github.com/wavival/nullbreach
+- [Blog Lúmina W (live)](https://blog.luminaw.co): Bilingual blog platform in Next.js with Prisma and PostgreSQL: accounts, approval flow, moderated comments, newsletter, and Claude API translation. Case study: https://www.wavival.dev/proyectos/blog-lumina-w
+- [Lúmina W (live)](https://luminaw.co): Bilingual (Spanish and English) static site of the software company, with two service paths (custom development and own SaaS), a products page, and a contact form stored in Supabase through a Vercel Function. Astro, Tailwind CSS, Vercel, Supabase, Brevo. Case study: https://www.wavival.dev/proyectos/lumina-w
 - [wavival.dev (case study)](https://www.wavival.dev/proyectos/wavival-dev): This portfolio as a design case: the @wavival | Design System v4 (editorial, static, one blue signal, rules instead of boxes), bilingual, designed in Claude Design. Astro, TypeScript, Tailwind CSS, Vercel.
-- [Forgotten Portal (pentesting writeup)](https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/): Full pentest exercise: recon, PHP upload exploit, reverse shell, privilege escalation to root. Documented with PTES methodology and MITRE ATT&CK TTPs.
+- [Forgotten Portal (pentesting writeup)](https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/): Pentest exercise on a DockerLabs lab machine, in a controlled environment: PTES methodology, seven findings with CVSS and CWE, MITRE ATT&CK mapping, and technical and executive reports. Case study: https://www.wavival.dev/proyectos/forgotten-portal
 
 ## Stack
 

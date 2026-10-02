@@ -1,18 +1,25 @@
-# Blog W: stack por completar
+# Blog W: stack
 
-## Confirmado
+Fuente: repositorio `lumina-w/blog-w` (rama `dev`), leído el 2026-10-02.
 
-- El blog de Lúmina W ahora usa Next.js.
-- Debe presentarse como PWA en el portfolio.
-- URL pública: <https://blog.luminaw.co>.
+## Confirmado en el código
 
-## Pendiente de confirmar
+- Next.js 15 (App Router), React 19 y TypeScript. Estilos con Tailwind CSS 4.
+- Base de datos: PostgreSQL en Supabase, con Prisma.
+- Autenticación: NextAuth con correo y clave, Google, GitHub y LinkedIn.
+- Contenido: artículos en Markdown en el repositorio (importados al desplegar) y artículos escritos por cuentas dentro de la aplicación, con aprobación de la administradora.
+- Español e inglés, con rutas traducidas.
+- Correo y newsletter: Brevo.
+- Traducción automática de artículos publicados: API de Claude.
+- Analítica: GA4 con consentimiento de cookies. Vercel Analytics opcional.
+- Imágenes: Supabase Storage, convertidas a WebP con sharp.
+- Despliegue: Vercel. URL pública: <https://blog.luminaw.co>.
+- Reemplazó a un sitio anterior en Astro con Decap CMS.
 
-- Base de datos y ORM, si aplica.
-- Fuente y gestión del contenido.
-- Autenticación o CMS, si aplica.
-- Funciones PWA implementadas, como instalación, uso sin conexión o notificaciones.
-- Estilos, analítica, servicios externos y plataforma de despliegue.
-- Repositorio vigente del blog.
+## No está en el código
 
-Hasta confirmar estos datos, el caso de estudio solo declara Next.js y PWA.
+- PWA: no hay manifest, service worker, instalación ni uso sin conexión. El caso de estudio ya no lo afirma.
+
+## Pendiente de decidir
+
+- Si el blog debe volverse PWA, o si se deja de presentarlo así en el resto de los textos.
