@@ -42,6 +42,22 @@ Stack: Django, DRF, PostgreSQL, React, TypeScript, Claude API, PWA. Programming 
 
 Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: https://www.wavival.dev/proyectos/okroot
 
+## TerraCore Landing (case study)
+
+Problem: a farm producer needs to understand what TerraCore does, what it costs and how their data is handled before asking for a demo.
+
+Solution: a static conversion landing for TerraCore that takes the producer from the pain to the demo, shows the product, the plans with pricing in COP and the privacy terms, and captures diagnosis requests in a serverless function that stores them in Supabase.
+
+Stack: Astro, Tailwind CSS, Supabase, Vercel Functions. Case study: https://www.wavival.dev/proyectos/terracore-landing · Live: https://terracoreapp.co
+
+## OKroot Landing (case study)
+
+Problem: people with celiac disease, diabetes or lactose intolerance need to see what OKroot does and join the early-access waitlist without handing over health data.
+
+Solution: a static landing in Astro that goes from the pain of reading labels to a waitlist for early access, with a collection of 16 recipes and legal pages. The waitlist form does not ask for health data and a consent checkbox is required.
+
+Stack: Astro, Tailwind CSS, Supabase, Vercel Functions, GA4 behind a cookie banner. Case study: https://www.wavival.dev/proyectos/okroot-landing · Live: https://okroot.co
+
 ## NullBreach (case study)
 
 Problem: a security finding is of little use without severity, impact and remediation, and a quick question about a snippet rarely justifies setting up a rule-based scanner.

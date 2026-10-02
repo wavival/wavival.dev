@@ -209,7 +209,7 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 - Promotions are only `dev` to `stg` and `stg` to `main`, merged manually with merge commits.
 - Conventional Commit messages follow `type(scope): message`.
 - Automated checks include commit title and message validation, quality, Playwright, Lighthouse, internal links, Gitleaks, and pull-request base validation.
-- Vercel configuration, redirects, security headers, cache policies, and the `/api/*` compatibility proxy live in [`vercel.json`](./vercel.json).
+- Vercel configuration, redirects, security headers, and cache policies live in [`vercel.json`](./vercel.json).
 
 ## Deployment
 
@@ -217,28 +217,28 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 
 Vercel builds the project with `npm run build`, installs dependencies with `npm ci`, serves `dist/`, and deploys `api/quote.ts` as the quote-delivery function. Set `BREVO_API_KEY` in Vercel and verify `wavival.dev@luminaw.co` as a Brevo sender. The site is available at `https://www.wavival.dev`.
 
-`microfrontends.json` defines the Vercel development and path-ownership contract. `vercel.json` defines redirects, the NullBreach API rewrite, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
+`microfrontends.json` defines the Vercel development and path-ownership contract. `vercel.json` defines redirects, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
 
 ## Repository documentation
 
-| Document                                                                   | Scope                                                                                                 |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                       |
-| [DESIGN.md](./DESIGN.md)                                                   | @wavival                                                                                              | Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
-| [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                             |
-| [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                      |
-| [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries. |
-| [docs/commercial.md](./docs/commercial.md)                                 | Living commercial offer, ideal client, permitted claims, CTAs, and content risks.                     |
-| [docs/blog-w-stack-pendiente.md](./docs/blog-w-stack-pendiente.md)         | Confirmed and pending Blog W stack facts.                                                             |
-| [public/cv_valentina_ramirez_es.pdf](./public/cv_valentina_ramirez_es.pdf) | Spanish downloadable CV.                                                                              |
-| [public/cv_valentina_ramirez_en.pdf](./public/cv_valentina_ramirez_en.pdf) | English downloadable CV.                                                                              |
-| [public/llms.txt](./public/llms.txt)                                       | Public AI-discovery index.                                                                            |
-| [public/llms-full.txt](./public/llms-full.txt)                             | Public long-form AI-discovery companion.                                                              |
-| [public/robots.txt](./public/robots.txt)                                   | Public crawler directives and sitemap location.                                                       |
-| [public/.well-known/security.txt](./public/.well-known/security.txt)       | Public RFC 9116 security contact.                                                                     |
-| [SECURITY.md](./SECURITY.md)                                               | Private vulnerability-reporting policy for the repository and deployed site.                          |
-| [.env.example](./.env.example)                                             | Local environment-variable template.                                                                  |
-| [LICENSE](./LICENSE)                                                       | MIT license.                                                                                          |
+| Document                                                                   | Scope                                                                                                  |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                        |
+| [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
+| [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |
+| [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                       |
+| [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries.  |
+| [docs/commercial.md](./docs/commercial.md)                                 | Living commercial offer, ideal client, permitted claims, CTAs, and content risks.                      |
+| [docs/ROADMAP.md](./docs/ROADMAP.md)                                       | Pending work, decisions that need the owner, and known gaps.                                           |
+| [public/cv_valentina_ramirez_es.pdf](./public/cv_valentina_ramirez_es.pdf) | Spanish downloadable CV.                                                                               |
+| [public/cv_valentina_ramirez_en.pdf](./public/cv_valentina_ramirez_en.pdf) | English downloadable CV.                                                                               |
+| [public/llms.txt](./public/llms.txt)                                       | Public AI-discovery index.                                                                             |
+| [public/llms-full.txt](./public/llms-full.txt)                             | Public long-form AI-discovery companion.                                                               |
+| [public/robots.txt](./public/robots.txt)                                   | Public crawler directives and sitemap location.                                                        |
+| [public/.well-known/security.txt](./public/.well-known/security.txt)       | Public RFC 9116 security contact.                                                                      |
+| [SECURITY.md](./SECURITY.md)                                               | Private vulnerability-reporting policy for the repository and deployed site.                           |
+| [.env.example](./.env.example)                                             | Local environment-variable template.                                                                   |
+| [LICENSE](./LICENSE)                                                       | MIT license.                                                                                           |
 
 ## License
 

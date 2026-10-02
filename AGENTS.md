@@ -22,7 +22,7 @@ Each topic has one source of truth. Link to it instead of duplicating its conten
 | Version history                                                                   | `CHANGELOG.md`                                                             |
 | Brand and content boundaries                                                      | `docs/brand.md`                                                            |
 | Commercial claims and calls to action                                             | `docs/commercial.md`                                                       |
-| Blog W stack status                                                               | `docs/blog-w-stack-pendiente.md`                                           |
+| Pending work, open decisions and known gaps                                       | `docs/ROADMAP.md`                                                          |
 | CV downloads                                                                      | `public/cv_valentina_ramirez_es.pdf`, `public/cv_valentina_ramirez_en.pdf` |
 | Vulnerability reporting                                                           | `SECURITY.md` and `public/.well-known/security.txt`                        |
 

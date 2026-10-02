@@ -776,7 +776,7 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes con precio para el agro colombiano.",
+      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes con precio para el agro.",
     links: [
       {
         href: "https://terracoreapp.co",
@@ -1810,6 +1810,17 @@ export const projects: Project[] = [
         text: "Referencia en docs/api.md, Swagger UI, documento OpenAPI y endpoint de salud.",
       },
     ],
+    roadmap: {
+      now: [
+        "Aplicación en producción con chat de seguridad, análisis de código, cuentas y recuperación de clave.",
+      ],
+      next: [
+        "Mostrar los análisis guardados y permitir borrar el historial y la cuenta.",
+        "Límite de frecuencia en el chat y en el análisis, que llaman a un proveedor de pago.",
+        "Verificar el correo de las cuentas con clave antes de que Google pueda enlazarse a ellas.",
+      ],
+      later: ["Mover la landing pública a Astro, pendiente de decisión."],
+    },
     chainStepsTitle: "Del fragmento al hallazgo",
     chainSteps: [
       "El usuario pega un fragmento de código en el analizador.",
@@ -1975,6 +1986,17 @@ export const projects: Project[] = [
           text: "Reference in docs/api.md, Swagger UI, an OpenAPI document and a health endpoint.",
         },
       ],
+      roadmap: {
+        now: [
+          "Application in production with a security chat, code analysis, accounts and password recovery.",
+        ],
+        next: [
+          "Show stored analyses and let users delete their history and account.",
+          "Rate limits on chat and analysis, which call a paid provider.",
+          "Verify the email of password accounts before Google can link to them.",
+        ],
+        later: ["Move the public landing to Astro, pending a decision."],
+      },
       chainStepsTitle: "From snippet to finding",
       chainSteps: [
         "The user pastes a code snippet into the analyzer.",
@@ -2117,7 +2139,7 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de Lúmina W: sitio bilingüe con Astro y Tailwind CSS, dos caminos de servicio, formulario sobre Vercel y Supabase, SEO técnico y consentimiento de cookies.",
+      "Caso de estudio de Lúmina W: sitio bilingüe en Astro y Tailwind CSS con dos caminos de servicio, formulario sobre Supabase y SEO técnico.",
     painPoints: [
       {
         title: "Dos ofertas con compradores distintos",
@@ -2413,7 +2435,7 @@ export const projects: Project[] = [
     ],
     summary:
       "Plataforma de blog bilingüe (español e inglés) con comunidad: cuentas, comentarios, likes, guardados, perfiles y newsletter. Cualquier cuenta escribe un artículo y la administradora lo aprueba antes de publicarlo. Los artículos publicados se traducen con la API de Claude. Next.js, Prisma y PostgreSQL, desplegada en Vercel.",
-    filters: ["full-stack", "ai", "design"],
+    filters: ["full-stack"],
     problem:
       "El conocimiento técnico que sale de proyectos reales necesita un canal propio, con control sobre el contenido, los comentarios y las suscripciones, sin depender de una plataforma externa. El sitio anterior era estático, con un CMS de archivos, y no tenía cuentas ni comunidad.",
     solution:

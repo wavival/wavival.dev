@@ -238,7 +238,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 
 ### Blog W
 
-- Blog de Lúmina W: plataforma bilingüe en Next.js con cuentas, aprobación de artículos, comentarios moderados, newsletter y traducción con la API de Claude. No se afirma que sea PWA: el repositorio no tiene manifest ni service worker (`docs/blog-w-stack-pendiente.md`).
+- Blog de Lúmina W: plataforma bilingüe en Next.js con cuentas, aprobación de artículos, comentarios moderados, newsletter y traducción con la API de Claude. No se afirma que sea PWA: el repositorio no tiene manifest ni service worker.
 
 ### Regla de marca
 
