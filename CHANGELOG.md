@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- NavBar: the "Stack" link stays marked (`aria-current="location"`, same style as the current page) while the `#stack` section of the home page is in view, on desktop and in the mobile menu. CSP hash of the nav script refreshed.
 - CSP: refreshed the `script-src` hash of the quote form script in `vercel.json`.
 - `wavival.dev` case study banner (`og-wavival-dev.webp`) is now a screenshot of the @wavival | Design System v4 (colors section) in Claude Design, with updated alt text in ES and EN.
 - NullBreach case study roadmap shows only "Now" and "Next"; `later` is now optional in `ProjectRoadmap` and its column renders only when it has items.

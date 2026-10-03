@@ -124,7 +124,7 @@ const mobileLinks = [
           <a
             href={l.href}
             aria-current={current(l.href)}
-            class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link"
+            class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link aria-[current=location]:text-link"
           >
             <span class="index w-6">{String(i + 1).padStart(2, "0")}</span>
             <span class="h-title text-[13px] leading-none tracking-[var(--tracking-button)] text-[color:inherit] uppercase">
