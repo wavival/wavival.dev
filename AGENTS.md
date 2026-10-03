@@ -20,6 +20,7 @@ Each topic has one source of truth. Link to it instead of duplicating its conten
 | Visual system, tokens, typography and accessibility design rules                  | `DESIGN.md`                                                                |
 | Layout and component contracts                                                    | `COMPONENTS.md`                                                            |
 | Version history                                                                   | `CHANGELOG.md`                                                             |
+| Versioning and release process                                                    | `docs/RELEASING.md`                                                        |
 | Brand and content boundaries                                                      | `docs/brand.md`                                                            |
 | Commercial claims and calls to action                                             | `docs/commercial.md`                                                       |
 | Pending work, open decisions and known gaps                                       | `docs/ROADMAP.md`                                                          |
