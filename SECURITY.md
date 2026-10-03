@@ -9,3 +9,7 @@ Do not publish security vulnerabilities in issues, pull requests, or other publi
 ## Public security contact
 
 The deployed site publishes its RFC 9116 contact at [/.well-known/security.txt](https://www.wavival.dev/.well-known/security.txt).
+
+## How the site is protected
+
+Headers, the Content Security Policy, the quote function and the supply-chain checks are described in [`docs/security.md`](./docs/security.md).
