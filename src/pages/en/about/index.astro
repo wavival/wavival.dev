@@ -71,8 +71,10 @@ const breadcrumbLd = JSON.stringify({
       <Fragment slot="title">About me</Fragment>
     </PageIntro>
 
-    <div class="mt-14 flex flex-wrap items-start gap-x-[clamp(32px,5vw,80px)] gap-y-10">
-      <div class="flex min-w-0 flex-[1_1_480px] flex-col gap-7">
+    <div
+      class="mt-14 flex flex-col gap-x-[clamp(32px,5vw,80px)] gap-y-10 min-[900px]:flex-row min-[900px]:items-start"
+    >
+      <div class="flex min-w-0 flex-col gap-7 min-[900px]:flex-[1_1_480px]">
         <p
           class="h-title m-0"
           style="font-size:clamp(24px,2.6vw,36px);line-height:1.2;letter-spacing:-0.02em;text-wrap:pretty"
@@ -92,7 +94,9 @@ const breadcrumbLd = JSON.stringify({
           being able to sustain it when it breaks at 2am.
         </p>
       </div>
-      <figure class="m-0 min-w-[240px] flex-[0_1_360px]">
+      <figure
+        class="m-0 mx-auto w-full max-w-[360px] min-[900px]:mx-0 min-[900px]:flex-[0_1_360px]"
+      >
         <div class="photo-frame">
           <img
             src={`${base}images/profile.webp`}
@@ -112,7 +116,7 @@ const breadcrumbLd = JSON.stringify({
     >
       {
         summary.map((s) => (
-          <div class="flex flex-col justify-center py-10 pr-6">
+          <div class="flex flex-col justify-center py-10 pr-6 min-[900px]:items-center min-[900px]:px-6 min-[900px]:text-center">
             <dt
               class="h-title leading-none"
               style="font-size:clamp(32px,3.4vw,48px);letter-spacing:-0.03em;color:var(--blue)"
@@ -203,7 +207,7 @@ const breadcrumbLd = JSON.stringify({
       </div>
     </div>
 
-    <PullQuote class="section-gap border-t border-line pt-10">
+    <PullQuote class="section-gap border-t border-line pt-10 min-[900px]:text-center">
       "Learning is not a stage that ends: it is the way I work. Every project leaves me knowing
       something I did not know when I started."
       <footer slot="footer" class="mt-5 text-sm text-muted">
@@ -218,7 +222,7 @@ const breadcrumbLd = JSON.stringify({
       </footer>
     </PullQuote>
 
-    <div class="mt-14 flex flex-wrap items-center gap-3">
+    <div class="mt-14 flex flex-wrap items-center gap-3 min-[900px]:justify-center">
       <Button
         href={cv}
         download={cvFile}
