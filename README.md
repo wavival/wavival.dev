@@ -61,28 +61,34 @@ The development server runs at `http://localhost:4321`.
 
 The Umami values are optional. Analytics and Core Web Vitals reporting are emitted only when both are set. `BREVO_API_KEY` is required in Vercel for quote delivery and must remain server-only.
 
-| Variable           | Purpose           |
-| ------------------ | ----------------- |
-| `PUBLIC_UMAMI_SRC` | Umami script URL. |
-| `PUBLIC_UMAMI_ID`  | Umami website ID. |
+| Variable           | Read by                  | Required                               | Purpose                                                      |
+| ------------------ | ------------------------ | -------------------------------------- | ------------------------------------------------------------ |
+| `PUBLIC_UMAMI_SRC` | Build (`Layout.astro`)   | Optional, both Umami variables or none | Umami script URL.                                            |
+| `PUBLIC_UMAMI_ID`  | Build (`Layout.astro`)   | Optional, both Umami variables or none | Umami website ID.                                            |
+| `BREVO_API_KEY`    | Runtime (`api/quote.ts`) | Required in Vercel for quotes          | Brevo transactional email key. Server-only, never `PUBLIC_`. |
 
-See [`.env.example`](./.env.example) for the local template.
+Set the three variables in the Vercel project settings, not in the repository. The `PUBLIC_` ones are read at build time, so a change needs a new deployment. `wavival.dev@luminaw.co` must be a verified sender in Brevo. See [`.env.example`](./.env.example) for the local template.
 
 ### Commands
 
-| Command                | Purpose                                                     |
-| ---------------------- | ----------------------------------------------------------- |
-| `npm run dev`          | Starts Astro with HMR on port 4321.                         |
-| `npm run build`        | Builds the static site into `dist/`.                        |
-| `npm run preview`      | Serves the production build locally.                        |
-| `npm run check`        | Runs Astro diagnostics and type checks.                     |
-| `npm run lint`         | Runs ESLint.                                                |
-| `npm run format:check` | Checks Prettier formatting.                                 |
-| `npm test`             | Runs Playwright against a production preview on port 4329.  |
-| `npm run lhci`         | Runs Lighthouse CI against `dist/`. Build first.            |
-| `npm run links`        | Checks built links in `dist/`. Build first.                 |
-| `npm run csp:check`    | Validates CSP hashes after a build.                         |
-| `npm run css:check`    | Ensures component CSS classes survive the production build. |
+| Command                | Purpose                                                         |
+| ---------------------- | --------------------------------------------------------------- |
+| `npm run dev`          | Starts Astro with HMR on port 4321.                             |
+| `npm run build`        | Builds the static site into `dist/`.                            |
+| `npm run preview`      | Serves the production build locally.                            |
+| `npm run check`        | Runs Astro diagnostics and type checks.                         |
+| `npm run lint`         | Runs ESLint.                                                    |
+| `npm run lint:fix`     | Runs ESLint and applies the safe fixes.                         |
+| `npm run format`       | Formats the repository with Prettier.                           |
+| `npm run format:check` | Checks Prettier formatting.                                     |
+| `npm test`             | Runs Playwright against a production preview on port 4329.      |
+| `npm run test:ui`      | Opens the Playwright UI runner.                                 |
+| `npm run test:install` | Installs the Chromium build Playwright needs.                   |
+| `npm run commitlint`   | Checks a commit message against the Conventional Commits rules. |
+| `npm run lhci`         | Runs Lighthouse CI against `dist/`. Build first.                |
+| `npm run links`        | Checks built links in `dist/`. Build first.                     |
+| `npm run csp:check`    | Validates CSP hashes after a build.                             |
+| `npm run css:check`    | Ensures component CSS classes survive the production build.     |
 
 ## Stack
 
@@ -116,10 +122,12 @@ src/
 ├── utils/               pure helpers (bento grid spans)
 └── styles/              global CSS, design tokens and component classes
 
+api/                     quote.ts, the only Vercel Function
 public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
 scripts/                 build-time validation scripts
 tests/                   Playwright browser and unit-style specs
-docs/                    brand, commercial and pending-product documentation
+docs/                    brand, commercial, release and roadmap documentation
+.github/workflows/       CI, PR checks, auto-merge into dev, branch cleanup and release
 assets/                  README-only visual assets
 ```
 
@@ -206,7 +214,10 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 
 - `main` is production, `stg` is staging, and `dev` is the integration branch.
 - Work branches target `dev` through pull requests.
-- Promotions are only `dev` to `stg` and `stg` to `main`, merged manually with merge commits.
+- Promotions are only `dev` to `stg` and `stg` to `main`, always with merge commits. `stg` to `main` is merged only by the owner. Because each promotion merge commit lands only on the base branch, a direct head can show as behind; the only allowed alternative head is a branch whose tree is identical to `dev` (or `stg`), which keeps the base-branch check passing.
+- `auto-merge-dev.yml` enables auto-merge on every non-draft PR into `dev` from a `feature/`, `fix/` or `chore/` branch, and the merge waits for the required checks.
+- `delete-merged-branches.yml` deletes, every 12 hours or on demand with `dry_run`, the branches of PRs merged into `dev`.
+- `release.yml` is run by hand to tag and publish a version, see [`docs/RELEASING.md`](./docs/RELEASING.md).
 - Conventional Commit messages follow `type(scope): message`.
 - Automated checks include commit title and message validation, quality, Playwright, Lighthouse, internal links, Gitleaks, and pull-request base validation.
 - Vercel configuration, redirects, security headers, and cache policies live in [`vercel.json`](./vercel.json).
@@ -224,6 +235,7 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | Document                                                                   | Scope                                                                                                  |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                        |
+| [AGENTS.md](./AGENTS.md)                                                   | Operational rules for agents: scope, documentation sources, delivery flow and verification.            |
 | [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
 | [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |
 | [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                       |

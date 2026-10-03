@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-10-02
+> Last updated: 2026-10-03
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -18,8 +18,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] `api/quote.ts` has a honeypot and validation but no rate limit, origin check or CAPTCHA, so it can be used to flood `wavival.dev@luminaw.co`. Add a Vercel WAF rule or a limit in the function.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18.
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
-- [ ] Confirm that `Button.astro` sets `rel="noopener noreferrer"` itself when it renders `target="_blank"`.
-- [ ] `npm audit` reports 14 vulnerabilities (11 high) in dev dependencies through `@lhci/cli` and `uuid`. CI audits production dependencies only, so they do not gate; update `@lhci/cli` when a fix exists.
+- [ ] `npm audit` reports 14 vulnerabilities (11 high) in dev dependencies through `@lhci/cli` and `uuid`. CI audits production dependencies only (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), so these do not gate; update `@lhci/cli` when a fix exists.
 
 ## SEO and GEO
 
@@ -35,5 +34,4 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Quality and docs
 
-- [ ] Document the scripts missing from the README: `lint:fix`, `format`, `test:ui`, `test:install` and `commitlint`.
 - [ ] `quoteType: "api-backend"` is valid but no project uses it.
