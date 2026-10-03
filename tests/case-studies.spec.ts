@@ -30,8 +30,8 @@ test.describe("case study data", () => {
       }
 
       for (const column of ["now", "next", "later"] as const) {
-        expect(project.en?.roadmap?.[column].length ?? 0, `roadmap.${column}`).toBe(
-          project.roadmap?.[column].length ?? 0
+        expect(project.en?.roadmap?.[column]?.length ?? 0, `roadmap.${column}`).toBe(
+          project.roadmap?.[column]?.length ?? 0
         );
       }
 
