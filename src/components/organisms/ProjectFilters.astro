@@ -22,7 +22,7 @@ const defs = [
   id="project-filters"
   role="group"
   aria-label={isEn ? "Filter projects" : "Filtrar proyectos"}
-  class="flex flex-wrap border-y border-line"
+  class="flex flex-wrap justify-center border-y border-line min-[640px]:justify-start"
 >
   {
     defs.map(({ key, label }) => (
@@ -113,6 +113,11 @@ const defs = [
         });
 
         document.getElementById("project-grid")?.setAttribute("data-filter", filter);
+        const first = Array.from(cards).find((card) => {
+          const f = (card.dataset.filters ?? "").split(" ").filter(Boolean);
+          return filter === "all" || f.includes(filter);
+        });
+        cards.forEach((card) => card.toggleAttribute("data-featured", card === first));
         noResults?.classList.toggle("hidden", visible > 0);
       });
     });

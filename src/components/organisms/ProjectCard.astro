@@ -7,16 +7,20 @@ import type { ProjectView } from "@/data/projectView";
 interface Props {
   project: ProjectView;
   index: string;
-  /** Star project: highlighted and two columns wide on the "all" filter. */
+  /** First visible result: highlighted in blue with a "Featured" badge. */
   featured?: boolean;
+  /** Spans two columns while the "all" filter is active. */
+  wide?: boolean;
+  featuredLabel?: string;
 }
 
-const { project: p, index, featured = false } = Astro.props;
+const { project: p, index, featured = false, wide = false, featuredLabel = "" } = Astro.props;
 ---
 
 <article
-  class={`group flex flex-col border border-line bg-bg transition-colors hover:border-blue hover:bg-surface ${featured ? "project-featured" : ""}`.trim()}
+  class={`group flex flex-col border border-line bg-bg transition-colors hover:border-blue hover:bg-surface ${wide ? "project-wide" : ""}`.trim()}
   data-project-card
+  data-featured={featured ? "" : undefined}
   data-filters={p.filters.join(" ")}
 >
   {
@@ -39,6 +43,7 @@ const { project: p, index, featured = false } = Astro.props;
       </a>
     )
   }
+  <span class="project-featured-label badge">{featuredLabel}</span>
   <div class="flex flex-1 flex-col gap-[18px] p-7">
     <ProjectMeta index={index} tag={p.tag} tone={p.tone} overline={p.overline} />
     <h2

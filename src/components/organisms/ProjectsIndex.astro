@@ -47,7 +47,9 @@ for (const k of keys) counts[k] = views.filter((v) => v.filters.includes(k)).len
         <ProjectCard
           project={p}
           index={String(i + 1).padStart(2, "0")}
-          featured={p.slug === "terracore"}
+          featured={i === 0}
+          wide={p.slug === "terracore"}
+          featuredLabel={isEn ? "Featured" : "Destacado"}
         />
       ))
     }
