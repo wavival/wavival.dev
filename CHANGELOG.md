@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Home alignment: the hero is centered on every breakpoint, the mobile menu aligns to the top left, the home project rows keep their actions left on mobile, "See all projects" and "Technical criteria" are always centered, and the two footer columns split the width 50/50 on mobile.
+- Home alignment: the hero is centered on every breakpoint, the mobile menu aligns to the top left, the home project rows keep their actions left on mobile (stack chips and image stay centered), "See all projects" and "Technical criteria" are always centered, and the two footer columns split the width 50/50 on mobile.
 
 - `delete-merged-branches` workflow now deletes the remote branches of pull requests merged into `dev` (through the shared workflow of `lumina-w/agents`, with a `dry_run` input) instead of only reporting them; merges made by the auto-merge job with `GITHUB_TOKEN` do not delete their branch.
 - Case-study design links point to each project's Netlify prototype (TerraCore, TerraCore Landing, OKroot, OKroot Landing, Lúmina W, Blog W, wavival.dev) instead of the generic placeholder.
