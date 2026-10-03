@@ -81,31 +81,30 @@ The button fill is theme-independent so white text stays at or above 4.5:1 in bo
 
 ### Type scale
 
-| Token                  | Value                       | Used by                                             |
-| ---------------------- | --------------------------- | --------------------------------------------------- |
-| `--fs-display-xl`      | `clamp(36px, 5.2vw, 80px)`  | `.display-xl` (home `h1`)                           |
-| `--fs-display-page`    | `clamp(44px, 7vw, 108px)`   | `.display-page` (page `h1`)                         |
-| `--fs-display-index`   | `clamp(48px, 8vw, 120px)`   | `.display-index` (`/proyectos` `h1`)                |
-| `--fs-display-contact` | `clamp(44px, 7.4vw, 116px)` | `.display-contact` (`/contacto` `h1`)               |
-| `--fs-display-case`    | `clamp(52px, 9vw, 148px)`   | `.display-case` (case study `h1`, lh .92)           |
-| `--fs-display-uses`    | `clamp(52px, 9vw, 140px)`   | `.display-uses` (`/herramientas` `h1`, lh .92)      |
-| `--fs-display-about`   | `clamp(56px, 10vw, 160px)`  | `.display-about` (`/sobre-mi` `h1`, lh .9, -0.05em) |
-| `--fs-display-cta`     | `clamp(40px, 6.4vw, 100px)` | `.display-cta` (`ContactBand` `h2`)                 |
-| `--fs-h2-sub`          | `clamp(32px, 4vw, 56px)`    | `.h2-sub` (sub-section `h2`)                        |
-| `--fs-body-md`         | `16px`                      | `.body-md` (legal copy, "Qué construyo")            |
-| `--fs-h2`              | `clamp(36px, 5vw, 72px)`    | `.h2-section`                                       |
-| `--fs-h2-case`         | `clamp(30px, 3.4vw, 48px)`  | `CaseSection` heading                               |
-| `--fs-h3-project`      | `clamp(40px, 6vw, 88px)`    | `.h3-project`                                       |
-| `--fs-lead`            | `clamp(22px, 2.2vw, 30px)`  | `.lead`                                             |
-| `--fs-body-lg`         | `18px`                      | `.body-lg`                                          |
-| `--fs-body`            | `16px`                      | Body base                                           |
-| `--fs-body-sm`         | `15px`                      | `.body`                                             |
-| `--fs-label`           | `12px`                      | `.eyebrow`                                          |
-| `--fs-label-sm`        | `11px`                      | `.label-sm`, `.badge`                               |
-| `--tracking-display`   | `-0.04em`                   | Display and project titles                          |
-| `--tracking-h2`        | `-0.035em`                  | `.h2-section`                                       |
-| `--tracking-label`     | `0.16em`                    | Uppercase labels                                    |
-| `--tracking-button`    | `0.1em`                     | `.btn`                                              |
+| Token                | Value                       | Used by                                                          |
+| -------------------- | --------------------------- | ---------------------------------------------------------------- |
+| `--fs-display-xl`    | `clamp(36px, 5.2vw, 80px)`  | `.display-xl` (home `h1`), `.display-contact` (`/contacto` `h1`) |
+| `--fs-display-page`  | `clamp(44px, 7vw, 108px)`   | `.display-page` (page `h1`)                                      |
+| `--fs-display-index` | `clamp(48px, 8vw, 120px)`   | `.display-index` (`/proyectos` `h1`)                             |
+| `--fs-display-case`  | `clamp(52px, 9vw, 148px)`   | `.display-case` (case study `h1`, lh .92)                        |
+| `--fs-display-uses`  | `clamp(52px, 9vw, 140px)`   | `.display-uses` (`/herramientas` `h1`, lh .92)                   |
+| `--fs-display-about` | `clamp(56px, 10vw, 160px)`  | `.display-about` (`/sobre-mi` `h1`, lh .9, -0.05em)              |
+| `--fs-display-cta`   | `clamp(40px, 6.4vw, 100px)` | `.display-cta` (`ContactBand` `h2`)                              |
+| `--fs-h2-sub`        | `clamp(32px, 4vw, 56px)`    | `.h2-sub` (sub-section `h2`)                                     |
+| `--fs-body-md`       | `16px`                      | `.body-md` (legal copy, "Qué construyo")                         |
+| `--fs-h2`            | `clamp(36px, 5vw, 72px)`    | `.h2-section`                                                    |
+| `--fs-h2-case`       | `clamp(30px, 3.4vw, 48px)`  | `CaseSection` heading                                            |
+| `--fs-h3-project`    | `clamp(40px, 6vw, 88px)`    | `.h3-project`                                                    |
+| `--fs-lead`          | `clamp(22px, 2.2vw, 30px)`  | `.lead`                                                          |
+| `--fs-body-lg`       | `18px`                      | `.body-lg`                                                       |
+| `--fs-body`          | `16px`                      | Body base                                                        |
+| `--fs-body-sm`       | `15px`                      | `.body`                                                          |
+| `--fs-label`         | `12px`                      | `.eyebrow`                                                       |
+| `--fs-label-sm`      | `11px`                      | `.label-sm`, `.badge`                                            |
+| `--tracking-display` | `-0.04em`                   | Display and project titles                                       |
+| `--tracking-h2`      | `-0.035em`                  | `.h2-section`                                                    |
+| `--tracking-label`   | `0.16em`                    | Uppercase labels                                                 |
+| `--tracking-button`  | `0.1em`                     | `.btn`                                                           |
 
 ### Tailwind aliases
 

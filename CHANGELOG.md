@@ -56,6 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- About page (ES/EN): the profile photo is centered on mobile, and the summary row, the closing quote, the CV button and the social icons are centered on desktop (900px and up) and left-aligned on mobile.
+- Contact page: the `h1` uses the `--fs-display-xl` token (the unused `--fs-display-contact` token was removed).
 - NavBar: the "Stack" link stays marked (`aria-current="location"`, same style as the current page) while the `#stack` section of the home page is in view, on desktop and in the mobile menu. CSP hash of the nav script refreshed.
 - CSP: refreshed the `script-src` hash of the quote form script in `vercel.json`.
 - `wavival.dev` case study banner (`og-wavival-dev.webp`) is now a screenshot of the @wavival | Design System v4 (colors section) in Claude Design, with updated alt text in ES and EN.
