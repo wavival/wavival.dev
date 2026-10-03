@@ -44,9 +44,9 @@ Live app: https://app.okroot.co · Landing: https://okroot.co · Case study: htt
 
 ## TerraCore Landing (case study)
 
-Problem: a farm producer needs to understand what TerraCore does, what it costs and how their data is handled before asking for a demo.
+Problem: a farm producer needs to understand what TerraCore does, what each plan includes and how their data is handled before asking for a demo.
 
-Solution: a static conversion landing for TerraCore that takes the producer from the pain to the demo, shows the product, the plans with pricing in COP and the privacy terms, and captures diagnosis requests in a serverless function that stores them in Supabase.
+Solution: a static conversion landing for TerraCore that takes the producer from the pain to the demo, shows the product, the plans with their limits and the privacy terms, and captures diagnosis requests in a serverless function that stores them in Supabase.
 
 Stack: Astro, Tailwind CSS, Supabase, Vercel Functions. Case study: https://www.wavival.dev/proyectos/terracore-landing · Live: https://terracoreapp.co
 

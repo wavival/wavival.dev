@@ -620,32 +620,32 @@ export const projects: Project[] = [
     ],
     filters: ["landing", "design"],
     summary:
-      "Landing estática de conversión para TerraCore, la PWA de gestión agropecuaria. Lleva al productor del dolor a la demo, muestra el producto, los planes con precio en COP y la privacidad, y captura solicitudes de diagnóstico en una función serverless. Astro, Tailwind CSS y Supabase.",
+      "Landing estática de conversión para TerraCore, la PWA de gestión agropecuaria. Lleva al productor del dolor a la demo, muestra el producto, los planes con sus límites y la privacidad, y captura solicitudes de diagnóstico en una función serverless. Astro, Tailwind CSS y Supabase.",
     problem:
-      "Una plataforma SaaS sin una landing de conversión pierde el tráfico antes de que el productor llegue a la app. Hay que explicarle qué cambia frente a Excel, cuadernos y WhatsApp, enseñarle el producto, decirle cuánto cuesta y darle una forma simple de pedir una demo.",
+      "Una plataforma SaaS sin una landing de conversión pierde el tráfico antes de que el productor llegue a la app. Hay que explicarle qué cambia frente a Excel, cuadernos y WhatsApp, enseñarle el producto, decirle qué incluye cada plan y darle una forma simple de pedir una demo.",
     solution:
-      "Landing en Astro que parte del dolor del productor, explica los módulos y cómo se conectan entre sí, enseña capturas reales del producto, responde la objeción de privacidad antes de hablar de precios y publica tres planes con precio en COP. Todos los botones llevan a un solo formulario de diagnóstico, con WhatsApp como alternativa directa.",
+      "Landing en Astro que parte del dolor del productor, explica los módulos y cómo se conectan entre sí, enseña capturas reales del producto, responde la objeción de privacidad antes de hablar de planes y publica tres planes con sus límites. Todos los botones llevan a un solo formulario de diagnóstico, con WhatsApp como alternativa directa.",
     architecture: [
       "Astro 7 con salida estática, sin adaptador ni framework de interfaz: el JavaScript es vanilla, en un script por componente. Se despliega en Vercel y la rama de staging usa el preview.",
       "Atomic design con alias de importación por capa (átomos, moléculas, organismos y plantilla). Los tokens de color, tipografía y espacio viven en un solo archivo CSS y Tailwind los extiende. Inter, Poppins y JetBrains Mono van autoalojadas, sin pedir fuentes a terceros.",
       "Embudo de conversión en 13 secciones: Hero, Impacto, franja de confianza, Módulos, Producto, Beneficios, Seguridad, Planes, Preguntas y cierre. Métricas, casos de éxito y testimonios están construidos pero ocultos hasta tener datos reales.",
       "Los datos de cada sección son TypeScript tipado en un solo archivo (planes, impacto, beneficios y preguntas). Las preguntas alimentan el acordeón visible y el JSON-LD FAQPage desde la misma fuente.",
-      "Tres planes con precio en COP: Semilla ($2.500.000/mes, 1 sede, 5 usuarios), Profesional ($5.000.000/mes, hasta 5 sedes, 10 usuarios) y Enterprise (precio base de $10.000.000/mes, sedes y usuarios ilimitados). Cada botón de plan abre el formulario con el tamaño de operación ya elegido. Lo que se vende coincide con lo que el backend hace cumplir: topes de sedes y usuarios, rol Colaborador, Herramientas y exportación CSV desde Profesional, y pérdidas en Finanzas solo en Enterprise.",
+      "Tres planes: Semilla (1 sede, 5 usuarios), Profesional (hasta 5 sedes, 10 usuarios) y Enterprise (sedes y usuarios ilimitados). Cada botón de plan abre el formulario con el tamaño de operación ya elegido. Lo que se vende coincide con lo que el backend hace cumplir: topes de sedes y usuarios, rol Colaborador, Herramientas y exportación CSV desde Profesional, y pérdidas en Finanzas solo en Enterprise.",
       "Formulario de diagnóstico que envía JSON a una función de Vercel (api/lead.ts, sin dependencias de npm). Valida y normaliza los datos, guarda el lead en Supabase y avisa por correo con Brevo. Un correo repetido no crea otra fila y la notificación nunca bloquea el guardado.",
       "Antispam sin captcha: campo trampa y tiempo mínimo de llenado en el cliente, y la misma comprobación en el servidor. Solo guarda en producción; en staging valida y responde que el almacenamiento está desactivado.",
       "Analítica: GA4 opcional por variable de entorno, con eventos en cada CTA (Hero, planes, WhatsApp y formulario), más Vercel Web Analytics y Speed Insights. Botón flotante de WhatsApp en todas las páginas.",
       "SEO técnico: title, description, canonical, Open Graph y Twitter, sitemap, robots.txt y llms.txt. JSON-LD con Organization, WebSite, SoftwareApplication con sus ofertas y FAQPage.",
       "Seguridad en cabeceras desde vercel.json: CSP restrictiva, HSTS, X-Frame-Options DENY y Permissions-Policy.",
-      "Calidad: Vitest para la lógica, Playwright para el flujo (landing, formulario, planes, FAQ y menú móvil) y Lighthouse en cada PR con accesibilidad como umbral que bloquea. Una prueba ata los precios y límites de la landing a lo que el producto hace de verdad.",
+      "Calidad: Vitest para la lógica, Playwright para el flujo (landing, formulario, planes, FAQ y menú móvil) y Lighthouse en cada PR con accesibilidad como umbral que bloquea. Una prueba ata los límites de la landing a lo que el producto hace de verdad.",
     ],
     painPoints: [
       {
-        title: "Sin precio visible",
-        text: "El sector agropecuario desconfía de software sin precio. 'Contáctanos para cotizar' genera fricción antes de empezar.",
+        title: "Planes poco claros",
+        text: "Si no se ve qué incluye cada plan, el productor duda antes de empezar. Los límites y el alcance tienen que estar a la vista.",
       },
       {
         title: "El valor diferencial es invisible",
-        text: "Que los módulos se hablan entre sí no es obvio. Sin demostrarlo antes de los precios, la landing pierde la conversión.",
+        text: "Que los módulos se hablan entre sí no es obvio. Sin demostrarlo antes de los planes, la landing pierde la conversión.",
       },
       {
         title: "Desconfianza en los datos",
@@ -667,7 +667,7 @@ export const projects: Project[] = [
       },
       {
         name: "Integración en cascada",
-        text: "Flujo visual: vacuna aplicada, insumo descontado y fecha de vencimiento con alerta. Y stock mínimo, alerta al administrador. Es lo que el producto hace y demuestra el valor diferencial antes de los precios.",
+        text: "Flujo visual: vacuna aplicada, insumo descontado y fecha de vencimiento con alerta. Y stock mínimo, alerta al administrador. Es lo que el producto hace y demuestra el valor diferencial antes de los planes.",
       },
       {
         name: "Capturas reales del producto",
@@ -679,7 +679,7 @@ export const projects: Project[] = [
       },
       {
         name: "Planes y formulario",
-        text: "Tres planes en un carrusel con precio, límites y alcance, preguntas frecuentes y un formulario de diagnóstico gratuito con WhatsApp como alternativa.",
+        text: "Tres planes en un carrusel con límites y alcance, preguntas frecuentes y un formulario de diagnóstico gratuito con WhatsApp como alternativa.",
       },
     ],
     decisions: [
@@ -693,16 +693,16 @@ export const projects: Project[] = [
           "Hero sin una sola mención al stack: 'Reemplaza Excel y WhatsApp en tu operación agrícola' y 'No se trata de ganar más, sino de dejar de perder'. Una tabla de antes y después refuerza el contraste.",
       },
       {
-        title: "Integración antes de precios",
+        title: "Integración antes de los planes",
         context:
           "La diferencia de TerraCore frente a Excel es que los módulos se hablan entre sí. Eso no es obvio para el productor.",
         tradeoff:
-          "Ir directo a precios antes de demostrar el valor diferencial baja la conversión.",
+          "Ir directo a los planes antes de demostrar el valor diferencial baja la conversión.",
         decision:
-          "El bloque de integración ('Una acción. Todo el sistema al día.') va dentro de Módulos, antes de la sección de planes. El usuario entiende el valor antes de ver el costo.",
+          "El bloque de integración ('Una acción. Todo el sistema al día.') va dentro de Módulos, antes de la sección de planes. El usuario entiende el valor antes de ver los planes.",
       },
       {
-        title: "Confianza antes del precio",
+        title: "Confianza antes de los planes",
         context:
           "Los datos de producción y costos son sensibles para el productor, y la desconfianza bloquea la compra.",
         tradeoff:
@@ -744,7 +744,7 @@ export const projects: Project[] = [
         tradeoff:
           "Esas secciones aportan confianza, pero con datos falsos la restan. Dejarlas fuera hoy cuesta conversión.",
         decision:
-          "Las tres secciones están construidas y ocultas hasta tener datos reales. Además, una prueba automática compara los precios y límites de la landing con lo que hace el producto.",
+          "Las tres secciones están construidas y ocultas hasta tener datos reales. Además, una prueba automática compara los límites de la landing con lo que hace el producto.",
       },
     ],
     design: [
@@ -758,13 +758,13 @@ export const projects: Project[] = [
     ],
     results: [
       "Landing en producción, con el formulario de diagnóstico guardando solicitudes y avisando por correo.",
-      "Tres planes publicados con precio en COP, límites claros por plan y condiciones de cancelación visibles.",
+      "Tres planes publicados con límites claros por plan y condiciones de cancelación visibles.",
     ],
     learnings: [
       "Aprendí a diseñar, construir y desplegar una landing de conversión completa, desde la propuesta hasta el formulario que guarda leads, y a depurarla, probarla y medirla.",
       "Una landing para un nicho no tecnológico tiene que hablar el idioma del cliente: cada sección se redactó con vocabulario de la finca, no del software.",
-      "Separar la demostración del valor de la sección de precios baja la barrera: el productor llega a los planes habiendo entendido ya qué diferencia a TerraCore de Excel.",
-      "Un precio o un límite copiado a mano en varios sitios se desalinea. Los datos viven en un solo archivo y una prueba los compara con el producto.",
+      "Separar la demostración del valor de la sección de planes baja la barrera: el productor llega a los planes habiendo entendido ya qué diferencia a TerraCore de Excel.",
+      "Un límite copiado a mano en varios sitios se desalinea. Los datos viven en un solo archivo y una prueba los compara con el producto.",
       "Es más barato dejar una sección de prueba social oculta hasta tener datos reales que retirar cifras inventadas.",
       "Un sitio estático puede tener formulario sin servidor propio, pero hay que decidir qué pasa en staging: validar sin guardar evita mezclar datos de prueba con leads reales.",
     ],
@@ -776,7 +776,7 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes con precio para el agro.",
+      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes por tamaño de operación para el agro.",
     links: [
       {
         href: "https://terracoreapp.co",
@@ -791,13 +791,13 @@ export const projects: Project[] = [
     },
     en: {
       summary:
-        "Static conversion landing for TerraCore, the farm-management PWA. It takes the producer from pain to demo, shows the product, the plans with COP pricing, and privacy, and captures diagnostic requests in a serverless function. Astro, Tailwind CSS, and Supabase.",
+        "Static conversion landing for TerraCore, the farm-management PWA. It takes the producer from pain to demo, shows the product, the plans with their limits, and privacy, and captures diagnostic requests in a serverless function. Astro, Tailwind CSS, and Supabase.",
       imageAlt:
         "TerraCore landing: value proposition and plans for Colombian agricultural producers",
       problem:
-        "A SaaS platform without a conversion landing loses traffic before the producer reaches the app. It has to explain what changes compared to Excel, notebooks, and WhatsApp, show the product, state the price, and offer a simple way to ask for a demo.",
+        "A SaaS platform without a conversion landing loses traffic before the producer reaches the app. It has to explain what changes compared to Excel, notebooks, and WhatsApp, show the product, say what each plan includes, and offer a simple way to ask for a demo.",
       solution:
-        "Astro landing that starts from the producer's pain, explains the modules and how they connect, shows real product screenshots, answers the privacy objection before talking about pricing, and publishes three plans with COP pricing. Every button leads to a single diagnostic form, with WhatsApp as a direct alternative.",
+        "Astro landing that starts from the producer's pain, explains the modules and how they connect, shows real product screenshots, answers the privacy objection before talking about plans, and publishes three plans with their limits. Every button leads to a single diagnostic form, with WhatsApp as a direct alternative.",
       links: [
         {
           href: "https://terracoreapp.co",
@@ -811,28 +811,28 @@ export const projects: Project[] = [
         ariaLabel: "View TerraCore Landing design",
       },
       metaDescription:
-        "TerraCore Landing case study: static Astro and Tailwind CSS landing with a Supabase-backed form, technical SEO, and priced plans for Colombian agriculture.",
+        "TerraCore Landing case study: static Astro and Tailwind CSS landing with a Supabase-backed form, technical SEO, and plans by operation size for Colombian agriculture.",
       architecture: [
         "Astro 7 with static output, no adapter and no UI framework: JavaScript is vanilla, in one script per component. Deployed on Vercel, and the staging branch uses the preview.",
         "Atomic design with an import alias per layer (atoms, molecules, organisms, and template). Color, type, and spacing tokens live in a single CSS file and Tailwind extends them. Inter, Poppins, and JetBrains Mono are self-hosted, with no third-party font requests.",
         "Conversion funnel in 13 sections: Hero, Impact, trust strip, Modules, Product, Benefits, Security, Plans, FAQ, and closing. Metrics, case studies, and testimonials are built but hidden until real data exists.",
         "Each section's data is typed TypeScript in a single file (plans, impact, benefits, and FAQ). The FAQ feeds both the visible accordion and the FAQPage JSON-LD from the same source.",
-        "Three plans with COP pricing: Seed ($2,500,000/month, 1 facility, 5 users), Professional ($5,000,000/month, up to 5 facilities, 10 users), and Enterprise (base price of $10,000,000/month, unlimited facilities and users). Each plan button opens the form with the operation size already selected. What is sold matches what the backend enforces: facility and user caps, the Collaborator role, Tools and CSV export from Professional, and losses in Finance only on Enterprise.",
+        "Three plans: Seed (1 facility, 5 users), Professional (up to 5 facilities, 10 users), and Enterprise (unlimited facilities and users). Each plan button opens the form with the operation size already selected. What is sold matches what the backend enforces: facility and user caps, the Collaborator role, Tools and CSV export from Professional, and losses in Finance only on Enterprise.",
         "Diagnostic form that posts JSON to a Vercel function (api/lead.ts, no npm dependencies). It validates and normalizes the data, stores the lead in Supabase, and notifies by email through Brevo. A repeated email does not create another row and the notification never blocks the save.",
         "Anti-spam without a captcha: a honeypot field and a minimum fill time on the client, and the same check on the server. It only stores in production; on staging it validates and answers that storage is disabled.",
         "Analytics: GA4 optional through an environment variable, with events on every CTA (Hero, plans, WhatsApp, and form), plus Vercel Web Analytics and Speed Insights. Floating WhatsApp button on every page.",
         "Technical SEO: title, description, canonical, Open Graph and Twitter, sitemap, robots.txt, and llms.txt. JSON-LD with Organization, WebSite, SoftwareApplication with its offers, and FAQPage.",
         "Security through headers from vercel.json: a restrictive CSP, HSTS, X-Frame-Options DENY, and Permissions-Policy.",
-        "Quality: Vitest for logic, Playwright for the flow (landing, form, plans, FAQ, and mobile menu), and Lighthouse on every PR with accessibility as a blocking threshold. A test ties the landing's prices and limits to what the product actually does.",
+        "Quality: Vitest for logic, Playwright for the flow (landing, form, plans, FAQ, and mobile menu), and Lighthouse on every PR with accessibility as a blocking threshold. A test ties the landing's limits to what the product actually does.",
       ],
       painPoints: [
         {
-          title: "No visible pricing",
-          text: "The agricultural sector distrusts software without pricing. 'Contact us for a quote' creates friction before you even start.",
+          title: "Unclear plans",
+          text: "If what each plan includes is not visible, the producer hesitates before starting. Limits and scope have to be in plain sight.",
         },
         {
           title: "Differential value is invisible",
-          text: "That the modules talk to each other is not obvious. Without demonstrating it before pricing, the landing loses the conversion.",
+          text: "That the modules talk to each other is not obvious. Without demonstrating it before the plans, the landing loses the conversion.",
         },
         {
           title: "Distrust around data",
@@ -854,7 +854,7 @@ export const projects: Project[] = [
         },
         {
           name: "Cascade integration",
-          text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it demonstrates differential value before pricing.",
+          text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it demonstrates differential value before the plans.",
         },
         {
           name: "Real product screenshots",
@@ -866,7 +866,7 @@ export const projects: Project[] = [
         },
         {
           name: "Plans and form",
-          text: "Three plans in a carousel with price, limits, and scope, frequently asked questions, and a free diagnostic form with WhatsApp as an alternative.",
+          text: "Three plans in a carousel with limits and scope, frequently asked questions, and a free diagnostic form with WhatsApp as an alternative.",
         },
       ],
       decisions: [
@@ -880,16 +880,16 @@ export const projects: Project[] = [
             "Hero with no mention of the stack: 'Replace Excel and WhatsApp in your farm operation' and 'It is not about earning more, it is about losing less'. A before and after table reinforces the contrast.",
         },
         {
-          title: "Integration before pricing",
+          title: "Integration before the plans",
           context:
             "TerraCore's difference from Excel is that the modules talk to each other. That is not obvious to the producer.",
           tradeoff:
-            "Going straight to pricing before demonstrating differential value lowers conversion.",
+            "Going straight to the plans before demonstrating differential value lowers conversion.",
           decision:
-            "The integration block ('One action. The whole system up to date.') sits inside Modules, before the plans section. The user understands the value before seeing the cost.",
+            "The integration block ('One action. The whole system up to date.') sits inside Modules, before the plans section. The user understands the value before seeing the plans.",
         },
         {
-          title: "Trust before pricing",
+          title: "Trust before the plans",
           context:
             "Production and cost data are sensitive to the producer, and distrust blocks the purchase.",
           tradeoff:
@@ -931,7 +931,7 @@ export const projects: Project[] = [
           tradeoff:
             "Those sections add trust, but with fake data they take it away. Leaving them out today costs conversion.",
           decision:
-            "The three sections are built and hidden until real data exists. In addition, an automated test compares the landing's prices and limits with what the product does.",
+            "The three sections are built and hidden until real data exists. In addition, an automated test compares the landing's limits with what the product does.",
         },
       ],
       design: [
@@ -945,13 +945,13 @@ export const projects: Project[] = [
       ],
       results: [
         "Landing in production, with the diagnostic form storing requests and notifying by email.",
-        "Three plans published with COP pricing, clear limits per plan, and visible cancellation terms.",
+        "Three plans published with clear limits per plan, and visible cancellation terms.",
       ],
       learnings: [
         "I learned to design, build, and deploy a complete conversion landing, from the proposal to the form that stores leads, and to debug it, test it, and measure it.",
         "A landing for a non-technical niche must speak the client's language: every section was written in farm vocabulary, not software vocabulary.",
-        "Separating the value demonstration from the pricing section lowers the barrier: the producer arrives at the plans having already understood what differentiates TerraCore from Excel.",
-        "A price or limit copied by hand in several places drifts apart. The data lives in one file and a test compares it with the product.",
+        "Separating the value demonstration from the plans section lowers the barrier: the producer arrives at the plans having already understood what differentiates TerraCore from Excel.",
+        "A limit copied by hand in several places drifts apart. The data lives in one file and a test compares it with the product.",
         "It is cheaper to keep a social proof section hidden until real data exists than to pull invented figures.",
         "A static site can have a form without its own server, but you have to decide what happens on staging: validating without storing avoids mixing test data with real leads.",
       ],

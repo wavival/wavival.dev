@@ -55,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- CSP: refreshed the `script-src` hash of the project filters script in `vercel.json` after it began marking the first visible result as featured.
+- TerraCore Landing case study (ES/EN) and the `llms` files no longer mention prices: the three plans are described only by their limits and features.
 - Mobile: the `/projects` filters and the case-study action buttons are centered.
 - Home alignment: the hero is centered on every breakpoint, the mobile menu aligns to the top left, the home project rows keep their actions left on mobile (stack chips and image stay centered), "See all projects" and "Technical criteria" are always centered, and the two footer columns split the width 50/50 on mobile.
 
