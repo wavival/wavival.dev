@@ -16,8 +16,14 @@ const styles = bentoStyles(stack.length);
 <Bento cells>
   {
     stack.map((s, i) => (
-      <article class="flex flex-col gap-4 p-7 transition-colors hover:bg-tint" style={styles[i]}>
-        <span class="index index-muted">{String(i + 1).padStart(2, "0")}</span>
+      <article
+        class={`flex flex-col gap-4 p-7 transition-colors hover:bg-tint ${s.featured ? "bg-tint shadow-[inset_0_2px_0_var(--blue)]" : ""}`.trim()}
+        style={styles[i]}
+      >
+        <div class="flex items-center justify-between gap-3">
+          <span class="index index-muted">{String(i + 1).padStart(2, "0")}</span>
+          {s.featured && <span class="label-sm label-sm-link">{isEn ? "Core" : "Destacado"}</span>}
+        </div>
         <div>
           <h3 class="h-title m-0 text-2xl tracking-[-0.01em] text-link">{s.category}</h3>
           <p class="m-0 mt-[6px] text-sm text-muted">
