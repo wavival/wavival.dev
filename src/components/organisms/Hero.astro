@@ -29,9 +29,9 @@ const stats = isEn
 
 <section id="hero" class="wrap" style="padding-top:clamp(32px,5vw,72px);padding-bottom:var(--sec)">
   <div
-    class="flex flex-wrap justify-between gap-x-6 gap-y-3 border-b border-line pb-[18px] font-display text-xs font-bold uppercase tracking-[0.16em] text-muted"
+    class="flex flex-wrap justify-center gap-x-6 gap-y-3 border-b border-line pb-[18px] font-display text-xs font-bold uppercase tracking-[0.16em] text-muted"
   >
-    <span>Valentina Ramírez · Colombia · COT (UTC-5)</span>
+    <span class="text-center">Valentina Ramírez · Colombia · COT (UTC-5)</span>
     <span class="inline-flex items-center gap-[10px]">
       <span class="status-dot status-dot-ok status-dot-lg" aria-hidden="true"></span>
       {
@@ -42,15 +42,15 @@ const stats = isEn
     </span>
   </div>
 
-  <h1 class="display-xl" style="margin:clamp(36px,5vw,64px) 0;text-wrap:balance">
+  <h1 class="display-xl text-center" style="margin:clamp(36px,5vw,64px) 0;text-wrap:balance">
     Full Stack Developer.
     <span class="accent">
       {isEn ? "The code I ship, I also break." : "El código que firmo también lo rompo."}
     </span>
   </h1>
 
-  <div class="flex flex-wrap items-start gap-x-[clamp(32px,5vw,80px)] gap-y-10">
-    <figure class="m-0 min-w-[240px] flex-[0_1_320px]">
+  <div class="flex flex-col items-center gap-10 text-center">
+    <figure class="m-0 w-full max-w-[320px]">
       <div class="photo-frame">
         <img
           src={`${base}images/profile.webp`}
@@ -66,7 +66,7 @@ const stats = isEn
       </figcaption>
     </figure>
 
-    <div class="flex min-w-0 max-w-[680px] flex-[1_1_440px] flex-col gap-6">
+    <div class="flex w-full min-w-0 max-w-[680px] flex-col items-center gap-6">
       <p class="lead m-0">
         {
           isEn
@@ -81,7 +81,7 @@ const stats = isEn
             : "Entrego aplicaciones reales: multiusuario, lógica de negocio compleja, APIs propias y frontends que la gente usa. Mentalidad ofensiva para escribir código que no se rompe, con IA integrada donde resuelve."
         }
       </p>
-      <div class="mt-2 flex flex-wrap items-center justify-center gap-3 min-[640px]:justify-start">
+      <div class="mt-2 flex flex-wrap items-center justify-center gap-3">
         <Button
           href={cv}
           download={cvFile}
@@ -105,12 +105,12 @@ const stats = isEn
         <SocialLinks lang={lang} size="lg" items={["linkedin", "github"]} />
       </div>
       <dl
-        class="m-0 mt-4 grid border-t border-line"
+        class="m-0 mt-4 grid w-full border-t border-line"
         style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"
       >
         {
           stats.map((s) => (
-            <div class="pr-5 pt-5">
+            <div class="px-3 pt-5">
               <dt class="h-title text-[36px] leading-none tracking-[-0.03em]">{s.value}</dt>
               <dd class="m-0 mt-2 text-[13px] text-muted">{s.label}</dd>
             </div>

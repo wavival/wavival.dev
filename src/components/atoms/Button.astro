@@ -11,6 +11,8 @@ interface Props {
   icon?: string;
   download?: string;
   "aria-label"?: string;
+  "aria-describedby"?: string;
+  disabled?: boolean;
   "data-umami-event"?: string;
   "data-sending"?: string;
 }
@@ -26,6 +28,8 @@ const {
   icon,
   download,
   "aria-label": ariaLabel,
+  "aria-describedby": describedBy,
+  disabled = false,
   "data-umami-event": umamiEvent,
   "data-sending": sendingLabel,
 } = Astro.props;
@@ -48,6 +52,8 @@ const Tag = href ? "a" : "button";
   type={href ? undefined : type}
   class={cls}
   aria-label={ariaLabel}
+  aria-describedby={describedBy}
+  disabled={href ? undefined : disabled}
   data-umami-event={umamiEvent}
   data-sending={sendingLabel}
 >

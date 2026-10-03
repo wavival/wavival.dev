@@ -114,7 +114,7 @@ const mobileLinks = [
 <nav
   id="mobile-menu"
   aria-label={t("nav.mobileAria")}
-  class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-[45] flex translate-y-2 flex-col items-center justify-center overflow-auto bg-bg px-gut py-10 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
+  class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-[45] flex translate-y-2 flex-col items-start justify-start overflow-auto bg-bg px-gut pb-10 pt-12 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
   inert
 >
   <ul class="m-0 flex w-fit list-none flex-col p-0" role="list">
@@ -124,7 +124,7 @@ const mobileLinks = [
           <a
             href={l.href}
             aria-current={current(l.href)}
-            class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link"
+            class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link aria-[current=location]:text-link"
           >
             <span class="index w-6">{String(i + 1).padStart(2, "0")}</span>
             <span class="h-title text-[13px] leading-none tracking-[var(--tracking-button)] text-[color:inherit] uppercase">
@@ -135,7 +135,7 @@ const mobileLinks = [
       ))
     }
   </ul>
-  <div class="flex flex-col items-center gap-4 pt-8">
+  <div class="flex flex-col items-start gap-4 pt-8">
     <Button
       href="https://blog.luminaw.co"
       target="_blank"

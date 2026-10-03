@@ -11,6 +11,19 @@ interface Props {
   projectTypes: ServiceOption[];
   selectedService?: string;
   labels: {
+    formTitle: string;
+    formIntro: string;
+    nextTitle: string;
+    nextSteps: string[];
+    placeholders: {
+      name: string;
+      email: string;
+      business: string;
+      description: string;
+    };
+    phonePlaceholder: string;
+    phoneError: string;
+    submitHint: string;
     name: string;
     email: string;
     phone: string;
@@ -37,7 +50,16 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
 ---
 
 <div class="quote-form-wrap">
-  <form class="quote-form" data-quote-form novalidate>
+  <form class="quote-form" data-quote-form aria-labelledby="quote-form-title" novalidate>
+    <div class="quote-intro">
+      <h2 id="quote-form-title" class="h2-sub">{labels.formTitle}</h2>
+      <p class="body-md m-0">{labels.formIntro}</p>
+      <p class="quote-next-title" id="quote-next-title">{labels.nextTitle}</p>
+      <ol class="quote-next" aria-labelledby="quote-next-title">
+        {labels.nextSteps.map((step) => <li>{step}</li>)}
+      </ol>
+    </div>
+
     <p class="quote-required-note">
       <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
       {labels.required}
@@ -54,14 +76,30 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
           {labels.name}
           <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
         </span>
-        <input name="name" type="text" autocomplete="name" required maxlength="120" />
+        <input
+          name="name"
+          type="text"
+          autocomplete="name"
+          placeholder={labels.placeholders.name}
+          required
+          minlength="2"
+          maxlength="120"
+        />
       </label>
       <label class="quote-field">
         <span>
           {labels.email}
           <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
         </span>
-        <input name="email" type="email" autocomplete="email" required maxlength="254" />
+        <input
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          placeholder={labels.placeholders.email}
+          required
+          maxlength="254"
+        />
       </label>
       <label class="quote-field">
         <span>
@@ -73,7 +111,9 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
           type="tel"
           autocomplete="tel"
           inputmode="tel"
-          placeholder="+57 300 000 0000"
+          placeholder={labels.phonePlaceholder}
+          data-quote-phone
+          data-error={labels.phoneError}
           required
           maxlength="24"
         />
@@ -83,7 +123,15 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
           {labels.business}
           <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
         </span>
-        <input name="business" type="text" autocomplete="organization" required maxlength="160" />
+        <input
+          name="business"
+          type="text"
+          autocomplete="organization"
+          placeholder={labels.placeholders.business}
+          required
+          minlength="2"
+          maxlength="160"
+        />
       </label>
     </div>
 
@@ -131,17 +179,34 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
         {labels.description}
         <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
       </span>
-      <textarea name="description" rows="7" maxlength="5000" required data-quote-description
-      ></textarea>
+      <textarea
+        name="description"
+        rows="7"
+        maxlength="5000"
+        placeholder={labels.placeholders.description}
+        required
+        data-quote-description></textarea>
       <small class="quote-hint" data-quote-words>{labels.descriptionHint}</small>
     </label>
 
-    <p class="quote-privacy">
-      {labels.privacyPrefix}
-      <a class="inline-link" href={privacyHref}>{labels.privacyLink}</a>{labels.privacySuffix}
-    </p>
+    <label class="quote-consent">
+      <input name="privacy" type="checkbox" required data-quote-consent />
+      <span>
+        {labels.privacyPrefix}
+        <a class="inline-link" href={privacyHref} target="_blank" rel="noopener noreferrer"
+          >{labels.privacyLink}</a
+        >{labels.privacySuffix}
+        <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
+      </span>
+    </label>
     <p class="quote-error" role="alert" data-quote-error hidden>{labels.error}</p>
-    <Button type="submit" data-quote-submit data-sending={labels.sending}>{labels.submit}</Button>
+    <Button
+      type="submit"
+      disabled
+      aria-describedby="quote-submit-hint"
+      data-sending={labels.sending}>{labels.submit}</Button
+    >
+    <p class="quote-status" id="quote-submit-hint" data-quote-hint>{labels.submitHint}</p>
   </form>
 
   <section class="quote-success" data-quote-success hidden tabindex="-1" aria-live="polite">
@@ -160,7 +225,10 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
     const description = form.querySelector<HTMLTextAreaElement>("[data-quote-description]");
     const words = form.querySelector<HTMLElement>("[data-quote-words]");
     const error = form.querySelector<HTMLElement>("[data-quote-error]");
-    const submit = form.querySelector<HTMLButtonElement>("[data-quote-submit]");
+    const submit = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    const hint = form.querySelector<HTMLElement>("[data-quote-hint]");
+    const phone = form.querySelector<HTMLInputElement>("[data-quote-phone]");
+    const submitLabel = submit?.textContent ?? "";
     const success = document.querySelector<HTMLElement>("[data-quote-success]");
     const maxWords = 500;
     const params = new URLSearchParams(window.location.search);
@@ -192,31 +260,46 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
       description.setCustomValidity(count > maxWords ? "Maximum word count exceeded." : "");
     };
 
-    description?.addEventListener("input", updateWordCount);
-    updateWordCount();
+    // Same rule as api/quote.ts: spaces, parentheses and hyphens are ignored.
+    const validatePhone = () => {
+      if (!phone) return;
+      const valid = /^\+[1-9]\d{7,14}$/.test(phone.value.replace(/[\s()-]/g, ""));
+      phone.setCustomValidity(valid ? "" : (phone.dataset.error ?? ""));
+    };
+
+    const activeGroup = () =>
+      form.querySelector<HTMLFieldSetElement>("[data-quote-group]:not([hidden])");
+    const selectedOptions = () =>
+      Array.from(activeGroup()?.querySelectorAll<HTMLInputElement>("input:checked") ?? []);
+
+    // The submit button is enabled only when every required field, one option of the
+    // visible group and the privacy consent are filled in.
+    const refreshSubmit = () => {
+      updateWordCount();
+      validatePhone();
+      const complete = form.checkValidity() && selectedOptions().length > 0;
+      if (submit && submit.dataset.busy !== "true") submit.disabled = !complete;
+      hint?.toggleAttribute("hidden", complete);
+      return complete;
+    };
+
+    form.addEventListener("input", refreshSubmit);
+    form.addEventListener("change", refreshSubmit);
+    refreshSubmit();
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      updateWordCount();
-      if (!form.checkValidity()) {
+      if (!refreshSubmit()) {
         form.reportValidity();
         return;
       }
 
-      const activeGroup = form.querySelector<HTMLFieldSetElement>(
-        "[data-quote-group]:not([hidden])"
-      );
-      const selected = Array.from(
-        activeGroup?.querySelectorAll<HTMLInputElement>("input:checked") ?? []
-      );
-      if (selected.length === 0) {
-        error?.removeAttribute("hidden");
-        activeGroup?.querySelector<HTMLInputElement>("input")?.focus();
-        return;
-      }
+      const group = activeGroup();
+      const selected = selectedOptions();
 
       error?.setAttribute("hidden", "");
       if (submit) {
+        submit.dataset.busy = "true";
         submit.disabled = true;
         submit.textContent = submit.dataset.sending ?? submit.textContent;
       }
@@ -229,7 +312,7 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
         business: String(data.get("business") ?? ""),
         description: String(data.get("description") ?? ""),
         website: String(data.get("website") ?? ""),
-        [activeGroup?.dataset.quoteGroup === "types" ? "projectTypes" : "services"]: selected.map(
+        [group?.dataset.quoteGroup === "types" ? "projectTypes" : "services"]: selected.map(
           (input) => input.value
         ),
       };
@@ -246,7 +329,11 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
         success?.focus();
       } catch {
         error?.removeAttribute("hidden");
-        if (submit) submit.disabled = false;
+        if (submit) {
+          submit.dataset.busy = "false";
+          submit.textContent = submitLabel;
+        }
+        refreshSubmit();
       }
     });
   };

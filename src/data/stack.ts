@@ -8,11 +8,14 @@ export interface StackCategory {
   /** Longer rationale shown on the /uses page. */
   why?: string;
   whyEn?: string;
+  /** Core strengths, highlighted on the home stack grid. */
+  featured?: boolean;
 }
 
 export const stack: StackCategory[] = [
   {
     category: "Backend",
+    featured: true,
     description: "La columna vertebral de cada producto.",
     descriptionEn: "The backbone of every product.",
     tools: ["Python", "Django", "Django REST Framework", "PostgreSQL", "JWT"],
@@ -74,6 +77,7 @@ export const stack: StackCategory[] = [
   },
   {
     category: "AI Integrations",
+    featured: true,
     description: "IA como copiloto real, no como atajo.",
     descriptionEn: "AI as a real co-pilot, not a shortcut.",
     tools: ["OpenAI", "OpenClaw", "Claude API", "LLM Workflows", "Prompt Engineering", "n8n"],
