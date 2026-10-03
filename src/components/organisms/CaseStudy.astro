@@ -3,6 +3,7 @@ import Button from "@/components/atoms/Button.astro";
 import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
+import Bento from "@/components/molecules/Bento.astro";
 import Metric from "@/components/molecules/Metric.astro";
 import Disclosure from "@/components/molecules/Disclosure.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
@@ -10,7 +11,9 @@ import CaseSection from "@/components/organisms/CaseSection.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
 import { caseStudies, type Project } from "@/data/projects";
 import { projectView } from "@/data/projectView";
+import { quoteTypeHref } from "@/data/quoteTypes";
 import { siteRoutes, type Lang } from "@/i18n/utils";
+import { bentoStyles } from "@/utils/bento";
 
 interface Props {
   project: Project;
@@ -24,6 +27,8 @@ const base = import.meta.env.BASE_URL;
 const r = siteRoutes(lang, base);
 const view = projectView(project, lang, base);
 const en = isEn ? project.en : undefined;
+const designLink = en?.designLink ?? project.designLink;
+const designSystemLink = en?.designSystemLink ?? project.designSystemLink;
 
 const architecture = en?.architecture ?? project.architecture;
 const decisions = en?.decisions ?? project.decisions;
@@ -36,7 +41,16 @@ const chainTitle =
   en?.chainStepsTitle ??
   project.chainStepsTitle ??
   (isEn ? "Example action chain" : "Ejemplo de cadena de acciones");
+const chains =
+  en?.chains ??
+  project.chains ??
+  (chainSteps ? [{ title: chainTitle, steps: chainSteps }] : undefined);
+const design = en?.design ?? project.design;
+const roadmap = en?.roadmap ?? project.roadmap;
 const metrics = project.metrics;
+const painStyles = bentoStyles(painPoints?.length ?? 0);
+const moduleStyles = bentoStyles(modules?.length ?? 0);
+const learningStyles = bentoStyles(learnings?.length ?? 0);
 
 const t = isEn
   ? {
@@ -48,8 +62,14 @@ const t = isEn
       problem: "The problem",
       architecture: "What I built",
       decisions: "Architecture decisions",
+      design: "Design",
       results: "Results",
       learnings: "Learnings",
+      roadmap: "Roadmap",
+      roadmapNow: "Now",
+      roadmapNext: "Next",
+      roadmapLater: "Later",
+      roadmapOut: "Out of scope for the MVP",
       context: "Context",
       tradeoff: "Trade-off",
       decision: "Decision",
@@ -61,6 +81,7 @@ const t = isEn
       prevAria: "Previous project",
       nextAria: "Next project",
       backAria: "Back to all projects",
+      quote: "Quote a project like this",
     }
   : {
       projects: "Proyectos",
@@ -71,8 +92,14 @@ const t = isEn
       problem: "El problema",
       architecture: "Qué construí",
       decisions: "Decisiones de arquitectura",
+      design: "Diseño",
       results: "Resultados",
       learnings: "Aprendizajes",
+      roadmap: "Roadmap",
+      roadmapNow: "Ahora",
+      roadmapNext: "Siguiente",
+      roadmapLater: "Después",
+      roadmapOut: "Fuera del alcance del MVP",
       context: "Contexto",
       tradeoff: "Trade-off",
       decision: "Decisión",
@@ -84,14 +111,27 @@ const t = isEn
       prevAria: "Proyecto anterior",
       nextAria: "Proyecto siguiente",
       backAria: "Volver a todos los proyectos",
+      quote: "Cotizar un proyecto así",
     };
+
+const roadmapColumns = roadmap
+  ? [
+      { label: t.roadmapNow, items: roadmap.now },
+      { label: t.roadmapNext, items: roadmap.next },
+      { label: t.roadmapLater, items: roadmap.later },
+      ...(roadmap.out ? [{ label: t.roadmapOut, items: roadmap.out }] : []),
+    ].filter((c) => c.items.length > 0)
+  : [];
+const roadmapStyles = bentoStyles(roadmapColumns.length);
 
 const sections = [
   { key: "problem", label: t.problem, show: true },
   { key: "architecture", label: t.architecture, show: !!architecture },
+  { key: "design", label: t.design, show: !!design },
   { key: "decisions", label: t.decisions, show: !!decisions },
   { key: "results", label: t.results, show: !!results },
   { key: "learnings", label: t.learnings, show: !!learnings },
+  { key: "roadmap", label: t.roadmap, show: !!roadmap },
 ]
   .filter((s) => s.show)
   .map((s, i) => ({
@@ -105,7 +145,11 @@ const idx = caseStudies.findIndex((p) => p.slug === project.slug);
 const prevProject = idx > 0 ? caseStudies[idx - 1] : null;
 const nextProject = idx < caseStudies.length - 1 ? caseStudies[idx + 1] : null;
 const number = String(idx + 1).padStart(2, "0");
-const externalActions = view.actions.filter((a) => a.external);
+const externalActions = [
+  ...view.actions.filter((a) => a.external),
+  ...(designLink ? [{ ...designLink, external: true }] : []),
+  ...(designSystemLink ? [{ ...designSystemLink, external: true }] : []),
+];
 ---
 
 <article>
@@ -135,24 +179,29 @@ const externalActions = view.actions.filter((a) => a.external);
           {t.by}
           <a href={r.about} class="text-ink">Valentina Ramírez</a><br />{dateLabel}
         </p>
-        {
-          externalActions.length > 0 && (
-            <div class="flex flex-wrap gap-3">
-              {externalActions.map((a) => (
-                <Button
-                  href={a.href}
-                  target="_blank"
-                  variant="secondary"
-                  size="sm"
-                  aria-label={a.ariaLabel}
-                  data-umami-event={a.event}
-                >
-                  {a.text}
-                </Button>
-              ))}
-            </div>
-          )
-        }
+        <div class="flex flex-wrap gap-3">
+          {
+            externalActions.map((a) => (
+              <Button
+                href={a.href}
+                target="_blank"
+                variant="secondary"
+                size="sm"
+                aria-label={a.ariaLabel}
+                data-umami-event={a.event}
+              >
+                {a.text}
+              </Button>
+            ))
+          }
+          <Button
+            href={quoteTypeHref(r.quote, project.quoteType)}
+            size="sm"
+            data-umami-event="cotizar-desde-proyecto"
+          >
+            {t.quote}
+          </Button>
+        </div>
       </div>
     </div>
   </header>
@@ -213,19 +262,16 @@ const externalActions = view.actions.filter((a) => a.external);
         </p>
         {
           painPoints && (
-            <div
-              class="cell-grid mt-10"
-              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))"
-            >
-              {painPoints.map((pp) => (
-                <div class="p-6">
+            <Bento cells class="mt-10">
+              {painPoints.map((pp, i) => (
+                <div class="p-6" style={painStyles[i]}>
                   <h3 class="h-title m-0 text-lg">{pp.title}</h3>
                   <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
                     {pp.text}
                   </p>
                 </div>
               ))}
-            </div>
+            </Bento>
           )
         }
       </CaseSection>
@@ -247,37 +293,55 @@ const externalActions = view.actions.filter((a) => a.external);
               ))}
             </ol>
             {modules && (
-              <div
-                class="mt-10 grid gap-4"
-                style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))"
-              >
-                {modules.map((m) => (
-                  <div class="border border-line bg-surface p-6">
+              <Bento class="mt-10 gap-4">
+                {modules.map((m, i) => (
+                  <div class="border border-line bg-surface p-6" style={moduleStyles[i]}>
                     <h3 class="h-title m-0 text-lg">{m.name}</h3>
                     <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
                       {m.text}
                     </p>
                   </div>
                 ))}
-              </div>
+              </Bento>
             )}
-            {chainSteps && (
-              <div class="mt-10 border border-line bg-tint px-8 py-7">
-                <h3 class="h-title m-0 mb-5 text-lg">{chainTitle}</h3>
-                <ol class="m-0 flex list-none flex-col p-0">
-                  {chainSteps.map((step, i) => (
-                    <li class="flex items-start gap-4 border-t border-dashed border-line-2 py-[10px]">
-                      <span class="index w-6 flex-none pt-[3px] text-xs">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span class="text-sm leading-[1.65] text-ink" style="text-wrap:pretty">
-                        {step}
-                      </span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
+            {chains &&
+              chains.map((chain) => (
+                <div class="mt-10 border border-line bg-tint px-8 py-7">
+                  <h3 class="h-title m-0 mb-5 text-lg">{chain.title}</h3>
+                  <ol class="m-0 flex list-none flex-col p-0">
+                    {chain.steps.map((step, i) => (
+                      <li class="flex items-start gap-4 border-t border-dashed border-line-2 py-[10px]">
+                        <span class="index w-6 flex-none pt-[3px] text-xs">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span class="text-sm leading-[1.65] text-ink" style="text-wrap:pretty">
+                          {step}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
+          </CaseSection>
+        )
+      }
+
+      {
+        design && (
+          <CaseSection id={sec("design").id} n={sec("design").n} title={t.design}>
+            <ol
+              class="m-0 grid list-none gap-x-10 gap-y-0 p-0"
+              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"
+            >
+              {design.map((d, i) => (
+                <li class="flex gap-4 border-b border-line py-[18px]">
+                  <span class="index w-7 flex-none text-sm index-link">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p class="body m-0 text-[15px] leading-[1.7]">{d}</p>
+                </li>
+              ))}
+            </ol>
           </CaseSection>
         )
       }
@@ -349,16 +413,37 @@ const externalActions = view.actions.filter((a) => a.external);
             title={t.learnings}
             gap="mb-6"
           >
-            <ul class="m-0 list-none p-0">
-              {learnings.map((x) => (
-                <li
-                  class="mb-3 border-l-2 border-line-2 py-[18px] pr-0 pl-6 text-base leading-[1.7] text-muted"
-                  style="text-wrap:pretty"
-                >
-                  {x}
-                </li>
+            <Bento class="gap-4" data-learnings-cards>
+              {learnings.map((x, i) => (
+                <article class="border border-line bg-surface p-6" style={learningStyles[i]}>
+                  <span class="index">{String(i + 1).padStart(2, "0")}</span>
+                  <p class="mt-4 mb-0 text-base leading-[1.7] text-muted" style="text-wrap:pretty">
+                    {x}
+                  </p>
+                </article>
               ))}
-            </ul>
+            </Bento>
+          </CaseSection>
+        )
+      }
+
+      {
+        roadmap && (
+          <CaseSection id={sec("roadmap").id} n={sec("roadmap").n} title={t.roadmap} gap="mb-6">
+            <Bento cells>
+              {roadmapColumns.map((col, i) => (
+                <div class="p-6" style={roadmapStyles[i]}>
+                  <h3 class="label-sm m-0">{col.label}</h3>
+                  <ul class="m-0 mt-4 flex list-none flex-col gap-3 p-0">
+                    {col.items.map((item) => (
+                      <li class="text-sm leading-[1.7] text-ink" style="text-wrap:pretty">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </Bento>
           </CaseSection>
         )
       }

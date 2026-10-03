@@ -7,29 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- Delivery governance docs: note that auto-merge merges into `dev` do not trigger the push-based `commitlint` check (leaving the `dev` to `stg` promotion PR blocked) and that `stg` must be synced into `dev` when the promotion PR is `behind`.
-
-### Fixed
-
-- Buttons: `.btn-primary` and `.btn-secondary` were purged from the production CSS (Tailwind could not see `btn-${variant}`), so primary buttons had no fill and secondary buttons no outline. `Button.astro` now maps variants to literal class names.
-- The component class `.text-link` collided with the `text-link` color utility, so `hover:text-link` and the active mobile link pulled in the underlined-uppercase style. It is now `.action-link`.
-- Mobile menu: the overlay was nested in the `backdrop-filter` header and collapsed to the header height. It is now a sibling of the header and fills the viewport; the current link shows the link color again.
-- `/herramientas` and `/en/uses`: the sidebar columns no longer overflow horizontally on mobile (`flex: 0 0 260px`, as in the design).
-- Typography parity with the Claude Design prototype: line-height 1.6 by default (Tailwind `fontSize` scale), per-page `h1` display scales (`display-index`, `display-contact`, `display-case`, `display-uses`, `display-about`), `ContactBand` heading leading, about-page spacing (`section-gap` no longer cancelled by `m-0`), method cards, agenda heading and label, legal copy leading plus its closing contact line.
-- Removed every `!important` utility from components and replaced repeated inline font sizes with tokens and classes.
-
-- Small blue text now uses the new `--blue-text` token (4.5:1 or better in both themes); filter counts no longer rely on opacity. axe-core reports 0 violations across all routes.
-
 ### Added
 
+- `Bento` molecule and `src/utils/bento.ts`: card grids with irregular column spans whose rows always fill the 12 columns (no lone card in a corner), applied to case-study pain points, modules, learnings and roadmap, the stack grid, the services process and the about method.
+- Quote form: red asterisk with a tooltip on required fields, a "Campos obligatorios" note, and a `--danger` token.
+- Case studies can render a `roadmap` section (now, next, later, out of scope) and several `chains` cascades; id `cs-roadmap`.
+- `wavival.dev` case study (`/proyectos/wavival-dev` and `/en/projects/wavival-dev`) focused on the @wavival | Design System v4 design, with the Claude Design prototype link and an OG card.
+- Optional `design` field for case studies, rendered as its own section (`cs-design`).
+- Optional `designSystemLink` for case studies, shown beside the design prototype link; set on the `wavival.dev` case study.
+- Bilingual quote pages with service preselection, multi-service selection, a 500-word project brief, and an in-page confirmation.
+- `api/quote.ts` Vercel Function: validates quote submissions and sends a formatted transactional email through Brevo to `wavival.dev@luminaw.co`.
+- Quote form project-type mode: every case study has a `quoteType` and a "Cotizar un proyecto así" button that opens the quote page with `?type=<type>`, showing the project types (web app, landing, API, design, security, AI) instead of the services. `api/quote.ts` accepts `projectTypes`.
 - `npm run css:check` (`scripts/check-component-css.mjs`, run in CI `quality`) and `tests/design.spec.ts` as guards against purged component CSS, hover typography regressions, a collapsed mobile menu, and mobile horizontal overflow.
-- "Señal v4" UI design (UI only, content unchanged), from the Claude Design project `wavival-dev-v4`: 1px rules instead of shadow cards, editorial Raleway 800 display scale, numbered indexes, and a single blue signal.
+- "@wavival | Design System v4" UI design (UI only, content unchanged), from the Claude Design project `wavival-dev-v4`: 1px rules instead of shadow cards, editorial Raleway 800 display scale, numbered indexes, and a single blue signal.
 - Atomic component structure (`src/components/atoms`, `molecules`, `organisms`) replacing `ui/` and `sections/`, plus `ContactBand` shared at the end of home, services, about, and case studies.
 - `siteRoutes()` and `ariaCurrent()` helpers in `src/i18n/utils.ts` and the `projectView()` helper in `src/data/projectView.ts`.
 - Tests: `tests/projects.spec.ts` (filters), `siteRoutes` cases in `tests/i18n-utils.spec.ts`, and a default-dark case in `tests/theme.spec.ts`.
-
 - `docs/brand.md` and `docs/commercial.md`: living brand and commercial guides for the wavival personal brand.
 - Lúmina W branch delivery model with `dev` and `stg` environment branches created from `main`.
 - PR base validation workflow for `feature/*`, `fix/*`, and `chore/*` branches into `dev`, `dev` into `stg`, and `stg` into `main`.
@@ -40,9 +33,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PostCSS config for Tailwind 3 processing without the deprecated Astro Tailwind integration.
 - `vercel.json` with the Astro build contract, security headers, immutable asset caches, legacy redirects, and API rewrite.
 - `microfrontends.json` plus the Vercel Vite integration for NullBreach path ownership.
+- `public/.well-known/security.txt` (RFC 9116): security contact, expiry, and canonical URL.
+- CI build-status badge in `README.md`, linked to the GitHub Actions `ci.yml` workflow.
+- This `CHANGELOG.md`.
+- ESLint (flat config: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`) with `lint` / `lint:fix` scripts.
+- husky `pre-commit` hook running `lint-staged` (ESLint `--fix` + Prettier on staged files).
+- `Lint` step in the CI `quality` job.
+- Core Web Vitals RUM (`web-vitals` via `src/scripts/vitals.ts`): reports LCP/INP/CLS/FCP/TTFB to Umami as custom events, gated on the Umami env vars.
+- "Design & UX" category to the Stack section.
+- Sellable contact copy plus a footer CTA.
+- Self-hosted fonts in `public/fonts/` (Poppins 400/500/600 static + Raleway variable `wght` 600-800, latin-subset `woff2`), with `font-display: swap` and critical weights preloaded, removing the Google Fonts network request.
+- View Transitions via Astro `<ClientRouter />` for SPA-like same-origin navigation; DOM-binding scripts re-run on `astro:page-load` and the pre-paint theme re-applies on `astro:after-swap`.
+- `scripts/check-csp-hashes.mjs` (`npm run csp:check`): CI guard asserting every inline `<script>` in `dist/` has a `sha256-*` in the deployment CSP `script-src`. Runs in the CI `quality` job after build.
+- `tests/case-studies.spec.ts`: ES and EN parity of every case study, meta descriptions within 160 characters, section ids and project JSON-LD on each case-study page, and `llms.txt` and `llms-full.txt` coverage of every case-study slug.
+- Case-study JSON-LD now carries `inLanguage` and `image`.
+- `docs/ROADMAP.md` with pending work, decisions that need the owner and known gaps.
+- `llms.txt` and `llms-full.txt` list the TerraCore Landing and OKroot Landing case studies, and `llms.txt` lists the X profile.
 
 ### Changed
 
+- Case-study design links point to each project's Netlify prototype (TerraCore, TerraCore Landing, OKroot, OKroot Landing, Lúmina W, Blog W, wavival.dev) instead of the generic placeholder.
+- Quote form: the submit button is centered with its natural width instead of full width.
+- The design system is named "@wavival | Design System v4" in the `wavival.dev` case study and the AI-discovery files; that case study has no site link, only the prototype and the design system.
+- TerraCore PWA case study rewritten from the repositories: connected modules (vaccine, supply, animal, finance), why offline-first, multi-user and multitenancy, design (with the Claude Design prototype link), results, learnings, and roadmap. Status: in production, in active sales, under validation with clients in Antioquia, Colombia. `llms.txt`, `llms-full.txt`, `docs/brand.md`, and `docs/commercial.md` aligned.
+- Delivery governance docs: note that auto-merge merges into `dev` do not trigger the push-based `commitlint` check (leaving the `dev` to `stg` promotion PR blocked) and that `stg` must be synced into `dev` when the promotion PR is `behind`.
 - New design tokens (`--bg`, `--surface`, `--line`, `--line-2`, `--tint`, `--text`, `--muted`, `--link`, `--link-h`, `--blue`, `--btn`, `--btn-h`, `--nav`, `--ok`, `--warn`, `--on-btn` plus container, gutter, section, radius, and type-scale variables) replace the previous token set; Tailwind colors, `max-w-container`, `rounded-control`, and `gut`/`sec`/`nav` spacing map to them. Component classes now live in `@layer components`.
 - Dark is now the default theme: the pre-paint script applies `.dark` unless `localStorage.theme` is `light`, and no longer follows `prefers-color-scheme`.
 - Header is sticky (64px) with an active-link bar; below 900px the menu is a full-screen overlay with numbered links. Language toggle is now the text "EN"/"ES". Footer gains an outlined wordmark.
@@ -59,31 +73,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrated production hosting, public copy, privacy disclosures, deployment tests, and CSP validation to Vercel.
 - Pinned local, CI, and Vercel builds to Node 22.
 - Excluded generated Vercel build output from ESLint.
-
-### Removed
-
-- Scroll reveal (`[data-aos]`, IntersectionObserver script, `.aos-in` styles) and the accordion script: the design is static.
-- Old tokens and classes (`--brand-blue`, `--brand-blue-text`, `--bg-page`, `--bg-card`, `--accent-link`, `--btn-bg`, `--shadow-base`, `--space-section`, `.section`, `.btn-ghost`, `.card`, `.link`, `.icon-*`, `.profile-photo`) and the `ui/` and `sections/` component folders.
-- Dependabot version-update configuration and its automated weekly pull requests.
-- Legacy hosting configuration and repository references.
-
-### Added
-
-- `public/.well-known/security.txt` (RFC 9116): security contact, expiry, and canonical URL.
-- CI build-status badge in `README.md`, linked to the GitHub Actions `ci.yml` workflow.
-- This `CHANGELOG.md`.
-- ESLint (flat config: `eslint-plugin-astro` + `typescript-eslint` + `eslint-config-prettier`) with `lint` / `lint:fix` scripts.
-- husky `pre-commit` hook running `lint-staged` (ESLint `--fix` + Prettier on staged files).
-- `Lint` step in the CI `quality` job.
-- Core Web Vitals RUM (`web-vitals` via `src/scripts/vitals.ts`): reports LCP/INP/CLS/FCP/TTFB to Umami as custom events, gated on the Umami env vars.
-- "Design & UX" category to the Stack section.
-- Sellable contact copy plus a footer CTA.
-- Self-hosted fonts in `public/fonts/` (Poppins 400/500/600 static + Raleway variable `wght` 600-800, latin-subset `woff2`), with `font-display: swap` and critical weights preloaded, removing the Google Fonts network request.
-- View Transitions via Astro `<ClientRouter />` for SPA-like same-origin navigation; DOM-binding scripts re-run on `astro:page-load` and the pre-paint theme re-applies on `astro:after-swap`.
-- `scripts/check-csp-hashes.mjs` (`npm run csp:check`): CI guard asserting every inline `<script>` in `dist/` has a `sha256-*` in the deployment CSP `script-src`. Runs in the CI `quality` job after build.
-
-### Changed
-
 - Hardened CSP: `script-src` is now hash-based (sha256 per inline script), dropping `'unsafe-inline'`. Removed the unused `fonts.googleapis.com` / `fonts.gstatic.com` allowances (fonts are self-hosted). `style-src` keeps `'unsafe-inline'` for Astro/Tailwind inline style attributes.
 - Repositioned SEO and copy around full-stack (Django + React) identity.
 - Reworked the Projects section content and ordering.
@@ -91,24 +80,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Synced `COMPONENTS.md`, `DESIGN.md`, and `README.md` to the current code.
 - Scroll reveal reimplemented with CSS transitions + IntersectionObserver (inlined, re-run on `astro:page-load`), dropping the AOS dependency.
 - Social card `og-card` converted from PNG to WebP (~97 KB → ~21 KB).
+- Okroot moved to its own domain: project links and `llms.txt`/`llms-full.txt` now point at `https://okroot.co` (landing) and `https://app.okroot.co` (PWA) instead of `https://wavival.dev/root/`.
+- Case studies for TerraCore Landing, OKroot, OKroot Landing, NullBreach, Forgotten Portal, Blog Lúmina W and Lúmina W rewritten in Spanish and English from what each repository does in code. `llms.txt`, `llms-full.txt`, `docs/brand.md` and `COMPONENTS.md` aligned.
+- Blog Lúmina W is no longer presented as a PWA (the repository has no manifest, service worker or offline mode) and is filtered only under `full-stack`. It is a bilingual platform with accounts, an approval flow, moderated comments, a newsletter and Claude API translation.
+- NullBreach: the landing is described as part of the Next.js application, and moving it to Astro is listed as pending on its roadmap.
+- Forgotten Portal is described at methodology and findings level: seven findings with CVSS and CWE, PTES, MITRE ATT&CK, and two reports. It no longer includes credentials, hidden paths or payloads.
+- Lúmina W: removed the light and dark mode claim and the "no server" claim; the contact form is a Vercel Function that writes to Supabase.
+- OKroot is listed as live in early access in `llms.txt`.
+- Meta descriptions of the Lúmina W and TerraCore Landing case studies shortened to 160 characters or fewer.
+- `README.md` documentation table (the `DESIGN.md` row had a stray `|` that split the cell) and `COMPONENTS.md` `Project` fields (`quoteType`, `summary`, dates, `appCategory`, `designSystemLink`, and the full list of `en` overrides).
 
 ### Removed
 
+- The unvalidated 42% administrative-time figure, the one-week onboarding and "6 modules" metric cards, and the pilot-farm and Urabá producer claims from the TerraCore case studies and AI-discovery files.
+- Scroll reveal (`[data-aos]`, IntersectionObserver script, `.aos-in` styles) and the accordion script: the design is static.
+- Old tokens and classes (`--brand-blue`, `--brand-blue-text`, `--bg-page`, `--bg-card`, `--accent-link`, `--btn-bg`, `--shadow-base`, `--space-section`, `.section`, `.btn-ghost`, `.card`, `.link`, `.icon-*`, `.profile-photo`) and the `ui/` and `sections/` component folders.
+- Dependabot version-update configuration and its automated weekly pull requests.
+- Legacy hosting configuration and repository references.
 - AOS animation library (`aos` + `@types/aos`) and its render-blocking ~26 KB stylesheet.
 - Full-screen `Loader` overlay (superseded by View Transitions).
 - Google Fonts `<link>` and `preconnect`, plus the now-unused `fonts.googleapis.com` / `fonts.gstatic.com` CSP allowances.
 - Dead ~200 KB `public/brand/logo-w.ico` (the favicon is already served by the 16 KB `favicon.ico`).
-
-### Changed
-
-- Okroot moved to its own domain: project links and `llms.txt`/`llms-full.txt` now point at `https://okroot.co` (landing) and `https://app.okroot.co` (PWA) instead of `https://wavival.dev/root/`.
-
-### Removed
-
 - The obsolete `/root/*` proxy and its unused CSP origins after Okroot moved to `okroot.co`.
+- `docs/blog-w-stack-pendiente.md`: its content was applied to the Blog Lúmina W case study and `docs/brand.md`.
+
+### Security
+
+- Removed the `/api/*` rewrite to `nullbreach-api.wavival.dev` and that origin from the CSP `connect-src`. NullBreach now serves its own API under `/nullbreach/api`, and the rewrite proxied any unknown `/api` path to an external host. `tests/redirects.spec.ts` now asserts that no rewrite exists.
+- The CI dependency audit now runs `scripts/check-audit.mjs` instead of `npm audit --audit-level=high --omit=dev`. It still fails on any high or critical advisory in production dependencies, except `GHSA-vfj7-8cjw-p6xm` (`braces`) and `GHSA-ch52-4w7c-c8xp` (`http-cache-semantics`), which have no patched release and only reach the build through `tailwindcss@3` and `astro`. Each accepted advisory is listed with its reason in the script and is reported in the CI log.
 
 ### Fixed
 
+- Buttons: `.btn-primary` and `.btn-secondary` were purged from the production CSS (Tailwind could not see `btn-${variant}`), so primary buttons had no fill and secondary buttons no outline. `Button.astro` now maps variants to literal class names.
+- The component class `.text-link` collided with the `text-link` color utility, so `hover:text-link` and the active mobile link pulled in the underlined-uppercase style. It is now `.action-link`.
+- Mobile menu: the overlay was nested in the `backdrop-filter` header and collapsed to the header height. It is now a sibling of the header and fills the viewport; the current link shows the link color again.
+- `/herramientas` and `/en/uses`: the sidebar columns no longer overflow horizontally on mobile (`flex: 0 0 260px`, as in the design).
+- Typography parity with the Claude Design prototype: line-height 1.6 by default (Tailwind `fontSize` scale), per-page `h1` display scales (`display-index`, `display-contact`, `display-case`, `display-uses`, `display-about`), `ContactBand` heading leading, about-page spacing (`section-gap` no longer cancelled by `m-0`), method cards, agenda heading and label, legal copy leading plus its closing contact line.
+- Removed every `!important` utility from components and replaced repeated inline font sizes with tokens and classes.
+- Small blue text now uses the new `--blue-text` token (4.5:1 or better in both themes); filter counts no longer rely on opacity. axe-core reports 0 violations across all routes.
 - Reverted `tailwindcss` from 4.3.1 back to `^3.4.19`: a Dependabot major bump broke the build. Dependabot now ignores `tailwindcss` major bumps until a Tailwind v4 migration is planned.
 
 ## [3.0.0] - 2026-04-12

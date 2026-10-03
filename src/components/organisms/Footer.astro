@@ -41,8 +41,13 @@ const siteLinks = [
         <SocialLinks lang={lang} />
       </div>
 
-      <div class="flex flex-wrap gap-x-20 gap-y-12">
-        <nav aria-label={t("footer.siteNavAria")} class="flex min-w-[160px] flex-col gap-3">
+      <div
+        class="grid grid-cols-2 gap-x-6 gap-y-12 min-[640px]:flex min-[640px]:flex-wrap min-[640px]:gap-x-20"
+      >
+        <nav
+          aria-label={t("footer.siteNavAria")}
+          class="flex min-w-0 flex-col gap-3 min-[640px]:min-w-[160px]"
+        >
           <h2 class="label-sm m-0 mb-1">{t("footer.navHeading")}</h2>
           {
             siteLinks.map((l) => (
@@ -53,7 +58,10 @@ const siteLinks = [
           }
         </nav>
 
-        <nav aria-label={t("footer.resourcesAria")} class="flex min-w-[160px] flex-col gap-3">
+        <nav
+          aria-label={t("footer.resourcesAria")}
+          class="flex min-w-0 flex-col gap-3 min-[640px]:min-w-[160px]"
+        >
           <h2 class="label-sm m-0 mb-1">{t("footer.resourcesHeading")}</h2>
           <TextLink
             variant="list"
@@ -119,7 +127,10 @@ const siteLinks = [
 
     <div class="mt-8 flex flex-wrap justify-between gap-3 text-xs text-muted">
       <span>© {year} Valentina Ramírez</span>
-      <span>{isEn ? "Made in Colombia" : "Hecho en Colombia"}</span>
+      <span class="inline-flex items-center gap-1">
+        {isEn ? "Made in Colombia" : "Hecho en Colombia"}
+        <span role="img" aria-label="Colombia" class="flex leading-none">🇨🇴</span>
+      </span>
     </div>
   </div>
 </footer>

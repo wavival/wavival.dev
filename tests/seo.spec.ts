@@ -25,11 +25,13 @@ test("sitemap lists both ES and EN localized routes", async ({ request }) => {
     "https://www.wavival.dev/",
     "https://www.wavival.dev/proyectos/",
     "https://www.wavival.dev/servicios/",
+    "https://www.wavival.dev/cotizar/",
     "https://www.wavival.dev/sobre-mi/",
     "https://www.wavival.dev/contacto/",
     "https://www.wavival.dev/en/",
     "https://www.wavival.dev/en/projects/",
     "https://www.wavival.dev/en/services/",
+    "https://www.wavival.dev/en/quote/",
     "https://www.wavival.dev/en/about/",
     "https://www.wavival.dev/en/contact/",
   ]) {

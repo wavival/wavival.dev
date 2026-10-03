@@ -18,11 +18,13 @@ interface Props {
   timeline: string;
   specialty?: boolean;
   examples?: Example[];
+  quoteHref: string;
   labels: {
     specialty: string;
     duration: string;
     tools: string;
     examples: string;
+    quote: string;
   };
 }
 
@@ -34,6 +36,7 @@ const {
   timeline,
   specialty = false,
   examples = [],
+  quoteHref,
   labels,
 } = Astro.props;
 const dtClass = "label-sm sm:flex-[0_0_260px]";
@@ -84,4 +87,7 @@ const dtClass = "label-sm sm:flex-[0_0_260px]";
       )
     }
   </dl>
+  <div class="mt-6">
+    <TextLink href={quoteHref}>{labels.quote}</TextLink>
+  </div>
 </article>

@@ -25,6 +25,7 @@ export const EN_PAGE_MAP: Record<string, string> = {
   "/proyectos": "/en/projects",
   "/sobre-mi": "/en/about",
   "/servicios": "/en/services",
+  "/cotizar": "/en/quote",
   "/contacto": "/en/contact",
   "/herramientas": "/en/uses",
   "/privacidad": "/en/privacy",
@@ -82,6 +83,7 @@ export interface SiteRoutes {
   home: string;
   projects: string;
   services: string;
+  quote: string;
   about: string;
   contact: string;
   uses: string;
@@ -99,6 +101,7 @@ export function siteRoutes(lang: Lang, base: string = "/"): SiteRoutes {
     home,
     projects: path("proyectos", "en/projects"),
     services: path("servicios", "en/services"),
+    quote: path("cotizar", "en/quote"),
     about: path("sobre-mi", "en/about"),
     contact: path("contacto", "en/contact"),
     uses: path("herramientas", "en/uses"),

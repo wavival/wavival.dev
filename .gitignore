@@ -33,14 +33,15 @@ pnpm-debug.log*
 Thumbs.db
 ehthumbs.db
 
-# editor / IDE
-.vscode/settings.json
+# local editor / IDE configuration
+.vscode/
 .idea/
 .editorconfig
 
-# Claude Code local config, except the project checkpoint
-.claude/*
-!.claude/checkpoint.md
+# local AI-assistant configuration and workflow instructions
+.agents/
+.claude/
+.codex/
 
 # TypeScript build info
 *.tsbuildinfo

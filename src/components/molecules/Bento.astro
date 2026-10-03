@@ -1,0 +1,17 @@
+---
+interface Props {
+  as?: "div" | "ol" | "ul";
+  cells?: boolean;
+  class?: string;
+  [attr: `data-${string}`]: string | boolean | undefined;
+}
+
+const { as: Tag = "div", cells = false, class: extra = "", ...rest } = Astro.props;
+const cls = `bento ${cells ? "cell-grid" : ""} ${extra}`.replace(/\s+/g, " ").trim();
+---
+
+<div class="bento-wrap">
+  <Tag class={cls} {...rest}>
+    <slot />
+  </Tag>
+</div>

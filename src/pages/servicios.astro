@@ -21,6 +21,7 @@ interface ServiceExample {
 }
 
 interface Service {
+  id: string;
   title: string;
   body: string;
   tools: string[];
@@ -35,10 +36,12 @@ const labels = {
   duration: "Duración estimada",
   tools: "Herramientas",
   examples: "Ejemplos",
+  quote: "Cotizar este servicio",
 };
 
 const services: Service[] = [
   {
+    id: "custom-web-applications",
     title: "Aplicaciones web a medida",
     body: "Producto completo de extremo a extremo: Django + DRF o Next.js con Supabase, interfaces en React + TypeScript y despliegue. Para fundadores que necesitan algo real, no un demo.",
     tools: ["Django", "DRF", "Next.js", "Supabase", "React", "TypeScript", "PostgreSQL"],
@@ -58,6 +61,7 @@ const services: Service[] = [
     ],
   },
   {
+    id: "rest-apis-backend",
     title: "APIs REST y backend",
     body: "Diseño e implemento APIs limpias, autenticadas y documentadas. Modelado relacional, control de acceso por rol, multitenancy y lógica de negocio compleja que aguanta el crecimiento.",
     tools: ["Django REST Framework", "JWT", "PostgreSQL", "Multitenancy"],
@@ -71,6 +75,7 @@ const services: Service[] = [
     ],
   },
   {
+    id: "security-appsec",
     title: "Seguridad y AppSec",
     body: "Reviso aplicaciones con criterio OWASP Top 10 y mentalidad de pentester. Seguridad integrada desde el diseño: autenticación, manejo de secretos, validación y endpoints protegidos.",
     tools: ["OWASP", "AppSec", "PTES", "MITRE ATT&CK"],
@@ -84,6 +89,7 @@ const services: Service[] = [
     ],
   },
   {
+    id: "ai-integrations",
     title: "Integraciones de IA",
     body: "Integro OpenAI, OpenClaw y Claude API en flujos con LLM donde aportan valor: análisis, asistencia con contexto y automatización. IA como copiloto del producto, no como adorno.",
     tools: ["OpenAI", "OpenClaw", "Claude API", "LLM Workflows", "n8n", "Prompt Engineering"],
@@ -223,6 +229,7 @@ const breadcrumbLd = JSON.stringify({
             timeline={s.timeline}
             specialty={s.specialty}
             examples={s.examples}
+            quoteHref={`${r.quote}?service=${s.id}`}
             labels={labels}
           />
         ))
