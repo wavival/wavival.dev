@@ -113,11 +113,10 @@ The site is statically rendered with Astro 7. Tailwind CSS 3 supplies utility cl
 ```text
 src/
 ├── components/          atoms, molecules and organisms
-├── pages/cotizar.astro  Spanish quote page; English mirror lives in pages/en/quote/
 ├── data/                projects, stack, GitHub build-time data and view models
 ├── i18n/                copy, slug map, localized routes and accessibility helpers
 ├── layouts/             Layout.astro, the shared document shell and metadata owner
-├── pages/               Spanish routes and the English mirror
+├── pages/               Spanish routes and the English mirror under en/ (quote: cotizar.astro and en/quote/)
 ├── scripts/             navigation, theme and optional RUM behavior
 ├── utils/               pure helpers (bento grid spans)
 └── styles/              global CSS, design tokens and component classes
@@ -126,9 +125,14 @@ api/                     quote.ts, the only Vercel Function
 public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
 scripts/                 build-time validation scripts
 tests/                   Playwright browser and unit-style specs
-docs/                    brand, commercial, release and roadmap documentation
+docs/                    SEO, i18n, accessibility, performance, security, engineering, release, brand, commercial and roadmap guides
 .github/workflows/       CI, PR checks, auto-merge into dev, branch cleanup and release
+.husky/                  pre-commit (lint-staged) and commit-msg (commitlint) hooks
 assets/                  README-only visual assets
+
+Root configuration: astro.config.mjs, tailwind.config.mjs, postcss.config.cjs, eslint.config.mjs,
+tsconfig.json, playwright.config.ts, lighthouserc.json, commitlint.config.cjs, cspell.json,
+.prettierrc, .prettierignore, .nvmrc, vercel.json and microfrontends.json.
 ```
 
 `Layout.astro` owns the shared head, canonical URL, hreflang tags, Open Graph and Twitter metadata, JSON-LD, theme pre-paint logic, navigation loader, navigation, footer, and skip link. Project content is defined in `src/data/projects.ts`; `projectView.ts` adapts it for localized rendering.
@@ -189,7 +193,7 @@ Every route receives a shared metadata baseline from `Layout.astro`:
 
 ### Accessibility
 
-Full detail: [`docs/accessibility.md`](./docs/accessibility.md), [`docs/performance.md`](./docs/performance.md) and [`docs/security.md`](./docs/security.md).
+Full detail: [`docs/accessibility.md`](./docs/accessibility.md). Related: [`docs/performance.md`](./docs/performance.md) and [`docs/security.md`](./docs/security.md).
 
 Accessibility behavior includes a visible skip link, localized state labels, a keyboard-safe mobile menu, native disclosures, 44px icon control targets, explicit image dimensions, and a single visible `<h1>` per route. The automated suite checks desktop and mobile rendering, routes, SEO, i18n, theme behavior, project filters, and design regressions.
 
@@ -203,6 +207,10 @@ Run the complete browser suite after building:
 npm run build
 npm test
 ```
+
+### Local hooks
+
+Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commit and Commitlint on each commit message. See [`docs/engineering.md`](./docs/engineering.md).
 
 ### CI gates
 
@@ -239,6 +247,7 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | Document                                                                   | Scope                                                                                                  |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                        |
+| [CLAUDE.md](./CLAUDE.md)                                                   | Intentionally empty. Agent rules live in `AGENTS.md`.                                                  |
 | [AGENTS.md](./AGENTS.md)                                                   | Operational rules for agents: scope, documentation sources, delivery flow and verification.            |
 | [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
 | [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |
@@ -260,6 +269,8 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | [public/robots.txt](./public/robots.txt)                                   | Public crawler directives and sitemap location.                                                        |
 | [public/.well-known/security.txt](./public/.well-known/security.txt)       | Public RFC 9116 security contact.                                                                      |
 | [SECURITY.md](./SECURITY.md)                                               | Private vulnerability-reporting policy for the repository and deployed site.                           |
+| [vercel.json](./vercel.json)                                               | Redirects, immutable asset caches and production security headers.                                     |
+| [microfrontends.json](./microfrontends.json)                               | Vercel Microfrontends path-ownership contract (NullBreach).                                            |
 | [.env.example](./.env.example)                                             | Local environment-variable template.                                                                   |
 | [LICENSE](./LICENSE)                                                       | MIT license.                                                                                           |
 
