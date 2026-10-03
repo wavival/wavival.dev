@@ -1,58 +1,30 @@
 name: delete-merged-branches
 
+# Thin caller. Logic in lumina-w/agents (delete-merged-branches.yml): it deletes
+# the remote branches of pull requests merged into dev, unless the branch is
+# protected, has an open pull request, or its tip moved past the merged head.
+# lumina-w/agents must stay public: GitHub does not let a repo outside an
+# organization call that organization's private repos' reusable workflows.
 on:
   schedule:
     - cron: "0 */12 * * *"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: List the branches that would be deleted without deleting them
+        type: boolean
+        default: false
+
+concurrency:
+  group: delete-merged-branches
+  cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: read
 
 jobs:
-  delete-merged-branches:
-    name: delete-merged-branches
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: Report remote branches already merged into dev
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-        run: |
-          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
-
-          found=0
-          git for-each-ref --format='%(refname:short)' refs/remotes/origin |
-          sed 's#^origin/##' |
-          while read -r branch; do
-            case "$branch" in
-              feature/*|fix/*|chore/*)
-                ;;
-              *)
-                continue
-                ;;
-            esac
-
-            if ! git merge-base --is-ancestor "origin/$branch" origin/dev; then
-              echo "Skipping $branch: not fully merged into dev"
-              continue
-            fi
-
-            open_prs="$(gh pr list --repo "$REPO" --state open --head "wavival:$branch" --json number --jq 'length')"
-            if [ "$open_prs" != "0" ]; then
-              echo "Skipping $branch: open pull request exists"
-              continue
-            fi
-
-            found=1
-            echo "Cleanup candidate: $branch is fully merged into dev and has no open PR"
-          done
-
-          if [ "$found" = "0" ]; then
-            echo "No merged work branch cleanup candidates found."
-          fi
+  sweep:
+    uses: lumina-w/agents/.github/workflows/delete-merged-branches.yml@v4
+    with:
+      dry_run: ${{ inputs.dry_run || false }}
