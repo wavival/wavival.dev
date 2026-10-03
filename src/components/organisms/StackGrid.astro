@@ -1,6 +1,8 @@
 ---
+import Bento from "@/components/molecules/Bento.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
 import { stack } from "@/data/stack";
+import { bentoStyles } from "@/utils/bento";
 
 interface Props {
   lang?: "es" | "en";
@@ -8,12 +10,13 @@ interface Props {
 
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
+const styles = bentoStyles(stack.length);
 ---
 
-<div class="cell-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))">
+<Bento cells>
   {
     stack.map((s, i) => (
-      <article class="flex flex-col gap-4 p-7 transition-colors hover:bg-tint">
+      <article class="flex flex-col gap-4 p-7 transition-colors hover:bg-tint" style={styles[i]}>
         <span class="index index-muted">{String(i + 1).padStart(2, "0")}</span>
         <div>
           <h3 class="h-title m-0 text-2xl tracking-[-0.01em] text-link">{s.category}</h3>
@@ -25,4 +28,4 @@ const isEn = lang === "en";
       </article>
     ))
   }
-</div>
+</Bento>

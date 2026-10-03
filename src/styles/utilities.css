@@ -418,6 +418,36 @@
     border-bottom: 1px solid var(--line);
   }
 
+  .bento-wrap {
+    container-type: inline-size;
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @container (min-width: 480px) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .bento > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @container (min-width: 760px) {
+    .bento {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .bento > *,
+    .bento > :last-child:nth-child(odd) {
+      grid-column: span var(--span, 4);
+    }
+  }
+
   .nav-link {
     position: relative;
     display: flex;
@@ -505,6 +535,10 @@
     display: none;
   }
 
+  .disclosure-content {
+    overflow: hidden;
+  }
+
   .disclosure .when-open,
   .disclosure[open] .when-closed {
     display: none;
@@ -512,5 +546,166 @@
 
   .disclosure[open] .when-open {
     display: inline;
+  }
+
+  .quote-form-wrap {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .quote-form-wrap [hidden] {
+    display: none;
+  }
+
+  .quote-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .quote-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .quote-field,
+  .quote-fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .quote-field > span,
+  .quote-fieldset > legend {
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-label-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .quote-field input,
+  .quote-field textarea {
+    width: 100%;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-control);
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+
+  .quote-field input {
+    height: 48px;
+    padding: 0 14px;
+  }
+
+  .quote-field textarea {
+    min-height: 160px;
+    padding: 12px 14px;
+    resize: vertical;
+  }
+
+  .quote-field input:focus,
+  .quote-field textarea:focus {
+    border-color: var(--link);
+  }
+
+  .quote-checklist {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: 4px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .quote-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 12px 14px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .quote-check input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--btn);
+  }
+
+  .quote-hint,
+  .quote-privacy,
+  .quote-error {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .quote-error {
+    color: var(--danger);
+  }
+
+  .quote-required {
+    margin-left: 2px;
+    color: var(--danger);
+    cursor: help;
+    font-size: 15px;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .quote-required-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .quote-form > .btn {
+    align-self: center;
+  }
+
+  .quote-success {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 32px;
+    border: 1px solid var(--line-2);
+    border-top: 4px solid var(--blue);
+    background: var(--surface);
+  }
+
+  .quote-success .eyebrow {
+    margin: 0;
+  }
+
+  .quote-success .h2-section {
+    margin: 0;
+  }
+
+  .quote-honeypot {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .quote-form-grid,
+    .quote-checklist {
+      grid-template-columns: 1fr;
+    }
   }
 }

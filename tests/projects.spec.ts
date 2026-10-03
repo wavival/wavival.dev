@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { caseStudies } from "../src/data/projects";
 
 test.describe("projects index filters", () => {
   test("filtering narrows the grid and updates aria-pressed", async ({ page }) => {
@@ -7,15 +8,17 @@ test.describe("projects index filters", () => {
     const total = await cards.count();
     expect(total).toBeGreaterThan(0);
 
-    const ia = page.locator('#project-filters [data-filter="ia"]');
-    await ia.click();
-    await expect(ia).toHaveAttribute("aria-pressed", "true");
+    const ai = page.locator('#project-filters [data-filter="ai"]');
+    await ai.click();
+    await expect(ai).toHaveAttribute("aria-pressed", "true");
 
-    const visible = await cards.evaluateAll(
-      (els) => els.filter((el) => (el as HTMLElement).style.display !== "none").length
-    );
-    expect(visible).toBeGreaterThan(0);
-    expect(visible).toBeLessThan(total);
+    await expect
+      .poll(() =>
+        cards.evaluateAll(
+          (els) => els.filter((el) => (el as HTMLElement).style.display !== "none").length
+        )
+      )
+      .toBe(caseStudies.filter((p) => p.filters?.includes("ai")).length);
 
     await page.locator('#project-filters [data-filter="all"]').click();
     const restored = await cards.evaluateAll(
@@ -27,5 +30,59 @@ test.describe("projects index filters", () => {
   test("EN index renders the localized filter group", async ({ page }) => {
     await page.goto("/en/projects");
     await expect(page.getByRole("group", { name: "Filter projects" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /security/i })).toBeVisible();
+  });
+
+  test("design projects expose a design link only in their case studies", async ({ page }) => {
+    const slugs = [
+      "terracore",
+      "terracore-landing",
+      "okroot",
+      "okroot-landing",
+      "lumina-w",
+      "blog-lumina-w",
+    ];
+
+    await page.goto("/proyectos");
+    await expect(page.locator('a:has-text("Ver diseño")')).toHaveCount(0);
+
+    for (const slug of slugs) {
+      await page.goto(`/proyectos/${slug}`);
+      await expect(page.locator('a:has-text("Ver diseño")')).toHaveCount(1);
+
+      await page.goto(`/en/projects/${slug}`);
+      await expect(page.locator('a:has-text("View design")')).toHaveCount(1);
+    }
+  });
+
+  test("case studies animate disclosures and render learnings as cards", async ({ page }) => {
+    await page.goto("/proyectos/terracore");
+
+    const disclosure = page.locator("[data-disclosure]").first();
+    await disclosure.locator("summary").click();
+    await expect(disclosure).toHaveAttribute("open", "");
+    await expect(disclosure.locator("[data-disclosure-content]")).toHaveCSS("overflow", "hidden");
+
+    await disclosure.locator("summary").click();
+    await expect(disclosure).not.toHaveAttribute("open", "");
+
+    await expect(page.locator("[data-learnings-cards] > article")).toHaveCount(6);
+  });
+
+  test("design links point to Netlify prototypes and only wavival.dev has a design system", async ({
+    page,
+  }) => {
+    for (const project of caseStudies) {
+      if (project.designLink) {
+        expect(project.designLink.href).toMatch(/^https:\/\/[a-z-]+-prototype\.netlify\.app\/$/);
+      }
+      await page.goto(`/proyectos/${project.slug}`);
+      await expect(page.locator('a:has-text("Ver sistema de diseño")')).toHaveCount(
+        project.slug === "wavival-dev" ? 1 : 0
+      );
+    }
+
+    await page.goto("/proyectos/wavival-dev");
+    await expect(page.locator('a:has-text("Ver sitio")')).toHaveCount(0);
   });
 });

@@ -1,6 +1,6 @@
 # DESIGN.md: Design System
 
-Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "Señal v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
+Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
 Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE.md](./CLAUDE.md)
 
@@ -23,7 +23,7 @@ Related: [README.md](./README.md) · [COMPONENTS.md](./COMPONENTS.md) · [CLAUDE
 
 ## Principles
 
-Concept "Señal": the page reads like an editorial index, with one blue signal on a quiet field.
+Concept: the page reads like an editorial index, with one blue signal on a quiet field.
 
 - **Rules, not boxes.** Structure comes from 1px lines (`--line`, `--line-2`, and `--text` for section rules), never from shadow cards. There are no shadows and surfaces have `0` radius.
 - **Editorial scale.** Raleway 800 display type at large sizes, tight tracking, numbered indexes (`01`, `02`) as wayfinding.
@@ -60,6 +60,7 @@ All tokens live in `src/styles/tokens.css`. Defined on `:root` (light) and overr
 | `--nav`       | `rgba(240,244,255,0.85)` | `rgba(15,17,23,0.85)`   | Sticky header fill (with backdrop blur)                                              |
 | `--ok`        | `#15803d`                | `#4ade80`               | Success/available status dot                                                         |
 | `--warn`      | `#c2410c`                | `#fb923c`               | Warning status dot                                                                   |
+| `--danger`    | `#b91c1c`                | `#fca5a5`               | Error text and the required-field asterisk                                           |
 
 The button fill is theme-independent so white text stays at or above 4.5:1 in both themes (the retired dodger-blue accent was only 3.24:1).
 
@@ -134,14 +135,14 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 
 - Pages sit inside `.wrap` (container + gutters). Vertical rhythm comes from `.page-top`, `.section-gap`, and `--sec` / `--sec-compact`.
 - Each section opens with a `.rule-section` (1px top rule in `--text`), an optional `.index` number, an `.eyebrow` label, and a display heading (`SectionHeader`).
-- Lists and grids are drawn with `border-top` / `.cell-grid` lines, not card shadows.
+- Lists and grids are drawn with `border-top` / `.cell-grid` lines, not card shadows. Card grids use `Bento` so rows fill the 12 columns with irregular spans and no card is left alone in a corner.
 - Media sit in a `.media-frame` (1200x630, 1px border) or `.photo-frame` (4:5 portrait with a 4px blue bar).
 - One `h1` per page: `Hero` on home, `PageIntro` elsewhere. Sections use `h2`, cards and rows use `h3`.
 - The header is sticky (64px, `--nav` fill with backdrop blur), not fixed, so `<main>` has no top padding. The active link shows text color plus a 2px blue bar.
 - Below 900px the menu is a full-screen overlay with numbered display links, a "Blog W" primary button and a mailto secondary button.
 - The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
 - `ContactBand` closes the home and also services, about, and case studies.
-- Accordions are native `<details>` (`Disclosure`) with the state shown as text.
+- Accordions are native `<details>` (`Disclosure`) with the state shown as text and a short open/close transition.
 - Line-height defaults to 1.6 (body and the Tailwind `fontSize` scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
 - The mobile menu overlay is a sibling of the sticky `<header>`, never a child: `backdrop-filter` on the header would otherwise become the containing block of the `fixed` overlay.
 
@@ -172,6 +173,7 @@ All inside `@layer components` in `src/styles/utilities.css`, 2-space indentatio
 | `.status`, `.status-dot` (+ `-ok`, `-link`, `-warn`) | Status label with a 7px dot                                                                                                                                           |
 | `.badge`                                             | Solid `--btn` label                                                                                                                                                   |
 | `.cell-grid`                                         | Grid drawn with 1px borders                                                                                                                                           |
+| `.bento-wrap`, `.bento`                              | Irregular grid sized by its container: 1 column, 2 from 480px, 12 from 760px; children take `--span` from `src/utils/bento.ts`                                        |
 | `.nav-link`                                          | Header link; `aria-current="page"` gets text color and a 2px `--blue` bar                                                                                             |
 | `.media-frame`, `.photo-frame`                       | 1200x630 image frame; 4:5 portrait frame with a 4px blue bottom bar                                                                                                   |
 | `.disclosure`                                        | Native `<details>` styling: hides the marker, swaps `.when-closed` / `.when-open` text                                                                                |
@@ -183,23 +185,24 @@ Removed with v4: `.section`, `.section-title`, `.section-subtitle`, `.btn-ghost`
 Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.md)):
 
 - **Atoms:** `Button`, `TextLink`, `IconLink`, `MaskIcon`, `Chip`, `StatusDot`, `Badge`, `Eyebrow`, `Index`
-- **Molecules:** `SectionHeader`, `PageIntro`, `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure`, `PullQuote`
+- **Molecules:** `SectionHeader`, `PageIntro`, `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure`, `PullQuote`, `Bento`
 - **Organisms:** `NavBar`, `Footer`, `ContactBand`, `Hero`, `FeaturedProjects`, `StackSection`, `StackGrid`, `AboutSection`, `ProjectRow`, `ProjectCard`, `ProjectsIndex`, `ProjectFilters`, `RepoCard`, `ServiceRow`, `ServicesDetail`, `LegalSection`, `NotFound`, `CaseStudy`, `CaseToc`, `CaseSection`
 - **Template:** `src/layouts/Layout.astro`
 
 ## Page inventory
 
-| Page (ES / EN)                             | Composition                                                                                                                |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| `/` and `/en`                              | `Hero` (#hero), `FeaturedProjects` (#projects), `StackSection` (#stack), `AboutSection` (#about), `ContactBand` (#contact) |
-| `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                           |
-| `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy`: sections `cs-problem`, `cs-architecture`, `cs-decisions`, `cs-results`, `cs-learnings`, closing `ContactBand` |
-| `/servicios` and `/en/services`            | `PageIntro`, `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                |
-| `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `PullQuote`, `ContactBand`                                                                  |
-| `/contacto` and `/en/contact`              | `PageIntro`, contact channels with `SectionHeader`                                                                         |
-| `/herramientas` and `/en/uses`             | `PageIntro`, stack breakdown with `ChipList`, `RepoCard`s in `#repos`                                                      |
-| `/privacidad` and `/en/privacy`            | `PageIntro`, `LegalSection`s                                                                                               |
-| `/404` and `/en/404`                       | `NotFound` (noindex)                                                                                                       |
+| Page (ES / EN)                             | Composition                                                                                                                                                                                                       |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/` and `/en`                              | `Hero` (#hero), `FeaturedProjects` (#projects), `StackSection` (#stack), `AboutSection` (#about), `ContactBand` (#contact)                                                                                        |
+| `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                                                                                                                  |
+| `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy`: sections `cs-problem`, `cs-architecture`, `cs-design`, `cs-decisions`, `cs-results`, `cs-learnings`, `cs-roadmap` (design and roadmap render only when the project sets them), closing `ContactBand` |
+| `/servicios` and `/en/services`            | `PageIntro`, `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                                                                                                       |
+| `/cotizar` and `/en/quote`                 | `PageIntro`, two-column field grid, service checklist, and in-place confirmation                                                                                                                                  |
+| `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `PullQuote`, `ContactBand`                                                                                                                                                         |
+| `/contacto` and `/en/contact`              | `PageIntro`, contact channels with `SectionHeader`                                                                                                                                                                |
+| `/herramientas` and `/en/uses`             | `PageIntro`, stack breakdown with `ChipList`, `RepoCard`s in `#repos`                                                                                                                                             |
+| `/privacidad` and `/en/privacy`            | `PageIntro`, `LegalSection`s                                                                                                                                                                                      |
+| `/404` and `/en/404`                       | `NotFound` (noindex)                                                                                                                                                                                              |
 
 ## Dark mode strategy
 
@@ -211,14 +214,15 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 
 ## Motion
 
-The design is static. There is no scroll reveal (`[data-aos]` and `.aos-in` were removed) and no accordion script.
+The design is static. There is no scroll reveal (`[data-aos]` and `.aos-in` were removed). Navigation and disclosures use only short functional motion.
 
-| Source                   | Behavior                                                                                                            |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `global.css`             | `body` transitions `background-color` and `color` (0.3s); `html` uses smooth scroll with `scroll-padding-top: 88px` |
-| Component classes        | Short color/border-color transitions (0.2s to 0.25s) on buttons, links, icon buttons, frames                        |
-| Mobile menu              | Opacity/translate transition (300ms) on the overlay                                                                 |
-| `prefers-reduced-motion` | All animations/transitions clamped to `0.01ms` and smooth scroll disabled                                           |
+| Source                   | Behavior                                                                                                                                                                                                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `global.css`             | `body` transitions `background-color` and `color` (0.3s); `html` uses smooth scroll with `scroll-padding-top: 88px`; View Transitions fade between routes and the persistent W-logo loader appears immediately during navigation for at least one second |
+| Component classes        | Short color/border-color transitions (0.2s to 0.25s) on buttons, links, icon buttons, frames                                                                                                                                                             |
+| Mobile menu              | Opacity/translate transition (300ms) on the overlay                                                                                                                                                                                                      |
+| `Disclosure`             | Native `<details>` content expands in 220ms and closes in 180ms through the Web Animations API                                                                                                                                                           |
+| `prefers-reduced-motion` | All animations/transitions clamped to `0.01ms` and smooth scroll disabled                                                                                                                                                                                |
 
 The reduce-motion override lives in `global.css`:
 

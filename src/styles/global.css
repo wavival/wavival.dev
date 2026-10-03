@@ -67,6 +67,64 @@ body {
     color 0.3s ease;
 }
 
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(root) {
+  animation: 160ms ease-in both page-exit;
+}
+
+::view-transition-new(root) {
+  animation: 240ms ease-out both page-enter;
+}
+
+@keyframes navigation-loader-pulse {
+  50% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+}
+
+#navigation-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  visibility: hidden;
+  background: var(--bg);
+  opacity: 0;
+  transition:
+    opacity 0.16s ease,
+    visibility 0s linear 0.16s;
+}
+
+#navigation-loader.is-active {
+  visibility: visible;
+  opacity: 1;
+  transition: none;
+}
+
+#navigation-loader.is-active img {
+  animation: navigation-loader-pulse 0.8s ease-in-out infinite;
+}
+
 a {
   color: var(--link);
 }
@@ -115,5 +173,10 @@ a:hover {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }
