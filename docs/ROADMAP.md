@@ -18,7 +18,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] `api/quote.ts` has a honeypot and validation but no rate limit, origin check or CAPTCHA, so it can be used to flood `wavival.dev@luminaw.co`. Add a Vercel WAF rule or a limit in the function.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18.
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
-- [ ] `npm audit` reports 14 vulnerabilities (11 high) in dev dependencies through `@lhci/cli` and `uuid`. CI audits production dependencies only (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), so these do not gate; update `@lhci/cli` when a fix exists.
+- [ ] `npm audit` reports 24 vulnerabilities (21 high) as of 2026-10-03: 8 high in production dependencies, covered by the two advisories accepted in `scripts/check-audit.mjs`, and the rest in dev dependencies (`@lhci/cli`, `basic-ftp`, `tmp`, `uuid`). CI audits production dependencies only, so the dev ones do not gate; update `@lhci/cli` when a fix exists.
 
 ## SEO and GEO
 
