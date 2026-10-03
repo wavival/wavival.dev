@@ -194,7 +194,7 @@ npm test
 
 ### CI gates
 
-The CI workflow also runs dependency audit, formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. Pull requests additionally validate commit messages, titles, secrets, and the allowed base branch.
+The CI workflow also runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. Pull requests additionally validate commit messages, titles, secrets, and the allowed base branch.
 
 ## Delivery flow
 
