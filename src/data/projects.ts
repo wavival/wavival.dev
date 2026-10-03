@@ -2823,7 +2823,7 @@ export const projects: Project[] = [
     tagColor: "green",
     image: "images/og-wavival-dev.webp",
     imageAlt:
-      "Página de herramientas de wavival.dev en tema oscuro: encabezado, título editorial en Raleway, regla de 1px e índice numerado",
+      "Design System v4 de wavival.dev en Claude Design: navegación de átomos, marca, colores y moléculas, con las paletas de señal y acción y del tema claro",
     imageWidth: 1200,
     imageHeight: 630,
     stack: ["Astro", "TypeScript", "Tailwind CSS", "Vercel", "Playwright"],
@@ -2965,7 +2965,7 @@ export const projects: Project[] = [
       summary:
         "This portfolio as a design case: the @wavival | Design System v4, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
       imageAlt:
-        "wavival.dev tools page in dark theme: header, editorial Raleway title, a 1px rule, and a numbered index",
+        "wavival.dev Design System v4 in Claude Design: atoms, brand, colors, and molecules navigation, with the signal and action and light theme palettes",
       problem:
         "A developer portfolio often ends up as a template: shadow cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
       solution:
