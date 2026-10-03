@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Tools page (ES/EN): the closing "See projects" and "See services" buttons are centered on every breakpoint.
 - Tools page (ES/EN): the Backend row and its stack chips are highlighted in blue with a "Destacado" / "Core" label; the Hardware, Software and GitHub blocks take the full width on mobile; the Hardware block lists both machines again, Linux (Intel Core i5, Fedora) and Windows (AMD Ryzen 5 3400G, Windows 11 Pro, WSL2 Ubuntu), restored from the previous content.
 - Tools page (ES/EN): the "Con qué desarrollo" / stack block takes the full width on mobile (below 790px); desktop is unchanged.
 - About page (ES/EN): the profile photo is centered on mobile, and the summary row, the closing quote, the CV button and the social icons are centered on desktop (900px and up) and left-aligned on mobile.
