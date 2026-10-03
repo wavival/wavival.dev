@@ -40,6 +40,25 @@ const validSelection = services.some((service) => service.id === selectedService
         selectedService={validSelection}
         privacyHref={r.privacy}
         labels={{
+          formTitle: "Solicitud de cotización",
+          formIntro:
+            "Usa este formulario para pedir una cotización: elige los servicios o el tipo de proyecto que te interesan y cuéntame qué necesitas. Todos los campos son obligatorios.",
+          nextTitle: "Qué pasa después de enviarlo",
+          nextSteps: [
+            "Tu solicitud llega directamente al correo de Wavival.",
+            "Te respondo en un máximo de 24 horas.",
+            "Si seguimos adelante, el trabajo sigue el proceso publicado en Servicios: conversación, propuesta, build iterativo y entrega.",
+          ],
+          placeholders: {
+            name: "Tu nombre completo",
+            email: "tucorreo@empresa.com",
+            business: "Nombre de tu negocio o empresa",
+            description: "Cuéntame qué necesitas, para quién es y qué problema resuelve.",
+          },
+          phonePlaceholder: "+57 300 000 0000",
+          phoneError: "Incluye el indicativo del país, por ejemplo +57 300 000 0000.",
+          submitHint:
+            "Completa todos los campos, elige al menos una opción y acepta la política de privacidad para poder enviar.",
           name: "Nombre",
           email: "Correo",
           phone: "Teléfono con indicativo",
@@ -53,9 +72,9 @@ const validSelection = services.some((service) => service.id === selectedService
           successTitle: "Gracias por contactar",
           success: "Recibí tu información. Te responderé en un máximo de 24 horas.",
           error: "No fue posible enviar la cotización. Inténtalo de nuevo.",
-          privacyPrefix: "Al enviar aceptas el tratamiento de tus datos según la",
+          privacyPrefix: "Acepto la",
           privacyLink: "política de privacidad",
-          privacySuffix: ".",
+          privacySuffix: " y el tratamiento de mis datos personales.",
           required: "Campos obligatorios",
           requiredTip: "Obligatorio",
         }}

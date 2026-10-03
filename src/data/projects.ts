@@ -776,7 +776,7 @@ export const projects: Project[] = [
     caseStudy: true,
     schemaType: "WebSite",
     metaDescription:
-      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes por tamaño de operación para el agro.",
+      "Caso de estudio de TerraCore Landing: landing estática en Astro y Tailwind CSS con formulario en Supabase, SEO técnico y planes para el agro.",
     links: [
       {
         href: "https://terracoreapp.co",
@@ -811,7 +811,7 @@ export const projects: Project[] = [
         ariaLabel: "View TerraCore Landing design",
       },
       metaDescription:
-        "TerraCore Landing case study: static Astro and Tailwind CSS landing with a Supabase-backed form, technical SEO, and plans by operation size for Colombian agriculture.",
+        "TerraCore Landing case study: static Astro and Tailwind CSS landing with a Supabase-backed form, technical SEO, and plans for Colombian agriculture.",
       architecture: [
         "Astro 7 with static output, no adapter and no UI framework: JavaScript is vanilla, in one script per component. Deployed on Vercel, and the staging branch uses the preview.",
         "Atomic design with an import alias per layer (atoms, molecules, organisms, and template). Color, type, and spacing tokens live in a single CSS file and Tailwind extends them. Inter, Poppins, and JetBrains Mono are self-hosted, with no third-party font requests.",

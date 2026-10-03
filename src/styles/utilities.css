@@ -220,6 +220,14 @@
     color: var(--on-btn);
   }
 
+  .btn:disabled,
+  .btn-primary:disabled:hover {
+    background: var(--btn);
+    color: var(--on-btn);
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
   .btn-secondary {
     background: transparent;
     color: var(--text);
@@ -724,6 +732,68 @@
 
   .quote-form > .btn {
     align-self: center;
+  }
+
+  .quote-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .quote-intro .h2-sub {
+    margin: 0;
+  }
+
+  .quote-next {
+    margin: 0;
+    padding: 18px 20px 18px 40px;
+    list-style: decimal;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .quote-next-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-label-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .quote-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    cursor: pointer;
+  }
+
+  .quote-consent input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--btn);
+  }
+
+  .quote-status {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .quote-field input::placeholder,
+  .quote-field textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
   }
 
   .quote-success {
