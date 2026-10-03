@@ -176,6 +176,8 @@ Tokens live in `src/styles/tokens.css`; component classes live in `src/styles/ut
 
 ### SEO and discovery
 
+Full detail: [`docs/seo.md`](./docs/seo.md) and [`docs/i18n.md`](./docs/i18n.md).
+
 Every route receives a shared metadata baseline from `Layout.astro`:
 
 - Canonical URLs and reciprocal `es`, `en`, and `x-default` hreflang alternates.
@@ -186,6 +188,8 @@ Every route receives a shared metadata baseline from `Layout.astro`:
 - Umami and Core Web Vitals reporting only when `PUBLIC_UMAMI_SRC` and `PUBLIC_UMAMI_ID` are both configured.
 
 ### Accessibility
+
+Full detail: [`docs/accessibility.md`](./docs/accessibility.md), [`docs/performance.md`](./docs/performance.md) and [`docs/security.md`](./docs/security.md).
 
 Accessibility behavior includes a visible skip link, localized state labels, a keyboard-safe mobile menu, native disclosures, 44px icon control targets, explicit image dimensions, and a single visible `<h1>` per route. The automated suite checks desktop and mobile rendering, routes, SEO, i18n, theme behavior, project filters, and design regressions.
 
@@ -239,6 +243,12 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
 | [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |
 | [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                       |
+| [docs/seo.md](./docs/seo.md)                                               | SEO, indexing, structured data and AI-assistant discovery (GEO).                                       |
+| [docs/i18n.md](./docs/i18n.md)                                             | Spanish and English: page map, copy locations and rules.                                               |
+| [docs/accessibility.md](./docs/accessibility.md)                           | Accessibility guarantees, component behavior, checks and checklist.                                    |
+| [docs/performance.md](./docs/performance.md)                               | Performance decisions, caching, measuring and checklist.                                               |
+| [docs/security.md](./docs/security.md)                                     | Headers, CSP, the quote function, data, supply chain and checklist.                                    |
+| [docs/engineering.md](./docs/engineering.md)                               | Engineering practices: branches, commits, code, checks, CI and documentation.                          |
 | [docs/RELEASING.md](./docs/RELEASING.md)                                   | How a version is chosen, tagged and released with the `Release` workflow.                              |
 | [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries.  |
 | [docs/commercial.md](./docs/commercial.md)                                 | Living commercial offer, ideal client, permitted claims, CTAs, and content risks.                      |
