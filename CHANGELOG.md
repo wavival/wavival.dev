@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] - 2026-10-03
+
 ### Added
 
 - Quote form (`/cotizar` and `/en/quote`, services and project-type modes): title, short description with the documented response process, placeholders on every field, a required privacy and data-processing consent checkbox, and a submit button that stays disabled until all required fields, one option and the consent are set. `Button` accepts `disabled` and `aria-describedby`.
@@ -159,7 +161,8 @@ Second iteration of the portfolio.
 
 First public portfolio release.
 
-[Unreleased]: https://github.com/wavival/wavival.dev/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/wavival/wavival.dev/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/wavival/wavival.dev/compare/v3.1.0...v4.0.0
 [3.0.0]: https://github.com/wavival/wavival.dev/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/wavival/wavival.dev/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/wavival/wavival.dev/releases/tag/v1.0.0
