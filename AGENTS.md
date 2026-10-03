@@ -20,6 +20,12 @@ Each topic has one source of truth. Link to it instead of duplicating its conten
 | Visual system, tokens, typography and accessibility design rules                  | `DESIGN.md`                                                                |
 | Layout and component contracts                                                    | `COMPONENTS.md`                                                            |
 | Version history                                                                   | `CHANGELOG.md`                                                             |
+| SEO, indexing, structured data and AI discovery                                   | `docs/seo.md`                                                              |
+| Spanish and English pages, copy and rules                                         | `docs/i18n.md`                                                             |
+| Accessibility guarantees and checks                                               | `docs/accessibility.md`                                                    |
+| Performance decisions and measuring                                               | `docs/performance.md`                                                      |
+| Security headers, CSP, quote function and data                                    | `docs/security.md`                                                         |
+| Engineering practices, checks and CI                                              | `docs/engineering.md`                                                      |
 | Versioning and release process                                                    | `docs/RELEASING.md`                                                        |
 | Brand and content boundaries                                                      | `docs/brand.md`                                                            |
 | Commercial claims and calls to action                                             | `docs/commercial.md`                                                       |

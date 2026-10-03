@@ -24,7 +24,7 @@ Documento hermano: [commercial.md](./commercial.md).
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
 - Autodefinición en el sitio: desarrolladora autodidacta "por convicción", que necesita entender por qué funciona algo antes de darlo por bueno.
 
-Fuente: `src/pages/sobre-mi.astro`, `src/components/sections/About.astro`, `CLAUDE.md`.
+Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `AGENTS.md`.
 
 Fuera de contenido V1: experiencias laborales del CV y cualquier nombre o experiencia de terceros que aparezca allí. El CV se usa solo como contexto interno.
 
@@ -75,7 +75,7 @@ Regla de IA: cualquier pieza que diga que una solución usa, resuelve o mejora a
 
 Relación con Lúmina W: wavival es la marca personal y el canal de confianza y descubrimiento. Lúmina W es la empresa que ofrece los servicios y los productos.
 
-Fuente: `src/components/sections/Hero.astro`, `src/data/stack.ts`, `src/data/projects.ts`, `src/i18n/ui.ts`.
+Fuente: `src/components/organisms/Hero.astro`, `src/data/stack.ts`, `src/data/projects.ts`, `src/i18n/ui.ts`.
 
 ---
 
@@ -124,7 +124,7 @@ Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no s
 5. Bugs y aprendizajes
    - Bugs propios ya corregidos, contados por causa y aprendizaje, sin paso a paso reproducible. Fuente: historial y `CHANGELOG.md`.
 6. Ingeniería del propio portafolio (build in public)
-   - Accesibilidad, rendimiento, SEO técnico, CSP con hashes, CI, flujo `dev`, `stg`, `main`. Fuente: `CLAUDE.md`, `README.md`, `DESIGN.md`, `CHANGELOG.md`.
+   - Accesibilidad, rendimiento, SEO técnico, CSP con hashes, CI, flujo `dev`, `stg`, `main`. Fuente: `AGENTS.md`, `README.md`, `DESIGN.md`, `CHANGELOG.md`.
 7. Herramientas
    - Una herramienta se menciona solo cuando la fuente concreta confirma su uso (ver sección 7).
 8. Formación

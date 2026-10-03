@@ -19,7 +19,7 @@ Documento hermano: [brand.md](./brand.md).
 
 Metas numéricas y cadencia: no se definen aquí. La cadencia la decide el sistema editorial.
 
-Fuente: decisiones de la sección 10; `src/components/sections/Contact.astro`, `src/pages/contacto.astro`.
+Fuente: decisiones de la sección 10; `src/components/organisms/ContactBand.astro`, `src/pages/contacto.astro`.
 
 ---
 
@@ -45,7 +45,7 @@ Producto disponible hoy:
 
 Omitido en V1 (sin fuente): mantenimiento como servicio, modelo de contratación, oferta paga de NullBreach.
 
-Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (terracore-landing), `src/components/sections/Contact.astro`.
+Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (terracore-landing), `src/components/organisms/ContactBand.astro`.
 
 ---
 
@@ -115,7 +115,7 @@ Regla: el CTA de una pieza comercial dirige prioritariamente a Lúmina W o a un 
 
 Medición ya instalada en el portafolio: eventos de Umami para `cta-quiero-producto`, `cv-descarga-es` y `cv-descarga-en`, `contacto-email`, `contacto-whatsapp`, `contacto-calendly`, `ver-app-terracore`, `ver-app-root` y `ver-app-nullbreach`.
 
-Fuente: `src/pages/contacto.astro`, `src/components/ui/NavBar.astro`, `src/components/ui/Footer.astro`, `CLAUDE.md`.
+Fuente: `src/pages/contacto.astro`, `src/components/organisms/NavBar.astro`, `src/components/organisms/Footer.astro`, `AGENTS.md`.
 
 ---
 
