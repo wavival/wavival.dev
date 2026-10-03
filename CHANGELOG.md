@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Documentation of everything: `DESIGN.md` rows for the Stack nav state, disabled buttons, the projects index highlight and the quote form classes; `ProjectCard` props in `COMPONENTS.md`; English URLs in `public/llms.txt` and `public/llms-full.txt`, with the matching `docs/ROADMAP.md` item removed.
 - Documentation refresh: README (environment variable table with where each one is read and required, missing scripts, delivery flow and workflows, `api/` and `.github/` in the structure, `AGENTS.md` in the document map), `COMPONENTS.md` and `DESIGN.md` (project filters, quote page, links to `AGENTS.md` instead of the empty `CLAUDE.md`), source paths in `docs/brand.md` and `docs/commercial.md`, and resolved items removed from `docs/ROADMAP.md`.
 
 ## [4.0.0] - 2026-10-03

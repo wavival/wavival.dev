@@ -25,7 +25,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Add `lastmod` to the sitemap from each project's `dateModified`.
 - [ ] Regenerate the Forgotten Portal OG image at 1200 by 630 (it is 1280 by 853 and gets cropped).
 - [ ] Decide whether `robots.txt` should name AI crawlers explicitly (GPTBot, ClaudeBot, PerplexityBot, Google-Extended). It allows everyone today.
-- [ ] Add the English case-study URLs (`/en/projects/<slug>`) to the AI-discovery files.
 
 ## Performance and accessibility
 
