@@ -16,7 +16,7 @@ export interface ProjectChain {
 export interface ProjectRoadmap {
   now: string[];
   next: string[];
-  later: string[];
+  later?: string[];
   out?: string[];
 }
 
@@ -1819,7 +1819,6 @@ export const projects: Project[] = [
         "Límite de frecuencia en el chat y en el análisis, que llaman a un proveedor de pago.",
         "Verificar el correo de las cuentas con clave antes de que Google pueda enlazarse a ellas.",
       ],
-      later: ["Mover la landing pública a Astro, pendiente de decisión."],
     },
     chainStepsTitle: "Del fragmento al hallazgo",
     chainSteps: [
@@ -1995,7 +1994,6 @@ export const projects: Project[] = [
           "Rate limits on chat and analysis, which call a paid provider.",
           "Verify the email of password accounts before Google can link to them.",
         ],
-        later: ["Move the public landing to Astro, pending a decision."],
       },
       chainStepsTitle: "From snippet to finding",
       chainSteps: [

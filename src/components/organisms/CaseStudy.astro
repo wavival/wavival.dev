@@ -118,7 +118,7 @@ const roadmapColumns = roadmap
   ? [
       { label: t.roadmapNow, items: roadmap.now },
       { label: t.roadmapNext, items: roadmap.next },
-      { label: t.roadmapLater, items: roadmap.later },
+      ...(roadmap.later?.length ? [{ label: t.roadmapLater, items: roadmap.later }] : []),
       ...(roadmap.out ? [{ label: t.roadmapOut, items: roadmap.out }] : []),
     ].filter((c) => c.items.length > 0)
   : [];
