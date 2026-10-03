@@ -38,10 +38,21 @@ for (const k of keys) counts[k] = views.filter((v) => v.filters.includes(k)).len
   </div>
 
   <div
-    class="mt-10 grid gap-6"
-    style="grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr))"
+    class="project-grid mt-10 grid grid-cols-1 gap-6 min-[1100px]:grid-cols-2"
+    data-filter="all"
+    id="project-grid"
   >
-    {views.map((p, i) => <ProjectCard project={p} index={String(i + 1).padStart(2, "0")} />)}
+    {
+      views.map((p, i) => (
+        <ProjectCard
+          project={p}
+          index={String(i + 1).padStart(2, "0")}
+          featured={i === 0}
+          wide={p.slug === "terracore"}
+          featuredLabel={isEn ? "Featured" : "Destacado"}
+        />
+      ))
+    }
   </div>
 
   <div id="projects-no-results" class="hidden border-b border-line py-20" role="status">

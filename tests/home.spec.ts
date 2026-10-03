@@ -52,4 +52,19 @@ test.describe("home page", () => {
     await expect(skip).toBeFocused();
     await expect(skip).toHaveAttribute("href", "#main-content");
   });
+
+  test("the Stack nav link stays marked while the stack section is in view", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/");
+    const link = page.locator('header a[href$="#stack"]');
+    await expect(link).not.toHaveAttribute("aria-current", /.+/);
+    await page.locator("#stack").scrollIntoViewIfNeeded();
+    await page.evaluate(() => {
+      const el = document.getElementById("stack");
+      if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 200);
+    });
+    await expect(link).toHaveAttribute("aria-current", "location");
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(link).not.toHaveAttribute("aria-current", /.+/);
+  });
 });

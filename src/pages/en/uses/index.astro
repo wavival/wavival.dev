@@ -31,9 +31,21 @@ const breadcrumbLd = JSON.stringify({
 });
 const hardwareItems = [
   {
-    title: "Machine",
+    title: "Linux machine",
     sub: "My everyday machine",
     tools: ["Intel Core i5", "16 GB RAM", "1 TB", "Linux · Fedora"],
+  },
+  {
+    title: "Windows machine",
+    sub: "My other machine",
+    tools: [
+      "AMD Ryzen 5 3400G",
+      "Radeon RX Vega 11",
+      "16 GB RAM",
+      "224 GB",
+      "Windows 11 Pro (25H2)",
+      "WSL2 · Ubuntu",
+    ],
   },
   {
     title: "Peripherals",
@@ -93,7 +105,9 @@ const softwareItems = [
     </PageIntro>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
+      <div
+        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
+      >
         <div class="flex items-baseline gap-[14px]"><Index>01</Index><Eyebrow>Stack</Eyebrow></div>
         <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
           What I develop with
@@ -106,13 +120,19 @@ const softwareItems = [
       <div class="min-w-0 flex-1 basis-[480px]">
         {
           stack.map((s) => (
-            <div class="flex flex-col gap-3 border-b border-line py-7">
+            <div
+              class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
+            >
               <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <h3 class="h-title m-0 text-2xl">{s.category}</h3>
+                {s.category === "Backend" && <span class="label-sm label-sm-link">Core</span>}
                 <span class="text-[13px] text-muted">{s.descriptionEn ?? s.description}</span>
               </div>
               {(s.whyEn ?? s.why) && <p class="body m-0">{s.whyEn ?? s.why}</p>}
-              <ChipList items={s.toolsEn ?? s.tools} />
+              <ChipList
+                items={s.toolsEn ?? s.tools}
+                class={s.category === "Backend" ? "[&_.chip]:border-blue [&_.chip]:text-link" : ""}
+              />
             </div>
           ))
         }
@@ -120,7 +140,9 @@ const softwareItems = [
     </div>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
+      <div
+        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
+      >
         <div class="flex items-baseline gap-[14px]">
           <Index>02</Index><Eyebrow>Hardware</Eyebrow>
         </div>
@@ -148,7 +170,9 @@ const softwareItems = [
     </div>
 
     <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div class="flex flex-[0_0_260px] flex-col lg:sticky lg:top-24 lg:self-start">
+      <div
+        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
+      >
         <div class="flex items-baseline gap-[14px]">
           <Index>03</Index><Eyebrow>Software</Eyebrow>
         </div>
@@ -181,7 +205,7 @@ const softwareItems = [
           id="repos"
           class="rule-section section-gap flex scroll-mt-24 flex-wrap gap-x-12 gap-y-6"
         >
-          <div class="flex flex-[0_0_260px] flex-col lg:self-start">
+          <div class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:self-start">
             <div class="flex items-baseline gap-[14px]">
               <Fragment>
                 <Index>04</Index>
@@ -247,7 +271,7 @@ const softwareItems = [
       )
     }
 
-    <div class="section-gap rule-line flex flex-wrap gap-3 pt-8">
+    <div class="section-gap rule-line flex flex-wrap justify-center gap-3 pt-8">
       <Button
         variant="secondary"
         href={routes.projects}

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Quote form (`/cotizar` and `/en/quote`, services and project-type modes): title, short description with the documented response process, placeholders on every field, a required privacy and data-processing consent checkbox, and a submit button that stays disabled until all required fields, one option and the consent are set. `Button` accepts `disabled` and `aria-describedby`.
+- `/projects` index: the first visible result under every filter is highlighted with a blue border, top bar and a "Featured" badge (`data-featured`, updated by the filter script); TerraCore PWA, first under "all", also spans two columns there from 1280px (`.project-wide`).
+- "Core" label and a blue tint on the Backend and AI Integrations cells of the home stack grid (`featured` in `src/data/stack.ts`).
 - `Release` workflow (`.github/workflows/release.yml`) that creates the tag and the GitHub release of a version through the shared `shared-release.yml` of `lumina-w/agents`, and `docs/RELEASING.md` with the process.
 - `Bento` molecule and `src/utils/bento.ts`: card grids with irregular column spans whose rows always fill the 12 columns (no lone card in a corner), applied to case-study pain points, modules, learnings and roadmap, the stack grid, the services process and the about method.
 - Quote form: red asterisk with a tooltip on required fields, a "Campos obligatorios" note, and a `--danger` token.
@@ -52,6 +55,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `llms.txt` and `llms-full.txt` list the TerraCore Landing and OKroot Landing case studies, and `llms.txt` lists the X profile.
 
 ### Changed
+
+- Tools page (ES/EN): the closing "See projects" and "See services" buttons are centered on every breakpoint.
+- Tools page (ES/EN): the Backend row and its stack chips are highlighted in blue with a "Destacado" / "Core" label; the Hardware, Software and GitHub blocks take the full width on mobile; the Hardware block lists both machines again, Linux (Intel Core i5, Fedora) and Windows (AMD Ryzen 5 3400G, Windows 11 Pro, WSL2 Ubuntu), restored from the previous content.
+- Tools page (ES/EN): the "Con qué desarrollo" / stack block takes the full width on mobile (below 790px); desktop is unchanged.
+- About page (ES/EN): the profile photo is centered on mobile, and the summary row, the closing quote, the CV button and the social icons are centered on desktop (900px and up) and left-aligned on mobile.
+- Contact page: the `h1` uses the `--fs-display-xl` token (the unused `--fs-display-contact` token was removed).
+- NavBar: the "Stack" link stays marked (`aria-current="location"`, same style as the current page) while the `#stack` section of the home page is in view, on desktop and in the mobile menu. CSP hash of the nav script refreshed.
+- CSP: refreshed the `script-src` hash of the quote form script in `vercel.json`.
+- `wavival.dev` case study banner (`og-wavival-dev.webp`) is now a screenshot of the @wavival | Design System v4 (colors section) in Claude Design, with updated alt text in ES and EN.
+- NullBreach case study roadmap shows only "Now" and "Next"; `later` is now optional in `ProjectRoadmap` and its column renders only when it has items.
+- CSP: refreshed the `script-src` hash of the project filters script in `vercel.json` after it began marking the first visible result as featured.
+- TerraCore Landing case study (ES/EN) and the `llms` files no longer mention prices: the three plans are described only by their limits and features.
+- Mobile: the `/projects` filters and the case-study action buttons are centered.
+- Home alignment: the hero is centered on every breakpoint, the mobile menu aligns to the top left, the home project rows keep their actions left on mobile (stack chips and image stay centered), "See all projects" and "Technical criteria" are always centered, and the two footer columns split the width 50/50 on mobile.
 
 - `delete-merged-branches` workflow now deletes the remote branches of pull requests merged into `dev` (through the shared workflow of `lumina-w/agents`, with a `dry_run` input) instead of only reporting them; merges made by the auto-merge job with `GITHUB_TOKEN` do not delete their branch.
 - Case-study design links point to each project's Netlify prototype (TerraCore, TerraCore Landing, OKroot, OKroot Landing, Lúmina W, Blog W, wavival.dev) instead of the generic placeholder.

@@ -26,10 +26,52 @@ test.describe("quote form", () => {
     await page.locator('input[name="phone"]').fill("+57 300 000 0000");
     await page.locator('input[name="business"]').fill("Analytical Engines");
     await page.locator('textarea[name="description"]').fill("I need an AI-assisted application.");
+    await page.locator('input[name="privacy"]').check();
     await page.getByRole("button", { name: "Send quote request" }).click();
 
     await expect(page.getByRole("heading", { name: "Thank you for reaching out" })).toBeVisible();
     await expect(page.locator("[data-quote-form]")).toBeHidden();
+  });
+
+  test("has a title, placeholders and a description of what happens next", async ({ page }) => {
+    await page.goto("/cotizar");
+    await expect(page.getByRole("heading", { name: "Solicitud de cotización" })).toBeVisible();
+    await expect(page.getByText("Te respondo en un máximo de 24 horas.")).toBeVisible();
+    for (const name of ["name", "email", "phone", "business"]) {
+      await expect(page.locator(`input[name="${name}"]`)).toHaveAttribute("placeholder", /.+/);
+    }
+    await expect(page.locator('textarea[name="description"]')).toHaveAttribute("placeholder", /.+/);
+
+    await page.goto("/en/quote");
+    await expect(page.getByRole("heading", { name: "Quote request" })).toBeVisible();
+    await expect(page.getByText("I reply within 24 hours.")).toBeVisible();
+  });
+
+  test("submit stays disabled until every field, an option and the consent are set", async ({
+    page,
+  }) => {
+    await page.goto("/cotizar?service=ai-integrations");
+    const submit = page.locator(".quote-form button[type=submit]");
+    await expect(submit).toBeDisabled();
+
+    await page.locator('input[name="name"]').fill("Ada Lovelace");
+    await page.locator('input[name="email"]').fill("ada@example.com");
+    await page.locator('input[name="phone"]').fill("3000000000");
+    await page.locator('input[name="business"]').fill("Analytical Engines");
+    await page.locator('textarea[name="description"]').fill("Necesito una app con IA.");
+    await page.locator('input[name="privacy"]').check();
+    await expect(submit).toBeDisabled();
+
+    await page.locator('input[name="phone"]').fill("+57 300 000 0000");
+    await expect(submit).toBeEnabled();
+
+    await page.locator('input[name="privacy"]').uncheck();
+    await expect(submit).toBeDisabled();
+    await page.locator('input[name="privacy"]').check();
+    await expect(submit).toBeEnabled();
+
+    await page.locator('input[name="services"][value="ai-integrations"]').uncheck();
+    await expect(submit).toBeDisabled();
   });
 
   test("services mode is the default and hides the project types", async ({ page }) => {
@@ -83,6 +125,7 @@ test.describe("quote form", () => {
     await page.locator('input[name="phone"]').fill("+57 300 000 0000");
     await page.locator('input[name="business"]').fill("Analytical Engines");
     await page.locator('textarea[name="description"]').fill("Necesito una landing page.");
+    await page.locator('input[name="privacy"]').check();
     await page.getByRole("button", { name: "Enviar cotización" }).click();
 
     await expect(page.getByRole("heading", { name: "Gracias por contactar" })).toBeVisible();

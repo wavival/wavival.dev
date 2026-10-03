@@ -34,7 +34,6 @@
   --fs-display-xl: clamp(36px, 5.2vw, 80px);
   --fs-display-page: clamp(44px, 7vw, 108px);
   --fs-display-index: clamp(48px, 8vw, 120px);
-  --fs-display-contact: clamp(44px, 7.4vw, 116px);
   --fs-display-case: clamp(52px, 9vw, 148px);
   --fs-display-uses: clamp(52px, 9vw, 140px);
   --fs-display-about: clamp(56px, 10vw, 160px);

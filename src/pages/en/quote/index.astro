@@ -41,6 +41,25 @@ const validSelection = services.some((service) => service.id === selectedService
         selectedService={validSelection}
         privacyHref={r.privacy}
         labels={{
+          formTitle: "Quote request",
+          formIntro:
+            "Use this form to ask for a quote: choose the services or the project type you are interested in and tell me what you need. All fields are required.",
+          nextTitle: "What happens after you send it",
+          nextSteps: [
+            "Your request goes straight to Wavival's email.",
+            "I reply within 24 hours.",
+            "If we move forward, the work follows the process published on Services: conversation, proposal, iterative build, and delivery.",
+          ],
+          placeholders: {
+            name: "Your full name",
+            email: "you@company.com",
+            business: "Your business or company name",
+            description: "Tell me what you need, who it is for, and what problem it solves.",
+          },
+          phonePlaceholder: "+57 300 000 0000",
+          phoneError: "Include the country code, for example +57 300 000 0000.",
+          submitHint:
+            "Fill in every field, choose at least one option, and accept the privacy policy to send.",
           name: "Name",
           email: "Email",
           phone: "Phone with country code",
@@ -54,9 +73,9 @@ const validSelection = services.some((service) => service.id === selectedService
           successTitle: "Thank you for reaching out",
           success: "I received your information. I will reply within 24 hours.",
           error: "Your quote request could not be sent. Please try again.",
-          privacyPrefix: "By submitting, you accept the processing of your data under the",
+          privacyPrefix: "I accept the",
           privacyLink: "privacy policy",
-          privacySuffix: ".",
+          privacySuffix: " and the processing of my personal data.",
           required: "Required fields",
           requiredTip: "Required",
         }}
