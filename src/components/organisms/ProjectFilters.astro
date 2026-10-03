@@ -112,6 +112,7 @@ const defs = [
             });
         });
 
+        document.getElementById("project-grid")?.setAttribute("data-filter", filter);
         noResults?.classList.toggle("hidden", visible > 0);
       });
     });

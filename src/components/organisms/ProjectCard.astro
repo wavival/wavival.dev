@@ -7,13 +7,15 @@ import type { ProjectView } from "@/data/projectView";
 interface Props {
   project: ProjectView;
   index: string;
+  /** Star project: highlighted and two columns wide on the "all" filter. */
+  featured?: boolean;
 }
 
-const { project: p, index } = Astro.props;
+const { project: p, index, featured = false } = Astro.props;
 ---
 
 <article
-  class="group flex flex-col border border-line bg-bg transition-colors hover:border-blue hover:bg-surface"
+  class={`group flex flex-col border border-line bg-bg transition-colors hover:border-blue hover:bg-surface ${featured ? "project-featured" : ""}`.trim()}
   data-project-card
   data-filters={p.filters.join(" ")}
 >
