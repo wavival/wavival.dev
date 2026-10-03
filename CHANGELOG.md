@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `/projects` index: TerraCore PWA is the featured project while the "all" filter is active, with a blue border, a blue top bar and a two-column row (`.project-featured`, `data-filter` on `#project-grid`).
+- `/projects` index: TerraCore PWA is the featured project, highlighted with a blue border and top bar under every filter and spanning two columns only under "all" (`.project-featured`, `data-filter` on `#project-grid`).
 - "Core" label and a blue tint on the Backend and AI Integrations cells of the home stack grid (`featured` in `src/data/stack.ts`).
 - `Release` workflow (`.github/workflows/release.yml`) that creates the tag and the GitHub release of a version through the shared `shared-release.yml` of `lumina-w/agents`, and `docs/RELEASING.md` with the process.
 - `Bento` molecule and `src/utils/bento.ts`: card grids with irregular column spans whose rows always fill the 12 columns (no lone card in a corner), applied to case-study pain points, modules, learnings and roadmap, the stack grid, the services process and the about method.
