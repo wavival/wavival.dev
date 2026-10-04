@@ -1,4 +1,6 @@
 ---
+import { labelInName, visibleText } from "@/utils/a11y";
+
 interface Props {
   href: string;
   target?: "_blank" | "_self";
@@ -25,6 +27,9 @@ const {
 const rel = target === "_blank" ? "noopener noreferrer" : undefined;
 const base =
   variant === "list" ? "list-link" : variant === "inline" ? "inline-link" : "action-link";
+const accessibleName = ariaLabel
+  ? labelInName(visibleText(await Astro.slots.render("default")), ariaLabel)
+  : undefined;
 ---
 
 <a
@@ -33,7 +38,7 @@ const base =
   rel={rel}
   hreflang={hreflang}
   class={`${base} ${extra}`.trim()}
-  aria-label={ariaLabel}
+  aria-label={accessibleName}
   aria-current={ariaCurrent}
   data-umami-event={umamiEvent}
 >

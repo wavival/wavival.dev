@@ -378,14 +378,14 @@ export const projects: Project[] = [
         {
           href: "https://app.terracoreapp.co",
           text: "View app",
-          ariaLabel: "View TerraCore app",
+          ariaLabel: "View app: TerraCore PWA",
           event: "ver-app-terracore",
         },
       ],
       designLink: {
         href: "https://terracore-pwa-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View TerraCore design",
+        ariaLabel: "View design: TerraCore PWA",
       },
       metaDescription:
         "TerraCore case study: multi-user, offline-first PWA for farms in Colombia. Django, DRF, PostgreSQL, and React. Connected modules and live in production.",
@@ -781,7 +781,7 @@ export const projects: Project[] = [
       {
         href: "https://terracoreapp.co",
         text: "Ver sitio",
-        ariaLabel: "Ver landing de TerraCore",
+        ariaLabel: "Ver sitio: TerraCore Landing",
       },
     ],
     designLink: {
@@ -802,13 +802,13 @@ export const projects: Project[] = [
         {
           href: "https://terracoreapp.co",
           text: "Visit site",
-          ariaLabel: "Visit TerraCore landing",
+          ariaLabel: "Visit site: TerraCore Landing",
         },
       ],
       designLink: {
         href: "https://terracore-landing-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View TerraCore Landing design",
+        ariaLabel: "View design: TerraCore Landing",
       },
       metaDescription:
         "TerraCore Landing case study: static Astro and Tailwind CSS landing with a Supabase-backed form, technical SEO, and plans for Colombian agriculture.",
@@ -1179,14 +1179,14 @@ export const projects: Project[] = [
         {
           href: "https://app.okroot.co/",
           text: "Visit app",
-          ariaLabel: "Visit OKroot app",
+          ariaLabel: "Visit app: OKroot PWA",
           event: "ver-app-root",
         },
       ],
       designLink: {
         href: "https://okroot-pwa-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View OKroot design",
+        ariaLabel: "View design: OKroot PWA",
       },
       metaDescription:
         "OKroot case study: PWA with an AI food label scanner (Claude API) for celiac disease, diabetes and lactose intolerance, with an offline sync queue.",
@@ -1529,7 +1529,7 @@ export const projects: Project[] = [
       {
         href: "https://okroot.co/",
         text: "Ver sitio",
-        ariaLabel: "Ver landing de OKroot",
+        ariaLabel: "Ver sitio: OKroot Landing",
       },
     ],
     designLink: {
@@ -1549,13 +1549,13 @@ export const projects: Project[] = [
         {
           href: "https://okroot.co/",
           text: "Visit site",
-          ariaLabel: "Visit OKroot landing",
+          ariaLabel: "Visit site: OKroot Landing",
         },
       ],
       designLink: {
         href: "https://okroot-landing-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View OKroot Landing design",
+        ariaLabel: "View design: OKroot Landing",
       },
       metaDescription:
         "OKroot Landing case study: static landing in Astro and Tailwind CSS with a Supabase waitlist, consent-gated analytics and a recipe collection.",
@@ -1921,13 +1921,13 @@ export const projects: Project[] = [
         {
           href: "https://www.wavival.dev/nullbreach/",
           text: "View app",
-          ariaLabel: "View NullBreach app",
+          ariaLabel: "View app: NullBreach",
           event: "ver-app-nullbreach",
         },
         {
           href: "https://github.com/wavival/nullbreach",
           text: "View repo",
-          ariaLabel: "View NullBreach repository",
+          ariaLabel: "View repo: NullBreach",
         },
       ],
       metaDescription:
@@ -2268,7 +2268,7 @@ export const projects: Project[] = [
       designLink: {
         href: "https://luminaw-landing-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View Lumina W design",
+        ariaLabel: "View design: Lúmina W",
       },
       metaDescription:
         "Lumina W case study: a bilingual site with Astro and Tailwind CSS, two service paths, a form on Vercel and Supabase, technical SEO and cookie consent.",
@@ -2459,7 +2459,7 @@ export const projects: Project[] = [
       {
         href: "https://blog.luminaw.co",
         text: "Ver sitio",
-        ariaLabel: "Ver blog de Lúmina W",
+        ariaLabel: "Ver sitio: Blog Lúmina W",
       },
     ],
     designLink: {
@@ -2634,13 +2634,13 @@ export const projects: Project[] = [
         {
           href: "https://blog.luminaw.co",
           text: "Visit site",
-          ariaLabel: "Visit Lumina W blog",
+          ariaLabel: "Visit site: Blog Lúmina W",
         },
       ],
       designLink: {
         href: "https://blog-w-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View Lumina W Blog design",
+        ariaLabel: "View design: Blog Lúmina W",
       },
       metaDescription:
         "Lumina W Blog case study: a bilingual Next.js platform with accounts, moderation, a newsletter and article translation with the Claude API.",
@@ -2974,12 +2974,12 @@ export const projects: Project[] = [
       designLink: {
         href: "https://wavival-prototype.netlify.app/",
         text: "View design",
-        ariaLabel: "View wavival.dev design",
+        ariaLabel: "View design: wavival.dev",
       },
       designSystemLink: {
         href: "https://claude.ai/design/p/340457ab-7efe-4c7e-b9bf-6cda2abd21bd?via=share",
         text: "View design system",
-        ariaLabel: "View wavival.dev design system",
+        ariaLabel: "View design system: wavival.dev",
       },
       metaDescription:
         "wavival.dev case study: the portfolio as design. @wavival | Design System v4, editorial, static, bilingual, AA contrast. Built with Astro and Tailwind.",
@@ -3249,12 +3249,12 @@ export const projects: Project[] = [
         {
           href: "https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/",
           text: "View writeup",
-          ariaLabel: "View Forgotten Portal writeup",
+          ariaLabel: "View writeup: Forgotten Portal",
         },
         {
           href: "https://github.com/wavival/forgotten-portal-writeup",
           text: "View repo",
-          ariaLabel: "View Forgotten Portal repository",
+          ariaLabel: "View repo: Forgotten Portal",
         },
       ],
       metaDescription:
