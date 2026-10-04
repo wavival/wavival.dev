@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `src/utils/a11y.ts` (`labelInName`, `visibleText`) and `tests/label-in-name.spec.ts`: every control with visible text keeps it inside its `aria-label` (WCAG 2.5.3, Label in Name) on every page of the sitemap.
+
+### Fixed
+
+- Label in Name: `Button`, `TextLink` and the language toggle build the accessible name with `labelInName`; project links read "View app: TerraCore PWA" instead of a label that dropped the visible text; the previous and next project links use their visible text; redundant labels on the "See services" buttons are removed; the English CV, "See projects" and footer "Uses" labels contain their visible text.
+
 ### Changed
+
+- The footer flag next to "Made in Colombia" stays, as an owner-decided exception to the no-emoji rule (`docs/brand.md`).
 
 - `CLAUDE.md` is no longer empty: it is the Claude Code project guide, imports `AGENTS.md` and links to the documentation set, and `AGENTS.md` states it. The previous rule that kept `CLAUDE.md` empty is removed from `AGENTS.md` and the README document map.
 - Every document carries a `> Last updated: YYYY-MM-DD` line (README, `SECURITY.md`, `CLAUDE.md` and all of `docs/`); a change to a document updates it and is recorded here under `[Unreleased]`.

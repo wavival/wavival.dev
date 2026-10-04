@@ -67,7 +67,7 @@ export const ui = {
     "nav.toggleLabel": "ES",
     "nav.toggleAria": "Switch the site language to Spanish",
     "common.downloadCv": "Download CV",
-    "common.downloadCvAria": "Download Valentina Ramírez's CV in PDF",
+    "common.downloadCvAria": "Download CV of Valentina Ramírez in PDF",
     "common.emailAria": "Get in touch: send an email to Valentina Ramírez",
     "common.skip": "Skip to main content",
     "footer.tagline":
@@ -86,7 +86,7 @@ export const ui = {
     "footer.blogAria": "Blog W: Lúmina W blog by Valentina Ramírez",
     "footer.luminaAria": "Discover Lúmina W: the software company of Valentina Ramírez",
     "footer.reposAria": "Valentina Ramírez's repositories on GitHub",
-    "footer.usesAria": "Tools and stack I use",
+    "footer.usesAria": "Uses: tools and stack I use",
     "footer.privacy": "Privacy",
     "footer.privacyAria": "wavival.dev privacy policy",
   },

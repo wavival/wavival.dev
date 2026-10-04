@@ -204,7 +204,7 @@ Fuente única: `src/styles/tokens.css`, `DESIGN.md`, `public/brand/`.
   - Texto `#1a1a2e` (claro) y `#e8eaf6` (oscuro).
 - Tipografía: Raleway para títulos y etiquetas; Poppins para lectura.
 - Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853).
-- Iconografía: SVG decorativos, sin emojis ni flechas decorativas.
+- Iconografía: SVG decorativos, sin emojis ni flechas decorativas. Excepción decidida por la dueña: la bandera de Colombia junto a "Hecho en Colombia" en el footer (`role="img"`, `aria-label="Colombia"`).
 - Accesibilidad como norma: contraste WCAG AA, foco visible, texto alternativo real en imágenes de contenido.
 
 Para Instagram y LinkedIn, la misma paleta, tipografía y logo. Plantillas por formato (carrusel, portada, miniatura): las define el sistema editorial; no bloquean, solo se usan los tokens de esta sección mientras tanto.

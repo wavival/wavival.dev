@@ -1,4 +1,6 @@
 ---
+import { labelInName, visibleText } from "@/utils/a11y";
+
 interface Props {
   id?: string;
   href?: string;
@@ -41,6 +43,9 @@ const cls = `btn ${variantClass} ${sizeClass} ${extra}`.replace(/\s+/g, " ").tri
 const iconSize = size === "compact" ? 18 : 20;
 const iconSrc = icon ? `${import.meta.env.BASE_URL}icons/ui/${icon}.svg` : undefined;
 const Tag = href ? "a" : "button";
+const accessibleName = ariaLabel
+  ? labelInName(visibleText(await Astro.slots.render("default")), ariaLabel)
+  : undefined;
 ---
 
 <Tag
@@ -51,7 +56,7 @@ const Tag = href ? "a" : "button";
   download={download}
   type={href ? undefined : type}
   class={cls}
-  aria-label={ariaLabel}
+  aria-label={accessibleName}
   aria-describedby={describedBy}
   disabled={href ? undefined : disabled}
   data-umami-event={umamiEvent}
