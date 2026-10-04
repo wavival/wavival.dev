@@ -260,7 +260,7 @@ The reduce-motion override lives in `global.css`:
 ## Accessibility
 
 - Visible focus on every interactive element through the global `:focus-visible { outline: 2px solid var(--link); outline-offset: 2px }` in `global.css`.
-- All controls without visible text have an `aria-label`; controls with visible text keep that text inside the `aria-label` (Label-in-Name).
+- All controls without visible text have an `aria-label`; controls with visible text keep that text inside the `aria-label` (Label-in-Name). `Button`, `TextLink` and the language toggle enforce it with `labelInName` (`src/utils/a11y.ts`), which prefixes the visible text (`"<visible>: <label>"`) when the label does not contain it, and `tests/label-in-name.spec.ts` checks every page of the sitemap.
 - Skip link to `#main-content` (`Layout.astro`), visible only on focus.
 - Heading hierarchy: single `h1` (`Hero` on home, `CaseStudy` on case studies, `NotFound` on 404, `PageIntro` elsewhere), `h2` per section, `h3` in project rows and detail blocks (the `/proyectos` index cards use `h2`).
 - Decorative `<img>` and `MaskIcon`s are hidden from assistive tech (`alt=""` / `aria-hidden`). Content images have descriptive `alt`.

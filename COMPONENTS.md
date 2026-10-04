@@ -192,6 +192,7 @@ Path: `src/data/quoteTypes.ts`. Single list of quote project types (`QUOTE_PROJE
 
 ## Utilities and i18n
 
+- `src/utils/a11y.ts`: `visibleText(html)` and `labelInName(visible, label)`. `Button`, `TextLink` and the language toggle in `NavBar` use them so an `aria-label` always contains the visible text (WCAG 2.5.3): the label is returned unchanged when it already contains the visible text as whole words, otherwise it becomes `"<visible>: <label>"`.
 - `src/utils/bento.ts`: `bentoRowLengths(count)`, `bentoSpans(count)` and `bentoStyles(count)`. Rows hold at most 3 items (when 4 remain they split 2 + 2); spans cycle through `[7, 5]` / `[5, 7]` for pairs and `[6, 3, 3]` / `[3, 3, 6]` / `[4, 4, 4]` for triples, a lone item spans 12. `bentoStyles` returns `--span:<n>` inline styles for the `Bento` children.
 - `src/i18n/utils.ts`: `getLangFromUrl`, `useTranslations`, `getAltLangUrl` (language toggle target, with special cases for `/404` and project slugs), `siteRoutes(lang, base)` (localized internal routes, including `stack` and `project(slug)`), `cvHref(lang, base)`, `homeHref(lang)`, and `ariaCurrent(href, url)` (returns `"page"` when `href` without a hash matches the current pathname). UI strings live in `src/i18n/ui.ts`; copy rules are owned by [docs/i18n.md](./docs/i18n.md).
 

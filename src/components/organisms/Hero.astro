@@ -88,18 +88,12 @@ const stats = isEn
           icon="download-cv-white"
           data-umami-event={isEn ? "cv-descarga-en" : "cv-descarga-es"}
           aria-label={isEn
-            ? "Download Valentina Ramírez's CV in PDF"
+            ? "Download CV of Valentina Ramírez in PDF"
             : "Descargar CV de Valentina Ramírez en PDF"}
         >
           {isEn ? "Download CV" : "Descargar CV"}
         </Button>
-        <Button
-          href={r.services}
-          variant="secondary"
-          aria-label={isEn
-            ? "See Valentina Ramírez's full services"
-            : "Ver los servicios de Valentina Ramírez"}
-        >
+        <Button href={r.services} variant="secondary">
           {isEn ? "See services" : "Ver servicios"}
         </Button>
         <SocialLinks lang={lang} size="lg" items={["linkedin", "github"]} />

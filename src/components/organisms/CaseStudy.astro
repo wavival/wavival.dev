@@ -78,8 +78,6 @@ const t = isEn
       prev: "Previous",
       next: "Next",
       navLabel: "Project navigation",
-      prevAria: "Previous project",
-      nextAria: "Next project",
       backAria: "Back to all projects",
       quote: "Quote a project like this",
     }
@@ -108,8 +106,6 @@ const t = isEn
       prev: "Anterior",
       next: "Siguiente",
       navLabel: "Navegación entre proyectos",
-      prevAria: "Proyecto anterior",
-      nextAria: "Proyecto siguiente",
       backAria: "Volver a todos los proyectos",
       quote: "Cotizar un proyecto así",
     };
@@ -460,7 +456,6 @@ const externalActions = [
           {prevProject ? (
             <a
               href={r.project(prevProject.slug)}
-              aria-label={`${t.prevAria}: ${prevProject.title}`}
               class="flex flex-col gap-2 py-10 pr-6 text-ink no-underline transition-colors hover:text-link"
             >
               <span class="label-sm">{t.prev}</span>
@@ -477,7 +472,6 @@ const externalActions = [
           {nextProject && (
             <a
               href={r.project(nextProject.slug)}
-              aria-label={`${t.nextAria}: ${nextProject.title}`}
               class="flex flex-col items-end gap-2 py-10 pl-6 text-right text-ink no-underline transition-colors hover:text-link"
             >
               <span class="label-sm">{t.next}</span>

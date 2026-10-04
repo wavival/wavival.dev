@@ -10,6 +10,7 @@ import {
   ariaCurrent,
 } from "@/i18n/utils";
 import type { Lang } from "@/i18n/utils";
+import { labelInName } from "@/utils/a11y";
 
 interface Props {
   lang?: Lang;
@@ -18,6 +19,7 @@ interface Props {
 const BASE = import.meta.env.BASE_URL;
 const lang: Lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const toggleName = labelInName(t("nav.toggleLabel"), t("nav.toggleAria"));
 const r = siteRoutes(lang, BASE);
 const alt = getAltLangUrl(Astro.url);
 
@@ -73,7 +75,7 @@ const mobileLinks = [
         }
       </ul>
       <div class="flex items-center gap-2">
-        <a href={alt.href} hreflang={alt.lang} aria-label={t("nav.toggleAria")} class="lang-toggle"
+        <a href={alt.href} hreflang={alt.lang} aria-label={toggleName} class="lang-toggle"
           >{t("nav.toggleLabel")}</a
         >
         <ThemeToggle placement="desktop" label={t("nav.theme")} />
@@ -90,7 +92,7 @@ const mobileLinks = [
     </div>
 
     <div class="flex items-center gap-[6px] min-[900px]:hidden">
-      <a href={alt.href} hreflang={alt.lang} aria-label={t("nav.toggleAria")} class="lang-toggle"
+      <a href={alt.href} hreflang={alt.lang} aria-label={toggleName} class="lang-toggle"
         >{t("nav.toggleLabel")}</a
       >
       <ThemeToggle placement="mobile" label={t("nav.theme")} />
