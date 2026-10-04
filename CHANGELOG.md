@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Positioning: Full Stack developer focused on backend and AI, in the home hero, the about section, the page titles and descriptions, the footer tagline, the structured data, the web manifest, `llms.txt`, `llms-full.txt`, the README, `docs/brand.md` and `docs/commercial.md`. The open positioning decision is removed from `docs/ROADMAP.md`.
+- Ownership rule for SEO and GEO: everything on wavival.dev belongs to wavival and everything on luminaw.co to Lúmina W. The structured data now treats the `Person` as the entity of the site (contact email, `publisher` of the `WebSite`) and no longer attaches a contact point or `worksFor` to Lúmina W; `llms.txt` and `llms-full.txt` state the split; the about pages and the footer no longer present clients or services as Lúmina W's; `docs/seo.md`, `docs/brand.md` and `docs/commercial.md` follow the rule.
+- Home H1: "Full Stack Developer, backend e IA." ("backend and AI" in English).
 - Published price: projects from USD 250 / COP 1,000,000 depending on scope (was COP 2,000,000 / USD 500) and valid only for wavival's own services; Lúmina W has its own pricing. Applied in the contact band, the contact and services pages, the services structured data, `llms-full.txt` and `docs/commercial.md`.
 - Dependencies: `overrides` for `basic-ftp`, `tmp` and `uuid` clear their advisories (24 vulnerabilities down to 16). The rest have no patched release and are tracked in `docs/ROADMAP.md`.
 - Restored the `[3.1.0] - 2026-09-30` section and its compare link: the tag `v3.1.0` existed but its entries were listed under `[4.0.0]`. The 49 entries that were in the changelog at that tag moved to 3.1.0 unchanged.

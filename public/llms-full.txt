@@ -4,7 +4,7 @@
 
 ## About
 
-Valentina Ramírez (`@wavival`) is a Full Stack Developer based in Colombia, focused on backend and AI. She works with Django, React, and Next.js, and founded Lúmina W, a small studio that designs, builds, and maintains software products. She studies Software Analysis & Development at SENA and English Language at Universidad de San Buenaventura.
+Valentina Ramírez (`@wavival`) is a Full Stack Developer based in Colombia, focused on backend and AI. She works with Django, React, and Next.js, and founded Lúmina W, a separate software company that designs, builds, and maintains software products. Everything on wavival.dev (services, pricing, contact) belongs to wavival, her personal brand; everything on luminaw.co belongs to Lúmina W, which has its own services and pricing. She studies Software Analysis & Development at SENA and English Language at Universidad de San Buenaventura.
 
 Her public focus areas are full stack engineering with an emphasis on backend and AI (Django and Django REST Framework, React, Next.js, and Supabase), applied AI (OpenAI, OpenClaw, Claude API and LLM workflows, n8n automation), and security-by-design (OWASP, MITRE ATT&CK, PTES). She also works as a UX/UI designer, so she can take a project from interface design through to a deployed, maintainable product. Beyond code, she is into photography and playing drums.
 
@@ -107,7 +107,7 @@ Valentina works as a freelance Full Stack Developer focused on backend and AI. S
 - Security and AppSec (1 to 2 weeks): OWASP Top 10 review with a pentester mindset. Security integrated from design: authentication, secrets handling, validation, and protected endpoints.
 - AI integrations (2 to 4 weeks): OpenAI, OpenClaw, Claude API, and LLM workflows where they add measurable value (analysis, context-aware assistance, automation). AI as a product copilot, not decoration.
 
-Pricing: projects from USD 250 / COP 1,000,000 depending on scope (MVP from 3 to 6 weeks). This price applies to wavival's own services; Lúmina W has its own pricing. Limited availability; she responds within 24 hours.
+Pricing: projects from USD 250 / COP 1,000,000 depending on scope (MVP from 3 to 6 weeks). This price is wavival's; Lúmina W has its own pricing at luminaw.co. Limited availability; she responds within 24 hours.
 
 Services page: https://www.wavival.dev/servicios (English: https://www.wavival.dev/en/services/)
 
