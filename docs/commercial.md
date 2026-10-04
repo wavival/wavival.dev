@@ -13,8 +13,8 @@ Documento hermano: [brand.md](./brand.md).
 ## 1. Objetivo comercial de la marca personal
 
 - wavival es la marca personal y el canal de confianza y descubrimiento.
-- Lúmina W es la empresa de software que ofrece los servicios y los productos. Los servicios comerciales dirigen prioritariamente hacia Lúmina W.
-- Objetivo: que personas interesadas en desarrollo de producto y potenciales clientes lleguen a Lúmina W y a sus productos (TerraCore, OKroot) a través del contenido de wavival.
+- Los servicios publicados en `wavival.dev` son de wavival. Lúmina W es la empresa de software de Valentina, con servicios, precios y productos propios publicados en `luminaw.co`.
+- Objetivo: que personas interesadas en desarrollo de producto y potenciales clientes lleguen a los servicios de wavival, o a Lúmina W y a sus productos (TerraCore, OKroot), a través del contenido de wavival.
 - Canales V1: Instagram y LinkedIn, en español.
 
 Metas numéricas y cadencia: no se definen aquí. La cadencia la decide el sistema editorial.
@@ -25,7 +25,7 @@ Fuente: decisiones de la sección 10; `src/components/organisms/ContactBand.astr
 
 ## 2. Oferta documentada
 
-Servicios publicados en `/servicios` (ofrecidos por Lúmina W, descubiertos vía wavival):
+Servicios publicados en `/servicios` (ofrecidos por wavival):
 
 1. Aplicaciones web a medida (8 a 14 semanas): Django + DRF o Next.js con Supabase, React + TypeScript, despliegue.
 2. APIs REST y backend (3 a 6 semanas): APIs autenticadas y documentadas, modelado relacional, roles, multitenancy.
@@ -34,7 +34,7 @@ Servicios publicados en `/servicios` (ofrecidos por Lúmina W, descubiertos vía
 
 Modalidades: desarrollo completo o refuerzo backend, API o seguridad en un equipo existente. Diseño UX/UI incluido cuando el proyecto lo requiere.
 
-Precio publicado en el sitio: proyectos desde COP 2.000.000 / USD 500 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas.
+Precio publicado en el sitio: proyectos desde USD 250 / COP 1.000.000 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas. Este precio es de wavival; Lúmina W tiene sus propios precios, que viven en `luminaw.co` y no se publican en este sitio.
 
 Proceso publicado: conversación, propuesta, build iterativo, entrega documentada y mantenible.
 
@@ -107,11 +107,11 @@ Ruta de descubrimiento V1:
 
 1. Contenido en Instagram y LinkedIn.
 2. Perfil de wavival y portafolio (`wavival.dev`): proyectos, servicios, herramientas.
-3. Lúmina W (`luminaw.co`) para servicios comerciales y para los productos.
+3. Lúmina W (`luminaw.co`) para sus propios servicios y para los productos.
 4. Contacto: correo `wavival.dev@luminaw.co` (respuesta en 24 horas), WhatsApp o llamada de descubrimiento de 30 minutos por Calendly (página `/contacto`).
 5. Producto: TerraCore (landing y app), OKroot (landing y app en early access).
 
-Regla: el CTA de una pieza comercial dirige prioritariamente a Lúmina W o a un producto de Lúmina W; el CTA de una pieza de confianza puede dirigir al portafolio.
+Regla: el CTA de una pieza sobre los servicios de wavival dirige a `/servicios` o `/contacto`; el CTA de una pieza sobre Lúmina W o sus productos dirige a `luminaw.co` o al producto; el CTA de una pieza de confianza puede dirigir al portafolio.
 
 Medición ya instalada en el portafolio: eventos de Umami para `cta-quiero-producto`, `cv-descarga-es` y `cv-descarga-en`, `contacto-email`, `contacto-whatsapp`, `contacto-calendly`, `ver-app-terracore`, `ver-app-root` y `ver-app-nullbreach`.
 
@@ -144,13 +144,13 @@ Reglas:
 
 ### Se pueden afirmar como están publicados
 
-- Desarrolladora Full Stack (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
+- Desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
 - Estudia Análisis y Desarrollo de Software (SENA) y Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi.
 - TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.
 - Forgotten Portal: ejercicio de pentesting en laboratorio (DockerLabs) con PTES y MITRE ATT&CK.
-- Proyectos desde COP 2.000.000 / USD 500 según alcance; respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas.
+- Proyectos desde USD 250 / COP 1.000.000 según alcance; respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas.
 
 ### Se pueden afirmar con cuidado
 
@@ -186,12 +186,12 @@ Reglas:
 
 ## 10. Decisiones registradas
 
-- Servicios comerciales dirigen prioritariamente a Lúmina W; wavival es marca personal y canal de confianza y descubrimiento.
+- Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W. Los servicios y el precio de `/servicios` son de wavival.
 - Lúmina W: empresa de software. TerraCore y OKroot: sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - No usar públicamente la cifra del 42%.
 - Canales V1: Instagram y LinkedIn; español.
-- Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes que descubren Lúmina W.
+- Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes de wavival y de Lúmina W.
 - Sin nombres ni experiencias de terceros del CV.
 - NullBreach sin relación comercial definida en V1.
 - Cadencia: la define el sistema editorial.
@@ -203,7 +203,7 @@ Reglas:
 Ninguno bloquea el arranque de V1. Cada uno bloquea solo la pieza indicada.
 
 - Pieza que cite el precio de Semilla: confirmar vigencia del precio publicado.
-- Pieza que cite el precio "desde COP 2.000.000 / USD 500" en nombre de Lúmina W: confirmar que ese precio aplica bajo Lúmina W.
+- Pieza que cite un precio de Lúmina W: no usar el de wavival (desde USD 250 / COP 1.000.000); [PENDIENTE] precios propios de Lúmina W.
 - Pieza sobre OKroot con modelo de acceso o precio: [PENDIENTE].
 - Pieza sobre cumplimiento legal de TerraCore: [PENDIENTE] texto validado.
 - Pieza de OKroot sobre salud: [PENDIENTE] texto de descargo.
