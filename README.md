@@ -9,7 +9,9 @@
 [![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Version 4 of the personal portfolio for Valentina Ramírez, backend developer focused on application security and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
+> Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
+
+> Last updated: 2026-10-04
 
 ## Contents
 
@@ -30,6 +32,7 @@
   - [Accessibility](#accessibility)
 - [Testing and quality](#testing-and-quality)
   - [Local validation](#local-validation)
+  - [Local hooks](#local-hooks)
   - [CI gates](#ci-gates)
 - [Delivery flow](#delivery-flow)
   - [Branch model](#branch-model)
@@ -113,11 +116,10 @@ The site is statically rendered with Astro 7. Tailwind CSS 3 supplies utility cl
 ```text
 src/
 ├── components/          atoms, molecules and organisms
-├── pages/cotizar.astro  Spanish quote page; English mirror lives in pages/en/quote/
 ├── data/                projects, stack, GitHub build-time data and view models
 ├── i18n/                copy, slug map, localized routes and accessibility helpers
 ├── layouts/             Layout.astro, the shared document shell and metadata owner
-├── pages/               Spanish routes and the English mirror
+├── pages/               Spanish routes and the English mirror under en/ (quote: cotizar.astro and en/quote/)
 ├── scripts/             navigation, theme and optional RUM behavior
 ├── utils/               pure helpers (bento grid spans)
 └── styles/              global CSS, design tokens and component classes
@@ -126,9 +128,14 @@ api/                     quote.ts, the only Vercel Function
 public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
 scripts/                 build-time validation scripts
 tests/                   Playwright browser and unit-style specs
-docs/                    brand, commercial, release and roadmap documentation
+docs/                    SEO, i18n, accessibility, performance, security, engineering, release, brand, commercial and roadmap guides
 .github/workflows/       CI, PR checks, auto-merge into dev, branch cleanup and release
+.husky/                  pre-commit (lint-staged) and commit-msg (commitlint) hooks
 assets/                  README-only visual assets
+
+Root configuration: astro.config.mjs, tailwind.config.mjs, postcss.config.cjs, eslint.config.mjs,
+tsconfig.json, playwright.config.ts, lighthouserc.json, commitlint.config.cjs,
+.prettierrc, .prettierignore, .nvmrc, vercel.json and microfrontends.json.
 ```
 
 `Layout.astro` owns the shared head, canonical URL, hreflang tags, Open Graph and Twitter metadata, JSON-LD, theme pre-paint logic, navigation loader, navigation, footer, and skip link. Project content is defined in `src/data/projects.ts`; `projectView.ts` adapts it for localized rendering.
@@ -189,7 +196,7 @@ Every route receives a shared metadata baseline from `Layout.astro`:
 
 ### Accessibility
 
-Full detail: [`docs/accessibility.md`](./docs/accessibility.md), [`docs/performance.md`](./docs/performance.md) and [`docs/security.md`](./docs/security.md).
+Full detail: [`docs/accessibility.md`](./docs/accessibility.md). Related: [`docs/performance.md`](./docs/performance.md) and [`docs/security.md`](./docs/security.md).
 
 Accessibility behavior includes a visible skip link, localized state labels, a keyboard-safe mobile menu, native disclosures, 44px icon control targets, explicit image dimensions, and a single visible `<h1>` per route. The automated suite checks desktop and mobile rendering, routes, SEO, i18n, theme behavior, project filters, and design regressions.
 
@@ -204,9 +211,13 @@ npm run build
 npm test
 ```
 
+### Local hooks
+
+Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commit and Commitlint on each commit message; `commit-msg` also runs `~/.claude/git-hooks/commit-msg` when that executable exists on the developer machine. See [`docs/engineering.md`](./docs/engineering.md).
+
 ### CI gates
 
-The CI workflow also runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. Pull requests additionally validate commit messages, titles, secrets, and the allowed base branch.
+The `CI` workflow, on pushes and pull requests to `dev`, `stg` and `main`, runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. The `Commit lint` workflow runs on every push, `Secret scan` (Gitleaks) on every push and on pull requests, and pull requests additionally validate the title and the allowed base branch.
 
 ## Delivery flow
 
@@ -219,7 +230,7 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 - `main` is production, `stg` is staging, and `dev` is the integration branch.
 - Work branches target `dev` through pull requests.
 - Promotions are only `dev` to `stg` and `stg` to `main`, always with merge commits. `stg` to `main` is merged only by the owner. Because each promotion merge commit lands only on the base branch, a direct head can show as behind; the only allowed alternative head is a branch whose tree is identical to `dev` (or `stg`), which keeps the base-branch check passing.
-- `auto-merge-dev.yml` enables auto-merge on every non-draft PR into `dev` from a `feature/`, `fix/` or `chore/` branch, and the merge waits for the required checks.
+- `auto-merge-dev.yml` enables auto-merge on every non-draft PR into `dev` from a `feature/`, `fix/` or `chore/` branch (merge commit, source branch deleted), and the merge waits for the required checks.
 - `delete-merged-branches.yml` deletes, every 12 hours or on demand with `dry_run`, the branches of PRs merged into `dev`.
 - `release.yml` is run by hand to tag and publish a version, see [`docs/RELEASING.md`](./docs/RELEASING.md).
 - Conventional Commit messages follow `type(scope): message`.
@@ -239,6 +250,7 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | Document                                                                   | Scope                                                                                                  |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                        |
+| [CLAUDE.md](./CLAUDE.md)                                                   | Claude Code project guide: imports `AGENTS.md` and links to the documentation set.                     |
 | [AGENTS.md](./AGENTS.md)                                                   | Operational rules for agents: scope, documentation sources, delivery flow and verification.            |
 | [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
 | [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |
@@ -260,6 +272,8 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | [public/robots.txt](./public/robots.txt)                                   | Public crawler directives and sitemap location.                                                        |
 | [public/.well-known/security.txt](./public/.well-known/security.txt)       | Public RFC 9116 security contact.                                                                      |
 | [SECURITY.md](./SECURITY.md)                                               | Private vulnerability-reporting policy for the repository and deployed site.                           |
+| [vercel.json](./vercel.json)                                               | Redirects, immutable asset caches and production security headers.                                     |
+| [microfrontends.json](./microfrontends.json)                               | Vercel Microfrontends path-ownership contract (NullBreach).                                            |
 | [.env.example](./.env.example)                                             | Local environment-variable template.                                                                   |
 | [LICENSE](./LICENSE)                                                       | MIT license.                                                                                           |
 

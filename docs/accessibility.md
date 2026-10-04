@@ -1,6 +1,6 @@
 # Accessibility
 
-> Last updated: 2026-10-03
+> Last updated: 2026-10-04
 
 The target is WCAG AA on every page, in both themes and both languages. Visual rules (contrast values, focus style, tokens) are in [`../DESIGN.md`](../DESIGN.md#accessibility); this document says what each part of the site guarantees and how it is checked.
 
@@ -8,9 +8,9 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 
 - `<html lang>` is `es` or `en` (`Layout.astro`), so assistive technology reads each language correctly.
 - A skip link to `#main-content` is the first focusable element and shows on focus.
-- Exactly one `h1` (`Hero` on the home page, `PageIntro` elsewhere), `h2` per section and `h3` in cards and rows. `tests/routes.spec.ts` checks the single `h1` on every route.
+- Exactly one `h1` (`Hero` on the home page, `CaseStudy` on case studies, `NotFound` on the 404 pages, `PageIntro` elsewhere), `h2` per section and `h3` in cards and rows. `tests/routes.spec.ts` checks the single `h1` on every route.
 - Visible focus on every interactive element (`:focus-visible`, 2px `--link` outline).
-- Controls without visible text have an `aria-label`; controls with visible text keep that text inside the label.
+- Controls without visible text have an `aria-label`; controls with visible text keep that text inside the label. `Button`, `TextLink` and the language toggle enforce it with `labelInName` (`src/utils/a11y.ts`), and `tests/label-in-name.spec.ts` checks every page of the sitemap.
 - Icon-only controls are at least 44x44 px; decorative images and icons are hidden from assistive technology (`alt=""` or `aria-hidden`); content images have descriptive `alt` text in the page language.
 - Images declare `width` and `height`, which avoids layout shift.
 - `prefers-reduced-motion: reduce` clamps animations and transitions and turns off smooth scroll. There is no scroll-reveal.
@@ -27,6 +27,7 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 | Accordions             | Native `<details>` and `<summary>`                                                                                                                       |
 | Quote form             | See below                                                                                                                                                |
 | Navigation loader      | Decorative (`aria-hidden`), shown during page transitions                                                                                                |
+| Calendly embed         | Contact page only: a `role="region"` with an `aria-label`, and a `<noscript>` fallback with a link to Calendly and the email address                     |
 
 ### Quote form
 
@@ -50,6 +51,6 @@ An automated axe pass over case-study pages is pending (see [`ROADMAP.md`](./ROA
 
 - Keyboard: reach and operate everything with Tab, Enter, Space and Escape.
 - One `h1`, no skipped heading levels.
-- Labels, `alt` text and `aria-label` in both languages.
+- Labels, `alt` text and `aria-label` in both languages; a visible label always stays inside the `aria-label` (checked by `tests/label-in-name.spec.ts`).
 - Focus is visible and never trapped except in the open mobile menu.
 - Check both themes and a 360 px wide viewport.

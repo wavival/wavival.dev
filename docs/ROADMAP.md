@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-10-03
+> Last updated: 2026-10-04
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -8,9 +8,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 - [ ] NullBreach landing: it is in Next.js today, and the case study says so. Moving it to Astro is pending on the NullBreach roadmap; update the case study when it ships.
 - [ ] Blog W as a PWA: the repository has no manifest, service worker or offline mode, so the case study does not claim it. Decide whether to build it or keep it dropped everywhere.
-- [ ] Positioning wording: the README describes "a backend developer focused on application security"; the site, `llms.txt`, `llms-full.txt` and `docs/brand.md` say "Full Stack Developer (Django, React, Next.js)". Pick one.
 - [ ] OKroot status: `docs/brand.md` and `docs/commercial.md` say "early access"; the case-study tag says "Live". The AI-discovery files now say "live, early access".
-- [ ] Confirm that the price "desde COP 2.000.000 / USD 500" applies under Lúmina W (open item in `docs/commercial.md`).
 - [ ] Filters: NullBreach has `quoteType: "security"` but is not under the `security` filter. Adding it changes the filter count.
 
 ## Security
@@ -18,7 +16,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] `api/quote.ts` has a honeypot and validation but no rate limit, origin check or CAPTCHA, so it can be used to flood `wavival.dev@luminaw.co`. Add a Vercel WAF rule or a limit in the function.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18.
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
-- [ ] `npm audit` reports 14 vulnerabilities (11 high) in dev dependencies through `@lhci/cli` and `uuid`. CI audits production dependencies only (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), so these do not gate; update `@lhci/cli` when a fix exists.
+- [ ] `npm audit` reports 14 vulnerabilities (all high) as of 2026-10-04, none with a patched release: `braces` and `extract-zip`, plus the packages that depend on them (`chokidar`, `micromatch`, `fast-glob`, `tailwindcss`, `@vercel/microfrontends`, `eslint-plugin-astro` and `astro-eslint-parser`, and the `@lhci/cli` chain). 6 are in production dependencies and are covered by the advisory accepted in `scripts/check-audit.mjs` (`GHSA-vfj7-8cjw-p6xm`, `braces`); the other 8 are dev-only and do not gate CI. Re-check when a patched version of `braces` or `extract-zip` is published.
 
 ## SEO and GEO
 
@@ -33,4 +31,4 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Quality and docs
 
-- [ ] `quoteType: "api-backend"` is valid but no project uses it.
+- [ ] `quoteType: "api-backend"` and `"ai"` are valid (`src/data/quoteTypes.ts`) but no project uses them.

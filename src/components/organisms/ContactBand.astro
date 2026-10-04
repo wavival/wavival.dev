@@ -34,7 +34,7 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
         <p class="m-0 text-sm text-muted">
           {isEn ? "Projects from " : "Proyectos desde "}
           <strong class="font-semibold text-ink">
-            {isEn ? "COP 2,000,000 / USD 500" : "COP 2.000.000 / USD 500"}
+            {isEn ? "USD 250 / COP 1,000,000" : "USD 250 / COP 1.000.000"}
           </strong>
           {
             isEn
@@ -54,15 +54,7 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
         </Button>
         {
           showServicesLink && (
-            <Button
-              href={r.services}
-              variant="secondary"
-              aria-label={
-                isEn
-                  ? "See Valentina Ramírez's full services"
-                  : "Ver los servicios completos de Valentina Ramírez"
-              }
-            >
+            <Button href={r.services} variant="secondary">
               {isEn ? "See services" : "Ver servicios"}
             </Button>
           )
