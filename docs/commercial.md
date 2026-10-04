@@ -34,7 +34,7 @@ Servicios publicados en `/servicios` (ofrecidos por Lúmina W, descubiertos vía
 
 Modalidades: desarrollo completo o refuerzo backend, API o seguridad en un equipo existente. Diseño UX/UI incluido cuando el proyecto lo requiere.
 
-Precio publicado en el sitio: proyectos desde COP 2.000.000 / USD 500 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas.
+Precio publicado en el sitio: proyectos desde USD 250 / COP 1.000.000 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas.
 
 Proceso publicado: conversación, propuesta, build iterativo, entrega documentada y mantenible.
 
@@ -144,13 +144,13 @@ Reglas:
 
 ### Se pueden afirmar como están publicados
 
-- Desarrolladora Full Stack (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
+- Desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
 - Estudia Análisis y Desarrollo de Software (SENA) y Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi.
 - TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.
 - Forgotten Portal: ejercicio de pentesting en laboratorio (DockerLabs) con PTES y MITRE ATT&CK.
-- Proyectos desde COP 2.000.000 / USD 500 según alcance; respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas.
+- Proyectos desde USD 250 / COP 1.000.000 según alcance; respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas.
 
 ### Se pueden afirmar con cuidado
 
@@ -203,7 +203,7 @@ Reglas:
 Ninguno bloquea el arranque de V1. Cada uno bloquea solo la pieza indicada.
 
 - Pieza que cite el precio de Semilla: confirmar vigencia del precio publicado.
-- Pieza que cite el precio "desde COP 2.000.000 / USD 500" en nombre de Lúmina W: confirmar que ese precio aplica bajo Lúmina W.
+- Pieza que cite el precio "desde USD 250 / COP 1.000.000" en nombre de Lúmina W: confirmar que ese precio aplica bajo Lúmina W.
 - Pieza sobre OKroot con modelo de acceso o precio: [PENDIENTE].
 - Pieza sobre cumplimiento legal de TerraCore: [PENDIENTE] texto validado.
 - Pieza de OKroot sobre salud: [PENDIENTE] texto de descargo.

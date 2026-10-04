@@ -9,7 +9,7 @@
 [![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Version 4 of the personal portfolio for Valentina Ramírez, backend developer focused on application security and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
+> Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
 ## Contents
 
@@ -131,7 +131,7 @@ docs/                    SEO, i18n, accessibility, performance, security, engine
 assets/                  README-only visual assets
 
 Root configuration: astro.config.mjs, tailwind.config.mjs, postcss.config.cjs, eslint.config.mjs,
-tsconfig.json, playwright.config.ts, lighthouserc.json, commitlint.config.cjs, cspell.json,
+tsconfig.json, playwright.config.ts, lighthouserc.json, commitlint.config.cjs,
 .prettierrc, .prettierignore, .nvmrc, vercel.json and microfrontends.json.
 ```
 

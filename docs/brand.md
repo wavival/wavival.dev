@@ -13,7 +13,7 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público: desarrolladora Full Stack (Django, React, Next.js) y fundadora de Lúmina W.
+- Rol público: desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
@@ -54,7 +54,7 @@ Cadencia y calendario: los define después el sistema editorial. Este documento 
 
 ## 3. Posicionamiento
 
-Posicionamiento V1: desarrolladora Full Stack y fundadora de Lúmina W, con contenido sobre:
+Posicionamiento V1: desarrolladora Full Stack con enfoque en backend e IA y fundadora de Lúmina W, con contenido sobre:
 
 - Construcción de productos.
 - Backend.
