@@ -30,7 +30,7 @@ export const ui = {
     "common.emailAria": "Contáctame: enviar correo electrónico a Valentina Ramírez",
     "common.skip": "Saltar al contenido principal",
     "footer.tagline":
-      "Full Stack Developer. Seguridad integrada. IA aplicada. Productos que escalan.",
+      "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan.",
     "footer.navHeading": "Navegación",
     "footer.resourcesHeading": "Recursos",
     "footer.repos": "Repositorios",
@@ -70,7 +70,8 @@ export const ui = {
     "common.downloadCvAria": "Download Valentina Ramírez's CV in PDF",
     "common.emailAria": "Get in touch: send an email to Valentina Ramírez",
     "common.skip": "Skip to main content",
-    "footer.tagline": "Full Stack Developer. Security built in. Applied AI. Products that scale.",
+    "footer.tagline":
+      "Full Stack Developer. Backend and AI. Security built in. Products that scale.",
     "footer.navHeading": "Navigation",
     "footer.resourcesHeading": "Resources",
     "footer.repos": "Repositories",

@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Positioning: Full Stack developer focused on backend and AI, in the home hero, the about section, the default metadata, `llms.txt`, `llms-full.txt`, the README, `docs/brand.md` and `docs/commercial.md`. The open positioning decision is removed from `docs/ROADMAP.md`.
-- Published price: projects from USD 250 / COP 1,000,000 depending on scope (was COP 2,000,000 / USD 500), in the contact band, the contact and services pages, the services structured data, `llms-full.txt` and `docs/commercial.md`.
+- Positioning: Full Stack developer focused on backend and AI, in the home hero, the about section, the page titles and descriptions, the footer tagline, the structured data, the web manifest, `llms.txt`, `llms-full.txt`, the README, `docs/brand.md` and `docs/commercial.md`. The open positioning decision is removed from `docs/ROADMAP.md`.
+- Published price: projects from USD 250 / COP 1,000,000 depending on scope (was COP 2,000,000 / USD 500) and valid only for wavival's own services; Lúmina W has its own pricing. Applied in the contact band, the contact and services pages, the services structured data, `llms-full.txt` and `docs/commercial.md`.
 - Dependencies: `overrides` for `basic-ftp`, `tmp` and `uuid` clear their advisories (24 vulnerabilities down to 16). The rest have no patched release and are tracked in `docs/ROADMAP.md`.
 - Restored the `[3.1.0] - 2026-09-30` section and its compare link: the tag `v3.1.0` existed but its entries were listed under `[4.0.0]`. The 49 entries that were in the changelog at that tag moved to 3.1.0 unchanged.
 - README consistency: project structure (`docs/`, `.husky/`, root configuration, no duplicated quote page line), local Husky hooks, the empty `CLAUDE.md`, `vercel.json` and `microfrontends.json` in the document map, the Accessibility section pointers, and the `npm audit` counts in `docs/ROADMAP.md`.

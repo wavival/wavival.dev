@@ -1,4 +1,4 @@
-# Valentina Ramírez: Full Stack Developer · Django · React · Next.js · Colombia
+# Valentina Ramírez: Full Stack Developer · Backend e IA · Django · React · Next.js · Colombia
 
 > Full Stack Developer con enfoque en backend e IA y experiencia en Django, React y Next.js. Construyo productos completos con integración de IA y seguridad desde el diseño.
 

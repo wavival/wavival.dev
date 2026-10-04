@@ -61,7 +61,7 @@ Posicionamiento V1: desarrolladora Full Stack con enfoque en backend e IA y fund
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
 
-Frase base publicada en el sitio: "Full Stack Developer. Seguridad integrada. IA aplicada. Productos que escalan."
+Frase base publicada en el sitio: "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan."
 
 Afirmaciones que el sitio ya sostiene:
 

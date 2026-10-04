@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-10-03
+> Last updated: 2026-10-04
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -9,7 +9,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] NullBreach landing: it is in Next.js today, and the case study says so. Moving it to Astro is pending on the NullBreach roadmap; update the case study when it ships.
 - [ ] Blog W as a PWA: the repository has no manifest, service worker or offline mode, so the case study does not claim it. Decide whether to build it or keep it dropped everywhere.
 - [ ] OKroot status: `docs/brand.md` and `docs/commercial.md` say "early access"; the case-study tag says "Live". The AI-discovery files now say "live, early access".
-- [ ] Confirm that the price "desde USD 250 / COP 1.000.000" applies under Lúmina W (open item in `docs/commercial.md`).
 - [ ] Filters: NullBreach has `quoteType: "security"` but is not under the `security` filter. Adding it changes the filter count.
 
 ## Security

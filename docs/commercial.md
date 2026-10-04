@@ -34,7 +34,7 @@ Servicios publicados en `/servicios` (ofrecidos por Lúmina W, descubiertos vía
 
 Modalidades: desarrollo completo o refuerzo backend, API o seguridad en un equipo existente. Diseño UX/UI incluido cuando el proyecto lo requiere.
 
-Precio publicado en el sitio: proyectos desde USD 250 / COP 1.000.000 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas.
+Precio publicado en el sitio: proyectos desde USD 250 / COP 1.000.000 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas. Este precio aplica solo a los servicios de wavival; Lúmina W tiene sus propios precios, que no se publican en este sitio.
 
 Proceso publicado: conversación, propuesta, build iterativo, entrega documentada y mantenible.
 
@@ -203,7 +203,7 @@ Reglas:
 Ninguno bloquea el arranque de V1. Cada uno bloquea solo la pieza indicada.
 
 - Pieza que cite el precio de Semilla: confirmar vigencia del precio publicado.
-- Pieza que cite el precio "desde USD 250 / COP 1.000.000" en nombre de Lúmina W: confirmar que ese precio aplica bajo Lúmina W.
+- Pieza que cite un precio de Lúmina W: no usar el de wavival (desde USD 250 / COP 1.000.000); [PENDIENTE] precios propios de Lúmina W.
 - Pieza sobre OKroot con modelo de acceso o precio: [PENDIENTE].
 - Pieza sobre cumplimiento legal de TerraCore: [PENDIENTE] texto validado.
 - Pieza de OKroot sobre salud: [PENDIENTE] texto de descargo.

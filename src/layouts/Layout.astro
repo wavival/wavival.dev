@@ -22,8 +22,8 @@ interface Props {
 }
 
 const {
-  title = "Valentina Ramírez | Full Stack Developer",
-  description = "Desarrolladora Full Stack: construyo productos con Django, React y Next.js, integración de IA y seguridad desde el diseño.",
+  title = "Valentina Ramírez | Full Stack Developer, Backend e IA",
+  description = "Desarrolladora Full Stack con enfoque en backend e IA: construyo productos con Django, React y Next.js, con seguridad desde el diseño.",
   image = "/images/profile.webp",
   ogImage,
   ogImageAlt,
@@ -54,8 +54,8 @@ const socialCardType = (ogImage ?? defaultSocialCard).endsWith(".webp")
 const socialCardAlt =
   ogImageAlt ??
   (lang === "en"
-    ? "Valentina Ramírez: Full Stack Developer · Django · React · Next.js"
-    : "Valentina Ramírez: Full Stack Developer · Django · React · Next.js");
+    ? "Valentina Ramírez: Full Stack Developer · Backend and AI · Django · React · Next.js"
+    : "Valentina Ramírez: Full Stack Developer · Backend e IA · Django · React · Next.js");
 
 const UMAMI_SRC = import.meta.env.PUBLIC_UMAMI_SRC;
 const UMAMI_ID = import.meta.env.PUBLIC_UMAMI_ID;
@@ -80,6 +80,7 @@ const jsonLd = JSON.stringify({
       description: personDescription,
       knowsAbout: [
         "Full Stack Development",
+        "Backend Development",
         "Django",
         "Django REST Framework",
         "Next.js",
