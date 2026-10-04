@@ -74,7 +74,7 @@ Afirmaciones que el sitio ya sostiene:
 - Producto real, no demos: multiusuario, lógica de negocio compleja, APIs propias.
 - Decide arquitectura pensando en el segundo año, no solo en el MVP.
 - "La IA acelera; no reemplaza el criterio de ingeniería."
-- La home publica tres datos: "3 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". El sitio no enumera cuáles son las 3 apps: una pieza que cite la cifra nombra las apps que usa como evidencia o la omite.
+- La home publica tres datos: "3 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera junto a la cifra.
 
 Regla de IA: cualquier pieza que diga que una solución usa, resuelve o mejora algo con IA cita el proyecto y la fuente que lo demuestra (por ejemplo OKroot con Claude API, NullBreach con OpenAI). Sin fuente, la pieza no hace ese claim.
 
@@ -260,6 +260,8 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes de wavival y de Lúmina W.
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
+- Los precios de productos no se publican en `wavival.dev` y ninguna pieza de wavival los cita.
+- Las 3 apps del home son TerraCore, OKroot y NullBreach.
 - No usar públicamente la cifra del 42%.
 - Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W.
 - No usar nombres ni experiencias de terceros del CV en V1.
@@ -275,9 +277,8 @@ Ninguno de estos bloquea el arranque de V1. Cada uno bloquea únicamente la piez
 
 - Publicar la cifra de reducción de administración de TerraCore: no permitido; sin pendiente.
 - Pieza sobre el detalle de un módulo concreto de TerraCore: verificar que el módulo esté disponible (el CV interno lo describe como "en desarrollo", el caso de estudio como integrado).
-- Pieza que cite un modelo de acceso o precio de OKroot: [PENDIENTE], no existe en el repositorio.
+- Pieza que cite un modelo de acceso de OKroot: [PENDIENTE], no existe en el repositorio.
 - Pieza sobre la relación comercial de NullBreach con Lúmina W: no se hace en V1.
 - Pieza que presente Blog W como PWA: [PENDIENTE], no está en el repositorio.
 - Pieza sobre legislación o cumplimiento (Ley 1581): [PENDIENTE] texto validado.
-- Pieza que cite el precio del plan Semilla: el repositorio solo publica sus límites (1 sede, 5 usuarios) y no su precio; [PENDIENTE] precio vigente y su fuente en la landing.
 - Pieza que cite experiencia o trayectoria en años: no se usa; el sitio no la respalda.
