@@ -54,8 +54,8 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 
 ## Supply chain and repository
 
-- `scripts/check-audit.mjs` fails CI on high or critical advisories in production dependencies unless the advisory is listed with a reason in `ACCEPTED`. Two are accepted today because no patched release exists: `braces` (GHSA-vfj7-8cjw-p6xm) and `http-cache-semantics` (GHSA-ch52-4w7c-c8xp), both reached only at build time.
-- `package.json` `overrides` pin `basic-ftp`, `tmp` and `uuid` to patched versions. The rest of the `npm audit` findings (all high severity: `braces`, `http-cache-semantics`, `extract-zip` and the packages that depend on them) have no patched release and are tracked in [`ROADMAP.md`](./ROADMAP.md).
+- `scripts/check-audit.mjs` fails CI on high or critical advisories in production dependencies unless the advisory is listed with a reason in `ACCEPTED`. One is accepted today because no patched release exists: `braces` (GHSA-vfj7-8cjw-p6xm), reached only at build time. The script reports an accepted advisory that is no longer flagged so it can be removed.
+- `package.json` `overrides` pin `basic-ftp`, `tmp` and `uuid` to patched versions. The rest of the `npm audit` findings (all high severity: `braces`, `http-cache-semantics`, `extract-zip` and the packages that depend on them) have no patched release (`http-cache-semantics` was fixed by updating the lockfile) and are tracked in [`ROADMAP.md`](./ROADMAP.md).
 - Gitleaks scans every push and pull request (`.github/workflows/gitleaks.yml`).
 - Reusable workflows come from the public repository `lumina-w/agents`, pinned to a tag.
 - Secrets live only in Vercel and GitHub settings. `.env` is ignored by git; `.env.example` documents the names without values.

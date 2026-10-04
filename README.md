@@ -11,6 +11,8 @@
 
 > Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
+> Last updated: 2026-10-04
+
 ## Contents
 
 - [Local development](#local-development)
@@ -30,6 +32,7 @@
   - [Accessibility](#accessibility)
 - [Testing and quality](#testing-and-quality)
   - [Local validation](#local-validation)
+  - [Local hooks](#local-hooks)
   - [CI gates](#ci-gates)
 - [Delivery flow](#delivery-flow)
   - [Branch model](#branch-model)
@@ -210,11 +213,11 @@ npm test
 
 ### Local hooks
 
-Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commit and Commitlint on each commit message. See [`docs/engineering.md`](./docs/engineering.md).
+Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commit and Commitlint on each commit message; `commit-msg` also runs `~/.claude/git-hooks/commit-msg` when that executable exists on the developer machine. See [`docs/engineering.md`](./docs/engineering.md).
 
 ### CI gates
 
-The CI workflow also runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. Pull requests additionally validate commit messages, titles, secrets, and the allowed base branch.
+The `CI` workflow, on pushes and pull requests to `dev`, `stg` and `main`, runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. The `Commit lint` workflow runs on every push, `Secret scan` (Gitleaks) on every push and on pull requests, and pull requests additionally validate the title and the allowed base branch.
 
 ## Delivery flow
 
@@ -227,7 +230,7 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 - `main` is production, `stg` is staging, and `dev` is the integration branch.
 - Work branches target `dev` through pull requests.
 - Promotions are only `dev` to `stg` and `stg` to `main`, always with merge commits. `stg` to `main` is merged only by the owner. Because each promotion merge commit lands only on the base branch, a direct head can show as behind; the only allowed alternative head is a branch whose tree is identical to `dev` (or `stg`), which keeps the base-branch check passing.
-- `auto-merge-dev.yml` enables auto-merge on every non-draft PR into `dev` from a `feature/`, `fix/` or `chore/` branch, and the merge waits for the required checks.
+- `auto-merge-dev.yml` enables auto-merge on every non-draft PR into `dev` from a `feature/`, `fix/` or `chore/` branch (merge commit, source branch deleted), and the merge waits for the required checks.
 - `delete-merged-branches.yml` deletes, every 12 hours or on demand with `dry_run`, the branches of PRs merged into `dev`.
 - `release.yml` is run by hand to tag and publish a version, see [`docs/RELEASING.md`](./docs/RELEASING.md).
 - Conventional Commit messages follow `type(scope): message`.
@@ -247,7 +250,7 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | Document                                                                   | Scope                                                                                                  |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                        |
-| [CLAUDE.md](./CLAUDE.md)                                                   | Intentionally empty. Agent rules live in `AGENTS.md`.                                                  |
+| [CLAUDE.md](./CLAUDE.md)                                                   | Claude Code project guide: imports `AGENTS.md` and links to the documentation set.                     |
 | [AGENTS.md](./AGENTS.md)                                                   | Operational rules for agents: scope, documentation sources, delivery flow and verification.            |
 | [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
 | [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |

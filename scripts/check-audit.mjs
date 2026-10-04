@@ -13,9 +13,6 @@ const ACCEPTED = {
   // tailwindcss@3 (chokidar, micromatch, fast-glob) and the Vercel routing
   // package, only at build and dev time. Re-check when tailwindcss@4 is adopted.
   "GHSA-vfj7-8cjw-p6xm": "braces: stack exhaustion on deeply nested patterns",
-  // Flagged for every published version (latest is 4.2.0). Enters through astro,
-  // only at build time. Re-check on the next astro upgrade.
-  "GHSA-ch52-4w7c-c8xp": "http-cache-semantics: max-stale handling can leak cached responses",
 };
 
 const BLOCKING = new Set(["high", "critical"]);

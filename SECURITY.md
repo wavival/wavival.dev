@@ -1,5 +1,7 @@
 # Security policy
 
+> Last updated: 2026-10-04
+
 ## Report a vulnerability
 
 Report security vulnerabilities affecting this repository or `wavival.dev` privately at [wavival.dev@luminaw.co](mailto:wavival.dev@luminaw.co).
