@@ -50,7 +50,13 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
 ---
 
 <div class="quote-form-wrap">
-  <form class="quote-form" data-quote-form aria-labelledby="quote-form-title" novalidate>
+  <form
+    class="quote-form"
+    data-quote-form
+    data-gramm="false"
+    aria-labelledby="quote-form-title"
+    novalidate
+  >
     <div class="quote-intro">
       <h2 id="quote-form-title" class="h2-sub">{labels.formTitle}</h2>
       <p class="body-md m-0">{labels.formIntro}</p>
