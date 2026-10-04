@@ -39,7 +39,7 @@ const lang = getLangFromUrl(Astro.url);
 const ogLocale = lang === "en" ? "en_US" : "es_CO";
 const t = useTranslations(lang as Lang);
 const personDescription =
-  "Full Stack Developer con enfoque en backend e IA y experiencia en Django, React y Next.js. Fundadora de Lúmina W. Construyo productos con IA integrada y seguridad desde el diseño.";
+  "Full Stack Developer con enfoque en backend e IA y experiencia en Django, React y Next.js. Construyo productos con IA integrada y seguridad desde el diseño. Fundadora de Lúmina W, su empresa de software aparte (luminaw.co).";
 
 const site = "https://www.wavival.dev";
 const canonicalURL = new URL(Astro.url.pathname, site);
@@ -77,6 +77,7 @@ const jsonLd = JSON.stringify({
         caption: "Valentina Ramírez",
       },
       jobTitle: "Full Stack Developer",
+      email: "wavival.dev@luminaw.co",
       description: personDescription,
       knowsAbout: [
         "Full Stack Development",
@@ -102,7 +103,6 @@ const jsonLd = JSON.stringify({
         { "@type": "EducationalOrganization", name: "Universidad de San Buenaventura" },
         { "@type": "EducationalOrganization", name: "Platzi", url: "https://platzi.com" },
       ],
-      worksFor: { "@id": `${site}/#organization` },
       sameAs: [
         "https://www.linkedin.com/in/wavival/",
         "https://github.com/wavival",
@@ -124,12 +124,6 @@ const jsonLd = JSON.stringify({
         width: 619,
         height: 464,
       },
-      contactPoint: {
-        "@type": "ContactPoint",
-        email: "wavival.dev@luminaw.co",
-        contactType: "customer support",
-        availableLanguage: ["es", "en"],
-      },
       sameAs: ["https://blog.luminaw.co"],
     },
     {
@@ -139,6 +133,7 @@ const jsonLd = JSON.stringify({
       name: "Valentina Ramírez",
       description: description,
       author: { "@id": `${site}/#person` },
+      publisher: { "@id": `${site}/#person` },
     },
     ...(isHome
       ? [

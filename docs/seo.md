@@ -1,6 +1,6 @@
 # SEO, indexing and GEO
 
-> Last updated: 2026-10-03
+> Last updated: 2026-10-04
 
 How the site is made discoverable by search engines and AI assistants, and what to update when a page, a project or a slug changes. Per-language rules live in [`i18n.md`](./i18n.md); performance and accessibility have their own documents.
 
@@ -32,7 +32,7 @@ Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp`. 
 
 ## Structured data (JSON-LD)
 
-All pages carry a graph with `Person`, `Organization` (Lúmina W) and `WebSite`. On top of it:
+All pages carry a graph with `Person`, `Organization` and `WebSite`. Everything on wavival.dev belongs to wavival: the `Person` is the entity of the site (it holds the contact email and is the `author` and `publisher` of the `WebSite` and the `provider` of the services), and the `Organization` is Lúmina W, a separate company that she founded (`founder`) and that has its own site, services and pricing at `luminaw.co`. The `Organization` carries no contact point or service of this site. On top of it:
 
 | Page type                    | Extra schema                                                                |
 | ---------------------------- | --------------------------------------------------------------------------- |
@@ -57,6 +57,7 @@ The project node is `SoftwareApplication` by default (TerraCore, OKroot, NullBre
 
 - `public/llms.txt` is the index: profile, every project with its case-study URL, the stack, contact data and the English version of the site.
 - `public/llms-full.txt` is the long-form companion: one section per case study, services and contact.
+- Both state that wavival.dev (services, pricing, contact) belongs to wavival and luminaw.co to Lúmina W.
 - Both are written by hand. A test (`tests/case-studies.spec.ts`) fails when a case study slug is missing from either file.
 - Keep both aligned with the site whenever a project, a service, a price or a contact channel changes (rule also in `AGENTS.md`).
 
