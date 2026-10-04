@@ -35,7 +35,7 @@ Fuera de contenido V1: experiencias laborales del CV y cualquier nombre o experi
 Audiencia prioritaria V1:
 
 - Personas interesadas en desarrollo de producto y de software.
-- Potenciales clientes que descubren Lúmina W y sus productos a través de wavival.
+- Potenciales clientes de los servicios de wavival, y personas que descubren Lúmina W y sus productos a través de wavival.
 
 Audiencias secundarias que el sitio ya atiende: equipos que buscan refuerzo backend, API o seguridad; personas técnicas y reclutadoras que revisan el portafolio; comunidad técnica hispanohablante (Django, Next.js, AppSec, IA aplicada).
 
@@ -73,7 +73,7 @@ Afirmaciones que el sitio ya sostiene:
 
 Regla de IA: cualquier pieza que diga que una solución usa, resuelve o mejora algo con IA cita el proyecto y la fuente que lo demuestra (por ejemplo OKroot con Claude API, NullBreach con OpenAI). Sin fuente, la pieza no hace ese claim.
 
-Relación con Lúmina W: wavival es la marca personal y el canal de confianza y descubrimiento. Lúmina W es la empresa que ofrece los servicios y los productos.
+Relación con Lúmina W: todo lo que vive en `wavival.dev` es de wavival (marca personal: servicios, precio, contacto, proyectos) y todo lo que vive en `luminaw.co` es de Lúmina W (empresa de software con sus propios servicios, precios y productos). wavival además es canal de descubrimiento de Lúmina W.
 
 Fuente: `src/components/organisms/Hero.astro`, `src/data/stack.ts`, `src/data/projects.ts`, `src/i18n/ui.ts`.
 
@@ -215,7 +215,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Empresa de software fundada por Valentina. Diseña, construye y mantiene productos y software a medida.
 - Dos frentes: desarrollo a medida y productos propios (TerraCore, OKroot).
 - Presencia: `luminaw.co` (landing) y Blog W en `blog.luminaw.co` (Next.js, bilingüe, con cuentas y comunidad).
-- Los servicios comerciales se dirigen prioritariamente a Lúmina W. wavival trae confianza y descubrimiento.
+- Los servicios y precios de Lúmina W viven en `luminaw.co`; los servicios y el precio publicados en `wavival.dev` son de wavival. wavival trae confianza y descubrimiento.
 
 ### TerraCore (producto de Lúmina W)
 
@@ -243,7 +243,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 ### Regla de marca
 
 - wavival habla como persona: decisiones, aprendizajes, criterio técnico.
-- Lúmina W habla como empresa: oferta y productos.
+- Lúmina W habla como empresa: su oferta, sus precios y sus productos, en `luminaw.co`.
 - Cada producto habla con su propia landing.
 - Una pieza puede mencionar a los tres respetando la sección 6.
 
@@ -252,11 +252,11 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 ## 10. Decisiones registradas
 
 - Canales V1: Instagram y LinkedIn. Idioma: español.
-- Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes que descubren Lúmina W y sus productos a través de wavival.
+- Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes de wavival y de Lúmina W.
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - No usar públicamente la cifra del 42%.
-- Servicios dirigen prioritariamente a Lúmina W.
+- Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W.
 - No usar nombres ni experiencias de terceros del CV en V1.
 - No fijar una única máquina de trabajo; mencionar herramientas solo con fuente.
 - Cadencia: la define el sistema editorial.
