@@ -27,6 +27,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Performance and accessibility
 
 - [ ] Preload Poppins 500 and 600 (only 400 and the Raleway variable font are preloaded).
+- [ ] Label-in-Name: some controls with visible text have an `aria-label` that does not contain it (the `ContactBand` CTA reads "Quiero mi producto" but is labelled "Ir a la página de contacto"; "Ver servicios" in `ContactBand`, the hero and the about page; the English footer "Uses" link). `DESIGN.md` and `docs/accessibility.md` state the rule, so fix the labels in the code.
 - [ ] Add an axe pass for case-study pages to the Playwright suite (heading order and contrast are checked by hand today).
 
 ## Quality and docs
