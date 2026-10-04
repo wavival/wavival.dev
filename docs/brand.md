@@ -1,6 +1,8 @@
 # Marca personal wavival
 
-Documento vivo. Sin fecha. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
+> Last updated: 2026-10-04
+
+Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
 Un [PENDIENTE] es bloqueante solo para la pieza concreta que lo necesita. Nunca es un bloqueo global: si algo no está confirmado, se omite de la pieza y se publica el resto.
 
@@ -13,7 +15,7 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público: desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W.
+- Rol público: desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W. En inglés: Full Stack Developer focused on backend and AI.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
@@ -61,7 +63,9 @@ Posicionamiento V1: desarrolladora Full Stack con enfoque en backend e IA y fund
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
 
-Frase base publicada en el sitio: "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan."
+Titular de la home: "Full Stack Developer, backend e IA." (EN: "Full Stack Developer, backend and AI."), seguido de "El código que firmo también lo rompo."
+
+Frase base publicada en el pie del sitio: "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan." (EN: "Full Stack Developer. Backend and AI. Security built in. Products that scale.")
 
 Afirmaciones que el sitio ya sostiene:
 
@@ -70,6 +74,7 @@ Afirmaciones que el sitio ya sostiene:
 - Producto real, no demos: multiusuario, lógica de negocio compleja, APIs propias.
 - Decide arquitectura pensando en el segundo año, no solo en el MVP.
 - "La IA acelera; no reemplaza el criterio de ingeniería."
+- La home publica tres datos: "3 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera junto a la cifra.
 
 Regla de IA: cualquier pieza que diga que una solución usa, resuelve o mejora algo con IA cita el proyecto y la fuente que lo demuestra (por ejemplo OKroot con Claude API, NullBreach con OpenAI). Sin fuente, la pieza no hace ese claim.
 
@@ -111,7 +116,7 @@ Reglas de redacción:
 Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no se publica.
 
 1. Construcción de productos
-   - TerraCore, OKroot, NullBreach, Lúmina W, Blog W: problema, solución, módulos, aprendizajes.
+   - TerraCore, OKroot, NullBreach, Lúmina W, Blog W, las landings de TerraCore y OKroot y el caso de diseño de wavival.dev: problema, solución, módulos, aprendizajes.
    - Fuente: casos de estudio en `src/data/projects.ts`.
 2. Decisiones técnicas
    - Contexto, trade-off, decisión (multitenancy, offline-first, Next.js App Router, NextAuth, Prisma Postgres, estado persistente del perfil en OKroot).
@@ -198,7 +203,7 @@ Fuente única: `src/styles/tokens.css`, `DESIGN.md`, `public/brand/`.
   - Fondo `#f0f4ff` (claro) y `#0f1117` (oscuro).
   - Texto `#1a1a2e` (claro) y `#e8eaf6` (oscuro).
 - Tipografía: Raleway para títulos y etiquetas; Poppins para lectura.
-- Tarjetas OG 1200x630 en WebP por proyecto.
+- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853).
 - Iconografía: SVG decorativos, sin emojis ni flechas decorativas.
 - Accesibilidad como norma: contraste WCAG AA, foco visible, texto alternativo real en imágenes de contenido.
 
@@ -222,7 +227,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Producto en producción y en venta activa, en validación con clientes en Antioquia, Colombia: SaaS multitenancy para fincas medianas en Colombia (PWA offline-first). Django, DRF, PostgreSQL, React, TypeScript.
 - Landing `terracoreapp.co`; app `app.terracoreapp.co`.
 - Solo el plan Semilla se trata como disponible actualmente. Los planes Profesional y Enterprise que muestra la landing no se mencionan como disponibles.
-- No se usa públicamente la cifra de reducción de tiempo administrativo (42%), aunque el sitio actual todavía la publique. No se copia a contenido.
+- No se usa públicamente la cifra de reducción de tiempo administrativo (42%). El sitio ya no la publica (retirada, ver `CHANGELOG.md`) y no se copia a contenido.
 - No se identifica a fincas ni productores.
 
 ### OKroot (producto de Lúmina W)
@@ -255,6 +260,8 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes de wavival y de Lúmina W.
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
+- Los precios de productos no se publican en `wavival.dev` y ninguna pieza de wavival los cita.
+- Las 3 apps del home son TerraCore, OKroot y NullBreach.
 - No usar públicamente la cifra del 42%.
 - Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W.
 - No usar nombres ni experiencias de terceros del CV en V1.
@@ -270,9 +277,8 @@ Ninguno de estos bloquea el arranque de V1. Cada uno bloquea únicamente la piez
 
 - Publicar la cifra de reducción de administración de TerraCore: no permitido; sin pendiente.
 - Pieza sobre el detalle de un módulo concreto de TerraCore: verificar que el módulo esté disponible (el CV interno lo describe como "en desarrollo", el caso de estudio como integrado).
-- Pieza que cite un modelo de acceso o precio de OKroot: [PENDIENTE], no existe en el repositorio.
+- Pieza que cite un modelo de acceso de OKroot: [PENDIENTE], no existe en el repositorio.
 - Pieza sobre la relación comercial de NullBreach con Lúmina W: no se hace en V1.
 - Pieza que presente Blog W como PWA: [PENDIENTE], no está en el repositorio.
 - Pieza sobre legislación o cumplimiento (Ley 1581): [PENDIENTE] texto validado.
-- Pieza que cite el plan Semilla con precio: confirmar vigencia del precio publicado en la landing.
 - Pieza que cite experiencia o trayectoria en años: no se usa; el sitio no la respalda.
