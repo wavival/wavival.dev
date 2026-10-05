@@ -33,7 +33,7 @@ test("vercel preserves legacy redirects", () => {
   }
 });
 
-test("vercel redirects the former OKroot slugs permanently", () => {
+test("vercel redirects the former OKroot app slug permanently", () => {
   const redirects = new Map(
     vercel.redirects.map(
       (redirect: { source: string; destination: string; permanent: boolean }) => [
@@ -45,9 +45,9 @@ test("vercel redirects the former OKroot slugs permanently", () => {
 
   for (const route of [
     { source: "/proyectos/root", destination: "/proyectos/okroot" },
-    { source: "/proyectos/root-landing", destination: "/proyectos/okroot-landing" },
     { source: "/en/projects/root", destination: "/en/projects/okroot" },
-    { source: "/en/projects/root-landing", destination: "/en/projects/okroot-landing" },
+    { source: "/proyectos/root-landing", destination: "/proyectos/okroot#landing" },
+    { source: "/en/projects/root-landing", destination: "/en/projects/okroot#landing" },
   ]) {
     expect(redirects.get(route.source)).toMatchObject({ ...route, permanent: true });
   }

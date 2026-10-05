@@ -1,6 +1,6 @@
 # DESIGN.md: Design System
 
-> Last updated: 2026-10-04
+> Last updated: 2026-10-05
 
 Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
@@ -147,7 +147,7 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 - Below 900px the menu is a full-screen overlay with six numbered display links, a "Blog W" primary button and a mailto secondary button.
 - The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
 - `ContactBand` closes the home and also services, about, and case studies; the services page hides its own "Ver servicios" button.
-- Accordions are native `<details>` (`Disclosure`) with the state shown as text and a short open/close transition.
+- Accordions are native `<details>` (`Disclosure`, and `PartDisclosure` for the parts of an ecosystem project) with the state shown as text and a short open/close transition.
 - Line-height defaults to 1.6 (body and the Tailwind `fontSize` scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
 - The mobile menu overlay is a sibling of the sticky `<header>`, never a child: `backdrop-filter` on the header would otherwise become the containing block of the `fixed` overlay.
 

@@ -247,13 +247,15 @@ const { services, projectTypes, selectedService, labels, privacyHref } = Astro.p
           )
         : undefined;
 
+    // ?mode=types shows the project types with none selected (case-study button);
+    // ?type=<id> also selects that type.
     const typeFromUrl = inputIn(typesGroup, params.get("type"));
-    if (typeFromUrl && servicesGroup && typesGroup) {
+    if ((typeFromUrl || params.get("mode") === "types") && servicesGroup && typesGroup) {
       servicesGroup.hidden = true;
       servicesGroup.disabled = true;
       typesGroup.hidden = false;
       typesGroup.disabled = false;
-      typeFromUrl.checked = true;
+      if (typeFromUrl) typeFromUrl.checked = true;
     } else {
       const selectedFromUrl = inputIn(servicesGroup, params.get("service"));
       if (selectedFromUrl && !selectedFromUrl.checked) selectedFromUrl.click();
