@@ -9,21 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Projects as ecosystems: each of the six projects (TerraCore, OKroot, NullBreach, Lúmina W, wavival.dev, Forgotten Portal) has one card and one page, split into parts (`PartKind`: app, landing, docs, blog, repo, api, site, writeup). A multi-part page shows the official name, an ecosystem summary, one action per part, a contents list of the parts and one accordion per rich part (`<details id="app">`; the first rich part is open, and a `#landing` style link, a hash change or a contents click opens its part) or a link row per link-only part. Single-part projects keep the classic case-study layout.
-- Components `PartBody`, `PartDisclosure` and `PartLinkRow`, the scripts `src/scripts/disclosure.ts` and `src/scripts/part-disclosure.ts`, and the data modules `projectSeo.ts` and `caseStudyLabels.ts`.
+- Projects as ecosystems: each of the six projects (TerraCore, OKroot, NullBreach, Lúmina W, wavival.dev, Forgotten Portal) has one card and one page, split into parts (`PartKind`: app, landing, docs, blog, repo, api, site, writeup). A multi-part page shows the official name, an ecosystem summary, one action per part, a contents list of the parts and one "Ver detalle" accordion per part (`<details id="app">`; the first part is open, and a `#landing` style link, a hash change or a contents click opens its part). Single-part projects keep the classic case-study layout.
+- Components `PartBody` and `PartDisclosure`, the scripts `src/scripts/disclosure.ts` and `src/scripts/part-disclosure.ts`, and the data modules `projectSeo.ts` and `caseStudyLabels.ts`.
 - JSON-LD with one object per project, `alternateName` (the short name) and, on multi-part projects, `hasPart` listing each linked part with its own schema.org type.
 - Links as parts: documentation of TerraCore (`docs.terracoreapp.co`) and OKroot (`docs.okroot.co`), and the NullBreach repository and Swagger UI; Umami events `ver-docs-terracore` and `ver-docs-okroot`.
 - `tests/ecosystem.spec.ts`.
 - Open decisions in `docs/ROADMAP.md`: rich docs parts, unverified docs content and the NullBreach Swagger route.
 - `src/utils/a11y.ts` (`labelInName`, `visibleText`) and `tests/label-in-name.spec.ts`: every control with visible text keeps it inside its `aria-label` (WCAG 2.5.3, Label in Name) on every page of the sitemap.
 
+- `ProjectView.links` and the `stacked` prop of `ProjectActions`: the project page header lists the external links (app, landing, docs, blog, repository, API; every link on a single-part project) as one column of `TextLink`s, followed by the primary "Cotizar un proyecto así" button. Accordions of rich parts show their links, plus the design link, stacked the same way.
+- `QUOTE_TYPES_MODE` and `quoteTypesHref` in `src/data/quoteTypes.ts`, and the `?mode=types` query of the quote form.
+- Tests for the header link column, cards without external links, `?mode=types`, a malformed hash and a nested hash (`tests/ecosystem.spec.ts`, `tests/quote.spec.ts`).
+
 ### Fixed
 
+- `src/scripts/part-disclosure.ts` guards `decodeURIComponent` against a malformed hash and, after opening a closed part, scrolls to a nested target.
+- `softwareRequirements` in the project JSON-LD uses the stack of the app part (the first part when there is none); the merged stack is used only when that part declares no stack.
 - NullBreach app text: the landing is a separate static Astro site (`apps/landing`) published inside the Next.js deployment, and the app link points to `/nullbreach/login`. The matching open decision is removed from `docs/ROADMAP.md`.
 - Label in Name: `Button`, `TextLink` and the language toggle build the accessible name with `labelInName`; project links read "View app: TerraCore PWA" instead of a label that dropped the visible text; the previous and next project links use their visible text; redundant labels on the "See services" buttons are removed; the English CV, "See projects" and footer "Uses" labels contain their visible text.
 
 ### Changed
 
+- Every part of a multi-part project page, including the link-only ones (docs, repository, API), is an accordion with the same "Ver detalle" design; the panel of a link-only part holds its links. `PartLinkRow` was removed.
+- Project cards on `/proyectos` and the home featured rows show only the "Caso de estudio" link (`ProjectView.actions`); the external links moved to the project page header.
+- The case-study quote button opens `<quote route>?mode=types`: the form shows the project types with none selected and the visitor chooses in the form. `?type=<id>` still preselects a type and `?service=` is unchanged; fields, required rules and submission are unchanged. The inline `QuoteForm` script changed, so its `script-src` hash in `vercel.json` was replaced.
 - The portfolio lists 6 projects instead of 9, one page per project (6 per language in the sitemap instead of 9). Page titles use the official name (`<official name>: Caso de estudio | Valentina Ramírez`, `<official name>: Case study | Valentina Ramirez`), and `CaseStudy`, `CaseSection` (new `level` prop) and `Disclosure` (its script moved to `src/scripts/disclosure.ts`) follow the new model. Cards and the home featured rows show one action per part and a stack preview capped at 8 chips.
 - Merged slugs redirect permanently (301) to the part that replaced them, each with its `/en/projects/...` and unprefixed `/projects/...` equivalent: `terracore-landing` to `/proyectos/terracore#landing`, `okroot-landing` and `root-landing` to `/proyectos/okroot#landing`, `blog-lumina-w` to `/proyectos/lumina-w#blog`, and `root` to `/proyectos/okroot`.
 - Documentation updated for the change: `README.md`, `COMPONENTS.md`, `docs/seo.md`, `docs/i18n.md`, `docs/brand.md`, `docs/commercial.md` (the Umami event list and the stale `terracore-landing` source), `docs/accessibility.md` and `docs/performance.md`.
@@ -47,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- `Project.quoteType` and `quoteTypeHref` (replaced by `quoteTypesHref`). The `quoteType: "api-backend"` and `"ai"` unused item and the NullBreach `quoteType` filter wording are removed from `docs/ROADMAP.md`.
 - `cspell.json`, which no script, hook or workflow used.
 
 ## [4.0.0] - 2026-10-03

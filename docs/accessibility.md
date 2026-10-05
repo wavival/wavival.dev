@@ -31,16 +31,18 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 
 ### Accordions and ecosystem parts
 
-- Each rich part of a project is a `<details id="app">` (or `landing`, `blog`...) with a heading (`h2`) inside its `<summary>`, so the part shows in the heading outline and the browser provides the expanded state and the Enter and Space toggle. Link-only parts are plain rows with the same `h2`, not accordions.
+- Each part of a project (rich or link-only) is a `<details id="app">` (or `landing`, `blog`...) with a heading (`h2`) inside its `<summary>`, so the part should show in the heading outline (checked in Chromium's accessibility tree only; see [`ROADMAP.md`](./ROADMAP.md)) and the browser provides the expanded state and the Enter and Space toggle. Link-only parts are plain rows with the same `h2`, not accordions.
 - The visible open and close text ("Ver detalle" / "Ocultar", "View details" / "Hide") is part of the summary, so the accessible name already contains it (label in name).
-- A URL hash, a hash change or a click on a contents link opens the part it targets (`src/scripts/part-disclosure.ts`), so a deep link never lands on a closed panel; the first rich part starts open.
+- A URL hash, a hash change or a click on a contents link opens the part it targets (`src/scripts/part-disclosure.ts`), so a deep link never lands on a closed panel (a target nested inside a closed part opens it and scrolls to the target; a malformed hash does not throw); the first part starts open.
 - The open and close animation lives in the shared script `src/scripts/disclosure.ts` and is skipped under `prefers-reduced-motion: reduce`; the scroll to a part uses `auto` behavior in that case. Without scripts the accordions still toggle.
-- `tests/ecosystem.spec.ts` covers the keyboard toggle and the hash opening.
+- Project links are stacked in one column on the page header and in each accordion (`ProjectActions` with `stacked`), in the same `TextLink` style as the rest of the site; cards on the index and home show only the case-study link.
+- `tests/ecosystem.spec.ts` covers the keyboard toggle, the hash opening (malformed and nested hashes included), the header link column and the absence of external links on cards.
 
 ### Quote form
 
 - The form is named by its title (`aria-labelledby`), every field sits inside a `<label>`, required fields are marked in text ("Required fields") and with the `required` attribute; the red asterisk is decorative (`aria-hidden`) with a tooltip.
 - Inputs use the right `type`, `autocomplete` and `inputmode` (name, email, tel, organization).
+- The case-study button opens the form with `?mode=types`: the project types are shown with none selected, so the visitor chooses one before the submit button enables.
 - The submit button is a real `type="submit"` that stays `disabled` until all required fields, one option and the privacy consent are set; `aria-describedby` points to the hint that says what is missing.
 - Errors use `role="alert"`; the success block has `aria-live="polite"` and receives focus after sending.
 - The honeypot field is `aria-hidden` and not focusable.

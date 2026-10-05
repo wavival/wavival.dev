@@ -5,7 +5,6 @@ import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
 import PartDisclosure from "@/components/molecules/PartDisclosure.astro";
-import PartLinkRow from "@/components/molecules/PartLinkRow.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
 import PartBody from "@/components/organisms/PartBody.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
@@ -149,17 +148,6 @@ const number = String(idx + 1).padStart(2, "0");
             {view.parts.map((part, i) => {
               const n = String(i + 1).padStart(2, "0");
               const actions = part.actions;
-              if (!part.rich) {
-                return (
-                  <PartLinkRow
-                    id={part.id}
-                    index={n}
-                    label={part.label}
-                    blurb={part.blurb}
-                    actions={actions}
-                  />
-                );
-              }
               const design = part.content.designLink;
               return (
                 <PartDisclosure
@@ -175,6 +163,7 @@ const number = String(idx + 1).padStart(2, "0");
                     <ProjectActions
                       actions={design ? [...actions, toAction(design)] : actions}
                       stacked
+                      class="items-start"
                     />
                     {part.content.summary && (
                       <div class="border-t-2 border-blue bg-tint px-8 py-7">

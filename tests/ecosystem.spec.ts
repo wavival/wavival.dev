@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { isRichPart, projects } from "../src/data/projects";
+import { projects } from "../src/data/projects";
 
 const multi = projects.filter((p) => p.parts.length > 1);
 
@@ -45,22 +45,20 @@ test.describe("projects index", () => {
 
 test.describe("ecosystem pages", () => {
   for (const project of multi) {
-    test(`${project.slug}: one panel per part, the first rich part open`, async ({ page }) => {
+    test(`${project.slug}: every part is a "Ver detalle" accordion, the first one open`, async ({
+      page,
+    }) => {
       await page.goto(`/proyectos/${project.slug}`);
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(project.name);
-      let firstRich = true;
-      for (const part of project.parts) {
+      await expect(page.locator("details[data-part]")).toHaveCount(project.parts.length);
+      for (const [i, part] of project.parts.entries()) {
         const panel = page.locator(`#${part.kind}`);
         await expect(panel).toHaveCount(1);
-        if (isRichPart(part)) {
-          await expect(panel).toHaveAttribute("data-part", "");
-          if (firstRich) await expect(panel).toHaveAttribute("open", "");
-          else await expect(panel).not.toHaveAttribute("open", "");
-          firstRich = false;
-        } else {
-          await expect(panel).not.toHaveAttribute("data-part", "");
-        }
+        await expect(panel).toHaveAttribute("data-part", "");
+        if (i === 0) await expect(panel).toHaveAttribute("open", "");
+        else await expect(panel).not.toHaveAttribute("open", "");
         await expect(panel.getByRole("heading", { level: 2 })).toHaveCount(1);
+        await expect(panel.locator(":scope > summary .when-closed")).toHaveText("Ver detalle");
       }
     });
   }
@@ -174,19 +172,21 @@ test.describe("ecosystem pages", () => {
     }
   });
 
-  test("link-only parts show a row with their link", async ({ page }) => {
+  test("link-only parts open to show their links", async ({ page }) => {
     await page.goto("/proyectos/terracore");
     const docs = page.locator("#docs");
     await expect(docs.getByRole("heading", { level: 2, name: "Documentación" })).toBeVisible();
+    await docs.locator("summary").click();
     await expect(docs.getByRole("link", { name: /^Ver documentación/ })).toHaveAttribute(
       "href",
       "https://docs.terracoreapp.co"
     );
 
-    await page.goto("/en/projects/nullbreach");
+    await page.goto("/en/projects/nullbreach#repo");
     await expect(
       page.locator("#repo").getByRole("link", { name: /^View repository/ })
     ).toBeVisible();
+    await page.locator("#api > summary").click();
     await expect(page.locator("#api").getByRole("link", { name: /^View Swagger/ })).toBeVisible();
   });
 
