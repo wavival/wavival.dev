@@ -1,0 +1,40 @@
+name: CodeQL
+
+# Static analysis (SAST) of the TypeScript, JavaScript and workflow code. Results appear under
+# Security > Code scanning. It also runs weekly so new queries reach code that has not changed.
+on:
+  push:
+    branches: [dev, stg, main]
+  pull_request:
+    branches: [dev, stg, main]
+  schedule:
+    - cron: "17 5 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{ matrix.language }}"

@@ -29,6 +29,9 @@ jobs:
       - name: Audit dependencies
         run: node scripts/check-audit.mjs
 
+      - name: Check security.txt expiry
+        run: npm run security-txt:check
+
       - name: Format check
         run: npm run format:check
 

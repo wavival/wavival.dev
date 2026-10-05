@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Security hardening of the quote function (`api/quote.ts`): origin check (403), JSON content type (415), 20,000 character body limit (413), best-effort rate limit of 5 requests per source in 10 minutes (429 with `Retry-After`), 10 second Brevo timeout and 502 when Brevo fails or does not answer, and failure logs without personal data. Optional `QUOTE_ALLOWED_HOSTS` variable for extra domains. Tests in `tests/quote-api.spec.ts`.
+- Response headers: `Cross-Origin-Opener-Policy: same-origin`, `payment=()` and `usb=()` in `Permissions-Policy`, and `object-src 'none'` in the CSP, checked by the new `tests/security-headers.spec.ts`.
+- `.github/dependabot.yml` (weekly npm and GitHub Actions updates to `dev`) and `.github/workflows/codeql.yml` (CodeQL on pushes, pull requests and weekly).
+- `scripts/check-security-txt.mjs` (`npm run security-txt:check`, run in CI): fails when `security.txt` has expired and warns during its last 60 days; tested by `tests/security-txt.spec.ts`.
+- `docs/security.md`: OWASP Top 10 (2021) coverage table and the list of GitHub and Vercel settings that live outside the repository.
 - Projects as ecosystems: each of the six projects (TerraCore, OKroot, NullBreach, Lúmina W, wavival.dev, Forgotten Portal) has one card and one page, split into parts (`PartKind`: app, landing, docs, blog, repo, api, site, writeup). A multi-part page shows the official name, an ecosystem summary, one action per part, a contents list of the parts and one "Ver detalle" accordion per part (`<details id="app">`; the first part is open, and a `#landing` style link, a hash change or a contents click opens its part). Single-part projects keep the classic case-study layout.
 - Components `PartBody` and `PartDisclosure`, the scripts `src/scripts/disclosure.ts` and `src/scripts/part-disclosure.ts`, and the data modules `projectSeo.ts` and `caseStudyLabels.ts`.
 - JSON-LD with one object per project, `alternateName` (the short name) and, on multi-part projects, `hasPart` listing each linked part with its own schema.org type.

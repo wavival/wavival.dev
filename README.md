@@ -64,34 +64,36 @@ The development server runs at `http://localhost:4321`.
 
 The Umami values are optional. Analytics and Core Web Vitals reporting are emitted only when both are set. `BREVO_API_KEY` is required in Vercel for quote delivery and must remain server-only.
 
-| Variable           | Read by                  | Required                               | Purpose                                                      |
-| ------------------ | ------------------------ | -------------------------------------- | ------------------------------------------------------------ |
-| `PUBLIC_UMAMI_SRC` | Build (`Layout.astro`)   | Optional, both Umami variables or none | Umami script URL.                                            |
-| `PUBLIC_UMAMI_ID`  | Build (`Layout.astro`)   | Optional, both Umami variables or none | Umami website ID.                                            |
-| `BREVO_API_KEY`    | Runtime (`api/quote.ts`) | Required in Vercel for quotes          | Brevo transactional email key. Server-only, never `PUBLIC_`. |
+| Variable              | Read by                  | Required                               | Purpose                                                                             |
+| --------------------- | ------------------------ | -------------------------------------- | ----------------------------------------------------------------------------------- |
+| `PUBLIC_UMAMI_SRC`    | Build (`Layout.astro`)   | Optional, both Umami variables or none | Umami script URL.                                                                   |
+| `PUBLIC_UMAMI_ID`     | Build (`Layout.astro`)   | Optional, both Umami variables or none | Umami website ID.                                                                   |
+| `BREVO_API_KEY`       | Runtime (`api/quote.ts`) | Required in Vercel for quotes          | Brevo transactional email key. Server-only, never `PUBLIC_`.                        |
+| `QUOTE_ALLOWED_HOSTS` | Runtime (`api/quote.ts`) | Optional                               | Extra hosts (comma-separated) allowed to post quotes, for example a staging domain. |
 
-Set the three variables in the Vercel project settings, not in the repository. The `PUBLIC_` ones are read at build time, so a change needs a new deployment. `wavival.dev@luminaw.co` must be a verified sender in Brevo. See [`.env.example`](./.env.example) for the local template.
+Set the variables in the Vercel project settings, not in the repository. The `PUBLIC_` ones are read at build time, so a change needs a new deployment. `wavival.dev@luminaw.co` must be a verified sender in Brevo. See [`.env.example`](./.env.example) for the local template.
 
 ### Commands
 
-| Command                | Purpose                                                         |
-| ---------------------- | --------------------------------------------------------------- |
-| `npm run dev`          | Starts Astro with HMR on port 4321.                             |
-| `npm run build`        | Builds the static site into `dist/`.                            |
-| `npm run preview`      | Serves the production build locally.                            |
-| `npm run check`        | Runs Astro diagnostics and type checks.                         |
-| `npm run lint`         | Runs ESLint.                                                    |
-| `npm run lint:fix`     | Runs ESLint and applies the safe fixes.                         |
-| `npm run format`       | Formats the repository with Prettier.                           |
-| `npm run format:check` | Checks Prettier formatting.                                     |
-| `npm test`             | Runs Playwright against a production preview on port 4329.      |
-| `npm run test:ui`      | Opens the Playwright UI runner.                                 |
-| `npm run test:install` | Installs the Chromium build Playwright needs.                   |
-| `npm run commitlint`   | Checks a commit message against the Conventional Commits rules. |
-| `npm run lhci`         | Runs Lighthouse CI against `dist/`. Build first.                |
-| `npm run links`        | Checks built links in `dist/`. Build first.                     |
-| `npm run csp:check`    | Validates CSP hashes after a build.                             |
-| `npm run css:check`    | Ensures component CSS classes survive the production build.     |
+| Command                      | Purpose                                                           |
+| ---------------------------- | ----------------------------------------------------------------- |
+| `npm run dev`                | Starts Astro with HMR on port 4321.                               |
+| `npm run build`              | Builds the static site into `dist/`.                              |
+| `npm run preview`            | Serves the production build locally.                              |
+| `npm run check`              | Runs Astro diagnostics and type checks.                           |
+| `npm run lint`               | Runs ESLint.                                                      |
+| `npm run lint:fix`           | Runs ESLint and applies the safe fixes.                           |
+| `npm run format`             | Formats the repository with Prettier.                             |
+| `npm run format:check`       | Checks Prettier formatting.                                       |
+| `npm test`                   | Runs Playwright against a production preview on port 4329.        |
+| `npm run test:ui`            | Opens the Playwright UI runner.                                   |
+| `npm run test:install`       | Installs the Chromium build Playwright needs.                     |
+| `npm run commitlint`         | Checks a commit message against the Conventional Commits rules.   |
+| `npm run lhci`               | Runs Lighthouse CI against `dist/`. Build first.                  |
+| `npm run links`              | Checks built links in `dist/`. Build first.                       |
+| `npm run csp:check`          | Validates CSP hashes after a build.                               |
+| `npm run css:check`          | Ensures component CSS classes survive the production build.       |
+| `npm run security-txt:check` | Fails when `security.txt` has expired; warns in its last 60 days. |
 
 ## Stack
 
@@ -217,7 +219,7 @@ Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commi
 
 ### CI gates
 
-The `CI` workflow, on pushes and pull requests to `dev`, `stg` and `main`, runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, Lighthouse, and internal-link checks. The `Commit lint` workflow runs on every push, `Secret scan` (Gitleaks) on every push and on pull requests, and pull requests additionally validate the title and the allowed base branch.
+The `CI` workflow, on pushes and pull requests to `dev`, `stg` and `main`, runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, the `security.txt` expiry check, Lighthouse, and internal-link checks. The `Commit lint` workflow runs on every push, `Secret scan` (Gitleaks) on every push and on pull requests, `CodeQL` on pushes and pull requests to `dev`, `stg` and `main` and weekly, Dependabot opens weekly update pull requests to `dev`, and pull requests additionally validate the title and the allowed base branch.
 
 ## Delivery flow
 
@@ -259,7 +261,7 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 | [docs/i18n.md](./docs/i18n.md)                                             | Spanish and English: page map, copy locations and rules.                                               |
 | [docs/accessibility.md](./docs/accessibility.md)                           | Accessibility guarantees, component behavior, checks and checklist.                                    |
 | [docs/performance.md](./docs/performance.md)                               | Performance decisions, caching, measuring and checklist.                                               |
-| [docs/security.md](./docs/security.md)                                     | Headers, CSP, the quote function, data, supply chain and checklist.                                    |
+| [docs/security.md](./docs/security.md)                                     | Headers, CSP, the quote function, OWASP Top 10 coverage, data, supply chain and checklist.             |
 | [docs/engineering.md](./docs/engineering.md)                               | Engineering practices: branches, commits, code, checks, CI and documentation.                          |
 | [docs/RELEASING.md](./docs/RELEASING.md)                                   | How a version is chosen, tagged and released with the `Release` workflow.                              |
 | [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries.  |

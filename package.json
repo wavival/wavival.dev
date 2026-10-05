@@ -23,7 +23,8 @@
     "lhci": "lhci autorun",
     "links": "linkinator ./dist --recurse --skip \"^(?!https?://localhost)\"",
     "csp:check": "node scripts/check-csp-hashes.mjs",
-    "css:check": "node scripts/check-component-css.mjs"
+    "css:check": "node scripts/check-component-css.mjs",
+    "security-txt:check": "node scripts/check-security-txt.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
