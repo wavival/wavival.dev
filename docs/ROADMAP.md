@@ -1,12 +1,14 @@
 # Roadmap
 
-> Last updated: 2026-10-04
+> Last updated: 2026-10-05
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
 ## Decisions
 
-- [ ] NullBreach landing: it is in Next.js today, and the case study says so. Moving it to Astro is pending on the NullBreach roadmap; update the case study when it ships.
+- [ ] Rich docs parts: the `docs` parts of TerraCore (`docs.terracoreapp.co`) and OKroot (`docs.okroot.co`) are link-only on purpose, because their stack and architecture are not documented here. Write them as rich parts once that information is provided, without publishing business logic.
+- [ ] OKroot and TerraCore docs content is not verified: the blurbs of both `docs` parts only describe what the sites are for. Review them against the real documentation before adding any claim.
+- [ ] NullBreach Swagger: the `api` part links to `https://www.wavival.dev/nullbreach/swagger`. The upstream NullBreach documentation says production returns 404 for it until the next deployment that includes the route. Check the link after that deployment.
 - [ ] Blog W as a PWA: the repository has no manifest, service worker or offline mode, so the case study does not claim it. Decide whether to build it or keep it dropped everywhere.
 - [ ] OKroot status: `docs/brand.md` and `docs/commercial.md` say "early access"; the case-study tag says "Live". The AI-discovery files now say "live, early access".
 - [ ] Filters: NullBreach has `quoteType: "security"` but is not under the `security` filter. Adding it changes the filter count.

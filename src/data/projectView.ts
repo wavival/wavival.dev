@@ -1,4 +1,13 @@
-import type { Project, ProjectLink } from "@/data/projects";
+import {
+  isRichPart,
+  projectFilters,
+  projectStack,
+  type PartKind,
+  type Project,
+  type ProjectLink,
+  type ProjectPart,
+  type ProjectPartEn,
+} from "@/data/projects";
 import { siteRoutes } from "@/i18n/utils";
 import type { Lang } from "@/i18n/utils";
 
@@ -10,9 +19,28 @@ export interface ProjectAction {
   event?: string;
 }
 
+/** A part resolved for one language: every field already picks its English override. */
+export type LocalizedPart = Omit<ProjectPart, "en" | "links"> & {
+  links: ProjectLink[];
+};
+
+export interface PartView {
+  kind: PartKind;
+  /** Anchor id of the part on the project page (`#app`, `#landing`, `#docs`...). */
+  id: string;
+  label: string;
+  blurb: string;
+  /** Rich parts render as an accordion with case-study sections; the others as a link row. */
+  rich: boolean;
+  content: LocalizedPart;
+  /** External links of the part. In an ecosystem the first one reads as the kind of part. */
+  actions: ProjectAction[];
+}
+
 export interface ProjectView {
   slug: string;
   title: string;
+  shortName: string;
   tag: string;
   tone: Project["tagColor"];
   overline?: string;
@@ -20,51 +48,120 @@ export interface ProjectView {
   problem: string;
   solution: string;
   summary: string;
+  /** Short preview of the merged stack, for cards and rows. The full list is on the page. */
   stack: string[];
   filters: string[];
-  caseHref?: string;
+  caseHref: string;
   actions: ProjectAction[];
+  parts: PartView[];
 }
 
-const SITE_LINK_TEXT = ["Ver sitio", "Visit site", "Ver app", "View app"];
+const STACK_PREVIEW = 8;
+
+export const PART_LABELS: Record<Lang, Record<PartKind, string>> = {
+  es: {
+    app: "App",
+    landing: "Landing",
+    docs: "Documentación",
+    blog: "Blog",
+    repo: "Repositorio",
+    api: "API",
+    site: "Sitio",
+    writeup: "Writeup",
+  },
+  en: {
+    app: "App",
+    landing: "Landing",
+    docs: "Documentation",
+    blog: "Blog",
+    repo: "Repository",
+    api: "API",
+    site: "Site",
+    writeup: "Writeup",
+  },
+};
+
+const PART_ACTIONS: Record<Lang, Record<PartKind, string>> = {
+  es: {
+    app: "Ver app",
+    landing: "Ver landing",
+    docs: "Ver documentación",
+    blog: "Ver blog",
+    repo: "Ver repositorio",
+    api: "Ver Swagger",
+    site: "Ver sitio",
+    writeup: "Ver writeup",
+  },
+  en: {
+    app: "View app",
+    landing: "View landing",
+    docs: "View documentation",
+    blog: "View blog",
+    repo: "View repository",
+    api: "View Swagger",
+    site: "View site",
+    writeup: "View writeup",
+  },
+};
 
 const firstSentence = (text: string) => {
   const i = text.indexOf(". ");
   return i === -1 ? text : text.slice(0, i + 1);
 };
 
+/** Resolves a part for one language. English fields override the Spanish ones when present. */
+export function localizePart(part: ProjectPart, lang: Lang): LocalizedPart {
+  const { en, ...base } = part;
+  if (lang !== "en" || !en) return { ...base, links: part.links };
+  const overrides = Object.fromEntries(
+    Object.entries(en as ProjectPartEn).filter(([, value]) => value !== undefined)
+  );
+  return { ...base, ...overrides, blurb: en.blurb, links: en.links ?? part.links };
+}
+
+export const toAction = (link: ProjectLink, text: string = link.text): ProjectAction => ({
+  href: link.href,
+  text,
+  ariaLabel: link.ariaLabel,
+  external: true,
+  event: link.event,
+});
+
 /** Localized, presentation-ready view of a project. Content is untouched; only picks ES/EN fields. */
 export function projectView(p: Project, lang: Lang, base: string = "/"): ProjectView {
   const isEn = lang === "en";
   const en = isEn ? p.en : undefined;
   const r = siteRoutes(lang, base);
-  const solution = en?.solution ?? p.solution;
-  const links: ProjectLink[] = en?.links ?? p.links;
-  const caseSlug = p.linkedCaseStudy ?? (p.caseStudy ? p.slug : undefined);
+  const multi = p.parts.length > 1;
+  const parts: PartView[] = p.parts.map((part) => {
+    const content = localizePart(part, lang);
+    return {
+      kind: part.kind,
+      id: part.kind,
+      label: PART_LABELS[lang][part.kind],
+      blurb: content.blurb,
+      rich: isRichPart(part),
+      content,
+      actions: content.links.map((link, i) =>
+        toAction(link, multi && i === 0 ? PART_ACTIONS[lang][part.kind] : link.text)
+      ),
+    };
+  });
+  const primary = parts[0].content;
+  const solution = primary.solution ?? primary.summary ?? "";
+  const summary = en?.summary ?? p.summary ?? primary.summary ?? firstSentence(solution);
 
-  const siteLink = links.find((l) => SITE_LINK_TEXT.includes(l.text));
-  const ordered = siteLink ? [siteLink, ...links.filter((l) => l !== siteLink)] : links;
-
+  // One part keeps every link it declares. An ecosystem shows one action per part, so the
+  // card stays short however many parts the project has.
+  const partActions = multi ? parts.flatMap((part) => part.actions.slice(0, 1)) : parts[0].actions;
   const actions: ProjectAction[] = [
-    ...(caseSlug
-      ? [
-          {
-            href: r.project(caseSlug),
-            text: isEn ? "Case study" : "Caso de estudio",
-            ariaLabel: isEn
-              ? `Read the ${p.title} case study`
-              : `Leer el caso de estudio de ${p.title}`,
-            external: false,
-          },
-        ]
-      : []),
-    ...ordered.map((l) => ({
-      href: l.href,
-      text: l.text,
-      ariaLabel: l.ariaLabel,
-      external: true,
-      event: l.event,
-    })),
+    {
+      href: r.project(p.slug),
+      text: isEn ? "Case study" : "Caso de estudio",
+      ariaLabel: isEn ? `Read the ${p.name} case study` : `Leer el caso de estudio de ${p.name}`,
+      external: false,
+    },
+    ...partActions,
   ];
 
   const overline =
@@ -80,7 +177,8 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
 
   return {
     slug: p.slug,
-    title: p.title,
+    title: p.name,
+    shortName: p.shortName,
     tag: en?.tag ?? p.tag,
     tone: p.tagColor,
     overline,
@@ -92,12 +190,13 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
           height: p.imageHeight,
         }
       : undefined,
-    problem: en?.problem ?? p.problem,
+    problem: primary.problem ?? summary,
     solution,
-    summary: en?.summary ?? p.summary ?? firstSentence(solution),
-    stack: p.stack,
-    filters: p.filters ?? [],
-    caseHref: caseSlug ? r.project(caseSlug) : undefined,
+    summary,
+    stack: projectStack(p).slice(0, STACK_PREVIEW),
+    filters: projectFilters(p),
+    caseHref: r.project(p.slug),
     actions,
+    parts,
   };
 }

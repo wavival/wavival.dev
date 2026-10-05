@@ -1,0 +1,31 @@
+---
+import ProjectActions from "@/components/molecules/ProjectActions.astro";
+import type { ProjectAction } from "@/data/projectView";
+
+interface Props {
+  /** Anchor id of the part (`docs`, `repo`...). */
+  id: string;
+  index: string;
+  label: string;
+  blurb: string;
+  actions: ProjectAction[];
+}
+
+const { id, index, label, blurb, actions } = Astro.props;
+---
+
+<div id={id} class="scroll-mt-24 border-b border-line py-7">
+  <div class="flex flex-wrap items-baseline gap-x-5 gap-y-3">
+    <span class="index w-7 flex-none">{index}</span>
+    <div class="min-w-0 flex-[1_1_320px]">
+      <h2
+        class="h-title m-0 leading-[1.1]"
+        style="font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em"
+      >
+        {label}
+      </h2>
+      <p class="m-0 mt-2 text-sm leading-[1.6] text-muted" style="text-wrap:pretty">{blurb}</p>
+    </div>
+    <ProjectActions actions={actions} />
+  </div>
+</div>

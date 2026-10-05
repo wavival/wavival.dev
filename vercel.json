@@ -6,13 +6,68 @@
   "outputDirectory": "dist",
   "redirects": [
     {
-      "source": "/proyectos/root",
-      "destination": "/proyectos/okroot",
+      "source": "/proyectos/terracore-landing",
+      "destination": "/proyectos/terracore#landing",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/terracore-landing",
+      "destination": "/en/projects/terracore#landing",
+      "permanent": true
+    },
+    {
+      "source": "/projects/terracore-landing",
+      "destination": "/proyectos/terracore#landing",
+      "permanent": true
+    },
+    {
+      "source": "/proyectos/okroot-landing",
+      "destination": "/proyectos/okroot#landing",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/okroot-landing",
+      "destination": "/en/projects/okroot#landing",
+      "permanent": true
+    },
+    {
+      "source": "/projects/okroot-landing",
+      "destination": "/proyectos/okroot#landing",
       "permanent": true
     },
     {
       "source": "/proyectos/root-landing",
-      "destination": "/proyectos/okroot-landing",
+      "destination": "/proyectos/okroot#landing",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/root-landing",
+      "destination": "/en/projects/okroot#landing",
+      "permanent": true
+    },
+    {
+      "source": "/projects/root-landing",
+      "destination": "/proyectos/okroot#landing",
+      "permanent": true
+    },
+    {
+      "source": "/proyectos/blog-lumina-w",
+      "destination": "/proyectos/lumina-w#blog",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/blog-lumina-w",
+      "destination": "/en/projects/lumina-w#blog",
+      "permanent": true
+    },
+    {
+      "source": "/projects/blog-lumina-w",
+      "destination": "/proyectos/lumina-w#blog",
+      "permanent": true
+    },
+    {
+      "source": "/proyectos/root",
+      "destination": "/proyectos/okroot",
       "permanent": true
     },
     {
@@ -21,8 +76,8 @@
       "permanent": true
     },
     {
-      "source": "/en/projects/root-landing",
-      "destination": "/en/projects/okroot-landing",
+      "source": "/projects/root",
+      "destination": "/proyectos/okroot",
       "permanent": true
     },
     {

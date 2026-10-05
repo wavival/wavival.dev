@@ -1,6 +1,6 @@
 # Marca personal wavival
 
-> Last updated: 2026-10-04
+> Last updated: 2026-10-05
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -117,7 +117,7 @@ Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no s
 
 1. Construcción de productos
    - TerraCore, OKroot, NullBreach, Lúmina W, Blog W, las landings de TerraCore y OKroot y el caso de diseño de wavival.dev: problema, solución, módulos, aprendizajes.
-   - Fuente: casos de estudio en `src/data/projects.ts`.
+   - Fuente: proyectos y sus partes en `src/data/projects.ts`.
 2. Decisiones técnicas
    - Contexto, trade-off, decisión (multitenancy, offline-first, Next.js App Router, NextAuth, Prisma Postgres, estado persistente del perfil en OKroot).
    - Fuente: `decisions` y `learnings` de cada caso.
@@ -188,6 +188,8 @@ A evitar: "experto", "el mejor", "garantizado", "100% seguro", "certificado", "c
 Herramientas: se nombra una herramienta o sistema (por ejemplo un sistema operativo, editor o terminal) solo si una fuente concreta de la pieza confirma su uso. No se afirma una máquina de trabajo única.
 
 Nombres exactos: TerraCore, OKroot, NullBreach, Lúmina W, Blog W, Forgotten Portal.
+
+Nombres oficiales de proyecto en el portafolio (campo `name` de `src/data/projects.ts`, usados en títulos y datos estructurados): `TerraCore | Campo Inteligente`, `OKroot | Come sano, vive libre`, `NullBreach | AI-Powered AppSec Chat`, `Lúmina W | Software & Technology`, `wavival.dev` y `Forgotten Portal`. Cada proyecto es un ecosistema con una sola página y se divide en partes (app, landing, documentación, blog, repositorio, API); las landings de TerraCore y OKroot y Blog W ya no tienen página propia, son partes de su proyecto. En texto corrido se usa el nombre corto.
 
 ---
 

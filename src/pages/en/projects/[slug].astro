@@ -1,10 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import CaseStudy from "@/components/organisms/CaseStudy.astro";
-import { caseStudies, type Project } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
+import { projectMeta, projectSchema } from "@/data/projectSeo";
 
 export function getStaticPaths() {
-  return caseStudies.map((project) => ({
+  return projects.map((project) => ({
     params: { slug: project.slug },
     props: { project },
   }));
@@ -17,11 +18,7 @@ interface Props {
 const { project } = Astro.props;
 const site = "https://www.wavival.dev";
 
-const en = project.en;
-const solution = en?.solution ?? project.solution;
-const metaDesc = en?.metaDescription ?? project.metaDescription ?? solution;
-
-const pageTitle = `${project.title}: Case study | Valentina Ramirez`;
+const { title: pageTitle, description } = projectMeta(project, "en");
 const pageURL = `${site}/en/projects/${project.slug}/`;
 
 const breadcrumbLd = JSON.stringify({
@@ -30,13 +27,11 @@ const breadcrumbLd = JSON.stringify({
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: `${site}/en/` },
     { "@type": "ListItem", position: 2, name: "Projects", item: `${site}/en/projects/` },
-    { "@type": "ListItem", position: 3, name: project.title, item: pageURL },
+    { "@type": "ListItem", position: 3, name: project.name, item: pageURL },
   ],
 });
 
-const schemaType = project.schemaType ?? "SoftwareApplication";
-const buildDate = new Date().toISOString().slice(0, 10);
-const datePublished = project.datePublished ?? buildDate;
+const datePublished = project.datePublished;
 const dateModified = project.dateModified ?? datePublished;
 const toIsoDateTime = (d: string) => (d.length === 10 ? `${d}T00:00:00-05:00` : d);
 const fmtDate = (iso: string) =>
@@ -50,37 +45,15 @@ const dateLabel =
     ? `Published: ${fmtDate(datePublished)} · Updated: ${fmtDate(dateModified)}`
     : `Updated: ${fmtDate(dateModified)}`;
 
-const projectLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": schemaType,
-  "@id": `${pageURL}#project`,
-  name: project.title,
-  description: metaDesc,
-  url: pageURL,
-  inLanguage: "en-US",
-  ...(project.image ? { image: `${site}/${project.image}` } : {}),
-  author: { "@id": `${site}/#person` },
-  datePublished: toIsoDateTime(datePublished),
-  dateModified: toIsoDateTime(dateModified),
-  ...(schemaType === "SoftwareApplication"
-    ? {
-        applicationCategory: project.appCategory ?? "WebApplication",
-        operatingSystem: "Web",
-        ...(project.programmingLanguage
-          ? { programmingLanguage: project.programmingLanguage }
-          : {}),
-        softwareRequirements: project.stack.join(", "),
-      }
-    : {}),
-});
+const projectLd = JSON.stringify(projectSchema(project, "en", pageURL, site));
 ---
 
 <Layout
   title={pageTitle}
-  description={metaDesc}
+  description={description}
   lang="en"
   ogImage={project.image ? `/${project.image}` : undefined}
-  ogImageAlt={en?.imageAlt ?? project.imageAlt}
+  ogImageAlt={project.en?.imageAlt ?? project.imageAlt}
   ogType="article"
   ogPublishedTime={toIsoDateTime(datePublished)}
   ogModifiedTime={toIsoDateTime(dateModified)}

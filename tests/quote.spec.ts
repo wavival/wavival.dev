@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { caseStudies } from "../src/data/projects";
+import { projects } from "../src/data/projects";
 import { QUOTE_PROJECT_TYPES } from "../src/data/quoteTypes";
 
 test.describe("quote form", () => {
@@ -94,14 +94,14 @@ test.describe("quote form", () => {
     await expect(page.locator('[data-quote-group="services"]')).toBeHidden();
     await expect(page.locator('input[name="projectTypes"][value="web-app"]')).toBeChecked();
 
-    await page.goto("/en/projects/terracore-landing");
+    await page.goto("/en/projects/lumina-w");
     await page.getByRole("link", { name: "Quote a project like this" }).click();
     await expect(page).toHaveURL(/\/en\/quote\?type=landing/);
     await expect(page.locator('input[name="projectTypes"][value="landing"]')).toBeChecked();
   });
 
   test("every case study points to a valid project type", async ({ page }) => {
-    for (const project of caseStudies) {
+    for (const project of projects) {
       expect(QUOTE_PROJECT_TYPES).toContain(project.quoteType);
       await page.goto(`/proyectos/${project.slug}`);
       await expect(page.getByRole("link", { name: "Cotizar un proyecto así" })).toHaveAttribute(
