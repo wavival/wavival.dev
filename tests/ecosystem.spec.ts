@@ -260,7 +260,7 @@ test.describe("services examples", () => {
   const expected = [
     ["terracore", "app"],
     ["okroot", "app"],
-    ["nullbreach", "api"],
+    ["nullbreach", "app"],
     ["forgotten-portal", ""],
     ["okroot", "app"],
     ["nullbreach", "app"],
@@ -294,8 +294,8 @@ test.describe("services examples", () => {
 
     test(`${path}: an example opens its project part`, async ({ page }) => {
       await page.goto(path);
-      await page.locator(`a[href="${base}nullbreach#api"]`).click();
-      await expect(page.locator("#api")).toHaveAttribute("open", "");
+      await page.locator(`a[href="${base}terracore#app"]`).click();
+      await expect(page.locator("#app")).toHaveAttribute("open", "");
     });
   }
 });
