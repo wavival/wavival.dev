@@ -66,7 +66,7 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 - `package.json` `overrides` pin `basic-ftp`, `tmp` and `uuid` to patched versions. The rest of the `npm audit` findings (all high severity: `braces`, `http-cache-semantics`, `extract-zip` and the packages that depend on them) have no patched release (`http-cache-semantics` was fixed by updating the lockfile) and are tracked in [`ROADMAP.md`](./ROADMAP.md).
 - Gitleaks scans every push and pull request (`.github/workflows/gitleaks.yml`).
 - CodeQL (`.github/workflows/codeql.yml`) analyzes the TypeScript, JavaScript and GitHub Actions code on pushes and pull requests to `dev`, `stg` and `main`, and weekly. Results appear under Security > Code scanning.
-- Dependabot (`.github/dependabot.yml`) opens weekly pull requests to `dev` for npm packages and GitHub Actions, titled `chore(deps): ...` and grouped by minor and patch. They are not auto-merged: a person reviews them.
+- Dependabot (`.github/dependabot.yml`) opens weekly pull requests to `dev` for npm packages (minor and patch versions, grouped) and GitHub Actions (including major versions), titled `chore(deps): ...`. npm major versions are ignored and migrated by hand (see [`ROADMAP.md`](./ROADMAP.md)). Dependabot pull requests are not auto-merged: a person reviews them, and CI must be green.
 - Reusable workflows come from the public repository `lumina-w/agents`, pinned to a tag. First-party actions are pinned to a major version tag.
 - `scripts/check-security-txt.mjs` runs in CI (`npm run security-txt:check`): it fails when `security.txt` has expired and warns during the last 60 days.
 - Secrets live only in Vercel and GitHub settings. `.env` is ignored by git; `.env.example` documents the names without values.

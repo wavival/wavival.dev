@@ -1,5 +1,8 @@
-# Weekly update PRs against dev. Titles follow Conventional Commits (chore(deps): ...), and
-# Dependabot branches are not auto-merged: a person reviews and merges them like any other PR.
+# Weekly update PRs against dev. Titles are fixed to `chore(deps): ...` (the scope list in
+# commitlint.config.cjs has `deps` but not `deps-dev`). Dependabot branches are not auto-merged:
+# a person reviews and merges them like any other PR.
+# npm major versions are ignored on purpose: each one needs a migration (see docs/ROADMAP.md)
+# and is done by hand in its own pull request. GitHub Actions majors are allowed.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -10,11 +13,13 @@ updates:
       day: monday
     open-pull-requests-limit: 5
     commit-message:
-      prefix: chore
-      include: scope
+      prefix: "chore(deps)"
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     labels: [dependencies]
 
   - package-ecosystem: github-actions
@@ -25,8 +30,7 @@ updates:
       day: monday
     open-pull-requests-limit: 5
     commit-message:
-      prefix: chore
-      include: scope
+      prefix: "chore(deps)"
     groups:
       actions:
         patterns: ["*"]
