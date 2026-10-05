@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Dependency updates (minor and patch): `astro` 7.3.5, `@astrojs/sitemap` 3.7.4, `@astrojs/check` 0.9.10, `@playwright/test` 1.63.0, `eslint` 10.12.0, `globals` 17.13.0, `lint-staged` 17.6.0, `prettier` 3.9.9 and `typescript-eslint` 8.71.0. `tests/case-studies.spec.ts` reformatted with the new Prettier.
+- Dependency updates (minor and patch): `astro` 7.3.5, `@astrojs/sitemap` 3.7.4, `@astrojs/check` 0.9.10, `@playwright/test` 1.63.0, `eslint` 10.12.0, `globals` 17.13.0, `lint-staged` 17.6.0, `prettier` 3.9.9 and `typescript-eslint` 8.71.0; `actions/setup-node` 7 in the workflows. `tests/case-studies.spec.ts` reformatted with the new Prettier.
 - Dependabot: titles are `chore(deps): ...` for every ecosystem (the previous `chore(deps-dev)` scope failed commitlint and the PR title check), and npm major versions are ignored; the pending migrations are listed in `docs/ROADMAP.md`.
 
 - The examples of each service on the Services pages (ES and EN) open the section of their project that matches the service: TerraCore and OKroot `#app` for web apps, NullBreach `#app` for APIs and backend, OKroot and NullBreach `#app` for AI integrations; Forgotten Portal keeps its single-part page.
