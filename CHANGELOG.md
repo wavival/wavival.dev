@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The examples of each service on the Services pages (ES and EN) open the section of their project that matches the service: TerraCore and OKroot `#app` for web apps, NullBreach `#api` for APIs and backend, OKroot and NullBreach `#app` for AI integrations; Forgotten Portal keeps its single-part page.
 - The `docs` parts of TerraCore and OKroot are rich accordions: summary, architecture and design of the documentation sites (Astro 7, MDX content collections, client-side search, design tokens, security headers, tests), taken from `terracore-docs` and without business logic. OKroot documentation uses the same stack. `llms.txt` and `llms-full.txt` carry the same facts.
 - Project page header: the link column and the "Cotizar un proyecto así" button are always left-aligned (also on mobile). The wide TerraCore card on the index keeps its cover touching the card on the top, left and bottom edges: the frame keeps the cover ratio, the image uses `object-fit: cover`, and the summary is clamped to three lines so the text column fits.
 - Every part of a multi-part project page, including the link-only ones (docs, repository, API), is an accordion with the same "Ver detalle" design; the panel of a link-only part holds its links. `PartLinkRow` was removed.

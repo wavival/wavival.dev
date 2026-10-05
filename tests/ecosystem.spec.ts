@@ -256,22 +256,46 @@ test.describe("layout", () => {
 });
 
 test.describe("services examples", () => {
+  // Each example opens the section of its project that matches the service.
+  const expected = [
+    ["terracore", "app"],
+    ["okroot", "app"],
+    ["nullbreach", "api"],
+    ["forgotten-portal", ""],
+    ["okroot", "app"],
+    ["nullbreach", "app"],
+  ] as const;
+
   for (const [path, base] of [
     ["/servicios", "/proyectos/"],
     ["/en/services", "/en/projects/"],
   ] as const) {
-    test(`${path}: example links go to the project pages`, async ({ page, request }) => {
+    test(`${path}: example links open the section of their service`, async ({ page, request }) => {
       await page.goto(path);
       const hrefs = await page
         .locator(`a[href^="${base}"]`)
         .evaluateAll((els) => els.map((el) => el.getAttribute("href")!));
-      expect(hrefs.length).toBeGreaterThanOrEqual(6);
+      expect(hrefs).toEqual(
+        expected.map(([slug, part]) => `${base}${slug}${part ? `#${part}` : ""}`)
+      );
       const slugs = projects.map((p) => p.slug);
       for (const href of hrefs) {
-        const slug = href.replace(base, "").replace(/[/#].*$/, "");
-        expect(slugs, href).toContain(slug);
-        expect((await request.get(href.split("#")[0])).status(), href).toBe(200);
+        const [route, part] = href.split("#");
+        const project = projects.find((p) => p.slug === route.replace(base, ""));
+        expect(slugs, href).toContain(project!.slug);
+        if (part)
+          expect(
+            project!.parts.map((x) => x.kind),
+            href
+          ).toContain(part);
+        expect((await request.get(route)).status(), href).toBe(200);
       }
+    });
+
+    test(`${path}: an example opens its project part`, async ({ page }) => {
+      await page.goto(path);
+      await page.locator(`a[href="${base}nullbreach#api"]`).click();
+      await expect(page.locator("#api")).toHaveAttribute("open", "");
     });
   }
 });
