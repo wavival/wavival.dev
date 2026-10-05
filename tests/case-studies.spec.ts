@@ -88,7 +88,7 @@ test.describe("project data", () => {
           part.links.length
         );
         // Link-only kinds carry no case-study content; the rest must be rich or a plain site.
-        if (["docs", "repo", "api"].includes(part.kind)) {
+        if (["repo", "api"].includes(part.kind)) {
           expect(isRichPart(part), `${id} stays link-only`).toBe(false);
         }
       }

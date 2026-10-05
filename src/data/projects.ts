@@ -1000,6 +1000,29 @@ export const projects: Project[] = [
         kind: "docs",
         blurb:
           "Documentación oficial del producto: uso, características, primeros pasos y soporte.",
+        stack: ["Astro", "MDX", "TypeScript", "Lucide", "Vitest", "Playwright", "Vercel"],
+        summary:
+          "Sitio de documentación oficial de TerraCore: una guía de uso para clientes, estática y en español de Colombia, con 34 páginas en 8 grupos, búsqueda en el navegador y navegación lateral en escritorio y hoja inferior en móvil. Astro, MDX y el sistema de diseño de TerraCore.",
+        problem:
+          "La guía es para el cliente final: dueño, administrador u operario de una finca en Colombia, que no es técnico. Necesita aprender el producto sin depender de una llamada de soporte: cómo empezar, qué hace cada módulo, qué hacer cuando algo no sale como espera y a quién escribir.",
+        architecture: [
+          "Astro 7 con salida estática, sin React ni adaptador, desplegado en Vercel. El JavaScript es TypeScript vanilla: búsqueda, estado del menú lateral y tabla de contenido.",
+          "Contenido en MDX con colecciones de contenido de Astro: una página por archivo, con título, resumen e ícono tipados por el esquema de la colección. 34 páginas en 8 grupos: Empezar, Tu equipo, Tu finca, Tus números, Datos y conexión, Tu suscripción, Flujos de la app y Referencia.",
+          "Una sola fuente de verdad para la navegación: la lista de grupos y páginas define el menú lateral, la hoja de navegación móvil, la portada y el paginador anterior y siguiente, en orden de lectura. Una prueba falla si una página de la lista no tiene archivo, o al revés.",
+          "Bloques de redacción propios, disponibles en cada página sin importarlos: avisos, pasos numerados, campos, capturas, tarjetas, insignias y tablas.",
+          "Diseño atómico con alias de importación por capa (átomos, moléculas, organismos, plantillas y layouts), con los componentes del sistema de diseño de TerraCore recreados en Astro.",
+          "Búsqueda del lado del cliente: el índice se genera en el build como un archivo JSON estático y el navegador lo consulta, sin servidor ni servicios de terceros. Ignora tildes y mayúsculas.",
+          "Navegación en menús agrupados que recuerdan si están abiertos, tabla de contenido por página y paginador entre páginas. Cada página muestra la fecha de su última revisión contra el producto, tomada de una sola constante.",
+          "SEO técnico: sitemap generado, robots.txt, manifest e idioma es-CO declarado en el documento.",
+          "Seguridad por cabeceras desde vercel.json: CSP restrictiva sin orígenes de terceros, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy y Permissions-Policy.",
+          "Calidad: ESLint, Prettier y verificación de tipos con astro check, pruebas unitarias con Vitest y pruebas de punta a punta con Playwright (la guía y la navegación móvil), con CI en cada PR y el flujo dev, stg y main.",
+        ],
+        design: [
+          "Los tokens de color, espacio, radio y sombra son una copia fiel de los del sistema de diseño de TerraCore: no se inventan ni se redefinen en el sitio.",
+          "Íconos Lucide con un trazo uniforme, a través de un único componente.",
+          "Textos en español de Colombia, en tuteo, con fechas largas y números en formato es-CO, sin emojis.",
+          "Barra lateral en escritorio; en móvil, barra superior con una hoja inferior para navegar.",
+        ],
         links: [
           {
             href: "https://docs.terracoreapp.co",
@@ -1010,6 +1033,28 @@ export const projects: Project[] = [
         ],
         en: {
           blurb: "Official product documentation: usage, features, getting started, and support.",
+          summary:
+            "TerraCore's official documentation site: a static usage guide for customers, in Colombian Spanish, with 34 pages in 8 groups, in-browser search, and side navigation on desktop with a bottom sheet on mobile. Astro, MDX, and the TerraCore design system.",
+          problem:
+            "The guide is for the end customer: an owner, administrator, or operator of a farm in Colombia, who is not technical. They need to learn the product without depending on a support call: how to start, what each module does, what to do when something does not go as expected, and who to contact.",
+          architecture: [
+            "Astro 7 with static output, no React and no adapter, deployed on Vercel. JavaScript is vanilla TypeScript: search, side-menu state, and the table of contents.",
+            "Content in MDX with Astro content collections: one page per file, with a title, summary, and icon typed by the collection schema. 34 pages in 8 groups: Getting started, Your team, Your farm, Your numbers, Data and connection, Your subscription, App flows, and Reference.",
+            "A single source of truth for navigation: the list of groups and pages defines the side menu, the mobile navigation sheet, the home page, and the previous and next pager, in reading order. A test fails if a listed page has no file, or the reverse.",
+            "Its own writing blocks, available on every page without importing them: notices, numbered steps, fields, screenshots, cards, badges, and tables.",
+            "Atomic design with an import alias per layer (atoms, molecules, organisms, templates, and layouts), with the TerraCore design system components recreated in Astro.",
+            "Client-side search: the index is generated at build time as a static JSON file and the browser queries it, with no server and no third-party service. It ignores accents and letter case.",
+            "Navigation in grouped menus that remember whether they are open, a table of contents per page, and a pager between pages. Each page shows the date of its last review against the product, taken from a single constant.",
+            "Technical SEO: a generated sitemap, robots.txt, a manifest, and the es-CO language declared in the document.",
+            "Security through headers from vercel.json: a restrictive CSP with no third-party origins, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.",
+            "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright (the guide and the mobile navigation), with CI on every PR and the dev, stg, and main flow.",
+          ],
+          design: [
+            "Color, spacing, radius, and shadow tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
+            "Lucide icons with a uniform stroke, through a single component.",
+            "Text in Colombian Spanish, in the informal register, with long dates and es-CO number formats, and no emojis.",
+            "A side bar on desktop; on mobile, a top bar with a bottom sheet to navigate.",
+          ],
           links: [
             {
               href: "https://docs.terracoreapp.co",
@@ -1770,6 +1815,25 @@ export const projects: Project[] = [
         kind: "docs",
         blurb:
           "Documentación oficial del producto: uso, características, primeros pasos y soporte.",
+        stack: ["Astro", "MDX", "TypeScript", "Lucide", "Vitest", "Playwright", "Vercel"],
+        summary:
+          "Sitio de documentación oficial de OKroot: la guía de uso del producto, estática y en español, con el mismo stack que la documentación de TerraCore. Astro, MDX, búsqueda en el navegador y navegación agrupada.",
+        architecture: [
+          "Astro 7 con salida estática, sin React ni adaptador, desplegado en Vercel. El JavaScript es TypeScript vanilla: búsqueda, estado del menú lateral y tabla de contenido.",
+          "Contenido en MDX con colecciones de contenido de Astro: una página por archivo, con título, resumen e ícono tipados por el esquema de la colección.",
+          "Una sola fuente de verdad para la navegación: la lista de grupos y páginas define el menú lateral, la hoja de navegación móvil, la portada y el paginador anterior y siguiente, en orden de lectura, con una prueba que la contrasta con los archivos.",
+          "Bloques de redacción propios, disponibles en cada página sin importarlos: avisos, pasos numerados, campos, capturas, tarjetas, insignias y tablas.",
+          "Diseño atómico con alias de importación por capa (átomos, moléculas, organismos, plantillas y layouts), con los componentes del sistema de diseño del producto recreados en Astro.",
+          "Búsqueda del lado del cliente: el índice se genera en el build como un archivo JSON estático y el navegador lo consulta, sin servidor ni servicios de terceros.",
+          "SEO técnico: sitemap generado, robots.txt, manifest e idioma declarado en el documento.",
+          "Seguridad por cabeceras desde vercel.json: CSP restrictiva sin orígenes de terceros, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy y Permissions-Policy.",
+          "Calidad: ESLint, Prettier y verificación de tipos con astro check, pruebas unitarias con Vitest y pruebas de punta a punta con Playwright, con CI en cada PR y el flujo dev, stg y main.",
+        ],
+        design: [
+          "Los tokens de diseño provienen del sistema de diseño del producto y no se redefinen en el sitio.",
+          "Íconos Lucide con un trazo uniforme, a través de un único componente.",
+          "Barra lateral en escritorio; en móvil, barra superior con una hoja inferior para navegar.",
+        ],
         links: [
           {
             href: "https://docs.okroot.co",
@@ -1780,6 +1844,24 @@ export const projects: Project[] = [
         ],
         en: {
           blurb: "Official product documentation: usage, features, getting started, and support.",
+          summary:
+            "OKroot's official documentation site: the product usage guide, static and in Spanish, with the same stack as TerraCore's documentation. Astro, MDX, in-browser search, and grouped navigation.",
+          architecture: [
+            "Astro 7 with static output, no React and no adapter, deployed on Vercel. JavaScript is vanilla TypeScript: search, side-menu state, and the table of contents.",
+            "Content in MDX with Astro content collections: one page per file, with a title, summary, and icon typed by the collection schema.",
+            "A single source of truth for navigation: the list of groups and pages defines the side menu, the mobile navigation sheet, the home page, and the previous and next pager, in reading order, with a test that checks it against the files.",
+            "Its own writing blocks, available on every page without importing them: notices, numbered steps, fields, screenshots, cards, badges, and tables.",
+            "Atomic design with an import alias per layer (atoms, molecules, organisms, templates, and layouts), with the product design system components recreated in Astro.",
+            "Client-side search: the index is generated at build time as a static JSON file and the browser queries it, with no server and no third-party service.",
+            "Technical SEO: a generated sitemap, robots.txt, a manifest, and the language declared in the document.",
+            "Security through headers from vercel.json: a restrictive CSP with no third-party origins, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.",
+            "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright, with CI on every PR and the dev, stg, and main flow.",
+          ],
+          design: [
+            "Design tokens come from the product design system and are not redefined on the site.",
+            "Lucide icons with a uniform stroke, through a single component.",
+            "A side bar on desktop; on mobile, a top bar with a bottom sheet to navigate.",
+          ],
           links: [
             {
               href: "https://docs.okroot.co",

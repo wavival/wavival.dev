@@ -6,8 +6,8 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Decisions
 
-- [ ] Rich docs parts: the `docs` parts of TerraCore (`docs.terracoreapp.co`) and OKroot (`docs.okroot.co`) are link-only on purpose, because their stack and architecture are not documented here. Write them as rich parts once that information is provided, without publishing business logic.
-- [ ] OKroot and TerraCore docs content is not verified: the blurbs of both `docs` parts only describe what the sites are for. Review them against the real documentation before adding any claim.
+- [ ] OKroot docs stack: the `docs` part of OKroot describes the same stack as the TerraCore documentation, as stated by the owner. `okroot-docs` has no site yet (only markdown), so check the part against the real site when it ships.
+- [ ] Docs page counts: the TerraCore `docs` part states 34 pages in 8 groups (checked against `terracore-docs` on 2026-10-05); update it when the guide grows.
 - [ ] NullBreach Swagger: the `api` part links to `https://www.wavival.dev/nullbreach/swagger`. The upstream NullBreach documentation says production returns 404 for it until the next deployment that includes the route. Check the link after that deployment.
 - [ ] Blog W as a PWA: the repository has no manifest, service worker or offline mode, so the case study does not claim it. Decide whether to build it or keep it dropped everywhere.
 - [ ] OKroot status: `docs/brand.md` and `docs/commercial.md` say "early access"; the case-study tag says "Live". The AI-discovery files now say "live, early access".

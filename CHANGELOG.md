@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JSON-LD with one object per project, `alternateName` (the short name) and, on multi-part projects, `hasPart` listing each linked part with its own schema.org type.
 - Links as parts: documentation of TerraCore (`docs.terracoreapp.co`) and OKroot (`docs.okroot.co`), and the NullBreach repository and Swagger UI; Umami events `ver-docs-terracore` and `ver-docs-okroot`.
 - `tests/ecosystem.spec.ts`.
-- Open decisions in `docs/ROADMAP.md`: rich docs parts, unverified docs content and the NullBreach Swagger route.
+- Open decisions in `docs/ROADMAP.md`: the OKroot docs stack, the docs counts and the NullBreach Swagger route.
 - `src/utils/a11y.ts` (`labelInName`, `visibleText`) and `tests/label-in-name.spec.ts`: every control with visible text keeps it inside its `aria-label` (WCAG 2.5.3, Label in Name) on every page of the sitemap.
 
 - `ProjectView.links` and the `stacked` prop of `ProjectActions`: the project page header lists the external links (app, landing, docs, blog, repository, API; every link on a single-part project) as one column of `TextLink`s, followed by the primary "Cotizar un proyecto así" button. Accordions of rich parts show their links, plus the design link, stacked the same way.
@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The `docs` parts of TerraCore and OKroot are rich accordions: summary, architecture and design of the documentation sites (Astro 7, MDX content collections, client-side search, design tokens, security headers, tests), taken from `terracore-docs` and without business logic. OKroot documentation uses the same stack. `llms.txt` and `llms-full.txt` carry the same facts.
 - Project page header: the link column and the "Cotizar un proyecto así" button are always left-aligned (also on mobile). The wide TerraCore card on the index keeps its cover touching the card on the top, left and bottom edges: the frame keeps the cover ratio, the image uses `object-fit: cover`, and the summary is clamped to three lines so the text column fits.
 - Every part of a multi-part project page, including the link-only ones (docs, repository, API), is an accordion with the same "Ver detalle" design; the panel of a link-only part holds its links. `PartLinkRow` was removed.
 - Project cards on `/proyectos` and the home featured rows show only the "Caso de estudio" link (`ProjectView.actions`); the external links moved to the project page header.
