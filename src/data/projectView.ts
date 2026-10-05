@@ -59,7 +59,7 @@ export interface ProjectView {
   parts: PartView[];
 }
 
-const STACK_PREVIEW = 8;
+const STACK_PREVIEW = 6;
 
 export const PART_LABELS: Record<Lang, Record<PartKind, string>> = {
   es: {

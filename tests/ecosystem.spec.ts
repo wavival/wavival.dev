@@ -38,7 +38,7 @@ test.describe("projects index", () => {
   test("the stack preview stays short", async ({ page }) => {
     await page.goto("/proyectos");
     for (const card of await page.locator("[data-project-card]").all()) {
-      expect(await card.locator("li").count()).toBeLessThanOrEqual(8);
+      expect(await card.locator("li").count()).toBeLessThanOrEqual(6);
     }
   });
 });
@@ -211,4 +211,67 @@ test.describe("ecosystem pages", () => {
     await page.goto("/proyectos/wavival-dev");
     await expect(page.locator("details[data-part]")).toHaveCount(0);
   });
+});
+
+test.describe("layout", () => {
+  test("the wide TerraCore card keeps its cover touching the card with no gaps", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1366, height: 900 });
+    await page.goto("/proyectos");
+    const card = page.locator("[data-project-card][data-featured]");
+    const frame = card.locator(".media-frame");
+    const image = frame.locator("img");
+    const [c, f, i] = await Promise.all([
+      card.boundingBox(),
+      frame.boundingBox(),
+      image.boundingBox(),
+    ]);
+    // The card has a 1px border; the frame sits inside it on the top, left and bottom edges.
+    expect(f!.y - c!.y, "top gap").toBeLessThanOrEqual(2);
+    expect(f!.x - c!.x, "left gap").toBeLessThanOrEqual(2);
+    expect(c!.y + c!.height - (f!.y + f!.height), "bottom gap").toBeLessThanOrEqual(2);
+    expect(Math.abs(i!.width - f!.width), "image fills the frame width").toBeLessThanOrEqual(2);
+    expect(Math.abs(i!.height - f!.height), "image fills the frame height").toBeLessThanOrEqual(2);
+    await expect(image).toHaveCSS("object-fit", "cover");
+    // The text column fits next to the cover without growing the card past it.
+    const ratio = f!.height / f!.width;
+    expect(ratio, "frame stays close to the 1200x630 ratio").toBeLessThan(0.66);
+  });
+
+  for (const [name, path] of [
+    ["terracore", "/proyectos/terracore"],
+    ["nullbreach", "/en/projects/nullbreach"],
+  ] as const) {
+    test(`${name}: header links and the quote button are left-aligned`, async ({ page }) => {
+      await page.goto(path);
+      const header = page.locator("main header").first();
+      const xs = await header
+        .locator("a[target=_blank], a.btn")
+        .evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().x)));
+      expect(xs.length).toBeGreaterThan(2);
+      expect(new Set(xs).size, "same left edge").toBe(1);
+    });
+  }
+});
+
+test.describe("services examples", () => {
+  for (const [path, base] of [
+    ["/servicios", "/proyectos/"],
+    ["/en/services", "/en/projects/"],
+  ] as const) {
+    test(`${path}: example links go to the project pages`, async ({ page, request }) => {
+      await page.goto(path);
+      const hrefs = await page
+        .locator(`a[href^="${base}"]`)
+        .evaluateAll((els) => els.map((el) => el.getAttribute("href")!));
+      expect(hrefs.length).toBeGreaterThanOrEqual(6);
+      const slugs = projects.map((p) => p.slug);
+      for (const href of hrefs) {
+        const slug = href.replace(base, "").replace(/[/#].*$/, "");
+        expect(slugs, href).toContain(slug);
+        expect((await request.get(href.split("#")[0])).status(), href).toBe(200);
+      }
+    });
+  }
 });

@@ -525,20 +525,26 @@
       padding: 24px 28px;
     }
 
+    .project-grid[data-filter="all"] > .project-wide > div:last-child > p {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
+       text column shortens to fit and, if it is taller, the cover grows with it. */
     .project-grid[data-filter="all"] > .project-wide .media-frame {
       flex: 0 0 56%;
       align-self: stretch;
-      aspect-ratio: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      aspect-ratio: 1200 / 630;
       border-width: 0 1px 0 0 !important;
     }
 
     .project-grid[data-filter="all"] > .project-wide .media-frame > img {
       width: 100%;
-      height: auto;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
