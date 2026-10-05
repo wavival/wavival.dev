@@ -35,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Dependency updates (minor and patch): `astro` 7.3.5, `@astrojs/sitemap` 3.7.4, `@astrojs/check` 0.9.10, `@playwright/test` 1.63.0, `eslint` 10.12.0, `globals` 17.13.0, `lint-staged` 17.6.0, `prettier` 3.9.9 and `typescript-eslint` 8.71.0. `tests/case-studies.spec.ts` reformatted with the new Prettier.
+- Dependabot: titles are `chore(deps): ...` for every ecosystem (the previous `chore(deps-dev)` scope failed commitlint and the PR title check), and npm major versions are ignored; the pending migrations are listed in `docs/ROADMAP.md`.
+
 - The examples of each service on the Services pages (ES and EN) open the section of their project that matches the service: TerraCore and OKroot `#app` for web apps, NullBreach `#app` for APIs and backend, OKroot and NullBreach `#app` for AI integrations; Forgotten Portal keeps its single-part page.
 - The `docs` parts of TerraCore and OKroot are rich accordions: summary, architecture and design of the documentation sites (Astro 7, MDX content collections, client-side search, design tokens, security headers, tests), taken from `terracore-docs` and without business logic. OKroot documentation uses the same stack. `llms.txt` and `llms-full.txt` carry the same facts.
 - Project page header: the link column and the "Cotizar un proyecto así" button are always left-aligned (also on mobile). The wide TerraCore card on the index keeps its cover touching the card on the top, left and bottom edges: the frame keeps the cover ratio, the image uses `object-fit: cover`, and the summary is clamped to three lines so the text column fits.

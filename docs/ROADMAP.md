@@ -26,6 +26,10 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
 - [ ] `npm audit` reports 14 vulnerabilities (all high) as of 2026-10-04, none with a patched release: `braces` and `extract-zip`, plus the packages that depend on them (`chokidar`, `micromatch`, `fast-glob`, `tailwindcss`, `@vercel/microfrontends`, `eslint-plugin-astro` and `astro-eslint-parser`, and the `@lhci/cli` chain). 6 are in production dependencies and are covered by the advisory accepted in `scripts/check-audit.mjs` (`GHSA-vfj7-8cjw-p6xm`, `braces`); the other 8 are dev-only and do not gate CI. Re-check when a patched version of `braces` or `extract-zip` is published.
 
+## Dependencies
+
+- [ ] Major versions pending a manual migration (ignored by Dependabot, checked on 2026-10-05): `tailwindcss` 3 to 4 (new engine and config format; the design tokens and `tailwind.config.mjs` need porting and a visual check of every page), `typescript` 6 to 7, `web-vitals` 5 to 6 (check the reporting script and its CSP hash) and `prettier-plugin-astro` 0.14 to 1.1 (re-format the whole repository). Do one per pull request, with the full test suite and Lighthouse.
+
 ## SEO and GEO
 
 - [ ] Add `lastmod` to the sitemap from each project's `dateModified`.

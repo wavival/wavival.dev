@@ -99,8 +99,7 @@ test.describe("project data", () => {
         for (const field of listFields) {
           const es = part[field as keyof ProjectPart] as unknown[] | undefined;
           const en = part.en?.[field as keyof NonNullable<ProjectPart["en"]>] as
-            | unknown[]
-            | undefined;
+            unknown[] | undefined;
           expect(en?.length ?? 0, `${field} length`).toBe(es?.length ?? 0);
         }
         for (const column of ["now", "next", "later"] as const) {

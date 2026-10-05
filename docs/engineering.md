@@ -47,7 +47,7 @@ npm test
 
 ## CI
 
-`ci.yml` runs on pushes and pull requests to `dev`, `stg` and `main`. It has four jobs: `quality` (audit, `security.txt` expiry, format, lint, type check, build, CSP and CSS checks), `tests` (Playwright against a production preview on port 4329), `lighthouse` and `links`. Pull requests also run the title check, the base check and Gitleaks; Gitleaks and commit lint also run on every push. `codeql.yml` (CodeQL for TypeScript, JavaScript and workflows) runs on the same branches and weekly. `.github/dependabot.yml` opens weekly `chore(deps)` pull requests to `dev`; Dependabot branches are not auto-merged. Do not merge or promote while a required check is failing, pending, cancelled, skipped or unavailable.
+`ci.yml` runs on pushes and pull requests to `dev`, `stg` and `main`. It has four jobs: `quality` (audit, `security.txt` expiry, format, lint, type check, build, CSP and CSS checks), `tests` (Playwright against a production preview on port 4329), `lighthouse` and `links`. Pull requests also run the title check, the base check and Gitleaks; Gitleaks and commit lint also run on every push. `codeql.yml` (CodeQL for TypeScript, JavaScript and workflows) runs on the same branches and weekly. `.github/dependabot.yml` opens weekly `chore(deps)` pull requests to `dev` (npm minor and patch grouped, GitHub Actions including majors); Dependabot branches are not auto-merged. npm major versions are ignored and migrated by hand in their own pull request. When an update changes how Prettier formats files, run `npm run format` in the same pull request. Do not merge or promote while a required check is failing, pending, cancelled, skipped or unavailable.
 
 ## Documentation
 
