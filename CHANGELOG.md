@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Security hardening of the quote function (`api/quote.ts`): origin check (403), JSON content type (415), 20,000 character body limit (413), best-effort rate limit of 5 requests per source in 10 minutes (429 with `Retry-After`), 10 second Brevo timeout and 502 when Brevo fails or does not answer, and failure logs without personal data. Optional `QUOTE_ALLOWED_HOSTS` variable for extra domains. Tests in `tests/quote-api.spec.ts`.
+- Response headers: `Cross-Origin-Opener-Policy: same-origin`, `payment=()` and `usb=()` in `Permissions-Policy`, and `object-src 'none'` in the CSP, checked by the new `tests/security-headers.spec.ts`.
+- `.github/dependabot.yml` (weekly npm and GitHub Actions updates to `dev`) and `.github/workflows/codeql.yml` (CodeQL on pushes, pull requests and weekly).
+- `scripts/check-security-txt.mjs` (`npm run security-txt:check`, run in CI): fails when `security.txt` has expired and warns during its last 60 days; tested by `tests/security-txt.spec.ts`.
+- `docs/security.md`: OWASP Top 10 (2021) coverage table and the list of GitHub and Vercel settings that live outside the repository.
+
 - `src/utils/a11y.ts` (`labelInName`, `visibleText`) and `tests/label-in-name.spec.ts`: every control with visible text keeps it inside its `aria-label` (WCAG 2.5.3, Label in Name) on every page of the sitemap.
 
 ### Fixed

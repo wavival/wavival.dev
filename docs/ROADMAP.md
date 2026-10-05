@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-10-04
+> Last updated: 2026-10-05
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -13,8 +13,14 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Security
 
-- [ ] `api/quote.ts` has a honeypot and validation but no rate limit, origin check or CAPTCHA, so it can be used to flood `wavival.dev@luminaw.co`. Add a Vercel WAF rule or a limit in the function.
-- [ ] Renew `public/.well-known/security.txt` before 2027-06-18.
+- [ ] Quote function: add a Vercel firewall rule that rate limits `POST /api/quote` (the in-function limit is best-effort per instance). Consider a CAPTCHA only if abuse continues.
+- [ ] Check the GitHub and Vercel settings listed in `docs/security.md` ("Settings that live outside the repository"): branch protection with required checks, Dependabot alerts, secret scanning with push protection, code scanning. Nothing in the repository can verify them.
+- [ ] After the first CodeQL run, review the findings under Security > Code scanning and fix or dismiss each one with a reason.
+- [ ] Pin GitHub Actions (and the `lumina-w/agents` workflows) to commit SHAs instead of tags; Dependabot keeps SHA pins updated.
+- [ ] Alert on repeated function errors (Vercel log drain or alert) so a failing Brevo key is noticed before a lead is lost.
+- [ ] Decision: `/privacidad` does not mention that the source address is held in memory for up to 10 minutes by the quote rate limit. It is not stored or shared; decide whether the page should say so.
+- [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
+- [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
 - [ ] `npm audit` reports 14 vulnerabilities (all high) as of 2026-10-04, none with a patched release: `braces` and `extract-zip`, plus the packages that depend on them (`chokidar`, `micromatch`, `fast-glob`, `tailwindcss`, `@vercel/microfrontends`, `eslint-plugin-astro` and `astro-eslint-parser`, and the `@lhci/cli` chain). 6 are in production dependencies and are covered by the advisory accepted in `scripts/check-audit.mjs` (`GHSA-vfj7-8cjw-p6xm`, `braces`); the other 8 are dev-only and do not gate CI. Re-check when a patched version of `braces` or `extract-zip` is published.
 
