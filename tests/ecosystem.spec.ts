@@ -16,41 +16,23 @@ test.describe("projects index", () => {
     await expect(page.getByText(/TerraCore (PWA|Landing)|OKroot (PWA|Landing)/)).toHaveCount(0);
   });
 
-  test("an ecosystem card links to each part and keeps tracking events", async ({ page }) => {
-    await page.goto("/proyectos");
-    const card = page.locator("[data-project-card]", { hasText: "TerraCore | Campo Inteligente" });
-    await expect(card.getByRole("link", { name: /Leer el caso de estudio/ })).toHaveAttribute(
-      "href",
-      "/proyectos/terracore"
-    );
-    const app = card.getByRole("link", { name: /^Ver app/ });
-    await expect(app).toHaveAttribute("href", "https://app.terracoreapp.co");
-    await expect(app).toHaveAttribute("data-umami-event", "ver-app-terracore");
-    await expect(card.getByRole("link", { name: /^Ver landing/ })).toHaveAttribute(
-      "href",
-      "https://terracoreapp.co"
-    );
-    await expect(card.getByRole("link", { name: /^Ver documentación/ })).toHaveAttribute(
-      "href",
-      "https://docs.terracoreapp.co"
-    );
-    await expect(card.locator("a[target=_blank]")).toHaveCount(3);
-    for (const link of await card.locator("a[target=_blank]").all()) {
-      await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  test("a card has only the case study link", async ({ page }) => {
+    for (const path of ["/proyectos", "/en/projects"]) {
+      await page.goto(path);
+      for (const card of await page.locator("[data-project-card]").all()) {
+        const links = card.locator("a[href]");
+        // The image and the title link to the case study, and so does the action.
+        for (const link of await links.all()) {
+          await expect(link).toHaveAttribute("href", /^\/(proyectos|en\/projects)\/[a-z-]+$/);
+        }
+        await expect(card.locator("a[target=_blank]")).toHaveCount(0);
+      }
     }
   });
 
-  test("NullBreach lists app, landing, repository and API", async ({ page }) => {
-    await page.goto("/en/projects");
-    const card = page.locator("[data-project-card]", { hasText: "NullBreach" });
-    for (const [name, href] of [
-      [/^View app/, "https://www.wavival.dev/nullbreach/login"],
-      [/^View landing/, "https://www.wavival.dev/nullbreach"],
-      [/^View repository/, "https://github.com/wavival/nullbreach"],
-      [/^View Swagger/, "https://www.wavival.dev/nullbreach/swagger"],
-    ] as const) {
-      await expect(card.getByRole("link", { name })).toHaveAttribute("href", href);
-    }
+  test("the home featured rows have only the case study link", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("[data-project-row] a[target=_blank]")).toHaveCount(0);
   });
 
   test("the stack preview stays short", async ({ page }) => {
@@ -94,6 +76,23 @@ test.describe("ecosystem pages", () => {
     await expect(page.locator("#blog")).toHaveAttribute("open", "");
   });
 
+  test("a hash that points inside a closed part opens it", async ({ page }) => {
+    await page.goto("/proyectos/terracore#cs-landing-architecture");
+    await expect(page.locator("#landing")).toHaveAttribute("open", "");
+    await expect(page.locator("#cs-landing-architecture")).toBeInViewport();
+  });
+
+  test("a malformed hash does not throw", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto("/proyectos/okroot#%E0%A4%A");
+    await page.evaluate(() => {
+      location.hash = "#%E0%A4%B";
+    });
+    await expect(page.locator("#app")).toHaveAttribute("open", "");
+    expect(errors).toEqual([]);
+  });
+
   test("changing the hash opens another part without a reload", async ({ page }) => {
     await page.goto("/proyectos/okroot");
     await expect(page.locator("#landing")).not.toHaveAttribute("open", "");
@@ -118,6 +117,61 @@ test.describe("ecosystem pages", () => {
     await expect(page.locator("#landing")).toHaveAttribute("open", "");
     await page.keyboard.press("Enter");
     await expect(page.locator("#landing")).not.toHaveAttribute("open", "");
+  });
+
+  test("the page header lists every link in one column with the quote as main call to action", async ({
+    page,
+  }) => {
+    await page.goto("/proyectos/terracore");
+    const header = page.locator("main header").first();
+    const links = header.locator("a[target=_blank]");
+    await expect(links).toHaveCount(3);
+    const boxes = await links.evaluateAll((els) =>
+      els.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { x: Math.round(r.x), y: Math.round(r.y), h: Math.round(r.height) };
+      })
+    );
+    for (let i = 1; i < boxes.length; i++) {
+      expect(boxes[i].y, "one link per row").toBeGreaterThanOrEqual(
+        boxes[i - 1].y + boxes[i - 1].h
+      );
+    }
+    expect(boxes[0].y).toBeLessThan(boxes[1].y);
+    expect(boxes[1].y).toBeLessThan(boxes[2].y);
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    }
+    await expect(links.nth(0)).toHaveAttribute("href", "https://app.terracoreapp.co");
+    await expect(links.nth(0)).toHaveAttribute("data-umami-event", "ver-app-terracore");
+    await expect(links.nth(1)).toHaveAttribute("href", "https://terracoreapp.co");
+    await expect(links.nth(2)).toHaveAttribute("href", "https://docs.terracoreapp.co");
+    const quote = header.getByRole("link", { name: "Cotizar un proyecto así" });
+    const quoteBox = await quote.boundingBox();
+    expect(quoteBox!.y).toBeGreaterThan(boxes[2].y);
+  });
+
+  test("the header links use the text link style, not buttons", async ({ page }) => {
+    await page.goto("/proyectos/nullbreach");
+    const header = page.locator("main header").first();
+    const textLink = header.locator("a[target=_blank]").first();
+    const cardLinkClass = await textLink.getAttribute("class");
+    await page.goto("/proyectos");
+    const cardLink = page.locator("[data-project-card] a", { hasText: "Caso de estudio" }).first();
+    expect(await cardLink.getAttribute("class")).toBe(cardLinkClass);
+  });
+
+  test("NullBreach lists app, landing, repository and API in its header", async ({ page }) => {
+    await page.goto("/en/projects/nullbreach");
+    const header = page.locator("main header").first();
+    for (const [name, href] of [
+      [/^View app/, "https://www.wavival.dev/nullbreach/login"],
+      [/^View landing/, "https://www.wavival.dev/nullbreach"],
+      [/^View repository/, "https://github.com/wavival/nullbreach"],
+      [/^View Swagger/, "https://www.wavival.dev/nullbreach/swagger"],
+    ] as const) {
+      await expect(header.getByRole("link", { name })).toHaveAttribute("href", href);
+    }
   });
 
   test("link-only parts show a row with their link", async ({ page }) => {
@@ -156,13 +210,5 @@ test.describe("ecosystem pages", () => {
     await expect(page.locator("#cs-problem")).toHaveCount(1);
     await page.goto("/proyectos/wavival-dev");
     await expect(page.locator("details[data-part]")).toHaveCount(0);
-  });
-
-  test("the quote button keeps the project type", async ({ page }) => {
-    await page.goto("/proyectos/nullbreach");
-    await expect(page.getByRole("link", { name: "Cotizar un proyecto así" })).toHaveAttribute(
-      "href",
-      "/cotizar?type=security"
-    );
   });
 });

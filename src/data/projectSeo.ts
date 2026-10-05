@@ -72,7 +72,7 @@ export function projectSchema(project: Project, lang: Lang, pageURL: string, sit
           applicationCategory: app.appCategory ?? "WebApplication",
           operatingSystem: "Web",
           ...(app.programmingLanguage ? { programmingLanguage: app.programmingLanguage } : {}),
-          softwareRequirements: projectStack(project).join(", "),
+          softwareRequirements: (app.stack ?? projectStack(project)).join(", "),
         }
       : {}),
     ...(project.parts.length > 1 ? { hasPart: parts } : {}),

@@ -1,5 +1,3 @@
-import type { QuoteProjectType } from "@/data/quoteTypes";
-
 export interface ProjectLink {
   href: string;
   text: string;
@@ -118,8 +116,6 @@ export interface Project {
   name: string;
   /** Short brand name used in link labels. */
   shortName: string;
-  /** Project type preselected in the quote form when coming from this case study. */
-  quoteType: QuoteProjectType;
   tag: string;
   tagColor: "green" | "blue" | "orange" | "gray";
   image?: string;
@@ -157,7 +153,6 @@ export const projects: Project[] = [
     slug: "terracore",
     name: "TerraCore | Campo Inteligente",
     shortName: "TerraCore",
-    quoteType: "web-app",
     datePublished: "2026-06-16",
     dateModified: "2026-10-05",
     tag: "Live",
@@ -842,7 +837,7 @@ export const projects: Project[] = [
           links: [
             {
               href: "https://terracoreapp.co",
-              text: "Visit site",
+              text: "View site",
               ariaLabel: "View landing: TerraCore | Campo Inteligente",
             },
           ],
@@ -1031,7 +1026,6 @@ export const projects: Project[] = [
     slug: "okroot",
     name: "OKroot | Come sano, vive libre",
     shortName: "OKroot",
-    quoteType: "web-app",
     datePublished: "2026-06-16",
     dateModified: "2026-10-05",
     tag: "Live",
@@ -1050,7 +1044,7 @@ export const projects: Project[] = [
       summary:
         "The OKroot | Come sano, vive libre ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the PWA with an AI label scanner and offline sync, the waitlist landing with a recipe collection, and the official product documentation.",
       metaDescription:
-        "OKroot | Come sano, vive libre case study: PWA with an AI label scanner, waitlist landing, and official documentation. React, Django, and Astro.",
+        "OKroot | Come sano, vive libre case study: PWA with an AI label scanner and offline sync, waitlist landing, and official documentation. React, Django, Astro.",
     },
     parts: [
       {
@@ -1256,7 +1250,7 @@ export const projects: Project[] = [
           links: [
             {
               href: "https://app.okroot.co/",
-              text: "Visit app",
+              text: "View app",
               ariaLabel: "View app: OKroot | Come sano, vive libre",
               event: "ver-app-root",
             },
@@ -1613,7 +1607,7 @@ export const projects: Project[] = [
           links: [
             {
               href: "https://okroot.co/",
-              text: "Visit site",
+              text: "View site",
               ariaLabel: "View landing: OKroot | Come sano, vive libre",
             },
           ],
@@ -1802,7 +1796,6 @@ export const projects: Project[] = [
     slug: "nullbreach",
     name: "NullBreach | AI-Powered AppSec Chat",
     shortName: "NullBreach",
-    quoteType: "security",
     datePublished: "2026-06-16",
     dateModified: "2026-10-05",
     tag: "Live",
@@ -2212,7 +2205,7 @@ export const projects: Project[] = [
           links: [
             {
               href: "https://www.wavival.dev/nullbreach",
-              text: "Visit site",
+              text: "View site",
               ariaLabel: "View landing: NullBreach | AI-Powered AppSec Chat",
             },
           ],
@@ -2266,7 +2259,6 @@ export const projects: Project[] = [
     slug: "lumina-w",
     name: "Lúmina W | Software & Technology",
     shortName: "Lúmina W",
-    quoteType: "landing",
     datePublished: "2026-06-16",
     dateModified: "2026-10-05",
     tag: "Live",
@@ -2463,7 +2455,7 @@ export const projects: Project[] = [
           links: [
             {
               href: "https://luminaw.co",
-              text: "Visit site",
+              text: "View site",
               ariaLabel: "View landing: Lúmina W | Software & Technology",
             },
           ],
@@ -2819,7 +2811,7 @@ export const projects: Project[] = [
           links: [
             {
               href: "https://blog.luminaw.co",
-              text: "Visit site",
+              text: "View site",
               ariaLabel: "View blog: Lúmina W | Software & Technology",
             },
           ],
@@ -3003,7 +2995,6 @@ export const projects: Project[] = [
     slug: "wavival-dev",
     name: "wavival.dev",
     shortName: "wavival.dev",
-    quoteType: "design",
     datePublished: "2026-10-01",
     dateModified: "2026-10-02",
     tag: "Live",
@@ -3295,7 +3286,6 @@ export const projects: Project[] = [
     slug: "forgotten-portal",
     name: "Forgotten Portal",
     shortName: "Forgotten Portal",
-    quoteType: "security",
     datePublished: "2026-06-16",
     dateModified: "2026-10-02",
     tag: "Laboratorio",
@@ -3466,7 +3456,7 @@ export const projects: Project[] = [
             },
             {
               href: "https://github.com/wavival/forgotten-portal-writeup",
-              text: "View repo",
+              text: "View repository",
               ariaLabel: "View repo: Forgotten Portal",
             },
           ],

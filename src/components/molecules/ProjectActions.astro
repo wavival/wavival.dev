@@ -5,14 +5,16 @@ import type { ProjectAction } from "@/data/projectView";
 interface Props {
   actions: ProjectAction[];
   class?: string;
+  /** One link per row instead of a wrapping row. */
+  stacked?: boolean;
 }
 
-const { actions, class: extra = "" } = Astro.props;
+const { actions, class: extra = "", stacked = false } = Astro.props;
 ---
 
 {
   actions.length > 0 && (
-    <div class={`flex flex-wrap gap-6 ${extra}`.trim()}>
+    <div class={`flex ${stacked ? "flex-col gap-3" : "flex-wrap gap-6"} ${extra}`.trim()}>
       {actions.map((a) => (
         <TextLink
           href={a.href}

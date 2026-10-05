@@ -1,5 +1,6 @@
 ---
 import Button from "@/components/atoms/Button.astro";
+import ProjectActions from "@/components/molecules/ProjectActions.astro";
 import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
@@ -10,8 +11,8 @@ import PartBody from "@/components/organisms/PartBody.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
 import { caseLabels, partSections } from "@/data/caseStudyLabels";
 import { projects, type Project } from "@/data/projects";
-import { projectView } from "@/data/projectView";
-import { quoteTypeHref } from "@/data/quoteTypes";
+import { projectView, toAction, type ProjectAction } from "@/data/projectView";
+import { quoteTypesHref } from "@/data/quoteTypes";
 import { siteRoutes, type Lang } from "@/i18n/utils";
 
 interface Props {
@@ -37,10 +38,10 @@ const partItems = view.parts.map((part, i) => ({
   label: part.label,
 }));
 const lead = multi ? view.summary : view.solution;
-const externalActions = [
-  ...view.actions.filter((a) => a.external),
-  ...(!multi && primary.designLink ? [{ ...primary.designLink, external: true }] : []),
-  ...(!multi && primary.designSystemLink ? [{ ...primary.designSystemLink, external: true }] : []),
+const headerLinks: ProjectAction[] = [
+  ...view.links,
+  ...(!multi && primary.designLink ? [toAction(primary.designLink)] : []),
+  ...(!multi && primary.designSystemLink ? [toAction(primary.designSystemLink)] : []),
 ];
 
 const idx = projects.findIndex((p) => p.slug === project.slug);
@@ -76,23 +77,14 @@ const number = String(idx + 1).padStart(2, "0");
           {t.by}
           <a href={r.about} class="text-ink">Valentina Ramírez</a><br />{dateLabel}
         </p>
-        <div class="flex flex-wrap justify-center gap-3 min-[640px]:justify-start">
-          {
-            externalActions.map((a) => (
-              <Button
-                href={a.href}
-                target="_blank"
-                variant="secondary"
-                size="sm"
-                aria-label={a.ariaLabel}
-                data-umami-event={a.event}
-              >
-                {a.text}
-              </Button>
-            ))
-          }
+        <div class="flex flex-col items-center gap-6 min-[640px]:items-start">
+          <ProjectActions
+            actions={headerLinks}
+            stacked
+            class="items-center min-[640px]:items-start"
+          />
           <Button
-            href={quoteTypeHref(r.quote, project.quoteType)}
+            href={quoteTypesHref(r.quote)}
             size="sm"
             data-umami-event="cotizar-desde-proyecto"
           >
@@ -180,31 +172,10 @@ const number = String(idx + 1).padStart(2, "0");
                   open={i === 0}
                 >
                   <div class="flex flex-col" style="gap:clamp(48px,5vw,72px)">
-                    <div class="flex flex-wrap gap-3">
-                      {actions.map((a) => (
-                        <Button
-                          href={a.href}
-                          target="_blank"
-                          variant="secondary"
-                          size="sm"
-                          aria-label={a.ariaLabel}
-                          data-umami-event={a.event}
-                        >
-                          {a.text}
-                        </Button>
-                      ))}
-                      {design && (
-                        <Button
-                          href={design.href}
-                          target="_blank"
-                          variant="secondary"
-                          size="sm"
-                          aria-label={design.ariaLabel}
-                        >
-                          {design.text}
-                        </Button>
-                      )}
-                    </div>
+                    <ProjectActions
+                      actions={design ? [...actions, toAction(design)] : actions}
+                      stacked
+                    />
                     {part.content.summary && (
                       <div class="border-t-2 border-blue bg-tint px-8 py-7">
                         <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>

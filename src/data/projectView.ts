@@ -52,7 +52,10 @@ export interface ProjectView {
   stack: string[];
   filters: string[];
   caseHref: string;
+  /** What a card shows: only the case study. Every other link lives on the project page. */
   actions: ProjectAction[];
+  /** External links of the project page: one per part (every link on a single-part project). */
+  links: ProjectAction[];
   parts: PartView[];
 }
 
@@ -151,9 +154,9 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
   const solution = primary.solution ?? primary.summary ?? "";
   const summary = en?.summary ?? p.summary ?? primary.summary ?? firstSentence(solution);
 
-  // One part keeps every link it declares. An ecosystem shows one action per part, so the
-  // card stays short however many parts the project has.
-  const partActions = multi ? parts.flatMap((part) => part.actions.slice(0, 1)) : parts[0].actions;
+  // One part keeps every link it declares. An ecosystem lists one link per part, so the
+  // column stays short however many parts the project has.
+  const links = multi ? parts.flatMap((part) => part.actions.slice(0, 1)) : parts[0].actions;
   const actions: ProjectAction[] = [
     {
       href: r.project(p.slug),
@@ -161,7 +164,6 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
       ariaLabel: isEn ? `Read the ${p.name} case study` : `Leer el caso de estudio de ${p.name}`,
       external: false,
     },
-    ...partActions,
   ];
 
   const overline =
@@ -197,6 +199,7 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
     filters: projectFilters(p),
     caseHref: r.project(p.slug),
     actions,
+    links,
     parts,
   };
 }

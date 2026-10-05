@@ -1,13 +1,21 @@
 /** Opens the ecosystem part a link or the URL hash points to, so `#docs` never lands on a closed panel. */
 function openPart(id: string, scroll: boolean) {
   if (!id) return;
-  const target = document.getElementById(decodeURIComponent(id));
+  let key = id;
+  try {
+    key = decodeURIComponent(id);
+  } catch {
+    // A malformed escape in the hash: use it as typed.
+  }
+  const target = document.getElementById(key);
   const part = target?.closest<HTMLDetailsElement>("details[data-part]");
   if (!target || !part) return;
-  if (!part.open) part.open = true;
-  if (scroll && target === part) {
+  const wasClosed = !part.open;
+  if (wasClosed) part.open = true;
+  // The browser could not scroll to a target that was hidden inside a closed part.
+  if (scroll || wasClosed) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    part.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
   }
 }
 
