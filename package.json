@@ -31,7 +31,7 @@
     "@vercel/microfrontends": "2.4.0",
     "astro": "^7.3.4",
     "tailwindcss": "^3.4.19",
-    "web-vitals": "^5.3.0"
+    "web-vitals": "^6.2.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
