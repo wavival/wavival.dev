@@ -122,7 +122,7 @@ src/
 ├── i18n/                copy, slug map, localized routes and accessibility helpers
 ├── layouts/             Layout.astro, the shared document shell and metadata owner
 ├── pages/               Spanish routes and the English mirror under en/ (quote: cotizar.astro and en/quote/)
-├── scripts/             navigation, theme and optional RUM behavior
+├── scripts/             navigation, theme, disclosure and optional RUM behavior
 ├── utils/               pure helpers (bento grid spans)
 └── styles/              global CSS, design tokens and component classes
 
@@ -140,7 +140,7 @@ tsconfig.json, playwright.config.ts, lighthouserc.json, commitlint.config.cjs,
 .prettierrc, .prettierignore, .nvmrc, vercel.json and microfrontends.json.
 ```
 
-`Layout.astro` owns the shared head, canonical URL, hreflang tags, Open Graph and Twitter metadata, JSON-LD, theme pre-paint logic, navigation loader, navigation, footer, and skip link. Project content is defined in `src/data/projects.ts`; `projectView.ts` adapts it for localized rendering.
+`Layout.astro` owns the shared head, canonical URL, hreflang tags, Open Graph and Twitter metadata, JSON-LD, theme pre-paint logic, navigation loader, navigation, footer, and skip link. Project content is defined in `src/data/projects.ts` (six projects, each an ecosystem split into parts); `projectView.ts` adapts it for localized rendering and `projectSeo.ts` builds the page title and JSON-LD.
 
 ## Routes and internationalization
 
@@ -159,7 +159,7 @@ Spanish is the default locale at the root. English is mirrored below `/en/`.
 | `/herramientas/` | `/en/uses/`     |
 | `/privacidad/`   | `/en/privacy/`  |
 
-Case studies live at `/proyectos/[slug]/` and `/en/projects/[slug]/`. `src/i18n/utils.ts` is the source of truth for language pairs, localized routes, alternate URLs, active navigation, and CV links. Update its slug map whenever a page or slug changes.
+Each of the six projects has one page at `/proyectos/[slug]/` and `/en/projects/[slug]/`; its parts (app, landing, docs...) are sections of that page, reachable by hash (`#landing`). Former slugs redirect permanently (see `docs/seo.md`). `src/i18n/utils.ts` is the source of truth for language pairs, localized routes, alternate URLs, active navigation, and CV links. Update its slug map whenever a page or slug changes.
 
 ### Microfrontends
 

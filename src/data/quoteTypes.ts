@@ -25,5 +25,8 @@ export const quoteProjectTypeLabel = (type: QuoteProjectType, lang: Lang) => lab
 export const quoteProjectTypeOptions = (lang: Lang) =>
   QUOTE_PROJECT_TYPES.map((id) => ({ id, label: labels[id][lang] }));
 
-export const quoteTypeHref = (quoteRoute: string, type: QuoteProjectType) =>
-  `${quoteRoute}?type=${type}`;
+/** Query that opens the quote form on the project types, with none selected. */
+export const QUOTE_TYPES_MODE = "types";
+
+/** Link to the quote form on its project types: the visitor picks them in the form. */
+export const quoteTypesHref = (quoteRoute: string) => `${quoteRoute}?mode=${QUOTE_TYPES_MODE}`;

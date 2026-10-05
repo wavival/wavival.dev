@@ -1,19 +1,18 @@
 ---
 import Button from "@/components/atoms/Button.astro";
+import ProjectActions from "@/components/molecules/ProjectActions.astro";
 import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
-import Bento from "@/components/molecules/Bento.astro";
-import Metric from "@/components/molecules/Metric.astro";
-import Disclosure from "@/components/molecules/Disclosure.astro";
+import PartDisclosure from "@/components/molecules/PartDisclosure.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
-import CaseSection from "@/components/organisms/CaseSection.astro";
+import PartBody from "@/components/organisms/PartBody.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
-import { caseStudies, type Project } from "@/data/projects";
-import { projectView } from "@/data/projectView";
-import { quoteTypeHref } from "@/data/quoteTypes";
+import { caseLabels, partSections } from "@/data/caseStudyLabels";
+import { projects, type Project } from "@/data/projects";
+import { projectView, toAction, type ProjectAction } from "@/data/projectView";
+import { quoteTypesHref } from "@/data/quoteTypes";
 import { siteRoutes, type Lang } from "@/i18n/utils";
-import { bentoStyles } from "@/utils/bento";
 
 interface Props {
   project: Project;
@@ -22,130 +21,32 @@ interface Props {
 }
 
 const { project, lang, dateLabel } = Astro.props;
-const isEn = lang === "en";
 const base = import.meta.env.BASE_URL;
 const r = siteRoutes(lang, base);
+const t = caseLabels(lang);
 const view = projectView(project, lang, base);
-const en = isEn ? project.en : undefined;
-const designLink = en?.designLink ?? project.designLink;
-const designSystemLink = en?.designSystemLink ?? project.designSystemLink;
+const multi = view.parts.length > 1;
+const primary = view.parts[0].content;
 
-const architecture = en?.architecture ?? project.architecture;
-const decisions = en?.decisions ?? project.decisions;
-const results = en?.results ?? project.results;
-const learnings = en?.learnings ?? project.learnings;
-const painPoints = en?.painPoints ?? project.painPoints;
-const modules = en?.modules ?? project.modules;
-const chainSteps = en?.chainSteps ?? project.chainSteps;
-const chainTitle =
-  en?.chainStepsTitle ??
-  project.chainStepsTitle ??
-  (isEn ? "Example action chain" : "Ejemplo de cadena de acciones");
-const chains =
-  en?.chains ??
-  project.chains ??
-  (chainSteps ? [{ title: chainTitle, steps: chainSteps }] : undefined);
-const design = en?.design ?? project.design;
-const roadmap = en?.roadmap ?? project.roadmap;
-const metrics = project.metrics;
-const painStyles = bentoStyles(painPoints?.length ?? 0);
-const moduleStyles = bentoStyles(modules?.length ?? 0);
-const learningStyles = bentoStyles(learnings?.length ?? 0);
-
-const t = isEn
-  ? {
-      projects: "Projects",
-      by: "By",
-      toc: "Contents",
-      stack: "Stack",
-      summary: "Summary",
-      problem: "The problem",
-      architecture: "What I built",
-      decisions: "Architecture decisions",
-      design: "Design",
-      results: "Results",
-      learnings: "Learnings",
-      roadmap: "Roadmap",
-      roadmapNow: "Now",
-      roadmapNext: "Next",
-      roadmapLater: "Later",
-      roadmapOut: "Out of scope for the MVP",
-      context: "Context",
-      tradeoff: "Trade-off",
-      decision: "Decision",
-      view: "View",
-      close: "Close",
-      prev: "Previous",
-      next: "Next",
-      navLabel: "Project navigation",
-      backAria: "Back to all projects",
-      quote: "Quote a project like this",
-    }
-  : {
-      projects: "Proyectos",
-      by: "Por",
-      toc: "Contenido",
-      stack: "Stack",
-      summary: "Resumen",
-      problem: "El problema",
-      architecture: "Qué construí",
-      decisions: "Decisiones de arquitectura",
-      design: "Diseño",
-      results: "Resultados",
-      learnings: "Aprendizajes",
-      roadmap: "Roadmap",
-      roadmapNow: "Ahora",
-      roadmapNext: "Siguiente",
-      roadmapLater: "Después",
-      roadmapOut: "Fuera del alcance del MVP",
-      context: "Contexto",
-      tradeoff: "Trade-off",
-      decision: "Decisión",
-      view: "Ver",
-      close: "Cerrar",
-      prev: "Anterior",
-      next: "Siguiente",
-      navLabel: "Navegación entre proyectos",
-      backAria: "Volver a todos los proyectos",
-      quote: "Cotizar un proyecto así",
-    };
-
-const roadmapColumns = roadmap
-  ? [
-      { label: t.roadmapNow, items: roadmap.now },
-      { label: t.roadmapNext, items: roadmap.next },
-      ...(roadmap.later?.length ? [{ label: t.roadmapLater, items: roadmap.later }] : []),
-      ...(roadmap.out ? [{ label: t.roadmapOut, items: roadmap.out }] : []),
-    ].filter((c) => c.items.length > 0)
-  : [];
-const roadmapStyles = bentoStyles(roadmapColumns.length);
-
-const sections = [
-  { key: "problem", label: t.problem, show: true },
-  { key: "architecture", label: t.architecture, show: !!architecture },
-  { key: "design", label: t.design, show: !!design },
-  { key: "decisions", label: t.decisions, show: !!decisions },
-  { key: "results", label: t.results, show: !!results },
-  { key: "learnings", label: t.learnings, show: !!learnings },
-  { key: "roadmap", label: t.roadmap, show: !!roadmap },
-]
-  .filter((s) => s.show)
-  .map((s, i) => ({
-    ...s,
-    id: `cs-${s.key}`,
-    n: String(i + 1).padStart(2, "0"),
-  }));
-const sec = (key: string) => sections.find((s) => s.key === key)!;
-
-const idx = caseStudies.findIndex((p) => p.slug === project.slug);
-const prevProject = idx > 0 ? caseStudies[idx - 1] : null;
-const nextProject = idx < caseStudies.length - 1 ? caseStudies[idx + 1] : null;
-const number = String(idx + 1).padStart(2, "0");
-const externalActions = [
-  ...view.actions.filter((a) => a.external),
-  ...(designLink ? [{ ...designLink, external: true }] : []),
-  ...(designSystemLink ? [{ ...designSystemLink, external: true }] : []),
+// One part reads like a classic case study (header buttons include its design links, numbered
+// sections, sticky contents). Several parts read as an ecosystem: one accordion per part.
+const singleSections = multi ? [] : partSections(primary, t, "cs-");
+const partItems = view.parts.map((part, i) => ({
+  id: part.id,
+  n: String(i + 1).padStart(2, "0"),
+  label: part.label,
+}));
+const lead = multi ? view.summary : view.solution;
+const headerLinks: ProjectAction[] = [
+  ...view.links,
+  ...(!multi && primary.designLink ? [toAction(primary.designLink)] : []),
+  ...(!multi && primary.designSystemLink ? [toAction(primary.designSystemLink)] : []),
 ];
+
+const idx = projects.findIndex((p) => p.slug === project.slug);
+const prevProject = idx > 0 ? projects[idx - 1] : null;
+const nextProject = idx < projects.length - 1 ? projects[idx + 1] : null;
+const number = String(idx + 1).padStart(2, "0");
 ---
 
 <article>
@@ -155,43 +56,30 @@ const externalActions = [
         {t.projects}
       </TextLink>
       <span class="text-line-2" aria-hidden="true">/</span>
-      <span class="label-sm">{number} &middot; {project.title}</span>
+      <span class="label-sm">{number} &middot; {project.name}</span>
       <StatusDot tone={view.tone} class="ml-auto text-xs font-semibold text-ink">
         {view.tag}
       </StatusDot>
     </div>
     <h1 class="display-case m-0 [text-wrap:pretty]" style="margin-top:clamp(32px,4vw,56px)">
-      {project.title}
+      {project.name}
     </h1>
     <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6">
       <p
         class="body-lg m-0 max-w-[760px] flex-[1_1_520px] leading-[1.65]"
         style="font-size:clamp(17px,1.5vw,20px)"
       >
-        {view.solution}
+        {lead}
       </p>
       <div class="flex flex-[0_1_300px] flex-col gap-5">
         <p class="m-0 text-[13px] text-muted">
           {t.by}
           <a href={r.about} class="text-ink">Valentina Ramírez</a><br />{dateLabel}
         </p>
-        <div class="flex flex-wrap justify-center gap-3 min-[640px]:justify-start">
-          {
-            externalActions.map((a) => (
-              <Button
-                href={a.href}
-                target="_blank"
-                variant="secondary"
-                size="sm"
-                aria-label={a.ariaLabel}
-                data-umami-event={a.event}
-              >
-                {a.text}
-              </Button>
-            ))
-          }
+        <div class="flex flex-col items-start gap-6">
+          <ProjectActions actions={headerLinks} stacked class="items-start" />
           <Button
-            href={quoteTypeHref(r.quote, project.quoteType)}
+            href={quoteTypesHref(r.quote)}
             size="sm"
             data-umami-event="cotizar-desde-proyecto"
           >
@@ -216,18 +104,6 @@ const externalActions = [
         </div>
       )
     }
-    {
-      metrics && metrics.length > 0 && (
-        <dl
-          class="cell-grid m-0"
-          style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:-1px"
-        >
-          {metrics.map((m) => (
-            <Metric value={m.metric} label={m.label} note={m.note} />
-          ))}
-        </dl>
-      )
-    }
   </div>
 
   <div
@@ -235,9 +111,15 @@ const externalActions = [
     style="padding-top:clamp(56px,7vw,112px);padding-bottom:var(--sec)"
   >
     <aside class="sticky top-24 hidden w-[220px] flex-none min-[900px]:block">
-      <CaseToc items={sections} label={t.toc} />
-      <div class="label-sm mt-8 mb-3">{t.stack}</div>
-      <ChipList items={project.stack} label={t.stack} />
+      <CaseToc items={multi ? partItems : singleSections} label={multi ? t.tocParts : t.toc} />
+      {
+        !multi && (
+          <>
+            <div class="label-sm mt-8 mb-3">{t.stack}</div>
+            <ChipList items={primary.stack ?? []} label={t.stack} />
+          </>
+        )
+      }
     </aside>
 
     <div class="flex min-w-0 flex-auto flex-col" style="gap:clamp(64px,7vw,104px)">
@@ -247,200 +129,63 @@ const externalActions = [
           class="h-title m-0 leading-[1.45]"
           style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
         >
-          {view.summary}
+          {multi ? view.summary : (primary.summary ?? view.summary)}
         </p>
       </div>
-      <ChipList items={project.stack} label={t.stack} class="min-[900px]:hidden" />
-
-      <CaseSection id={sec("problem").id} n={sec("problem").n} title={t.problem}>
-        <p class="m-0 max-w-[820px] text-[18px] leading-[1.75] text-ink" style="text-wrap:pretty">
-          {view.problem}
-        </p>
-        {
-          painPoints && (
-            <Bento cells class="mt-10">
-              {painPoints.map((pp, i) => (
-                <div class="p-6" style={painStyles[i]}>
-                  <h3 class="h-title m-0 text-lg">{pp.title}</h3>
-                  <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
-                    {pp.text}
-                  </p>
-                </div>
-              ))}
-            </Bento>
-          )
-        }
-      </CaseSection>
+      {
+        !multi && (
+          <ChipList items={primary.stack ?? []} label={t.stack} class="min-[900px]:hidden" />
+        )
+      }
 
       {
-        architecture && (
-          <CaseSection id={sec("architecture").id} n={sec("architecture").n} title={t.architecture}>
-            <ol
-              class="m-0 grid list-none gap-x-10 gap-y-0 p-0"
-              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"
-            >
-              {architecture.map((a, i) => (
-                <li class="flex gap-4 border-b border-line py-[18px]">
-                  <span class="index w-7 flex-none text-sm index-link">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p class="body m-0 text-[15px] leading-[1.7]">{a}</p>
-                </li>
-              ))}
-            </ol>
-            {modules && (
-              <Bento class="mt-10 gap-4">
-                {modules.map((m, i) => (
-                  <div class="border border-line bg-surface p-6" style={moduleStyles[i]}>
-                    <h3 class="h-title m-0 text-lg">{m.name}</h3>
-                    <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
-                      {m.text}
-                    </p>
+        multi ? (
+          <div class="flex flex-col border-t border-ink">
+            {view.parts.map((part, i) => {
+              const n = String(i + 1).padStart(2, "0");
+              const actions = part.actions;
+              const design = part.content.designLink;
+              return (
+                <PartDisclosure
+                  id={part.id}
+                  index={n}
+                  label={part.label}
+                  blurb={part.blurb}
+                  openLabel={t.partOpen}
+                  closeLabel={t.partClose}
+                  open={i === 0}
+                >
+                  <div class="flex flex-col" style="gap:clamp(48px,5vw,72px)">
+                    <ProjectActions
+                      actions={design ? [...actions, toAction(design)] : actions}
+                      stacked
+                      class="items-start"
+                    />
+                    {part.content.summary && (
+                      <div class="border-t-2 border-blue bg-tint px-8 py-7">
+                        <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
+                        <p
+                          class="h-title m-0 leading-[1.45]"
+                          style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
+                        >
+                          {part.content.summary}
+                        </p>
+                      </div>
+                    )}
+                    {part.content.stack && <ChipList items={part.content.stack} label={t.stack} />}
+                    <PartBody
+                      part={part.content}
+                      lang={lang}
+                      idPrefix={`cs-${part.id}-`}
+                      level="h3"
+                    />
                   </div>
-                ))}
-              </Bento>
-            )}
-            {chains &&
-              chains.map((chain) => (
-                <div class="mt-10 border border-line bg-tint px-8 py-7">
-                  <h3 class="h-title m-0 mb-5 text-lg">{chain.title}</h3>
-                  <ol class="m-0 flex list-none flex-col p-0">
-                    {chain.steps.map((step, i) => (
-                      <li class="flex items-start gap-4 border-t border-dashed border-line-2 py-[10px]">
-                        <span class="index w-6 flex-none pt-[3px] text-xs">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span class="text-sm leading-[1.65] text-ink" style="text-wrap:pretty">
-                          {step}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              ))}
-          </CaseSection>
-        )
-      }
-
-      {
-        design && (
-          <CaseSection id={sec("design").id} n={sec("design").n} title={t.design}>
-            <ol
-              class="m-0 grid list-none gap-x-10 gap-y-0 p-0"
-              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"
-            >
-              {design.map((d, i) => (
-                <li class="flex gap-4 border-b border-line py-[18px]">
-                  <span class="index w-7 flex-none text-sm index-link">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p class="body m-0 text-[15px] leading-[1.7]">{d}</p>
-                </li>
-              ))}
-            </ol>
-          </CaseSection>
-        )
-      }
-
-      {
-        decisions && (
-          <CaseSection
-            id={sec("decisions").id}
-            n={sec("decisions").n}
-            title={t.decisions}
-            gap="mb-4"
-          >
-            <div class="flex flex-col">
-              {decisions.map((d, i) => (
-                <Disclosure
-                  index={String(i + 1).padStart(2, "0")}
-                  title={d.title}
-                  openLabel={t.view}
-                  closeLabel={t.close}
-                >
-                  <dl
-                    class="m-0 grid gap-x-8 gap-y-6"
-                    style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))"
-                  >
-                    <div>
-                      <dt class="label-sm">{t.context}</dt>
-                      <dd class="body m-0 mt-2 text-sm">{d.context}</dd>
-                    </div>
-                    <div>
-                      <dt class="label-sm">{t.tradeoff}</dt>
-                      <dd class="body m-0 mt-2 text-sm">{d.tradeoff}</dd>
-                    </div>
-                    <div>
-                      <dt class="label-sm label-sm-link">{t.decision}</dt>
-                      <dd class="m-0 mt-2 text-sm leading-[1.7] text-ink" style="text-wrap:pretty">
-                        {d.decision}
-                      </dd>
-                    </div>
-                  </dl>
-                </Disclosure>
-              ))}
-            </div>
-          </CaseSection>
-        )
-      }
-
-      {
-        results && (
-          <CaseSection id={sec("results").id} n={sec("results").n} title={t.results} gap="mb-6">
-            <ul class="m-0 list-none p-0">
-              {results.map((x) => (
-                <li
-                  class="mb-3 border-l-2 border-blue py-[18px] pr-0 pl-6 text-base leading-[1.7] text-ink"
-                  style="text-wrap:pretty"
-                >
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </CaseSection>
-        )
-      }
-
-      {
-        learnings && (
-          <CaseSection
-            id={sec("learnings").id}
-            n={sec("learnings").n}
-            title={t.learnings}
-            gap="mb-6"
-          >
-            <Bento class="gap-4" data-learnings-cards>
-              {learnings.map((x, i) => (
-                <article class="border border-line bg-surface p-6" style={learningStyles[i]}>
-                  <span class="index">{String(i + 1).padStart(2, "0")}</span>
-                  <p class="mt-4 mb-0 text-base leading-[1.7] text-muted" style="text-wrap:pretty">
-                    {x}
-                  </p>
-                </article>
-              ))}
-            </Bento>
-          </CaseSection>
-        )
-      }
-
-      {
-        roadmap && (
-          <CaseSection id={sec("roadmap").id} n={sec("roadmap").n} title={t.roadmap} gap="mb-6">
-            <Bento cells>
-              {roadmapColumns.map((col, i) => (
-                <div class="p-6" style={roadmapStyles[i]}>
-                  <h3 class="label-sm m-0">{col.label}</h3>
-                  <ul class="m-0 mt-4 flex list-none flex-col gap-3 p-0">
-                    {col.items.map((item) => (
-                      <li class="text-sm leading-[1.7] text-ink" style="text-wrap:pretty">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </Bento>
-          </CaseSection>
+                </PartDisclosure>
+              );
+            })}
+          </div>
+        ) : (
+          <PartBody part={primary} lang={lang} idPrefix="cs-" />
         )
       }
     </div>
@@ -463,7 +208,7 @@ const externalActions = [
                 class="h-title leading-[1.1]"
                 style="font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em"
               >
-                {prevProject.title}
+                {prevProject.name}
               </span>
             </a>
           ) : (
@@ -479,7 +224,7 @@ const externalActions = [
                 class="h-title leading-[1.1]"
                 style="font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em"
               >
-                {nextProject.title}
+                {nextProject.name}
               </span>
             </a>
           )}

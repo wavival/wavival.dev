@@ -27,11 +27,8 @@ const PROJECT_SLUGS = [
   "okroot",
   "nullbreach",
   "lumina-w",
-  "blog-lumina-w",
   "wavival-dev",
   "forgotten-portal",
-  "terracore-landing",
-  "okroot-landing",
 ];
 
 const ALL_ROUTES = [

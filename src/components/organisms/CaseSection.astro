@@ -6,20 +6,23 @@ interface Props {
   n: string;
   title: string;
   gap?: string;
+  /** Heading level. Sections inside an ecosystem part sit one level below the part title. */
+  level?: "h2" | "h3";
 }
 
-const { id, n, title, gap = "mb-8" } = Astro.props;
+const { id, n, title, gap = "mb-8", level = "h2" } = Astro.props;
+const Heading = level;
 ---
 
 <section id={id} class="scroll-mt-24">
   <header class={`flex items-baseline gap-5 border-t border-ink pt-5 ${gap}`}>
     <Index class="text-[15px]">{n}</Index>
-    <h2
+    <Heading
       class="h-title m-0 leading-[1.05]"
       style="font-size:var(--fs-h2-case);letter-spacing:-0.03em;text-wrap:pretty"
     >
       {title}
-    </h2>
+    </Heading>
   </header>
   <slot />
 </section>

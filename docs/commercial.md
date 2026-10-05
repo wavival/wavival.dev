@@ -1,6 +1,6 @@
 # Comercial de la marca personal wavival
 
-> Last updated: 2026-10-04
+> Last updated: 2026-10-05
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -42,12 +42,12 @@ Proceso publicado: conversación, propuesta, build iterativo, entrega documentad
 
 Producto disponible hoy:
 
-- TerraCore, plan Semilla: 1 sede y 5 usuarios (caso de estudio de la landing en `src/data/projects.ts`). Es el único plan que se trata como disponible. Profesional (hasta 5 sedes y 10 usuarios) y Enterprise (sedes y usuarios ilimitados) aparecen en la landing pero no se mencionan como disponibles. Los precios de productos no se publican en `wavival.dev`: no se citan.
+- TerraCore, plan Semilla: 1 sede y 5 usuarios (parte `landing` del proyecto `terracore` en `src/data/projects.ts`). Es el único plan que se trata como disponible. Profesional (hasta 5 sedes y 10 usuarios) y Enterprise (sedes y usuarios ilimitados) aparecen en la landing pero no se mencionan como disponibles. Los precios de productos no se publican en `wavival.dev`: no se citan.
 - OKroot: funcional en early access. No se afirma modelo de acceso; los precios de productos no se publican en `wavival.dev`.
 
 Omitido en V1 (sin fuente): mantenimiento como servicio, modelo de contratación, oferta paga de NullBreach.
 
-Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (terracore-landing), `src/components/organisms/ContactBand.astro`.
+Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (proyecto `terracore`, parte `landing`), `src/components/organisms/ContactBand.astro`.
 
 Titular de la home: "Full Stack Developer, backend e IA." Datos publicados en la home: "3 apps en producción", "Lúmina W fundadora", "24h tiempo de respuesta" (`src/components/organisms/Hero.astro`). Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera.
 
@@ -117,7 +117,7 @@ Ruta de descubrimiento V1:
 
 Regla: el CTA de una pieza sobre los servicios de wavival dirige a `/servicios` o `/contacto`; el CTA de una pieza sobre Lúmina W o sus productos dirige a `luminaw.co` o al producto; el CTA de una pieza de confianza puede dirigir al portafolio.
 
-Medición ya instalada en el portafolio: eventos de Umami para `cta-quiero-producto`, `cv-descarga-es` y `cv-descarga-en`, `contacto-email`, `contacto-whatsapp`, `contacto-calendly`, `ver-app-terracore`, `ver-app-root` y `ver-app-nullbreach`.
+Medición ya instalada en el portafolio: eventos de Umami para `cta-quiero-producto`, `cv-descarga-es` y `cv-descarga-en`, `contacto-email`, `contacto-whatsapp`, `contacto-calendly`, `ver-app-terracore`, `ver-docs-terracore`, `ver-app-root`, `ver-docs-okroot` y `ver-app-nullbreach`.
 
 Fuente: `src/pages/contacto.astro`, `src/components/organisms/NavBar.astro`, `src/components/organisms/Footer.astro`, `AGENTS.md`.
 
