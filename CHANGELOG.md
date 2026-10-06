@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Decisions inside an open ecosystem part showed "Cerrar" while they were closed: the `Ver detalle` and `Cerrar` labels of a disclosure now belong to its own summary (`.disclosure > summary .when-open`), so a closed decision keeps "Ver detalle" whatever its parent does. Covered by `tests/ecosystem.spec.ts`.
+
 - `src/scripts/part-disclosure.ts` guards `decodeURIComponent` against a malformed hash and, after opening a closed part, scrolls to a nested target.
 - `softwareRequirements` in the project JSON-LD uses the stack of the app part (the first part when there is none); the merged stack is used only when that part declares no stack.
 - NullBreach app text: the landing is a separate static Astro site (`apps/landing`) published inside the Next.js deployment, and the app link points to `/nullbreach/login`. The matching open decision is removed from `docs/ROADMAP.md`.
