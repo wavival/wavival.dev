@@ -1,6 +1,6 @@
 # Performance
 
-> Last updated: 2026-10-05
+> Last updated: 2026-10-06
 
 The site is static HTML, one stylesheet, vanilla TypeScript and one serverless function. The goal is a fast first paint and no layout shift on every page.
 

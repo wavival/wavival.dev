@@ -1,6 +1,6 @@
 # Engineering practices
 
-> Last updated: 2026-10-05
+> Last updated: 2026-10-06
 
 How work is done in this repository. Operational rules for agents are in [`../AGENTS.md`](../AGENTS.md); this document is the human-readable version with the reasons and the commands.
 
