@@ -56,7 +56,7 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 
 ## Data and privacy
 
-- Quote data: name, email, phone, business, selected services and description, used only to answer the request (`/privacidad`). The source address used by the rate limit is not part of that data and is not stored.
+- Quote data: name, email, phone, business, selected services and description, used only to answer the request (`/privacidad`). The source address used by the rate limit is not part of that data and is not stored; `/privacidad` and `/en/privacy/` say so (section 02).
 - Analytics: Umami, cookieless and aggregated, enabled only when both variables are set. No tracking cookies, so no consent banner.
 - Third parties: Brevo (quote delivery), Calendly (contact page), Vercel (hosting and logs). Fonts are self-hosted.
 

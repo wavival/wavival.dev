@@ -20,7 +20,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] After the first CodeQL run, review the findings under Security > Code scanning and fix or dismiss each one with a reason.
 - [ ] Pin GitHub Actions (and the `lumina-w/agents` workflows) to commit SHAs instead of tags; Dependabot keeps SHA pins updated.
 - [ ] Alert on repeated function errors (Vercel log drain or alert) so a failing Brevo key is noticed before a lead is lost.
-- [ ] Decision: `/privacidad` does not mention that the source address is held in memory for up to 10 minutes by the quote rate limit. It is not stored or shared; decide whether the page should say so.
 - [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
