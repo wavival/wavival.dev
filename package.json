@@ -44,7 +44,7 @@
     "autoprefixer": "^10.6.1",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.13.0",
     "husky": "^9.1.7",
     "linkinator": "^8.1.0",
@@ -67,6 +67,12 @@
   "overrides": {
     "basic-ftp": "^6.2.1",
     "tmp": "^0.2.7",
-    "uuid": "^11.1.1"
+    "uuid": "^11.1.1",
+    "lighthouse": "^13.5.0",
+    "puppeteer-core": "^25.12.0",
+    "@puppeteer/browsers": "^3.2.3",
+    "@lhci/utils": {
+      "js-yaml": "^4.3.2"
+    }
   }
 }
