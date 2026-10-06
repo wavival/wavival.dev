@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
-import { microfrontends } from "@vercel/microfrontends/experimental/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -76,7 +75,7 @@ export default defineConfig({
     inlineStylesheets: "auto",
   },
   vite: {
-    plugins: [tailwindcss(), microfrontends()],
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
