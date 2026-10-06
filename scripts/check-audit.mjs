@@ -8,12 +8,7 @@
 
 import { spawnSync } from "node:child_process";
 
-const ACCEPTED = {
-  // Flagged for every published version (latest is 3.0.3). Enters through
-  // tailwindcss@3 (chokidar, micromatch, fast-glob) and the Vercel routing
-  // package, only at build and dev time. Re-check when tailwindcss@4 is adopted.
-  "GHSA-vfj7-8cjw-p6xm": "braces: stack exhaustion on deeply nested patterns",
-};
+const ACCEPTED = {};
 
 const BLOCKING = new Set(["high", "critical"]);
 
