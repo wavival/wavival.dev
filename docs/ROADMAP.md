@@ -23,7 +23,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
-- [ ] `npm audit` reports 14 vulnerabilities (all high) as of 2026-10-04, none with a patched release: `braces` and `extract-zip`, plus the packages that depend on them (`chokidar`, `micromatch`, `fast-glob`, `tailwindcss`, `@vercel/microfrontends`, `eslint-plugin-astro` and `astro-eslint-parser`, and the `@lhci/cli` chain). 6 are in production dependencies and are covered by the advisory accepted in `scripts/check-audit.mjs` (`GHSA-vfj7-8cjw-p6xm`, `braces`); the other 8 are dev-only and do not gate CI. Re-check when a patched version of `braces` or `extract-zip` is published.
+- [ ] `npm audit` reports 19 vulnerabilities as of 2026-10-06 (14 high, 5 moderate), none with a patched release that does not break the build: `braces` and `extract-zip`, plus the packages that depend on them (`chokidar`, `micromatch`, `fast-glob`, `tailwindcss`, `@vercel/microfrontends`, `eslint-plugin-astro` and `astro-eslint-parser`, and the `@lhci/cli` chain). 8 are in production dependencies (6 high, 2 moderate) and are covered by the advisory accepted in `scripts/check-audit.mjs` (`GHSA-vfj7-8cjw-p6xm`, `braces`); the rest are dev-only and do not gate CI. Re-check when a patched version of `braces` or `extract-zip` is published.
 
 ## Dependencies
 
