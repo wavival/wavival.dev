@@ -1,6 +1,13 @@
-@import "tailwindcss";
+/* One flat cascade, like Tailwind 3: the site's own component CSS sits in the utilities layer
+   before the generated utilities, so a utility beats a component rule of the same specificity
+   and a more specific component selector still beats a utility. Tailwind 4 would otherwise
+   let every layered utility beat any component rule whatever its specificity. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
 @import "./tokens.css" layer(base);
-@import "./utilities.css";
+@import "./utilities.css" layer(utilities);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 @custom-variant dark (&:is(.dark *));
 

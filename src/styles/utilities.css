@@ -1,44 +1,40 @@
-@utility wrap {
-  /* Structure */
+/* Structure */
+.wrap {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: var(--gut);
 }
 
-@utility page-top {
+.page-top {
   padding-top: clamp(48px, 6vw, 96px);
   padding-bottom: var(--sec);
 }
 
-@utility section-gap {
+.section-gap {
   margin-top: var(--sec);
 }
 
-@utility rule-section {
+.rule-section {
   padding-top: 24px;
   border-top: 1px solid var(--text);
 }
 
-@utility rule-line {
+.rule-line {
   border-top: 1px solid var(--line);
 }
 
-@utility eyebrow {
-  /* Type */
+/* Type */
+.eyebrow {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--link);
-
-  .quote-success & {
-    margin: 0;
-  }
 }
 
-@utility label-sm {
+.label-sm {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fs-label-sm);
@@ -47,26 +43,26 @@
   color: var(--muted);
 }
 
-@utility label-sm-link {
+.label-sm-link {
   color: var(--link);
 }
 
-@utility index {
+.index {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 13px;
   color: var(--blue-text);
 }
 
-@utility index-muted {
+.index-muted {
   color: var(--muted);
 }
 
-@utility index-link {
+.index-link {
   color: var(--link);
 }
 
-@utility display-xl {
+.display-xl {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-display-xl);
@@ -75,7 +71,9 @@
   color: var(--text);
 }
 
-@utility display-page {
+.display-page,
+.display-index,
+.display-contact {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-display-page);
@@ -84,27 +82,17 @@
   color: var(--text);
 }
 
-@utility display-index {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-display-page);
-  line-height: 0.95;
-  letter-spacing: var(--tracking-display);
-  color: var(--text);
+.display-index {
   font-size: var(--fs-display-index);
 }
 
-@utility display-contact {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-display-page);
-  line-height: 0.95;
-  letter-spacing: var(--tracking-display);
-  color: var(--text);
+.display-contact {
   font-size: var(--fs-display-xl);
 }
 
-@utility display-case {
+.display-case,
+.display-uses,
+.display-about {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-display-case);
@@ -113,29 +101,17 @@
   color: var(--text);
 }
 
-@utility display-uses {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-display-case);
-  line-height: 0.92;
-  letter-spacing: var(--tracking-display-tight);
-  color: var(--text);
+.display-uses {
   font-size: var(--fs-display-uses);
 }
 
-@utility display-about {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-display-case);
-  line-height: 0.92;
-  letter-spacing: var(--tracking-display-tight);
-  color: var(--text);
+.display-about {
   font-size: var(--fs-display-about);
   line-height: 0.9;
   letter-spacing: var(--tracking-display-about);
 }
 
-@utility display-cta {
+.display-cta {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-display-cta);
@@ -144,33 +120,25 @@
   color: var(--text);
 }
 
-@utility h2-section {
+.h2-section {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-h2);
   line-height: 1;
   letter-spacing: var(--tracking-h2);
   color: var(--text);
-
-  .quote-success & {
-    margin: 0;
-  }
 }
 
-@utility h2-sub {
+.h2-sub {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-h2-sub);
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--text);
-
-  .quote-intro & {
-    margin: 0;
-  }
 }
 
-@utility h3-project {
+.h3-project {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--fs-h3-project);
@@ -179,13 +147,13 @@
   color: var(--text);
 }
 
-@utility h-title {
+.h-title {
   font-family: var(--font-display);
   font-weight: 800;
   color: var(--text);
 }
 
-@utility lead {
+.lead {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fs-lead);
@@ -195,33 +163,33 @@
   text-wrap: pretty;
 }
 
-@utility body-lg {
+.body-lg {
   font-size: var(--fs-body-lg);
   line-height: 1.7;
   color: var(--muted);
   text-wrap: pretty;
 }
 
-@utility body-md {
+.body-md {
   font-size: var(--fs-body-md);
   line-height: 1.75;
   color: var(--muted);
   text-wrap: pretty;
 }
 
-@utility body {
+.body {
   font-size: var(--fs-body-sm);
   line-height: 1.75;
   color: var(--muted);
   text-wrap: pretty;
 }
 
-@utility accent {
+.accent {
   color: var(--blue);
 }
 
-@utility btn {
-  /* Actions */
+/* Actions */
+.btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -238,61 +206,51 @@
     background-color 0.2s,
     border-color 0.2s,
     color 0.2s;
-
-  &:disabled {
-    background: var(--btn);
-    color: var(--on-btn);
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
-
-  .quote-form > & {
-    align-self: center;
-  }
 }
 
-@utility btn-primary {
+.btn-primary {
   background: var(--btn);
   color: var(--on-btn);
   border: 0;
-
-  &:hover {
-    background: var(--btn-h);
-    color: var(--on-btn);
-  }
-
-  &:disabled:hover {
-    background: var(--btn);
-    color: var(--on-btn);
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
 }
 
-@utility btn-secondary {
+.btn-primary:hover {
+  background: var(--btn-h);
+  color: var(--on-btn);
+}
+
+.btn:disabled,
+.btn-primary:disabled:hover {
+  background: var(--btn);
+  color: var(--on-btn);
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
   background: transparent;
   color: var(--text);
   border: 1px solid var(--line-2);
-
-  &:hover {
-    border-color: var(--link);
-    color: var(--link);
-  }
 }
 
-@utility btn-sm {
+.btn-secondary:hover {
+  border-color: var(--link);
+  color: var(--link);
+}
+
+.btn-sm {
   padding: 13px 20px;
   font-size: 12px;
 }
 
-@utility btn-compact {
+.btn-compact {
   height: 44px;
   padding: 0 18px;
   font-size: 12px;
   letter-spacing: 0.12em;
 }
 
-@utility action-link {
+.action-link {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 12px;
@@ -302,38 +260,35 @@
   text-decoration: underline;
   text-underline-offset: 6px;
   transition: color 0.2s;
-
-  &:hover {
-    color: var(--link-h);
-  }
 }
 
-@utility list-link {
+.action-link:hover {
+  color: var(--link-h);
+}
+
+.list-link {
   font-size: 15px;
   color: var(--text);
   text-decoration: none;
   transition: color 0.2s;
-
-  &:hover {
-    color: var(--link);
-  }
-
-  &[aria-current="page"] {
-    color: var(--link);
-  }
 }
 
-@utility inline-link {
+.list-link:hover,
+.list-link[aria-current="page"] {
+  color: var(--link);
+}
+
+.inline-link {
   color: var(--link);
   text-decoration: underline;
   text-underline-offset: 4px;
-
-  &:hover {
-    color: var(--link-h);
-  }
 }
 
-@utility icon-btn {
+.inline-link:hover {
+  color: var(--link-h);
+}
+
+.icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -345,18 +300,18 @@
   border-radius: var(--radius-control);
   cursor: pointer;
   transition: border-color 0.2s;
-
-  &:hover {
-    border-color: var(--link);
-  }
 }
 
-@utility icon-btn-lg {
+.icon-btn:hover {
+  border-color: var(--link);
+}
+
+.icon-btn-lg {
   width: 50px;
   height: 50px;
 }
 
-@utility mask-icon {
+.mask-icon {
   display: inline-block;
   flex: none;
   width: 20px;
@@ -366,17 +321,17 @@
   mask: var(--icon) center/contain no-repeat;
 }
 
-@utility mask-icon-lg {
+.mask-icon-lg {
   width: 22px;
   height: 22px;
 }
 
-@utility mask-icon-xl {
+.mask-icon-xl {
   width: 24px;
   height: 24px;
 }
 
-@utility lang-toggle {
+.lang-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -392,14 +347,14 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-control);
   transition: border-color 0.2s;
-
-  &:hover {
-    border-color: var(--link);
-  }
 }
 
-@utility chip {
-  /* Labels */
+.lang-toggle:hover {
+  border-color: var(--link);
+}
+
+/* Labels */
+.chip {
   display: inline-block;
   padding: 5px 10px;
   border: 1px solid var(--line);
@@ -410,7 +365,7 @@
   color: var(--text);
 }
 
-@utility status {
+.status {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -420,7 +375,7 @@
   color: var(--text);
 }
 
-@utility status-dot {
+.status-dot {
   flex: none;
   width: 7px;
   height: 7px;
@@ -428,24 +383,24 @@
   background: var(--muted);
 }
 
-@utility status-dot-lg {
+.status-dot-lg {
   width: 8px;
   height: 8px;
 }
 
-@utility status-dot-ok {
+.status-dot-ok {
   background: var(--ok);
 }
 
-@utility status-dot-link {
+.status-dot-link {
   background: var(--link);
 }
 
-@utility status-dot-warn {
+.status-dot-warn {
   background: var(--warn);
 }
 
-@utility badge {
+.badge {
   display: inline-block;
   padding: 4px 10px;
   background: var(--btn);
@@ -458,48 +413,49 @@
   text-transform: uppercase;
 }
 
-@utility cell-grid {
-  /* Patterns */
+/* Patterns */
+.cell-grid {
   display: grid;
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
-
-  & > * {
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
 }
 
-@utility bento-wrap {
+.cell-grid > * {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.bento-wrap {
   container-type: inline-size;
 }
 
-@utility bento {
+.bento {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+}
 
-  @container (min-width: 480px) {
+@container (min-width: 480px) {
+  .bento {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    & > :last-child:nth-child(odd) {
-      grid-column: 1 / -1;
-    }
   }
 
-  @container (min-width: 760px) {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-
-    & > * {
-      grid-column: span var(--span, 4);
-    }
-
-    & > :last-child:nth-child(odd) {
-      grid-column: span var(--span, 4);
-    }
+  .bento > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 }
 
-@utility nav-link {
+@container (min-width: 760px) {
+  .bento {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .bento > *,
+  .bento > :last-child:nth-child(odd) {
+    grid-column: span var(--span, 4);
+  }
+}
+
+.nav-link {
   position: relative;
   display: flex;
   align-items: center;
@@ -512,380 +468,232 @@
   text-decoration: none;
   color: var(--muted);
   transition: color 0.2s;
-
-  &:hover {
-    color: var(--link);
-  }
-
-  &[aria-current="page"] {
-    color: var(--text);
-  }
-
-  &[aria-current="location"] {
-    color: var(--text);
-  }
-
-  &[aria-current="page"]::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 2px;
-    background: var(--blue);
-  }
-
-  &[aria-current="location"]::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 2px;
-    background: var(--blue);
-  }
 }
 
-@utility project-featured-label {
-  /* Featured project card on /projects: highlighted and two columns wide while the "all" filter is active. */
+.nav-link:hover {
+  color: var(--link);
+}
+
+.nav-link[aria-current="page"],
+.nav-link[aria-current="location"] {
+  color: var(--text);
+}
+
+.nav-link[aria-current="page"]::after,
+.nav-link[aria-current="location"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--blue);
+}
+
+/* Featured project card on /projects: highlighted and two columns wide while the "all" filter is active. */
+.project-featured-label {
   display: none;
+}
 
-  .project-grid > [data-featured] & {
-    display: inline-block;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 1;
+.project-grid > [data-featured] {
+  position: relative;
+  border-color: var(--blue);
+  background: var(--tint);
+  box-shadow:
+    inset 0 3px 0 var(--blue),
+    0 0 0 1px var(--blue);
+}
+
+.project-grid > [data-featured] .project-featured-label {
+  display: inline-block;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+}
+
+@media (min-width: 1280px) {
+  .project-grid[data-filter="all"] > .project-wide {
+    grid-column: span 2;
+    flex-direction: row;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide > div:last-child {
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 28px;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide > div:last-child > p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
+       text column shortens to fit and, if it is taller, the cover grows with it. */
+  .project-grid[data-filter="all"] > .project-wide .media-frame {
+    flex: 0 0 56%;
+    align-self: stretch;
+    aspect-ratio: 1200 / 630;
+    border-width: 0 1px 0 0 !important;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide .media-frame > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
-@utility project-grid {
-  & > [data-featured] {
-    position: relative;
-    border-color: var(--blue);
-    background: var(--tint);
-    box-shadow:
-      inset 0 3px 0 var(--blue),
-      0 0 0 1px var(--blue);
-  }
-
-  & > [data-featured] .project-featured-label {
-    display: inline-block;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 1;
-  }
-
-  @media (min-width: 1280px) {
-    &[data-filter="all"] > .project-wide {
-      grid-column: span 2;
-      flex-direction: row;
-    }
-
-    &[data-filter="all"] > .project-wide > div:last-child {
-      justify-content: center;
-      gap: 12px;
-      padding: 24px 28px;
-    }
-
-    &[data-filter="all"] > .project-wide > div:last-child > p {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
-       text column shortens to fit and, if it is taller, the cover grows with it. */
-    &[data-filter="all"] > .project-wide .media-frame {
-      flex: 0 0 56%;
-      align-self: stretch;
-      aspect-ratio: 1200 / 630;
-      border-width: 0 1px 0 0 !important;
-    }
-
-    &[data-filter="all"] > .project-wide .media-frame > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-}
-
-@utility project-wide {
-  @media (min-width: 1280px) {
-    .project-grid[data-filter="all"] > & {
-      grid-column: span 2;
-      flex-direction: row;
-    }
-
-    .project-grid[data-filter="all"] > & > div:last-child {
-      justify-content: center;
-      gap: 12px;
-      padding: 24px 28px;
-    }
-
-    .project-grid[data-filter="all"] > & > div:last-child > p {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
-       text column shortens to fit and, if it is taller, the cover grows with it. */
-    .project-grid[data-filter="all"] > & .media-frame {
-      flex: 0 0 56%;
-      align-self: stretch;
-      aspect-ratio: 1200 / 630;
-      border-width: 0 1px 0 0 !important;
-    }
-
-    .project-grid[data-filter="all"] > & .media-frame > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-}
-
-@utility media-frame {
-  @media (min-width: 1280px) {
-    /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
-       text column shortens to fit and, if it is taller, the cover grows with it. */
-    .project-grid[data-filter="all"] > .project-wide & {
-      flex: 0 0 56%;
-      align-self: stretch;
-      aspect-ratio: 1200 / 630;
-      border-width: 0 1px 0 0 !important;
-    }
-
-    .project-grid[data-filter="all"] > .project-wide & > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
+.media-frame {
   display: block;
   aspect-ratio: 1200 / 630;
   overflow: hidden;
   border: 1px solid var(--line);
   background: var(--surface);
   transition: border-color 0.25s;
-
-  & > img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  &a:hover {
-    border-color: var(--blue);
-  }
 }
 
-@utility photo-frame {
+.media-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+a.media-frame:hover {
+  border-color: var(--blue);
+}
+
+.photo-frame {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border: 1px solid var(--line);
   background: var(--surface);
-
-  & > img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 4px;
-    background: var(--blue);
-  }
 }
 
-@utility disclosure {
-  & > summary {
-    list-style: none;
-    cursor: pointer;
-  }
-
-  & > summary::-webkit-details-marker {
-    display: none;
-  }
-
-  & .when-open {
-    display: none;
-  }
-
-  &[open] .when-closed {
-    display: none;
-  }
-
-  &[open] .when-open {
-    display: inline;
-  }
+.photo-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-@utility disclosure-content {
+.photo-frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--blue);
+}
+
+.disclosure > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure-content {
   overflow: hidden;
 }
 
-@utility when-open {
-  .disclosure & {
-    display: none;
-  }
-
-  .disclosure[open] & {
-    display: inline;
-  }
+.disclosure .when-open,
+.disclosure[open] .when-closed {
+  display: none;
 }
 
-@utility when-closed {
-  .disclosure[open] & {
-    display: none;
-  }
+.disclosure[open] .when-open {
+  display: inline;
 }
 
-@utility quote-form-wrap {
+.quote-form-wrap {
   max-width: 760px;
   margin-inline: auto;
-
-  & [hidden] {
-    display: none;
-  }
 }
 
-@utility quote-form {
+.quote-form-wrap [hidden] {
+  display: none;
+}
+
+.quote-form {
   display: flex;
   flex-direction: column;
   gap: 28px;
-
-  & > .btn {
-    align-self: center;
-  }
 }
 
-@utility quote-form-grid {
+.quote-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
-
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
 }
 
-@utility quote-field {
+.quote-field,
+.quote-fieldset {
   display: flex;
   flex-direction: column;
   gap: 9px;
   margin: 0;
   padding: 0;
   border: 0;
-
-  & > span {
-    padding: 0;
-    font-family: var(--font-display);
-    font-size: var(--fs-label-sm);
-    font-weight: 700;
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--text);
-  }
-
-  & input {
-    width: 100%;
-    border: 1px solid var(--line-2);
-    border-radius: var(--radius-control);
-    background: var(--bg);
-    color: var(--text);
-    font: inherit;
-    line-height: 1.6;
-    transition: border-color 0.2s;
-  }
-
-  & textarea {
-    width: 100%;
-    border: 1px solid var(--line-2);
-    border-radius: var(--radius-control);
-    background: var(--bg);
-    color: var(--text);
-    font: inherit;
-    line-height: 1.6;
-    transition: border-color 0.2s;
-  }
-
-  & input {
-    height: 48px;
-    padding: 0 14px;
-  }
-
-  & textarea {
-    min-height: 160px;
-    padding: 12px 14px;
-    resize: vertical;
-  }
-
-  & input:focus {
-    border-color: var(--link);
-  }
-
-  & textarea:focus {
-    border-color: var(--link);
-  }
-
-  & input::placeholder {
-    color: var(--muted);
-    opacity: 0.7;
-  }
-
-  & textarea::placeholder {
-    color: var(--muted);
-    opacity: 0.7;
-  }
 }
 
-@utility quote-fieldset {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  margin: 0;
+.quote-field > span,
+.quote-fieldset > legend {
   padding: 0;
-  border: 0;
-
-  & > legend {
-    padding: 0;
-    font-family: var(--font-display);
-    font-size: var(--fs-label-sm);
-    font-weight: 700;
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--text);
-  }
+  font-family: var(--font-display);
+  font-size: var(--fs-label-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text);
 }
 
-@utility quote-checklist {
+.quote-field input,
+.quote-field textarea {
+  width: 100%;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-control);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.quote-field input {
+  height: 48px;
+  padding: 0 14px;
+}
+
+.quote-field textarea {
+  min-height: 160px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.quote-field input:focus,
+.quote-field textarea:focus {
+  border-color: var(--link);
+}
+
+.quote-checklist {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
   margin-top: 4px;
   border: 1px solid var(--line);
   background: var(--line);
-
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
 }
 
-@utility quote-check {
+.quote-check {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -894,34 +702,27 @@
   background: var(--bg);
   color: var(--text);
   cursor: pointer;
-
-  & input {
-    width: 17px;
-    height: 17px;
-    accent-color: var(--btn);
-  }
 }
 
-@utility quote-hint {
+.quote-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--btn);
+}
+
+.quote-hint,
+.quote-privacy,
+.quote-error {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
 }
 
-@utility quote-privacy {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-@utility quote-error {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
+.quote-error {
   color: var(--danger);
 }
 
-@utility quote-required {
+.quote-required {
   margin-left: 2px;
   color: var(--danger);
   cursor: help;
@@ -930,23 +731,27 @@
   text-decoration: none;
 }
 
-@utility quote-required-note {
+.quote-required-note {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
 }
 
-@utility quote-intro {
+.quote-form > .btn {
+  align-self: center;
+}
+
+.quote-intro {
   display: flex;
   flex-direction: column;
   gap: 14px;
-
-  & .h2-sub {
-    margin: 0;
-  }
 }
 
-@utility quote-next {
+.quote-intro .h2-sub {
+  margin: 0;
+}
+
+.quote-next {
   margin: 0;
   padding: 18px 20px 18px 40px;
   list-style: decimal;
@@ -957,7 +762,7 @@
   line-height: 1.7;
 }
 
-@utility quote-next-title {
+.quote-next-title {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--fs-label-sm);
@@ -967,7 +772,7 @@
   color: var(--text);
 }
 
-@utility quote-consent {
+.quote-consent {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -975,24 +780,30 @@
   font-size: 14px;
   line-height: 1.6;
   cursor: pointer;
-
-  & input {
-    flex: none;
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
-    accent-color: var(--btn);
-  }
 }
 
-@utility quote-status {
+.quote-consent input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--btn);
+}
+
+.quote-status {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
   text-align: center;
 }
 
-@utility quote-success {
+.quote-field input::placeholder,
+.quote-field textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.quote-success {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -1000,21 +811,28 @@
   border: 1px solid var(--line-2);
   border-top: 4px solid var(--blue);
   background: var(--surface);
-
-  & .eyebrow {
-    margin: 0;
-  }
-
-  & .h2-section {
-    margin: 0;
-  }
 }
 
-@utility quote-honeypot {
+.quote-success .eyebrow {
+  margin: 0;
+}
+
+.quote-success .h2-section {
+  margin: 0;
+}
+
+.quote-honeypot {
   position: absolute;
   overflow: hidden;
   width: 1px;
   height: 1px;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .quote-form-grid,
+  .quote-checklist {
+    grid-template-columns: 1fr;
+  }
 }
