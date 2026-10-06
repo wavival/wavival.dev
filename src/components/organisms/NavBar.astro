@@ -43,7 +43,7 @@ const mobileLinks = [
 ---
 
 <header
-  class="sticky top-0 z-50 border-b border-line bg-[var(--nav)] backdrop-blur-[14px]"
+  class="sticky top-0 z-50 border-b border-line bg-(--nav) backdrop-blur-[14px]"
   style="-webkit-backdrop-filter: blur(14px)"
 >
   <nav aria-label={t("nav.mainAria")} class="wrap flex h-nav items-center justify-between gap-6">
@@ -116,7 +116,7 @@ const mobileLinks = [
 <nav
   id="mobile-menu"
   aria-label={t("nav.mobileAria")}
-  class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-[45] flex translate-y-2 flex-col items-start justify-start overflow-auto bg-bg px-gut pb-10 pt-12 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
+  class="pointer-events-none fixed inset-x-0 bottom-0 top-nav z-45 flex translate-y-2 flex-col items-start justify-start overflow-auto bg-bg px-gut pb-10 pt-12 opacity-0 transition-all duration-300 ease-in-out min-[900px]:hidden"
   inert
 >
   <ul class="m-0 flex w-fit list-none flex-col p-0" role="list">
@@ -129,7 +129,7 @@ const mobileLinks = [
             class="flex items-baseline gap-5 py-[18px] text-ink no-underline hover:text-link aria-[current=page]:text-link aria-[current=location]:text-link"
           >
             <span class="index w-6">{String(i + 1).padStart(2, "0")}</span>
-            <span class="h-title text-[13px] leading-none tracking-[var(--tracking-button)] text-[color:inherit] uppercase">
+            <span class="h-title text-[13px] leading-none tracking-(--tracking-button) text-inherit uppercase">
               {l.label}
             </span>
           </a>
