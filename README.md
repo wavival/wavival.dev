@@ -245,7 +245,7 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 
 Vercel builds the project with `npm run build`, installs dependencies with `npm ci`, serves `dist/`, and deploys `api/quote.ts` as the quote-delivery function. Set `BREVO_API_KEY` in Vercel and verify `wavival.dev@luminaw.co` as a Brevo sender. The site is available at `https://www.wavival.dev`.
 
-`microfrontends.json` defines the Vercel development and path-ownership contract. `vercel.json` defines redirects, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
+`microfrontends.json` defines the Vercel path-ownership contract. `vercel.json` defines redirects, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
 
 ## Repository documentation
 
