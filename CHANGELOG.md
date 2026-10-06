@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Decisions inside an open ecosystem part showed "Cerrar" while they were closed: the `Ver detalle` and `Cerrar` labels of a disclosure now belong to its own summary (`.disclosure > summary .when-open`), so a closed decision keeps "Ver detalle" whatever its parent does. Covered by `tests/ecosystem.spec.ts`.
+- Decisions inside an open ecosystem part showed "Cerrar" while they were closed: the "Ver" and "Cerrar" labels of a decision (and "Ver detalle" and "Cerrar" of a part) now belong to its own summary (`.disclosure > summary .when-open`), so a closed decision keeps "Ver" whatever its parent does. Covered by `tests/ecosystem.spec.ts`.
 - Dependency audit: `source-map-js` 1.2.2 (high, GHSA-68fv-2mgg-jv7q, a production dependency; it made the `quality` job fail on every pull request), and `proxy-addr` 2.0.8 (critical) and `compression` 1.8.2 (high), both reached only by the Lighthouse chain in development. Lockfile only.
 
 - `src/scripts/part-disclosure.ts` guards `decodeURIComponent` against a malformed hash and, after opening a closed part, scrolls to a nested target.

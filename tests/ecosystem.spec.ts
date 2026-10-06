@@ -63,7 +63,7 @@ test.describe("ecosystem pages", () => {
     });
   }
 
-  test("decisions nested in an open part keep their own Ver detalle and Cerrar labels", async ({
+  test("decisions nested in an open part keep their own Ver and Cerrar labels", async ({
     page,
   }) => {
     await page.goto("/proyectos/terracore");
@@ -71,7 +71,7 @@ test.describe("ecosystem pages", () => {
     await expect(page.locator("#app")).toHaveAttribute("open", "");
     await expect(decision).not.toHaveAttribute("open", "");
     await expect(decision.locator(":scope > summary .when-closed")).toBeVisible();
-    await expect(decision.locator(":scope > summary .when-closed")).toHaveText("Ver detalle");
+    await expect(decision.locator(":scope > summary .when-closed")).toHaveText("Ver");
     await expect(decision.locator(":scope > summary .when-open")).toBeHidden();
     await decision.locator(":scope > summary").click();
     await expect(decision).toHaveAttribute("open", "");
