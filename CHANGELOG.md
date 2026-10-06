@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Dependency audit: `source-map-js` 1.2.2 (high, GHSA-68fv-2mgg-jv7q, a production dependency; it made the `quality` job fail on every pull request), and `proxy-addr` 2.0.8 (critical) and `compression` 1.8.2 (high), both reached only by the Lighthouse chain in development. Lockfile only.
+
 - `src/scripts/part-disclosure.ts` guards `decodeURIComponent` against a malformed hash and, after opening a closed part, scrolls to a nested target.
 - `softwareRequirements` in the project JSON-LD uses the stack of the app part (the first part when there is none); the merged stack is used only when that part declares no stack.
 - NullBreach app text: the landing is a separate static Astro site (`apps/landing`) published inside the Next.js deployment, and the app link points to `/nullbreach/login`. The matching open decision is removed from `docs/ROADMAP.md`.
