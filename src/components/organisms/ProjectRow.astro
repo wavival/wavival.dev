@@ -45,7 +45,10 @@ const isEn = lang === "en";
       <p class="body m-0">{p.problem}</p>
     </DefRow>
     <DefRow label={isEn ? "What I built" : "Lo que construí"} tone="link">
-      <p class="h-title m-0 leading-[1.5]" style="font-size:clamp(17px,1.5vw,20px);font-weight:700">
+      <p
+        class="h-title m-0 leading-normal"
+        style="font-size:clamp(17px,1.5vw,20px);font-weight:700"
+      >
         {p.summary}
       </p>
     </DefRow>

@@ -1,9 +1,72 @@
-@import "./tokens.css";
+@import "./tokens.css" layer(base);
 @import "./utilities.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-tint: var(--tint);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-link: var(--link);
+  --color-link-h: var(--link-h);
+  --color-blue: var(--blue);
+  --color-blue-text: var(--blue-text);
+  --color-btn: var(--btn);
+  --color-btn-h: var(--btn-h);
+  --color-ok: var(--ok);
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.6;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.6;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.6;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.6;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.6;
+
+  --font-display: Raleway, sans-serif;
+  --font-body: Poppins, sans-serif;
+
+  --container-container: var(--container);
+
+  --radius-control: var(--radius-control);
+
+  --spacing-gut: var(--gut);
+  --spacing-sec: var(--sec);
+  --spacing-nav: var(--nav-h);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @font-face {
   font-family: "Poppins";
