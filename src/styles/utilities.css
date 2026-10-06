@@ -605,12 +605,14 @@ a.media-frame:hover {
   overflow: hidden;
 }
 
-.disclosure .when-open,
-.disclosure[open] .when-closed {
+/* The labels belong to the summary of their own disclosure. A descendant selector would let an
+   open part switch the labels of the closed decisions nested inside it to "Cerrar". */
+.disclosure > summary .when-open,
+.disclosure[open] > summary .when-closed {
   display: none;
 }
 
-.disclosure[open] .when-open {
+.disclosure[open] > summary .when-open {
   display: inline;
 }
 
