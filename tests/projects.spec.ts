@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { caseStudies } from "../src/data/projects";
+import { projects, projectFilters } from "../src/data/projects";
 
 test.describe("projects index filters", () => {
   test("filtering narrows the grid and updates aria-pressed", async ({ page }) => {
@@ -18,7 +18,7 @@ test.describe("projects index filters", () => {
           (els) => els.filter((el) => (el as HTMLElement).style.display !== "none").length
         )
       )
-      .toBe(caseStudies.filter((p) => p.filters?.includes("ai")).length);
+      .toBe(projects.filter((p) => projectFilters(p).includes("ai")).length);
 
     await page.locator('#project-filters [data-filter="all"]').click();
     const restored = await cards.evaluateAll(
@@ -33,32 +33,26 @@ test.describe("projects index filters", () => {
     await expect(page.getByRole("button", { name: /security/i })).toBeVisible();
   });
 
-  test("design projects expose a design link only in their case studies", async ({ page }) => {
-    const slugs = [
-      "terracore",
-      "terracore-landing",
-      "okroot",
-      "okroot-landing",
-      "lumina-w",
-      "blog-lumina-w",
-    ];
-
+  test("design links appear only in the case studies, one per part with a prototype", async ({
+    page,
+  }) => {
     await page.goto("/proyectos");
     await expect(page.locator('a:has-text("Ver diseño")')).toHaveCount(0);
 
-    for (const slug of slugs) {
-      await page.goto(`/proyectos/${slug}`);
-      await expect(page.locator('a:has-text("Ver diseño")')).toHaveCount(1);
+    for (const project of projects) {
+      const designs = project.parts.filter((part) => part.designLink).length;
+      await page.goto(`/proyectos/${project.slug}`);
+      await expect(page.locator('a:text-is("Ver diseño")'), project.slug).toHaveCount(designs);
 
-      await page.goto(`/en/projects/${slug}`);
-      await expect(page.locator('a:has-text("View design")')).toHaveCount(1);
+      await page.goto(`/en/projects/${project.slug}`);
+      await expect(page.locator('a:text-is("View design")'), project.slug).toHaveCount(designs);
     }
   });
 
   test("case studies animate disclosures and render learnings as cards", async ({ page }) => {
     await page.goto("/proyectos/terracore");
 
-    const disclosure = page.locator("[data-disclosure]").first();
+    const disclosure = page.locator("[data-disclosure]:not([data-part])").first();
     await disclosure.locator("summary").click();
     await expect(disclosure).toHaveAttribute("open", "");
     await expect(disclosure.locator("[data-disclosure-content]")).toHaveCSS("overflow", "hidden");
@@ -66,15 +60,17 @@ test.describe("projects index filters", () => {
     await disclosure.locator("summary").click();
     await expect(disclosure).not.toHaveAttribute("open", "");
 
-    await expect(page.locator("[data-learnings-cards] > article")).toHaveCount(6);
+    await expect(page.locator("#cs-app-learnings [data-learnings-cards] > article")).toHaveCount(6);
   });
 
   test("design links point to Netlify prototypes and only wavival.dev has a design system", async ({
     page,
   }) => {
-    for (const project of caseStudies) {
-      if (project.designLink) {
-        expect(project.designLink.href).toMatch(/^https:\/\/[a-z-]+-prototype\.netlify\.app\/$/);
+    for (const project of projects) {
+      for (const part of project.parts) {
+        if (part.designLink) {
+          expect(part.designLink.href).toMatch(/^https:\/\/[a-z-]+-prototype\.netlify\.app\/$/);
+        }
       }
       await page.goto(`/proyectos/${project.slug}`);
       await expect(page.locator('a:has-text("Ver sistema de diseño")')).toHaveCount(

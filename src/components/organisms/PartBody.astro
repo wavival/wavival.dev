@@ -1,0 +1,279 @@
+---
+import Bento from "@/components/molecules/Bento.astro";
+import Metric from "@/components/molecules/Metric.astro";
+import Disclosure from "@/components/molecules/Disclosure.astro";
+import CaseSection from "@/components/organisms/CaseSection.astro";
+import { caseLabels, partSections } from "@/data/caseStudyLabels";
+import type { LocalizedPart } from "@/data/projectView";
+import type { Lang } from "@/i18n/utils";
+import { bentoStyles } from "@/utils/bento";
+
+interface Props {
+  part: LocalizedPart;
+  lang: Lang;
+  /** Prefix for the section ids, for example "cs-" or "cs-app-". */
+  idPrefix: string;
+  /** Heading level of each section title. Card titles inside sit one level lower. */
+  level?: "h2" | "h3";
+}
+
+const { part, lang, idPrefix, level = "h2" } = Astro.props;
+const t = caseLabels(lang);
+const Inner = level === "h2" ? "h3" : "h4";
+
+const {
+  architecture,
+  decisions,
+  results,
+  learnings,
+  painPoints,
+  modules,
+  design,
+  roadmap,
+  metrics,
+} = part;
+const chains =
+  part.chains ??
+  (part.chainSteps
+    ? [{ title: part.chainStepsTitle ?? t.chainDefault, steps: part.chainSteps }]
+    : undefined);
+const painStyles = bentoStyles(painPoints?.length ?? 0);
+const moduleStyles = bentoStyles(modules?.length ?? 0);
+const learningStyles = bentoStyles(learnings?.length ?? 0);
+
+const roadmapColumns = roadmap
+  ? [
+      { label: t.roadmapNow, items: roadmap.now },
+      { label: t.roadmapNext, items: roadmap.next },
+      ...(roadmap.later?.length ? [{ label: t.roadmapLater, items: roadmap.later }] : []),
+      ...(roadmap.out ? [{ label: t.roadmapOut, items: roadmap.out }] : []),
+    ].filter((c) => c.items.length > 0)
+  : [];
+const roadmapStyles = bentoStyles(roadmapColumns.length);
+
+const sections = partSections(part, t, idPrefix);
+const sec = (key: string) => sections.find((s) => s.key === key)!;
+---
+
+{
+  metrics && metrics.length > 0 && (
+    <dl class="cell-grid m-0" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+      {metrics.map((m) => (
+        <Metric value={m.metric} label={m.label} note={m.note} />
+      ))}
+    </dl>
+  )
+}
+
+{
+  part.problem && (
+    <CaseSection id={sec("problem").id} n={sec("problem").n} title={t.problem} level={level}>
+      <p class="m-0 max-w-[820px] text-[18px] leading-[1.75] text-ink" style="text-wrap:pretty">
+        {part.problem}
+      </p>
+      {painPoints && (
+        <Bento cells class="mt-10">
+          {painPoints.map((pp, i) => (
+            <div class="p-6" style={painStyles[i]}>
+              <Inner class="h-title m-0 text-lg">{pp.title}</Inner>
+              <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
+                {pp.text}
+              </p>
+            </div>
+          ))}
+        </Bento>
+      )}
+    </CaseSection>
+  )
+}
+
+{
+  architecture && (
+    <CaseSection
+      id={sec("architecture").id}
+      n={sec("architecture").n}
+      title={t.architecture}
+      level={level}
+    >
+      <ol
+        class="m-0 grid list-none gap-x-10 gap-y-0 p-0"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"
+      >
+        {architecture.map((a, i) => (
+          <li class="flex gap-4 border-b border-line py-[18px]">
+            <span class="index w-7 flex-none text-sm index-link">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <p class="body m-0 text-[15px] leading-[1.7]">{a}</p>
+          </li>
+        ))}
+      </ol>
+      {modules && (
+        <Bento class="mt-10 gap-4">
+          {modules.map((m, i) => (
+            <div class="border border-line bg-surface p-6" style={moduleStyles[i]}>
+              <Inner class="h-title m-0 text-lg">{m.name}</Inner>
+              <p class="mt-2 mb-0 text-sm leading-[1.7] text-muted" style="text-wrap:pretty">
+                {m.text}
+              </p>
+            </div>
+          ))}
+        </Bento>
+      )}
+      {chains &&
+        chains.map((chain) => (
+          <div class="mt-10 border border-line bg-tint px-8 py-7">
+            <Inner class="h-title m-0 mb-5 text-lg">{chain.title}</Inner>
+            <ol class="m-0 flex list-none flex-col p-0">
+              {chain.steps.map((step, i) => (
+                <li class="flex items-start gap-4 border-t border-dashed border-line-2 py-[10px]">
+                  <span class="index w-6 flex-none pt-[3px] text-xs">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span class="text-sm leading-[1.65] text-ink" style="text-wrap:pretty">
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+    </CaseSection>
+  )
+}
+
+{
+  design && (
+    <CaseSection id={sec("design").id} n={sec("design").n} title={t.design} level={level}>
+      <ol
+        class="m-0 grid list-none gap-x-10 gap-y-0 p-0"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))"
+      >
+        {design.map((d, i) => (
+          <li class="flex gap-4 border-b border-line py-[18px]">
+            <span class="index w-7 flex-none text-sm index-link">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <p class="body m-0 text-[15px] leading-[1.7]">{d}</p>
+          </li>
+        ))}
+      </ol>
+    </CaseSection>
+  )
+}
+
+{
+  decisions && (
+    <CaseSection
+      id={sec("decisions").id}
+      n={sec("decisions").n}
+      title={t.decisions}
+      gap="mb-4"
+      level={level}
+    >
+      <div class="flex flex-col">
+        {decisions.map((d, i) => (
+          <Disclosure
+            index={String(i + 1).padStart(2, "0")}
+            title={d.title}
+            openLabel={t.view}
+            closeLabel={t.close}
+          >
+            <dl
+              class="m-0 grid gap-x-8 gap-y-6"
+              style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))"
+            >
+              <div>
+                <dt class="label-sm">{t.context}</dt>
+                <dd class="body m-0 mt-2 text-sm">{d.context}</dd>
+              </div>
+              <div>
+                <dt class="label-sm">{t.tradeoff}</dt>
+                <dd class="body m-0 mt-2 text-sm">{d.tradeoff}</dd>
+              </div>
+              <div>
+                <dt class="label-sm label-sm-link">{t.decision}</dt>
+                <dd class="m-0 mt-2 text-sm leading-[1.7] text-ink" style="text-wrap:pretty">
+                  {d.decision}
+                </dd>
+              </div>
+            </dl>
+          </Disclosure>
+        ))}
+      </div>
+    </CaseSection>
+  )
+}
+
+{
+  results && (
+    <CaseSection
+      id={sec("results").id}
+      n={sec("results").n}
+      title={t.results}
+      gap="mb-6"
+      level={level}
+    >
+      <ul class="m-0 list-none p-0">
+        {results.map((x) => (
+          <li
+            class="mb-3 border-l-2 border-blue py-[18px] pr-0 pl-6 text-base leading-[1.7] text-ink"
+            style="text-wrap:pretty"
+          >
+            {x}
+          </li>
+        ))}
+      </ul>
+    </CaseSection>
+  )
+}
+
+{
+  learnings && (
+    <CaseSection
+      id={sec("learnings").id}
+      n={sec("learnings").n}
+      title={t.learnings}
+      gap="mb-6"
+      level={level}
+    >
+      <Bento class="gap-4" data-learnings-cards>
+        {learnings.map((x, i) => (
+          <article class="border border-line bg-surface p-6" style={learningStyles[i]}>
+            <span class="index index-link">{String(i + 1).padStart(2, "0")}</span>
+            <p class="mt-4 mb-0 text-base leading-[1.7] text-muted" style="text-wrap:pretty">
+              {x}
+            </p>
+          </article>
+        ))}
+      </Bento>
+    </CaseSection>
+  )
+}
+
+{
+  roadmap && (
+    <CaseSection
+      id={sec("roadmap").id}
+      n={sec("roadmap").n}
+      title={t.roadmap}
+      gap="mb-6"
+      level={level}
+    >
+      <Bento cells>
+        {roadmapColumns.map((col, i) => (
+          <div class="p-6" style={roadmapStyles[i]}>
+            <Inner class="label-sm m-0">{col.label}</Inner>
+            <ul class="m-0 mt-4 flex list-none flex-col gap-3 p-0">
+              {col.items.map((item) => (
+                <li class="text-sm leading-[1.7] text-ink" style="text-wrap:pretty">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </Bento>
+    </CaseSection>
+  )
+}

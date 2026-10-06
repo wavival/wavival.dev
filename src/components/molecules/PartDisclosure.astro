@@ -1,0 +1,49 @@
+---
+interface Props {
+  /** Anchor id of the part (`app`, `landing`...). `#id` opens it. */
+  id: string;
+  index: string;
+  label: string;
+  blurb: string;
+  openLabel: string;
+  closeLabel: string;
+  /** Starts expanded. */
+  open?: boolean;
+}
+
+const { id, index, label, blurb, openLabel, closeLabel, open = false } = Astro.props;
+---
+
+<details
+  id={id}
+  class="disclosure scroll-mt-24 border-b border-line"
+  data-disclosure
+  data-part
+  open={open}
+>
+  <summary class="group flex items-baseline gap-5 py-7 text-ink transition-colors hover:text-link">
+    <span class="index w-7 flex-none">{index}</span>
+    <span class="min-w-0 flex-1">
+      <h2
+        class="h-title m-0 leading-[1.1]"
+        style="font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em"
+      >
+        {label}
+      </h2>
+      <span class="mt-2 block text-sm leading-[1.6] text-muted" style="text-wrap:pretty">
+        {blurb}
+      </span>
+    </span>
+    <span class="label-sm label-sm-link flex-none">
+      <span class="when-closed">{openLabel}</span><span class="when-open">{closeLabel}</span>
+    </span>
+  </summary>
+  <div class="disclosure-content pt-4 pb-12" data-disclosure-content>
+    <slot />
+  </div>
+</details>
+
+<script>
+  import "@/scripts/disclosure";
+  import "@/scripts/part-disclosure";
+</script>
