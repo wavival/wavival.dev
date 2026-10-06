@@ -1050,7 +1050,7 @@ export const projects: Project[] = [
             "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright (the guide and the mobile navigation), with CI on every PR and the dev, stg, and main flow.",
           ],
           design: [
-            "Color, spacing, radius, and shadow tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
+            "Color, spacing, radius, and shadow-sm tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
             "Lucide icons with a uniform stroke, through a single component.",
             "Text in Colombian Spanish, in the informal register, with long dates and es-CO number formats, and no emojis.",
             "A side bar on desktop; on mobile, a top bar with a bottom sheet to navigate.",
@@ -3233,7 +3233,7 @@ export const projects: Project[] = [
           summary:
             "This portfolio as a design case: the @wavival | Design System v4, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
           problem:
-            "A developer portfolio often ends up as a template: shadow cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
+            "A developer portfolio often ends up as a template: shadow-sm cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
           solution:
             "wavival.dev is my portfolio and also a design case. The system is called @wavival | Design System v4: the page reads like an editorial index, with 1px rules instead of boxes, large Raleway 800 headlines, numbered indexes, and a single blue signal on a quiet field. It started in Claude Design as a prototype and design system, and was brought to code with token parity. It is bilingual (Spanish at the root, English under /en), static, and dark by default.",
           links: [],

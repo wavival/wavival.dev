@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Decisions inside an open ecosystem part showed "Cerrar" while they were closed: the "Ver" and "Cerrar" labels of a decision (and "Ver detalle" and "Cerrar" of a part) now belong to its own summary (`.disclosure > summary .when-open`), so a closed decision keeps "Ver" whatever its parent does. Covered by `tests/ecosystem.spec.ts`.
+- Dependency audit: `source-map-js` 1.2.2 (high, GHSA-68fv-2mgg-jv7q, a production dependency; it made the `quality` job fail on every pull request), and `proxy-addr` 2.0.8 (critical) and `compression` 1.8.2 (high), both reached only by the Lighthouse chain in development. Lockfile only.
+
 - `src/scripts/part-disclosure.ts` guards `decodeURIComponent` against a malformed hash and, after opening a closed part, scrolls to a nested target.
 - `softwareRequirements` in the project JSON-LD uses the stack of the app part (the first part when there is none); the merged stack is used only when that part declares no stack.
 - NullBreach app text: the landing is a separate static Astro site (`apps/landing`) published inside the Next.js deployment, and the app link points to `/nullbreach/login`. The matching open decision is removed from `docs/ROADMAP.md`.
@@ -35,6 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Tailwind CSS 3 to 4 (`tailwindcss` and `@tailwindcss/vite` 4.3): the theme moves from `tailwind.config.mjs` to the `@theme` block of `src/styles/global.css`, dark mode is a `@custom-variant`, and `tailwind.config.mjs`, `postcss.config.cjs` and `autoprefixer` are removed. The site's component CSS is imported into the `utilities` layer so the cascade stays flat as in Tailwind 3, and element rules sit in `@layer base`. Class names that Tailwind 4 renamed were migrated with the official upgrade tool. Compared with the Tailwind 3 build: same geometry and computed styles on every page and 412 Playwright tests pass; the only pixel difference is how `text-wrap: pretty` breaks one paragraph of `/en/projects/wavival-dev/`.
+
+- Privacy pages (`/privacidad`, `/en/privacy/`, updated 2026-10-06): section 02 states that the quote rate limit counts submissions per IP address for at most 10 minutes in the temporary memory of the server, and that the address is not stored, shared or part of the quote data. Covered by `tests/privacy.spec.ts`.
+- Dependency audit: `npm audit` drops from 21 findings to 8. `eslint-plugin-astro` 3.2.1 (clears the `fast-glob` chain of `astro-eslint-parser`); overrides for `lighthouse` 13.5, `puppeteer-core` 25.12 and `@puppeteer/browsers` 3.2 (the Lighthouse CI chain, which also drops `extract-zip`) and for `js-yaml` 4 inside `@lhci/utils` (drops `argparse` 1 and `sprintf-js`). Lighthouse CI collects and asserts as before. `npm audit fix` then clears `postcss-selector-parser`, and the Tailwind 4 migration (see Changed) clears `tailwindcss` 3, `postcss-nested` and `chokidar`. Removing `@vercel/microfrontends` (see Removed) clears the last 4, so `npm audit` reports 0 vulnerabilities and `scripts/check-audit.mjs` no longer accepts any advisory.
 - Dependency updates (minor and patch): `astro` 7.3.5, `@astrojs/sitemap` 3.7.4, `@astrojs/check` 0.9.10, `@playwright/test` 1.63.0, `eslint` 10.12.0, `globals` 17.13.0, `lint-staged` 17.6.0, `prettier` 3.9.9 and `typescript-eslint` 8.71.0; `actions/setup-node` 7 in the workflows. `tests/case-studies.spec.ts` reformatted with the new Prettier.
 - Dependabot: titles are `chore(deps): ...` for every ecosystem (the previous `chore(deps-dev)` scope failed commitlint and the PR title check), and npm major versions are ignored; the pending migrations are listed in `docs/ROADMAP.md`.
 
@@ -67,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- `@vercel/microfrontends` and its Vite plugin in `astro.config.mjs`: the plugin only served the local development proxy, which the project does not use. Production routing of `/nullbreach` stays in `microfrontends.json` and the Vercel project settings, and the built site is identical. It carried the `braces` advisory (GHSA-vfj7-8cjw-p6xm, no patched release).
 - `Project.quoteType` and `quoteTypeHref` (replaced by `quoteTypesHref`). The `quoteType: "api-backend"` and `"ai"` unused item and the NullBreach `quoteType` filter wording are removed from `docs/ROADMAP.md`.
 - `cspell.json`, which no script, hook or workflow used.
 

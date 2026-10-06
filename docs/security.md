@@ -1,6 +1,6 @@
 # Security
 
-> Last updated: 2026-10-05
+> Last updated: 2026-10-06
 
 What protects the site and the quote function, and what to do when you change something that touches them. To report a vulnerability, see [`../SECURITY.md`](../SECURITY.md).
 
@@ -56,14 +56,14 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 
 ## Data and privacy
 
-- Quote data: name, email, phone, business, selected services and description, used only to answer the request (`/privacidad`). The source address used by the rate limit is not part of that data and is not stored.
+- Quote data: name, email, phone, business, selected services and description, used only to answer the request (`/privacidad`). The source address used by the rate limit is not part of that data and is not stored; `/privacidad` and `/en/privacy/` say so (section 02).
 - Analytics: Umami, cookieless and aggregated, enabled only when both variables are set. No tracking cookies, so no consent banner.
 - Third parties: Brevo (quote delivery), Calendly (contact page), Vercel (hosting and logs). Fonts are self-hosted.
 
 ## Supply chain and repository
 
-- `scripts/check-audit.mjs` fails CI on high or critical advisories in production dependencies unless the advisory is listed with a reason in `ACCEPTED`. One is accepted today because no patched release exists: `braces` (GHSA-vfj7-8cjw-p6xm), reached only at build time. The script reports an accepted advisory that is no longer flagged so it can be removed.
-- `package.json` `overrides` pin `basic-ftp`, `tmp` and `uuid` to patched versions. The rest of the `npm audit` findings (all high severity: `braces`, `http-cache-semantics`, `extract-zip` and the packages that depend on them) have no patched release (`http-cache-semantics` was fixed by updating the lockfile) and are tracked in [`ROADMAP.md`](./ROADMAP.md).
+- `scripts/check-audit.mjs` fails CI on high or critical advisories in production dependencies unless the advisory is listed with a reason in `ACCEPTED`. The list is empty today: `npm audit` reports 0 vulnerabilities. Add an entry only when no patched release exists, with the reason and when to look at it again. The script reports an accepted advisory that is no longer flagged so it can be removed.
+- `package.json` `overrides` pin patched versions of transitive packages: `basic-ftp`, `tmp` and `uuid`; `lighthouse`, `puppeteer-core` and `@puppeteer/browsers` (the Lighthouse CI chain, which also drops `extract-zip`); and `js-yaml` 4 inside `@lhci/utils` (it removes `argparse` 1 and `sprintf-js`; it is safe because `lighthouserc.json` is JSON and `@lhci/utils` only calls the removed `yaml.safeLoad` for YAML configuration files). `eslint-plugin-astro` is on 3, which fixes the `fast-glob` chain of `astro-eslint-parser`. `@vercel/microfrontends` was removed: its Vite plugin only served the local development proxy, production routing of `/nullbreach` stays in `microfrontends.json`, and the package carried the `braces` advisory (GHSA-vfj7-8cjw-p6xm, no patched release) through `fast-glob` and `micromatch`. `npm audit` reports 0 vulnerabilities. Tailwind 4 and `npm audit fix` cleared the others.
 - Gitleaks scans every push and pull request (`.github/workflows/gitleaks.yml`).
 - CodeQL (`.github/workflows/codeql.yml`) analyzes the TypeScript, JavaScript and GitHub Actions code on pushes and pull requests to `dev`, `stg` and `main`, and weekly. Results appear under Security > Code scanning.
 - Dependabot (`.github/dependabot.yml`) opens weekly pull requests to `dev` for npm packages (minor and patch versions, grouped) and GitHub Actions (including major versions), titled `chore(deps): ...`. npm major versions are ignored and migrated by hand (see [`ROADMAP.md`](./ROADMAP.md)). Dependabot pull requests are not auto-merged: a person reviews them, and CI must be green.
@@ -112,4 +112,4 @@ These are set in GitHub and Vercel, so no pull request can enforce them. Check t
 
 ## Known gaps
 
-See [`ROADMAP.md`](./ROADMAP.md): the quote limit is per instance and has no CAPTCHA, actions are pinned to tags and not SHAs, the CloudFront image host and `style-src 'unsafe-inline'` are to review, and the `npm audit` advisories without a patched release (production ones are accepted in `scripts/check-audit.mjs`; the rest are development-only and do not gate CI).
+See [`ROADMAP.md`](./ROADMAP.md): the quote limit is per instance and has no CAPTCHA, actions are pinned to tags and not SHAs, the CloudFront image host and `style-src 'unsafe-inline'` are to review.

@@ -63,6 +63,26 @@ test.describe("ecosystem pages", () => {
     });
   }
 
+  test("decisions nested in an open part keep their own Ver and Cerrar labels", async ({
+    page,
+  }) => {
+    await page.goto("/proyectos/terracore");
+    const decision = page.locator("#app details[data-disclosure]:not([data-part])").first();
+    await expect(page.locator("#app")).toHaveAttribute("open", "");
+    await expect(decision).not.toHaveAttribute("open", "");
+    await expect(decision.locator(":scope > summary .when-closed")).toBeVisible();
+    await expect(decision.locator(":scope > summary .when-closed")).toHaveText("Ver");
+    await expect(decision.locator(":scope > summary .when-open")).toBeHidden();
+    await decision.locator(":scope > summary").click();
+    await expect(decision).toHaveAttribute("open", "");
+    await expect(decision.locator(":scope > summary .when-open")).toBeVisible();
+    await expect(decision.locator(":scope > summary .when-open")).toHaveText("Cerrar");
+    await expect(decision.locator(":scope > summary .when-closed")).toBeHidden();
+    const sibling = page.locator("#app details[data-disclosure]:not([data-part])").nth(1);
+    await expect(sibling.locator(":scope > summary .when-closed")).toBeVisible();
+    await expect(sibling.locator(":scope > summary .when-open")).toBeHidden();
+  });
+
   test("a URL hash opens its part", async ({ page }) => {
     await page.goto("/proyectos/terracore#landing");
     await expect(page.locator("#landing")).toHaveAttribute("open", "");

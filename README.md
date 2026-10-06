@@ -11,7 +11,7 @@
 
 > Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
-> Last updated: 2026-10-05
+> Last updated: 2026-10-06
 
 ## Contents
 
@@ -100,7 +100,7 @@ Set the variables in the Vercel project settings, not in the repository. The `PU
 | Layer                | Choice                                                                 |
 | -------------------- | ---------------------------------------------------------------------- |
 | Framework            | Astro 7, static pages plus one Vercel Function for quote delivery.     |
-| Styling              | Tailwind CSS 3, PostCSS, CSS custom properties.                        |
+| Styling              | Tailwind CSS 4, CSS custom properties.                                 |
 | Components           | Astro, organized with atomic design.                                   |
 | Client scripts       | Vanilla TypeScript.                                                    |
 | Internationalization | Spanish at root and English under `/en/`.                              |
@@ -111,7 +111,7 @@ Set the variables in the Vercel project settings, not in the repository. The `PU
 
 ## Architecture
 
-The site is statically rendered with Astro 7. Tailwind CSS 3 supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` sends quote requests through Brevo to `wavival.dev@luminaw.co`.
+The site is statically rendered with Astro 7. Tailwind CSS 4 (through `@tailwindcss/vite`) supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` sends quote requests through Brevo to `wavival.dev@luminaw.co`.
 
 ### Project structure
 
@@ -135,7 +135,7 @@ docs/                    SEO, i18n, accessibility, performance, security, engine
 .husky/                  pre-commit (lint-staged) and commit-msg (commitlint) hooks
 assets/                  README-only visual assets
 
-Root configuration: astro.config.mjs, tailwind.config.mjs, postcss.config.cjs, eslint.config.mjs,
+Root configuration: astro.config.mjs, eslint.config.mjs,
 tsconfig.json, playwright.config.ts, lighthouserc.json, commitlint.config.cjs,
 .prettierrc, .prettierignore, .nvmrc, vercel.json and microfrontends.json.
 ```
@@ -245,7 +245,7 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 
 Vercel builds the project with `npm run build`, installs dependencies with `npm ci`, serves `dist/`, and deploys `api/quote.ts` as the quote-delivery function. Set `BREVO_API_KEY` in Vercel and verify `wavival.dev@luminaw.co` as a Brevo sender. The site is available at `https://www.wavival.dev`.
 
-`microfrontends.json` defines the Vercel development and path-ownership contract. `vercel.json` defines redirects, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
+`microfrontends.json` defines the Vercel path-ownership contract. `vercel.json` defines redirects, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
 
 ## Repository documentation
 

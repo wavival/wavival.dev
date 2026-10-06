@@ -1,9 +1,78 @@
-@import "./tokens.css";
-@import "./utilities.css";
+/* One flat cascade, like Tailwind 3: the site's own component CSS sits in the utilities layer
+   before the generated utilities, so a utility beats a component rule of the same specificity
+   and a more specific component selector still beats a utility. Tailwind 4 would otherwise
+   let every layered utility beat any component rule whatever its specificity. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "./tokens.css" layer(base);
+@import "./utilities.css" layer(utilities);
+@import "tailwindcss/utilities.css" layer(utilities);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-tint: var(--tint);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-link: var(--link);
+  --color-link-h: var(--link-h);
+  --color-blue: var(--blue);
+  --color-blue-text: var(--blue-text);
+  --color-btn: var(--btn);
+  --color-btn-h: var(--btn-h);
+  --color-ok: var(--ok);
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.6;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.6;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.6;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.6;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.6;
+
+  --font-display: Raleway, sans-serif;
+  --font-body: Poppins, sans-serif;
+
+  --container-container: var(--container);
+
+  --radius-control: var(--radius-control);
+
+  --spacing-gut: var(--gut);
+  --spacing-sec: var(--sec);
+  --spacing-nav: var(--nav-h);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @font-face {
   font-family: "Poppins";
@@ -49,22 +118,26 @@
     U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 88px;
-}
+/* Element-level base styles live in the base layer: Tailwind 4 utilities are layered, and an
+   unlayered rule would beat every utility class. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
 
-body {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
-  background-color: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    background-color: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
 }
 
 @keyframes page-enter {
@@ -125,58 +198,60 @@ body {
   animation: navigation-loader-pulse 0.8s ease-in-out infinite;
 }
 
-a {
-  color: var(--link);
-}
-
-a:hover {
-  color: var(--link-h);
-}
-
-::selection {
-  background: var(--blue);
-  color: #fff;
-}
-
-:focus-visible {
-  outline: 2px solid var(--link);
-  outline-offset: 2px;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--blue) transparent;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--blue);
-  border-radius: 20px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@layer base {
+  a {
+    color: var(--link);
   }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  a:hover {
+    color: var(--link-h);
   }
 
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
+  ::selection {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blue) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--blue);
+    border-radius: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
   }
 }

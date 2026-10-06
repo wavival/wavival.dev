@@ -1,8 +1,8 @@
 # DESIGN.md: Design System
 
-> Last updated: 2026-10-05
+> Last updated: 2026-10-06
 
-Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` and `tailwind.config.mjs`. The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
+Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` (the Tailwind theme is the `@theme` block of `global.css`). The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
 Related: [README.md](./README.md) | [COMPONENTS.md](./COMPONENTS.md) | [AGENTS.md](./AGENTS.md)
 
@@ -34,7 +34,7 @@ Concept: the page reads like an editorial index, with one blue signal on a quiet
 - **One column narrative.** Content runs at the full container width (`--container: 1280px`) in a single column, vertically centered in its band.
 - **State as text.** The accordion (case-study decisions) shows "Ver"/"Cerrar" (ES) or "View"/"Close" (EN) instead of a rotating chevron.
 - **Tokens over hardcoded values.** Every color and size lives in `src/styles/tokens.css` as a CSS custom property. Components use `var(--token)` or the Tailwind alias that maps to it.
-- **`.dark` class, not media query.** Dark is the default theme and is toggled by the user. `tailwind.config.mjs` sets `darkMode: 'class'`.
+- **`.dark` class, not media query.** Dark is the default theme and is toggled by the user. `global.css` declares `@custom-variant dark (&:is(.dark *))`.
 - **Static.** No scroll reveal. Client behavior is limited to the theme toggle, the mobile menu, the project filters, the quote form, the accordion open/close animation, the navigation loader, and optional analytics (see [Motion](#motion)).
 
 ## Tokens
@@ -112,7 +112,7 @@ The button fill is theme-independent so white text stays at or above 4.5:1 in bo
 
 ### Tailwind aliases
 
-`tailwind.config.mjs` maps tokens so utilities stay token-driven:
+The `@theme` block in `src/styles/global.css` maps tokens so utilities stay token-driven:
 
 | Group       | Aliases                                                                                                                             |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -127,7 +127,7 @@ The pre-v4 tokens (`--brand-blue`, `--brand-blue-text`, `--bg-page`, `--bg-card`
 
 ## Typography
 
-Configured in `tailwind.config.mjs` and `tokens.css`:
+Configured in the `@theme` block of `global.css` and in `tokens.css`:
 
 | Family  | Tailwind class | Stack                 | Role                                                         |
 | ------- | -------------- | --------------------- | ------------------------------------------------------------ |
@@ -148,7 +148,7 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 - The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
 - `ContactBand` closes the home and also services, about, and case studies; the services page hides its own "Ver servicios" button.
 - Accordions are native `<details>` (`Disclosure`, and `PartDisclosure` for the parts of an ecosystem project) with the state shown as text and a short open/close transition.
-- Line-height defaults to 1.6 (body and the Tailwind `fontSize` scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
+- Line-height defaults to 1.6 (body and the Tailwind text scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
 - The mobile menu overlay is a sibling of the sticky `<header>`, never a child: `backdrop-filter` on the header would otherwise become the containing block of the `fixed` overlay.
 
 ## Component classes
@@ -184,7 +184,7 @@ All inside `@layer components` in `src/styles/utilities.css`, 2-space indentatio
 | `.btn:disabled`                                                                                                                          | Disabled button: `--btn` fill at 45% opacity and `not-allowed` cursor (used by the quote form submit)                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `.project-grid`, `.project-featured-label`, `.project-wide`                                                                              | Projects index: grid whose `data-filter` follows the active filter; the card with `data-featured` gets a blue border, bar and badge; `.project-wide` spans two columns from 1280px only under "all"                                                                                                                                                                                                                                                                                                                                                                |
 | `.quote-*`                                                                                                                               | Quote form (`QuoteForm`): wrapper (`.quote-form-wrap`, 760px), form and field grid (`.quote-form`, `.quote-form-grid`, `.quote-field`, `.quote-fieldset`, `.quote-checklist`, `.quote-check`), text (`.quote-hint`, `.quote-privacy`, `.quote-error`, `.quote-required` for the red asterisk, `.quote-required-note`), intro block (`.quote-intro`, `.quote-next`, `.quote-next-title`), consent row (`.quote-consent`), hint under the disabled submit (`.quote-status`), success panel (`.quote-success`), and the visually hidden spam trap (`.quote-honeypot`) |
-| `.disclosure`, `.disclosure-content`                                                                                                     | Native `<details>` styling: hides the marker, swaps `.when-closed` / `.when-open` text; the content wrapper clips overflow so the height animation can run                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `.disclosure`, `.disclosure-content`                                                                                                     | Native `<details>` styling: hides the marker, swaps the `.when-closed` / `.when-open` text of its own summary (a nested disclosure never takes the labels of its parent); the content wrapper clips overflow so the height animation can run                                                                                                                                                                                                                                                                                                                       |
 
 Removed with v4: `.section`, `.section-title`, `.section-subtitle`, `.btn-ghost`, `.card`, `.card-plain`, `.link`, `.icon`, `.icon-sm/md/lg/xl`, `.profile-photo`.
 
@@ -214,7 +214,7 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 
 ## Dark mode strategy
 
-- `tailwind.config.mjs` sets `darkMode: 'class'`.
+- `global.css` declares `@custom-variant dark (&:is(.dark *))`.
 - **Dark is the default.** A synchronous `<script is:inline>` early in `<head>` (in `Layout.astro`) adds `.dark` to `<html>` before stylesheets load unless `localStorage["theme"] === "light"`. It no longer follows `prefers-color-scheme`. The `theme-color` meta defaults to `#0f1117`. This eliminates FOUC.
 - **Post-paint behavior** is owned by `src/scripts/theme.ts`: it syncs the sun/moon `MaskIcon`s and the state-aware `aria-label` to the already-applied state, then handles toggle clicks. Each click flips `.dark` on `<html>`, writes `localStorage["theme"]`, and re-syncs icons and the meta.
 - The dark overrides in `tokens.css` are `--bg`, `--surface`, `--line`, `--line-2`, `--tint`, `--text`, `--muted`, `--link`, `--link-h`, `--blue-text`, `--nav`, `--ok`, `--warn`, `--danger`.

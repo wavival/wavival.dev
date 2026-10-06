@@ -1,6 +1,6 @@
 # COMPONENTS.md: Component Reference
 
-> Last updated: 2026-10-05
+> Last updated: 2026-10-06
 
 Inventory of every Astro component in `src/components/` (atomic design: atoms, molecules, organisms), the base layout, the page routes, and the client scripts. Props, behavior, and where each one lives in the page composition. The site is bilingual: Spanish (default) at the root, English mirrored under `/en/`. Organisms take a `lang` prop and pick routes/strings through `siteRoutes()` and `useTranslations()`, so nothing is hardcoded to one locale. UI follows the "@wavival | Design System v4" (Claude Design project `wavival-dev-v4`).
 
