@@ -1,6 +1,6 @@
 # Marca personal wavival
 
-> Last updated: 2026-10-05
+> Last updated: 2026-11-07
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -198,7 +198,7 @@ Nombres oficiales de proyecto en el portafolio (campo `name` de `src/data/projec
 Fuente única: `src/styles/tokens.css`, `DESIGN.md`, `public/brand/`.
 
 - Logo: `public/brand/logo-w.webp`.
-- Foto de perfil: `public/images/profile.webp`, retrato con desvanecido al fondo y marco fino en degradado azul.
+- Foto de perfil: `public/images/profile.webp`, retrato vertical 4:5 (720x900) sobre fondo gris claro, con marco fino y borde inferior azul.
 - Color:
   - Azul de marca `#407bff`: rellenos, bordes y texto grande.
   - Azul interactivo `#1565c0` (claro) y `#5b8cff` (oscuro): texto pequeño, enlaces, botones.
