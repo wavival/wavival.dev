@@ -17,7 +17,7 @@ The site is static HTML, one stylesheet, vanilla TypeScript, one serverless func
 
 ## Measuring
 
-- Lighthouse CI (`npm run lhci`, job `lighthouse` in CI) audits home, projects, about and the English home from `dist/` (one run per page, `lighthouserc.json`). Thresholds: performance and best practices warn below 0.9; accessibility and SEO fail below 0.9.
+- Lighthouse CI (`npm run lhci`, job `lighthouse` in CI) audits home, projects, about and the English home from `dist/` (one run per page, `lighthouserc.json`). Thresholds: performance and best practices warn below 0.9; accessibility and SEO fail below 0.9. Reports are written to `.lighthouseci/reports/` (ignored by git); the CI job uploads that folder as the `lighthouse-reports` artifact for 7 days and nothing is sent to public storage.
 - Core Web Vitals (LCP, INP, CLS, FCP, TTFB) are sent to Umami as `web-vitals` events when analytics is enabled (`src/scripts/vitals.ts`).
 - There is no numeric performance budget; Lighthouse scores are the guardrail.
 

@@ -15,13 +15,14 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público: desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W. En inglés: Full Stack Developer focused on backend and AI.
+- Rol público: desarrolladora de software con enfoque en backend, IA y seguridad (Django, React, Next.js) y fundadora de Lúmina W. En inglés: software developer focused on backend, AI and security. El marketing y el contenido son un complemento; wavival nunca se presenta como agencia de marketing.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
 - Formación pública:
   - Universidad de San Buenaventura: Lengua Inglesa (en curso).
-  - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso).
+  - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso), y formación en marketing y redes sociales.
+  - Aprendizaje autodidacta en marketing y redes sociales, con experiencia práctica como creadora de contenido en TikTok (`@wavival_dev`) e Instagram (`@wavival`). No se nombran programas ni cursos de terceros.
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
 - Autodefinición en el sitio: desarrolladora autodidacta "por convicción", que necesita entender por qué funciona algo antes de darlo por bueno.
 
@@ -45,7 +46,8 @@ Canales V1:
 - Instagram: más personal, visual y cercano.
 - LinkedIn: más técnico y profesional.
 - Ambos con la misma identidad, voz base y reglas de esta guía. Cambia el registro, no la persona.
-- Otros canales del sitio (GitHub, X `@wavival0`, Blog W, Platzi) quedan fuera de la prioridad V1.
+- TikTok (`https://www.tiktok.com/@wavival_dev`): canal de contenido enlazado en el pie del sitio y en `/sobre-mi`.
+- Otros canales del sitio (GitHub, X `@wavival0`, Blog W, Platzi) quedan fuera de la prioridad V1. No hay Facebook en el sitio.
 
 Idioma inicial: español. El contenido en inglés no es parte de V1.
 
@@ -55,16 +57,20 @@ Cadencia y calendario: los define después el sistema editorial. Este documento 
 
 ## 3. Posicionamiento
 
-Posicionamiento V1: desarrolladora Full Stack con enfoque en backend e IA y fundadora de Lúmina W, con contenido sobre:
+Posicionamiento 2026: desarrolladora de software con enfoque en backend, IA y seguridad, que ayuda a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y fundadora de Lúmina W, con contenido sobre:
 
 - Construcción de productos.
 - Backend.
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
 
+Title de la home: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores" (EN: "Valentina Ramírez | Secure software and AI automation for entrepreneurs"). Meta description: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público." (EN: "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.").
+
 Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."), seguido de la frase secundaria "El código que firmo también lo rompo." (EN: "The code I ship, I also break.").
 
-Frase base publicada en el pie del sitio: "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan." (EN: "Full Stack Developer. Backend and AI. Security built in. Products that scale.")
+Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana con enfoque en backend, IA y seguridad. Construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano." (EN: "I'm Valentina Ramírez, a Colombian software developer focused on backend, AI and security. I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand.").
+
+Frase base publicada en el pie del sitio: "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio." (EN: "Software developer. Backend, AI and security. Tools that save your business time."). Redes en el pie: Instagram, GitHub, LinkedIn y TikTok.
 
 Afirmaciones que el sitio ya sostiene:
 
@@ -184,7 +190,7 @@ Términos del sitio y su sentido:
 
 A evitar: "experto", "el mejor", "garantizado", "100% seguro", "certificado", "clientes" (no hay clientes nombrados en el repositorio), lenguaje ofensivo sin contexto defensivo.
 
-Herramientas: se nombra una herramienta o sistema (por ejemplo un sistema operativo, editor o terminal) solo si una fuente concreta de la pieza confirma su uso. No se afirma una máquina de trabajo única.
+Herramientas: se nombra una herramienta o sistema (por ejemplo un sistema operativo, editor o terminal) solo si una fuente concreta de la pieza confirma su uso. No se afirma una máquina de trabajo única. `/herramientas` publica, además del stack, las herramientas de marketing y contenido (Claude, CapCut, Canva, ElevenLabs, Higgsfield) y el equipo de grabación (Motorola Edge 60 Fusion y estabilizador DJI con selfie stick extensible).
 
 Nombres exactos: TerraCore, OKroot, NullBreach, Lúmina W, Blog W, Forgotten Portal.
 
@@ -204,7 +210,7 @@ Fuente única: `src/styles/tokens.css`, `DESIGN.md`, `public/brand/`.
   - Fondo `#f0f4ff` (claro) y `#0f1117` (oscuro).
   - Texto `#1a1a2e` (claro) y `#e8eaf6` (oscuro).
 - Tipografía: Raleway para títulos y etiquetas; Poppins para lectura.
-- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853).
+- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853). Las tarjetas por defecto de la home (`og-card-es.webp`, `og-card-en.webp`) son ilustraciones con el texto "Creo productos digitales. De una idea a algo que las personas pueden usar." (EN: "I build digital products. From an idea to something people can actually use.") y no tienen un script que las regenere.
 - Iconografía: SVG decorativos, sin emojis ni flechas decorativas. Excepción decidida por la dueña: la bandera de Colombia junto a "Hecho en Colombia" en el footer (`role="img"`, `aria-label="Colombia"`).
 - Accesibilidad como norma: contraste WCAG AA, foco visible, texto alternativo real en imágenes de contenido.
 

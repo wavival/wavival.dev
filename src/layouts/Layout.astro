@@ -24,8 +24,8 @@ interface Props {
 }
 
 const {
-  title = "Valentina Ramírez | Full Stack Developer, Backend e IA",
-  description = "Desarrolladora Full Stack con enfoque en backend e IA: construyo productos con Django, React y Next.js, con seguridad desde el diseño.",
+  title = "Valentina Ramírez | Software seguro y automatización con IA para emprendedores",
+  description = "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público.",
   image = "/images/profile.webp",
   ogImage,
   ogImageAlt,
@@ -58,8 +58,8 @@ const socialCardType = (ogImage ?? defaultSocialCard).endsWith(".webp")
 const socialCardAlt =
   ogImageAlt ??
   (lang === "en"
-    ? "Valentina Ramírez: Full Stack Developer · Backend and AI · Django · React · Next.js"
-    : "Valentina Ramírez: Full Stack Developer · Backend e IA · Django · React · Next.js");
+    ? "Valentina Ramírez (@wavival): I build digital products. From an idea to something people can actually use."
+    : "Valentina Ramírez (@wavival): Creo productos digitales. De una idea a algo que las personas pueden usar.");
 
 const UMAMI_SRC = import.meta.env.PUBLIC_UMAMI_SRC;
 const UMAMI_ID = import.meta.env.PUBLIC_UMAMI_ID;
@@ -111,6 +111,7 @@ const jsonLd = JSON.stringify({
         "https://github.com/wavival",
         "https://x.com/wavival0",
         "https://www.instagram.com/wavival/",
+        "https://www.tiktok.com/@wavival_dev",
         "https://platzi.com/p/wavival",
       ],
     },
