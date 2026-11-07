@@ -27,16 +27,47 @@ Fuente: decisiones de la sección 10; `src/components/organisms/ContactBand.astr
 
 ## 2. Oferta documentada
 
-Servicios publicados en `/servicios` (ofrecidos por wavival):
+Catálogo publicado en `/servicios` y `/en/services` (ofrecido por wavival), en tres grupos. Cada servicio muestra nombre, precio, plazo, qué incluye y qué no incluye. El texto vive en `src/data/services.ts`; los montos solo en `src/data/pricing.ts` (ids entre paréntesis).
 
-1. Aplicaciones web a medida (8 a 14 semanas): Django + DRF o Next.js con Supabase, React + TypeScript, despliegue.
-2. APIs REST y backend (3 a 6 semanas): APIs autenticadas y documentadas, modelado relacional, roles, multitenancy.
-3. Seguridad y AppSec (1 a 2 semanas): revisión con criterio OWASP Top 10, autenticación, manejo de secretos, validación.
-4. Integraciones de IA (2 a 4 semanas): OpenAI, OpenClaw, Claude API, flujos con LLM y n8n donde aportan valor.
+Desarrollo:
+
+1. Landing page de conversión (`landing-page`, 2 semanas): una página de hasta 6 secciones, responsive, ajuste de textos, formulario o WhatsApp, SEO técnico, GA4 y píxel de Meta, despliegue, 2 rondas de ajustes y 30 días de garantía. No incluye más páginas, blog ni pagos en línea.
+2. Sitio web para negocio (`business-website`, 4 semanas): hasta 6 páginas, SEO técnico y Core Web Vitals, formularios, WhatsApp, analítica, 1 hora de capacitación, 2 rondas de ajustes y 30 días de garantía. No incluye tienda online, pasarela de pagos ni varios idiomas.
+3. Automatización con n8n (`n8n-automation`, precio por flujo, 1 semana): diagnóstico, un flujo con hasta 3 herramientas, manejo de errores con alertas, documentación corta y 30 días de garantía. No incluye servidor o plan de n8n ni cambios del proceso después de la entrega.
+4. Chatbot con IA (`ai-chatbot`, 2 a 3 semanas): un canal (web o WhatsApp), base de conocimiento, captura de datos, paso a una persona, registro de conversaciones, pruebas y 30 días de garantía. No incluye canales adicionales, número de WhatsApp ni operación mensual (se recomienda el plan de soporte).
+5. App web o PWA a medida, MVP (`custom-web-app-mvp`, único precio "desde", 6 a 10 semanas): alcance, diseño UX/UI, backend y frontend, autenticación y roles, panel administrativo básico, seguridad base según OWASP, despliegue, documentación y 30 días de garantía. No incluye apps nativas, integraciones fuera del alcance ni soporte posterior. Nota visible: por encima del umbral de Lúmina W (`THRESHOLDS.luminawReferral`), o si necesita equipo, pasa a Lúmina W.
+6. Integración de IA en un sistema existente (`ai-integration`, 2 a 3 semanas): análisis del sistema, un caso de uso, integración por API, prompts y validaciones, control de costos, pruebas y 30 días de garantía. No incluye refactorizar el sistema ni otros casos de uso.
+
+Complementarios:
+
+7. Revisión de seguridad básica (`basic-security-review`, 1 semana): revisión OWASP Top 10 de una app pequeña, informe con hallazgos priorizados y sesión para explicarlo. No incluye pentest certificado, corregir los hallazgos (se cotiza aparte) ni certificación de cumplimiento. Reemplaza a "Seguridad y AppSec"; la frase "mentalidad de pentester" ya no se usa.
+8. Plan de soporte mensual (`monthly-support-basic` y `monthly-support-plus`): Básico con monitoreo, actualizaciones, copias de seguridad y 1 hora de cambios; Plus con lo del Básico, 3 horas de cambios, monitoreo de automatizaciones y chatbot, informe mensual y respuesta en 1 día hábil. No incluye funcionalidades nuevas; las horas no usadas no se acumulan.
+
+Paquetes con marketing (nota visible del grupo: el marketing solo se vende dentro de un paquete o a clientes de desarrollo, y va incluido para que lo que se construye también traiga clientes; wavival no se presenta como agencia de marketing):
+
+9. Kit Presencia Digital (`digital-presence-kit`, 2 a 3 semanas): la landing del servicio 1, perfil de Google Business, SEO local básico, optimización de bio y destacados de Instagram y Facebook y guía de publicación de una página. No incluye manejo de redes, creación de contenido ni pauta.
+10. Kit Ahorra Tiempo (`time-saver-kit`, 4 semanas): landing, 2 automatizaciones con n8n, chatbot con IA y primer mes del plan Plus. El ahorro frente a contratar cada servicio por separado se calcula con `savingsPercent` y `TIME_SAVER_KIT_PARTS` en `pricing.ts` (29% en COP, 30% en USD) y se muestra en la moneda del visitante. No incluye lo mismo que cada servicio por separado.
+11. Posicionamiento mensual (`monthly-seo`, solo clientes de desarrollo): SEO on-page mensual, un artículo de blog, actualización del perfil de Google Business e informe de resultados. No incluye manejo diario de redes, pauta ni producción audiovisual.
+
+Exclusiones generales (bloque visible): dominio, hosting y licencias de herramientas; consumo de APIs de IA, WhatsApp Business API y n8n cloud; pauta, fotografía, video, logo e identidad de marca; redacción extensa de contenidos; cambios de alcance después de aprobada la propuesta, que se cotizan aparte.
+
+Bloque para equipos técnicos (fuera del catálogo, sin precio, con llamado a `/cotizar`): APIs REST y backend (3 a 6 semanas), con su contenido anterior: APIs autenticadas y documentadas, modelado relacional, roles, multitenancy.
 
 Modalidades: desarrollo completo o refuerzo backend, API o seguridad en un equipo existente. Diseño UX/UI incluido cuando el proyecto lo requiere. Las duraciones son estimadas.
 
-Precio publicado en el sitio: proyectos desde USD 250 / COP 1.000.000 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas. Este precio es de wavival; Lúmina W tiene sus propios precios, que viven en `luminaw.co` y no se publican en este sitio.
+Precios: el precio general "desde USD 250 / COP 1.000.000" se retiró del sitio. Cada servicio tiene un precio fijo en `src/data/pricing.ts` (única fuente), que se publica por servicio según la política de moneda de la sección 2.1. Disponibilidad limitada. Respuesta en 24 horas. Los precios son de wavival; Lúmina W tiene sus propios precios, que viven en `luminaw.co` y no se publican en este sitio.
+
+### 2.1 Política de moneda
+
+- Dos listas de precios independientes: una en COP y otra en USD. No existe tasa de cambio entre ellas, ni TRM ni tasa fija: cada lista se fija por su cuenta.
+- La moneda la decide la ubicación del visitante, nunca el idioma de la página. Visitante en Colombia: solo COP. Visitante fuera de Colombia: solo USD. País no detectado (rastreadores, entorno local): USD.
+- Una página nunca muestra las dos monedas ni una línea que las compare. La única excepción son los datos estructurados JSON-LD y los archivos `llms.txt` y `llms-full.txt`, que no cambian por visitante y por eso llevan ambas listas con la aclaración de que se cobra según la ubicación.
+- Formato: código de moneda delante del monto (COP 2.200.000, USD 750); separador de miles según el idioma de la página (punto en español, coma en inglés); "desde" solo en el MVP; "al mes" en los planes mensuales.
+- Revisión anual de ambas listas en enero.
+- Umbrales: proyectos por encima de COP 40.000.000 / USD 12.000 se remiten a Lúmina W. Pagos 40/30/30 por encima de COP 7.000.000 / USD 2.500; igual o por debajo, 50/50.
+- La tarifa interna por hora no se publica en el sitio ni se guarda en este repositorio.
+
+Fuente: `src/data/pricing.ts`, `src/utils/currency.ts`, `middleware.ts`.
 
 Proceso publicado: conversación, propuesta, build iterativo, entrega documentada y mantenible.
 
@@ -155,7 +186,7 @@ Reglas:
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.
 - Forgotten Portal: ejercicio de pentesting en laboratorio (DockerLabs) con PTES y MITRE ATT&CK.
-- Proyectos desde USD 250 / COP 1.000.000 según alcance; respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas.
+- Precios por servicio de `src/data/pricing.ts`, en la moneda de la ubicación del público de la pieza (sección 2.1); respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas. El precio general "desde USD 250 / COP 1.000.000" ya no se afirma.
 
 ### Se pueden afirmar con cuidado
 
@@ -208,7 +239,7 @@ Reglas:
 
 Ninguno bloquea el arranque de V1. Cada uno bloquea solo la pieza indicada.
 
-- Pieza que cite un precio de Lúmina W: no usar el de wavival (desde USD 250 / COP 1.000.000); [PENDIENTE] precios propios de Lúmina W.
+- Pieza que cite un precio de Lúmina W: no usar los de wavival (`src/data/pricing.ts`); [PENDIENTE] precios propios de Lúmina W.
 - Pieza sobre OKroot con modelo de acceso: [PENDIENTE].
 - Pieza sobre cumplimiento legal de TerraCore: [PENDIENTE] texto validado.
 - Pieza de OKroot sobre salud: [PENDIENTE] texto de descargo.

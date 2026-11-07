@@ -286,13 +286,16 @@ test.describe("layout", () => {
 });
 
 test.describe("services examples", () => {
-  // Each example opens the section of its project that matches the service.
+  // Each example opens the section of its project that matches the service:
+  // the landing page (two landings), the MVP (two apps), the AI integration
+  // (two apps) and the backend block for technical teams (NullBreach).
   const expected = [
+    ["terracore", "landing"],
+    ["okroot", "landing"],
     ["terracore", "app"],
     ["okroot", "app"],
-    ["nullbreach", "app"],
-    ["forgotten-portal", ""],
     ["okroot", "app"],
+    ["nullbreach", "app"],
     ["nullbreach", "app"],
   ] as const;
 

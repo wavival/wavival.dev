@@ -12,10 +12,13 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Blog W as a PWA: the repository has no manifest, service worker or offline mode, so the case study does not claim it. Decide whether to build it or keep it dropped everywhere.
 - [ ] OKroot status: `docs/brand.md` and `docs/commercial.md` say "early access"; the case-study tag says "Live". The AI-discovery files now say "live, early access".
 - [ ] Filters: decide whether NullBreach (an AI-powered AppSec chat) belongs under the `security` filter, from which it is left out today. Adding it changes the filter count.
+- [ ] Internal hourly rate: the 2026 plan defines one, but it is not published and `src/data/pricing.ts` does not hold it because the repository is public. Decide where it lives if a later step needs it.
+- [ ] Pricing review: the COP and USD lists in `src/data/pricing.ts` are independent (no exchange rate) and are reviewed every January.
 
 ## Security
 
 - [ ] Quote function: add a Vercel firewall rule that rate limits `POST /api/quote` (the in-function limit is best-effort per instance). Consider a CAPTCHA only if abuse continues.
+- [ ] Currency middleware: Playwright exercises `middleware.ts` as a function and the built pages, not Vercel's edge. On the first preview deployment check the three cases listed in `docs/security.md` ("Settings that live outside the repository"), and that view-transition navigations keep the COP variant.
 - [ ] Check the GitHub and Vercel settings listed in `docs/security.md` ("Settings that live outside the repository"): branch protection with required checks, secret scanning with push protection, code scanning. Nothing in the repository can verify them.
 - [ ] After the first CodeQL run, review the findings under Security > Code scanning and fix or dismiss each one with a reason.
 - [ ] Pin GitHub Actions (and the `lumina-w/agents` workflows) to commit SHAs instead of tags. Bump the pins by hand.
@@ -26,6 +29,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Dependencies
 
+- [ ] `@lumina-w/dev-standards` (phase 4): the shared commit rules and Husky guards were reverted from this repository because the package resolved over git+ssh from a private repository, which `npm ci` cannot fetch on Vercel or in the shared commitlint workflow. Bring it back once the package is published on GitHub Packages and Vercel holds a read-only token for it. Do not vendor a tarball: this repository is public.
 - [ ] Major versions pending a manual migration (checked on 2026-10-05): `typescript` 6 to 7, `web-vitals` 5 to 6 (check the reporting script and its CSP hash) and `prettier-plugin-astro` 0.14 to 1.1 (re-format the whole repository). Do one per pull request, with the full test suite and Lighthouse.
 
 ## SEO and GEO

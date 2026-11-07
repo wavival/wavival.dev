@@ -1,6 +1,6 @@
 # DESIGN.md: Design System
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
 Design tokens, typography, composition rules, and component classes for `wavival.dev`. Everything documented here lives in `src/styles/` (the Tailwind theme is the `@theme` block of `global.css`). The system is called "@wavival | Design System v4" and was designed in the Claude Design project `wavival-dev-v4` (files `wavival-dev-v4.dc.html`, `wavival-dev-v4-design-system.dc.html`, `wavival-dev-v4-design.md`).
 
@@ -194,7 +194,7 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 
 - **Atoms:** `Button`, `TextLink`, `IconLink`, `MaskIcon`, `Chip`, `StatusDot`, `Badge`, `Eyebrow`, `Index`
 - **Molecules:** `SectionHeader`, `PageIntro`, `ChipList`, `ProjectMeta`, `ProjectActions`, `Metric`, `DefRow`, `SocialLinks`, `ThemeToggle`, `Disclosure`, `PullQuote`, `Bento`
-- **Organisms:** `NavBar`, `Footer`, `ContactBand`, `Hero`, `FeaturedProjects`, `StackSection`, `StackGrid`, `AboutSection`, `ProjectRow`, `ProjectCard`, `ProjectsIndex`, `ProjectFilters`, `RepoCard`, `ServiceRow`, `ServicesDetail`, `QuoteForm`, `LegalSection`, `NotFound`, `CaseStudy`, `CaseToc`, `CaseSection`
+- **Organisms:** `NavBar`, `Footer`, `ContactBand`, `Hero`, `FeaturedProjects`, `StackSection`, `StackGrid`, `AboutSection`, `ProjectRow`, `ProjectCard`, `ProjectsIndex`, `ProjectFilters`, `RepoCard`, `ServicesCatalog`, `ServiceRow`, `ServicesDetail`, `QuoteForm`, `LegalSection`, `NotFound`, `CaseStudy`, `CaseToc`, `CaseSection`
 - **Template:** `src/layouts/Layout.astro`
 
 ## Page inventory
@@ -204,7 +204,7 @@ Atomic structure under `src/components/` (props in [COMPONENTS.md](./COMPONENTS.
 | `/` and `/en`                              | `Hero` (#hero), `FeaturedProjects` (#projects), `StackSection` (#stack), `AboutSection` (#about), `ContactBand` (#contact)                                                                                                                                                             |
 | `/proyectos` and `/en/projects`            | `PageIntro`, `ProjectsIndex` (`ProjectFilters` + `ProjectCard`s)                                                                                                                                                                                                                       |
 | `/proyectos/[slug]`, `/en/projects/[slug]` | `CaseStudy` (own `h1`, sticky `CaseToc` from 900px, previous/next project links): sections `cs-problem`, `cs-architecture`, `cs-design`, `cs-decisions`, `cs-results`, `cs-learnings`, `cs-roadmap` (design and roadmap render only when the project sets them), closing `ContactBand` |
-| `/servicios` and `/en/services`            | `PageIntro`, four `ServiceRow`s, `ServicesDetail`, `ContactBand`                                                                                                                                                                                                                       |
+| `/servicios` and `/en/services`            | `PageIntro`, `ServicesCatalog` (three groups of numbered `ServiceRow`s with price, timeline, inclusions and exclusions, the general exclusions and the block for technical teams), `ServicesDetail`, `ContactBand`                                                                     |
 | `/cotizar` and `/en/quote`                 | `PageIntro`, `QuoteForm`: form title and short description with the response process, two-column field grid, service or project-type checklist, privacy consent checkbox, submit button enabled only when everything is filled in, and in-place confirmation                           |
 | `/sobre-mi` and `/en/about`                | `PageIntro`, `SectionHeader`s, `Bento`, `PullQuote`, `ContactBand`                                                                                                                                                                                                                     |
 | `/contacto` and `/en/contact`              | `PageIntro`, numbered contact channel cards and a `SectionHeader` block                                                                                                                                                                                                                |

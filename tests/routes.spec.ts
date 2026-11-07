@@ -31,11 +31,15 @@ const PROJECT_SLUGS = [
   "forgotten-portal",
 ];
 
+// Prebuilt COP variants of the priced pages (served by middleware.ts to visitors in Colombia).
+const COP_VARIANT_ROUTES = ["/cop/servicios", "/cop/cotizar", "/cop/en/services", "/cop/en/quote"];
+
 const ALL_ROUTES = [
   ...ES_ROUTES,
   ...EN_ROUTES,
   ...PROJECT_SLUGS.map((s) => `/proyectos/${s}`),
   ...PROJECT_SLUGS.map((s) => `/en/projects/${s}`),
+  ...COP_VARIANT_ROUTES,
 ];
 
 test.describe("route coverage", () => {

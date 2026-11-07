@@ -121,7 +121,7 @@ Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no s
    - Contexto, trade-off, decisión (multitenancy, offline-first, Next.js App Router, NextAuth, Prisma Postgres, estado persistente del perfil en OKroot).
    - Fuente: `decisions` y `learnings` de cada caso.
 3. Backend y seguridad por diseño
-   - OWASP, PTES, MITRE ATT&CK, criterio de pentester al diseñar.
+   - OWASP, PTES, MITRE ATT&CK, criterio de seguridad al diseñar.
    - Fuente: `stack.ts`, NullBreach, writeup Forgotten Portal (laboratorio DockerLabs, ya publicado).
 4. IA con evidencia
    - Solo con el proyecto y la fuente que demuestran el claim (ver sección 3).

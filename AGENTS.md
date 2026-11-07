@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> Last updated: 2026-10-04
+> Last updated: 2026-11-07
 
 Operational rules for agents modifying this repository.
 
@@ -51,7 +51,8 @@ Every document carries a `> Last updated: YYYY-MM-DD` line (`CHANGELOG.md` is da
 
 ## Implementation rules
 
-- Keep the Astro pages static and use vanilla TypeScript. `api/quote.ts` is the sole Vercel Function: it validates quote submissions, sends them through Brevo, and reads only the server-side `BREVO_API_KEY` variable.
+- Keep the Astro pages static and use vanilla TypeScript. The server code is `api/quote.ts` (the sole Vercel Function: it validates quote submissions, sends them through Brevo, and reads only the server-side `BREVO_API_KEY` variable) and `middleware.ts` (Vercel Edge Middleware: it reads the country header and serves the prebuilt `/cop/` variant of a priced page to visitors in Colombia; it never reads or stores the address).
+- Prices live only in `src/data/pricing.ts`. Render them with the `Price` atom or its helpers: COP for Colombia, USD everywhere else, decided by location and never by language, and never both on the same page. Structured data and the `llms` files carry both fixed lists.
 - Keep Spanish at root and English under `/en/`. Resolve localized targets through `src/i18n/utils.ts`.
 - Follow `DESIGN.md` for visual changes and `COMPONENTS.md` for component changes.
 - Keep public content aligned with `docs/brand.md` and `docs/commercial.md`. Everything on `wavival.dev` belongs to wavival and everything on `luminaw.co` to Lúmina W; never attribute one to the other.
