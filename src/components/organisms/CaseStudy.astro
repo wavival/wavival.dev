@@ -11,7 +11,7 @@ import PartBody from "@/components/organisms/PartBody.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
 import { caseLabels, partSections } from "@/data/caseStudyLabels";
 import { projects, type Project } from "@/data/projects";
-import { projectView, toAction, type ProjectAction } from "@/data/projectView";
+import { layerSections, projectView, toAction, type ProjectAction } from "@/data/projectView";
 import { quoteTypesHref } from "@/data/quoteTypes";
 import { siteRoutes, type Lang } from "@/i18n/utils";
 
@@ -31,13 +31,13 @@ const primary = view.parts[0].content;
 
 // One part reads like a classic case study (header buttons include its design links, numbered
 // sections, sticky contents). Several parts read as an ecosystem: one accordion per part.
-const singleSections = multi ? [] : partSections(primary, t, "cs-");
+const singleSections = multi ? [] : layerSections(partSections(primary, t, "cs-"));
 const partItems = view.parts.map((part, i) => ({
   id: part.id,
   n: String(i + 1).padStart(2, "0"),
   label: part.label,
 }));
-const lead = multi ? view.summary : view.solution;
+const lead = view.summary;
 const headerLinks: ProjectAction[] = [
   ...view.links,
   ...(!multi && primary.designLink ? [toAction(primary.designLink)] : []),
@@ -125,15 +125,6 @@ const number = String(idx + 1).padStart(2, "0");
 
     <div class="flex min-w-0 flex-auto flex-col" style="gap:clamp(64px,7vw,104px)">
       <ProjectBrief brief={view.brief} />
-      <div class="border-t-2 border-blue bg-tint px-8 py-7">
-        <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
-        <p
-          class="h-title m-0 leading-[1.45]"
-          style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
-        >
-          {multi ? view.summary : (primary.summary ?? view.summary)}
-        </p>
-      </div>
       {
         !multi && (
           <ChipList items={primary.stack ?? []} label={t.stack} class="min-[900px]:hidden" />
@@ -163,17 +154,6 @@ const number = String(idx + 1).padStart(2, "0");
                       stacked
                       class="items-start"
                     />
-                    {part.content.summary && (
-                      <div class="border-t-2 border-blue bg-tint px-8 py-7">
-                        <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
-                        <p
-                          class="h-title m-0 leading-[1.45]"
-                          style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
-                        >
-                          {part.content.summary}
-                        </p>
-                      </div>
-                    )}
                     {part.content.stack && <ChipList items={part.content.stack} label={t.stack} />}
                     <PartBody
                       part={part.content}

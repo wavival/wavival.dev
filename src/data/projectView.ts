@@ -71,6 +71,18 @@ export interface ProjectView {
 
 const STACK_PREVIEW = 6;
 
+/** Sections that live behind the "technical detail" toggle of a case study. */
+export const TECHNICAL_SECTIONS = ["architecture", "design", "decisions", "learnings", "roadmap"];
+
+/** Orders sections as the page shows them (visible first, technical after) and numbers them. */
+export function layerSections<T extends { key: string; n: string }>(sections: T[]): T[] {
+  const technical = (s: T) => TECHNICAL_SECTIONS.includes(s.key);
+  return [...sections.filter((s) => !technical(s)), ...sections.filter(technical)].map((s, i) => ({
+    ...s,
+    n: String(i + 1).padStart(2, "0"),
+  }));
+}
+
 export const PART_LABELS: Record<Lang, Record<PartKind, string>> = {
   es: {
     app: "App",
