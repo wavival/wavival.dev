@@ -2,7 +2,7 @@
 import ProjectMeta from "@/components/molecules/ProjectMeta.astro";
 import ProjectActions from "@/components/molecules/ProjectActions.astro";
 import DefRow from "@/components/molecules/DefRow.astro";
-import ChipList from "@/components/molecules/ChipList.astro";
+import ProjectBrief from "@/components/molecules/ProjectBrief.astro";
 import type { ProjectView } from "@/data/projectView";
 
 interface Props {
@@ -11,8 +11,7 @@ interface Props {
   lang?: "es" | "en";
 }
 
-const { project: p, index, lang = "es" } = Astro.props;
-const isEn = lang === "en";
+const { project: p, index } = Astro.props;
 ---
 
 <article
@@ -41,19 +40,11 @@ const isEn = lang === "en";
     />
   </div>
   <dl class="m-0 border-t border-line">
-    <DefRow label={isEn ? "The challenge" : "El reto"}>
-      <p class="body m-0">{p.problem}</p>
-    </DefRow>
-    <DefRow label={isEn ? "What I built" : "Lo que construí"} tone="link">
-      <p
-        class="h-title m-0 leading-normal"
-        style="font-size:clamp(17px,1.5vw,20px);font-weight:700"
-      >
-        {p.summary}
-      </p>
-    </DefRow>
+    <div class="py-6">
+      <ProjectBrief brief={p.brief} />
+    </div>
     <DefRow label="Stack" last>
-      <ChipList items={p.stack} class="justify-center min-[640px]:justify-start" />
+      <p class="m-0 text-sm leading-[1.6] text-muted">{p.stack.join(", ")}</p>
     </DefRow>
   </dl>
   {
