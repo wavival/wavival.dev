@@ -71,6 +71,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete documentation set: `docs/seo.md` (SEO, indexing, structured data, GEO), `docs/i18n.md` (Spanish and English), `docs/accessibility.md`, `docs/performance.md`, `docs/security.md` and `docs/engineering.md`, linked from the README, `AGENTS.md` and `SECURITY.md`.
 - Documentation of everything: `DESIGN.md` rows for the Stack nav state, disabled buttons, the projects index highlight and the quote form classes; `ProjectCard` props in `COMPONENTS.md`; English URLs in `public/llms.txt` and `public/llms-full.txt`, with the matching `docs/ROADMAP.md` item removed.
 - Documentation refresh: README (environment variable table with where each one is read and required, missing scripts, delivery flow and workflows, `api/` and `.github/` in the structure, `AGENTS.md` in the document map), `COMPONENTS.md` and `DESIGN.md` (project filters, quote page, links to `AGENTS.md`), source paths in `docs/brand.md` and `docs/commercial.md`, and resolved items removed from `docs/ROADMAP.md`.
+- Dependencies: minor and patch updates (astro 7.4, `@astrojs/check`, commitlint, Playwright, ESLint, Prettier, typescript-eslint) with the lockfile regenerated on Node 22 so `npm ci` passes in CI (including `sharp` 0.35.5 and `undici` 8.12.x to clear the high advisories flagged by `check-audit`), and two new inline script hashes in the CSP (`vercel.json`) after the Astro bump.
 
 ### Removed
 
