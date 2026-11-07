@@ -130,7 +130,7 @@ test.describe("positioning of the 2026 plan", () => {
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing y contenido");
     await expect(row).toContainText(
-      "Formación en marketing y redes sociales en Platzi, aprendizaje autodidacta en esas áreas y experiencia práctica como creadora de contenido en TikTok e Instagram"
+      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en TikTok e Instagram"
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
     await expect(row.locator('a[href="https://instagram.com/wavival"]')).toHaveText("Instagram");
@@ -143,7 +143,7 @@ test.describe("positioning of the 2026 plan", () => {
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing and content");
     await expect(row).toContainText(
-      "Marketing and social media training at Platzi, self-taught learning in those areas and hands-on experience as a content creator on TikTok and Instagram"
+      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on TikTok and Instagram"
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
     await expect(row.locator('a[href="https://instagram.com/wavival"]')).toHaveText("Instagram");
