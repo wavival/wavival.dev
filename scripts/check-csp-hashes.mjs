@@ -6,6 +6,9 @@
 //
 // External scripts (src=...) are covered by host allow-lists, not hashes.
 // JSON-LD (type=application/ld+json) is a CSP data block, not gated by script-src.
+// The /cop/ currency variants in dist/ are the same pages built under another
+// path, so they are walked like any other page and share the same hashes; the
+// Edge Middleware that serves them (middleware.ts) adds no inline script.
 
 import { readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";

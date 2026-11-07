@@ -4,6 +4,7 @@ import NavBar from "@/components/organisms/NavBar.astro";
 import Footer from "@/components/organisms/Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import { getLangFromUrl, useTranslations, type Lang } from "@/i18n/utils";
+import { publicUrl } from "@/utils/currency";
 
 interface Props {
   title?: string;
@@ -42,8 +43,10 @@ const personDescription =
   "Full Stack Developer con enfoque en backend e IA y experiencia en Django, React y Next.js. Construyo productos con IA integrada y seguridad desde el diseño. Fundadora de Lúmina W, su empresa de software aparte (luminaw.co).";
 
 const site = "https://www.wavival.dev";
-const canonicalURL = new URL(Astro.url.pathname, site);
-const isHome = ["/", "/en", "/en/"].includes(Astro.url.pathname);
+// The `/cop/` currency variant of a page shares its public URL (canonical, hreflang, Open Graph).
+const pagePath = publicUrl(Astro.url).pathname;
+const canonicalURL = new URL(pagePath, site);
+const isHome = ["/", "/en", "/en/"].includes(pagePath);
 const buildDate = new Date().toISOString();
 const personImage = new URL(image, site);
 const defaultSocialCard = `/images/og-card-${lang}.webp`;

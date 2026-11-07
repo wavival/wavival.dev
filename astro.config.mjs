@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "url";
 import path from "path";
 import { EN_PAGE_MAP } from "./src/i18n/utils.ts";
+import { isCopVariantPath } from "./src/utils/currency.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -52,6 +53,8 @@ export default defineConfig({
     sitemap({
       changefreq: "monthly",
       priority: 1.0,
+      // The /cop/ currency variants are internal: the middleware serves them under the public URL.
+      filter: (page) => !isCopVariantPath(new URL(page).pathname),
       i18n: {
         defaultLocale: "es",
         locales: { es: "es", en: "en" },
