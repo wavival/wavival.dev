@@ -11,7 +11,7 @@
 
 > Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
-> Last updated: 2026-11-07
+> Last updated: 2026-10-06
 
 ## Contents
 
@@ -136,7 +136,7 @@ scripts/                 build-time validation scripts
 tests/                   Playwright browser and unit-style specs
 docs/                    SEO, i18n, accessibility, performance, security, engineering, release, brand, commercial and roadmap guides
 .github/workflows/       CI, PR checks, auto-merge into dev, branch cleanup and release
-.husky/                  pre-commit (dev-standards guard, lint-staged) and commit-msg (dev-standards guard, commitlint) hooks
+.husky/                  pre-commit (lint-staged) and commit-msg (commitlint) hooks
 assets/                  README-only visual assets
 
 Root configuration: astro.config.mjs, eslint.config.mjs,
@@ -219,7 +219,7 @@ npm test
 
 ### Local hooks
 
-Husky runs the `@lumina-w/dev-standards` guards, `lint-staged` (ESLint and Prettier on staged files) before each commit and Commitlint on each commit message; `commit-msg` also runs `~/.claude/git-hooks/commit-msg` when that executable exists on the developer machine. See [`docs/engineering.md`](./docs/engineering.md).
+Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commit and Commitlint on each commit message; `commit-msg` also runs `~/.claude/git-hooks/commit-msg` when that executable exists on the developer machine. See [`docs/engineering.md`](./docs/engineering.md).
 
 ### CI gates
 

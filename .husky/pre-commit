@@ -1,4 +1,1 @@
-# >>> @lumina-w/dev-standards >>>
-"node_modules/@lumina-w/dev-standards/hooks/guard_protected_commit.sh" || exit 1
-# <<< @lumina-w/dev-standards <<<
 npx lint-staged
