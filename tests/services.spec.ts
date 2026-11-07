@@ -39,6 +39,21 @@ const words = {
   perMonth: { es: "al mes", en: "per month" },
 } as const;
 
+const banners = {
+  development: {
+    es: "Desarrollo: landing pages, sitios web, automatizaciones, chatbots y apps a medida",
+    en: "Development: landing pages, websites, automations, chatbots and custom apps",
+  },
+  complementary: {
+    es: "Complementarios: revisión de seguridad y soporte mensual",
+    en: "Complementary: security review and monthly support",
+  },
+  marketing: {
+    es: "Paquetes con marketing: software y presencia digital",
+    en: "Packages with marketing: software and digital presence",
+  },
+} as const;
+
 /** Every text node of the page, visible or not, without scripts and styles. */
 const pageText = (page: Page) =>
   page.evaluate(() => {
@@ -125,6 +140,37 @@ test.describe("services catalog", () => {
           await expect(
             article.getByRole("link", { name: /Cotizar este servicio|Request a quote/ })
           ).toHaveAttribute("href", `${quote}?service=${service.id}`);
+        }
+      });
+
+      test(`${url}: every service group shows its localized banner`, async ({ page }) => {
+        await page.goto(url);
+        for (const [index, group] of SERVICE_GROUPS.entries()) {
+          const section = page.locator(`[data-service-group="${group.id}"]`);
+          const banner = section.locator(`[data-service-banner="${group.id}"]`);
+          await expect(banner).toHaveAttribute(
+            "src",
+            `/images/services/services-${group.id}-${lang}.webp`
+          );
+          await expect(banner).toHaveAttribute("alt", banners[group.id][lang]);
+          await expect(banner).toHaveAttribute("width", "1600");
+          await expect(banner).toHaveAttribute("height", "500");
+          await expect(banner).toHaveAttribute("loading", index === 0 ? "eager" : "lazy");
+          await expect(section.getByRole("heading", { level: 2 })).toHaveText(group.title[lang]);
+          await expect(banner).toHaveCount(1);
+          expect(
+            await banner.evaluate((element) => {
+              const section = element.closest("[data-service-group]");
+              const heading = section?.querySelector("h2");
+              const firstService = section?.querySelector("[data-service]");
+              return Boolean(
+                heading &&
+                firstService &&
+                heading.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING &&
+                element.compareDocumentPosition(firstService) & Node.DOCUMENT_POSITION_FOLLOWING
+              );
+            })
+          ).toBe(true);
         }
       });
 
