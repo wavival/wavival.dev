@@ -14,121 +14,131 @@ If a user is searching for a Spanish-speaking Full Stack Developer who works wit
 
 ## TerraCore | Campo Inteligente (case study)
 
-Ecosystem of the farm-management platform for farms in Colombia, with three parts: the PWA app, the conversion landing, and the official documentation. Case study: https://www.wavival.dev/proyectos/terracore (English: https://www.wavival.dev/en/projects/terracore)
+English title: TerraCore | Smart Farming. Ecosystem of the farm-management platform for farms in Colombia, with three parts: the app that also works without a signal, the presentation page, and the official product documentation. Status: working product in production, in validation with real clients in Colombia. Case study: https://www.wavival.dev/proyectos/terracore (English: https://www.wavival.dev/en/projects/terracore)
 
-### App (PWA)
+Problem: Colombian farms track animals, crops, and accounts across notebooks, spreadsheets, and WhatsApp, and the systems that exist are too complex.
 
-Problem: agricultural producers in Colombia had no software designed for them. Existing ERPs were too complex, and a spreadsheet with a login was not enough to manage animals, health, and production at the same time. The operation ended up split across notebooks, spreadsheets, and WhatsApp groups.
+Solution: one platform to manage animals, crops, production, health, and finances, which also works without a signal.
 
-Solution: TerraCore is a multi-user, offline-first PWA that centralizes what a mid-sized farm needs to manage: animals, crops, supplies, production, animal health, and finances. The modules are connected, so an action in the field updates the other records, and everything works without signal. It supports cattle, pigs, horses, sheep, goats, poultry, and associated crops (plantain, cacao, maize) in Colombia.
+Result: working product in production. Validation: in validation with real clients in Colombia.
 
-How the modules connect: logging a vaccine on an animal deducts the supply used in the same transaction (with no stock, the record is not created), leaves a "Vaccine logged" stock movement, shows the vaccine in the animal's history and the dashboard's expired and upcoming counts, and adds the treatment cost to the health expense of the period P&L. Logging a production batch deducts every supply used (all or nothing), computes the batch cost against its revenue, and alerts the administrator when cost exceeds revenue. The active facility scopes every screen, and a vaccine inherits its animal's facility.
+### App
 
-Architecture highlights: backend in Django 6 and DRF on PostgreSQL 16 with Celery and Redis; strict multitenancy (the tenant comes from the JWT, never from the body or URL); business logic in services with transactions and row locking; roles (Administrator, Operator, Collaborator) with per-facility permissions and plan limits; React 19, TypeScript, Vite, and Tailwind 4 on the frontend; an installable PWA with a Service Worker for the app shell and a local IndexedDB database (Dexie) with an outbox queue; sync through one endpoint covering ten models with per-record versions and accepted, conflict, or rejected answers; a queue of deferred actions and saved reads so every screen opens offline (only card payment needs a connection); CSV import, and CSV export with administrator approval.
+Multi-user app for farms in Colombia. It records livestock, crops, supplies, production, animal health, and finances in one system where every action in one module updates the others: logging a vaccine deducts the supply used, shows up in the animal's history and adds its cost to the period's health expense; logging a production batch deducts every supply used and compares the batch cost against its revenue. Every screen works without a signal and syncs when the connection returns. Roles with per-facility permissions and plan limits.
 
-Design: its own design in Claude Design with a clickable prototype; deep green and amber over warm neutrals, Inter and Poppins; atomic design with shared CSS tokens; responsive navigation (side panel from 1024 px, bottom bar on mobile); always-visible offline state; a scope badge for the active facility.
+Learnings: defining data isolation between companies early avoids rewrites; sync cannot skip validations, it validates like the API (roles, plan, and facility); connecting modules forces you to decide who owns each piece of data.
 
-Result: functional product in production, under validation with clients in Antioquia, Colombia.
+Roadmap: now, product in production, in validation with real clients in Colombia; next, remove the old vaccination subsystem and bring the Finance history down to the facility level; later, labor and fixed and variable costs, custom reports, an integrations API, and a DIAN and NIIF base; out of scope for the MVP, financial forecasting, full electronic invoicing, multi-currency, and automatic PDF reports.
 
-Learnings: designing, developing, and building a complete fullstack product from scratch, with deployment, debugging, testing, and fixing; defining the tenant boundary early; offline-first changes the data model; sync must not skip validations; offline stock syncs as a difference; connecting modules requires deciding who owns each piece of data.
-
-Roadmap: now, product in production and in active sales; next, remove the old vaccination subsystem and bring the Finance history to facility level; later, labor and fixed and variable costs, custom reports, an integrations API, and a DIAN and NIIF base; out of scope for the MVP, financial forecasting, full electronic invoicing, multi-currency, and automatic PDF reports.
-
-Stack: Django, DRF, PostgreSQL, Celery, Redis, JWT, React, TypeScript, Dexie, Tailwind CSS, installable offline-first PWA. Programming languages: Python, TypeScript, SQL.
-
-Live app: https://app.terracoreapp.co
+Stack: Django, DRF, PostgreSQL, Celery, Redis, JWT, React, TypeScript, Dexie, Tailwind CSS. Live app: https://app.terracoreapp.co
 
 ### Landing
 
-Problem: a farm producer needs to understand what TerraCore does, what each plan includes and how their data is handled before asking for a demo.
-
-Solution: a static conversion landing for TerraCore that takes the producer from the pain to the demo, shows the product, the plans with their limits and the privacy terms, and captures diagnosis requests in a serverless function that stores them in Supabase.
+A presentation page that takes the producer from the pain to the demo, shows the product, the plans with their limits, and the privacy terms, and captures diagnosis requests. Written in farm vocabulary, not software vocabulary. Roadmap: activate metrics, case studies, and testimonials once real data exists.
 
 Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, Brevo, Playwright, GA4. Live: https://terracoreapp.co
 
 ### Documentation
 
-Official documentation (usage, features, getting started, support): https://docs.terracoreapp.co
-
-Stack and design: a static Astro 7 site with MDX content collections (34 pages in 8 groups), no React and no adapter, deployed on Vercel. Navigation comes from a single typed list checked by a test; search is client-side over a JSON index generated at build time; tokens and components follow the TerraCore design system, with Lucide icons. Headers (restrictive CSP with no third-party origins, HSTS, X-Frame-Options DENY) come from vercel.json. Quality: ESLint, Prettier, astro check, Vitest and Playwright.
+Official documentation (usage, features, getting started, support): a static usage guide for customers, in Colombian Spanish, with 34 pages in 8 groups and in-browser search. Stack: Astro, MDX, TypeScript, Vitest, Playwright, Vercel. Live: https://docs.terracoreapp.co
 
 ## OKroot | Come sano, vive libre (case study)
 
-Ecosystem of the food-label scanner for people with celiac disease, diabetes, or lactose intolerance, with three parts: the PWA app, the early-access landing, and the official documentation. Case study: https://www.wavival.dev/proyectos/okroot (English: https://www.wavival.dev/en/projects/okroot)
+English title: OKroot | Eat Healthy, Live Free. Ecosystem of the food-label scanner for people with celiac disease, diabetes, or lactose intolerance, with three parts: the app with an AI label scanner and offline mode, the waitlist page with a recipe collection, and the official product documentation. Status: app core in production, in early access, with the waitlist open; in validation with real clients. Case study: https://www.wavival.dev/proyectos/okroot (English: https://www.wavival.dev/en/projects/okroot)
 
-### App (PWA)
+Problem: eating with celiac disease, diabetes, or lactose intolerance means reading every label and cross-checking several restrictions by hand.
 
-Problem: people with celiac disease, diabetes, or lactose intolerance must manually read every food label and cross-reference hidden ingredients against several dietary restrictions at once.
+Solution: the user photographs the label and gets a verdict in seconds, with the reason, based on their profile.
 
-Solution: a PWA where users photograph a product label and know within seconds whether they can eat it based on their active restrictions (celiac, diabetes, lactose intolerance), which are combinable. Features include an AI-powered label scanner via the Claude API, a food diary with macros and a health log, 50 curated recipes, weekly insights, and a weekly market. Meals, scans, and the shopping list made without a connection are queued locally and synced in idempotent batches.
+Result: app core in production, in early access, with the waitlist open. Validation: in validation with real clients.
 
-Stack: React, TypeScript, Vite, Tailwind CSS, Dexie, Django, DRF, PostgreSQL, Claude API, PWA. Programming languages: Python, TypeScript, SQL. Status: live in early access.
+### App
 
-Live app: https://app.okroot.co
+The user photographs a product label and an AI answers in seconds whether they can eat it for their profile, with the specific reason and support for the three conditions at once. It adds a food diary with a health log, recipes, weekly insights and a weekly market. Scans, meals and shopping-list changes made without a connection are queued and processed when the signal returns.
+
+Learnings: a language model handles the ambiguous well, but the critical part is secured in code (an ingredient the user forbade is a hard rule, and an unreadable image gets a fixed answer instead of a guess); reserving the usage quota before calling the model avoids charging for a scan that never arrived; being precise about what works offline matters.
+
+Roadmap: now, app in production in early access, with scanner, diary, recipes, insights, weekly market and subscriptions; next, read the diary and recipes from local storage without a connection; later, a recipe finder based on what is in the fridge.
+
+Stack: React, TypeScript, Vite, Tailwind CSS, Dexie, Django, DRF, PostgreSQL, Claude API, PWA. Live app: https://app.okroot.co
 
 ### Landing
 
-Problem: people with celiac disease, diabetes or lactose intolerance need to see what OKroot does and join the early-access waitlist without handing over health data.
+A page that takes people with celiac disease, diabetes or lactose intolerance from the pain of reading labels to a waitlist for early access, with a collection of 16 recipes and legal pages. The waitlist form does not ask for health data, requires consent, and analytics load only with consent. Roadmap: more success stories; more languages, markets, conditions and combinations.
 
-Solution: a static landing in Astro that goes from the pain of reading labels to a waitlist for early access, with a collection of 16 recipes and legal pages. The waitlist form does not ask for health data and a consent checkbox is required.
-
-Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, GA4 behind a cookie banner. Live: https://okroot.co
+Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, GA4. Live: https://okroot.co
 
 ### Documentation
 
-Official documentation (usage, features, getting started, support): https://docs.okroot.co
-
-Stack: the same as the TerraCore documentation: a static Astro 7 site with MDX content collections, client-side search over a build-time JSON index, restrictive security headers from vercel.json, deployed on Vercel, with ESLint, Prettier, astro check, Vitest and Playwright.
+Official documentation (usage, features, getting started, support), with the same stack as the TerraCore documentation: Astro, MDX, TypeScript, Vitest, Playwright, Vercel. Live: https://docs.okroot.co
 
 ## NullBreach | AI-Powered AppSec Chat (case study)
 
-Problem: a security finding is of little use without severity, impact and remediation, and a quick question about a snippet rarely justifies setting up a rule-based scanner.
+An open-source, non-commercial application security portfolio. It brings together the app with a chat and OWASP-oriented code analysis, the presentation page, the MIT-licensed repository, and the API documentation. Status: in production and open source under the MIT license. Case study: https://www.wavival.dev/proyectos/nullbreach (English: https://www.wavival.dev/en/projects/nullbreach)
 
-Solution: an open-source Next.js application where a signed-in user pastes code (up to 20,000 characters) for an OWASP-oriented analysis by OpenAI, or asks a security chat (up to 4,000 characters). Questions, answers and analyses are stored per user. The model output is analysis assistance, not deterministic verification.
+Problem: a security finding is of little use if it does not say how serious it is and how to fix it.
 
-Parts: the app (https://www.wavival.dev/nullbreach/login), the landing (https://www.wavival.dev/nullbreach, a static Astro site published inside the Next.js deployment), the open-source repository (https://github.com/wavival/nullbreach) and the API documentation as Swagger UI (https://www.wavival.dev/nullbreach/swagger).
+Solution: you paste a code snippet and get an analysis with severity, impact, and remediation, or ask in a security chat. Everything is stored per user, and the model output is presented as analysis assistance, not as deterministic verification.
 
-Stack: Next.js, React, TypeScript, Tailwind CSS, NextAuth (credentials and Google OAuth), JWT sessions, Prisma ORM, Prisma Postgres, OpenAI Responses API, Vercel. Single Next.js deployment (landing, frontend and backend as internal folders) mounted under wavival.dev/nullbreach with Vercel Microfrontends. Programming languages: TypeScript, SQL. The landing uses Astro, TypeScript, and SEO.
+Result: in production and open source under the MIT license.
 
-Case study: https://www.wavival.dev/proyectos/nullbreach (English: https://www.wavival.dev/en/projects/nullbreach) · Source: https://github.com/wavival/nullbreach
+Parts: the app (https://www.wavival.dev/nullbreach/login), the presentation page (https://www.wavival.dev/nullbreach, static, indexable, in Spanish and English), the repository (https://github.com/wavival/nullbreach, MIT license) and the API documentation (https://www.wavival.dev/nullbreach/swagger, Swagger UI and OpenAPI).
+
+Learnings: a language model that reviews code should be presented as analysis assistance; authenticating and limiting size before calling a paid provider protects cost and the database at the same time; a static landing can ride inside the application's deployment and keep its own SEO.
+
+Roadmap: now, application in production with a security chat, code analysis, accounts and password recovery; next, show stored analyses and let users delete their history and account, rate limits on chat and analysis, and email verification for password accounts.
+
+Stack: Next.js, React, TypeScript, Tailwind CSS, NextAuth, Prisma, PostgreSQL, OpenAI API, Vercel. The landing uses Astro, TypeScript and SEO.
 
 ## Lúmina W | Software & Technology (case study)
 
-The web presence of Lúmina W, the separate software company (luminaw.co belongs to Lúmina W), with two parts: the company landing and the blog. Case study: https://www.wavival.dev/proyectos/lumina-w (English: https://www.wavival.dev/en/projects/lumina-w)
+The digital ecosystem of Lúmina W, the separate software company in Medellín (luminaw.co belongs to Lúmina W), with two parts: the bilingual site with its two service paths (custom development and its own subscription product), and the bilingual blog with accounts, moderation, and a newsletter. Status: site and blog in production. Case study: https://www.wavival.dev/proyectos/lumina-w (English: https://www.wavival.dev/en/projects/lumina-w)
+
+Problem: a software company that sells custom projects and its own product needs to explain each path without mixing them up and to receive requests with useful data.
+
+Solution: a bilingual site with two clear service paths from the first screen and a form that collects what is needed to reply.
+
+Result: site and blog in production, at luminaw.co and blog.luminaw.co.
 
 ### Landing
 
-Problem: a software company that sells custom projects and its own SaaS product needs to explain both without mixing them, and to receive contact requests without building a full backend.
+Bilingual (Spanish and English) site with a landing that separates the two paths, a products page with TerraCore and OKroot, and a contact form that collects need, stage and consent and notifies by email. Technical SEO with structured data, hreflang, a sitemap, robots for AI crawlers and llms.txt. Learnings: asking for need and stage with fixed values means the first reply can already be a proposal; the promises in the copy must be something the code does; a typed dictionary turns a forgotten translation into a build error.
 
-Solution: a bilingual static site with two explicit service paths, a four-phase process for each, a products page (TerraCore and OKroot) and a contact form that collects need, stage and consent, stores the request in Supabase through a Vercel Function and notifies by email. Technical SEO, llms.txt, and Google Analytics only with consent.
-
-Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, Brevo, GA4. Programming languages: TypeScript, SQL.
-
-Live: https://luminaw.co
+Stack: Astro, TypeScript, Tailwind CSS, Vercel Functions, Supabase, Brevo, GA4. Live: https://luminaw.co
 
 ### Blog
 
-Bilingual (Spanish and English) blog platform built with Next.js, Prisma, PostgreSQL on Supabase and NextAuth, publishing technical content about web development, cybersecurity, and digital products. Any account can write an article and the administrator approves it; comments are moderated by local rules; published articles are translated with the Claude API; the newsletter runs on Brevo. It replaced an earlier Astro site.
+Bilingual blog platform with community features: accounts, comments, likes, saves, profiles and a newsletter. Any account can write an article and the administrator approves it before it goes live; comments are moderated by local rules that order the queue while the decision stays with a person; published articles are translated into the other language automatically. Learnings: opening accounts and comments changes the kind of project, almost every new route needs limits and a decision about failure; permissions are verified on the server on every request.
 
-Stack: Next.js, React, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Supabase, NextAuth, Brevo, Claude API, Vercel.
+Roadmap: now, bilingual blog in production with community, article approval, a newsletter and automatic translation; next, related articles by tags, account deletion and email change from the profile, comment reporting, and end-to-end tests in CI; later, draft generation and scheduling with the Claude API and n8n, sharing to social networks and an analytics panel.
 
-Live: https://blog.luminaw.co
+Stack: Next.js, React, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Supabase, NextAuth, Brevo, Claude API, Vercel. Live: https://blog.luminaw.co
 
 ## wavival.dev (case study)
 
-This portfolio as a design case. The system is called @wavival | Design System v4: the page reads like an editorial index, with 1px rules instead of boxes, Raleway 800 display type, numbered indexes, and a single blue signal on a quiet field. It was designed in Claude Design (prototype and design system) and brought to code with token parity. Design decisions: rules instead of boxes, one blue per role to pass contrast, self-hosted editorial type, a static site with no scroll animation, dark by default through a class, and Spanish at the root with English under /en. Accessibility is a design constraint: 2px visible focus, AA contrast per token in both themes, 44px touch targets, and prefers-reduced-motion support.
+This portfolio as a design case: a fast, accessible bilingual site with its own identity and its own design system. Status: bilingual site in production, with automated tests and link checks on every change. Case study: https://www.wavival.dev/proyectos/wavival-dev · Live site: https://www.wavival.dev
+
+Problem: a developer portfolio often ends up as a generic, slow, or hard-to-use template.
+
+Solution: a fast, accessible bilingual site with its own identity, which works as proof of my technical and design judgment.
+
+Result: bilingual site in production, with automated tests and link checks on every change.
+
+The system is called @wavival | Design System v4: the page reads like an editorial index, with 1px rules instead of boxes, Raleway 800 display type, numbered indexes, and a single blue signal on a quiet field. It was designed in Claude Design (prototype and design system) and brought to code with token parity. Design decisions: rules instead of boxes, one blue per role to pass contrast, self-hosted editorial type, a static site with no scroll animation, dark by default, and Spanish at the root with English under /en. Accessibility is a design constraint: 2px visible focus, AA contrast per token in both themes, 44px touch targets, and prefers-reduced-motion support. Learnings: a design system is only worth something if it becomes tokens; contrast is decided in the token; a component named like a utility class inherits its styles wherever the utility is used.
 
 Stack: Astro, TypeScript, Tailwind CSS, Vercel, Playwright.
 
-Case study: https://www.wavival.dev/proyectos/wavival-dev · Live site: https://www.wavival.dev
-
 ## Forgotten Portal (pentesting writeup)
 
-A pentest exercise on a DockerLabs lab machine, run in a controlled environment during the Nodo EAFIT cybersecurity accelerator (March 23, 2026). PTES methodology, seven findings (three critical, two high, two medium) with CVSS and CWE classification, TTPs mapped to MITRE ATT&CK, a technical report, an executive report and 28 evidence screenshots.
+A pentesting exercise in a controlled lab, done during the Nodo EAFIT cybersecurity accelerator (March 23, 2026): seven documented findings, one technical report, and one executive report. Status: lab exercise. Case study: https://www.wavival.dev/proyectos/forgotten-portal (English: https://www.wavival.dev/en/projects/forgotten-portal)
 
-Stack: Nmap, Gobuster, Netcat, Python, MITRE ATT&CK, PTES, Linux, DockerLabs. Status: lab exercise.
+Problem: understanding how far someone without credentials can get against a misconfigured server, and explaining that risk to whoever decides the budget.
 
-Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/ · Case study: https://www.wavival.dev/proyectos/forgotten-portal · Source: https://github.com/wavival/forgotten-portal-writeup
+Solution: a pentesting exercise in a controlled lab, with every finding documented and two reports, one technical and one executive.
+
+Result: seven documented findings (three critical, two high, two medium) with CVSS and CWE classification, MITRE ATT&CK mapping, an 18-page technical report, a 14-page executive report and 28 evidence screenshots, published under the MIT license. Learnings: no finding depended on an unknown vulnerability, they were configuration mistakes and work habits that repeat in real environments; the damage comes from chaining several small findings; the technical detail and the business risk are two documents, not one.
+
+Stack: Nmap, Gobuster, Netcat, Python, MITRE ATT&CK, PTES, Linux, DockerLabs. Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/ · Source: https://github.com/wavival/forgotten-portal-writeup
 
 ## Services
 
