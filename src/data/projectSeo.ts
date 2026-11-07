@@ -1,5 +1,10 @@
 import { projectStack, type PartKind, type Project } from "@/data/projects";
-import { localizePart, PART_LABELS } from "@/data/projectView";
+import {
+  localizePart,
+  localizedProjectImage,
+  localizedProjectTitle,
+  PART_LABELS,
+} from "@/data/projectView";
 import type { Lang } from "@/i18n/utils";
 
 /** schema.org type of each part inside `hasPart`. */
@@ -26,15 +31,17 @@ export function projectMeta(project: Project, lang: Lang) {
     project.summary ??
     primary.summary ??
     "";
+  const projectTitle = localizedProjectTitle(project, lang);
   const title = isEn
-    ? `${project.name}: Case study | Valentina Ramirez`
-    : `${project.name}: Caso de estudio | Valentina Ramírez`;
+    ? `${projectTitle}: Case study | Valentina Ramirez`
+    : `${projectTitle}: Caso de estudio | Valentina Ramírez`;
   return { title, description };
 }
 
 /** JSON-LD of a project page. An ecosystem lists each linked part in `hasPart`. */
 export function projectSchema(project: Project, lang: Lang, pageURL: string, site: string) {
   const { description } = projectMeta(project, lang);
+  const image = localizedProjectImage(project.image, lang);
   const buildDate = new Date().toISOString().slice(0, 10);
   const datePublished = project.datePublished ?? buildDate;
   const dateModified = project.dateModified ?? datePublished;
@@ -58,12 +65,12 @@ export function projectSchema(project: Project, lang: Lang, pageURL: string, sit
     "@context": "https://schema.org",
     "@type": project.schemaType,
     "@id": `${pageURL}#project`,
-    name: project.name,
+    name: localizedProjectTitle(project, lang),
     ...(project.name !== project.shortName ? { alternateName: project.shortName } : {}),
     description,
     url: pageURL,
     inLanguage: lang === "en" ? "en-US" : "es-CO",
-    ...(project.image ? { image: `${site}/${project.image}` } : {}),
+    ...(image ? { image: `${site}/${image}` } : {}),
     author: { "@id": `${site}/#person` },
     datePublished: toIsoDateTime(datePublished),
     dateModified: toIsoDateTime(dateModified),
