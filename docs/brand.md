@@ -26,7 +26,7 @@ Documento hermano: [commercial.md](./commercial.md).
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
 - Autodefinición en el sitio: desarrolladora autodidacta "por convicción", que necesita entender por qué funciona algo antes de darlo por bueno.
 
-Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `AGENTS.md`.
+Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `src/layouts/Layout.astro` (JSON-LD `jobTitle` "Software Developer"), `AGENTS.md`.
 
 Fuera de contenido V1: experiencias laborales del CV y cualquier nombre o experiencia de terceros que aparezca allí. El CV se usa solo como contexto interno.
 

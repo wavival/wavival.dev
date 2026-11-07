@@ -78,6 +78,8 @@ Producto disponible hoy:
 
 Omitido en V1 (sin fuente): mantenimiento como servicio, modelo de contratación, oferta paga de NullBreach.
 
+Title de `/servicios`: "Servicios: software seguro y automatización con IA | Valentina Ramírez" (EN: "Services: secure software and AI automation | Valentina Ramirez"); el intro de la página se presenta como desarrolladora de software con enfoque en backend, IA y seguridad.
+
 Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (proyecto `terracore`, parte `landing`), `src/components/organisms/ContactBand.astro`.
 
 Titular de la home: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."), con "El código que firmo también lo rompo." como frase secundaria. La banda de contacto de la home dice "MVP desde 6 a 10 semanas". Datos publicados en la home: "3 apps en producción", "Lúmina W fundadora", "24h tiempo de respuesta" (`src/components/organisms/Hero.astro`). Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera.

@@ -41,7 +41,9 @@ const lang = getLangFromUrl(Astro.url);
 const ogLocale = lang === "en" ? "en_US" : "es_CO";
 const t = useTranslations(lang as Lang);
 const personDescription =
-  "Full Stack Developer con enfoque en backend e IA y experiencia en Django, React y Next.js. Construyo productos con IA integrada y seguridad desde el diseño. Fundadora de Lúmina W, su empresa de software aparte (luminaw.co).";
+  lang === "en"
+    ? "Software developer focused on backend, AI and security. I help entrepreneurs save time with secure software and AI automation. Founder of Lúmina W (luminaw.co)."
+    : "Desarrolladora de software con enfoque en backend, IA y seguridad. Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA. Fundadora de Lúmina W (luminaw.co).";
 
 const site = "https://www.wavival.dev";
 // The `/cop/` currency variant of a page shares its public URL (canonical, hreflang, Open Graph).
@@ -80,11 +82,11 @@ const jsonLd = JSON.stringify({
         height: 640,
         caption: "Valentina Ramírez",
       },
-      jobTitle: "Full Stack Developer",
+      jobTitle: "Software Developer",
       email: "wavival.dev@luminaw.co",
       description: personDescription,
       knowsAbout: [
-        "Full Stack Development",
+        "Software Development",
         "Backend Development",
         "Django",
         "Django REST Framework",
