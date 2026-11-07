@@ -69,7 +69,7 @@ Frase base publicada en el pie del sitio: "Full Stack Developer. Backend e IA. S
 Afirmaciones que el sitio ya sostiene:
 
 - Toma un problema de negocio y lo entrega como software real en producción.
-- Mentalidad ofensiva para escribir código defensivo ("El código que firmo también lo rompo.").
+- Seguridad desde el diseño en cada línea de código ("El código que firmo también lo rompo.").
 - Producto real, no demos: multiusuario, lógica de negocio compleja, APIs propias.
 - Decide arquitectura pensando en el segundo año, no solo en el MVP.
 - "La IA acelera; no reemplaza el criterio de ingeniería."
