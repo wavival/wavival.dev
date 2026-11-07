@@ -1,7 +1,7 @@
 ---
 import ProjectMeta from "@/components/molecules/ProjectMeta.astro";
 import ProjectActions from "@/components/molecules/ProjectActions.astro";
-import ChipList from "@/components/molecules/ChipList.astro";
+import ProjectBrief from "@/components/molecules/ProjectBrief.astro";
 import type { ProjectView } from "@/data/projectView";
 
 interface Props {
@@ -60,8 +60,8 @@ const { project: p, index, featured = false, wide = false, featuredLabel = "" } 
         )
       }
     </h2>
-    <p class="m-0 text-sm leading-[1.7] text-muted">{p.summary}</p>
-    <ChipList items={p.stack} />
+    <ProjectBrief brief={p.brief} compact />
+    <p class="m-0 text-xs leading-[1.6] text-muted">Stack: {p.stack.join(", ")}</p>
     <ProjectActions actions={p.actions} class="mt-auto pt-2" />
   </div>
 </article>

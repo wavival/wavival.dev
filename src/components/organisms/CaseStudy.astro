@@ -5,6 +5,7 @@ import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
 import PartDisclosure from "@/components/molecules/PartDisclosure.astro";
+import ProjectBrief from "@/components/molecules/ProjectBrief.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
 import PartBody from "@/components/organisms/PartBody.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
@@ -123,6 +124,7 @@ const number = String(idx + 1).padStart(2, "0");
     </aside>
 
     <div class="flex min-w-0 flex-auto flex-col" style="gap:clamp(64px,7vw,104px)">
+      <ProjectBrief brief={view.brief} />
       <div class="border-t-2 border-blue bg-tint px-8 py-7">
         <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
         <p

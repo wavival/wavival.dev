@@ -101,7 +101,17 @@ export interface ProjectPart {
   en?: ProjectPartEn;
 }
 
+/** Problem, solution and result in business language; the stack stays a secondary line. */
+export interface ProjectBrief {
+  problem: string;
+  solution: string;
+  result: string;
+  /** Only for products still without paying clients: shown as a validation badge. */
+  validation?: string;
+}
+
 export interface ProjectEn {
+  brief?: ProjectBrief;
   imageAlt?: string;
   tag?: string;
   summary?: string;
@@ -130,6 +140,7 @@ export interface Project {
   schemaType: "SoftwareApplication" | "WebSite" | "CreativeWork";
   /** Ecosystem summary. Falls back to the summary of the first part. */
   summary?: string;
+  brief?: ProjectBrief;
   /** Meta description (150-160 chars). Falls back to the first part's. */
   metaDescription?: string;
   /** Ordered parts; the first one is the primary part. */
@@ -164,14 +175,30 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "SoftwareApplication",
     summary:
-      "Ecosistema de TerraCore | Campo Inteligente, la plataforma de gestión agropecuaria para fincas colombianas. Reúne la PWA multiusuario y offline-first (Django, DRF, PostgreSQL, React y Dexie), la landing de conversión (Astro y Supabase) y la documentación oficial del producto.",
+      "Ecosistema de TerraCore | Campo Inteligente, la plataforma de gestión agropecuaria para fincas colombianas. Reúne la app que funciona también sin señal, la página de presentación y la documentación oficial del producto.",
+    brief: {
+      problem:
+        "Las fincas colombianas llevan animales, cultivos y cuentas entre cuadernos, hojas de cálculo y WhatsApp, y los sistemas que existen son demasiado complejos.",
+      solution:
+        "Una sola plataforma para gestionar animales, cultivos, producción, salud y finanzas, que funciona también sin señal.",
+      result: "Producto funcional en producción.",
+      validation: "En validación con clientes reales en Colombia.",
+    },
     metaDescription:
       "Caso de estudio de TerraCore | Campo Inteligente: PWA offline-first para fincas, landing de conversión y documentación oficial. Django, React y Astro.",
     en: {
+      brief: {
+        problem:
+          "Colombian farms track animals, crops, and accounts across notebooks, spreadsheets, and WhatsApp, and the systems that exist are too complex.",
+        solution:
+          "One platform to manage animals, crops, production, health, and finances, which also works without a signal.",
+        result: "Working product in production.",
+        validation: "In validation with real clients in Colombia.",
+      },
+      summary:
+        "The TerraCore | Campo Inteligente ecosystem, the farm-management platform for Colombian farms. It brings together the app that also works without a signal, the presentation page, and the official product documentation.",
       imageAlt:
         "TerraCore dashboard: real-time metrics, production charts, and livestock distribution",
-      summary:
-        "The TerraCore | Campo Inteligente ecosystem, the farm-management platform for Colombian farms. It brings together the multi-user, offline-first PWA (Django, DRF, PostgreSQL, React, and Dexie), the conversion landing (Astro and Supabase), and the official product documentation.",
       metaDescription:
         "TerraCore | Campo Inteligente case study: offline-first PWA for Colombian farms, conversion landing, and official documentation. Django, React, and Astro.",
     },
@@ -1081,13 +1108,29 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "SoftwareApplication",
     summary:
-      "Ecosistema de OKroot | Come sano, vive libre, para personas con celiaquía, diabetes o intolerancia a la lactosa. Reúne la PWA con scanner de etiquetas por IA y sincronización offline, la landing de lista de espera con recetario y la documentación oficial del producto.",
+      "Ecosistema de OKroot | Come sano, vive libre, para personas con celiaquía, diabetes o intolerancia a la lactosa. Reúne la app con escáner de etiquetas por IA y modo sin conexión, la página de lista de espera con recetario y la documentación oficial del producto.",
+    brief: {
+      problem:
+        "Comer con celiaquía, diabetes o intolerancia a la lactosa obliga a leer cada etiqueta y cruzar varias restricciones a mano.",
+      solution:
+        "El usuario fotografía la etiqueta y recibe en segundos un veredicto con la razón, según su perfil.",
+      result: "Núcleo de la app en producción, en early access y con lista de espera abierta.",
+      validation: "En validación con clientes reales.",
+    },
     metaDescription:
       "Caso de estudio de OKroot | Come sano, vive libre: PWA con scanner de etiquetas por IA, landing de lista de espera y docs oficiales. React, Django y Astro.",
     en: {
-      imageAlt: "OKroot: PWA with AI food-label scanner and dietary restriction profile",
+      brief: {
+        problem:
+          "Eating with celiac disease, diabetes, or lactose intolerance means reading every label and cross-checking several restrictions by hand.",
+        solution:
+          "The user photographs the label and gets a verdict in seconds, with the reason, based on their profile.",
+        result: "App core in production, in early access, with the waitlist open.",
+        validation: "In validation with real clients.",
+      },
       summary:
-        "The OKroot | Come sano, vive libre ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the PWA with an AI label scanner and offline sync, the waitlist landing with a recipe collection, and the official product documentation.",
+        "The OKroot | Come sano, vive libre ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the app with an AI label scanner and offline mode, the waitlist page with a recipe collection, and the official product documentation.",
+      imageAlt: "OKroot: PWA with AI food-label scanner and dietary restriction profile",
       metaDescription:
         "OKroot | Come sano, vive libre case study: PWA with an AI label scanner and offline sync, waitlist landing, and official documentation. React, Django, Astro.",
     },
@@ -1888,13 +1931,26 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "SoftwareApplication",
     summary:
-      "Ecosistema de NullBreach | AI-Powered AppSec Chat, el asistente de seguridad de aplicaciones de código abierto. Reúne la aplicación Next.js con chat y análisis de código orientado a OWASP, la landing estática en Astro, el repositorio con licencia MIT y la documentación Swagger de la API.",
+      "Ecosistema de NullBreach | AI-Powered AppSec Chat, un portafolio de seguridad de aplicaciones de código abierto y sin fines comerciales. Reúne la aplicación con chat y análisis de código orientado a OWASP, la página de presentación, el repositorio con licencia MIT y la documentación de la API.",
+    brief: {
+      problem: "Un hallazgo de seguridad sirve poco si no dice qué tan grave es y cómo se corrige.",
+      solution:
+        "Se pega un fragmento de código y se recibe un análisis con severidad, impacto y remediación, o se pregunta en un chat de seguridad.",
+      result: "En producción y de código abierto con licencia MIT.",
+    },
     metaDescription:
       "Caso de estudio de NullBreach | AI-Powered AppSec Chat: app Next.js con chat y análisis de código OWASP, landing Astro, repositorio abierto y API con Swagger.",
     en: {
-      imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
+      brief: {
+        problem:
+          "A security finding is of little use if it does not say how serious it is and how to fix it.",
+        solution:
+          "You paste a code snippet and get an analysis with severity, impact, and remediation, or ask in a security chat.",
+        result: "In production and open source under the MIT license.",
+      },
       summary:
-        "The NullBreach | AI-Powered AppSec Chat ecosystem, the open-source application security assistant. It brings together the Next.js app with a chat and OWASP-oriented code analysis, the static Astro landing, the MIT-licensed repository, and the API's Swagger documentation.",
+        "The NullBreach | AI-Powered AppSec Chat ecosystem, an open-source, non-commercial application security portfolio. It brings together the app with a chat and OWASP-oriented code analysis, the presentation page, the MIT-licensed repository, and the API documentation.",
+      imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
       metaDescription:
         "NullBreach | AI-Powered AppSec Chat case study: Next.js app with an OWASP code-analysis chat, Astro landing, open repository, and a Swagger-documented API.",
     },
@@ -2351,13 +2407,27 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "WebSite",
     summary:
-      "Ecosistema digital de Lúmina W | Software & Technology, empresa de software de Medellín. Reúne el sitio bilingüe en Astro, con sus dos caminos de servicio (desarrollo a medida y producto propio en SaaS), y el blog bilingüe en Next.js con cuentas, moderación y newsletter.",
+      "Ecosistema digital de Lúmina W | Software & Technology, empresa de software de Medellín. Reúne el sitio bilingüe, con sus dos caminos de servicio (desarrollo a medida y producto propio por suscripción), y el blog bilingüe con cuentas, moderación y newsletter.",
+    brief: {
+      problem:
+        "Una empresa de software que vende proyectos a medida y producto propio necesita explicar cada camino sin mezclarlos y recibir solicitudes con datos útiles.",
+      solution:
+        "Un sitio bilingüe con dos caminos de servicio claros desde la primera pantalla y un formulario que recoge lo necesario para responder.",
+      result: "Sitio y blog en producción, en luminaw.co y blog.luminaw.co.",
+    },
     metaDescription:
       "Caso de estudio de Lúmina W | Software & Technology: sitio bilingüe en Astro con dos caminos de servicio y blog en Next.js con cuentas, moderación y newsletter.",
     en: {
-      imageAlt: "Lumina W landing: brand tagline and call to action",
+      brief: {
+        problem:
+          "A software company that sells custom projects and its own product needs to explain each path without mixing them up and to receive requests with useful data.",
+        solution:
+          "A bilingual site with two clear service paths from the first screen and a form that collects what is needed to reply.",
+        result: "Site and blog in production, at luminaw.co and blog.luminaw.co.",
+      },
       summary:
-        "The digital ecosystem of Lúmina W | Software & Technology, a software company in Medellín. It brings together the bilingual Astro site, with its two service paths (custom development and its own SaaS product), and the bilingual Next.js blog with accounts, moderation, and a newsletter.",
+        "The digital ecosystem of Lúmina W | Software & Technology, a software company in Medellín. It brings together the bilingual site, with its two service paths (custom development and its own subscription product), and the bilingual blog with accounts, moderation, and a newsletter.",
+      imageAlt: "Lúmina W landing: brand tagline and call to action",
       metaDescription:
         "Lúmina W | Software & Technology case study: bilingual Astro site with two service paths and a Next.js blog with accounts, moderation, and a newsletter.",
     },
@@ -2529,7 +2599,7 @@ export const projects: Project[] = [
         en: {
           blurb: "Bilingual Astro site with two service paths and a Supabase-backed form.",
           summary:
-            "Website of Lumina W, a software company in Medellín. Bilingual (Spanish and English), static, with a twelve-block landing page that separates two paths (custom development and its own SaaS product), a products page with TerraCore and OKroot, and a contact form that stores each request in Supabase and notifies by email. Astro, Tailwind CSS and a Vercel Function.",
+            "Website of Lúmina W, a software company in Medellín. Bilingual (Spanish and English), static, with a twelve-block landing page that separates two paths (custom development and its own SaaS product), a products page with TerraCore and OKroot, and a contact form that stores each request in Supabase and notifies by email. Astro, Tailwind CSS and a Vercel Function.",
           problem:
             "A software company that sells two different things, custom projects and its own product by subscription, needs to explain them without mixing them up. And it needs to receive contact requests with enough data to answer, without building a full backend for a presentation page.",
           solution:
@@ -2607,7 +2677,7 @@ export const projects: Project[] = [
             {
               title: "Two explicit paths instead of a single service",
               context:
-                "Lumina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
+                "Lúmina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
               tradeoff:
                 "A general software-development line persuades less, but separating the paths adds a decision on the first screen.",
               decision:
@@ -2634,7 +2704,7 @@ export const projects: Project[] = [
             {
               title: "One requests table shared across the landings",
               context:
-                "Lumina W, TerraCore and OKroot receive requests with almost the same data, and three separate databases would have tripled the work.",
+                "Lúmina W, TerraCore and OKroot receive requests with almost the same data, and three separate databases would have tripled the work.",
               tradeoff:
                 "If someone writes twice with the same email, the second is not stored: the internal notice mentions it, but the table keeps only the first.",
               decision:
@@ -2666,7 +2736,7 @@ export const projects: Project[] = [
             "Calls to action carry text only, with no arrows or icons, and the project rule is not to use dashes as a connector in texts.",
           ],
           results: [
-            "Lumina W site in production at luminaw.co, in Spanish and English, with the two service paths differentiated.",
+            "Lúmina W site in production at luminaw.co, in Spanish and English, with the two service paths differentiated.",
             "A contact form that stores each request with its need, its stage and its consent in a shared table, and notifies by email.",
             "TerraCore and OKroot presented on the landing and on a page of their own.",
             "Technical SEO with structured data, hreflang, a sitemap, robots for AI crawlers and llms.txt.",
@@ -3087,7 +3157,26 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 630,
     schemaType: "WebSite",
+    summary:
+      "Mi portafolio como caso de diseño: un sitio bilingüe, rápido y accesible, con identidad propia y un sistema de diseño propio.",
+    brief: {
+      problem:
+        "Un portafolio de desarrolladora suele quedar como una plantilla genérica, lenta o poco accesible.",
+      solution:
+        "Un sitio bilingüe, rápido y accesible, con identidad propia, que sirve de prueba de mi criterio técnico y de diseño.",
+      result:
+        "Sitio bilingüe en producción, con pruebas automáticas y verificación de enlaces en cada cambio.",
+    },
     en: {
+      brief: {
+        problem: "A developer portfolio often ends up as a generic, slow, or hard-to-use template.",
+        solution:
+          "A fast, accessible bilingual site with its own identity, which works as proof of my technical and design judgment.",
+        result:
+          "Bilingual site in production, with automated tests and link checks on every change.",
+      },
+      summary:
+        "My portfolio as a design case: a fast, accessible bilingual site with its own identity and its own design system.",
       imageAlt:
         "wavival.dev Design System v4 in Claude Design: atoms, brand, colors, and molecules navigation, with the signal and action and light theme palettes",
     },
@@ -3377,7 +3466,25 @@ export const projects: Project[] = [
     imageWidth: 1280,
     imageHeight: 853,
     schemaType: "CreativeWork",
+    summary:
+      "Ejercicio de pentesting en un laboratorio controlado, hecho durante el acelerador de ciberseguridad de Nodo EAFIT: siete hallazgos documentados, un informe técnico y uno ejecutivo.",
+    brief: {
+      problem:
+        "Entender qué tan lejos llega alguien sin credenciales contra un servidor mal configurado, y explicar ese riesgo a quien decide el presupuesto.",
+      solution:
+        "Un ejercicio de pentesting en un laboratorio controlado, con cada hallazgo documentado y dos informes, uno técnico y uno ejecutivo.",
+      result: "Siete hallazgos documentados en dos informes, uno técnico y uno ejecutivo.",
+    },
     en: {
+      brief: {
+        problem:
+          "Understanding how far someone without credentials can get against a misconfigured server, and explaining that risk to whoever decides the budget.",
+        solution:
+          "A pentesting exercise in a controlled lab, with every finding documented and two reports, one technical and one executive.",
+        result: "Seven documented findings in two reports, one technical and one executive.",
+      },
+      summary:
+        "A pentesting exercise in a controlled lab, done during the Nodo EAFIT cybersecurity accelerator: seven documented findings, one technical report, and one executive report.",
       tag: "Lab",
       imageAlt: "Forgotten Portal: pentesting lab (DockerLabs)",
     },

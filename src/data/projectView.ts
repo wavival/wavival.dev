@@ -37,6 +37,15 @@ export interface PartView {
   actions: ProjectAction[];
 }
 
+export interface BriefView {
+  labels: { problem: string; solution: string; result: string };
+  problem: string;
+  solution: string;
+  result: string;
+  /** Validation badge text; set only on products still in validation with real clients. */
+  validation?: string;
+}
+
 export interface ProjectView {
   slug: string;
   title: string;
@@ -48,6 +57,7 @@ export interface ProjectView {
   problem: string;
   solution: string;
   summary: string;
+  brief: BriefView;
   /** Short preview of the merged stack, for cards and rows. The full list is on the page. */
   stack: string[];
   filters: string[];
@@ -166,6 +176,17 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
     },
   ];
 
+  const source = (isEn ? p.en?.brief : undefined) ?? p.brief;
+  const brief: BriefView = {
+    labels: isEn
+      ? { problem: "Problem", solution: "Solution", result: "Result" }
+      : { problem: "Problema", solution: "Solución", result: "Resultado" },
+    problem: source?.problem ?? primary.problem ?? summary,
+    solution: source?.solution ?? solution,
+    result: source?.result ?? "",
+    validation: source?.validation,
+  };
+
   const overline =
     p.slug === "terracore"
       ? isEn
@@ -195,6 +216,7 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
     problem: primary.problem ?? summary,
     solution,
     summary,
+    brief,
     stack: projectStack(p).slice(0, STACK_PREVIEW),
     filters: projectFilters(p),
     caseHref: r.project(p.slug),
