@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Commit rules now come from `@lumina-w/dev-standards` v0.6.1 (git tag over SSH): `commitlint.config.cjs` extends the package and overrides only the scope list, Husky `commit-msg` and `pre-commit` call its guards, CI loads `DEV_STANDARDS_DEPLOY_KEY` before `npm ci`, and the `commit-lint.yml` and `pr-title.yml` callers install dependencies so the shared config resolves.
 - Tailwind CSS 3 to 4 (`tailwindcss` and `@tailwindcss/vite` 4.3): the theme moves from `tailwind.config.mjs` to the `@theme` block of `src/styles/global.css`, dark mode is a `@custom-variant`, and `tailwind.config.mjs`, `postcss.config.cjs` and `autoprefixer` are removed. The site's component CSS is imported into the `utilities` layer so the cascade stays flat as in Tailwind 3, and element rules sit in `@layer base`. Class names that Tailwind 4 renamed were migrated with the official upgrade tool. Compared with the Tailwind 3 build: same geometry and computed styles on every page and 412 Playwright tests pass; the only pixel difference is how `text-wrap: pretty` breaks one paragraph of `/en/projects/wavival-dev/`.
 
 - Privacy pages (`/privacidad`, `/en/privacy/`, updated 2026-10-06): section 02 states that the quote rate limit counts submissions per IP address for at most 10 minutes in the temporary memory of the server, and that the address is not stored, shared or part of the quote data. Covered by `tests/privacy.spec.ts`.

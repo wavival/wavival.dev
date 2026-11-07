@@ -1,6 +1,6 @@
 # Engineering practices
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
 How work is done in this repository. Operational rules for agents are in [`../AGENTS.md`](../AGENTS.md); this document is the human-readable version with the reasons and the commands.
 
@@ -14,9 +14,10 @@ How work is done in this repository. Operational rules for agents are in [`../AG
 
 ## Commits and titles
 
-- Conventional Commits, `type(scope): message`, scope required. Scopes: `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, `a11y` (`commitlint.config.cjs`).
+- Conventional Commits, `type(scope): message`, scope required. Scopes: `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, `a11y` (`commitlint.config.cjs`, which extends `@lumina-w/dev-standards/commitlint` and overrides the scope list to drop `billing`). Header limit: 72 characters, lowercase description.
 - Plain ASCII punctuation: no em dashes, en dashes or decorative icons in text, buttons and links.
-- Hooks: `pre-commit` runs `lint-staged` (ESLint and Prettier on staged files); `commit-msg` runs commitlint, then `~/.claude/git-hooks/commit-msg` when that executable exists on the machine. In CI, `commit-lint.yml` checks commit messages on every push.
+- Hooks: `pre-commit` runs the dev-standards protected-branch guard, then `lint-staged` (ESLint and Prettier on staged files); `commit-msg` runs the dev-standards format guard (which also rejects em dashes), commitlint, then `~/.claude/git-hooks/commit-msg` when that executable exists on the machine. In CI, `commit-lint.yml` checks commit messages on every push.
+- `@lumina-w/dev-standards` is a private dev dependency pinned to a git tag and fetched over SSH. CI loads the `DEV_STANDARDS_DEPLOY_KEY` secret with `webfactory/ssh-agent` before `npm ci`, and the `commit-lint.yml` and `pr-title.yml` callers pass it to the shared workflows. Dependabot runs need the same secret in the Dependabot store.
 
 ## Code
 

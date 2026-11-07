@@ -23,6 +23,11 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
 
+      - name: Load the dev-standards deploy key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEV_STANDARDS_DEPLOY_KEY }}
+
       - name: Install
         run: npm ci
 
@@ -64,6 +69,11 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
 
+      - name: Load the dev-standards deploy key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEV_STANDARDS_DEPLOY_KEY }}
+
       - name: Install
         run: npm ci
 
@@ -98,6 +108,11 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
 
+      - name: Load the dev-standards deploy key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEV_STANDARDS_DEPLOY_KEY }}
+
       - name: Install
         run: npm ci
 
@@ -120,6 +135,11 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+
+      - name: Load the dev-standards deploy key
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEV_STANDARDS_DEPLOY_KEY }}
 
       - name: Install
         run: npm ci
