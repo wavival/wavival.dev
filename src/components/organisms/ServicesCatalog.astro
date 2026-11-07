@@ -28,6 +28,20 @@ const r = siteRoutes(lang, base);
 const currency = currencyForPathname(Astro.url.pathname);
 const labels = SERVICE_LABELS[lang];
 const fill = (text: string) => fillServiceText(text, currency, lang);
+const serviceBanners = {
+  development: {
+    es: "Desarrollo: landing pages, sitios web, automatizaciones, chatbots y apps a medida",
+    en: "Development: landing pages, websites, automations, chatbots and custom apps",
+  },
+  complementary: {
+    es: "Complementarios: revisión de seguridad y soporte mensual",
+    en: "Complementary: security review and monthly support",
+  },
+  marketing: {
+    es: "Paquetes con marketing: software y presencia digital",
+    en: "Packages with marketing: software and digital presence",
+  },
+} as const;
 const exampleLinks = (examples: readonly ServiceExample[] = []) =>
   examples.map((example) => ({
     name: example.name,
@@ -46,6 +60,16 @@ const indexOf = (id: string) =>
         title={group.title[lang]}
         intro={group.note?.[lang]}
         class={i === 0 ? "mt-[72px]" : "section-gap"}
+      />
+      <img
+        src={`${base}images/services/services-${group.id}-${lang}.webp`}
+        alt={serviceBanners[group.id][lang]}
+        width="1600"
+        height="500"
+        loading={i === 0 ? "eager" : "lazy"}
+        decoding="async"
+        data-service-banner={group.id}
+        class="mt-8 block h-auto w-full"
       />
       <div class="mt-10 border-t border-ink">
         {servicesInGroup(group.id).map((service) => (
