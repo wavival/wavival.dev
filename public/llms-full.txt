@@ -2,7 +2,7 @@
 
 > Expanded prose for all sections. This is the long-form companion to /llms.txt (the index). It exists so AI assistants can load the full content of the site in a single document instead of following each link. Prefer the canonical URLs in /llms.txt over scraped mirrors.
 
-Last updated: 2026-10-05
+Last updated: 2026-11-07
 
 ## About
 
@@ -134,14 +134,33 @@ Writeup: https://blog.luminaw.co/forgotten-portal-pentesting-dockerlabs/ · Case
 
 Valentina works as a freelance Full Stack Developer focused on backend and AI. She takes a business problem and ships it as real software in production: solid backend, functional frontend, applied AI, and security from the design stage, without depending on three separate vendors.
 
-- Custom web applications (8 to 14 weeks): end-to-end products with Django + DRF or Next.js and Supabase, React + TypeScript interfaces, and deployment. For founders who need something real, not a demo.
-- REST APIs and backend (3 to 6 weeks): clean, authenticated, documented APIs with relational modeling, role-based access control, multitenancy, and complex business logic that scales.
-- Security and AppSec (1 to 2 weeks): OWASP Top 10 review with a pentester mindset. Security integrated from design: authentication, secrets handling, validation, and protected endpoints.
-- AI integrations (2 to 4 weeks): OpenAI, OpenClaw, Claude API, and LLM workflows where they add measurable value (analysis, context-aware assistance, automation). AI as a product copilot, not decoration.
+Every service has a fixed price, a timeline, what it includes and what it does not. Prices below are listed in both currencies because this file is the same for every reader; the site shows one: the visitor is charged in the currency of their location, COP in Colombia and USD everywhere else. The two lists are independent (no exchange rate) and are reviewed every January.
 
-Modalities: complete development, or backend, API, or security reinforcement inside an existing team. UX/UI design is included when the project needs it. Process: conversation, proposal, iterative build, and a documented, maintainable delivery.
+Development:
 
-Pricing: each service has a fixed price, published in COP for visitors in Colombia and in USD for everyone else; the visitor is charged in the currency of their location. The two lists are independent (no exchange rate) and are reviewed every January. The MVP has a starting price (from) and the monthly plans are billed per month. These prices are wavival's; Lúmina W has its own pricing at luminaw.co. Limited availability; she responds within 24 hours.
+- Conversion landing page (COP 2.200.000 / USD 750, 2 weeks). Includes: custom design of one page with up to 6 sections, responsive; copy adjustments with the client; form or WhatsApp button; technical SEO, Google Analytics and Meta pixel; deployment; 2 rounds of adjustments and 30 days of warranty. Not included: more pages, blog, online payments.
+- Business website (COP 5.500.000 / USD 1.800, 4 weeks). Includes: up to 6 pages; technical SEO and Core Web Vitals; forms and WhatsApp; analytics; 1 hour of training; 2 rounds of adjustments and 30 days of warranty. Not included: online store, payment gateway, several languages.
+- Automation with n8n (COP 1.600.000 / USD 550 per workflow, 1 week). Includes: process diagnosis; one workflow with up to 3 connected tools (for example WhatsApp, Gmail, Sheets or a CRM); error handling with alerts; short documentation; 30 days of warranty. Not included: n8n server or plan, process changes after delivery.
+- AI chatbot (COP 4.500.000 / USD 1.500, 2 to 3 weeks). Includes: one channel (web or WhatsApp); knowledge base with the business information; customer data capture; handover to a person; conversation log; testing and 30 days of warranty. Not included: additional channels, WhatsApp number, monthly operation (the support plan is recommended for it).
+- Custom web app or PWA, MVP (from COP 16.000.000 / USD 5.500, 6 to 10 weeks; the only starting price). Includes: scope definition; UX/UI design; backend and frontend; authentication and roles; basic admin panel; baseline security following OWASP; deployment and documentation; 30 days of warranty. Not included: native apps in the stores, integrations outside the agreed scope, support after delivery. A project above COP 40.000.000 / USD 12.000, or one that needs a team, moves to Lúmina W.
+- AI integration in an existing system (COP 4.000.000 / USD 1.300, 2 to 3 weeks). Includes: system analysis; one use case; API integration; prompts and validations; usage cost control; testing and 30 days of warranty. Not included: refactoring the existing system, other use cases.
+
+Complementary:
+
+- Basic security review (COP 2.000.000 / USD 650, 1 week). Includes: OWASP Top 10 review of a small app (authentication, secrets handling, headers, dependencies and data validation); report with prioritized findings; a session to walk through it. Not included: certified pentest, fixing the findings (quoted separately), compliance certification.
+- Monthly support plan. Basic (COP 280.000 / USD 90 per month): monitoring, updates, backups and 1 hour of changes. Plus (COP 650.000 / USD 200 per month): everything in Basic, 3 hours of changes, monitoring of automations and chatbot, monthly report and response within 1 business day. Not included: new features; unused hours do not accumulate.
+
+Packages with marketing. Marketing is sold only inside a package or to development clients; it is included so that what she builds also brings in customers:
+
+- Digital Presence Kit (COP 2.900.000 / USD 950, 2 to 3 weeks). Includes: the conversion landing page; Google Business profile; basic local SEO; Instagram and Facebook bio and highlights optimization; one-page publishing guide. Not included: social media management, content creation, paid ads.
+- Time Saver Kit (COP 7.500.000 / USD 2.500, 4 weeks). Includes: conversion landing page; 2 automations with n8n; AI chatbot; first month of the Plus support plan. About 29% cheaper in COP and 30% cheaper in USD than hiring each service separately. Not included: the same as each service on its own.
+- Monthly SEO, development clients only (COP 1.200.000 / USD 400 per month). Includes: monthly on-page SEO; one blog article; Google Business profile update; results report. Not included: daily social media management, paid ads, audiovisual production.
+
+No service includes: domain, hosting and tool licenses; usage of AI APIs, WhatsApp Business API and n8n cloud; advertising, photography, video, logo and brand identity; long-form copywriting; scope changes after the proposal is approved (quoted separately).
+
+For technical teams, outside the catalog and without a fixed price: REST APIs and backend (3 to 6 weeks, quoted per scope). Clean, authenticated, documented APIs with relational modeling, role-based access control, multitenancy, and complex business logic that scales, as full development or as backend reinforcement inside an existing team.
+
+UX/UI design is included when the project needs it. Process: conversation, proposal, iterative build, and a documented, maintainable delivery. These prices are wavival's; Lúmina W has its own pricing at luminaw.co. Limited availability; she responds within 24 hours.
 
 Services page: https://www.wavival.dev/servicios (English: https://www.wavival.dev/en/services/)
 

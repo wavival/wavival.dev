@@ -113,6 +113,25 @@ export const priceById = (id: PriceId): Price => priceIndex[id];
 export const pricesForService = (service: ServiceId): Price[] =>
   PRICES.filter((price) => price.service === service);
 
+/** What the Time Saver Kit bundles, one entry per unit (two n8n workflows). */
+export const TIME_SAVER_KIT_PARTS: readonly PriceId[] = [
+  "landing-page",
+  "n8n-automation",
+  "n8n-automation",
+  "ai-chatbot",
+  "monthly-support-plus",
+];
+
+/** Rounded percentage a bundle saves against its parts bought one by one, in a given currency. */
+export function savingsPercent(
+  bundle: PriceId,
+  parts: readonly PriceId[],
+  currency: Currency
+): number {
+  const separate = parts.reduce((sum, id) => sum + priceById(id).amount[currency], 0);
+  return Math.round((1 - priceById(bundle).amount[currency] / separate) * 100);
+}
+
 export const THRESHOLDS = {
   /** Above this amount the project is referred to Lúmina W. */
   luminawReferral: { COP: 40_000_000, USD: 12_000 },

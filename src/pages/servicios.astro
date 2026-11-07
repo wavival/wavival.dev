@@ -1,115 +1,16 @@
 ---
-import { siteRoutes } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
-import ServiceRow from "@/components/organisms/ServiceRow.astro";
+import ServicesCatalog from "@/components/organisms/ServicesCatalog.astro";
 import ServicesDetail from "@/components/organisms/ServicesDetail.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
-import { priceRangeLd } from "@/data/pricing";
+import { servicesLd } from "@/data/servicesLd";
 
-const base = import.meta.env.BASE_URL;
-const r = siteRoutes("es", base);
 const site = "https://www.wavival.dev";
 
 const pageTitle = "Desarrollo Full Stack a medida | Valentina Ramírez";
 const pageDescription =
   "Desarrolladora Full Stack freelance con enfoque en backend e IA: apps web con Django, React, Next.js y Supabase, IA y seguridad desde el diseño. Del problema al producto en producción.";
-
-interface ServiceExample {
-  name: string;
-  description: string;
-  href: string;
-}
-
-interface Service {
-  id: string;
-  title: string;
-  body: string;
-  tools: string[];
-  timeline: string;
-  featured?: boolean;
-  specialty?: boolean;
-  examples?: ServiceExample[];
-}
-
-const labels = {
-  specialty: "Especialidad",
-  duration: "Duración estimada",
-  tools: "Herramientas",
-  examples: "Ejemplos",
-  quote: "Cotizar este servicio",
-};
-
-const services: Service[] = [
-  {
-    id: "custom-web-applications",
-    title: "Aplicaciones web a medida",
-    body: "Producto completo de extremo a extremo: Django + DRF o Next.js con Supabase, interfaces en React + TypeScript y despliegue. Para fundadores que necesitan algo real, no un demo.",
-    tools: ["Django", "DRF", "Next.js", "Supabase", "React", "TypeScript", "PostgreSQL"],
-    timeline: "8 a 14 semanas",
-    featured: true,
-    examples: [
-      {
-        name: "TerraCore",
-        description: "plataforma agropecuaria multitenancy",
-        href: `${r.project("terracore")}#app`,
-      },
-      {
-        name: "OKroot",
-        description: "PWA de salud alimentaria offline-first",
-        href: `${r.project("okroot")}#app`,
-      },
-    ],
-  },
-  {
-    id: "rest-apis-backend",
-    title: "APIs REST y backend",
-    body: "Diseño e implemento APIs limpias, autenticadas y documentadas. Modelado relacional, control de acceso por rol, multitenancy y lógica de negocio compleja que aguanta el crecimiento.",
-    tools: ["Django REST Framework", "JWT", "PostgreSQL", "Multitenancy"],
-    timeline: "3 a 6 semanas",
-    examples: [
-      {
-        name: "NullBreach",
-        description: "aplicación de análisis OWASP con Next.js",
-        href: `${r.project("nullbreach")}#app`,
-      },
-    ],
-  },
-  {
-    id: "security-appsec",
-    title: "Seguridad y AppSec",
-    body: "Reviso aplicaciones con criterio OWASP Top 10 y mentalidad de pentester. Seguridad integrada desde el diseño: autenticación, manejo de secretos, validación y endpoints protegidos.",
-    tools: ["OWASP", "AppSec", "PTES", "MITRE ATT&CK"],
-    timeline: "1 a 2 semanas",
-    examples: [
-      {
-        name: "Forgotten Portal",
-        description: "pentesting ofensivo sobre DockerLabs",
-        href: r.project("forgotten-portal"),
-      },
-    ],
-  },
-  {
-    id: "ai-integrations",
-    title: "Integraciones de IA",
-    body: "Integro OpenAI, OpenClaw y Claude API en flujos con LLM donde aportan valor: análisis, asistencia con contexto y automatización. IA como copiloto del producto, no como adorno.",
-    tools: ["OpenAI", "OpenClaw", "Claude API", "LLM Workflows", "n8n", "Prompt Engineering"],
-    timeline: "2 a 4 semanas",
-    specialty: true,
-    examples: [
-      {
-        name: "OKroot",
-        description: "scanner de etiquetas con Claude API",
-        href: `${r.project("okroot")}#app`,
-      },
-      {
-        name: "NullBreach",
-        description: "análisis OWASP y chat de seguridad con historial por usuario",
-        href: `${r.project("nullbreach")}#app`,
-      },
-    ],
-  },
-];
 
 const fit = {
   yes: [
@@ -162,19 +63,16 @@ const faqs = [
   },
 ];
 
-const serviceLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": `${site}/servicios/#service`,
-  name: "Valentina Ramírez: Desarrollo Full Stack",
-  description: pageDescription,
-  url: `${site}/servicios/`,
-  provider: { "@id": `${site}/#person` },
-  areaServed: "Worldwide",
-  serviceType: services.map((s) => s.title),
-  // Structured data is the same for every visitor: both lists, with the one that applies.
-  priceRange: priceRangeLd("es"),
-});
+// Structured data is the same for every visitor: every price in COP and in USD, with the region each applies to.
+const serviceLd = JSON.stringify(
+  servicesLd({
+    lang: "es",
+    site,
+    url: `${site}/servicios/`,
+    name: "Valentina Ramírez: Desarrollo Full Stack",
+    description: pageDescription,
+  })
+);
 
 const faqLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -215,28 +113,12 @@ const breadcrumbLd = JSON.stringify({
       <Fragment slot="title">Construyo el producto que tu negocio necesita</Fragment>
       <p class="body-lg m-0">
         Soy Full Stack Developer con enfoque en backend e IA: tomo un problema de negocio y lo
-        entrego como software real en producción. Backend sólido, frontend funcional, IA aplicada y
-        seguridad desde el diseño, sin depender de tres proveedores distintos.
+        entrego como software real en producción. Cada servicio tiene precio fijo, plazo y alcance
+        claros, para que sepas qué recibes antes de empezar.
       </p>
     </PageIntro>
 
-    <div class="mt-[72px] border-t border-ink">
-      {
-        services.map((s, i) => (
-          <ServiceRow
-            index={String(i + 1).padStart(2, "0")}
-            title={s.title}
-            body={s.body}
-            tools={s.tools}
-            timeline={s.timeline}
-            specialty={s.specialty}
-            examples={s.examples}
-            quoteHref={`${r.quote}?service=${s.id}`}
-            labels={labels}
-          />
-        ))
-      }
-    </div>
+    <ServicesCatalog lang="es" />
 
     <ServicesDetail
       fit={{

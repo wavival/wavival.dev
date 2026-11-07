@@ -1,0 +1,118 @@
+---
+// The services catalog in one language: the three groups with their numbered
+// rows, the general exclusions and the block for technical teams. Copy comes
+// from `src/data/services.ts`; every amount is a `Price` in the currency of
+// the page variant being built.
+import SectionHeader from "@/components/molecules/SectionHeader.astro";
+import ServiceRow from "@/components/organisms/ServiceRow.astro";
+import {
+  GENERAL_EXCLUSIONS,
+  SERVICE_GROUPS,
+  SERVICE_LABELS,
+  SERVICES,
+  TECHNICAL_TEAMS_SERVICE,
+  fillServiceText,
+  servicesInGroup,
+  type ServiceExample,
+} from "@/data/services";
+import { siteRoutes, type Lang } from "@/i18n/utils";
+import { currencyForPathname } from "@/utils/currency";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const r = siteRoutes(lang, base);
+const currency = currencyForPathname(Astro.url.pathname);
+const labels = SERVICE_LABELS[lang];
+const fill = (text: string) => fillServiceText(text, currency, lang);
+const exampleLinks = (examples: readonly ServiceExample[] = []) =>
+  examples.map((example) => ({
+    name: example.name,
+    description: example.description[lang],
+    href: `${r.project(example.slug)}${example.part ? `#${example.part}` : ""}`,
+  }));
+const indexOf = (id: string) =>
+  String(SERVICES.findIndex((service) => service.id === id) + 1).padStart(2, "0");
+---
+
+{
+  SERVICE_GROUPS.map((group, i) => (
+    <section data-service-group={group.id}>
+      <SectionHeader
+        label={labels.catalog}
+        title={group.title[lang]}
+        intro={group.note?.[lang]}
+        class={i === 0 ? "mt-[72px]" : "section-gap"}
+      />
+      <div class="mt-10 border-t border-ink">
+        {servicesInGroup(group.id).map((service) => (
+          <ServiceRow
+            index={indexOf(service.id)}
+            id={service.id}
+            title={service.title[lang]}
+            body={fill(service.body[lang])}
+            priceId={service.priceId}
+            tiers={service.tiers?.map((tier) => ({
+              name: tier.name[lang],
+              priceId: tier.priceId,
+              includes: tier.includes[lang],
+            }))}
+            timeline={service.timeline[lang]}
+            includes={service.includes?.[lang]}
+            excludes={service.excludes[lang]}
+            note={service.note ? fill(service.note[lang]) : undefined}
+            badge={service.badge?.[lang]}
+            examples={exampleLinks(service.examples)}
+            quoteHref={`${r.quote}?service=${service.id}`}
+            labels={labels}
+          />
+        ))}
+      </div>
+    </section>
+  ))
+}
+
+<section data-service-exclusions>
+  <SectionHeader
+    label={labels.exclusionsLabel}
+    title={labels.exclusionsTitle}
+    titleClass="h-title text-[32px] leading-[1.05] tracking-[-0.02em]"
+    class="section-gap"
+  />
+  <ul class="m-0 mt-8 list-none border-t border-line p-0">
+    {
+      GENERAL_EXCLUSIONS[lang].map((item) => (
+        <li
+          class="border-b border-line py-3.5 text-[15px] leading-relaxed text-muted"
+          style="text-wrap:pretty"
+        >
+          {item}
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section data-service-technical>
+  <SectionHeader
+    label={labels.technicalLabel}
+    title={labels.technicalTitle}
+    intro={labels.technicalIntro}
+    class="section-gap"
+  />
+  <div class="mt-10 border-t border-ink">
+    <ServiceRow
+      title={TECHNICAL_TEAMS_SERVICE.title[lang]}
+      body={TECHNICAL_TEAMS_SERVICE.body[lang]}
+      timeline={TECHNICAL_TEAMS_SERVICE.timeline[lang]}
+      tools={[...TECHNICAL_TEAMS_SERVICE.tools]}
+      examples={exampleLinks(TECHNICAL_TEAMS_SERVICE.examples)}
+      quoteHref={r.quote}
+      quoteLabel={labels.technicalQuote}
+      labels={labels}
+    />
+  </div>
+</section>

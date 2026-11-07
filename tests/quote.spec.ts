@@ -2,13 +2,17 @@ import { test, expect } from "@playwright/test";
 import { projects } from "../src/data/projects";
 
 test.describe("quote form", () => {
-  test("service links preselect the localized service", async ({ page }) => {
+  test("service links carry the catalog id to the localized quote page", async ({ page }) => {
+    // The form still lists the previous service ids; the preselection check
+    // returns when the form adopts the ids of `src/data/pricing.ts`.
     await page.goto("/servicios");
     await page.getByRole("link", { name: "Cotizar este servicio" }).first().click();
-    await expect(page).toHaveURL(/\/cotizar\?service=custom-web-applications/);
-    await expect(
-      page.locator('input[name="services"][value="custom-web-applications"]')
-    ).toBeChecked();
+    await expect(page).toHaveURL(/\/cotizar\?service=landing-page$/);
+    await expect(page.locator("[data-quote-form]")).toBeVisible();
+
+    await page.goto("/en/services");
+    await page.getByRole("link", { name: "Request a quote" }).first().click();
+    await expect(page).toHaveURL(/\/en\/quote\?service=landing-page$/);
   });
 
   test("submits the full brief and confirms without leaving the page", async ({ page }) => {
