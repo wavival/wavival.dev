@@ -70,7 +70,7 @@ Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo con soft
 
 Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana con enfoque en backend, IA y seguridad. Construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano." (EN: "I'm Valentina Ramírez, a Colombian software developer focused on backend, AI and security. I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand.").
 
-Frase base publicada en el pie del sitio: "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio." (EN: "Software developer. Backend, AI and security. Tools that save your business time."). Redes en el pie: Instagram, GitHub, LinkedIn y TikTok.
+Frase base publicada en el pie del sitio: "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio." (EN: "Software developer. Backend, AI and security. Tools that save your business time."). Redes en el pie, en este orden: Instagram, TikTok, GitHub y LinkedIn. La fila final de `/sobre-mi` y `/en/about` muestra las mismas cuatro redes en el mismo orden.
 
 Afirmaciones que el sitio ya sostiene:
 

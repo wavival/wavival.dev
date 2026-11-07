@@ -76,7 +76,7 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(page.locator("footer")).not.toContainText(/full stack/i);
     });
 
-    test(`${home.path} footer links Instagram, GitHub, LinkedIn and TikTok, and no Facebook`, async ({
+    test(`${home.path} footer links Instagram, TikTok, GitHub and LinkedIn in that order, and no Facebook`, async ({
       page,
     }) => {
       await page.goto(home.path);
@@ -86,6 +86,15 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(footer.locator('a[href="https://linkedin.com/in/wavival"]')).toHaveCount(1);
       const tiktok = footer.locator('a[href="https://www.tiktok.com/@wavival_dev"]');
       await expect(tiktok).toHaveCount(1);
+      const order = await footer
+        .locator("a.icon-btn")
+        .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
+      expect(order).toEqual([
+        "https://instagram.com/wavival",
+        "https://www.tiktok.com/@wavival_dev",
+        "https://github.com/wavival",
+        "https://linkedin.com/in/wavival",
+      ]);
       await expect(tiktok).toHaveAttribute("target", "_blank");
       await expect(tiktok).toHaveAttribute("rel", "noopener noreferrer");
       await expect(tiktok).toHaveAttribute(
@@ -137,6 +146,14 @@ test.describe("positioning of the 2026 plan", () => {
     await expect(
       page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
+    const social = page.locator("main a.icon-btn");
+    await expect(social).toHaveCount(4);
+    expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
+      "https://instagram.com/wavival",
+      "https://www.tiktok.com/@wavival_dev",
+      "https://github.com/wavival",
+      "https://linkedin.com/in/wavival",
+    ]);
   });
 
   test("/en/about lists the marketing and content training with TikTok and Instagram links", async ({
@@ -153,6 +170,8 @@ test.describe("positioning of the 2026 plan", () => {
     await expect(
       page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
+    await expect(page.locator("main a.icon-btn")).toHaveCount(4);
+    await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
   });
 
   test("/herramientas shows the marketing and content tools and the recording gear", async ({
