@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Profile photo (`public/images/profile.webp`) replaced with a new portrait: 720x900 WebP (24 KB, no metadata) tightly cropped to the 4:5 frame (hair to crossed arms), same path. The About pages now declare the real 320x400 size.
+
 - Tailwind CSS 3 to 4 (`tailwindcss` and `@tailwindcss/vite` 4.3): the theme moves from `tailwind.config.mjs` to the `@theme` block of `src/styles/global.css`, dark mode is a `@custom-variant`, and `tailwind.config.mjs`, `postcss.config.cjs` and `autoprefixer` are removed. The site's component CSS is imported into the `utilities` layer so the cascade stays flat as in Tailwind 3, and element rules sit in `@layer base`. Class names that Tailwind 4 renamed were migrated with the official upgrade tool. Compared with the Tailwind 3 build: same geometry and computed styles on every page and 412 Playwright tests pass; the only pixel difference is how `text-wrap: pretty` breaks one paragraph of `/en/projects/wavival-dev/`.
 
 - Privacy pages (`/privacidad`, `/en/privacy/`, updated 2026-10-06): section 02 states that the quote rate limit counts submissions per IP address for at most 10 minutes in the temporary memory of the server, and that the address is not stored, shared or part of the quote data. Covered by `tests/privacy.spec.ts`.
