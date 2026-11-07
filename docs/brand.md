@@ -20,7 +20,6 @@ Documento hermano: [commercial.md](./commercial.md).
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
 - Formación pública:
-  - SENA: Tecnología en Análisis y Desarrollo de Software (en curso).
   - Universidad de San Buenaventura: Lengua Inglesa (en curso).
   - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso).
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
@@ -133,7 +132,7 @@ Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no s
 7. Herramientas
    - Una herramienta se menciona solo cuando la fuente concreta confirma su uso (ver sección 7).
 8. Formación
-   - SENA, Universidad de San Buenaventura, Platzi y lo que cada proyecto enseñó.
+   - Universidad de San Buenaventura, Platzi y lo que cada proyecto enseñó.
 
 Adaptación: Instagram prioriza los pilares 1, 5, 6, 7 y 8 con enfoque visual y cercano. LinkedIn prioriza 1, 2, 3, 4 y 6 con enfoque técnico.
 

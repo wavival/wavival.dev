@@ -181,7 +181,7 @@ Reglas:
 ### Se pueden afirmar como están publicados
 
 - Desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
-- Estudia Análisis y Desarrollo de Software (SENA) y Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi.
+- Estudia Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi.
 - TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.

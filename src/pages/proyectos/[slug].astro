@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import CaseStudy from "@/components/organisms/CaseStudy.astro";
 import { projects, type Project } from "@/data/projects";
 import { projectMeta, projectSchema } from "@/data/projectSeo";
+import { localizedProjectImage } from "@/data/projectView";
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -20,6 +21,7 @@ const base = import.meta.env.BASE_URL;
 const site = "https://www.wavival.dev";
 
 const { title: pageTitle, description } = projectMeta(project, "es");
+const socialImage = localizedProjectImage(project.image, "es");
 const pageURL = `${site}${base}proyectos/${project.slug}/`;
 
 const breadcrumbLd = JSON.stringify({
@@ -52,7 +54,7 @@ const projectLd = JSON.stringify(projectSchema(project, "es", pageURL, site));
 <Layout
   title={pageTitle}
   description={description}
-  ogImage={project.image ? `/${project.image}` : undefined}
+  ogImage={socialImage ? `/${socialImage}` : undefined}
   ogImageAlt={project.imageAlt}
   ogType="article"
   ogPublishedTime={toIsoDateTime(datePublished)}

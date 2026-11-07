@@ -66,7 +66,7 @@ What it injects in `<head>` (in order):
 - **Umami analytics**: emitted **only when both `PUBLIC_UMAMI_SRC` and `PUBLIC_UMAMI_ID` are set** (`is:inline defer`). Cookieless. No Google Analytics.
 - **Core Web Vitals RUM**: `src/scripts/vitals.ts` (imported under the same Umami env gate) reports LCP/INP/CLS/FCP/TTFB to Umami as `web-vitals` custom events.
 - JSON-LD `@graph` (`is:inline`, `application/ld+json`): `Person`, `Organization`, and `WebSite` on every page, plus a `ProfilePage` appended only on the home pages (`isHome`):
-  - `Person` (`#person`): `jobTitle`, `email`, `description`, `image` (`ImageObject` from the `image` prop), `knowsAbout`, `knowsLanguage`, `nationality`, `alumniOf` (SENA, Universidad de San Buenaventura, Platzi), `sameAs` identity profiles
+  - `Person` (`#person`): `jobTitle`, `email`, `description`, `image` (`ImageObject` from the `image` prop), `knowsAbout`, `knowsLanguage`, `nationality`, `alumniOf` (Universidad de San Buenaventura, Platzi), `sameAs` identity profiles
   - `Organization` (`#organization`): Lúmina W, `foundingDate`, `founder` referencing the Person by `@id`, `logo`, `sameAs`
   - `WebSite` (`#website`): fixed `name`, the page `description`, `author` and `publisher` referencing the Person; omits `inLanguage` (shared `@id` must not mutate per locale)
   - `ProfilePage` (`#profilepage`, home only): per-locale `inLanguage`, `mainEntity` -> `#person`, `isPartOf` -> `#website`, build-date `dateModified`

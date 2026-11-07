@@ -61,6 +61,16 @@ export interface ProjectView {
 
 const STACK_PREVIEW = 6;
 
+/** Locale-specific project social and case-study image filename. */
+export function localizedProjectImage(image: string | undefined, lang: Lang): string | undefined {
+  return image?.replace(/(\.[^.]+)$/, `-${lang}$1`);
+}
+
+/** Localized product title, while retaining the brand name. */
+export function localizedProjectTitle(project: Project, lang: Lang): string {
+  return lang === "en" ? (project.en?.title ?? project.name) : project.name;
+}
+
 export const PART_LABELS: Record<Lang, Record<PartKind, string>> = {
   es: {
     app: "App",
@@ -134,6 +144,7 @@ export const toAction = (link: ProjectLink, text: string = link.text): ProjectAc
 export function projectView(p: Project, lang: Lang, base: string = "/"): ProjectView {
   const isEn = lang === "en";
   const en = isEn ? p.en : undefined;
+  const image = localizedProjectImage(p.image, lang);
   const r = siteRoutes(lang, base);
   const multi = p.parts.length > 1;
   const parts: PartView[] = p.parts.map((part) => {
@@ -161,7 +172,9 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
     {
       href: r.project(p.slug),
       text: isEn ? "Case study" : "Caso de estudio",
-      ariaLabel: isEn ? `Read the ${p.name} case study` : `Leer el caso de estudio de ${p.name}`,
+      ariaLabel: isEn
+        ? `Read the ${localizedProjectTitle(p, lang)} case study`
+        : `Leer el caso de estudio de ${p.name}`,
       external: false,
     },
   ];
@@ -179,14 +192,14 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
 
   return {
     slug: p.slug,
-    title: p.name,
+    title: localizedProjectTitle(p, lang),
     shortName: p.shortName,
     tag: en?.tag ?? p.tag,
     tone: p.tagColor,
     overline,
-    image: p.image
+    image: image
       ? {
-          src: `${base}${p.image}`,
+          src: `${base}${image}`,
           alt: en?.imageAlt ?? p.imageAlt ?? "",
           width: p.imageWidth,
           height: p.imageHeight,

@@ -29,7 +29,7 @@ How the site is made discoverable by search engines and AI assistants, and what 
 - Twitter Card `summary_large_image` with `@wavival0`.
 - Icons, `site.webmanifest` and `theme-color`.
 
-Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp`. Project pages pass their own card (`image` in `projects.ts`: `public/images/og-*.webp`, and `forgotten-portal.webp` for the Forgotten Portal writeup).
+Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp`. Project cards and their Open Graph metadata resolve the matching `-es.webp` or `-en.webp` asset with `localizedProjectImage()` in `src/data/projectView.ts` (the base filename lives in `projects.ts`).
 
 ## Structured data (JSON-LD)
 
