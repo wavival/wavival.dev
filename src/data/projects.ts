@@ -102,6 +102,8 @@ export interface ProjectPart {
 }
 
 export interface ProjectEn {
+  /** English product title when the Spanish title includes a descriptor. */
+  title?: string;
   imageAlt?: string;
   tag?: string;
   summary?: string;
@@ -168,12 +170,13 @@ export const projects: Project[] = [
     metaDescription:
       "Caso de estudio de TerraCore | Campo Inteligente: PWA offline-first para fincas, landing de conversión y documentación oficial. Django, React y Astro.",
     en: {
+      title: "TerraCore | Smart Farming",
       imageAlt:
         "TerraCore dashboard: real-time metrics, production charts, and livestock distribution",
       summary:
-        "The TerraCore | Campo Inteligente ecosystem, the farm-management platform for Colombian farms. It brings together the multi-user, offline-first PWA (Django, DRF, PostgreSQL, React, and Dexie), the conversion landing (Astro and Supabase), and the official product documentation.",
+        "The TerraCore | Smart Farming ecosystem, the farm-management platform for Colombian farms. It brings together the multi-user, offline-first PWA (Django, DRF, PostgreSQL, React, and Dexie), the conversion landing (Astro and Supabase), and the official product documentation.",
       metaDescription:
-        "TerraCore | Campo Inteligente case study: offline-first PWA for Colombian farms, conversion landing, and official documentation. Django, React, and Astro.",
+        "TerraCore | Smart Farming case study: offline-first PWA for Colombian farms, conversion landing, and official documentation. Django, React, and Astro.",
     },
     parts: [
       {
@@ -430,14 +433,14 @@ export const projects: Project[] = [
             {
               href: "https://app.terracoreapp.co",
               text: "View app",
-              ariaLabel: "View app: TerraCore | Campo Inteligente",
+              ariaLabel: "View app: TerraCore | Smart Farming",
               event: "ver-app-terracore",
             },
           ],
           designLink: {
             href: "https://terracore-pwa-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: TerraCore | Campo Inteligente app",
+            ariaLabel: "View design: TerraCore | Smart Farming app",
           },
           architecture: [
             "Backend in Django 6 and DRF on PostgreSQL 16. Celery with Redis runs the scheduled tasks (billing and alerts). JWT authentication: 24-hour access token and 180-day refresh token with rotation.",
@@ -838,13 +841,13 @@ export const projects: Project[] = [
             {
               href: "https://terracoreapp.co",
               text: "View site",
-              ariaLabel: "View landing: TerraCore | Campo Inteligente",
+              ariaLabel: "View landing: TerraCore | Smart Farming",
             },
           ],
           designLink: {
             href: "https://terracore-landing-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: TerraCore | Campo Inteligente landing",
+            ariaLabel: "View design: TerraCore | Smart Farming landing",
           },
           architecture: [
             "Astro 7 with static output, no adapter and no UI framework: JavaScript is vanilla, in one script per component. Deployed on Vercel, and the staging branch uses the preview.",
@@ -1059,7 +1062,7 @@ export const projects: Project[] = [
             {
               href: "https://docs.terracoreapp.co",
               text: "View documentation",
-              ariaLabel: "View documentation: TerraCore | Campo Inteligente",
+              ariaLabel: "View documentation: TerraCore | Smart Farming",
               event: "ver-docs-terracore",
             },
           ],
@@ -1085,11 +1088,12 @@ export const projects: Project[] = [
     metaDescription:
       "Caso de estudio de OKroot | Come sano, vive libre: PWA con scanner de etiquetas por IA, landing de lista de espera y docs oficiales. React, Django y Astro.",
     en: {
+      title: "OKroot | Eat Healthy, Live Free",
       imageAlt: "OKroot: PWA with AI food-label scanner and dietary restriction profile",
       summary:
-        "The OKroot | Come sano, vive libre ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the PWA with an AI label scanner and offline sync, the waitlist landing with a recipe collection, and the official product documentation.",
+        "The OKroot | Eat Healthy, Live Free ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the PWA with an AI label scanner and offline sync, the waitlist landing with a recipe collection, and the official product documentation.",
       metaDescription:
-        "OKroot | Come sano, vive libre case study: PWA with an AI label scanner and offline sync, waitlist landing, and official documentation. React, Django, Astro.",
+        "OKroot | Eat Healthy, Live Free case study: PWA with an AI label scanner and offline sync, waitlist landing, and official documentation. React, Django, Astro.",
     },
     parts: [
       {
@@ -1296,14 +1300,14 @@ export const projects: Project[] = [
             {
               href: "https://app.okroot.co/",
               text: "View app",
-              ariaLabel: "View app: OKroot | Come sano, vive libre",
+              ariaLabel: "View app: OKroot | Eat Healthy, Live Free",
               event: "ver-app-root",
             },
           ],
           designLink: {
             href: "https://okroot-pwa-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: OKroot | Come sano, vive libre app",
+            ariaLabel: "View design: OKroot | Eat Healthy, Live Free app",
           },
           architecture: [
             "Frontend in React 18 and strict TypeScript, with Vite, Tailwind CSS 4, React Router and per-feature routes loaded on demand. Zustand holds the session, TanStack Query handles server data, and react-hook-form with zod validates forms. A custom fetch layer, no Axios.",
@@ -1653,13 +1657,13 @@ export const projects: Project[] = [
             {
               href: "https://okroot.co/",
               text: "View site",
-              ariaLabel: "View landing: OKroot | Come sano, vive libre",
+              ariaLabel: "View landing: OKroot | Eat Healthy, Live Free",
             },
           ],
           designLink: {
             href: "https://okroot-landing-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: OKroot | Come sano, vive libre landing",
+            ariaLabel: "View design: OKroot | Eat Healthy, Live Free landing",
           },
           architecture: [
             "Astro 5 with static output and Tailwind CSS 4 configured in CSS. No adapter and no UI framework: JavaScript is vanilla, one script per component. Lucide icons are inlined at build time as SVG, with no JavaScript in the browser.",
@@ -1866,7 +1870,7 @@ export const projects: Project[] = [
             {
               href: "https://docs.okroot.co",
               text: "View documentation",
-              ariaLabel: "View documentation: OKroot | Come sano, vive libre",
+              ariaLabel: "View documentation: OKroot | Eat Healthy, Live Free",
               event: "ver-docs-okroot",
             },
           ],
