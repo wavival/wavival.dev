@@ -20,7 +20,7 @@ const SERVICES = {
   },
   en: {
     path: "/en/services/",
-    title: "Services: secure software and AI automation | Valentina Ramirez",
+    title: "Services: secure software and AI automation | Valentina Ramírez",
     description:
       "Landing pages, websites, n8n automation, AI chatbots, custom apps and security reviews, each with a fixed price and a clear timeline. Secure software that saves your business time.",
   },

@@ -78,7 +78,7 @@ Producto disponible hoy:
 
 Omitido en V1 (sin fuente): mantenimiento como servicio, modelo de contratación, oferta paga de NullBreach.
 
-Title de `/servicios`: "Servicios: software seguro y automatización con IA | Valentina Ramírez" (EN: "Services: secure software and AI automation | Valentina Ramirez"); el intro de la página se presenta como desarrolladora de software con enfoque en backend, IA y seguridad.
+Title de `/servicios`: "Servicios: software seguro y automatización con IA | Valentina Ramírez" (EN: "Services: secure software and AI automation | Valentina Ramírez"); el intro de la página se presenta como desarrolladora de software con enfoque en backend, IA y seguridad.
 
 Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (proyecto `terracore`, parte `landing`), `src/components/organisms/ContactBand.astro`.
 

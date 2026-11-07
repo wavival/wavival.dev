@@ -17,7 +17,7 @@ const routes = siteRoutes("en", import.meta.env.BASE_URL);
 const { user: githubUser, repos: githubRepos } = await fetchGithubProfile("wavival");
 const { featured: featuredRepos, resources: resourceRepos } = curateRepos(githubRepos);
 
-const pageTitle = "Uses: Tools and stack | Valentina Ramirez";
+const pageTitle = "Uses: Tools and stack | Valentina Ramírez";
 const pageDescription =
   "The stack and tools I use as a software developer focused on backend, AI and security (Django, Next.js, React, PostgreSQL, Astro, AI, and security) and why I choose each one.";
 
@@ -232,7 +232,7 @@ const softwareItems = [
               href={githubUser.html_url}
               target="_blank"
               class="mt-3 self-start"
-              aria-label="See Valentina Ramirez's full GitHub profile"
+              aria-label="See Valentina Ramírez's full GitHub profile"
             >
               See full profile
             </TextLink>

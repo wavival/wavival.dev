@@ -190,7 +190,7 @@ Path: `src/data/projectView.ts`. `projectView(project, lang, base)` returns a lo
 
 ### `projectSeo.ts`
 
-Path: `src/data/projectSeo.ts`. `projectMeta(project, lang)` returns the page `<title>` (`<official name>: Caso de estudio | Valentina Ramírez`, English `<official name>: Case study | Valentina Ramirez`) and the meta description. `projectSchema(project, lang, pageURL, site)` returns one JSON-LD object per project; see `docs/seo.md`.
+Path: `src/data/projectSeo.ts`. `projectMeta(project, lang)` returns the page `<title>` (`<official name>: Caso de estudio | Valentina Ramírez`, English `<official name>: Case study | Valentina Ramírez`) and the meta description. `projectSchema(project, lang, pageURL, site)` returns one JSON-LD object per project; see `docs/seo.md`.
 
 ### `caseStudyLabels.ts`
 
