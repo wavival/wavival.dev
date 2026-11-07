@@ -29,6 +29,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Dependencies
 
+- [ ] `@lumina-w/dev-standards` (phase 4): the shared commit rules and Husky guards were reverted from this repository because the package resolved over git+ssh from a private repository, which `npm ci` cannot fetch on Vercel or in the shared commitlint workflow. Bring it back once the package is published on GitHub Packages and Vercel holds a read-only token for it. Do not vendor a tarball: this repository is public.
 - [ ] Major versions pending a manual migration (checked on 2026-10-05): `typescript` 6 to 7, `web-vitals` 5 to 6 (check the reporting script and its CSP hash) and `prettier-plugin-astro` 0.14 to 1.1 (re-format the whole repository). Do one per pull request, with the full test suite and Lighthouse.
 
 ## SEO and GEO
