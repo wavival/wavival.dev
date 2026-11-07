@@ -11,7 +11,7 @@
 
 > Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
 ## Contents
 
@@ -219,7 +219,7 @@ Husky runs `lint-staged` (ESLint and Prettier on staged files) before each commi
 
 ### CI gates
 
-The `CI` workflow, on pushes and pull requests to `dev`, `stg` and `main`, runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, the `security.txt` expiry check, Lighthouse, and internal-link checks. The `Commit lint` workflow runs on every push, `Secret scan` (Gitleaks) on every push and on pull requests, `CodeQL` on pushes and pull requests to `dev`, `stg` and `main` and weekly, Dependabot opens weekly update pull requests to `dev`, and pull requests additionally validate the title and the allowed base branch.
+The `CI` workflow, on pushes and pull requests to `dev`, `stg` and `main`, runs the dependency audit (`scripts/check-audit.mjs`, which accepts only the advisories it lists with a reason), formatting, linting, Astro checks, the production build, CSP hash validation, component CSS validation, the `security.txt` expiry check, Lighthouse, and internal-link checks. The `Commit lint` workflow runs on every push, `Secret scan` (Gitleaks) on every push and on pull requests, `CodeQL` on pushes and pull requests to `dev`, `stg` and `main` and weekly, and pull requests additionally validate the title and the allowed base branch.
 
 ## Delivery flow
 
