@@ -71,6 +71,16 @@
   color: var(--text);
 }
 
+/* Home headline: a full sentence, so it runs smaller and looser than .display-xl. */
+.display-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-display-hero);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
 .display-page,
 .display-index,
 .display-contact {
@@ -309,6 +319,46 @@
 .icon-btn-lg {
   width: 50px;
   height: 50px;
+}
+
+/* Floating actions: bottom right stack for the WhatsApp button, with room for a chatbot launcher. */
+.floating-actions {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.floating-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--btn);
+  color: var(--on-btn);
+  border-radius: var(--radius-control);
+  box-shadow: 0 6px 20px rgba(15, 17, 23, 0.25);
+  transition: background-color 0.2s;
+}
+
+.floating-btn:hover {
+  background: var(--btn-h);
+  color: var(--on-btn);
+}
+
+.floating-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* Keeps the last footer line clear of the stack when the page is scrolled to the end. */
+body:has(.floating-actions) footer {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
 }
 
 .mask-icon {

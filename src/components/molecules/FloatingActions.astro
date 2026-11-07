@@ -1,0 +1,15 @@
+---
+import WhatsAppButton from "@/components/atoms/WhatsAppButton.astro";
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "es" } = Astro.props;
+---
+
+<!-- Bottom right stack; the chatbot launcher will sit above the WhatsApp button here. -->
+<div class="floating-actions" data-floating-actions>
+  <WhatsAppButton lang={lang} />
+</div>

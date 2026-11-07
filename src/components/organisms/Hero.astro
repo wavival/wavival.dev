@@ -42,12 +42,21 @@ const stats = isEn
     </span>
   </div>
 
-  <h1 class="display-xl text-center" style="margin:clamp(36px,5vw,64px) 0;text-wrap:balance">
-    {isEn ? "Full Stack Developer, backend and AI." : "Full Stack Developer, backend e IA."}
-    <span class="accent">
+  <div
+    class="mx-auto flex max-w-[1040px] flex-col items-center gap-5 text-center"
+    style="margin-top:clamp(36px,5vw,64px);margin-bottom:clamp(36px,5vw,64px)"
+  >
+    <h1 class="display-hero m-0" style="text-wrap:balance">
+      {
+        isEn
+          ? "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."
+          : "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo."
+      }
+    </h1>
+    <p class="lead accent m-0" data-hero-tagline>
       {isEn ? "The code I ship, I also break." : "El código que firmo también lo rompo."}
-    </span>
-  </h1>
+    </p>
+  </div>
 
   <div class="flex flex-col items-center gap-10 text-center">
     <figure class="m-0 w-full max-w-[320px]">

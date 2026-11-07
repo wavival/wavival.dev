@@ -2,6 +2,7 @@
 import "@/styles/global.css";
 import NavBar from "@/components/organisms/NavBar.astro";
 import Footer from "@/components/organisms/Footer.astro";
+import FloatingActions from "@/components/molecules/FloatingActions.astro";
 import { ClientRouter } from "astro:transitions";
 import { getLangFromUrl, useTranslations, type Lang } from "@/i18n/utils";
 import { publicUrl } from "@/utils/currency";
@@ -332,5 +333,6 @@ const jsonLd = JSON.stringify({
       <slot />
     </main>
     <Footer lang={lang as Lang} />
+    <FloatingActions lang={lang as Lang} />
   </body>
 </html>

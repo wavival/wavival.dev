@@ -62,7 +62,7 @@ Posicionamiento V1: desarrolladora Full Stack con enfoque en backend e IA y fund
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
 
-Titular de la home: "Full Stack Developer, backend e IA." (EN: "Full Stack Developer, backend and AI."), seguido de "El código que firmo también lo rompo."
+Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."), seguido de la frase secundaria "El código que firmo también lo rompo." (EN: "The code I ship, I also break.").
 
 Frase base publicada en el pie del sitio: "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan." (EN: "Full Stack Developer. Backend and AI. Security built in. Products that scale.")
 
