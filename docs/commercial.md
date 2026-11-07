@@ -1,6 +1,6 @@
 # Comercial de la marca personal wavival
 
-> Last updated: 2026-10-05
+> Last updated: 2026-11-07
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -36,7 +36,19 @@ Servicios publicados en `/servicios` (ofrecidos por wavival):
 
 Modalidades: desarrollo completo o refuerzo backend, API o seguridad en un equipo existente. Diseño UX/UI incluido cuando el proyecto lo requiere. Las duraciones son estimadas.
 
-Precio publicado en el sitio: proyectos desde USD 250 / COP 1.000.000 según alcance (MVP de 3 a 6 semanas). Disponibilidad limitada. Respuesta en 24 horas. Este precio es de wavival; Lúmina W tiene sus propios precios, que viven en `luminaw.co` y no se publican en este sitio.
+Precios: el precio general "desde USD 250 / COP 1.000.000" se retiró del sitio. Cada servicio tiene un precio fijo en `src/data/pricing.ts` (única fuente), que se publica por servicio según la política de moneda de la sección 2.1. Disponibilidad limitada. Respuesta en 24 horas. Los precios son de wavival; Lúmina W tiene sus propios precios, que viven en `luminaw.co` y no se publican en este sitio.
+
+### 2.1 Política de moneda
+
+- Dos listas de precios independientes: una en COP y otra en USD. No existe tasa de cambio entre ellas, ni TRM ni tasa fija: cada lista se fija por su cuenta.
+- La moneda la decide la ubicación del visitante, nunca el idioma de la página. Visitante en Colombia: solo COP. Visitante fuera de Colombia: solo USD. País no detectado (rastreadores, entorno local): USD.
+- Una página nunca muestra las dos monedas ni una línea que las compare. La única excepción son los datos estructurados JSON-LD y los archivos `llms.txt` y `llms-full.txt`, que no cambian por visitante y por eso llevan ambas listas con la aclaración de que se cobra según la ubicación.
+- Formato: código de moneda delante del monto (COP 2.200.000, USD 750); separador de miles según el idioma de la página (punto en español, coma en inglés); "desde" solo en el MVP; "al mes" en los planes mensuales.
+- Revisión anual de ambas listas en enero.
+- Umbrales: proyectos por encima de COP 40.000.000 / USD 12.000 se remiten a Lúmina W. Pagos 40/30/30 por encima de COP 7.000.000 / USD 2.500; igual o por debajo, 50/50.
+- La tarifa interna por hora no se publica en el sitio ni se guarda en este repositorio.
+
+Fuente: `src/data/pricing.ts`, `src/utils/currency.ts`, `middleware.ts`.
 
 Proceso publicado: conversación, propuesta, build iterativo, entrega documentada y mantenible.
 
@@ -155,7 +167,7 @@ Reglas:
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.
 - Forgotten Portal: ejercicio de pentesting en laboratorio (DockerLabs) con PTES y MITRE ATT&CK.
-- Proyectos desde USD 250 / COP 1.000.000 según alcance; respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas.
+- Precios por servicio de `src/data/pricing.ts`, en la moneda de la ubicación del público de la pieza (sección 2.1); respuesta en 24 horas; disponibilidad limitada. Duraciones como estimadas. El precio general "desde USD 250 / COP 1.000.000" ya no se afirma.
 
 ### Se pueden afirmar con cuidado
 
@@ -208,7 +220,7 @@ Reglas:
 
 Ninguno bloquea el arranque de V1. Cada uno bloquea solo la pieza indicada.
 
-- Pieza que cite un precio de Lúmina W: no usar el de wavival (desde USD 250 / COP 1.000.000); [PENDIENTE] precios propios de Lúmina W.
+- Pieza que cite un precio de Lúmina W: no usar los de wavival (`src/data/pricing.ts`); [PENDIENTE] precios propios de Lúmina W.
 - Pieza sobre OKroot con modelo de acceso: [PENDIENTE].
 - Pieza sobre cumplimiento legal de TerraCore: [PENDIENTE] texto validado.
 - Pieza de OKroot sobre salud: [PENDIENTE] texto de descargo.

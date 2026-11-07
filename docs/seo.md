@@ -1,6 +1,6 @@
 # SEO, indexing and GEO
 
-> Last updated: 2026-10-05
+> Last updated: 2026-11-07
 
 How the site is made discoverable by search engines and AI assistants, and what to update when a page, a project or a slug changes. Per-language rules live in [`i18n.md`](./i18n.md); performance and accessibility have their own documents.
 
@@ -35,14 +35,14 @@ Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp`. 
 
 All pages carry a graph with `Person`, `Organization` and `WebSite`. Everything on wavival.dev belongs to wavival: the `Person` is the entity of the site (it holds the contact email and is the `author` and `publisher` of the `WebSite` and the `provider` of the services), and the `Organization` is Lúmina W, a separate company that she founded (`founder`) and that has its own site, services and pricing at `luminaw.co`. The `Organization` carries no contact point or service of this site, and the `Person` has no `worksFor`. The `Person` is a Full Stack Developer (`jobTitle`) and the description states the focus on backend and AI. On top of it:
 
-| Page type                    | Extra schema                                                                  |
-| ---------------------------- | ----------------------------------------------------------------------------- |
-| Home (`/`, `/en`)            | `ProfilePage` (its `mainEntity` is the `Person`)                              |
-| About, tools, projects index | `BreadcrumbList`                                                              |
-| Contact                      | `ContactPage` (its `mainEntity` is the `Person`) and `BreadcrumbList`         |
-| Services                     | `Service` (provider: the `Person`), `FAQPage` and `BreadcrumbList`            |
-| Project pages                | `BreadcrumbList` and one project node chosen by `schemaType` in `projects.ts` |
-| Quote, privacy, 404          | none beyond the shared graph                                                  |
+| Page type                    | Extra schema                                                                                           |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Home (`/`, `/en`)            | `ProfilePage` (its `mainEntity` is the `Person`)                                                       |
+| About, tools, projects index | `BreadcrumbList`                                                                                       |
+| Contact                      | `ContactPage` (its `mainEntity` is the `Person`) and `BreadcrumbList`                                  |
+| Services                     | `Service` (provider: the `Person`, `priceRange` with both fixed lists), `FAQPage` and `BreadcrumbList` |
+| Project pages                | `BreadcrumbList` and one project node chosen by `schemaType` in `projects.ts`                          |
+| Quote, privacy, 404          | none beyond the shared graph                                                                           |
 
 Each project has one page and one project node (`projectSchema`), with the `Person` as `author`. It is `SoftwareApplication` for TerraCore, OKroot and NullBreach, `WebSite` for Lúmina W and wavival.dev, and `CreativeWork` for the Forgotten Portal writeup. `name` is the official name and `alternateName` is the short name when it differs. On a project with several parts the node adds `hasPart`, one entry per part that has a link, with its own schema.org type (`SoftwareApplication`, `WebSite`, `Blog`, `SoftwareSourceCode`, `WebAPI` or `TechArticle`), a name such as "TerraCore Landing", the part blurb and its URL. `softwareRequirements` lists the stack of the app part (the first part when there is no app part); the merged stack of all parts is used only when that part declares none.
 
@@ -53,6 +53,8 @@ The page title is `<official name>: Caso de estudio | Valentina Ramírez` in Spa
 - `robots.txt` allows every crawler, disallows `/cdn-cgi/` and points to `https://www.wavival.dev/sitemap-index.xml`.
 - The sitemap is generated at build time. Priority is 1.0 for the two homes, 0.8 for regular pages, 0.7 for project pages (six per language) and 0.3 for privacy; `changefreq` is monthly. Every URL that has a counterpart lists `es`, `en` and `x-default` (the Spanish URL) alternates; each project has a single URL per language, so its hreflang pair is `/proyectos/<slug>` and `/en/projects/<slug>`, and a part is only a hash on it, never a separate URL.
 - `/404` and `/en/404` are `noindex` and have no alternates.
+- The COP variants of the priced pages (`/cop/servicios`, `/cop/cotizar`, `/cop/en/services`, `/cop/en/quote`) are internal: the middleware serves them to visitors in Colombia under the public URL and redirects direct requests back to it. They carry the public canonical, hreflang and `og:url` (`publicUrl` in `Layout.astro`), the same JSON-LD as the USD page, and are left out of the sitemap. Crawlers, which carry no Colombian address, index the USD page.
+- Structured data never changes per visitor: the services `priceRange` lists the COP range for Colombia and the USD range for everyone else (`priceRangeLd` in `src/data/pricing.ts`).
 - `/nullbreach` belongs to another Vercel application (`microfrontends.json`) and is not part of this sitemap.
 - Permanent (301) redirects keep old links alive. Merged slugs go to the part of the ecosystem that replaced them: `terracore-landing` to `/proyectos/terracore#landing`, `okroot-landing` and `root-landing` to `/proyectos/okroot#landing`, `root` to `/proyectos/okroot`, and `blog-lumina-w` to `/proyectos/lumina-w#blog`, each with its `/en/projects/...` and unprefixed `/projects/...` equivalent (`vercel.json`). The unprefixed English paths (`/projects`, `/projects/<slug>`, `/services`, `/about`, `/contact`, `/uses`), which resolve to the Spanish pages.
 
@@ -60,7 +62,7 @@ The page title is `<official name>: Caso de estudio | Valentina Ramírez` in Spa
 
 - `public/llms.txt` is the index: profile, every project with its page URL, the stack, contact data and the English version of the site.
 - `public/llms-full.txt` is the long-form companion: one section per project, services and contact.
-- Both state that wavival.dev (services, pricing, contact) belongs to wavival and luminaw.co to Lúmina W, and that the published price (from USD 250 / COP 1,000,000, depending on scope) is wavival's. `llms-full.txt` carries the price and services.
+- Both state that wavival.dev (services, pricing, contact) belongs to wavival and luminaw.co to Lúmina W, and that prices are published per service in COP for Colombia and USD elsewhere, charged by the visitor's location. `llms-full.txt` carries the pricing policy and the services; unlike the pages, the files are the same for every reader, so they may name both currencies.
 - Both are written by hand. A test (`tests/case-studies.spec.ts`) fails when a project slug is missing from either file.
 - Keep both aligned with the site whenever a project, a service, a price or a contact channel changes (rule also in `AGENTS.md`).
 

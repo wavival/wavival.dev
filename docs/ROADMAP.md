@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -12,10 +12,13 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Blog W as a PWA: the repository has no manifest, service worker or offline mode, so the case study does not claim it. Decide whether to build it or keep it dropped everywhere.
 - [ ] OKroot status: `docs/brand.md` and `docs/commercial.md` say "early access"; the case-study tag says "Live". The AI-discovery files now say "live, early access".
 - [ ] Filters: decide whether NullBreach (an AI-powered AppSec chat) belongs under the `security` filter, from which it is left out today. Adding it changes the filter count.
+- [ ] Internal hourly rate: the 2026 plan defines one, but it is not published and `src/data/pricing.ts` does not hold it because the repository is public. Decide where it lives if a later step needs it.
+- [ ] Pricing review: the COP and USD lists in `src/data/pricing.ts` are independent (no exchange rate) and are reviewed every January.
 
 ## Security
 
 - [ ] Quote function: add a Vercel firewall rule that rate limits `POST /api/quote` (the in-function limit is best-effort per instance). Consider a CAPTCHA only if abuse continues.
+- [ ] Currency middleware: Playwright exercises `middleware.ts` as a function and the built pages, not Vercel's edge. On the first preview deployment check the three cases listed in `docs/security.md` ("Settings that live outside the repository"), and that view-transition navigations keep the COP variant.
 - [ ] Check the GitHub and Vercel settings listed in `docs/security.md` ("Settings that live outside the repository"): branch protection with required checks, Dependabot alerts, secret scanning with push protection, code scanning. Nothing in the repository can verify them.
 - [ ] After the first CodeQL run, review the findings under Security > Code scanning and fix or dismiss each one with a reason.
 - [ ] Pin GitHub Actions (and the `lumina-w/agents` workflows) to commit SHAs instead of tags; Dependabot keeps SHA pins updated.

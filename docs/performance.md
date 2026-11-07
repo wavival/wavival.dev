@@ -1,12 +1,12 @@
 # Performance
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
-The site is static HTML, one stylesheet, vanilla TypeScript and one serverless function. The goal is a fast first paint and no layout shift on every page.
+The site is static HTML, one stylesheet, vanilla TypeScript, one serverless function and one edge middleware that only chooses between prebuilt pages. The goal is a fast first paint and no layout shift on every page.
 
 ## What makes it fast
 
-- **Static output.** Astro renders every page at build time (`compressHTML: true`, `inlineStylesheets: "auto"`). The only server code is `api/quote.ts`.
+- **Static output.** Astro renders every page at build time (`compressHTML: true`, `inlineStylesheets: "auto"`), including the COP variants of the priced pages under `/cop/`. The server code is `api/quote.ts` and `middleware.ts`; the middleware runs only on the four priced routes and serves a prebuilt file, so there is no render on request and no client-side currency swap (no flicker).
 - **Fonts self-hosted.** Poppins 400, 500 and 600 and the Raleway variable font (weights 600 to 800) are WOFF2 files in `public/fonts/`, declared with `font-display: swap` and a Latin `unicode-range`. Only Poppins 400 and Raleway are preloaded (`Layout.astro`).
 - **LCP image.** The profile photo is preloaded with `fetchpriority="high"` only on the pages that render it (the home and about pages in both languages, `preloadHero`). The image has explicit `width` and `height`.
 - **Images.** Raster content images are WebP (`public/images/`, `public/brand/`; the PWA and touch icons are PNG), declare their dimensions and use `loading="lazy"` and `decoding="async"` when they are below the fold.

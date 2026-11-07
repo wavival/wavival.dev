@@ -1,12 +1,21 @@
 # Security
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
-What protects the site and the quote function, and what to do when you change something that touches them. To report a vulnerability, see [`../SECURITY.md`](../SECURITY.md).
+What protects the site, the quote function and the currency middleware, and what to do when you change something that touches them. To report a vulnerability, see [`../SECURITY.md`](../SECURITY.md).
 
 ## Surface
 
-The site is static. The only server code is `api/quote.ts` (a Vercel Function), plus whatever Vercel serves. `/nullbreach` belongs to a different Vercel application (`microfrontends.json`) with its own repository and policy. There are no user accounts, no database and no cookies.
+The site is static. The server code is `api/quote.ts` (a Vercel Function) and `middleware.ts` (a Vercel Edge Middleware that only chooses which prebuilt page to serve), plus whatever Vercel serves. `/nullbreach` belongs to a different Vercel application (`microfrontends.json`) with its own repository and policy. There are no user accounts, no database and no cookies.
+
+## The currency middleware (`middleware.ts`)
+
+- Runs only on the priced routes (`/servicios`, `/cotizar`, `/en/services`, `/en/quote`, with and without the trailing slash) and on the internal `/cop/` prefix; every other path never reaches it (`config.matcher`).
+- Reads one header, `x-vercel-ip-country`, which Vercel sets at the edge and the client cannot spoof. When it is `CO` the request is rewritten internally to the prebuilt `/cop/...` variant of the same page; anything else, or no header, serves the public USD page. It never reads, logs or stores the address, and it sets no cookie.
+- A direct request to `/cop/...` is answered with a 308 to the public URL, so the only way to see COP is to be in Colombia. Query strings, cookies and client headers have no effect (`tests/currency.spec.ts`).
+- `GEO_COUNTRY_OVERRIDE` replaces the detected country only when `VERCEL_ENV` is not `production`; it exists to check the COP variant from a preview deployment or `vercel dev`. In production it is ignored even if set.
+- The variant pages are the same Astro pages built under another path: same inline scripts and CSP hashes, same canonical URL, hreflang and structured data (`publicUrl` in `Layout.astro`), and they are excluded from the sitemap. Nothing new is loaded, so the CSP does not change.
+- It has no dependencies: the rewrite and pass-through responses are the `x-middleware-rewrite` and `x-middleware-next` headers the official helpers emit.
 
 ## Response headers (`vercel.json`, every path)
 
@@ -57,6 +66,7 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 ## Data and privacy
 
 - Quote data: name, email, phone, business, selected services and description, used only to answer the request (`/privacidad`). The source address used by the rate limit is not part of that data and is not stored; `/privacidad` and `/en/privacy/` say so (section 02).
+- Country: the middleware reads the country code Vercel derives from the address to pick the currency of the page. The code is used for that decision only and is not stored, and the address itself is never read.
 - Analytics: Umami, cookieless and aggregated, enabled only when both variables are set. No tracking cookies, so no consent banner.
 - Third parties: Brevo (quote delivery), Calendly (contact page), Vercel (hosting and logs). Fonts are self-hosted.
 
@@ -77,18 +87,18 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 
 How each category applies to this site, what covers it and what is left. "Not applicable" means the site has no such feature today; if it gains one, the category applies.
 
-| Category                               | Status         | What covers it                                                                                                                                            | Gap                                                      |
-| -------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| A01 Broken Access Control              | Not applicable | No accounts, roles or protected data. The only function accepts one action and checks the request origin.                                                 | None.                                                    |
-| A02 Cryptographic Failures             | Covered        | HTTPS only (`Strict-Transport-Security` with preload, `upgrade-insecure-requests`); the Brevo key lives in server variables; no passwords or stored data. | None.                                                    |
-| A03 Injection                          | Covered        | Server-side validation and allow-lists, `escapeHtml` in the email, JSON body parsed as data, CSP with script hashes, no `eval`, no SQL.                   | None.                                                    |
-| A04 Insecure Design                    | Partial        | Honeypot, field limits, body limit, origin check, rate limit, timeout and generic errors.                                                                 | Rate limit is per instance; no CAPTCHA.                  |
-| A05 Security Misconfiguration          | Partial        | Full header set (CSP, HSTS, framing, MIME sniffing, referrer, permissions, opener), checked by `tests/security-headers.spec.ts`; `.env` ignored.          | `style-src 'unsafe-inline'`; the CloudFront image host.  |
-| A06 Vulnerable and Outdated Components | Partial        | `check-audit.mjs` gates CI on production advisories; Dependabot; CodeQL; overrides for patched transitive packages.                                       | Advisories without a patched release (see `ROADMAP.md`). |
-| A07 Identification and Authentication  | Not applicable | No login on this site. `/nullbreach` is another application with its own policy.                                                                          | None here.                                               |
-| A08 Software and Data Integrity        | Partial        | Lockfile with `npm ci`, hashed inline scripts, reusable workflows pinned to a tag, Gitleaks, CodeQL on workflows, `contents: read` permissions.           | Actions are pinned to tags, not commit SHAs.             |
-| A09 Logging and Monitoring             | Partial        | The function logs every failure without personal data; Vercel keeps the logs; CI reports every check.                                                     | No alert on repeated function errors.                    |
-| A10 Server-Side Request Forgery        | Not applicable | The function calls one fixed Brevo URL; no request or user value reaches the URL.                                                                         | None.                                                    |
+| Category                               | Status         | What covers it                                                                                                                                                                                               | Gap                                                      |
+| -------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| A01 Broken Access Control              | Not applicable | No accounts, roles or protected data. The only function accepts one action and checks the request origin; the middleware only picks a prebuilt page and redirects direct hits on the internal `/cop/` paths. | None.                                                    |
+| A02 Cryptographic Failures             | Covered        | HTTPS only (`Strict-Transport-Security` with preload, `upgrade-insecure-requests`); the Brevo key lives in server variables; no passwords or stored data.                                                    | None.                                                    |
+| A03 Injection                          | Covered        | Server-side validation and allow-lists, `escapeHtml` in the email, JSON body parsed as data, CSP with script hashes, no `eval`, no SQL.                                                                      | None.                                                    |
+| A04 Insecure Design                    | Partial        | Honeypot, field limits, body limit, origin check, rate limit, timeout and generic errors. Currency decided from a header the client cannot set; the override is ignored in production.                       | Rate limit is per instance; no CAPTCHA.                  |
+| A05 Security Misconfiguration          | Partial        | Full header set (CSP, HSTS, framing, MIME sniffing, referrer, permissions, opener), checked by `tests/security-headers.spec.ts`; `.env` ignored.                                                             | `style-src 'unsafe-inline'`; the CloudFront image host.  |
+| A06 Vulnerable and Outdated Components | Partial        | `check-audit.mjs` gates CI on production advisories; Dependabot; CodeQL; overrides for patched transitive packages.                                                                                          | Advisories without a patched release (see `ROADMAP.md`). |
+| A07 Identification and Authentication  | Not applicable | No login on this site. `/nullbreach` is another application with its own policy.                                                                                                                             | None here.                                               |
+| A08 Software and Data Integrity        | Partial        | Lockfile with `npm ci`, hashed inline scripts, reusable workflows pinned to a tag, Gitleaks, CodeQL on workflows, `contents: read` permissions.                                                              | Actions are pinned to tags, not commit SHAs.             |
+| A09 Logging and Monitoring             | Partial        | The function logs every failure without personal data; the middleware logs nothing; Vercel keeps the logs; CI reports every check.                                                                           | No alert on repeated function errors.                    |
+| A10 Server-Side Request Forgery        | Not applicable | The function calls one fixed Brevo URL; no request or user value reaches the URL.                                                                                                                            | None.                                                    |
 
 ## Settings that live outside the repository
 
@@ -97,7 +107,8 @@ These are set in GitHub and Vercel, so no pull request can enforce them. Check t
 - GitHub, Settings > Rules or Branches: `dev`, `stg` and `main` protected, pull request required, status checks required (`quality`, `tests`, `lighthouse`, `links`, `gitleaks`, commit lint, PR title, base check), force pushes and deletions blocked.
 - GitHub, Settings > Code security: Dependabot alerts and security updates, secret scanning with push protection, and code scanning (fed by `codeql.yml`) enabled.
 - Vercel, Firewall: a rate limit rule on `POST /api/quote` (for example 5 requests per 10 minutes per IP) so the limit survives instance restarts and spans instances.
-- Vercel, Environment variables: `BREVO_API_KEY` in Production and Preview only; `QUOTE_ALLOWED_HOSTS` only when another domain (for example a staging domain) must post quotes.
+- Vercel, Environment variables: `BREVO_API_KEY` in Production and Preview only; `QUOTE_ALLOWED_HOSTS` only when another domain (for example a staging domain) must post quotes; `GEO_COUNTRY_OVERRIDE` never in Production (the code ignores it there, but keep it out as well).
+- Vercel, first deployment of the middleware: check from a preview deployment that `/servicios` returns the COP variant with `GEO_COUNTRY_OVERRIDE=CO`, that `/cop/servicios` redirects to `/servicios`, and that `/servicios` without the override shows USD.
 - Gitleaks over the whole history: run `gitleaks git` once from a clone after any change of its configuration; the CI job scans each push.
 
 ## Checklist for a change
@@ -106,6 +117,7 @@ These are set in GitHub and Vercel, so no pull request can enforce them. Check t
 - New third-party host: add the minimum CSP directive, document it here and in the privacy page.
 - New environment variable: document it in the README table and `.env.example`; use `PUBLIC_` only for values safe to expose.
 - Change to `api/quote.ts`: keep the origin, content type, rate limit and body checks, server-side validation and escaping, and update `tests/quote-api.spec.ts`.
+- New page with a price: add its route to `PRICED_ROUTES` (`src/utils/currency.ts`), to the matcher in `middleware.ts` and a one-line variant page under `src/pages/cop/`; `tests/currency.spec.ts` checks the three stay in sync and that no page mixes currencies.
 - New feature with accounts, uploads, stored data or outbound requests: revisit the OWASP table above before merging.
 - Change to the headers: update the table above and `tests/security-headers.spec.ts`.
 - Never put secrets, client data or vulnerabilities in the repository, issues or pull requests.
