@@ -16,7 +16,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Security
 
 - [ ] Quote function: add a Vercel firewall rule that rate limits `POST /api/quote` (the in-function limit is best-effort per instance). Consider a CAPTCHA only if abuse continues.
-- [ ] Check the GitHub and Vercel settings listed in `docs/security.md` ("Settings that live outside the repository"): branch protection with required checks, Dependabot alerts, secret scanning with push protection, code scanning. Nothing in the repository can verify them.
+- [ ] Check the GitHub and Vercel settings listed in `docs/security.md` ("Settings that live outside the repository"): branch protection with required checks, secret scanning with push protection, code scanning. Nothing in the repository can verify them.
 - [ ] After the first CodeQL run, review the findings under Security > Code scanning and fix or dismiss each one with a reason.
 - [ ] Pin GitHub Actions (and the `lumina-w/agents` workflows) to commit SHAs instead of tags. Without Dependabot, bump the pins by hand.
 - [ ] Alert on repeated function errors (Vercel log drain or alert) so a failing Brevo key is noticed before a lead is lost.

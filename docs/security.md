@@ -95,7 +95,7 @@ How each category applies to this site, what covers it and what is left. "Not ap
 These are set in GitHub and Vercel, so no pull request can enforce them. Check them after any change of repository, plan or team, and tick them off in [`ROADMAP.md`](./ROADMAP.md).
 
 - GitHub, Settings > Rules or Branches: `dev`, `stg` and `main` protected, pull request required, status checks required (`quality`, `tests`, `lighthouse`, `links`, `gitleaks`, commit lint, PR title, base check), force pushes and deletions blocked.
-- GitHub, Settings > Code security: Dependabot alerts and security updates, secret scanning with push protection, and code scanning (fed by `codeql.yml`) enabled.
+- GitHub, Settings > Code security: secret scanning with push protection, and code scanning (fed by `codeql.yml`) enabled.
 - Vercel, Firewall: a rate limit rule on `POST /api/quote` (for example 5 requests per 10 minutes per IP) so the limit survives instance restarts and spans instances.
 - Vercel, Environment variables: `BREVO_API_KEY` in Production and Preview only; `QUOTE_ALLOWED_HOSTS` only when another domain (for example a staging domain) must post quotes.
 - Gitleaks over the whole history: run `gitleaks git` once from a clone after any change of its configuration; the CI job scans each push.

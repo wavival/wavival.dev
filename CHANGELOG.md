@@ -75,7 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- `.github/dependabot.yml`: the repository no longer opens automatic weekly update pull requests. Dependencies are updated by hand.
+- `.github/dependabot.yml`: the repository no longer opens automatic weekly update pull requests, and Dependabot alerts and security updates are switched off in the GitHub settings. Dependencies are updated by hand.
 - `@vercel/microfrontends` and its Vite plugin in `astro.config.mjs`: the plugin only served the local development proxy, which the project does not use. Production routing of `/nullbreach` stays in `microfrontends.json` and the Vercel project settings, and the built site is identical. It carried the `braces` advisory (GHSA-vfj7-8cjw-p6xm, no patched release).
 - `Project.quoteType` and `quoteTypeHref` (replaced by `quoteTypesHref`). The `quoteType: "api-backend"` and `"ai"` unused item and the NullBreach `quoteType` filter wording are removed from `docs/ROADMAP.md`.
 - `cspell.json`, which no script, hook or workflow used.
