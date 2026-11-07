@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import CaseStudy from "@/components/organisms/CaseStudy.astro";
 import { projects, type Project } from "@/data/projects";
 import { projectMeta, projectSchema } from "@/data/projectSeo";
+import { localizedProjectImage, localizedProjectTitle } from "@/data/projectView";
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -19,6 +20,8 @@ const { project } = Astro.props;
 const site = "https://www.wavival.dev";
 
 const { title: pageTitle, description } = projectMeta(project, "en");
+const socialImage = localizedProjectImage(project.image, "en");
+const projectTitle = localizedProjectTitle(project, "en");
 const pageURL = `${site}/en/projects/${project.slug}/`;
 
 const breadcrumbLd = JSON.stringify({
@@ -27,7 +30,7 @@ const breadcrumbLd = JSON.stringify({
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: `${site}/en/` },
     { "@type": "ListItem", position: 2, name: "Projects", item: `${site}/en/projects/` },
-    { "@type": "ListItem", position: 3, name: project.name, item: pageURL },
+    { "@type": "ListItem", position: 3, name: projectTitle, item: pageURL },
   ],
 });
 
@@ -52,7 +55,7 @@ const projectLd = JSON.stringify(projectSchema(project, "en", pageURL, site));
   title={pageTitle}
   description={description}
   lang="en"
-  ogImage={project.image ? `/${project.image}` : undefined}
+  ogImage={socialImage ? `/${socialImage}` : undefined}
   ogImageAlt={project.en?.imageAlt ?? project.imageAlt}
   ogType="article"
   ogPublishedTime={toIsoDateTime(datePublished)}

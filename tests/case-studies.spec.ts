@@ -7,6 +7,7 @@ import {
   type Project,
   type ProjectPart,
 } from "../src/data/projects";
+import { localizedProjectImage } from "../src/data/projectView";
 
 const listFields = [
   "architecture",
@@ -174,6 +175,8 @@ test.describe("case study pages", () => {
     ] as const) {
       test(`${lang} ${project.slug}: sections and JSON-LD render`, async ({ page }) => {
         await page.goto(path);
+        const projectTitle = lang === "en" ? (project.en?.title ?? project.name) : project.name;
+        await expect(page.getByRole("heading", { level: 1 })).toHaveText(projectTitle);
         const multi = project.parts.length > 1;
         const prefix = (kind: string) => (multi ? `#cs-${kind}-` : "#cs-");
 
@@ -195,9 +198,12 @@ test.describe("case study pages", () => {
           .evaluateAll((els) => els.map((el) => el.textContent ?? ""));
         const projectLd = ld.map((t) => JSON.parse(t)).find((j) => j["@id"]?.endsWith("#project"));
         expect(projectLd, "project JSON-LD").toBeTruthy();
-        expect(projectLd.name).toBe(project.name);
+        expect(projectLd.name).toBe(projectTitle);
         expect(projectLd.inLanguage).toBe(inLanguage);
-        if (project.image) expect(projectLd.image).toBe(`https://www.wavival.dev/${project.image}`);
+        if (project.image)
+          expect(projectLd.image).toBe(
+            `https://www.wavival.dev/${localizedProjectImage(project.image, lang)}`
+          );
         if (multi) {
           expect(projectLd.hasPart.length, "hasPart").toBe(
             project.parts.filter((part) => part.links.length > 0).length
