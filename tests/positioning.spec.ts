@@ -134,6 +134,9 @@ test.describe("positioning of the 2026 plan", () => {
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
     await expect(row.locator('a[href="https://instagram.com/wavival"]')).toHaveText("Instagram");
+    await expect(
+      page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
+    ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
   });
 
   test("/en/about lists the marketing and content training with TikTok and Instagram links", async ({
@@ -147,6 +150,9 @@ test.describe("positioning of the 2026 plan", () => {
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
     await expect(row.locator('a[href="https://instagram.com/wavival"]')).toHaveText("Instagram");
+    await expect(
+      page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
+    ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
   });
 
   test("/herramientas shows the marketing and content tools and the recording gear", async ({
