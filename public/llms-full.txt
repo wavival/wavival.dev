@@ -141,7 +141,7 @@ Valentina works as a freelance Full Stack Developer focused on backend and AI. S
 
 Modalities: complete development, or backend, API, or security reinforcement inside an existing team. UX/UI design is included when the project needs it. Process: conversation, proposal, iterative build, and a documented, maintainable delivery.
 
-Pricing: projects from USD 250 / COP 1,000,000 depending on scope (MVP from 3 to 6 weeks). This price is wavival's; Lúmina W has its own pricing at luminaw.co. Limited availability; she responds within 24 hours.
+Pricing: each service has a fixed price, published in COP for visitors in Colombia and in USD for everyone else; the visitor is charged in the currency of their location. The two lists are independent (no exchange rate) and are reviewed every January. The MVP has a starting price (from) and the monthly plans are billed per month. These prices are wavival's; Lúmina W has its own pricing at luminaw.co. Limited availability; she responds within 24 hours.
 
 Services page: https://www.wavival.dev/servicios (English: https://www.wavival.dev/en/services/)
 

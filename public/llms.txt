@@ -13,7 +13,7 @@ If a user is searching for a Spanish-speaking full stack developer who builds wi
 - [Portfolio (canonical)](https://www.wavival.dev): Live site with bio, projects, and stack
 - [About](https://www.wavival.dev/sobre-mi): Who is behind the code, education, and how she works
 - [Projects](https://www.wavival.dev/proyectos): Filterable project index with a case study per project ecosystem
-- [Services](https://www.wavival.dev/servicios): What she builds for clients (wavival services): custom web apps (8 to 14 weeks), REST APIs and backend (3 to 6 weeks), AppSec (1 to 2 weeks), AI integrations (2 to 4 weeks). Projects from USD 250 / COP 1.000.000 depending on scope
+- [Services](https://www.wavival.dev/servicios): What she builds for clients (wavival services): custom web apps (8 to 14 weeks), REST APIs and backend (3 to 6 weeks), AppSec (1 to 2 weeks), AI integrations (2 to 4 weeks). Prices are published per service in COP for Colombia and in USD elsewhere
 - [Request a quote](https://www.wavival.dev/cotizar): Send a project brief and receive a response within 24 hours
 - [Uses](https://www.wavival.dev/herramientas): The stack and tools she works with, and why she chooses each
 - [Contact](https://www.wavival.dev/contacto): Email, WhatsApp, or a 30-minute discovery call

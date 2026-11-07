@@ -5,6 +5,7 @@ import PageIntro from "@/components/molecules/PageIntro.astro";
 import ServiceRow from "@/components/organisms/ServiceRow.astro";
 import ServicesDetail from "@/components/organisms/ServicesDetail.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
+import { priceRangeLd } from "@/data/pricing";
 
 const base = import.meta.env.BASE_URL;
 const r = siteRoutes("es", base);
@@ -171,7 +172,8 @@ const serviceLd = JSON.stringify({
   provider: { "@id": `${site}/#person` },
   areaServed: "Worldwide",
   serviceType: services.map((s) => s.title),
-  priceRange: "USD 250+ / COP 1.000.000+",
+  // Structured data is the same for every visitor: both lists, with the one that applies.
+  priceRange: priceRangeLd("es"),
 });
 
 const faqLd = JSON.stringify({
