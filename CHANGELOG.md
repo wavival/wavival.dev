@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The MVP description speaks to "emprendedores" / "entrepreneurs" instead of founders, the technical block "REST APIs and backend" links to the quote page with `?service=rest-apis-backend` (the form mapping comes with the quote form update), `docs/brand.md` says "criterio de seguridad" instead of "criterio de pentester", and Lighthouse CI also audits `/servicios` and `/en/services`.
+
 ### Added
 
 - The services catalog of the 2026 plan on `/servicios` and `/en/services`: eleven services in three groups (Development: conversion landing page, business website, automation with n8n, AI chatbot, custom web app or PWA MVP, AI integration in an existing system; Complementary: basic security review, monthly support plan with Basic and Plus; Packages with marketing, sold only inside a package or to development clients: Digital Presence Kit, Time Saver Kit, monthly SEO), each with its price from `src/data/pricing.ts` in the visitor's currency, timeline, inclusions, exclusions and a link to the quote page with `?service=<id>`; a visible note on the MVP with the Lúmina W referral threshold; the Time Saver Kit saving computed by `savingsPercent` (29% in COP, 30% in USD); the general exclusions block; and REST APIs and backend as a separate block for technical teams, without a price. Copy lives in `src/data/services.ts` (`ServicesCatalog.astro` renders it; `ServiceRow` gains price, tiers, inclusions, exclusions, note and badge), the Service JSON-LD (`src/data/servicesLd.ts`) carries an `OfferCatalog` with every price in COP for Colombia and in USD elsewhere, identical for every visitor, and `llms.txt` and `llms-full.txt` list the same catalog and prices. `tests/services.spec.ts` checks both languages, both currencies, "desde" only on the MVP, "al mes" only on monthly plans, the structured data, and that no page mentions the pentester mindset or an hourly rate.

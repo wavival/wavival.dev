@@ -110,7 +110,7 @@ const indexOf = (id: string) =>
       timeline={TECHNICAL_TEAMS_SERVICE.timeline[lang]}
       tools={[...TECHNICAL_TEAMS_SERVICE.tools]}
       examples={exampleLinks(TECHNICAL_TEAMS_SERVICE.examples)}
-      quoteHref={r.quote}
+      quoteHref={`${r.quote}?service=rest-apis-backend`}
       quoteLabel={labels.technicalQuote}
       labels={labels}
     />

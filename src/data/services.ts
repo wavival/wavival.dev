@@ -242,8 +242,8 @@ export const SERVICES: readonly Service[] = [
     group: "development",
     title: { es: "App web o PWA a medida (MVP)", en: "Custom web app or PWA (MVP)" },
     body: {
-      es: "Producto completo de extremo a extremo, en producción. Para fundadores que necesitan algo real, no un demo.",
-      en: "A complete product end to end, in production. For founders who need something real, not a demo.",
+      es: "Producto completo de extremo a extremo, en producción. Para emprendedores que necesitan algo real, no un demo.",
+      en: "A complete product end to end, in production. For entrepreneurs who need something real, not a demo.",
     },
     timeline: { es: "6 a 10 semanas", en: "6 to 10 weeks" },
     priceId: "custom-web-app-mvp",

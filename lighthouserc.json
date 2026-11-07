@@ -6,6 +6,8 @@
         "http://localhost/index.html",
         "http://localhost/proyectos/index.html",
         "http://localhost/sobre-mi/index.html",
+        "http://localhost/servicios/index.html",
+        "http://localhost/en/services/index.html",
         "http://localhost/en/index.html"
       ],
       "numberOfRuns": 1,
