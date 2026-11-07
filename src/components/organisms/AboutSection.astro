@@ -4,7 +4,6 @@ import PullQuote from "@/components/molecules/PullQuote.astro";
 import IconLink from "@/components/atoms/IconLink.astro";
 import Button from "@/components/atoms/Button.astro";
 import { siteRoutes } from "@/i18n/utils";
-import { whatsappHref } from "@/data/whatsapp";
 
 interface Props {
   lang?: "es" | "en";
@@ -78,13 +77,13 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
         label={isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez"}
       />
       <IconLink
-        href={whatsappHref(lang)}
-        icon="whatsapp"
-        label={isEn ? "Valentina Ramírez on WhatsApp" : "WhatsApp de Valentina Ramírez"}
+        href="https://www.tiktok.com/@wavival_dev"
+        icon="tiktok"
+        label={isEn ? "Valentina Ramírez on TikTok" : "TikTok de Valentina Ramírez"}
       />
       <IconLink
         href="https://platzi.com/p/wavival"
-        icon="link"
+        icon="platzi"
         label={isEn
           ? "Valentina Ramírez's Platzi profile"
           : "Perfil de Platzi de Valentina Ramírez"}

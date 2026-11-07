@@ -104,6 +104,40 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(page.locator('a[href*="facebook.com"]')).toHaveCount(0);
     });
 
+    test(`${home.path} home about section links Instagram, TikTok and Platzi in that order, without WhatsApp`, async ({
+      page,
+    }) => {
+      await page.goto(home.path);
+      const about = page.locator("#about");
+      const order = await about
+        .locator("a.icon-btn")
+        .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
+      expect(order).toEqual([
+        "https://instagram.com/wavival",
+        "https://www.tiktok.com/@wavival_dev",
+        "https://platzi.com/p/wavival",
+      ]);
+      await expect(about.locator('a[href*="wa.me"]')).toHaveCount(0);
+      const labels = await about
+        .locator("a.icon-btn")
+        .evaluateAll((links) => links.map((a) => a.getAttribute("aria-label")));
+      expect(labels).toEqual(
+        lang === "en"
+          ? [
+              "Valentina Ramírez on Instagram",
+              "Valentina Ramírez on TikTok",
+              "Valentina Ramírez's Platzi profile",
+            ]
+          : [
+              "Instagram de Valentina Ramírez",
+              "TikTok de Valentina Ramírez",
+              "Perfil de Platzi de Valentina Ramírez",
+            ]
+      );
+      const icon = about.locator('a[href="https://platzi.com/p/wavival"] .mask-icon');
+      await expect(icon).toHaveAttribute("style", /icons\/ui\/platzi\.svg/);
+    });
+
     for (const path of WHATSAPP_PAGES[lang]) {
       test(`${path} opens every WhatsApp link with the ${lang} message`, async ({ page }) => {
         await page.goto(path);
