@@ -594,7 +594,21 @@ body:has(.floating-actions) footer {
   .project-grid[data-filter="all"] > .project-wide > div:last-child {
     justify-content: center;
     gap: 12px;
-    padding: 24px 28px;
+    padding: 20px 28px;
+  }
+
+  /* The text column must stay shorter than the 1200x630 cover beside it. */
+  .project-grid[data-filter="all"] > .project-wide h2 {
+    font-size: clamp(26px, 2.4vw, 34px) !important;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide [data-brief] {
+    gap: 8px;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide [data-brief] dd {
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .project-grid[data-filter="all"] > .project-wide > div:last-child > p {
