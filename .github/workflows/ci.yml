@@ -107,6 +107,14 @@ jobs:
       - name: Lighthouse CI
         run: npm run lhci
 
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/reports/
+          retention-days: 7
+
   links:
     name: links
     runs-on: ubuntu-latest
