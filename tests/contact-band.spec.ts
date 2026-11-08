@@ -130,8 +130,18 @@ test.describe("contact band", () => {
     });
   }
 
-  // The contact pages keep their own heading with that phrase; they never carry the band.
-  test("no built page with the band carries the previous band copy", async () => {
+  for (const [path, title] of [
+    ["/contacto", "Cuéntame qué quieres dejar de hacer a mano."],
+    ["/en/contact", "Tell me what you want to stop doing by hand."],
+  ] as const) {
+    test(`${path} opens with the new heading`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+      await expect(page.locator("main")).not.toContainText(OLD);
+    });
+  }
+
+  test("no built page carries the previous band copy", async () => {
     const { readdirSync, readFileSync, statSync } = await import("node:fs");
     const { join } = await import("node:path");
     const files: string[] = [];
@@ -139,7 +149,7 @@ test.describe("contact band", () => {
       for (const name of readdirSync(dir)) {
         const full = join(dir, name);
         if (statSync(full).isDirectory()) walk(full);
-        else if (name.endsWith(".html") && !/\/(en\/)?contact(o)?\//.test(full)) files.push(full);
+        else if (name.endsWith(".html")) files.push(full);
       }
     };
     walk("dist");
