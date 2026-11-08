@@ -1,0 +1,56 @@
+---
+import Eyebrow from "@/components/atoms/Eyebrow.astro";
+import Index from "@/components/atoms/Index.astro";
+
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+  id?: string;
+  dataServiceGroup?: string;
+  class?: string;
+  sticky?: boolean;
+}
+
+const {
+  index,
+  eyebrow,
+  title,
+  description,
+  id,
+  dataServiceGroup,
+  class: extra = "",
+  sticky = true,
+} = Astro.props;
+const labelClass = [
+  "flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px]",
+  sticky ? "lg:sticky lg:top-24 lg:self-start" : "lg:self-start",
+].join(" ");
+---
+
+<section
+  id={id}
+  data-service-group={dataServiceGroup}
+  class={`rule-section flex flex-wrap gap-x-12 gap-y-6 ${extra}`.trim()}
+>
+  <div
+    data-sticky-section-label
+    data-service-group-header={dataServiceGroup ? "" : undefined}
+    class={labelClass}
+  >
+    <div class="flex items-baseline gap-[14px]">
+      <Index>{index}</Index>
+      <Eyebrow>{eyebrow}</Eyebrow>
+    </div>
+    <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">{title}</h2>
+    {description && <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">{description}</p>}
+  </div>
+  <div
+    data-sticky-section-content
+    data-service-group-content={dataServiceGroup ? "" : undefined}
+    class="min-w-0 flex-1 basis-[480px]"
+  >
+    <slot />
+  </div>
+</section>
