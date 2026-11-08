@@ -3,7 +3,7 @@ import keepalive from "../api/keepalive";
 
 const SUPABASE_URL = "https://test-project.supabase.co";
 const SERVICE_KEY = "test-service-role-key-never-logged";
-const CRON_SECRET = "test-cron-secret-0123456789";
+const CRON_SECRET = "test-cron-secret-never-logged";
 
 interface Call {
   url: string;

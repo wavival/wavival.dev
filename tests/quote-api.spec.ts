@@ -104,8 +104,9 @@ const withServices = async (
       ),
       body: init?.body ? JSON.parse(String(init.body)) : undefined,
     };
-    const outcome = url.startsWith(SUPABASE_URL) ? supabase : brevo;
-    (url.startsWith(SUPABASE_URL) ? recorded.supabase : recorded.brevo).push(call);
+    const isSupabase = new URL(url).origin === new URL(SUPABASE_URL).origin;
+    const outcome = isSupabase ? supabase : brevo;
+    (isSupabase ? recorded.supabase : recorded.brevo).push(call);
     if (outcome === "down") throw new Error("network down");
     return new Response("{}", { status: typeof outcome === "number" ? outcome : 500 });
   }) as typeof fetch;
