@@ -33,7 +33,7 @@ export function projectMeta(project: Project, lang: Lang) {
     "";
   const projectTitle = localizedProjectTitle(project, lang);
   const title = isEn
-    ? `${projectTitle}: Case study | Valentina Ramirez`
+    ? `${projectTitle}: Case study | Valentina Ramírez`
     : `${projectTitle}: Caso de estudio | Valentina Ramírez`;
   return { title, description };
 }
