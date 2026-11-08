@@ -9,6 +9,7 @@ import SocialLinks from "@/components/molecules/SocialLinks.astro";
 import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import { siteRoutes } from "@/i18n/utils";
+import { SOCIAL_PROFILES } from "@/data/social";
 import { bentoStyles } from "@/utils/bento";
 
 const base = import.meta.env.BASE_URL;
@@ -245,10 +246,18 @@ const breadcrumbLd = JSON.stringify({
     </PullQuote>
 
     <div class="mt-14 flex flex-wrap items-center gap-3 min-[900px]:justify-center">
+      <Button
+        href={SOCIAL_PROFILES["blog-w"].href}
+        target="_blank"
+        variant="secondary"
+        aria-label={SOCIAL_PROFILES["blog-w"].label[lang]}
+      >
+        Blog W
+      </Button>
       <SocialLinks
         lang={lang}
         size="lg"
-        networks={["instagram", "tiktok", "linkedin", "github", "platzi", "blog-w"]}
+        networks={["instagram", "tiktok", "linkedin", "github", "platzi"]}
       />
     </div>
   </section>

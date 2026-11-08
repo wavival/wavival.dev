@@ -1,5 +1,6 @@
 // The profile links of the site, in the only order any row may show them.
-// `SocialLinks.astro` renders a subset of this list; nothing else lists a URL.
+// `SocialLinks.astro` renders a subset of this list and the about pages read the
+// Blog W entry for their text button; nothing else lists a URL.
 
 import type { Lang } from "../i18n/ui";
 
