@@ -8,7 +8,6 @@ import PartDisclosure from "@/components/molecules/PartDisclosure.astro";
 import ProjectBrief from "@/components/molecules/ProjectBrief.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
 import PartBody from "@/components/organisms/PartBody.astro";
-import ContactBand from "@/components/organisms/ContactBand.astro";
 import { caseLabels, partSections } from "@/data/caseStudyLabels";
 import { projects, type Project } from "@/data/projects";
 import {
@@ -220,6 +219,4 @@ const number = String(idx + 1).padStart(2, "0");
       </nav>
     )
   }
-
-  <ContactBand lang={lang} />
 </article>

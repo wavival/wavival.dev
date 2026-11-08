@@ -79,7 +79,10 @@ test.describe("layered case study detail", () => {
     test(`${lang}: redacted infrastructure details never reach the HTML`, async ({ page }) => {
       for (const slug of redactedSlugs) {
         const response = await page.goto(`${base[lang]}/${slug}`);
-        const html = (await response!.text()).toLowerCase();
+        // The contact band that closes every page says "respondo en 24 horas"; only the case study is checked.
+        const html = (await response!.text())
+          .replace(/<section id="contact"[\s\S]*?<\/section>/, "")
+          .toLowerCase();
         for (const term of redacted) {
           expect(html.includes(term.toLowerCase()), `${slug}: ${term}`).toBe(false);
         }
