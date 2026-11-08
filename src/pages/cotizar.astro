@@ -1,22 +1,23 @@
 ---
 import QuoteForm from "@/components/organisms/QuoteForm.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
-import { quoteProjectTypeOptions } from "@/data/quoteTypes";
+import { countryOptions } from "@/data/countries";
+import { budgetRangeOptions } from "@/data/pricing";
+import {
+  howFoundOptions,
+  preferredChannelOptions,
+  quoteServiceOptions,
+  timelineOptions,
+} from "@/data/quoteOptions";
 import { siteRoutes } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
+import { COP_COUNTRY, currencyForPathname } from "@/utils/currency";
 
 const base = import.meta.env.BASE_URL;
 const r = siteRoutes("es", base);
-const selectedService = Astro.url.searchParams.get("service") ?? undefined;
-const services = [
-  { id: "custom-web-applications", label: "Aplicaciones web a medida" },
-  { id: "rest-apis-backend", label: "APIs REST y backend" },
-  { id: "security-appsec", label: "Seguridad y AppSec" },
-  { id: "ai-integrations", label: "Integraciones de IA" },
-];
-const validSelection = services.some((service) => service.id === selectedService)
-  ? selectedService
-  : undefined;
+// The COP variant is served only to visitors in Colombia, so it can prefill the country.
+const currency = currencyForPathname(Astro.url.pathname);
+const defaultCountry = currency === "COP" ? COP_COUNTRY : undefined;
 ---
 
 <Layout
@@ -36,17 +37,23 @@ const validSelection = services.some((service) => service.id === selectedService
     </PageIntro>
     <div class="mt-16 border-t border-ink pt-10">
       <QuoteForm
-        services={services}
-        projectTypes={quoteProjectTypeOptions("es")}
-        selectedService={validSelection}
+        lang="es"
+        currency={currency}
+        services={quoteServiceOptions("es")}
+        countries={countryOptions("es")}
+        defaultCountry={defaultCountry}
+        budgetRanges={budgetRangeOptions(currency, "es")}
+        howFound={howFoundOptions("es")}
+        preferredChannels={preferredChannelOptions("es")}
+        timelines={timelineOptions("es")}
         privacyHref={r.privacy}
         labels={{
           formTitle: "Solicitud de cotización",
           formIntro:
-            "Usa este formulario para pedir una cotización: elige los servicios o el tipo de proyecto que te interesan y cuéntame qué necesitas. Todos los campos son obligatorios.",
+            "Usa este formulario para pedir una cotización: elige los servicios que te interesan, indica tu país y tu rango de presupuesto y cuéntame qué necesitas.",
           nextTitle: "Qué pasa después de enviarlo",
           nextSteps: [
-            "Tu solicitud llega directamente al correo de Wavival.",
+            "Tu solicitud se guarda para darle seguimiento y llega al correo de Wavival.",
             "Te respondo en un máximo de 24 horas.",
             "Si seguimos adelante, el trabajo sigue el proceso publicado en Servicios: conversación, propuesta, build iterativo y entrega.",
           ],
@@ -59,15 +66,23 @@ const validSelection = services.some((service) => service.id === selectedService
           phonePlaceholder: "+57 300 000 0000",
           phoneError: "Incluye el indicativo del país, por ejemplo +57 300 000 0000.",
           submitHint:
-            "Completa todos los campos, elige al menos una opción y acepta la política de privacidad para poder enviar.",
+            "Completa los campos obligatorios, elige al menos un servicio y acepta la política de privacidad para poder enviar.",
           name: "Nombre",
           email: "Correo",
           phone: "Teléfono con indicativo",
-          business: "Negocio o empresa",
+          business: "Nombre del negocio",
           services: "Servicios que te interesan",
-          projectTypes: "Tipo de proyecto",
+          country: "País",
+          countryPlaceholder: "Selecciona tu país",
+          budget: "Rango de presupuesto",
+          budgetPlaceholder: "Selecciona un rango",
           description: "Describe tu proyecto",
           descriptionHint: "0/500",
+          optionalTitle: "Opcional",
+          optionalPlaceholder: "Selecciona una opción",
+          howFound: "¿Cómo me conociste?",
+          preferredChannel: "Canal preferido de contacto",
+          timeline: "¿Para cuándo lo necesitas?",
           submit: "Enviar cotización",
           sending: "Enviando",
           successTitle: "Gracias por contactar",
