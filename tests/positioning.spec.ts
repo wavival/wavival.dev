@@ -104,7 +104,7 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(page.locator('a[href*="facebook.com"]')).toHaveCount(0);
     });
 
-    test(`${home.path} home about section links Instagram, TikTok and Platzi in that order, without WhatsApp`, async ({
+    test(`${home.path} home about section links Instagram, TikTok, LinkedIn, GitHub and Platzi in that order, without WhatsApp`, async ({
       page,
     }) => {
       await page.goto(home.path);
@@ -115,6 +115,8 @@ test.describe("positioning of the 2026 plan", () => {
       expect(order).toEqual([
         "https://instagram.com/wavival_dev",
         "https://www.tiktok.com/@wavival_dev",
+        "https://linkedin.com/in/wavival",
+        "https://github.com/wavival",
         "https://platzi.com/p/wavival",
       ]);
       await expect(about.locator('a[href*="wa.me"]')).toHaveCount(0);
@@ -126,11 +128,15 @@ test.describe("positioning of the 2026 plan", () => {
           ? [
               "Valentina Ramírez on Instagram",
               "Valentina Ramírez on TikTok",
+              "Valentina Ramírez on LinkedIn",
+              "Valentina Ramírez on GitHub",
               "Valentina Ramírez's Platzi profile",
             ]
           : [
               "Instagram de Valentina Ramírez",
               "TikTok de Valentina Ramírez",
+              "LinkedIn de Valentina Ramírez",
+              "GitHub de Valentina Ramírez",
               "Perfil de Platzi de Valentina Ramírez",
             ]
       );
@@ -166,14 +172,14 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/sobre-mi lists the marketing and content training with TikTok and Instagram links", async ({
+  test("/sobre-mi lists the marketing and content training with Instagram and TikTok links", async ({
     page,
   }) => {
     await page.goto("/sobre-mi/");
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing y contenido");
     await expect(row).toContainText(
-      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en TikTok e Instagram"
+      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en Instagram y TikTok"
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
     await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
@@ -187,19 +193,19 @@ test.describe("positioning of the 2026 plan", () => {
     expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
       "https://instagram.com/wavival_dev",
       "https://www.tiktok.com/@wavival_dev",
-      "https://github.com/wavival",
       "https://linkedin.com/in/wavival",
+      "https://github.com/wavival",
     ]);
   });
 
-  test("/en/about lists the marketing and content training with TikTok and Instagram links", async ({
+  test("/en/about lists the marketing and content training with Instagram and TikTok links", async ({
     page,
   }) => {
     await page.goto("/en/about/");
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing and content");
     await expect(row).toContainText(
-      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on TikTok and Instagram"
+      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on Instagram and TikTok"
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
     await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(

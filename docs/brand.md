@@ -22,7 +22,7 @@ Documento hermano: [commercial.md](./commercial.md).
 - Formación pública:
   - Universidad de San Buenaventura: Lengua Inglesa (en curso).
   - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso), y formación en marketing y redes sociales.
-  - Aprendizaje autodidacta en marketing y redes sociales, con experiencia práctica como creadora de contenido en TikTok (`@wavival_dev`) e Instagram (`@wavival_dev`). No se nombran programas ni cursos de terceros.
+  - Aprendizaje autodidacta en marketing y redes sociales, con experiencia práctica como creadora de contenido en Instagram (`@wavival_dev`) y TikTok (`@wavival_dev`). No se nombran programas ni cursos de terceros.
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
 - Autodefinición en el sitio: desarrolladora autodidacta "por convicción", que necesita entender por qué funciona algo antes de darlo por bueno.
 

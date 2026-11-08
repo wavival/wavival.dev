@@ -1,47 +1,45 @@
 ---
 import IconLink from "@/components/atoms/IconLink.astro";
 import type { Lang } from "@/i18n/utils";
-import { whatsappHref } from "@/data/whatsapp";
 
+/**
+ * The social links of the site, always the same four in the same order:
+ * Instagram, TikTok, LinkedIn, GitHub. Every row of social icons renders this
+ * component, so no page can list them differently.
+ */
 interface Props {
   lang?: Lang;
   size?: "md" | "lg";
-  items?: ("linkedin" | "github" | "instagram" | "tiktok" | "whatsapp")[];
   class?: string;
 }
 
-const {
-  lang = "es",
-  size = "md",
-  items = ["instagram", "tiktok", "linkedin", "github"],
-  class: extra = "",
-} = Astro.props;
+const { lang = "es", size = "md", class: extra = "" } = Astro.props;
 const isEn = lang === "en";
 
-const defs = {
-  linkedin: {
-    href: "https://linkedin.com/in/wavival",
-    label: isEn ? "Valentina Ramírez on LinkedIn" : "LinkedIn de Valentina Ramírez",
-  },
-  github: {
-    href: "https://github.com/wavival",
-    label: isEn ? "Valentina Ramírez on GitHub" : "GitHub de Valentina Ramírez",
-  },
-  instagram: {
+const links = [
+  {
+    icon: "instagram",
     href: "https://instagram.com/wavival_dev",
     label: isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez",
   },
-  tiktok: {
+  {
+    icon: "tiktok",
     href: "https://www.tiktok.com/@wavival_dev",
     label: isEn ? "Valentina Ramírez on TikTok" : "TikTok de Valentina Ramírez",
   },
-  whatsapp: {
-    href: whatsappHref(lang),
-    label: isEn ? "Valentina Ramírez on WhatsApp" : "WhatsApp de Valentina Ramírez",
+  {
+    icon: "linkedin",
+    href: "https://linkedin.com/in/wavival",
+    label: isEn ? "Valentina Ramírez on LinkedIn" : "LinkedIn de Valentina Ramírez",
   },
-};
+  {
+    icon: "github",
+    href: "https://github.com/wavival",
+    label: isEn ? "Valentina Ramírez on GitHub" : "GitHub de Valentina Ramírez",
+  },
+];
 ---
 
-<div class={`flex flex-wrap items-center gap-2 ${extra}`.trim()}>
-  {items.map((k) => <IconLink href={defs[k].href} icon={k} label={defs[k].label} size={size} />)}
+<div class={`flex flex-wrap items-center gap-2 ${extra}`.trim()} data-social-links>
+  {links.map((l) => <IconLink href={l.href} icon={l.icon} label={l.label} size={size} />)}
 </div>
