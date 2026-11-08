@@ -17,7 +17,7 @@ import {
   toAction,
   type ProjectAction,
 } from "@/data/projectView";
-import { quoteTypesHref } from "@/data/quoteTypes";
+import { quoteHrefForProject } from "@/data/quoteOptions";
 import { siteRoutes, type Lang } from "@/i18n/utils";
 
 interface Props {
@@ -85,7 +85,7 @@ const number = String(idx + 1).padStart(2, "0");
         <div class="flex flex-col items-start gap-6">
           <ProjectActions actions={headerLinks} stacked class="items-start" />
           <Button
-            href={quoteTypesHref(r.quote)}
+            href={quoteHrefForProject(r.quote, project.slug)}
             size="sm"
             data-umami-event="cotizar-desde-proyecto"
           >

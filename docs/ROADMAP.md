@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-08
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -22,7 +22,10 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Check the GitHub and Vercel settings listed in `docs/security.md` ("Settings that live outside the repository"): branch protection with required checks, secret scanning with push protection, code scanning. Nothing in the repository can verify them.
 - [ ] After the first CodeQL run, review the findings under Security > Code scanning and fix or dismiss each one with a reason.
 - [ ] Pin GitHub Actions (and the `lumina-w/agents` workflows) to commit SHAs instead of tags. Bump the pins by hand.
-- [ ] Alert on repeated function errors (Vercel log drain or alert) so a failing Brevo key is noticed before a lead is lost.
+- [ ] Alert on repeated function errors (Vercel log drain or alert) so a failing Brevo key or a failing Supabase insert is noticed before a lead is lost.
+- [ ] Lead retention: `/privacidad` promises that leads of people who do not become clients are deleted 24 months after the last contact. No job does it yet; delete the `wavival` rows of `public.leads` whose `contacted_at` (or `created_at` when never contacted) is older than 24 months and whose `status` is not `won`, by hand or with a scheduled function, after the first anniversary of the form (2027-11).
+- [ ] Supabase keepalive: `api/keepalive.ts` runs every three days through Vercel Cron so the Free project is not paused. After the first deployment check Vercel > Cron Jobs for the runs and that `CRON_SECRET` is set.
+- [ ] Vercel variables for leads: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `CRON_SECRET` in Production and Preview. Without the Supabase ones the quote function still emails and the email says the lead was not stored.
 - [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.

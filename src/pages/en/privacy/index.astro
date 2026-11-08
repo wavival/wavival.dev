@@ -8,9 +8,9 @@ const email = "wavival.dev@luminaw.co";
 
 const pageTitle = "Privacy policy | Valentina Ramírez";
 const pageDescription =
-  "How wavival.dev handles your data: analytics, cookies, third-party services, and your rights.";
+  "How wavival.dev handles your data: stored quote requests, analytics, cookies, third-party services, retention, and your rights.";
 
-const lastUpdate = "October 6, 2026";
+const lastUpdate = "November 8, 2026";
 ---
 
 <Layout
@@ -41,13 +41,21 @@ const lastUpdate = "October 6, 2026";
       <LegalSection index="02" title="What data I collect">
         <p class="body-md m-0">
           When you send a quote request, I collect your name, email, phone with country code,
-          business or company, services of interest, and project description. I use this information
-          only to respond to your request.
+          business name, services of interest, country, budget range and the currency you stated it
+          in, the project description and, if you fill them in, how you found me, your preferred
+          contact channel and when you need it. I also keep the page language, the browser you sent
+          the form from (user agent), the page you came from, and the date and time of your consent.
         </p>
         <p class="body-md m-0">
-          To limit abuse of the form, the server counts submissions per IP address for at most 10
-          minutes, only in its temporary memory. That address is not stored or shared, and it is not
-          part of your quote data.
+          That data is stored in a database (Supabase, us-east-1 region, United States) to follow up
+          on your request, and it is emailed to Wavival so I can reply. I use it only to answer and
+          follow up on your quote request.
+        </p>
+        <p class="body-md m-0">
+          The country of the visit is derived from the IP address without storing the address: only
+          the country code is kept. To limit abuse of the form, the server counts submissions per IP
+          address for at most 10 minutes, only in its temporary memory. That address is not stored
+          or shared, and it is not part of your quote data.
         </p>
       </LegalSection>
       <LegalSection index="03" title="Analytics and cookies">
@@ -63,15 +71,23 @@ const lastUpdate = "October 6, 2026";
       </LegalSection>
       <LegalSection index="04" title="Third-party services">
         <p class="body-md m-0">
-          Quote requests are sent through Brevo and delivered to the Wavival email address. Brevo
-          processes the data needed to deliver that message. On the contact page, the site loads the
-          Calendly calendar. These services may record your IP simply by serving the resource.
-          Typefaces are served from the site itself (no third party). Hosting is provided by Vercel,
-          which maintains standard server technical logs. Each provider handles that data under
-          their own policy.
+          Quote requests are stored in Supabase (a database hosted in the United States) and sent
+          through Brevo to the Wavival email address. Each one processes the data needed to store or
+          deliver that message. On the contact page, the site loads the Calendly calendar. These
+          services may record your IP simply by serving the resource. Typefaces are served from the
+          site itself (no third party). Hosting is provided by Vercel, which maintains standard
+          server technical logs. Each provider handles that data under their own policy.
         </p>
       </LegalSection>
-      <LegalSection index="05" title="Your rights">
+      <LegalSection index="05" title="Retention">
+        <p class="body-md m-0">
+          If we do not end up working together, I keep your quote data for 24 months from the last
+          contact and then delete it. To have it deleted earlier, write to
+          <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink> from the email you used
+          in the quote request and I will delete it.
+        </p>
+      </LegalSection>
+      <LegalSection index="06" title="Your rights">
         <p class="body-md m-0">
           Under applicable regulations including GDPR and Colombia's Ley 1581 de 2012 (Habeas Data),
           you have the right to access, rectify, erase, and restrict processing of your personal
@@ -79,7 +95,7 @@ const lastUpdate = "October 6, 2026";
           write to <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink>.
         </p>
       </LegalSection>
-      <LegalSection index="06" title="Changes">
+      <LegalSection index="07" title="Changes">
         <p class="body-md m-0">
           If this policy changes, I will update the date above. Continued use of the site implies
           acceptance of the current version.

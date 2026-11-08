@@ -9,9 +9,9 @@
 [![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Version 4 of the personal portfolio for Valentina Ramírez, software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
+> Version 4 of the personal portfolio for Valentina Ramírez, software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote function that stores leads in Supabase and notifies by email.
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-08
 
 ## Contents
 
@@ -62,15 +62,18 @@ The development server runs at `http://localhost:4321`.
 
 ### Environment variables
 
-The Umami values are optional. Analytics and Core Web Vitals reporting are emitted only when both are set. `BREVO_API_KEY` is required in Vercel for quote delivery and must remain server-only.
+The Umami values are optional. Analytics and Core Web Vitals reporting are emitted only when both are set. `BREVO_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `CRON_SECRET` are required in Vercel for quote storage, delivery and the database keepalive, and must remain server-only.
 
-| Variable               | Read by                   | Required                               | Purpose                                                                                                                                                             |
-| ---------------------- | ------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PUBLIC_UMAMI_SRC`     | Build (`Layout.astro`)    | Optional, both Umami variables or none | Umami script URL.                                                                                                                                                   |
-| `PUBLIC_UMAMI_ID`      | Build (`Layout.astro`)    | Optional, both Umami variables or none | Umami website ID.                                                                                                                                                   |
-| `BREVO_API_KEY`        | Runtime (`api/quote.ts`)  | Required in Vercel for quotes          | Brevo transactional email key. Server-only, never `PUBLIC_`.                                                                                                        |
-| `QUOTE_ALLOWED_HOSTS`  | Runtime (`api/quote.ts`)  | Optional                               | Extra hosts (comma-separated) allowed to post quotes, for example a staging domain.                                                                                 |
-| `GEO_COUNTRY_OVERRIDE` | Runtime (`middleware.ts`) | Optional, never in Production          | ISO country code that replaces the detected country, to check the COP variant from a preview deployment or `vercel dev`. Ignored when `VERCEL_ENV` is `production`. |
+| Variable                    | Read by                                      | Required                                  | Purpose                                                                                                                                                             |
+| --------------------------- | -------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PUBLIC_UMAMI_SRC`          | Build (`Layout.astro`)                       | Optional, both Umami variables or none    | Umami script URL.                                                                                                                                                   |
+| `PUBLIC_UMAMI_ID`           | Build (`Layout.astro`)                       | Optional, both Umami variables or none    | Umami website ID.                                                                                                                                                   |
+| `BREVO_API_KEY`             | Runtime (`api/quote.ts`)                     | Required in Vercel for quotes             | Brevo transactional email key. Server-only, never `PUBLIC_`.                                                                                                        |
+| `SUPABASE_URL`              | Runtime (`api/quote.ts`, `api/keepalive.ts`) | Required in Vercel for lead storage       | API URL of the Supabase project that holds `public.leads`. Server-only, never `PUBLIC_`.                                                                            |
+| `SUPABASE_SERVICE_ROLE_KEY` | Runtime (`api/quote.ts`, `api/keepalive.ts`) | Required in Vercel for lead storage       | Supabase service role key (bypasses RLS). Server-only, never `PUBLIC_`.                                                                                             |
+| `CRON_SECRET`               | Runtime (`api/keepalive.ts`)                 | Required in Vercel for the keepalive cron | Bearer token Vercel sends to the cron endpoint; any other caller gets 401.                                                                                          |
+| `QUOTE_ALLOWED_HOSTS`       | Runtime (`api/quote.ts`)                     | Optional                                  | Extra hosts (comma-separated) allowed to post quotes, for example a staging domain.                                                                                 |
+| `GEO_COUNTRY_OVERRIDE`      | Runtime (`middleware.ts`)                    | Optional, never in Production             | ISO country code that replaces the detected country, to check the COP variant from a preview deployment or `vercel dev`. Ignored when `VERCEL_ENV` is `production`. |
 
 Set the variables in the Vercel project settings, not in the repository. The `PUBLIC_` ones are read at build time, so a change needs a new deployment. `wavival.dev@luminaw.co` must be a verified sender in Brevo. See [`.env.example`](./.env.example) for the local template.
 
@@ -98,21 +101,21 @@ Set the variables in the Vercel project settings, not in the repository. The `PU
 
 ## Stack
 
-| Layer                | Choice                                                                                                  |
-| -------------------- | ------------------------------------------------------------------------------------------------------- |
-| Framework            | Astro 7, static pages plus one Vercel Function (quotes) and one Edge Middleware (currency by location). |
-| Styling              | Tailwind CSS 4, CSS custom properties.                                                                  |
-| Components           | Astro, organized with atomic design.                                                                    |
-| Client scripts       | Vanilla TypeScript.                                                                                     |
-| Internationalization | Spanish at root and English under `/en/`.                                                               |
-| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.                                   |
-| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables.                                  |
-| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.                                             |
-| Hosting              | Vercel with Microfrontends.                                                                             |
+| Layer                | Choice                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| Framework            | Astro 7, static pages plus two Vercel Functions (quotes, database keepalive) and one Edge Middleware. |
+| Styling              | Tailwind CSS 4, CSS custom properties.                                                                |
+| Components           | Astro, organized with atomic design.                                                                  |
+| Client scripts       | Vanilla TypeScript.                                                                                   |
+| Internationalization | Spanish at root and English under `/en/`.                                                             |
+| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.                                 |
+| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables.                                |
+| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.                                           |
+| Hosting              | Vercel with Microfrontends.                                                                           |
 
 ## Architecture
 
-The site is statically rendered with Astro 7. Tailwind CSS 4 (through `@tailwindcss/vite`) supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` sends quote requests through Brevo to `wavival.dev@luminaw.co`.
+The site is statically rendered with Astro 7. Tailwind CSS 4 (through `@tailwindcss/vite`) supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` stores quote requests as leads in Supabase (`public.leads`, `product = 'wavival'`) and sends them through Brevo to `wavival.dev@luminaw.co`; `api/keepalive.ts`, called by a Vercel Cron every three days, keeps the Free database from pausing.
 
 Prices are shown in the visitor's currency without any client-side switching: every priced page (`/servicios`, `/cotizar` and their English mirrors) is built twice, once in USD at its public path and once in COP under `/cop/`. The Edge Middleware `middleware.ts` reads the `x-vercel-ip-country` header and rewrites visitors from Colombia to the `/cop/` variant internally, so the URL, canonical, hreflang and JSON-LD stay the same for everyone, each variant is cached under its own path, crawlers and visitors without a detected country get USD, and a direct request to `/cop/...` is redirected back to the public URL. The country never depends on the page language, and the visitor cannot change it. Amounts live only in `src/data/pricing.ts` and are rendered through the `Price` atom (`src/components/atoms/Price.astro`); the shared rule and route list live in `src/utils/currency.ts`.
 
@@ -121,15 +124,17 @@ Prices are shown in the visitor's currency without any client-side switching: ev
 ```text
 src/
 ├── components/          atoms, molecules and organisms
-├── data/                projects, stack, pricing (single source of prices), GitHub build-time data and view models
+├── data/                projects, stack, pricing (single source of prices), quote options and countries, GitHub build-time data and view models
 ├── i18n/                copy, slug map, localized routes and accessibility helpers
 ├── layouts/             Layout.astro, the shared document shell and metadata owner
 ├── pages/               Spanish routes and the English mirror under en/ (quote: cotizar.astro and en/quote/); cop/ holds the COP variants of the priced pages
 ├── scripts/             navigation, theme, disclosure and optional RUM behavior
+├── server/              PostgREST helper shared by the Vercel Functions (never imported by browser code)
 ├── utils/               pure helpers (bento grid spans, currency by location)
 └── styles/              global CSS, design tokens and component classes
 
-api/                     quote.ts, the only Vercel Function
+api/                     quote.ts (quotes) and keepalive.ts (database keepalive), the Vercel Functions
+supabase/migrations/     SQL migrations of the shared leads table, applied by hand after review
 middleware.ts            Vercel Edge Middleware: serves the /cop/ variant to visitors in Colombia
 public/                  brand, fonts, UI icons, images, CVs, crawler and AI-discovery files
 scripts/                 build-time validation scripts
@@ -247,7 +252,7 @@ feature/*, fix/*, chore/*  ->  dev  ->  stg  ->  main
 
 ### Vercel
 
-Vercel builds the project with `npm run build`, installs dependencies with `npm ci`, serves `dist/`, deploys `api/quote.ts` as the quote-delivery function and `middleware.ts` as the Edge Middleware that picks the currency variant by location. Set `BREVO_API_KEY` in Vercel and verify `wavival.dev@luminaw.co` as a Brevo sender. The site is available at `https://www.wavival.dev`.
+Vercel builds the project with `npm run build`, installs dependencies with `npm ci`, serves `dist/`, deploys `api/quote.ts` and `api/keepalive.ts` as functions, schedules the keepalive cron from `vercel.json`, and deploys `middleware.ts` as the Edge Middleware that picks the currency variant by location. Set `BREVO_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `CRON_SECRET` in Vercel and verify `wavival.dev@luminaw.co` as a Brevo sender. The site is available at `https://www.wavival.dev`.
 
 `microfrontends.json` defines the Vercel path-ownership contract. `vercel.json` defines redirects, immutable asset caches, and production security headers. When editing inline scripts, run `npm run build && npm run csp:check` and update the CSP hash only when required by the check.
 
