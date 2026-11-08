@@ -109,6 +109,16 @@
       "source": "/uses",
       "destination": "/herramientas",
       "permanent": true
+    },
+    {
+      "source": "/cv_valentina_ramirez_es.pdf",
+      "destination": "/sobre-mi",
+      "permanent": true
+    },
+    {
+      "source": "/cv_valentina_ramirez_en.pdf",
+      "destination": "/en/about",
+      "permanent": true
     }
   ],
   "headers": [
