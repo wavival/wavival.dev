@@ -157,7 +157,7 @@ Ruta de descubrimiento V1:
 
 Regla: el CTA de una pieza sobre los servicios de wavival dirige a `/servicios` o `/contacto`; el CTA de una pieza sobre Lúmina W o sus productos dirige a `luminaw.co` o al producto; el CTA de una pieza de confianza puede dirigir al portafolio.
 
-Medición ya instalada en el portafolio: eventos de Umami para `cta-quiero-producto`, `cv-descarga-es` y `cv-descarga-en`, `contacto-email`, `contacto-whatsapp`, `contacto-calendly`, `ver-app-terracore`, `ver-docs-terracore`, `ver-app-root`, `ver-docs-okroot` y `ver-app-nullbreach`.
+Medición ya instalada en el portafolio: eventos de Umami para `cta-quiero-producto`, `contacto-email`, `contacto-whatsapp`, `contacto-calendly`, `ver-app-terracore`, `ver-docs-terracore`, `ver-app-root`, `ver-docs-okroot` y `ver-app-nullbreach`.
 
 Fuente: `src/pages/contacto.astro`, `src/components/organisms/NavBar.astro`, `src/components/organisms/Footer.astro`, `AGENTS.md`.
 
@@ -173,7 +173,7 @@ Textos ya usados en el sitio:
 - "Descubre Lúmina W"
 - "Ver app", "Ver repositorio", "Ver sitio"
 - "Escríbeme", "Chatear", "Agendar"
-- "Descargar CV", "Cotizar este servicio"
+- "Cotizar este servicio"
 
 Reglas:
 

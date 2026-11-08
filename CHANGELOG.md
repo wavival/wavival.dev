@@ -109,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- The downloadable CV: `public/cv_valentina_ramirez_es.pdf` and `public/cv_valentina_ramirez_en.pdf`, their `Cache-Control` entries in `vercel.json`, the "Descargar CV" / "Download CV" buttons of the hero and the about pages (with their `cv-descarga-*` Umami events and the `download-cv-*` icons), `cvHref()` and the `common.downloadCv*` keys, and the CV links in `llms.txt`, `llms-full.txt`, `README.md`, `AGENTS.md` and the docs. The hero keeps "Ver servicios" / "See services" as its primary button and shows the Instagram, TikTok and LinkedIn icons from `SocialLinks`.
 - The four previous services (custom web applications, REST APIs and backend as a priced row, security and AppSec, AI integrations) from the services pages, the structured data and the AI-discovery files, and the phrase "pentester mindset" / "mentalidad de pentester" everywhere on the site. The quote form and `api/quote.ts` still use the previous ids until the form adopts the catalog ones.
 - The general price "from USD 250 / COP 1,000,000 depending on scope" from the contact band (ES and EN), the contact pages, the services structured data, `llms.txt`, `llms-full.txt` and `docs/commercial.md`. The MVP timeline in the contact band is unchanged.
 - `.github/dependabot.yml`: the repository no longer opens automatic weekly update pull requests, and Dependabot alerts and security updates are switched off in the GitHub settings. Dependencies are updated by hand.

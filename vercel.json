@@ -152,14 +152,6 @@
     {
       "source": "/fonts/:path*",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
-    },
-    {
-      "source": "/cv_valentina_ramirez_es.pdf",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
-    },
-    {
-      "source": "/cv_valentina_ramirez_en.pdf",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     }
   ]
 }
