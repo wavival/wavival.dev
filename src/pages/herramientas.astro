@@ -10,8 +10,10 @@ import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import { siteRoutes } from "@/i18n/utils";
 import RepoCard from "@/components/organisms/RepoCard.astro";
 import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
+import SocialProfileCard from "@/components/organisms/SocialProfileCard.astro";
 import { usesStack as stack } from "@/data/stack";
 import { fetchGithubProfile, curateRepos } from "@/data/github";
+import { SOCIAL_PROFILES } from "@/data/social";
 
 const routes = siteRoutes("es", import.meta.env.BASE_URL);
 
@@ -261,6 +263,38 @@ const softwareItems = [
         </div>
       )
     }
+
+    <StickyContentSection
+      id="social"
+      index="05"
+      eyebrow="Redes"
+      title="Construyo en público"
+      description="Muestro en Instagram y TikTok cómo construyo software seguro, automatizaciones con IA y lo que voy aprendiendo."
+      class="section-gap scroll-mt-24"
+      sticky={false}
+    >
+      <TextLink
+        slot="label"
+        href={SOCIAL_PROFILES.instagram.href}
+        target="_blank"
+        class="mt-3 self-start"
+        aria-label="Ver perfiles de Instagram y TikTok de Valentina Ramírez"
+      >
+        Ver perfiles
+      </TextLink>
+      <div
+        class="grid gap-3"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))"
+      >
+        <SocialProfileCard network="instagram" name="Instagram" lang="es">
+          Reels y publicaciones con el detrás de cámaras de cada proyecto y lo que aprendo en el
+          camino.
+        </SocialProfileCard>
+        <SocialProfileCard network="tiktok" name="TikTok" lang="es">
+          Videos cortos donde explico cómo construyo software seguro y automatizaciones con IA.
+        </SocialProfileCard>
+      </div>
+    </StickyContentSection>
 
     <div class="section-gap rule-line flex flex-wrap justify-center gap-3 pt-8">
       <Button variant="primary" href={routes.services} aria-label="Ver servicios"

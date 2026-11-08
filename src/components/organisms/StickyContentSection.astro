@@ -45,6 +45,7 @@ const labelClass = [
     </div>
     <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">{title}</h2>
     {description && <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">{description}</p>}
+    <slot name="label" />
   </div>
   <div
     data-sticky-section-content

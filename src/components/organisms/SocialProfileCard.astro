@@ -1,0 +1,47 @@
+---
+import Badge from "@/components/atoms/Badge.astro";
+import MaskIcon from "@/components/atoms/MaskIcon.astro";
+import { SOCIAL_PROFILES, type SocialNetwork } from "@/data/social";
+import type { Lang } from "@/i18n/utils";
+import { visibleText } from "@/utils/a11y";
+
+/**
+ * One profile card of the "Redes" / "Social" section of the tools pages, in the
+ * style of the featured GitHub card. The whole card is the link; the URL, the
+ * handle and the localized name come from `src/data/social.ts`, the one line
+ * about the content comes from the default slot. The `aria-label` repeats the
+ * visible text (WCAG 2.5.3, Label in Name) and adds the localized profile name.
+ */
+interface Props {
+  network: SocialNetwork;
+  name: string;
+  lang?: Lang;
+}
+
+const { network, name, lang = "es" } = Astro.props;
+const profile = SOCIAL_PROFILES[network];
+const line = visibleText(await Astro.slots.render("default"));
+const label = [name, profile.handle ? `${profile.handle}.` : "", line, `(${profile.label[lang]})`]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<a
+  href={profile.href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={label}
+  data-social-profile={network}
+  class="flex h-full flex-col border border-line border-t-2 border-t-blue bg-surface p-6 text-ink no-underline transition-colors hover:border-blue hover:text-ink md:p-10"
+>
+  <span class="flex items-center justify-between gap-4">
+    <Badge>{name}</Badge>
+    <MaskIcon name={network} size="xl" />
+  </span>
+  {
+    profile.handle && (
+      <span class="h-title mt-4 block text-4xl tracking-[-0.03em]">{profile.handle}</span>
+    )
+  }
+  <span class="body mt-[10px] block"><slot /></span>
+</a>
