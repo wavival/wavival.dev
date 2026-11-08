@@ -105,18 +105,31 @@ export const isQuoteSource = (value: string): boolean =>
   );
 
 /**
- * Services a project is an example of in the catalog (`examples` of
- * `src/data/services.ts` and of the technical-teams block). Empty for a project
- * no service lists, so its quote button opens the form with nothing selected.
+ * Services preselected for projects no catalog `examples` entry names: company
+ * sites quote as a business website and the security writeup as a review.
  */
-export const quoteServicesForProject = (slug: string): QuoteServiceId[] => [
-  ...SERVICES.filter((service) => service.examples?.some((example) => example.slug === slug)).map(
-    (service) => service.id
-  ),
-  ...(TECHNICAL_TEAMS_SERVICE.examples.some((example) => example.slug === slug)
-    ? [TECHNICAL_QUOTE_SERVICE_ID as QuoteServiceId]
-    : []),
-];
+export const ASSIGNED_QUOTE_SERVICES: Record<string, QuoteServiceId[]> = {
+  "lumina-w": ["business-website"],
+  "wavival-dev": ["business-website"],
+  "forgotten-portal": ["basic-security-review"],
+};
+
+/**
+ * Services a project is an example of in the catalog (`examples` of
+ * `src/data/services.ts` and of the technical-teams block), or its explicit
+ * assignment when no service lists it. Empty for anything else.
+ */
+export const quoteServicesForProject = (slug: string): QuoteServiceId[] => {
+  const fromCatalog: QuoteServiceId[] = [
+    ...SERVICES.filter((service) => service.examples?.some((example) => example.slug === slug)).map(
+      (service) => service.id
+    ),
+    ...(TECHNICAL_TEAMS_SERVICE.examples.some((example) => example.slug === slug)
+      ? [TECHNICAL_QUOTE_SERVICE_ID as QuoteServiceId]
+      : []),
+  ];
+  return fromCatalog.length > 0 ? fromCatalog : (ASSIGNED_QUOTE_SERVICES[slug] ?? []);
+};
 
 /** Quote page link with one `service` parameter per related service. */
 export const quoteHrefForProject = (quoteRoute: string, slug: string): string => {

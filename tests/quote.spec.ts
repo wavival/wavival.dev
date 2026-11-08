@@ -290,9 +290,9 @@ test.describe("quote form", () => {
       terracore: ["landing-page", "custom-web-app-mvp"],
       okroot: ["landing-page", "custom-web-app-mvp", "ai-integration"],
       nullbreach: ["ai-integration", "rest-apis-backend"],
-      "lumina-w": [],
-      "wavival-dev": [],
-      "forgotten-portal": [],
+      "lumina-w": ["business-website"],
+      "wavival-dev": ["business-website"],
+      "forgotten-portal": ["basic-security-review"],
     };
     for (const project of projects) {
       expect(quoteServicesForProject(project.slug)).toEqual(
@@ -311,9 +311,7 @@ test.describe("quote form", () => {
     }
   });
 
-  test("the TerraCore button preselects its services and Lúmina W preselects none", async ({
-    page,
-  }) => {
+  test("the TerraCore and Lúmina W buttons preselect their services", async ({ page }) => {
     await page.goto("/proyectos/terracore");
     await page.getByRole("link", { name: "Cotizar un proyecto así" }).click();
     await expect(page).toHaveURL(/\/cotizar\?service=landing-page&service=custom-web-app-mvp$/);
@@ -323,8 +321,9 @@ test.describe("quote form", () => {
 
     await page.goto("/en/projects/lumina-w");
     await page.getByRole("link", { name: "Quote a project like this" }).click();
-    await expect(page).toHaveURL(/\/en\/quote$/);
-    await expect(page.locator('input[name="services"]:checked')).toHaveCount(0);
+    await expect(page).toHaveURL(/\/en\/quote\?service=business-website$/);
+    await expect(page.locator('input[name="services"]:checked')).toHaveCount(1);
+    await expect(page.locator('input[name="services"][value="business-website"]')).toBeChecked();
   });
 
   test("marks required fields with a red asterisk and a tooltip", async ({ page }) => {
