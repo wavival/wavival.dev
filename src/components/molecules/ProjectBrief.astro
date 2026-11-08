@@ -16,12 +16,17 @@ const rows = [
 ];
 ---
 
-<dl class={`m-0 flex flex-col ${compact ? "gap-2" : "gap-4"} ${extra}`.trim()} data-brief>
+<dl class={`m-0 flex flex-col ${compact ? "gap-3" : "gap-4"} ${extra}`.trim()} data-brief>
   {
     rows.map((row) => (
-      <div class={compact ? "flex flex-row gap-2" : "flex flex-col gap-1"} data-brief-row={row.key}>
-        <dt class={`label-sm ${compact ? "w-[84px] flex-none" : ""}`.trim()}>{row.label}</dt>
-        <dd class={`m-0 ${compact ? "text-[13px] leading-[1.5]" : "body"} text-ink`}>
+      <div
+        class={compact ? "flex flex-col gap-1 sm:flex-row sm:gap-3" : "flex flex-col gap-1"}
+        data-brief-row={row.key}
+      >
+        <dt class={`label-sm ${compact ? "flex-none sm:w-[96px] sm:pt-[3px]" : ""}`.trim()}>
+          {row.label}
+        </dt>
+        <dd class={`m-0 ${compact ? "text-sm leading-[1.65]" : "body"} text-ink`}>
           {row.key === "result" && brief.validation && (
             <span
               data-validation

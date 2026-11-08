@@ -25,6 +25,34 @@ test.describe("design system regressions", () => {
     await expect(title).toHaveCSS("text-transform", "none");
   });
 
+  test("hero and home about buttons are 50px and the about icons 44px", async ({ page }) => {
+    await page.goto("/");
+    const about = page.locator("#about");
+    const heights = await Promise.all(
+      ["a.btn-primary", "a.btn-secondary", "a.icon-btn"].map(async (sel) =>
+        Math.round((await about.locator(sel).first().boundingBox())?.height ?? 0)
+      )
+    );
+    expect(heights).toEqual([50, 50, 44]);
+    for (const [path, label] of [
+      ["/", "Criterio técnico"],
+      ["/en/", "Technical criteria"],
+    ]) {
+      await page.goto(path);
+      const stackButton = page.locator("#stack a.btn-secondary");
+      await expect(stackButton).toHaveCount(1);
+      await expect(stackButton).toHaveText(label);
+      expect(Math.round((await stackButton.boundingBox())?.height ?? 0)).toBe(50);
+      await expect(page.locator("#stack a.action-link")).toHaveCount(0);
+    }
+    await page.goto("/");
+    const hero = page.locator("#hero");
+    expect(Math.round((await hero.locator("a.btn-primary").boundingBox())?.height ?? 0)).toBe(50);
+    expect(Math.round((await hero.locator("a.icon-btn").first().boundingBox())?.height ?? 0)).toBe(
+      50
+    );
+  });
+
   test.describe("mobile", () => {
     test.use({ viewport: { width: 390, height: 844 } });
 

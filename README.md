@@ -297,5 +297,5 @@ MIT. See [LICENSE](./LICENSE).
 > Thanks for getting here. Let's build great things.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-wavival-407bff?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/wavival)
-[![Instagram](https://img.shields.io/badge/Instagram-@wavival-407bff?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/wavival)
+[![Instagram](https://img.shields.io/badge/Instagram-@wavival__dev-407bff?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/wavival_dev)
 [![Email](https://img.shields.io/badge/Email-wavival.dev@luminaw.co-407bff?style=for-the-badge&logo=gmail&logoColor=white)](mailto:wavival.dev@luminaw.co)
