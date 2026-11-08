@@ -9,16 +9,20 @@ interface Props {
 
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
-// Featured categories take two of the four columns, the others one, so every row adds up to four.
-const styles = stack.map((s) => `--span:${s.featured ? 6 : 3}`);
+const mobileOrders = [1, 2, 4, 3, 5, 6];
+const styles = stack.map(
+  (s, i) => `--span:${s.featured ? 2 : 1};--mobile-order:${mobileOrders[i]}`
+);
 ---
 
-<Bento cells>
+<Bento cells class="stack-grid">
   {
     stack.map((s, i) => (
       <article
         class={`flex flex-col gap-4 p-7 transition-colors hover:bg-tint ${s.featured ? "bg-tint shadow-[inset_0_2px_0_var(--blue)]" : ""}`.trim()}
         style={styles[i]}
+        data-stack-card
+        data-featured={s.featured ? "" : undefined}
       >
         <div class="flex items-center justify-between gap-3">
           <span class="index index-muted">{String(i + 1).padStart(2, "0")}</span>
