@@ -14,6 +14,7 @@ import {
   SERVICES,
   SERVICE_GROUPS,
   TECHNICAL_TEAMS_SERVICE,
+  servicesInGroup,
 } from "../src/data/services";
 import type { Lang } from "../src/i18n/ui";
 import { COP_VARIANT_PREFIX, PRICED_ROUTES, type Currency } from "../src/utils/currency";
@@ -51,6 +52,33 @@ const banners = {
   marketing: {
     es: "Paquetes con marketing: software y presencia digital",
     en: "Packages with marketing: software and digital presence",
+  },
+} as const;
+
+const groupLayout = {
+  development: {
+    eyebrow: { es: "DESARROLLO", en: "DEVELOPMENT" },
+    title: { es: "Catálogo de desarrollo", en: "Development catalog" },
+    description: {
+      es: "Landing pages, sitios, automatizaciones, chatbots y apps para convertir tareas manuales en software que mueve tu negocio.",
+      en: "Landing pages, websites, automations, chatbots and apps that turn manual work into software that moves your business.",
+    },
+  },
+  complementary: {
+    eyebrow: { es: "COMPLEMENTARIOS", en: "COMPLEMENTARY" },
+    title: { es: "Seguridad y soporte", en: "Security and support" },
+    description: {
+      es: "Una revisión para encontrar lo que puede fallar y soporte para que lo que ya funciona siga funcionando.",
+      en: "A review to find what could fail and support to keep what already works working.",
+    },
+  },
+  marketing: {
+    eyebrow: { es: "MARKETING", en: "MARKETING" },
+    title: { es: "Paquetes con marketing", en: "Packages with marketing" },
+    description: {
+      es: "El marketing solo se vende dentro de un paquete o a clientes de desarrollo. Va incluido para que lo que construimos también traiga clientes.",
+      en: "Marketing is sold only inside a package or to development clients. It is included so that what we build also brings in customers.",
+    },
   },
 } as const;
 
@@ -143,32 +171,90 @@ test.describe("services catalog", () => {
         }
       });
 
-      test(`${url}: every service group shows its localized banner`, async ({ page }) => {
+      test(`${url}: every service group uses the tools two-column layout`, async ({ page }) => {
         await page.goto(url);
         for (const [index, group] of SERVICE_GROUPS.entries()) {
           const section = page.locator(`[data-service-group="${group.id}"]`);
+          const header = section.locator("[data-service-group-header]");
+          const content = section.locator("[data-service-group-content]");
           const banner = section.locator(`[data-service-banner="${group.id}"]`);
           await expect(banner).toHaveAttribute("src", `/images/services/services-${group.id}.webp`);
           await expect(banner).toHaveAttribute("alt", banners[group.id][lang]);
           await expect(banner).toHaveAttribute("width", "1600");
           await expect(banner).toHaveAttribute("height", "500");
           await expect(banner).toHaveAttribute("loading", index === 0 ? "eager" : "lazy");
-          await expect(section.getByRole("heading", { level: 2 })).toHaveText(group.title[lang]);
+          await expect(
+            header.getByText(String(index + 1).padStart(2, "0"), { exact: true })
+          ).toBeVisible();
+          await expect(
+            header.getByText(groupLayout[group.id].eyebrow[lang], { exact: true })
+          ).toBeVisible();
+          await expect(header.getByRole("heading", { level: 2 })).toHaveText(
+            groupLayout[group.id].title[lang]
+          );
+          await expect(header).toContainText(groupLayout[group.id].description[lang]);
           await expect(banner).toHaveCount(1);
+          await expect(content.locator("img").first()).toHaveAttribute(
+            "data-service-banner",
+            group.id
+          );
+          expect(
+            await content
+              .locator("[data-service]")
+              .evaluateAll((els) => els.map((el) => el.dataset.service))
+          ).toEqual(servicesInGroup(group.id).map((service) => service.id));
           expect(
             await banner.evaluate((element) => {
-              const section = element.closest("[data-service-group]");
-              const heading = section?.querySelector("h2");
-              const firstService = section?.querySelector("[data-service]");
+              const content = element.closest("[data-service-group-content]");
+              const firstService = content?.querySelector("[data-service]");
               return Boolean(
-                heading &&
                 firstService &&
-                heading.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING &&
                 element.compareDocumentPosition(firstService) & Node.DOCUMENT_POSITION_FOLLOWING
               );
             })
           ).toBe(true);
         }
+      });
+
+      test(`${url}: service group labels are sticky on desktop and stack on mobile`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width: 1280, height: 720 });
+        await page.goto(url);
+        const desktopHeader = page.locator(
+          '[data-service-group="development"] [data-service-group-header]'
+        );
+        await expect(desktopHeader).toHaveCSS("position", "sticky");
+        await desktopHeader.scrollIntoViewIfNeeded();
+        const initialTop = await desktopHeader.evaluate(
+          (element) => element.getBoundingClientRect().top
+        );
+        await page.evaluate(() => window.scrollBy(0, 320));
+        const stickyTop = await desktopHeader.evaluate(
+          (element) => element.getBoundingClientRect().top
+        );
+        expect(stickyTop).toBeGreaterThanOrEqual(90);
+        expect(stickyTop).toBeLessThanOrEqual(Math.max(initialTop, 110));
+
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto(url);
+        const mobileHeader = page.locator(
+          '[data-service-group="development"] [data-service-group-header]'
+        );
+        const mobileBanner = page.locator(
+          '[data-service-group="development"] [data-service-banner]'
+        );
+        await expect(mobileHeader).toHaveCSS("position", "static");
+        expect(
+          await mobileBanner.evaluate((element) => {
+            const header = element
+              .closest("[data-service-group]")
+              ?.querySelector("[data-service-group-header]");
+            return Boolean(
+              header && header.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING
+            );
+          })
+        ).toBe(true);
       });
 
       test(`${url}: "${words.from[lang]}" only on the MVP and "${words.perMonth[lang]}" only on the monthly plans`, async ({

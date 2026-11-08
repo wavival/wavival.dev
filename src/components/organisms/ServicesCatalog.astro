@@ -5,6 +5,7 @@
 // the page variant being built.
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import ServiceRow from "@/components/organisms/ServiceRow.astro";
+import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
 import {
   GENERAL_EXCLUSIONS,
   SERVICE_GROUPS,
@@ -42,6 +43,30 @@ const serviceBanners = {
     en: "Packages with marketing: software and digital presence",
   },
 } as const;
+const groupLayout = {
+  development: {
+    eyebrow: { es: "DESARROLLO", en: "DEVELOPMENT" },
+    title: { es: "Catálogo de desarrollo", en: "Development catalog" },
+    description: {
+      es: "Landing pages, sitios, automatizaciones, chatbots y apps para convertir tareas manuales en software que mueve tu negocio.",
+      en: "Landing pages, websites, automations, chatbots and apps that turn manual work into software that moves your business.",
+    },
+  },
+  complementary: {
+    eyebrow: { es: "COMPLEMENTARIOS", en: "COMPLEMENTARY" },
+    title: { es: "Seguridad y soporte", en: "Security and support" },
+    description: {
+      es: "Una revisión para encontrar lo que puede fallar y soporte para que lo que ya funciona siga funcionando.",
+      en: "A review to find what could fail and support to keep what already works working.",
+    },
+  },
+  marketing: {
+    eyebrow: { es: "MARKETING", en: "MARKETING" },
+    title: { es: "Paquetes con marketing", en: "Packages with marketing" },
+  },
+} as const;
+const groupDescription = (group: (typeof SERVICE_GROUPS)[number]) =>
+  group.id === "marketing" ? group.note?.[lang] : groupLayout[group.id].description[lang];
 const exampleLinks = (examples: readonly ServiceExample[] = []) =>
   examples.map((example) => ({
     name: example.name,
@@ -54,13 +79,14 @@ const indexOf = (id: string) =>
 
 {
   SERVICE_GROUPS.map((group, i) => (
-    <section data-service-group={group.id}>
-      <SectionHeader
-        label={labels.catalog}
-        title={group.title[lang]}
-        intro={group.note?.[lang]}
-        class={i === 0 ? "mt-[72px]" : "section-gap"}
-      />
+    <StickyContentSection
+      dataServiceGroup={group.id}
+      index={String(i + 1).padStart(2, "0")}
+      eyebrow={groupLayout[group.id].eyebrow[lang]}
+      title={groupLayout[group.id].title[lang]}
+      description={groupDescription(group)}
+      class={i === 0 ? "mt-[72px]" : "section-gap"}
+    >
       <img
         src={`${base}images/services/services-${group.id}.webp`}
         alt={serviceBanners[group.id][lang]}
@@ -69,7 +95,7 @@ const indexOf = (id: string) =>
         loading={i === 0 ? "eager" : "lazy"}
         decoding="async"
         data-service-banner={group.id}
-        class="mt-8 block h-auto w-full"
+        class="block h-auto w-full"
       />
       <div class="mt-10 border-t border-ink">
         {servicesInGroup(group.id).map((service) => (
@@ -95,7 +121,7 @@ const indexOf = (id: string) =>
           />
         ))}
       </div>
-    </section>
+    </StickyContentSection>
   ))
 }
 

@@ -9,6 +9,7 @@ import Index from "@/components/atoms/Index.astro";
 import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import { siteRoutes } from "@/i18n/utils";
 import RepoCard from "@/components/organisms/RepoCard.astro";
+import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
 import { usesStack as stack } from "@/data/stack";
 import { fetchGithubProfile, curateRepos } from "@/data/github";
 
@@ -118,104 +119,76 @@ const softwareItems = [
       </p>
     </PageIntro>
 
-    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div
-        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
-      >
-        <div class="flex items-baseline gap-[14px]"><Index>01</Index><Eyebrow>Stack</Eyebrow></div>
-        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-          Con qué desarrollo
-        </h2>
-        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-          El stack que uso a diario y la razón detrás de cada elección: backend sólido, frontend
-          funcional, IA aplicada y seguridad desde el diseño.
-        </p>
-      </div>
-      <div class="min-w-0 flex-1 basis-[480px]">
-        {
-          stack.map((s) => (
-            <div
-              class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
-            >
-              <div class="flex items-start justify-between gap-4">
-                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                  <h3 class="h-title m-0 text-2xl">{s.category}</h3>
-                  <span class="text-[13px] text-muted">{s.description}</span>
-                </div>
-                {s.category === "Backend" && (
-                  <span class="label-sm label-sm-link shrink-0">Destacado</span>
-                )}
-              </div>
-              {s.why && <p class="body m-0">{s.why}</p>}
-              <ChipList
-                items={s.tools}
-                class={s.category === "Backend" ? "[&_.chip]:border-blue [&_.chip]:text-link" : ""}
-              />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div
-        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
-      >
-        <div class="flex items-baseline gap-[14px]">
-          <Index>02</Index><Eyebrow>Hardware</Eyebrow>
-        </div>
-        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-          Dónde lo construyo
-        </h2>
-        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-          Equipo modesto a propósito. Si una app corre fluida acá, corre en cualquier lado: me
-          obliga a optimizar de verdad, no a tapar con hardware.
-        </p>
-      </div>
-      <div class="min-w-0 flex-1 basis-[480px]">
-        {
-          hardwareItems.map((it) => (
-            <div class="flex flex-col gap-3 border-b border-line py-7">
+    <StickyContentSection
+      index="01"
+      eyebrow="Stack"
+      title="Con qué desarrollo"
+      description="El stack que uso a diario y la razón detrás de cada elección: backend sólido, frontend funcional, IA aplicada y seguridad desde el diseño."
+      class="section-gap"
+    >
+      {
+        stack.map((s) => (
+          <div
+            class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
+          >
+            <div class="flex items-start justify-between gap-4">
               <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{it.title}</h3>
-                <span class="text-[13px] text-muted">{it.sub}</span>
+                <h3 class="h-title m-0 text-2xl">{s.category}</h3>
+                <span class="text-[13px] text-muted">{s.description}</span>
               </div>
-              <ChipList items={it.tools} />
+              {s.category === "Backend" && (
+                <span class="label-sm label-sm-link shrink-0">Destacado</span>
+              )}
             </div>
-          ))
-        }
-      </div>
-    </div>
+            {s.why && <p class="body m-0">{s.why}</p>}
+            <ChipList
+              items={s.tools}
+              class={s.category === "Backend" ? "[&_.chip]:border-blue [&_.chip]:text-link" : ""}
+            />
+          </div>
+        ))
+      }
+    </StickyContentSection>
 
-    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div
-        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
-      >
-        <div class="flex items-baseline gap-[14px]">
-          <Index>03</Index><Eyebrow>Software</Eyebrow>
-        </div>
-        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-          Mis herramientas del día a día
-        </h2>
-        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-          Las apps donde vivo mientras construyo: edición, IA, terminal y el flujo de productividad
-          que me mantiene enfocada.
-        </p>
-      </div>
-      <div class="min-w-0 flex-1 basis-[480px]">
-        {
-          softwareItems.map((it) => (
-            <div class="flex flex-col gap-3 border-b border-line py-7">
-              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{it.title}</h3>
-                <span class="text-[13px] text-muted">{it.sub}</span>
-              </div>
-              <ChipList items={it.tools} />
+    <StickyContentSection
+      index="02"
+      eyebrow="Hardware"
+      title="Dónde lo construyo"
+      description="Equipo modesto a propósito. Si una app corre fluida acá, corre en cualquier lado: me obliga a optimizar de verdad, no a tapar con hardware."
+      class="section-gap"
+    >
+      {
+        hardwareItems.map((it) => (
+          <div class="flex flex-col gap-3 border-b border-line py-7">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 class="h-title m-0 text-2xl">{it.title}</h3>
+              <span class="text-[13px] text-muted">{it.sub}</span>
             </div>
-          ))
-        }
-      </div>
-    </div>
+            <ChipList items={it.tools} />
+          </div>
+        ))
+      }
+    </StickyContentSection>
+
+    <StickyContentSection
+      index="03"
+      eyebrow="Software"
+      title="Mis herramientas del día a día"
+      description="Las apps donde vivo mientras construyo: edición, IA, terminal y el flujo de productividad que me mantiene enfocada."
+      class="section-gap"
+    >
+      {
+        softwareItems.map((it) => (
+          <div class="flex flex-col gap-3 border-b border-line py-7">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 class="h-title m-0 text-2xl">{it.title}</h3>
+              <span class="text-[13px] text-muted">{it.sub}</span>
+            </div>
+            <ChipList items={it.tools} />
+          </div>
+        ))
+      }
+    </StickyContentSection>
 
     {
       githubUser && (
