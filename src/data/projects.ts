@@ -145,6 +145,12 @@ export interface Project {
   brief?: ProjectBrief;
   /** Meta description (150-160 chars). Falls back to the first part's. */
   metaDescription?: string;
+  /**
+   * Key stack shown as the secondary text line of home rows and index cards: the main technology of
+   * each layer the project has (backend, database, frontend, AI or integrations, content platform),
+   * 4 to 8 entries taken from the parts' `stack` lists. The full lists stay on the case study.
+   */
+  keyStack: string[];
   /** Ordered parts; the first one is the primary part. */
   parts: ProjectPart[];
   en?: ProjectEn;
@@ -164,6 +170,7 @@ export const projectFilters = (p: Project) => unique(p.parts.flatMap((part) => p
 export const projects: Project[] = [
   {
     slug: "terracore",
+    keyStack: ["Django", "DRF", "PostgreSQL", "React", "TypeScript", "Dexie", "Astro"],
     name: "TerraCore | Campo Inteligente",
     shortName: "TerraCore",
     datePublished: "2026-06-16",
@@ -1087,6 +1094,7 @@ export const projects: Project[] = [
   },
   {
     slug: "okroot",
+    keyStack: ["Django", "DRF", "PostgreSQL", "React", "TypeScript", "PWA", "Claude API", "Astro"],
     name: "OKroot | Come sano, vive libre",
     shortName: "OKroot",
     datePublished: "2026-06-16",
@@ -1901,6 +1909,16 @@ export const projects: Project[] = [
   },
   {
     slug: "nullbreach",
+    keyStack: [
+      "Next.js",
+      "NextAuth",
+      "Prisma",
+      "PostgreSQL",
+      "React",
+      "TypeScript",
+      "OpenAI API",
+      "Astro",
+    ],
     name: "NullBreach | AI-Powered AppSec Chat",
     shortName: "NullBreach",
     datePublished: "2026-06-16",
@@ -2375,6 +2393,16 @@ export const projects: Project[] = [
   },
   {
     slug: "lumina-w",
+    keyStack: [
+      "Next.js",
+      "Prisma",
+      "PostgreSQL",
+      "React",
+      "TypeScript",
+      "Claude API",
+      "Brevo",
+      "Astro",
+    ],
     name: "Lúmina W | Software & Technology",
     shortName: "Lúmina W",
     datePublished: "2026-06-16",
@@ -3119,6 +3147,7 @@ export const projects: Project[] = [
   },
   {
     slug: "wavival-dev",
+    keyStack: ["Astro", "TypeScript", "Tailwind CSS", "Vercel", "Playwright"],
     name: "wavival.dev",
     shortName: "wavival.dev",
     datePublished: "2026-10-01",
@@ -3425,6 +3454,7 @@ export const projects: Project[] = [
   },
   {
     slug: "forgotten-portal",
+    keyStack: ["Python", "Nmap", "Gobuster", "Netcat", "PTES", "MITRE ATT&CK", "Linux"],
     name: "Forgotten Portal",
     shortName: "Forgotten Portal",
     datePublished: "2026-06-16",

@@ -223,6 +223,9 @@ test.describe("services catalog", () => {
           "href",
           `${quote}?service=rest-apis-backend`
         );
+        await expect(technical.locator("article a[href]").last()).toHaveText(
+          lang === "en" ? "Request a quote" : "Cotizar este servicio"
+        );
         expect(await technical.textContent()).not.toMatch(/\b(COP|USD)\b/);
       });
     }

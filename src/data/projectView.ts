@@ -1,7 +1,6 @@
 import {
   isRichPart,
   projectFilters,
-  projectStack,
   type PartKind,
   type Project,
   type ProjectLink,
@@ -58,7 +57,7 @@ export interface ProjectView {
   solution: string;
   summary: string;
   brief: BriefView;
-  /** Short preview of the merged stack, for cards and rows. The full list is on the page. */
+  /** The project `keyStack`, for cards and rows. The full lists are on the page. */
   stack: string[];
   filters: string[];
   caseHref: string;
@@ -68,8 +67,6 @@ export interface ProjectView {
   links: ProjectAction[];
   parts: PartView[];
 }
-
-const STACK_PREVIEW = 6;
 
 /** Sections that live behind the "technical detail" toggle of a case study. */
 export const TECHNICAL_SECTIONS = ["architecture", "design", "decisions", "learnings", "roadmap"];
@@ -242,7 +239,7 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
     solution,
     summary,
     brief,
-    stack: projectStack(p).slice(0, STACK_PREVIEW),
+    stack: p.keyStack,
     filters: projectFilters(p),
     caseHref: r.project(p.slug),
     actions,

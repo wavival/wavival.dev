@@ -167,7 +167,7 @@ Fuente: `src/pages/contacto.astro`, `src/components/organisms/NavBar.astro`, `sr
 
 Textos ya usados en el sitio:
 
-- "Quiero mi producto"
+- "Cotizar mi proyecto" (ContactBand, al final de cada página)
 - "Contáctame"
 - "Ver servicios"
 - "Descubre Lúmina W"

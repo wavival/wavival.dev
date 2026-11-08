@@ -147,7 +147,7 @@ Self-hosted: latin-subset `woff2` in `public/fonts/`, declared via `@font-face` 
 - The header is sticky (64px, `--nav` fill with backdrop blur), not fixed, so `<main>` has no top padding. The active link shows text color plus a 2px blue bar.
 - Below 900px the menu is a full-screen overlay with six numbered display links, a "Blog W" primary button and a mailto secondary button.
 - The language toggle is the text "EN" / "ES"; icon-only controls are 44px (`.icon-btn`, `.lang-toggle`).
-- `ContactBand` closes the home and also services, about, and case studies; the services page hides its own "Ver servicios" button.
+- `ContactBand` closes every page from `Layout` except contact, privacy, quote and 404; on the services pages its secondary button goes to contact instead of services.
 - Accordions are native `<details>` (`Disclosure`, and `PartDisclosure` for the parts of an ecosystem project) with the state shown as text and a short open/close transition.
 - Line-height defaults to 1.6 (body and the Tailwind text scale); display headings, chips (1.2) and meta labels (1) set it explicitly.
 - The mobile menu overlay is a sibling of the sticky `<header>`, never a child: `backdrop-filter` on the header would otherwise become the containing block of the `fixed` overlay.

@@ -8,7 +8,6 @@ import PullQuote from "@/components/molecules/PullQuote.astro";
 import SocialLinks from "@/components/molecules/SocialLinks.astro";
 import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
-import ContactBand from "@/components/organisms/ContactBand.astro";
 import { siteRoutes } from "@/i18n/utils";
 import { bentoStyles } from "@/utils/bento";
 
@@ -250,6 +249,5 @@ const breadcrumbLd = JSON.stringify({
     </div>
   </section>
 
-  <ContactBand lang={lang} />
   <script is:inline type="application/ld+json" set:html={breadcrumbLd} />
 </Layout>

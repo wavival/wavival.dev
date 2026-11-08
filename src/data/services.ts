@@ -605,7 +605,7 @@ export const SERVICE_LABELS = {
     technicalTitle: "Refuerzo backend para tu equipo",
     technicalIntro:
       "Fuera del catálogo y sin precio fijo: se cotiza según el alcance, como desarrollo completo o como refuerzo dentro de tu equipo.",
-    technicalQuote: "Cotizar",
+    technicalQuote: "Cotizar este servicio",
   },
   en: {
     catalog: "Catalog",
