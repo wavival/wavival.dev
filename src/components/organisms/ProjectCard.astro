@@ -61,7 +61,7 @@ const { project: p, index, featured = false, wide = false, featuredLabel = "" } 
       }
     </h2>
     <ProjectBrief brief={p.brief} compact />
-    <p class="m-0 text-xs leading-[1.6] text-muted">Stack: {p.stack.join(", ")}</p>
+    <p class="m-0 text-xs leading-[1.6] text-muted" data-key-stack>Stack: {p.stack.join(" · ")}</p>
     <ProjectActions actions={p.actions} class="mt-auto pt-2" />
   </div>
 </article>

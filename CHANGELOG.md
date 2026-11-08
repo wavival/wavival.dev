@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The stack line of the home project rows and the index cards (`ProjectRow`, `ProjectCard`) showed the first six names of the merged part stacks, so TerraCore listed only backend names and no frontend. Each project now declares a `keyStack` in `src/data/projects.ts` (the main technology of each layer it has, 4 to 8 names, backend first, then database, frontend, AI or integrations and content platform), rendered as the same secondary text line with " · " between names. `tests/project-key-stack.spec.ts` checks every project in both languages, the backend and frontend names of TerraCore and the absence of the infrastructure details the case studies generalized.
 - Decisions inside an open ecosystem part showed "Cerrar" while they were closed: the "Ver" and "Cerrar" labels of a decision (and "Ver detalle" and "Cerrar" of a part) now belong to its own summary (`.disclosure > summary .when-open`), so a closed decision keeps "Ver" whatever its parent does. Covered by `tests/ecosystem.spec.ts`.
 - Dependency audit: `source-map-js` 1.2.2 (high, GHSA-68fv-2mgg-jv7q, a production dependency; it made the `quality` job fail on every pull request), and `proxy-addr` 2.0.8 (critical) and `compression` 1.8.2 (high), both reached only by the Lighthouse chain in development. Lockfile only.
 
