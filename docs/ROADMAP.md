@@ -14,6 +14,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Filters: decide whether NullBreach (an AI-powered AppSec chat) belongs under the `security` filter, from which it is left out today. Adding it changes the filter count.
 - [ ] Internal hourly rate: the 2026 plan defines one, but it is not published and `src/data/pricing.ts` does not hold it because the repository is public. Decide where it lives if a later step needs it.
 - [ ] Pricing review: the COP and USD lists in `src/data/pricing.ts` are independent (no exchange rate) and are reviewed every January.
+- [ ] Decision: the removed CV files (`/cv_valentina_ramirez_es.pdf`, `/cv_valentina_ramirez_en.pdf`) currently redirect to `/sobre-mi` and `/en/about` (`vercel.json`). Decide whether to keep those redirects or let the old URLs return 404 and drop the rules.
 
 ## Security
 
@@ -25,10 +26,12 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Alert on repeated function errors (Vercel log drain or alert) so a failing Brevo key or a failing Supabase insert is noticed before a lead is lost.
 - [ ] Lead retention: `/privacidad` promises that leads of people who do not become clients are deleted 24 months after the last contact. No job does it yet; delete the `wavival` rows of `public.leads` whose `contacted_at` (or `created_at` when never contacted) is older than 24 months and whose `status` is not `won`, by hand or with a scheduled function, after the first anniversary of the form (2027-11).
 - [ ] Supabase keepalive: `api/keepalive.ts` runs every three days through Vercel Cron so the Free project is not paused. After the first deployment check Vercel > Cron Jobs for the runs and that `CRON_SECRET` is set.
+- [ ] Verify in production, after the first deployment with the quote form: submit a real quote and confirm the row in `public.leads` (`product = 'wavival'`) and the notification email; confirm the country header reaches `middleware.ts` (COP variant) and the quote function (`geo_country` filled); confirm the keepalive cron shows a successful run in Vercel > Cron Jobs.
 - [ ] Vercel variables for leads: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `CRON_SECRET` in Production only (never Preview). Without the Supabase ones the quote function still emails and the email says the lead was not stored.
 - [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
+- [ ] Clean up the `script-src` hashes in `vercel.json`: `npm run csp:check` only reports inline scripts whose hash is missing, so hashes that no longer match any script in `dist/` accumulate. Compare the list against the built output and remove the stale ones.
 
 ## Dependencies
 
@@ -46,5 +49,9 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Preload Poppins 500 and 600 (only 400 and the Raleway variable font are preloaded).
 - [ ] Verify the accordion headings (an `h2` inside each `<summary>`) with real screen readers (VoiceOver, NVDA); only Chromium's accessibility tree was checked.
 - [ ] Add an axe pass for case-study pages to the Playwright suite (heading order and contrast are checked by hand today).
+
+## Integrations
+
+- [ ] Social networks by API (phase 2): show the latest Instagram and TikTok posts through their APIs with a server-side cache (build-time or a Vercel function), not through the platforms' embeds, so no third-party script or iframe is added to the CSP and the pages stay static.
 
 ## Quality and docs
