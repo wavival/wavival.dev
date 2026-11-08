@@ -1,43 +1,36 @@
 ---
 import IconLink from "@/components/atoms/IconLink.astro";
+import {
+  DEFAULT_SOCIAL_NETWORKS,
+  SOCIAL_NETWORKS,
+  SOCIAL_PROFILES,
+  type SocialNetwork,
+} from "@/data/social";
 import type { Lang } from "@/i18n/utils";
 
 /**
- * The social links of the site, always the same four in the same order:
- * Instagram, TikTok, LinkedIn, GitHub. Every row of social icons renders this
- * component, so no page can list them differently.
+ * The only row of profile links of the site. `networks` picks which ones a
+ * place shows; the order is always the one of `SOCIAL_NETWORKS`.
  */
 interface Props {
   lang?: Lang;
   size?: "md" | "lg";
   class?: string;
+  networks?: readonly SocialNetwork[];
 }
 
-const { lang = "es", size = "md", class: extra = "" } = Astro.props;
-const isEn = lang === "en";
+const {
+  lang = "es",
+  size = "md",
+  class: extra = "",
+  networks = DEFAULT_SOCIAL_NETWORKS,
+} = Astro.props;
 
-const links = [
-  {
-    icon: "instagram",
-    href: "https://instagram.com/wavival_dev",
-    label: isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez",
-  },
-  {
-    icon: "tiktok",
-    href: "https://www.tiktok.com/@wavival_dev",
-    label: isEn ? "Valentina Ramírez on TikTok" : "TikTok de Valentina Ramírez",
-  },
-  {
-    icon: "linkedin",
-    href: "https://linkedin.com/in/wavival",
-    label: isEn ? "Valentina Ramírez on LinkedIn" : "LinkedIn de Valentina Ramírez",
-  },
-  {
-    icon: "github",
-    href: "https://github.com/wavival",
-    label: isEn ? "Valentina Ramírez on GitHub" : "GitHub de Valentina Ramírez",
-  },
-];
+const links = SOCIAL_NETWORKS.filter((id) => networks.includes(id)).map((id) => ({
+  icon: id,
+  href: SOCIAL_PROFILES[id].href,
+  label: SOCIAL_PROFILES[id].label[lang],
+}));
 ---
 
 <div class={`flex flex-wrap items-center gap-2 ${extra}`.trim()} data-social-links>

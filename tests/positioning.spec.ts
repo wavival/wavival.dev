@@ -36,6 +36,15 @@ const WHATSAPP_PAGES = {
   en: ["/en/", "/en/contact/", "/en/about/", "/en/services/", "/cop/en/services/"],
 } as const;
 
+const ABOUT_SOCIAL_ORDER = [
+  "https://instagram.com/wavival_dev",
+  "https://www.tiktok.com/@wavival_dev",
+  "https://linkedin.com/in/wavival",
+  "https://github.com/wavival",
+  "https://platzi.com/p/wavival",
+  "https://blog.luminaw.co",
+];
+
 test.describe("positioning of the 2026 plan", () => {
   for (const lang of ["es", "en"] as const) {
     const home = HOME[lang];
@@ -104,7 +113,21 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(page.locator('a[href*="facebook.com"]')).toHaveCount(0);
     });
 
-    test(`${home.path} home about section links Instagram, TikTok, LinkedIn, GitHub and Platzi in that order, without WhatsApp`, async ({
+    test(`${home.path} hero links Instagram, TikTok and LinkedIn in that order, without GitHub`, async ({
+      page,
+    }) => {
+      await page.goto(home.path);
+      const order = await page
+        .locator("#hero a.icon-btn")
+        .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
+      expect(order).toEqual([
+        "https://instagram.com/wavival_dev",
+        "https://www.tiktok.com/@wavival_dev",
+        "https://linkedin.com/in/wavival",
+      ]);
+    });
+
+    test(`${home.path} home about section links Instagram, TikTok and LinkedIn, with a compact Blog W button and a standard button to the about page`, async ({
       page,
     }) => {
       await page.goto(home.path);
@@ -116,10 +139,10 @@ test.describe("positioning of the 2026 plan", () => {
         "https://instagram.com/wavival_dev",
         "https://www.tiktok.com/@wavival_dev",
         "https://linkedin.com/in/wavival",
-        "https://github.com/wavival",
-        "https://platzi.com/p/wavival",
       ]);
       await expect(about.locator('a[href*="wa.me"]')).toHaveCount(0);
+      await expect(about.locator('a[href*="github.com"]')).toHaveCount(0);
+      await expect(about.locator('a[href*="platzi.com"]')).toHaveCount(0);
       const labels = await about
         .locator("a.icon-btn")
         .evaluateAll((links) => links.map((a) => a.getAttribute("aria-label")));
@@ -129,19 +152,25 @@ test.describe("positioning of the 2026 plan", () => {
               "Valentina Ramírez on Instagram",
               "Valentina Ramírez on TikTok",
               "Valentina Ramírez on LinkedIn",
-              "Valentina Ramírez on GitHub",
-              "Valentina Ramírez's Platzi profile",
             ]
           : [
               "Instagram de Valentina Ramírez",
               "TikTok de Valentina Ramírez",
               "LinkedIn de Valentina Ramírez",
-              "GitHub de Valentina Ramírez",
-              "Perfil de Platzi de Valentina Ramírez",
             ]
       );
-      const icon = about.locator('a[href="https://platzi.com/p/wavival"] .mask-icon');
-      await expect(icon).toHaveAttribute("style", /icons\/ui\/platzi\.svg/);
+      await expect(about.locator("a.btn-primary")).toHaveCount(0);
+      const blog = about.locator("a.btn-secondary.btn-compact");
+      await expect(blog).toHaveCount(1);
+      await expect(blog).toHaveAttribute("href", "https://blog.luminaw.co");
+      await expect(blog).toHaveAttribute("target", "_blank");
+      await expect(blog).toHaveAttribute("rel", "noopener noreferrer");
+      await expect(blog).toHaveText("Blog W");
+      const meet = about.locator("a.btn-secondary:not(.btn-compact)");
+      await expect(meet).toHaveCount(1);
+      await expect(about.locator("a.action-link")).toHaveCount(0);
+      await expect(meet).toHaveAttribute("href", lang === "en" ? "/en/about/" : "/sobre-mi/");
+      await expect(meet).toHaveText(lang === "en" ? "Get to know me" : "Conóceme");
     });
 
     for (const path of WHATSAPP_PAGES[lang]) {
@@ -189,13 +218,18 @@ test.describe("positioning of the 2026 plan", () => {
       page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
     const social = page.locator("main a.icon-btn");
-    await expect(social).toHaveCount(4);
-    expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
-      "https://instagram.com/wavival_dev",
-      "https://www.tiktok.com/@wavival_dev",
-      "https://linkedin.com/in/wavival",
-      "https://github.com/wavival",
-    ]);
+    await expect(social).toHaveCount(6);
+    expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
+      ABOUT_SOCIAL_ORDER
+    );
+    await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
+    await expect(page.locator('main a.icon-btn[href="https://blog.luminaw.co"]')).toHaveAttribute(
+      "aria-label",
+      "Blog W: blog de Lúmina W creado por Valentina Ramírez"
+    );
+    await expect(
+      page.locator('main a.icon-btn[href="https://blog.luminaw.co"] .mask-icon')
+    ).toHaveAttribute("style", /icons\/ui\/blog-w\.svg/);
   });
 
   test("/en/about lists the marketing and content training with Instagram and TikTok links", async ({
@@ -214,8 +248,16 @@ test.describe("positioning of the 2026 plan", () => {
     await expect(
       page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
-    await expect(page.locator("main a.icon-btn")).toHaveCount(4);
+    const social = page.locator("main a.icon-btn");
+    await expect(social).toHaveCount(6);
+    expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
+      ABOUT_SOCIAL_ORDER
+    );
     await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
+    await expect(page.locator('main a.icon-btn[href="https://blog.luminaw.co"]')).toHaveAttribute(
+      "aria-label",
+      "Blog W: Lúmina W blog by Valentina Ramírez"
+    );
   });
 
   test("/herramientas shows the marketing and content tools and the recording gear", async ({

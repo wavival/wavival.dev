@@ -1,7 +1,6 @@
 ---
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import PullQuote from "@/components/molecules/PullQuote.astro";
-import IconLink from "@/components/atoms/IconLink.astro";
 import SocialLinks from "@/components/molecules/SocialLinks.astro";
 import Button from "@/components/atoms/Button.astro";
 import { siteRoutes } from "@/i18n/utils";
@@ -71,28 +70,20 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
   <div
     class="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 border-t border-line pt-6"
   >
-    <div class="flex flex-wrap items-center gap-2">
-      <SocialLinks lang={lang} />
-      <IconLink
-        href="https://platzi.com/p/wavival"
-        icon="platzi"
-        label={isEn
-          ? "Valentina Ramírez's Platzi profile"
-          : "Perfil de Platzi de Valentina Ramírez"}
-      />
-    </div>
+    <SocialLinks lang={lang} networks={["instagram", "tiktok", "linkedin"]} />
     <div class="flex flex-wrap items-center gap-3">
       <Button
         href="https://blog.luminaw.co"
         target="_blank"
         variant="secondary"
+        size="compact"
         aria-label={isEn
           ? "Blog W: Lúmina W blog by Valentina Ramírez"
           : "Blog W: blog de Lúmina W creado por Valentina Ramírez"}
       >
         Blog W
       </Button>
-      <Button href={r.about} variant="secondary">{isEn ? "About me" : "Conóceme"}</Button>
+      <Button href={r.about} variant="secondary">{isEn ? "Get to know me" : "Conóceme"}</Button>
     </div>
   </div>
 </section>

@@ -9,17 +9,30 @@ interface Props {
   project: ProjectView;
   index: string;
   lang?: "es" | "en";
+  /** Highlighted in blue with a "Featured" badge, like the first card of /projects. */
+  featured?: boolean;
+  featuredLabel?: string;
 }
 
-const { project: p, index } = Astro.props;
+const { project: p, index, featured = false, featuredLabel = "" } = Astro.props;
+const padding = featured
+  ? "padding:clamp(40px,5vw,72px) clamp(20px,3vw,32px)"
+  : "padding:clamp(40px,5vw,72px) 0";
 ---
 
 <article
   class="flex flex-col border-b border-line"
-  style="padding:clamp(40px,5vw,72px) 0"
+  style={padding}
   data-project-row
+  data-featured={featured ? "" : undefined}
 >
-  <ProjectMeta index={index} tag={p.tag} tone={p.tone} overline={p.overline} />
+  {featured && <span class="project-featured-label badge">{featuredLabel}</span>}
+  <ProjectMeta
+    index={index}
+    tag={p.tag}
+    tone={p.tone}
+    overline={featured ? undefined : p.overline}
+  />
   <div
     class="mb-7 mt-5 flex flex-col items-start gap-4 min-[640px]:flex-row min-[640px]:flex-wrap min-[640px]:items-center min-[640px]:justify-between min-[640px]:gap-x-8 min-[640px]:gap-y-4"
   >

@@ -21,6 +21,36 @@ test.describe("mobile menu", () => {
     await expect(menu).toHaveClass(/opacity-0/);
   });
 
+  for (const path of ["/", "/en/"]) {
+    test(`${path} shows Instagram, TikTok and LinkedIn above the Blog W and contact row`, async ({
+      page,
+    }) => {
+      await page.goto(path);
+      await page.locator("#menu-btn").click();
+      const menu = page.locator("#mobile-menu");
+      await expect(menu).toHaveClass(/opacity-100/);
+      const actions = menu.locator("[data-menu-actions]");
+      const blog = actions.locator("a.btn-primary");
+      const contact = actions.locator("a.btn-secondary");
+      await expect(blog).toHaveAttribute("href", "https://blog.luminaw.co");
+      await expect(blog).toHaveAttribute("target", "_blank");
+      await expect(contact).toHaveAttribute("href", "mailto:wavival.dev@luminaw.co");
+      const [blogBox, contactBox] = await Promise.all([blog.boundingBox(), contact.boundingBox()]);
+      expect(blogBox?.y).toBe(contactBox?.y);
+      expect((blogBox?.x ?? 0) + (blogBox?.width ?? 0)).toBeLessThanOrEqual(contactBox?.x ?? 0);
+      const social = menu.locator("[data-social-links] a.icon-btn");
+      expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
+        [
+          "https://instagram.com/wavival_dev",
+          "https://www.tiktok.com/@wavival_dev",
+          "https://linkedin.com/in/wavival",
+        ]
+      );
+      const socialBox = await social.first().boundingBox();
+      expect((socialBox?.y ?? 0) + (socialBox?.height ?? 0)).toBeLessThan(blogBox?.y ?? 0);
+    });
+  }
+
   test("clicking a same-page anchor closes the menu", async ({ page }) => {
     await page.goto("/");
 
