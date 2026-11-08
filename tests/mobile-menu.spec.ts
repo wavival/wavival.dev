@@ -44,8 +44,15 @@ test.describe("mobile menu", () => {
             setTimeout(done, 600);
           })
       );
+      await page.evaluate(() => document.fonts.ready);
+      // Same row within 1px: the two buttons settle a subpixel apart while fonts and icons load.
+      await expect
+        .poll(async () => {
+          const [b, c] = await Promise.all([blog.boundingBox(), contact.boundingBox()]);
+          return Math.abs((b?.y ?? 0) - (c?.y ?? -10));
+        })
+        .toBeLessThanOrEqual(1);
       const [blogBox, contactBox] = await Promise.all([blog.boundingBox(), contact.boundingBox()]);
-      expect(Math.round(blogBox?.y ?? 0)).toBe(Math.round(contactBox?.y ?? -1));
       expect((blogBox?.x ?? 0) + (blogBox?.width ?? 0)).toBeLessThanOrEqual(contactBox?.x ?? 0);
       const social = menu.locator("[data-social-links] a.icon-btn");
       expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
