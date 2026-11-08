@@ -195,9 +195,9 @@ test.describe("currency by location on the built pages", () => {
       for (const path of [pathFor(route), pathFor(route, "CO")]) {
         await page.goto(path);
         await expect(page.locator(`a[href*="${COP_VARIANT_PREFIX}/"]`)).toHaveCount(0);
-        await expect(
-          page.locator('[data-currency-switch], [name="currency"], [name="country"]')
-        ).toHaveCount(0);
+        // The quote form asks for the lead's country, but nothing lets the visitor pick the currency.
+        await expect(page.locator('[data-currency-switch], [name="currency"]')).toHaveCount(0);
+        await expect(page.locator('select[name="country"] option[value="COP"]')).toHaveCount(0);
       }
     });
   }

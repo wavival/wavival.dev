@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-08
 
 Guide for Claude Code in this repository. The operational rules live in `AGENTS.md` and are imported here, so there is one source:
 
@@ -8,7 +8,7 @@ Guide for Claude Code in this repository. The operational rules live in `AGENTS.
 
 ## What this repository is
 
-The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` is the only Vercel Function and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning: software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation; marketing and content are a complement, never a marketing agency. Overview, setup, commands, architecture and routes are in `README.md`.
+The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` (quotes: validate, store in Supabase, email through Brevo) and `api/keepalive.ts` (cron that keeps the database awake) are the Vercel Functions, and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning: software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation; marketing and content are a complement, never a marketing agency. Overview, setup, commands, architecture and routes are in `README.md`.
 
 ## Ownership rule
 

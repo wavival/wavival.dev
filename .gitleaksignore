@@ -1,0 +1,4 @@
+# Test fixture of tests/keepalive-api.spec.ts in the first commit of the quote
+# leads branch: a placeholder cron secret whose entropy looked like a key. The
+# value was replaced in a later commit; the squash merge drops this commit.
+9130258b3cc8a58de8046f8c03460775563c991b:tests/keepalive-api.spec.ts:generic-api-key:6
