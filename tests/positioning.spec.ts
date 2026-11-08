@@ -127,7 +127,7 @@ test.describe("positioning of the 2026 plan", () => {
       ]);
     });
 
-    test(`${home.path} home about section links Instagram, TikTok and LinkedIn, with a compact Blog W button and a standard button to the about page`, async ({
+    test(`${home.path} home about section links Instagram, TikTok and LinkedIn, with Blog W as the primary button and the about page as the secondary one`, async ({
       page,
     }) => {
       await page.goto(home.path);
@@ -159,14 +159,13 @@ test.describe("positioning of the 2026 plan", () => {
               "LinkedIn de Valentina Ramírez",
             ]
       );
-      await expect(about.locator("a.btn-primary")).toHaveCount(0);
-      const blog = about.locator("a.btn-secondary.btn-compact");
+      const blog = about.locator("a.btn-primary");
       await expect(blog).toHaveCount(1);
       await expect(blog).toHaveAttribute("href", "https://blog.luminaw.co");
       await expect(blog).toHaveAttribute("target", "_blank");
       await expect(blog).toHaveAttribute("rel", "noopener noreferrer");
       await expect(blog).toHaveText("Blog W");
-      const meet = about.locator("a.btn-secondary:not(.btn-compact)");
+      const meet = about.locator("a.btn-secondary");
       await expect(meet).toHaveCount(1);
       await expect(about.locator("a.action-link")).toHaveCount(0);
       await expect(meet).toHaveAttribute("href", lang === "en" ? "/en/about" : "/sobre-mi");

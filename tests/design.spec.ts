@@ -25,17 +25,15 @@ test.describe("design system regressions", () => {
     await expect(title).toHaveCSS("text-transform", "none");
   });
 
-  test("hero controls are 50px; the home about section pairs 44px icons and Blog W with a standard button", async ({
-    page,
-  }) => {
+  test("hero and home about buttons are 50px and the about icons 44px", async ({ page }) => {
     await page.goto("/");
     const about = page.locator("#about");
     const heights = await Promise.all(
-      ["a.btn-secondary.btn-compact", "a.icon-btn", "a.btn-secondary:not(.btn-compact)"].map(
-        async (sel) => Math.round((await about.locator(sel).first().boundingBox())?.height ?? 0)
+      ["a.btn-primary", "a.btn-secondary", "a.icon-btn"].map(async (sel) =>
+        Math.round((await about.locator(sel).first().boundingBox())?.height ?? 0)
       )
     );
-    expect(heights).toEqual([44, 44, 50]);
+    expect(heights).toEqual([50, 50, 44]);
     for (const [path, label] of [
       ["/", "Criterio técnico"],
       ["/en/", "Technical criteria"],

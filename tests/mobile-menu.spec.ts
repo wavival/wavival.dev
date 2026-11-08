@@ -35,8 +35,17 @@ test.describe("mobile menu", () => {
       await expect(blog).toHaveAttribute("href", "https://blog.luminaw.co");
       await expect(blog).toHaveAttribute("target", "_blank");
       await expect(contact).toHaveAttribute("href", "mailto:wavival.dev@luminaw.co");
+      // The overlay slides in for 300ms, so boxes are read after the transition settles.
+      await menu.evaluate(
+        (el) =>
+          new Promise<void>((done) => {
+            if (getComputedStyle(el).transform === "none") return done();
+            el.addEventListener("transitionend", () => done(), { once: true });
+            setTimeout(done, 600);
+          })
+      );
       const [blogBox, contactBox] = await Promise.all([blog.boundingBox(), contact.boundingBox()]);
-      expect(blogBox?.y).toBe(contactBox?.y);
+      expect(Math.round(blogBox?.y ?? 0)).toBe(Math.round(contactBox?.y ?? -1));
       expect((blogBox?.x ?? 0) + (blogBox?.width ?? 0)).toBeLessThanOrEqual(contactBox?.x ?? 0);
       const social = menu.locator("[data-social-links] a.icon-btn");
       expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
