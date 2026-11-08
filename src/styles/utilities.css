@@ -505,6 +505,29 @@ body:has(.floating-actions) footer {
   }
 }
 
+/* The home stack uses three visual columns: featured cards span two and alternate sides. */
+.stack-grid {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 1px;
+}
+
+@container (max-width: 759px) {
+  .stack-grid > * {
+    order: var(--mobile-order);
+  }
+}
+
+@container (min-width: 760px) {
+  .stack-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stack-grid > *,
+  .stack-grid > :last-child:nth-child(odd) {
+    grid-column: span var(--span, 1);
+  }
+}
+
 .nav-link {
   position: relative;
   display: flex;

@@ -9,7 +9,7 @@ import Index from "@/components/atoms/Index.astro";
 import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import { siteRoutes } from "@/i18n/utils";
 import RepoCard from "@/components/organisms/RepoCard.astro";
-import { stack } from "@/data/stack";
+import { usesStack as stack } from "@/data/stack";
 import { fetchGithubProfile, curateRepos } from "@/data/github";
 
 const routes = siteRoutes("en", import.meta.env.BASE_URL);

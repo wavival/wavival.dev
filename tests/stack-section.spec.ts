@@ -2,10 +2,19 @@ import { test, expect } from "@playwright/test";
 
 const CARDS = [
   { title: "Backend", featured: true },
-  { title: "Frontend & UX", featured: false },
-  { title: "Security", featured: false },
+  { title: "Frontend", featured: false },
+  { title: "Design & UX", featured: false },
   { title: "AI Integrations", featured: true },
   { title: "Marketing & Content", featured: true },
+  { title: "Security", featured: false },
+];
+
+const USES_CARDS = [
+  "Backend",
+  "Frontend & UX",
+  "Security",
+  "AI Integrations",
+  "Marketing & Content",
 ];
 
 const CHIPS = {
@@ -119,10 +128,10 @@ test.describe("home stack grid", () => {
     ["es", "/"],
     ["en", "/en/"],
   ] as const) {
-    test(`${home} shows the five cards in order with the three featured axes`, async ({ page }) => {
+    test(`${home} shows six cards with the three featured axes`, async ({ page }) => {
       await page.goto(home);
       const cards = page.locator("#stack article");
-      await expect(cards).toHaveCount(5);
+      await expect(cards).toHaveCount(6);
       await expect(cards.locator("h3")).toHaveText(CARDS.map((c) => c.title));
       for (const [i, card] of CARDS.entries()) {
         const article = cards.nth(i);
@@ -131,7 +140,7 @@ test.describe("home stack grid", () => {
         await expect(label).toHaveCount(card.featured ? 1 : 0);
         if (card.featured) await expect(label).toHaveText(SECURITY[lang].featured);
         expect(await article.evaluate((el) => el.style.getPropertyValue("--span"))).toBe(
-          card.featured ? "6" : "3"
+          card.featured ? "2" : "1"
         );
       }
     });
@@ -141,13 +150,15 @@ test.describe("home stack grid", () => {
       const chips = await page.locator("#stack .chip").allTextContents();
       for (const chip of CHIPS[lang]) expect(chips, chip).toContain(chip);
       expect(chips).toHaveLength(CHIPS[lang].length);
-      const security = page.locator("#stack article").nth(2);
+      const security = page
+        .locator("#stack article")
+        .filter({ has: page.getByRole("heading", { name: "Security" }) });
       await expect(security.locator("p")).toHaveText(SECURITY[lang].description);
       await expect(page.locator("#stack")).not.toContainText(RETIRED);
       await expect(page.locator("main")).not.toContainText(RETIRED);
     });
 
-    test(`${SECURITY[lang].uses} lists the same five categories and the new Security rationale`, async ({
+    test(`${SECURITY[lang].uses} keeps its grouped categories and the new Security rationale`, async ({
       page,
     }) => {
       await page.goto(SECURITY[lang].uses);
@@ -155,10 +166,59 @@ test.describe("home stack grid", () => {
       const titles = section.locator("h3").filter({
         hasText: /^(Backend|Frontend & UX|Security|AI Integrations|Marketing & Content)$/,
       });
-      await expect(titles).toHaveText(CARDS.map((c) => c.title));
+      await expect(titles).toHaveText(USES_CARDS);
       await expect(section).toContainText(SECURITY[lang].description);
       await expect(section).toContainText(SECURITY[lang].why);
       await expect(page.locator("main")).not.toContainText(RETIRED);
+    });
+  }
+
+  for (const [lang, home] of [
+    ["es", "/"],
+    ["en", "/en/"],
+  ] as const) {
+    for (const width of [1280, 820, 390]) {
+      test(`${lang} ${home} keeps featured cards apart at ${width}px`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(home);
+        const rects = await page.locator("#stack [data-featured]").evaluateAll((cards) =>
+          cards.map((card) => {
+            const { left, right, top, bottom } = card.getBoundingClientRect();
+            return { left, right, top, bottom };
+          })
+        );
+
+        for (let i = 0; i < rects.length; i += 1) {
+          for (let j = i + 1; j < rects.length; j += 1) {
+            const a = rects[i];
+            const b = rects[j];
+            const verticalOverlap = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+            const horizontalOverlap = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+            const sharesVerticalSide =
+              Math.abs(a.right - b.left) < 0.1 || Math.abs(b.right - a.left) < 0.1;
+            const sharesHorizontalSide =
+              Math.abs(a.bottom - b.top) < 0.1 || Math.abs(b.bottom - a.top) < 0.1;
+
+            expect(sharesVerticalSide && verticalOverlap > 1).toBe(false);
+            expect(sharesHorizontalSide && horizontalOverlap > 1).toBe(false);
+          }
+        }
+      });
+    }
+
+    test(`${lang} ${home} orders the cards for mobile`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 900 });
+      await page.goto(home);
+      const visualCards = await page.locator("#stack [data-stack-card]").evaluateAll((cards) =>
+        cards
+          .map((card) => ({
+            index: card.querySelector(".index")?.textContent?.trim(),
+            top: card.getBoundingClientRect().top,
+          }))
+          .sort((a, b) => a.top - b.top)
+          .map((card) => card.index)
+      );
+      expect(visualCards).toEqual(["01", "02", "04", "03", "05", "06"]);
     });
   }
 

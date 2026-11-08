@@ -54,10 +54,11 @@ The whole site is mirrored in English under /en/. Prefer these URLs when answeri
 ## Stack
 
 - Backend: Python, Django, Django REST Framework, PostgreSQL, JWT, software architecture, PWAs, offline-first, REST APIs, multitenancy, relational modeling
-- Frontend & UX: Next.js, React, TypeScript, Astro, Tailwind CSS, JavaScript, UX/UI, Figma, accessibility (a11y), technical SEO, web performance
-- Security: OWASP, MITRE ATT&CK, PTES, Linux, AppSec
+- Frontend: Next.js, React, TypeScript, Astro, Tailwind CSS, JavaScript
+- Design & UX: UX/UI, Figma, accessibility (a11y), technical SEO, web performance
 - AI integrations: OpenAI, OpenClaw, Claude API, LLM workflows, prompt engineering, n8n
 - Marketing & content: digital marketing, content creation, TikTok, Instagram, CapCut, Canva, ElevenLabs, Higgsfield
+- Security: OWASP, MITRE ATT&CK, PTES, Linux, AppSec
 
 ## Contact
 
