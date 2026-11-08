@@ -148,10 +148,7 @@ test.describe("services catalog", () => {
         for (const [index, group] of SERVICE_GROUPS.entries()) {
           const section = page.locator(`[data-service-group="${group.id}"]`);
           const banner = section.locator(`[data-service-banner="${group.id}"]`);
-          await expect(banner).toHaveAttribute(
-            "src",
-            `/images/services/services-${group.id}-${lang}.webp`
-          );
+          await expect(banner).toHaveAttribute("src", `/images/services/services-${group.id}.webp`);
           await expect(banner).toHaveAttribute("alt", banners[group.id][lang]);
           await expect(banner).toHaveAttribute("width", "1600");
           await expect(banner).toHaveAttribute("height", "500");
