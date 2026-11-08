@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import { SOCIAL_PROFILES } from "../src/data/social";
 import { sectionIndices, usesSectionIndices } from "../src/utils/sections";
 
@@ -9,8 +9,6 @@ const PAGES = {
     title: "Construyo en público",
     description:
       "Muestro en Instagram y TikTok cómo construyo software seguro, automatizaciones con IA y lo que voy aprendiendo.",
-    link: "Ver perfiles",
-    linkLabel: "Ver perfiles de Instagram y TikTok de Valentina Ramírez",
     cards: {
       instagram: {
         name: "Instagram",
@@ -29,8 +27,6 @@ const PAGES = {
     title: "I build in public",
     description:
       "On Instagram and TikTok I show how I build secure software and AI automations, and what I keep learning along the way.",
-    link: "See profiles",
-    linkLabel: "See profiles of Valentina Ramírez on Instagram and TikTok",
     cards: {
       instagram: {
         name: "Instagram",
@@ -50,9 +46,9 @@ const NETWORKS = ["instagram", "tiktok"] as const;
 const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** Bounding boxes of the label and content columns of a two-column section. */
-async function columns(page: Page, section: string) {
-  const label = page.locator(`${section} [data-sticky-section-label]`);
-  const content = page.locator(`${section} [data-sticky-section-content]`);
+async function columns(section: Locator) {
+  const label = section.locator("[data-sticky-section-label]");
+  const content = section.locator("[data-sticky-section-content]");
   return {
     label: (await label.boundingBox())!,
     content: (await content.boundingBox())!,
@@ -61,22 +57,22 @@ async function columns(page: Page, section: string) {
 }
 
 test.describe("section numbering of the tools pages (usesSectionIndices)", () => {
-  test("numbers the rendered sections in order without gaps", () => {
+  test("numbers the listed sections in order without gaps", () => {
     expect(sectionIndices(["a", "b", "c"])).toEqual({ a: "01", b: "02", c: "03" });
     expect(sectionIndices([])).toEqual({});
   });
 
-  test("Social is 05 after the GitHub section", () => {
+  test("Social is 04 and GitHub 05 when the GitHub section renders", () => {
     expect(usesSectionIndices(true)).toEqual({
       stack: "01",
       hardware: "02",
       software: "03",
-      github: "04",
-      social: "05",
+      social: "04",
+      github: "05",
     });
   });
 
-  test("Social is 04 when the GitHub section does not render", () => {
+  test("the page ends at Social 04 when the GitHub section does not render", () => {
     const indices = usesSectionIndices(false);
     expect(indices).toEqual({ stack: "01", hardware: "02", software: "03", social: "04" });
     expect(indices.github).toBeUndefined();
@@ -85,49 +81,41 @@ test.describe("section numbering of the tools pages (usesSectionIndices)", () =>
 
 for (const copy of Object.values(PAGES) as (typeof PAGES)["es"][]) {
   test.describe(`${copy.path} social section`, () => {
-    test("renders the last numbered section with its label copy", async ({ page }) => {
+    test("renders section 04 after Software and before GitHub with its label copy", async ({
+      page,
+    }) => {
       await page.goto(copy.path);
       const section = page.locator("section#social");
       await expect(section).toHaveCount(1);
       const label = section.locator("[data-sticky-section-label]");
+      await expect(label.locator(".index")).toHaveText("04");
       await expect(label.locator(".eyebrow")).toHaveText(copy.eyebrow);
       await expect(label.getByRole("heading", { level: 2 })).toHaveText(copy.title);
       await expect(label.locator("p")).toHaveText(copy.description);
+      // The profiles are linked from the cards only.
+      await expect(label.getByRole("link")).toHaveCount(0);
 
       // The GitHub block only renders when the build-time fetch succeeded, so the
       // numbering must follow the sections actually on the page.
       const indices = await page.locator("main .index").allTextContents();
       const withGithub = (await page.locator("#repos").count()) === 1;
-      const expected = Object.values(usesSectionIndices(withGithub));
-      expect(indices).toEqual(expected);
-      await expect(label.locator(".index")).toHaveText(withGithub ? "05" : "04");
+      expect(indices).toEqual(Object.values(usesSectionIndices(withGithub)));
       if (withGithub) {
-        await expect(page.locator("#repos .index")).toHaveText("04");
+        await expect(page.locator("#repos .index")).toHaveText("05");
         expect(
           await section.evaluate((el) => {
             const github = document.querySelector("#repos")!;
-            return Boolean(github.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
+            return Boolean(el.compareDocumentPosition(github) & Node.DOCUMENT_POSITION_FOLLOWING);
           })
         ).toBe(true);
       }
-    });
-
-    test("the label link opens the first profile in a new tab", async ({ page }) => {
-      await page.goto(copy.path);
-      const link = page.locator("#social [data-sticky-section-label]").getByRole("link");
-      await expect(link).toHaveCount(1);
-      await expect(link).toHaveText(copy.link);
-      await expect(link).toHaveClass(/action-link/);
-      await expect(link).toHaveAttribute("aria-label", copy.linkLabel);
-      await expect(link).toHaveAttribute("href", SOCIAL_PROFILES.instagram.href);
-      await expect(link).toHaveAttribute("target", "_blank");
-      await expect(link).toHaveAttribute("rel", "noopener noreferrer");
     });
 
     test("two profile cards link Instagram and TikTok without counts", async ({ page }) => {
       await page.goto(copy.path);
       const cards = page.locator("#social a[data-social-profile]");
       await expect(cards).toHaveCount(2);
+      await expect(page.locator("#social a")).toHaveCount(2);
       for (const [i, network] of NETWORKS.entries()) {
         const card = cards.nth(i);
         const expected = copy.cards[network];
@@ -157,22 +145,50 @@ for (const copy of Object.values(PAGES) as (typeof PAGES)["es"][]) {
       await expect(page.locator("#social iframe, #social script")).toHaveCount(0);
     });
 
-    test("the label column behaves like the GitHub one on desktop and mobile", async ({ page }) => {
+    test("only Instagram is featured; TikTok uses the repo card design", async ({ page }) => {
+      await page.goto(copy.path);
+      const instagram = page.locator('#social a[data-social-profile="instagram"]');
+      const tiktok = page.locator('#social a[data-social-profile="tiktok"]');
+      await expect(instagram).toHaveAttribute("data-variant", "featured");
+      await expect(instagram).toHaveClass(/border-t-blue/);
+      await expect(instagram).toHaveClass(/bg-surface/);
+      await expect(tiktok).toHaveAttribute("data-variant", "repo");
+      await expect(tiktok).not.toHaveClass(/border-t-blue/);
+      await expect(tiktok).not.toHaveClass(/bg-surface/);
+      await expect(tiktok).toHaveClass(/\bp-5\b/);
+      await expect(page.locator("#social .border-t-blue")).toHaveCount(1);
+
+      // Same border, padding and type size as a GitHub repo card when that block rendered.
+      const repo = page.locator("#repos .border-t-blue a[href*='github.com/']").first();
+      if ((await repo.count()) === 1) {
+        const style = (el: Element) => {
+          const s = getComputedStyle(el);
+          return [s.borderTopWidth, s.borderTopColor, s.padding, s.fontSize];
+        };
+        expect(await tiktok.evaluate(style)).toEqual(await repo.evaluate(style));
+      }
+    });
+
+    test("the label column matches the other sections on desktop and stacks on mobile", async ({
+      page,
+    }) => {
       await page.setViewportSize({ width: 1280, height: 720 });
       await page.goto(copy.path);
-      const desktop = await columns(page, "#social");
-      expect(desktop.position).toBe("static");
-      expect(desktop.label.width).toBeCloseTo(260, 0);
-      expect(desktop.content.x).toBeGreaterThan(desktop.label.x + desktop.label.width);
+      const social = await columns(page.locator("#social"));
+      const software = await columns(page.locator("main section.rule-section").nth(2));
+      expect(social.position).toBe(software.position);
+      expect(social.label.width).toBeCloseTo(260, 0);
+      expect(social.label.x).toBeCloseTo(software.label.x, 0);
+      expect(social.content.x).toBeGreaterThan(social.label.x + social.label.width);
       if ((await page.locator("#repos").count()) === 1) {
         const github = (await page.locator("#repos > div").first().boundingBox())!;
-        expect(desktop.label.width).toBeCloseTo(github.width, 0);
-        expect(desktop.label.x).toBeCloseTo(github.x, 0);
+        expect(social.label.width).toBeCloseTo(github.width, 0);
+        expect(social.label.x).toBeCloseTo(github.x, 0);
       }
 
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(copy.path);
-      const mobile = await columns(page, "#social");
+      const mobile = await columns(page.locator("#social"));
       const section = (await page.locator("#social").boundingBox())!;
       expect(mobile.position).toBe("static");
       expect(mobile.label.width).toBeCloseTo(section.width, 0);

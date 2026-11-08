@@ -12,18 +12,18 @@ export interface UsesSectionIndices {
   stack: string;
   hardware: string;
   software: string;
+  social: string;
   /** Absent when the build-time GitHub fetch failed and the block does not render. */
   github?: string;
-  social: string;
 }
 
-/** Section numbering of `/herramientas` and `/en/uses`: Social is "05" after GitHub, "04" without it. */
+/** Section numbering of `/herramientas` and `/en/uses`: Social is "04" and GitHub "05" when it renders. */
 export function usesSectionIndices(withGithub: boolean): UsesSectionIndices {
   return sectionIndices([
     "stack",
     "hardware",
     "software",
-    ...(withGithub ? (["github"] as const) : []),
     "social",
+    ...(withGithub ? (["github"] as const) : []),
   ]);
 }
