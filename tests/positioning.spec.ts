@@ -169,7 +169,7 @@ test.describe("positioning of the 2026 plan", () => {
       const meet = about.locator("a.btn-secondary:not(.btn-compact)");
       await expect(meet).toHaveCount(1);
       await expect(about.locator("a.action-link")).toHaveCount(0);
-      await expect(meet).toHaveAttribute("href", lang === "en" ? "/en/about/" : "/sobre-mi/");
+      await expect(meet).toHaveAttribute("href", lang === "en" ? "/en/about" : "/sobre-mi");
       await expect(meet).toHaveText(lang === "en" ? "Get to know me" : "Conóceme");
     });
 
