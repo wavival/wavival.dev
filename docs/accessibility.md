@@ -1,6 +1,6 @@
 # Accessibility
 
-> Last updated: 2026-10-05
+> Last updated: 2026-11-08
 
 The target is WCAG AA on every page, in both themes and both languages. Visual rules (contrast values, focus style, tokens) are in [`../DESIGN.md`](../DESIGN.md#accessibility); this document says what each part of the site guarantees and how it is checked.
 
@@ -42,8 +42,9 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 
 - The form is named by its title (`aria-labelledby`), every field sits inside a `<label>`, required fields are marked in text ("Required fields") and with the `required` attribute; the red asterisk is decorative (`aria-hidden`) with a tooltip.
 - Inputs use the right `type`, `autocomplete` and `inputmode` (name, email, tel, organization).
-- The case-study button opens the form with `?mode=types`: the project types are shown with none selected, so the visitor chooses one before the submit button enables.
-- The submit button is a real `type="submit"` that stays `disabled` until all required fields, one option and the privacy consent are set; `aria-describedby` points to the hint that says what is missing.
+- The case-study button opens the form with the project's related catalog services preselected (`?service=` per service, from the catalog examples or the explicit assignment in `quoteOptions.ts`); the visitor can change them before the submit button enables.
+- Country, budget and the three optional fields are native `<select>` elements inside their `<label>`, with a disabled placeholder option on the required ones; fields the visitor has touched and left invalid get a red border (`:user-invalid`).
+- The submit button is a real `type="submit"` that stays `disabled` until all required fields, one service and the privacy consent are set; `aria-describedby` points to the hint that says what is missing.
 - Errors use `role="alert"`; the success block has `aria-live="polite"` and receives focus after sending.
 - The honeypot field is `aria-hidden` and not focusable.
 
