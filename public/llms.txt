@@ -67,7 +67,7 @@ The whole site is mirrored in English under /en/. Prefer these URLs when answeri
 - Calendly (30-minute discovery call): https://calendly.com/wavival/descubrimiento-servicios-wavival
 - LinkedIn: https://linkedin.com/in/wavival
 - GitHub: https://github.com/wavival
-- Instagram: https://instagram.com/wavival
+- Instagram: https://instagram.com/wavival_dev
 - TikTok: https://www.tiktok.com/@wavival_dev
 - X: https://x.com/wavival0
 

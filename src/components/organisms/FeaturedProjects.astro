@@ -33,7 +33,13 @@ const featured = projects
   />
   {
     featured.map((p, i) => (
-      <ProjectRow project={p} index={String(i + 1).padStart(2, "0")} lang={lang} />
+      <ProjectRow
+        project={p}
+        index={String(i + 1).padStart(2, "0")}
+        lang={lang}
+        featured={i === 0}
+        featuredLabel={isEn ? "Featured" : "Destacado"}
+      />
     ))
   }
   <div class="mt-10 flex justify-center">
