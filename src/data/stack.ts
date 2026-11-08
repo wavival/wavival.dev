@@ -8,7 +8,7 @@ export interface StackCategory {
   /** Longer rationale shown on the /uses page. */
   why?: string;
   whyEn?: string;
-  /** Core strengths, highlighted on the home stack grid. */
+  /** The three axes of the positioning, highlighted on the home stack grid (two of its four columns). */
   featured?: boolean;
 }
 
@@ -18,35 +18,12 @@ export const stack: StackCategory[] = [
     featured: true,
     description: "La columna vertebral de cada producto.",
     descriptionEn: "The backbone of every product.",
-    tools: ["Python", "Django", "Django REST Framework", "PostgreSQL", "JWT"],
-    why: "Django + DRF me dan velocidad sin sacrificar estructura: ORM maduro, admin de fábrica y un ecosistema que cubre auth, permisos y migraciones. PostgreSQL para modelado relacional serio; JWT para autenticación desacoplada entre API y frontend.",
-    whyEn:
-      "Django + DRF give me speed without sacrificing structure: mature ORM, built-in admin, and an ecosystem that covers auth, permissions, and migrations. PostgreSQL for serious relational modeling; JWT for decoupled auth between API and frontend.",
-  },
-  {
-    category: "Frontend",
-    description: "Interfaces que completan el producto.",
-    descriptionEn: "Interfaces that complete the product.",
-    tools: ["Next.js", "React", "TypeScript", "Astro", "Tailwind CSS", "JavaScript"],
-    why: "Next.js para aplicaciones web completas, React + TypeScript para interfaces con estado y lógica de cliente, y Astro cuando lo que manda es rendimiento y contenido estático. Tailwind para mantener consistencia visual.",
-    whyEn:
-      "Next.js for complete web applications, React + TypeScript for stateful interfaces, and Astro when performance and static content take priority. Tailwind helps maintain visual consistency.",
-  },
-  {
-    category: "Design & UX",
-    description: "Productos que se ven bien y cualquiera puede usar.",
-    descriptionEn: "Products that look good and anyone can use.",
-    tools: ["UX/UI", "Figma", "Accesibilidad (a11y)", "SEO técnico", "Web Performance"],
-    toolsEn: ["UX/UI", "Figma", "Accessibility (a11y)", "Technical SEO", "Web Performance"],
-    why: "Diseño en Figma antes de escribir código. Accesibilidad y SEO técnico no son extras: son parte de que el producto funcione para personas y para buscadores. El rendimiento es una feature.",
-    whyEn:
-      "I design in Figma before writing code. Accessibility and technical SEO are not extras: they are part of making the product work for people and for search engines. Performance is a feature.",
-  },
-  {
-    category: "Product Engineering",
-    description: "Arquitectura que escala desde el primer commit.",
-    descriptionEn: "Architecture that scales from the first commit.",
     tools: [
+      "Python",
+      "Django",
+      "Django REST Framework",
+      "PostgreSQL",
+      "JWT",
       "Arquitectura de software",
       "PWAs",
       "Offline-first",
@@ -55,6 +32,11 @@ export const stack: StackCategory[] = [
       "Modelado relacional",
     ],
     toolsEn: [
+      "Python",
+      "Django",
+      "Django REST Framework",
+      "PostgreSQL",
+      "JWT",
       "Software architecture",
       "PWAs",
       "Offline-first",
@@ -62,18 +44,52 @@ export const stack: StackCategory[] = [
       "Multitenancy",
       "Relational modeling",
     ],
-    why: "Decido la arquitectura pensando en el segundo año, no solo en el MVP. Multitenancy, offline-first y APIs limpias son decisiones que se pagan caras si se dejan para después.",
+    why: "Django + DRF me dan velocidad sin sacrificar estructura: ORM maduro, admin de fábrica y un ecosistema que cubre auth, permisos y migraciones. PostgreSQL para modelado relacional serio; JWT para autenticación desacoplada entre API y frontend. Decido la arquitectura pensando en el segundo año, no solo en el MVP: multitenancy, offline-first y APIs limpias son decisiones que se pagan caras si se dejan para después.",
     whyEn:
-      "I decide architecture thinking about year two, not just the MVP. Multitenancy, offline-first, and clean APIs are decisions that cost dearly if left for later.",
+      "Django + DRF give me speed without sacrificing structure: mature ORM, built-in admin, and an ecosystem that covers auth, permissions, and migrations. PostgreSQL for serious relational modeling; JWT for decoupled auth between API and frontend. I decide architecture thinking about year two, not just the MVP: multitenancy, offline-first, and clean APIs are decisions that cost dearly if left for later.",
+  },
+  {
+    category: "Frontend & UX",
+    description: "Interfaces que se ven bien y cualquiera puede usar.",
+    descriptionEn: "Interfaces that look good and anyone can use.",
+    tools: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Astro",
+      "Tailwind CSS",
+      "JavaScript",
+      "UX/UI",
+      "Figma",
+      "Accesibilidad (a11y)",
+      "SEO técnico",
+      "Web Performance",
+    ],
+    toolsEn: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Astro",
+      "Tailwind CSS",
+      "JavaScript",
+      "UX/UI",
+      "Figma",
+      "Accessibility (a11y)",
+      "Technical SEO",
+      "Web Performance",
+    ],
+    why: "Next.js para aplicaciones web completas, React + TypeScript para interfaces con estado y lógica de cliente, y Astro cuando lo que manda es rendimiento y contenido estático. Tailwind para mantener consistencia visual. Diseño en Figma antes de escribir código. Accesibilidad y SEO técnico no son extras: son parte de que el producto funcione para personas y para buscadores. El rendimiento es una feature.",
+    whyEn:
+      "Next.js for complete web applications, React + TypeScript for stateful interfaces, and Astro when performance and static content take priority. Tailwind helps maintain visual consistency. I design in Figma before writing code. Accessibility and technical SEO are not extras: they are part of making the product work for people and for search engines. Performance is a feature.",
   },
   {
     category: "Security",
-    description: "Mentalidad ofensiva para escribir código defensivo.",
-    descriptionEn: "Offensive mindset to write defensive code.",
+    description: "Seguridad desde el diseño en cada línea de código.",
+    descriptionEn: "Security by design in every line of code.",
     tools: ["OWASP", "MITRE ATT&CK", "PTES", "Linux", "AppSec"],
-    why: "Hago pentesting para entender cómo se rompe un sistema y escribir código que no se rompa así. OWASP Top 10 como checklist mínimo; seguridad desde el diseño, no parcheada al final.",
+    why: "Reviso cada sistema con criterios de OWASP para encontrar sus fallas antes que alguien más y escribir código que no se rompa así. OWASP Top 10 como checklist mínimo; seguridad desde el diseño, no parcheada al final.",
     whyEn:
-      "I do pentesting to understand how a system breaks and write code that does not break that way. OWASP Top 10 as a minimum checklist; security by design, not patched at the end.",
+      "I review every system against OWASP criteria to find its flaws before someone else does and write code that does not break that way. OWASP Top 10 as a minimum checklist; security by design, not patched at the end.",
   },
   {
     category: "AI Integrations",
@@ -84,5 +100,34 @@ export const stack: StackCategory[] = [
     why: "Integro OpenAI, OpenClaw y Claude API donde aportan valor real, como análisis y asistencia con contexto. n8n para automatizar flujos. La IA acelera; no reemplaza el criterio de ingeniería.",
     whyEn:
       "I integrate OpenAI, OpenClaw, and Claude API where they add real value, such as analysis and context-aware assistance. n8n handles workflow automation. AI accelerates; it does not replace engineering judgment.",
+  },
+  {
+    category: "Marketing & Content",
+    featured: true,
+    description: "Contenido y presencia digital que traen clientes.",
+    descriptionEn: "Content and digital presence that bring in customers.",
+    tools: [
+      "Marketing digital",
+      "Creación de contenido",
+      "TikTok",
+      "Instagram",
+      "CapCut",
+      "Canva",
+      "ElevenLabs",
+      "Higgsfield",
+    ],
+    toolsEn: [
+      "Digital marketing",
+      "Content creation",
+      "TikTok",
+      "Instagram",
+      "CapCut",
+      "Canva",
+      "ElevenLabs",
+      "Higgsfield",
+    ],
+    why: "Formación en marketing y redes sociales en Platzi y práctica como creadora de contenido en TikTok e Instagram. Canva y CapCut para piezas y video, ElevenLabs e Higgsfield para audio y video con IA: el mismo contenido con el que muestro en público cómo construyo.",
+    whyEn:
+      "Marketing and social media training at Platzi and hands-on practice as a content creator on TikTok and Instagram. Canva and CapCut for pieces and video, ElevenLabs and Higgsfield for AI audio and video: the same content I use to show in public how I build.",
   },
 ];

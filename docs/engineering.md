@@ -1,6 +1,6 @@
 # Engineering practices
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
 How work is done in this repository. Operational rules for agents are in [`../AGENTS.md`](../AGENTS.md); this document is the human-readable version with the reasons and the commands.
 
@@ -43,7 +43,7 @@ npm run security-txt:check
 npm test
 ```
 
-`npm run lhci` and `npm run links` run in CI after a build. Do not report a check as passed unless it completed successfully.
+`npm run lhci` and `npm run links` run in CI after a build. Lighthouse reports stay on the filesystem (`.lighthouseci/reports/`, uploaded as a CI artifact). Do not report a check as passed unless it completed successfully.
 
 ## CI
 

@@ -29,11 +29,11 @@ How the site is made discoverable by search engines and AI assistants, and what 
 - Twitter Card `summary_large_image` with `@wavival0`.
 - Icons, `site.webmanifest` and `theme-color`.
 
-Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp`. Project cards and their Open Graph metadata resolve the matching `-es.webp` or `-en.webp` asset with `localizedProjectImage()` in `src/data/projectView.ts` (the base filename lives in `projects.ts`).
+Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp` (illustrations with the text "Creo productos digitales" / "I build digital products"; the default `og:image:alt` describes them and there is no script that regenerates them). Project cards and their Open Graph metadata resolve the matching `-es.webp` or `-en.webp` asset with `localizedProjectImage()` in `src/data/projectView.ts` (the base filename lives in `projects.ts`).
 
 ## Structured data (JSON-LD)
 
-All pages carry a graph with `Person`, `Organization` and `WebSite`. Everything on wavival.dev belongs to wavival: the `Person` is the entity of the site (it holds the contact email and is the `author` and `publisher` of the `WebSite` and the `provider` of the services), and the `Organization` is Lúmina W, a separate company that she founded (`founder`) and that has its own site, services and pricing at `luminaw.co`. The `Organization` carries no contact point or service of this site, and the `Person` has no `worksFor`. The `Person` is a Full Stack Developer (`jobTitle`) and the description states the focus on backend and AI. On top of it:
+All pages carry a graph with `Person`, `Organization` and `WebSite`. Everything on wavival.dev belongs to wavival: the `Person` is the entity of the site (it holds the contact email and is the `author` and `publisher` of the `WebSite` and the `provider` of the services), and the `Organization` is Lúmina W, a separate company that she founded (`founder`) and that has its own site, services and pricing at `luminaw.co`. The `Organization` carries no contact point or service of this site, and the `Person` has no `worksFor`. The `Person` is a Software Developer (`jobTitle`) and the localized description states the focus on backend, AI and security and the value proposition for entrepreneurs; `sameAs` lists LinkedIn, GitHub, X, Instagram, TikTok and Platzi. On top of it:
 
 | Page type                    | Extra schema                                                                                                                                                                                                                   |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -46,7 +46,7 @@ All pages carry a graph with `Person`, `Organization` and `WebSite`. Everything 
 
 Each project has one page and one project node (`projectSchema`), with the `Person` as `author`. It is `SoftwareApplication` for TerraCore, OKroot and NullBreach, `WebSite` for Lúmina W and wavival.dev, and `CreativeWork` for the Forgotten Portal writeup. `name` is the official name and `alternateName` is the short name when it differs. On a project with several parts the node adds `hasPart`, one entry per part that has a link, with its own schema.org type (`SoftwareApplication`, `WebSite`, `Blog`, `SoftwareSourceCode`, `WebAPI` or `TechArticle`), a name such as "TerraCore Landing", the part blurb and its URL. `softwareRequirements` lists the stack of the app part (the first part when there is no app part); the merged stack of all parts is used only when that part declares none.
 
-The page title is `<official name>: Caso de estudio | Valentina Ramírez` in Spanish and `<official name>: Case study | Valentina Ramirez` in English (`projectMeta`).
+The page title is `<official name>: Caso de estudio | Valentina Ramírez` in Spanish and `<official name>: Case study | Valentina Ramírez` in English (`projectMeta`).
 
 ## Indexing
 

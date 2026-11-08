@@ -1,5 +1,6 @@
 ---
 import type { Lang } from "@/i18n/utils";
+import { whatsappHref } from "@/data/whatsapp";
 
 interface Props {
   lang?: Lang;
@@ -9,11 +10,7 @@ interface Props {
 const { lang = "es", class: extra = "" } = Astro.props;
 const isEn = lang === "en";
 
-const number = "573016560222";
-const message = isEn
-  ? "Hi, I'm coming from wavival.dev and I'd like to request a service."
-  : "Hola, vengo de wavival.dev y quiero solicitar un servicio.";
-const href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+const href = whatsappHref(lang);
 const label = isEn
   ? "Message Valentina Ramírez on WhatsApp"
   : "Escribir a Valentina Ramírez por WhatsApp";

@@ -19,7 +19,7 @@ const { featured: featuredRepos, resources: resourceRepos } = curateRepos(github
 
 const pageTitle = "Uses: Herramientas y stack | Valentina Ramírez";
 const pageDescription =
-  "El stack y las herramientas que uso como Full Stack Developer con enfoque en backend e IA (Django, Next.js, React, PostgreSQL, Astro, IA y seguridad) y por qué elijo cada una.";
+  "El stack y las herramientas que uso como desarrolladora de software con enfoque en backend, IA y seguridad (Django, Next.js, React, PostgreSQL, Astro, IA y seguridad) y por qué elijo cada una.";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -53,6 +53,11 @@ const hardwareItems = [
     ],
   },
   {
+    title: "Móvil y grabación",
+    sub: "Para el contenido",
+    tools: ["Motorola Edge 60 Fusion", "Estabilizador DJI con selfie stick extensible"],
+  },
+  {
     title: "Periféricos",
     sub: "Lo que toco a diario",
     tools: [
@@ -81,6 +86,11 @@ const softwareItems = [
     title: "Terminal y APIs",
     sub: "El backend del día",
     tools: ["Warp", "WSL (Ubuntu)", "Postman"],
+  },
+  {
+    title: "Marketing y contenido",
+    sub: "Piezas, audio y video",
+    tools: ["Claude (ver Código e IA)", "CapCut", "Canva", "ElevenLabs", "Higgsfield"],
   },
   {
     title: "Productividad y navegación",
@@ -127,10 +137,14 @@ const softwareItems = [
             <div
               class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
             >
-              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{s.category}</h3>
-                {s.category === "Backend" && <span class="label-sm label-sm-link">Destacado</span>}
-                <span class="text-[13px] text-muted">{s.description}</span>
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                  <h3 class="h-title m-0 text-2xl">{s.category}</h3>
+                  <span class="text-[13px] text-muted">{s.description}</span>
+                </div>
+                {s.category === "Backend" && (
+                  <span class="label-sm label-sm-link shrink-0">Destacado</span>
+                )}
               </div>
               {s.why && <p class="body m-0">{s.why}</p>}
               <ChipList

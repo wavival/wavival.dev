@@ -8,7 +8,7 @@ Guide for Claude Code in this repository. The operational rules live in `AGENTS.
 
 ## What this repository is
 
-The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` is the only Vercel Function and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning: Full Stack Developer focused on backend and AI. Overview, setup, commands, architecture and routes are in `README.md`.
+The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` is the only Vercel Function and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning: software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation; marketing and content are a complement, never a marketing agency. Overview, setup, commands, architecture and routes are in `README.md`.
 
 ## Ownership rule
 
