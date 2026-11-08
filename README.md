@@ -163,7 +163,7 @@ Spanish is the default locale at the root. English is mirrored below `/en/`.
 | `/herramientas/` | `/en/uses/`     |
 | `/privacidad/`   | `/en/privacy/`  |
 
-Each of the six projects has one page at `/proyectos/[slug]/` and `/en/projects/[slug]/`; its parts (app, landing, docs...) are sections of that page, reachable by hash (`#landing`). Former slugs redirect permanently (see `docs/seo.md`). `src/i18n/utils.ts` is the source of truth for language pairs, localized routes, alternate URLs, active navigation, and CV links. Update its slug map whenever a page or slug changes.
+Each of the six projects has one page at `/proyectos/[slug]/` and `/en/projects/[slug]/`; its parts (app, landing, docs...) are sections of that page, reachable by hash (`#landing`). Former slugs redirect permanently (see `docs/seo.md`). `src/i18n/utils.ts` is the source of truth for language pairs, localized routes, alternate URLs, and active navigation. Update its slug map whenever a page or slug changes.
 
 ### Microfrontends
 
@@ -253,35 +253,33 @@ Vercel builds the project with `npm run build`, installs dependencies with `npm 
 
 ## Repository documentation
 
-| Document                                                                   | Scope                                                                                                  |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [README.md](./README.md)                                                   | Repository overview, local setup, architecture, delivery and documentation map.                        |
-| [CLAUDE.md](./CLAUDE.md)                                                   | Claude Code project guide: imports `AGENTS.md` and links to the documentation set.                     |
-| [AGENTS.md](./AGENTS.md)                                                   | Operational rules for agents: scope, documentation sources, delivery flow and verification.            |
-| [DESIGN.md](./DESIGN.md)                                                   | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
-| [COMPONENTS.md](./COMPONENTS.md)                                           | Component and layout contracts, props, and usage details.                                              |
-| [CHANGELOG.md](./CHANGELOG.md)                                             | Versioned project history following Keep a Changelog and SemVer.                                       |
-| [docs/seo.md](./docs/seo.md)                                               | SEO, indexing, structured data and AI-assistant discovery (GEO).                                       |
-| [docs/i18n.md](./docs/i18n.md)                                             | Spanish and English: page map, copy locations and rules.                                               |
-| [docs/accessibility.md](./docs/accessibility.md)                           | Accessibility guarantees, component behavior, checks and checklist.                                    |
-| [docs/performance.md](./docs/performance.md)                               | Performance decisions, caching, measuring and checklist.                                               |
-| [docs/security.md](./docs/security.md)                                     | Headers, CSP, the quote function, OWASP Top 10 coverage, data, supply chain and checklist.             |
-| [docs/engineering.md](./docs/engineering.md)                               | Engineering practices: branches, commits, code, checks, CI and documentation.                          |
-| [docs/RELEASING.md](./docs/RELEASING.md)                                   | How a version is chosen, tagged and released with the `Release` workflow.                              |
-| [docs/brand.md](./docs/brand.md)                                           | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries.  |
-| [docs/commercial.md](./docs/commercial.md)                                 | Living commercial offer, ideal client, permitted claims, CTAs, and content risks.                      |
-| [docs/ROADMAP.md](./docs/ROADMAP.md)                                       | Pending work, decisions that need the owner, and known gaps.                                           |
-| [public/cv_valentina_ramirez_es.pdf](./public/cv_valentina_ramirez_es.pdf) | Spanish downloadable CV.                                                                               |
-| [public/cv_valentina_ramirez_en.pdf](./public/cv_valentina_ramirez_en.pdf) | English downloadable CV.                                                                               |
-| [public/llms.txt](./public/llms.txt)                                       | Public AI-discovery index.                                                                             |
-| [public/llms-full.txt](./public/llms-full.txt)                             | Public long-form AI-discovery companion.                                                               |
-| [public/robots.txt](./public/robots.txt)                                   | Public crawler directives and sitemap location.                                                        |
-| [public/.well-known/security.txt](./public/.well-known/security.txt)       | Public RFC 9116 security contact.                                                                      |
-| [SECURITY.md](./SECURITY.md)                                               | Private vulnerability-reporting policy for the repository and deployed site.                           |
-| [vercel.json](./vercel.json)                                               | Redirects, immutable asset caches and production security headers.                                     |
-| [microfrontends.json](./microfrontends.json)                               | Vercel Microfrontends path-ownership contract (NullBreach).                                            |
-| [.env.example](./.env.example)                                             | Local environment-variable template.                                                                   |
-| [LICENSE](./LICENSE)                                                       | MIT license.                                                                                           |
+| Document                                                             | Scope                                                                                                  |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [README.md](./README.md)                                             | Repository overview, local setup, architecture, delivery and documentation map.                        |
+| [CLAUDE.md](./CLAUDE.md)                                             | Claude Code project guide: imports `AGENTS.md` and links to the documentation set.                     |
+| [AGENTS.md](./AGENTS.md)                                             | Operational rules for agents: scope, documentation sources, delivery flow and verification.            |
+| [DESIGN.md](./DESIGN.md)                                             | @wavival Design System v4 tokens, type scale, component classes, composition, and accessibility rules. |
+| [COMPONENTS.md](./COMPONENTS.md)                                     | Component and layout contracts, props, and usage details.                                              |
+| [CHANGELOG.md](./CHANGELOG.md)                                       | Versioned project history following Keep a Changelog and SemVer.                                       |
+| [docs/seo.md](./docs/seo.md)                                         | SEO, indexing, structured data and AI-assistant discovery (GEO).                                       |
+| [docs/i18n.md](./docs/i18n.md)                                       | Spanish and English: page map, copy locations and rules.                                               |
+| [docs/accessibility.md](./docs/accessibility.md)                     | Accessibility guarantees, component behavior, checks and checklist.                                    |
+| [docs/performance.md](./docs/performance.md)                         | Performance decisions, caching, measuring and checklist.                                               |
+| [docs/security.md](./docs/security.md)                               | Headers, CSP, the quote function, OWASP Top 10 coverage, data, supply chain and checklist.             |
+| [docs/engineering.md](./docs/engineering.md)                         | Engineering practices: branches, commits, code, checks, CI and documentation.                          |
+| [docs/RELEASING.md](./docs/RELEASING.md)                             | How a version is chosen, tagged and released with the `Release` workflow.                              |
+| [docs/brand.md](./docs/brand.md)                                     | Living personal-brand positioning, voice, visual rules, product relationship, and content boundaries.  |
+| [docs/commercial.md](./docs/commercial.md)                           | Living commercial offer, ideal client, permitted claims, CTAs, and content risks.                      |
+| [docs/ROADMAP.md](./docs/ROADMAP.md)                                 | Pending work, decisions that need the owner, and known gaps.                                           |
+| [public/llms.txt](./public/llms.txt)                                 | Public AI-discovery index.                                                                             |
+| [public/llms-full.txt](./public/llms-full.txt)                       | Public long-form AI-discovery companion.                                                               |
+| [public/robots.txt](./public/robots.txt)                             | Public crawler directives and sitemap location.                                                        |
+| [public/.well-known/security.txt](./public/.well-known/security.txt) | Public RFC 9116 security contact.                                                                      |
+| [SECURITY.md](./SECURITY.md)                                         | Private vulnerability-reporting policy for the repository and deployed site.                           |
+| [vercel.json](./vercel.json)                                         | Redirects, immutable asset caches and production security headers.                                     |
+| [microfrontends.json](./microfrontends.json)                         | Vercel Microfrontends path-ownership contract (NullBreach).                                            |
+| [.env.example](./.env.example)                                       | Local environment-variable template.                                                                   |
+| [LICENSE](./LICENSE)                                                 | MIT license.                                                                                           |
 
 ## License
 

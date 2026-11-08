@@ -25,8 +25,6 @@ export const ui = {
     "nav.theme": "Cambiar tema",
     "nav.toggleLabel": "EN",
     "nav.toggleAria": "Cambiar el idioma del sitio a inglés",
-    "common.downloadCv": "Descargar CV",
-    "common.downloadCvAria": "Descargar CV de Valentina Ramírez en PDF",
     "common.emailAria": "Contáctame: enviar correo electrónico a Valentina Ramírez",
     "common.skip": "Saltar al contenido principal",
     "footer.tagline":
@@ -66,8 +64,6 @@ export const ui = {
     "nav.theme": "Toggle theme",
     "nav.toggleLabel": "ES",
     "nav.toggleAria": "Switch the site language to Spanish",
-    "common.downloadCv": "Download CV",
-    "common.downloadCvAria": "Download CV of Valentina Ramírez in PDF",
     "common.emailAria": "Get in touch: send an email to Valentina Ramírez",
     "common.skip": "Skip to main content",
     "footer.tagline":

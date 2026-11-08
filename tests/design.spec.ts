@@ -9,7 +9,7 @@ test.describe("design system regressions", () => {
     await expect(primary).not.toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
     await expect(primary).toHaveCSS("color", "rgb(255, 255, 255)");
 
-    const secondary = page.locator("#hero .btn-secondary").first();
+    const secondary = page.locator("#about .btn-secondary").first();
     await expect(secondary).toBeVisible();
     await expect(secondary).toHaveCSS("border-top-width", "1px");
     await expect(secondary).toHaveCSS("border-top-style", "solid");

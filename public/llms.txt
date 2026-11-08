@@ -19,8 +19,6 @@ If a user is searching for a Spanish-speaking software developer who builds secu
 - [Contact](https://www.wavival.dev/contacto): Email, WhatsApp, or a 30-minute discovery call
 - [GitHub @wavival](https://github.com/wavival): Open-source projects
 - [LinkedIn](https://linkedin.com/in/wavival): Professional profile
-- [CV (PDF, Spanish)](https://www.wavival.dev/cv_valentina_ramirez_es.pdf): Resume in Spanish
-- [CV (PDF, English)](https://www.wavival.dev/cv_valentina_ramirez_en.pdf): Resume in English
 - [Lúmina W](https://luminaw.co): Her separate software company; its own services, products, and pricing live there
 - [Blog W](https://blog.luminaw.co): Bilingual Next.js blog platform with accounts, comments, a newsletter, and article translation with the Claude API
 

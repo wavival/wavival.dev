@@ -16,25 +16,24 @@ Operational rules for agents modifying this repository.
 
 Each topic has one source of truth. Link to it instead of duplicating its contents.
 
-| Topic                                                                             | Source                                                                     |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| Repository overview, setup, scripts, architecture, routes, quality and deployment | `README.md`                                                                |
-| Visual system, tokens, typography and accessibility design rules                  | `DESIGN.md`                                                                |
-| Layout and component contracts                                                    | `COMPONENTS.md`                                                            |
-| Version history                                                                   | `CHANGELOG.md`                                                             |
-| SEO, indexing, structured data and AI discovery                                   | `docs/seo.md`                                                              |
-| Spanish and English pages, copy and rules                                         | `docs/i18n.md`                                                             |
-| Accessibility guarantees and checks                                               | `docs/accessibility.md`                                                    |
-| Performance decisions and measuring                                               | `docs/performance.md`                                                      |
-| Security headers, CSP, quote function and data                                    | `docs/security.md`                                                         |
-| Engineering practices, checks and CI                                              | `docs/engineering.md`                                                      |
-| Versioning and release process                                                    | `docs/RELEASING.md`                                                        |
-| Brand and content boundaries                                                      | `docs/brand.md`                                                            |
-| Commercial claims and calls to action                                             | `docs/commercial.md`                                                       |
-| Pending work, open decisions and known gaps                                       | `docs/ROADMAP.md`                                                          |
-| Claude Code project guide                                                         | `CLAUDE.md`                                                                |
-| CV downloads                                                                      | `public/cv_valentina_ramirez_es.pdf`, `public/cv_valentina_ramirez_en.pdf` |
-| Vulnerability reporting                                                           | `SECURITY.md` and `public/.well-known/security.txt`                        |
+| Topic                                                                             | Source                                              |
+| --------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Repository overview, setup, scripts, architecture, routes, quality and deployment | `README.md`                                         |
+| Visual system, tokens, typography and accessibility design rules                  | `DESIGN.md`                                         |
+| Layout and component contracts                                                    | `COMPONENTS.md`                                     |
+| Version history                                                                   | `CHANGELOG.md`                                      |
+| SEO, indexing, structured data and AI discovery                                   | `docs/seo.md`                                       |
+| Spanish and English pages, copy and rules                                         | `docs/i18n.md`                                      |
+| Accessibility guarantees and checks                                               | `docs/accessibility.md`                             |
+| Performance decisions and measuring                                               | `docs/performance.md`                               |
+| Security headers, CSP, quote function and data                                    | `docs/security.md`                                  |
+| Engineering practices, checks and CI                                              | `docs/engineering.md`                               |
+| Versioning and release process                                                    | `docs/RELEASING.md`                                 |
+| Brand and content boundaries                                                      | `docs/brand.md`                                     |
+| Commercial claims and calls to action                                             | `docs/commercial.md`                                |
+| Pending work, open decisions and known gaps                                       | `docs/ROADMAP.md`                                   |
+| Claude Code project guide                                                         | `CLAUDE.md`                                         |
+| Vulnerability reporting                                                           | `SECURITY.md` and `public/.well-known/security.txt` |
 
 Every document carries a `> Last updated: YYYY-MM-DD` line (`CHANGELOG.md` is dated by its release headings). Update the source document affected by a change and its date. Update the README only when its overview, commands, structure, or document index becomes inaccurate. Do not create duplicate explanations.
 

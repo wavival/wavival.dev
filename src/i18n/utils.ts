@@ -73,12 +73,6 @@ export function getAltLangUrl(url: URL): { href: string; lang: Lang } {
   return { href: "/en", lang: "en" };
 }
 
-/** Per-locale CV filename. */
-export function cvHref(lang: Lang, base: string): string {
-  const file = lang === "en" ? "cv_valentina_ramirez_en.pdf" : "cv_valentina_ramirez_es.pdf";
-  return `${base}${file}`;
-}
-
 /** Home path for a language. */
 export function homeHref(lang: Lang): string {
   return lang === "en" ? "/en" : "/";

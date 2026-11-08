@@ -9,14 +9,12 @@ import SocialLinks from "@/components/molecules/SocialLinks.astro";
 import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ContactBand from "@/components/organisms/ContactBand.astro";
-import { cvHref, siteRoutes } from "@/i18n/utils";
+import { siteRoutes } from "@/i18n/utils";
 import { bentoStyles } from "@/utils/bento";
 
 const base = import.meta.env.BASE_URL;
 const lang = "es";
 const r = siteRoutes(lang, base);
-const cv = cvHref(lang, base);
-const cvFile = cv.slice(base.length);
 
 const summary = [
   { value: "Backend e IA", label: "Django · React, en producción" },
@@ -248,15 +246,6 @@ const breadcrumbLd = JSON.stringify({
     </PullQuote>
 
     <div class="mt-14 flex flex-wrap items-center gap-3 min-[900px]:justify-center">
-      <Button
-        href={cv}
-        download={cvFile}
-        icon="download-cv-white"
-        data-umami-event="cv-descarga-es"
-        aria-label="Descargar CV de Valentina Ramírez en PDF"
-      >
-        Descargar CV
-      </Button>
       <SocialLinks lang={lang} size="lg" />
     </div>
   </section>
