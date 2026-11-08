@@ -137,10 +137,14 @@ const softwareItems = [
             <div
               class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
             >
-              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{s.category}</h3>
-                {s.category === "Backend" && <span class="label-sm label-sm-link">Destacado</span>}
-                <span class="text-[13px] text-muted">{s.description}</span>
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                  <h3 class="h-title m-0 text-2xl">{s.category}</h3>
+                  <span class="text-[13px] text-muted">{s.description}</span>
+                </div>
+                {s.category === "Backend" && (
+                  <span class="label-sm label-sm-link shrink-0">Destacado</span>
+                )}
               </div>
               {s.why && <p class="body m-0">{s.why}</p>}
               <ChipList
