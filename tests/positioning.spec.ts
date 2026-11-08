@@ -76,12 +76,12 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(page.locator("footer")).not.toContainText(/full stack/i);
     });
 
-    test(`${home.path} footer links Instagram, TikTok, GitHub and LinkedIn in that order, and no Facebook`, async ({
+    test(`${home.path} footer links Instagram, TikTok, LinkedIn and GitHub in that order, and no Facebook`, async ({
       page,
     }) => {
       await page.goto(home.path);
       const footer = page.locator("footer");
-      await expect(footer.locator('a[href="https://instagram.com/wavival"]')).toHaveCount(1);
+      await expect(footer.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveCount(1);
       await expect(footer.locator('a[href="https://github.com/wavival"]')).toHaveCount(1);
       await expect(footer.locator('a[href="https://linkedin.com/in/wavival"]')).toHaveCount(1);
       const tiktok = footer.locator('a[href="https://www.tiktok.com/@wavival_dev"]');
@@ -90,10 +90,10 @@ test.describe("positioning of the 2026 plan", () => {
         .locator("a.icon-btn")
         .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
       expect(order).toEqual([
-        "https://instagram.com/wavival",
+        "https://instagram.com/wavival_dev",
         "https://www.tiktok.com/@wavival_dev",
-        "https://github.com/wavival",
         "https://linkedin.com/in/wavival",
+        "https://github.com/wavival",
       ]);
       await expect(tiktok).toHaveAttribute("target", "_blank");
       await expect(tiktok).toHaveAttribute("rel", "noopener noreferrer");
@@ -113,7 +113,7 @@ test.describe("positioning of the 2026 plan", () => {
         .locator("a.icon-btn")
         .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
       expect(order).toEqual([
-        "https://instagram.com/wavival",
+        "https://instagram.com/wavival_dev",
         "https://www.tiktok.com/@wavival_dev",
         "https://platzi.com/p/wavival",
       ]);
@@ -176,14 +176,16 @@ test.describe("positioning of the 2026 plan", () => {
       "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en TikTok e Instagram"
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
-    await expect(row.locator('a[href="https://instagram.com/wavival"]')).toHaveText("Instagram");
+    await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
+      "Instagram"
+    );
     await expect(
       page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
     const social = page.locator("main a.icon-btn");
     await expect(social).toHaveCount(4);
     expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
-      "https://instagram.com/wavival",
+      "https://instagram.com/wavival_dev",
       "https://www.tiktok.com/@wavival_dev",
       "https://github.com/wavival",
       "https://linkedin.com/in/wavival",
@@ -200,7 +202,9 @@ test.describe("positioning of the 2026 plan", () => {
       "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on TikTok and Instagram"
     );
     await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
-    await expect(row.locator('a[href="https://instagram.com/wavival"]')).toHaveText("Instagram");
+    await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
+      "Instagram"
+    );
     await expect(
       page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
