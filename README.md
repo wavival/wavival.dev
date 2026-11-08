@@ -9,9 +9,9 @@
 [![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Version 4 of the personal portfolio for Valentina Ramírez, Full Stack developer focused on backend and AI, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
+> Version 4 of the personal portfolio for Valentina Ramírez, software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote-delivery function.
 
-> Last updated: 2026-10-06
+> Last updated: 2026-11-07
 
 ## Contents
 

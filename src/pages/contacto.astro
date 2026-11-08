@@ -6,11 +6,10 @@ import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import MaskIcon from "@/components/atoms/MaskIcon.astro";
 import Index from "@/components/atoms/Index.astro";
+import { whatsappHref as whatsappLink } from "@/data/whatsapp";
 
 const email = "wavival.dev@luminaw.co";
-const whatsappNumber = "573016560222";
-const whatsappMessage = "Hola Valentina, vengo de tu portafolio y quiero hablar de un proyecto.";
-const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappHref = whatsappLink("es");
 const calendlyUrl = "https://calendly.com/wavival/descubrimiento-servicios-wavival";
 
 const pageTitle = "Contacto: Hablemos de tu producto | Valentina Ramírez";

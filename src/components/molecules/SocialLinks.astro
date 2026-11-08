@@ -1,18 +1,19 @@
 ---
 import IconLink from "@/components/atoms/IconLink.astro";
 import type { Lang } from "@/i18n/utils";
+import { whatsappHref } from "@/data/whatsapp";
 
 interface Props {
   lang?: Lang;
   size?: "md" | "lg";
-  items?: ("linkedin" | "github" | "instagram" | "whatsapp")[];
+  items?: ("linkedin" | "github" | "instagram" | "tiktok" | "whatsapp")[];
   class?: string;
 }
 
 const {
   lang = "es",
   size = "md",
-  items = ["linkedin", "github", "instagram"],
+  items = ["instagram", "tiktok", "github", "linkedin"],
   class: extra = "",
 } = Astro.props;
 const isEn = lang === "en";
@@ -30,8 +31,12 @@ const defs = {
     href: "https://instagram.com/wavival",
     label: isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez",
   },
+  tiktok: {
+    href: "https://www.tiktok.com/@wavival_dev",
+    label: isEn ? "Valentina Ramírez on TikTok" : "TikTok de Valentina Ramírez",
+  },
   whatsapp: {
-    href: "https://wa.me/573016560222",
+    href: whatsappHref(lang),
     label: isEn ? "Valentina Ramírez on WhatsApp" : "WhatsApp de Valentina Ramírez",
   },
 };
