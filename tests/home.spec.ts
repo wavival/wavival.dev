@@ -30,7 +30,7 @@ test.describe("home page", () => {
   });
 
   test("the contact band quotes the unified MVP timeline", async ({ page }) => {
-    await expect(page.locator("#contact")).toContainText("MVP desde 6 a 10 semanas");
+    await expect(page.locator("#contact")).toContainText("MVP de 6 a 10 semanas");
     await expect(page.locator("#contact")).not.toContainText("3-6");
   });
 

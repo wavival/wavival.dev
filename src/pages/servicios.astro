@@ -3,7 +3,6 @@ import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
 import ServicesCatalog from "@/components/organisms/ServicesCatalog.astro";
 import ServicesDetail from "@/components/organisms/ServicesDetail.astro";
-import ContactBand from "@/components/organisms/ContactBand.astro";
 import { servicesLd } from "@/data/servicesLd";
 
 const site = "https://www.wavival.dev";
@@ -102,6 +101,7 @@ const breadcrumbLd = JSON.stringify({
 <Layout
   title={pageTitle}
   description={pageDescription}
+  contactBandSecondary="contact"
   alternates={[
     { hreflang: "es", href: "https://www.wavival.dev/servicios/" },
     { hreflang: "en", href: "https://www.wavival.dev/en/services/" },
@@ -135,8 +135,6 @@ const breadcrumbLd = JSON.stringify({
       faqs={faqs}
     />
   </section>
-
-  <ContactBand showServicesLink={false} />
 
   <script is:inline type="application/ld+json" set:html={serviceLd} />
   <script is:inline type="application/ld+json" set:html={faqLd} />
