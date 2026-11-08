@@ -44,7 +44,7 @@ const { project: p, index } = Astro.props;
       <ProjectBrief brief={p.brief} />
     </div>
     <DefRow label="Stack" last>
-      <p class="m-0 text-sm leading-[1.6] text-muted">{p.stack.join(", ")}</p>
+      <p class="m-0 text-sm leading-[1.6] text-muted" data-key-stack>{p.stack.join(" · ")}</p>
     </DefRow>
   </dl>
   {

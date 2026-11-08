@@ -30,7 +30,7 @@ export const ui = {
     "common.emailAria": "Contáctame: enviar correo electrónico a Valentina Ramírez",
     "common.skip": "Saltar al contenido principal",
     "footer.tagline":
-      "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan.",
+      "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio.",
     "footer.navHeading": "Navegación",
     "footer.resourcesHeading": "Recursos",
     "footer.repos": "Repositorios",
@@ -71,7 +71,7 @@ export const ui = {
     "common.emailAria": "Get in touch: send an email to Valentina Ramírez",
     "common.skip": "Skip to main content",
     "footer.tagline":
-      "Full Stack Developer. Backend and AI. Security built in. Products that scale.",
+      "Software developer. Backend, AI and security. Tools that save your business time.",
     "footer.navHeading": "Navigation",
     "footer.resourcesHeading": "Resources",
     "footer.repos": "Repositories",

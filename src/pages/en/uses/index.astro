@@ -17,9 +17,9 @@ const routes = siteRoutes("en", import.meta.env.BASE_URL);
 const { user: githubUser, repos: githubRepos } = await fetchGithubProfile("wavival");
 const { featured: featuredRepos, resources: resourceRepos } = curateRepos(githubRepos);
 
-const pageTitle = "Uses: Tools and stack | Valentina Ramirez";
+const pageTitle = "Uses: Tools and stack | Valentina Ramírez";
 const pageDescription =
-  "The stack and tools I use as a Full Stack Developer focused on backend and AI (Django, Next.js, React, PostgreSQL, Astro, AI, and security) and why I choose each one.";
+  "The stack and tools I use as a software developer focused on backend, AI and security (Django, Next.js, React, PostgreSQL, Astro, AI, and security) and why I choose each one.";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -46,6 +46,11 @@ const hardwareItems = [
       "Windows 11 Pro (25H2)",
       "WSL2 · Ubuntu",
     ],
+  },
+  {
+    title: "Phone and recording",
+    sub: "For the content",
+    tools: ["Motorola Edge 60 Fusion", "DJI gimbal with extendable selfie stick"],
   },
   {
     title: "Peripherals",
@@ -76,6 +81,11 @@ const softwareItems = [
     title: "Terminal and APIs",
     sub: "The backend of the day",
     tools: ["Warp", "WSL (Ubuntu)", "Postman"],
+  },
+  {
+    title: "Marketing and content",
+    sub: "Visuals, audio and video",
+    tools: ["Claude (see Code and AI)", "CapCut", "Canva", "ElevenLabs", "Higgsfield"],
   },
   {
     title: "Productivity and browsing",
@@ -123,10 +133,14 @@ const softwareItems = [
             <div
               class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
             >
-              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{s.category}</h3>
-                {s.category === "Backend" && <span class="label-sm label-sm-link">Core</span>}
-                <span class="text-[13px] text-muted">{s.descriptionEn ?? s.description}</span>
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                  <h3 class="h-title m-0 text-2xl">{s.category}</h3>
+                  <span class="text-[13px] text-muted">{s.descriptionEn ?? s.description}</span>
+                </div>
+                {s.category === "Backend" && (
+                  <span class="label-sm label-sm-link shrink-0">Featured</span>
+                )}
               </div>
               {(s.whyEn ?? s.why) && <p class="body m-0">{s.whyEn ?? s.why}</p>}
               <ChipList
@@ -222,7 +236,7 @@ const softwareItems = [
               href={githubUser.html_url}
               target="_blank"
               class="mt-3 self-start"
-              aria-label="See Valentina Ramirez's full GitHub profile"
+              aria-label="See Valentina Ramírez's full GitHub profile"
             >
               See full profile
             </TextLink>

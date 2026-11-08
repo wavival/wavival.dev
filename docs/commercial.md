@@ -78,6 +78,8 @@ Producto disponible hoy:
 
 Omitido en V1 (sin fuente): mantenimiento como servicio, modelo de contratación, oferta paga de NullBreach.
 
+Title de `/servicios`: "Servicios: software seguro y automatización con IA | Valentina Ramírez" (EN: "Services: secure software and AI automation | Valentina Ramírez"); el intro de la página se presenta como desarrolladora de software con enfoque en backend, IA y seguridad.
+
 Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (proyecto `terracore`, parte `landing`), `src/components/organisms/ContactBand.astro`.
 
 Titular de la home: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."), con "El código que firmo también lo rompo." como frase secundaria. La banda de contacto de la home dice "MVP desde 6 a 10 semanas". Datos publicados en la home: "3 apps en producción", "Lúmina W fundadora", "24h tiempo de respuesta" (`src/components/organisms/Hero.astro`). Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera.
@@ -86,18 +88,25 @@ Titular de la home: "Ayudo a emprendedores a ahorrar tiempo con software seguro 
 
 ## 3. Cliente ideal
 
-- Fundadores con producto real que necesitan velocidad.
-- Equipos que necesitan API y frontend bajo un solo contrato.
-- Startups que valoran seguridad por diseño.
-- Equipos existentes que necesitan refuerzo de backend, API o seguridad.
+Publicado en `/servicios` y `/en/services` como "Trabajo mejor con" y "No es para ti si".
+
+Trabajo mejor con:
+
+- Dueños de micro negocios de servicios, de 1 a 10 personas, que ya venden y tienen clientes.
+- Negocios que operan con WhatsApp, Instagram, Excel o Google Sheets y correo.
+- Quien responde a mano los mismos mensajes, agenda y cotiza a mano, pierde leads o no tiene web, o la tiene desactualizada.
+- Personas no técnicas que buscan resultados: tiempo ahorrado y más ventas.
+- Nichos de ejemplo: servicios con agenda (consultorios, estética, psicología, abogados, contadores), academias y formadores, y comercio pequeño que vende por Instagram o WhatsApp.
+- Equipos técnicos que necesitan refuerzo de backend, API o seguridad (bloque fuera del catálogo).
 - Para TerraCore: fincas medianas en Colombia.
 - Para OKroot: personas con celiaquía, diabetes o intolerancia a la lactosa (early access).
 
-No es para ella si:
+No es para ti si:
 
-- El proyecto es solo diseño o maquetado estático.
-- Se necesita alguien en oficina 9 a 5.
-- Se busca el precio más bajo, no el mejor resultado.
+- El negocio está en etapa de idea y todavía no vende.
+- El equipo tiene más de 10 personas, o el proyecto necesita un equipo o supera el umbral de `THRESHOLDS.luminawReferral` en `src/data/pricing.ts`: esos proyectos van a Lúmina W.
+- Se busca un pentest certificado o una certificación de cumplimiento.
+- Se busca manejo diario de redes o una agencia de marketing.
 
 Punto de partida esperado: tener claro el problema y a quién va dirigido.
 
@@ -143,7 +152,7 @@ Ruta de descubrimiento V1:
 1. Contenido en Instagram y LinkedIn.
 2. Perfil de wavival y portafolio (`wavival.dev`): proyectos, servicios, herramientas.
 3. Lúmina W (`luminaw.co`) para sus propios servicios y para los productos.
-4. Contacto: correo `wavival.dev@luminaw.co` (respuesta en 24 horas), WhatsApp (`wa.me/573016560222`) o llamada de descubrimiento de 30 minutos por Calendly (`calendly.com/wavival/descubrimiento-servicios-wavival`), todo en la página `/contacto`. Formulario de cotización en `/cotizar`, con respuesta en un máximo de 24 horas.
+4. Contacto: correo `wavival.dev@luminaw.co` (respuesta en 24 horas), WhatsApp (`wa.me/573016560222`, todos los enlaces del sitio abren con el mismo mensaje por idioma desde `src/data/whatsapp.ts`: "Hola, vengo de wavival.dev y quiero solicitar un servicio." / "Hi, I'm coming from wavival.dev and I'd like to request a service.") o llamada de descubrimiento de 30 minutos por Calendly (`calendly.com/wavival/descubrimiento-servicios-wavival`), todo en la página `/contacto`. Formulario de cotización en `/cotizar`, con respuesta en un máximo de 24 horas.
 5. Producto: TerraCore (landing y app), OKroot (landing y app en early access).
 
 Regla: el CTA de una pieza sobre los servicios de wavival dirige a `/servicios` o `/contacto`; el CTA de una pieza sobre Lúmina W o sus productos dirige a `luminaw.co` o al producto; el CTA de una pieza de confianza puede dirigir al portafolio.
@@ -180,8 +189,8 @@ Reglas:
 
 ### Se pueden afirmar como están publicados
 
-- Desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W, empresa de software.
-- Estudia Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi.
+- Desarrolladora de software con enfoque en backend, IA y seguridad (Django, React, Next.js) y fundadora de Lúmina W, empresa de software. Ayuda a emprendedores a ahorrar tiempo con software seguro y automatización con IA. El marketing y el contenido son un complemento, nunca una agencia de marketing.
+- Estudia Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi, incluida formación en marketing y redes sociales; creadora de contenido en TikTok (`@wavival_dev`) e Instagram.
 - TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.
