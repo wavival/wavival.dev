@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { SOCIAL_PROFILES } from "../src/data/social";
+import { sectionIndices, usesSectionIndices } from "../src/utils/sections";
 
 const PAGES = {
   es: {
@@ -13,14 +14,10 @@ const PAGES = {
     cards: {
       instagram: {
         name: "Instagram",
-        label:
-          "Instagram @wavival_dev. Reels y publicaciones con el detrás de cámaras de cada proyecto y lo que aprendo en el camino. (Instagram de Valentina Ramírez)",
         text: "Reels y publicaciones con el detrás de cámaras de cada proyecto y lo que aprendo en el camino.",
       },
       tiktok: {
         name: "TikTok",
-        label:
-          "TikTok @wavival_dev. Videos cortos donde explico cómo construyo software seguro y automatizaciones con IA. (TikTok de Valentina Ramírez)",
         text: "Videos cortos donde explico cómo construyo software seguro y automatizaciones con IA.",
       },
     },
@@ -37,14 +34,10 @@ const PAGES = {
     cards: {
       instagram: {
         name: "Instagram",
-        label:
-          "Instagram @wavival_dev. Reels and posts with the behind the scenes of each project and what I learn along the way. (Valentina Ramírez on Instagram)",
         text: "Reels and posts with the behind the scenes of each project and what I learn along the way.",
       },
       tiktok: {
         name: "TikTok",
-        label:
-          "TikTok @wavival_dev. Short videos where I explain how I build secure software and AI automations. (Valentina Ramírez on TikTok)",
         text: "Short videos where I explain how I build secure software and AI automations.",
       },
     },
@@ -53,6 +46,8 @@ const PAGES = {
 } as const;
 
 const NETWORKS = ["instagram", "tiktok"] as const;
+
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** Bounding boxes of the label and content columns of a two-column section. */
 async function columns(page: Page, section: string) {
@@ -65,32 +60,55 @@ async function columns(page: Page, section: string) {
   };
 }
 
+test.describe("section numbering of the tools pages (usesSectionIndices)", () => {
+  test("numbers the rendered sections in order without gaps", () => {
+    expect(sectionIndices(["a", "b", "c"])).toEqual({ a: "01", b: "02", c: "03" });
+    expect(sectionIndices([])).toEqual({});
+  });
+
+  test("Social is 05 after the GitHub section", () => {
+    expect(usesSectionIndices(true)).toEqual({
+      stack: "01",
+      hardware: "02",
+      software: "03",
+      github: "04",
+      social: "05",
+    });
+  });
+
+  test("Social is 04 when the GitHub section does not render", () => {
+    const indices = usesSectionIndices(false);
+    expect(indices).toEqual({ stack: "01", hardware: "02", software: "03", social: "04" });
+    expect(indices.github).toBeUndefined();
+  });
+});
+
 for (const copy of Object.values(PAGES) as (typeof PAGES)["es"][]) {
   test.describe(`${copy.path} social section`, () => {
-    test("renders section 05 after the GitHub section with its label copy", async ({ page }) => {
+    test("renders the last numbered section with its label copy", async ({ page }) => {
       await page.goto(copy.path);
       const section = page.locator("section#social");
       await expect(section).toHaveCount(1);
       const label = section.locator("[data-sticky-section-label]");
-      await expect(label.locator(".index")).toHaveText("05");
       await expect(label.locator(".eyebrow")).toHaveText(copy.eyebrow);
       await expect(label.getByRole("heading", { level: 2 })).toHaveText(copy.title);
       await expect(label.locator("p")).toHaveText(copy.description);
 
+      // The GitHub block only renders when the build-time fetch succeeded, so the
+      // numbering must follow the sections actually on the page.
       const indices = await page.locator("main .index").allTextContents();
-      expect(indices.at(-1)).toBe("05");
-      const repos = page.locator("#repos");
-      if ((await repos.count()) === 1) {
-        expect(indices.at(-2)).toBe("04");
+      const withGithub = (await page.locator("#repos").count()) === 1;
+      const expected = Object.values(usesSectionIndices(withGithub));
+      expect(indices).toEqual(expected);
+      await expect(label.locator(".index")).toHaveText(withGithub ? "05" : "04");
+      if (withGithub) {
+        await expect(page.locator("#repos .index")).toHaveText("04");
         expect(
           await section.evaluate((el) => {
             const github = document.querySelector("#repos")!;
             return Boolean(github.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
           })
         ).toBe(true);
-      } else {
-        // The GitHub block only renders when the build-time fetch succeeded.
-        expect(indices.at(-2)).toBe("03");
       }
     });
 
@@ -113,13 +131,20 @@ for (const copy of Object.values(PAGES) as (typeof PAGES)["es"][]) {
       for (const [i, network] of NETWORKS.entries()) {
         const card = cards.nth(i);
         const expected = copy.cards[network];
+        const handle = SOCIAL_PROFILES[network].handle!;
         await expect(card).toHaveAttribute("data-social-profile", network);
         await expect(card).toHaveAttribute("href", SOCIAL_PROFILES[network].href);
         await expect(card).toHaveAttribute("target", "_blank");
         await expect(card).toHaveAttribute("rel", "noopener noreferrer");
-        await expect(card).toHaveAttribute("aria-label", expected.label);
+        // Like RepoCard: no aria-label, the accessible name is the visible content.
+        await expect(card).not.toHaveAttribute("aria-label", /.*/);
+        await expect(card).toHaveAccessibleName(
+          new RegExp(
+            `^${expected.name}\\s+${escapeRegExp(handle)}\\s+${escapeRegExp(expected.text)}$`
+          )
+        );
         await expect(card.locator(".badge")).toHaveText(expected.name);
-        await expect(card).toContainText(SOCIAL_PROFILES[network].handle!);
+        await expect(card).toContainText(handle);
         await expect(card).toContainText(expected.text);
         const icon = card.locator(".mask-icon");
         await expect(icon).toHaveCount(1);
