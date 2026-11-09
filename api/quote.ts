@@ -37,6 +37,11 @@ const BREVO_TIMEOUT_MS = 10_000;
 // Best-effort limit per server instance: it slows a single source down, it does not replace
 // a firewall rule (see docs/security.md). Memory stays bounded by pruning expired entries.
 const RATE_LIMIT = { max: 5, windowMs: 10 * 60 * 1000, maxEntries: 1000 };
+// Every monthly SEO refusal (unknown email, lead not won, no development service, lookup
+// failure) answers with the same status and body, never before this many milliseconds from
+// the start of the check, so neither the answer nor its timing tells whether an email is a client.
+const REFUSAL_FLOOR_MS = 1200;
+const REFUSAL = { error: "Development clients only" };
 const attempts = new Map<string, number[]>();
 
 const LOCALES = ["es", "en"] as const;
@@ -393,8 +398,13 @@ async function handler(request: Request): Promise<Response> {
 
   const quote = parseQuote(payload, request);
   if (!quote) return json({ error: "Invalid request" }, 400);
-  if (quote.services.includes("monthly-seo") && !(await isDevelopmentClient(quote.email))) {
-    return json({ error: "Development clients only" }, 422);
+  if (quote.services.includes("monthly-seo")) {
+    const started = Date.now();
+    if (!(await isDevelopmentClient(quote.email))) {
+      const wait = REFUSAL_FLOOR_MS - (Date.now() - started);
+      if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+      return json(REFUSAL, 422);
+    }
   }
 
   // The database first, so the email can say whether the lead was stored.

@@ -211,12 +211,12 @@ test.describe("quote form", () => {
     for (const [path, development, generic] of [
       [
         "/cotizar?service=monthly-seo",
-        "El posicionamiento mensual es solo para clientes de desarrollo.",
+        "Este servicio es solo para clientes que han contratado un servicio de desarrollo conmigo.",
         "No fue posible enviar la cotización.",
       ],
       [
         "/en/quote?service=monthly-seo",
-        "Monthly SEO is for development clients only.",
+        "This service is only available to clients who have hired me for a development service.",
         "Your quote request could not be sent.",
       ],
     ]) {
