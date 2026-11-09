@@ -201,6 +201,39 @@ test.describe("quote form", () => {
     expect(payload.projectTypes).toBeUndefined();
   });
 
+  test("explains when monthly SEO is refused and keeps the generic error otherwise", async ({
+    page,
+  }) => {
+    let status = 422;
+    await page.route("**/api/quote", (route) =>
+      route.fulfill({ status, contentType: "application/json", body: '{"error":"x"}' })
+    );
+    for (const [path, development, generic] of [
+      [
+        "/cotizar?service=monthly-seo",
+        "El posicionamiento mensual es solo para clientes de desarrollo.",
+        "No fue posible enviar la cotización.",
+      ],
+      [
+        "/en/quote?service=monthly-seo",
+        "Monthly SEO is for development clients only.",
+        "Your quote request could not be sent.",
+      ],
+    ]) {
+      status = 422;
+      await page.goto(path);
+      await fillRequired(page);
+      const button = page.locator('form[data-quote-form] button[type="submit"]');
+      await button.click();
+      const error = page.locator("[data-quote-error]");
+      await expect(error).toBeVisible();
+      await expect(error).toContainText(development);
+      status = 500;
+      await button.click();
+      await expect(error).toContainText(generic);
+    }
+  });
+
   test("has a title, placeholders and a description of what happens next", async ({ page }) => {
     await page.goto("/cotizar");
     await expect(page.getByRole("heading", { name: "Solicitud de cotización" })).toBeVisible();

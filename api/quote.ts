@@ -3,6 +3,7 @@ import { BUDGET_RANGES, budgetRangeLabel, type BudgetRangeId } from "../src/data
 import {
   HOW_FOUND_IDS,
   PREFERRED_CHANNEL_IDS,
+  TECHNICAL_QUOTE_SERVICE_ID,
   TIMELINE_IDS,
   howFoundLabel,
   isQuoteSource,
@@ -15,7 +16,8 @@ import {
   type QuoteServiceId,
   type TimelineId,
 } from "../src/data/quoteOptions";
-import { LEADS_TABLE, insertRow, supabaseConfig } from "../src/server/supabase";
+import { servicesInGroup } from "../src/data/services";
+import { LEADS_TABLE, insertRow, rowExists, supabaseConfig } from "../src/server/supabase";
 import { CURRENCIES, resolveCountry, type Currency } from "../src/utils/currency";
 
 const RECIPIENT = "wavival.dev@luminaw.co";
@@ -264,6 +266,32 @@ const parseQuote = (payload: QuotePayload, request: Request): Quote | null => {
   };
 };
 
+// Monthly SEO is sold only to development clients: a won wavival lead with the same email that
+// bought a development service, the REST APIs block or a kit (both kits include a landing page).
+const DEVELOPMENT_SERVICES: readonly QuoteServiceId[] = [
+  ...servicesInGroup("development").map((service) => service.id),
+  TECHNICAL_QUOTE_SERVICE_ID,
+  "digital-presence-kit",
+  "time-saver-kit",
+];
+
+/** True only when the database confirms it; an unreachable database cannot confirm anyone. */
+const isDevelopmentClient = async (email: string): Promise<boolean> => {
+  const config = supabaseConfig(process.env);
+  if (!config) {
+    console.error("quote: Supabase variables are not set, development client not verified");
+    return false;
+  }
+  const found = await rowExists(config, LEADS_TABLE, {
+    product: `eq.${PRODUCT}`,
+    status: "eq.won",
+    email: `eq.${email}`,
+    services: `ov.{${DEVELOPMENT_SERVICES.join(",")}}`,
+  });
+  if (found === null) console.error("quote: development client lookup failed or timed out");
+  return found === true;
+};
+
 /** Stores the lead. Resolves to false, with a fixed log line, when Supabase is not reachable. */
 const saveQuote = async (quote: Quote): Promise<boolean> => {
   const config = supabaseConfig(process.env);
@@ -365,6 +393,9 @@ async function handler(request: Request): Promise<Response> {
 
   const quote = parseQuote(payload, request);
   if (!quote) return json({ error: "Invalid request" }, 400);
+  if (quote.services.includes("monthly-seo") && !(await isDevelopmentClient(quote.email))) {
+    return json({ error: "Development clients only" }, 422);
+  }
 
   // The database first, so the email can say whether the lead was stored.
   const saved = await saveQuote(quote);

@@ -68,7 +68,7 @@ interface Recorded {
 const ENV_KEYS = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "BREVO_API_KEY"] as const;
 
 const withServices = async (
-  outcomes: { supabase?: Outcome; brevo?: Outcome },
+  outcomes: { supabase?: Outcome; brevo?: Outcome; lookup?: unknown[] | "down" | number },
   run: (recorded: Recorded) => Promise<void>
 ) => {
   const supabase = outcomes.supabase ?? 201;
@@ -107,6 +107,12 @@ const withServices = async (
     const isSupabase = new URL(url).origin === new URL(SUPABASE_URL).origin;
     const outcome = isSupabase ? supabase : brevo;
     (isSupabase ? recorded.supabase : recorded.brevo).push(call);
+    if (isSupabase && call.method === "GET" && outcomes.lookup !== undefined) {
+      if (outcomes.lookup === "down") throw new Error("network down");
+      if (typeof outcomes.lookup === "number")
+        return new Response("{}", { status: outcomes.lookup });
+      return new Response(JSON.stringify(outcomes.lookup), { status: 200 });
+    }
     if (outcome === "down") throw new Error("network down");
     return new Response("{}", { status: typeof outcome === "number" ? outcome : 500 });
   }) as typeof fetch;
@@ -324,6 +330,66 @@ test.describe("quote api storage and notification", () => {
         expect(everything).not.toContain("+573000000000");
       });
     }
+  });
+});
+
+test.describe("quote api monthly SEO for development clients", () => {
+  const seo = { ...valid, services: ["monthly-seo"], email: "Client@Example.com" };
+
+  test("accepts monthly SEO when a won lead with a development service has that email", async () => {
+    await withServices({ lookup: [{ id: 1 }] }, async (recorded) => {
+      const response = await post(seo);
+      expect(response.status).toBe(201);
+      const lookup = recorded.supabase.find((call) => call.method === "GET");
+      const params = new URL(lookup!.url).searchParams;
+      expect(params.get("product")).toBe("eq.wavival");
+      expect(params.get("status")).toBe("eq.won");
+      expect(params.get("email")).toBe("eq.client@example.com");
+      const services = params.get("services") ?? "";
+      for (const id of [
+        "landing-page",
+        "custom-web-app-mvp",
+        "rest-apis-backend",
+        "time-saver-kit",
+      ]) {
+        expect(services).toContain(id);
+      }
+      expect(services).not.toContain("monthly-seo");
+      expect(recorded.supabase.some((call) => call.method === "POST")).toBe(true);
+      expect(recorded.brevo).toHaveLength(1);
+    });
+  });
+
+  test("rejects monthly SEO with 422 when the email is not a development client", async () => {
+    await withServices({ lookup: [] }, async (recorded) => {
+      const response = await post(seo);
+      expect(response.status).toBe(422);
+      expect(await response.json()).toEqual({ error: "Development clients only" });
+      expect(recorded.supabase.filter((call) => call.method === "POST")).toHaveLength(0);
+      expect(recorded.brevo).toHaveLength(0);
+    });
+  });
+
+  test("rejects monthly SEO when the lookup fails or the database is not configured", async () => {
+    for (const lookup of ["down", 500] as const) {
+      await withServices({ lookup }, async (recorded) => {
+        expect((await post(seo)).status).toBe(422);
+        expect(recorded.logs).toContain("quote: development client lookup failed or timed out");
+      });
+    }
+    await withServices({ supabase: "off" }, async (recorded) => {
+      expect((await post(seo)).status).toBe(422);
+      expect(recorded.logs).toContain(
+        "quote: Supabase variables are not set, development client not verified"
+      );
+    });
+  });
+
+  test("does not look anyone up when monthly SEO is not requested", async () => {
+    await withServices({ lookup: [] }, async (recorded) => {
+      expect((await post(valid)).status).toBe(201);
+      expect(recorded.supabase.some((call) => call.method === "GET")).toBe(false);
+    });
   });
 });
 

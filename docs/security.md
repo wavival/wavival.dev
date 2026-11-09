@@ -48,6 +48,7 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 ## The quote function (`api/quote.ts`)
 
 - Accepts only `POST`; anything else returns 405. Responses carry `Cache-Control: no-store`; success is 201.
+- Monthly SEO is sold only to development clients: a quote that asks for `monthly-seo` is accepted only when `public.leads` holds a `wavival` lead with status `won`, the same email and at least one development service, the REST APIs block or a kit. The lookup is a read (`select=id&limit=1`); when it finds nothing, fails or the Supabase variables are missing, the function answers 422 `Development clients only` and neither stores nor emails the quote. The form then shows the development-clients message instead of the generic error.
 - Checks run in this order, and a failure stops the request:
   1. Origin: the `Origin` header must be `https://www.wavival.dev`, `https://wavival.dev`, an `http://localhost` or `http://127.0.0.1` origin, the host of the running Vercel deployment (`VERCEL_URL`, `VERCEL_BRANCH_URL`) or a host listed in `QUOTE_ALLOWED_HOSTS`. Anything else, or a missing header, returns 403. This stops other sites from using the visitor's browser to post to the function; it is not authentication, because a script can set any header.
   2. Content type: `application/json` only; anything else returns 415.

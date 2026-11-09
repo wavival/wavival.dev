@@ -56,6 +56,8 @@ interface Props {
     successTitle: string;
     success: string;
     error: string;
+    /** Shown when monthly SEO is requested with an email that is not a development client. */
+    developmentClientsOnly: string;
     privacyPrefix: string;
     privacyLink: string;
     privacySuffix: string;
@@ -273,7 +275,16 @@ const {
         <abbr class="quote-required" title={labels.requiredTip} aria-hidden="true">*</abbr>
       </span>
     </label>
-    <p class="quote-error" role="alert" data-quote-error hidden>{labels.error}</p>
+    <p
+      class="quote-error"
+      role="alert"
+      data-quote-error
+      data-error-default={labels.error}
+      data-error-development={labels.developmentClientsOnly}
+      hidden
+    >
+      {labels.error}
+    </p>
     <Button
       type="submit"
       icon="send-email-white"
@@ -390,7 +401,15 @@ const {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        if (!response.ok) throw new Error("Quote request failed");
+        if (!response.ok) {
+          if (error) {
+            error.textContent =
+              (response.status === 422
+                ? error.dataset.errorDevelopment
+                : error.dataset.errorDefault) ?? "";
+          }
+          throw new Error("Quote request failed");
+        }
         form.hidden = true;
         success?.removeAttribute("hidden");
         success?.focus();
