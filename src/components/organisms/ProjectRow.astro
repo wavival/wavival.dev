@@ -52,14 +52,16 @@ const padding = featured
       class="ml-0 self-start min-[640px]:ml-auto min-[640px]:self-auto min-[640px]:justify-end"
     />
   </div>
-  <dl class="m-0 border-t border-line">
+  <div class="border-t border-line">
     <div class="py-6">
       <ProjectBrief brief={p.brief} />
     </div>
-    <DefRow label="Stack" last>
-      <p class="m-0 text-sm leading-[1.6] text-muted" data-key-stack>{p.stack.join(" · ")}</p>
-    </DefRow>
-  </dl>
+    <dl class="m-0">
+      <DefRow label="Stack" last>
+        <p class="m-0 text-sm leading-[1.6] text-muted" data-key-stack>{p.stack.join(" · ")}</p>
+      </DefRow>
+    </dl>
+  </div>
   {
     p.image && (
       <a

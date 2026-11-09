@@ -48,7 +48,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 - [ ] Preload Poppins 500 and 600 (only 400 and the Raleway variable font are preloaded).
 - [ ] Verify the accordion headings (an `h2` inside each `<summary>`) with real screen readers (VoiceOver, NVDA); only Chromium's accessibility tree was checked.
-- [ ] Add an axe pass for case-study pages to the Playwright suite (heading order and contrast are checked by hand today).
+- [x] Axe pass in the Playwright suite (resolved 2026-11-09): `tests/a11y-axe.spec.ts` covers every page in both themes.
 
 ## Integrations
 

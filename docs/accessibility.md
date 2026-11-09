@@ -1,6 +1,6 @@
 # Accessibility
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 The target is WCAG AA on every page, in both themes and both languages. Visual rules (contrast values, focus style, tokens) are in [`../DESIGN.md`](../DESIGN.md#accessibility); this document says what each part of the site guarantees and how it is checked.
 
@@ -56,7 +56,7 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 
 ## Known gaps
 
-An automated axe pass over case-study pages is pending (see [`ROADMAP.md`](./ROADMAP.md)). The Lighthouse job covers four pages, not all of them.
+`tests/a11y-axe.spec.ts` runs axe (`@axe-core/playwright`, WCAG 2.0, 2.1 and 2.2 A and AA rules) on every page of the sitemap, the four `/cop/` variants and both 404 pages, in the light and the dark theme, and fails on any violation. The Lighthouse job covers four pages, not all of them.
 
 ## Checklist for a change
 
