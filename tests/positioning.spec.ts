@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 const MESSAGE = {
   es: "Hola, vengo de wavival.dev y quiero solicitar un servicio.",
@@ -36,14 +36,39 @@ const WHATSAPP_PAGES = {
   en: ["/en/", "/en/contact/", "/en/about/", "/en/services/", "/cop/en/services/"],
 } as const;
 
+/** Icon row of the about pages; Blog W sits before it as a secondary text button. */
 const ABOUT_SOCIAL_ORDER = [
   "https://instagram.com/wavival_dev",
   "https://www.tiktok.com/@wavival_dev",
   "https://linkedin.com/in/wavival",
   "https://github.com/wavival",
   "https://platzi.com/p/wavival",
-  "https://blog.luminaw.co",
 ];
+
+/** The Blog W button of an about page: secondary, text only, first in the social row. */
+async function expectBlogButtonBeforeIcons(page: Page, label: string) {
+  const blog = page.locator('main a.btn-secondary[href="https://blog.luminaw.co"]');
+  await expect(blog).toHaveCount(1);
+  await expect(blog).toHaveText("Blog W");
+  await expect(blog).toHaveAttribute("target", "_blank");
+  await expect(blog).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(blog).toHaveAttribute("aria-label", label);
+  await expect(blog.locator("img, .mask-icon")).toHaveCount(0);
+  await expect(page.locator('main a.icon-btn[href="https://blog.luminaw.co"]')).toHaveCount(0);
+  const icons = page.locator("main [data-social-links]").last();
+  expect(
+    await blog.evaluate((el) => el.nextElementSibling?.hasAttribute("data-social-links"))
+  ).toBe(true);
+  const [b, i] = await Promise.all([blog.boundingBox(), icons.boundingBox()]);
+  if ((page.viewportSize()?.width ?? 0) >= 900) {
+    // Same row on desktop: the button first, the icons to its right, vertically centered.
+    expect(b!.x + b!.width).toBeLessThanOrEqual(i!.x);
+    expect(Math.abs(b!.y + b!.height / 2 - (i!.y + i!.height / 2))).toBeLessThanOrEqual(1);
+  } else {
+    // The row wraps on narrow screens and the icons go below the button.
+    expect(i!.y).toBeGreaterThanOrEqual(b!.y + b!.height);
+  }
+}
 
 test.describe("positioning of the 2026 plan", () => {
   for (const lang of ["es", "en"] as const) {
@@ -217,18 +242,15 @@ test.describe("positioning of the 2026 plan", () => {
       page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
     const social = page.locator("main a.icon-btn");
-    await expect(social).toHaveCount(6);
+    await expect(social).toHaveCount(5);
     expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
       ABOUT_SOCIAL_ORDER
     );
     await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
-    await expect(page.locator('main a.icon-btn[href="https://blog.luminaw.co"]')).toHaveAttribute(
-      "aria-label",
+    await expectBlogButtonBeforeIcons(
+      page,
       "Blog W: blog de Lúmina W creado por Valentina Ramírez"
     );
-    await expect(
-      page.locator('main a.icon-btn[href="https://blog.luminaw.co"] .mask-icon')
-    ).toHaveAttribute("style", /icons\/ui\/blog-w\.svg/);
   });
 
   test("/en/about lists the marketing and content training with Instagram and TikTok links", async ({
@@ -248,15 +270,12 @@ test.describe("positioning of the 2026 plan", () => {
       page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
     const social = page.locator("main a.icon-btn");
-    await expect(social).toHaveCount(6);
+    await expect(social).toHaveCount(5);
     expect(await social.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(
       ABOUT_SOCIAL_ORDER
     );
     await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
-    await expect(page.locator('main a.icon-btn[href="https://blog.luminaw.co"]')).toHaveAttribute(
-      "aria-label",
-      "Blog W: Lúmina W blog by Valentina Ramírez"
-    );
+    await expectBlogButtonBeforeIcons(page, "Blog W: Lúmina W blog by Valentina Ramírez");
   });
 
   test("/herramientas shows the marketing and content tools and the recording gear", async ({

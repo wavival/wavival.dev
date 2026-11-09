@@ -1,7 +1,8 @@
 // The profile links of the site, in the only order any row may show them.
-// `SocialLinks.astro` renders a subset of this list and `SocialProfileCard.astro`
-// one profile at a time; nothing else lists a URL. `handle` is the public
-// username shown on a profile card, only for the networks that have one.
+// `SocialLinks.astro` renders a subset of this list, `SocialProfileCard.astro`
+// one profile at a time and the about pages read the Blog W entry for their
+// text button; nothing else lists a URL. `handle` is the public username shown
+// on a profile card, only for the networks that have one.
 
 import type { Lang } from "../i18n/ui";
 
