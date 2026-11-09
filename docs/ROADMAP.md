@@ -6,6 +6,10 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Decisions
 
+- [ ] Calendly on `/contacto` and `/en/contact`: the inline embed sets third-party cookies (Calendly and Stripe), which is the only Lighthouse best-practices loss on the site (77 on that page, 100 elsewhere). Decide whether to keep the inline calendar or load it only after a click.
+- [ ] Title and meta description lengths: several titles pass 60 characters (home 78 and 71, services 70, the Lúmina W, NullBreach, OKroot and TerraCore case studies 63 to 73) and several descriptions pass 160 (services 180 and 188, about 185 and 167, tools 192 and 174, privacy 178). Shortening them changes the copy, so it needs the owner.
+- [ ] Payment methods: Bancolombia, Global66 and Bold come from the owner's brief (2026-11-09) and now appear in the services FAQ and `llms-full.txt`. Add which one applies to which case if that matters.
+- [ ] Monthly SEO check (`api/quote.ts`): it counts a won `wavival` lead with a development service, the REST APIs block or a kit. A new client asking for a development service and monthly SEO in the same quote is refused today; decide whether that combination should pass. The refusal also tells anyone who tries an email that it is not a client.
 - [ ] OKroot docs stack: the `docs` part of OKroot describes the same stack as the TerraCore documentation, as stated by the owner. `okroot-docs` has no site yet (only markdown), so check the part against the real site when it ships.
 - [ ] Docs page counts: the TerraCore `docs` part states 34 pages in 8 groups (checked against `terracore-docs` on 2026-10-05); update it when the guide grows.
 - [ ] NullBreach Swagger: the `api` part links to `https://www.wavival.dev/nullbreach/swagger`. The upstream NullBreach documentation says production returns 404 for it until the next deployment that includes the route. Check the link after that deployment.
@@ -53,6 +57,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Integrations
 
 - [ ] Social networks by API (phase 2): show the latest Instagram and TikTok posts through their APIs with a server-side cache (build-time or a Vercel function), not through the platforms' embeds, so no third-party script or iframe is added to the CSP and the pages stay static.
-- [ ] Later: a chatbot powered by Claude on the site. Not started; scope, data handling and its effect on the CSP are still to be defined.
+- [ ] Later: a chatbot powered by Claude on the site. Not started; scope, data handling and its effect on the CSP are still to be defined. Its launcher goes in the slot reserved between the back-to-top button and WhatsApp in `FloatingActions.astro`.
 
 ## Quality and docs

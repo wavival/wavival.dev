@@ -11,7 +11,7 @@
 
 > Version 4 of the personal portfolio for Valentina Ramírez, software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote function that stores leads in Supabase and notifies by email.
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 ## Contents
 
@@ -115,7 +115,7 @@ Set the variables in the Vercel project settings, not in the repository. The `PU
 
 ## Architecture
 
-The site is statically rendered with Astro 7. Tailwind CSS 4 (through `@tailwindcss/vite`) supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` stores quote requests as leads in Supabase (`public.leads`, `product = 'wavival'`) and sends them through Brevo to `wavival.dev@luminaw.co`; `api/keepalive.ts`, called by a Vercel Cron every three days, keeps the Free database from pausing.
+The site is statically rendered with Astro 7. Tailwind CSS 4 (through `@tailwindcss/vite`) supplies utility classes while CSS custom properties carry the design tokens. Client behavior is limited to vanilla TypeScript for navigation, theme state, disclosures (case-study decisions and the services FAQ), the back-to-top button, quote submission, and optional web-vitals reporting. The Vercel Function at `api/quote.ts` stores quote requests as leads in Supabase (`public.leads`, `product = 'wavival'`) and sends them through Brevo to `wavival.dev@luminaw.co`; a request for monthly SEO is accepted only when a won lead with the same email bought a development service; `api/keepalive.ts`, called by a Vercel Cron every three days, keeps the Free database from pausing.
 
 Prices are shown in the visitor's currency without any client-side switching: every priced page (`/servicios`, `/cotizar` and their English mirrors) is built twice, once in USD at its public path and once in COP under `/cop/`. The Edge Middleware `middleware.ts` reads the `x-vercel-ip-country` header and rewrites visitors from Colombia to the `/cop/` variant internally, so the URL, canonical, hreflang and JSON-LD stay the same for everyone, each variant is cached under its own path, crawlers and visitors without a detected country get USD, and a direct request to `/cop/...` is redirected back to the public URL. The country never depends on the page language, and the visitor cannot change it. Amounts live only in `src/data/pricing.ts` and are rendered through the `Price` atom (`src/components/atoms/Price.astro`); the shared rule and route list live in `src/utils/currency.ts`.
 
