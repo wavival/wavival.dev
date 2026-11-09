@@ -233,19 +233,15 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/sobre-mi lists the marketing and content training with Instagram and TikTok links", async ({
-    page,
-  }) => {
+  test("/sobre-mi lists the marketing and content training as plain text", async ({ page }) => {
     await page.goto("/sobre-mi/");
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing y contenido");
     await expect(row).toContainText(
       "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en Instagram y TikTok"
     );
-    await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
-    await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
-      "Instagram"
-    );
+    // The profiles are linked once, as icons in the social row: the education rows are plain text.
+    await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
     await expect(
       page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
@@ -261,19 +257,15 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/en/about lists the marketing and content training with Instagram and TikTok links", async ({
-    page,
-  }) => {
+  test("/en/about lists the marketing and content training as plain text", async ({ page }) => {
     await page.goto("/en/about/");
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing and content");
     await expect(row).toContainText(
       "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on Instagram and TikTok"
     );
-    await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
-    await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
-      "Instagram"
-    );
+    // The profiles are linked once, as icons in the social row: the education rows are plain text.
+    await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
     await expect(
       page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");

@@ -163,7 +163,7 @@ const breadcrumbLd = JSON.stringify({
     <div
       class="section-gap grid grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))] gap-x-12 gap-y-12"
     >
-      <div>
+      <div data-parallel-education>
         <h3 class="h-title m-0 mb-2 text-[28px] tracking-[-0.02em]">Formación en paralelo</h3>
         {
           education.map((e) => (
@@ -177,15 +177,6 @@ const breadcrumbLd = JSON.stringify({
           <span class="h-title">Platzi</span>
           <span class="max-w-[300px] text-right text-sm text-muted">
             Formación autodidacta en Desarrollo Web, Inteligencia Artificial y Seguridad Informática
-            <br />
-            <TextLink
-              href="https://platzi.com/p/wavival"
-              target="_blank"
-              class="mt-2"
-              aria-label="Perfil de Valentina Ramírez en Platzi"
-            >
-              Mi perfil en Platzi
-            </TextLink>
           </span>
         </div>
         <div
@@ -195,21 +186,7 @@ const breadcrumbLd = JSON.stringify({
           <span class="h-title">Marketing y contenido</span>
           <span class="max-w-[300px] text-right text-sm text-muted">
             Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora
-            de contenido en <TextLink
-              href="https://instagram.com/wavival_dev"
-              target="_blank"
-              variant="inline"
-              aria-label="Instagram de Valentina Ramírez"
-            >
-              Instagram
-            </TextLink> y <TextLink
-              href="https://www.tiktok.com/@wavival_dev"
-              target="_blank"
-              variant="inline"
-              aria-label="TikTok de Valentina Ramírez"
-            >
-              TikTok
-            </TextLink>
+            de contenido en Instagram y TikTok
           </span>
         </div>
       </div>
