@@ -96,7 +96,7 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     question: { es: "¿Manejas el diseño?", en: "Do you handle design?" },
     answer: {
       es: "Sí, soy diseñadora UX/UI y puedo trabajarlo sin problema. Si llegas con referencias o una dirección visual clara, mejor. Si necesitas el proceso de diseño completo desde cero, lo incluimos en la propuesta.",
-      en: "Yes, I am a UX/UI designer and can work on it without issues. If you come with references or a clear visual direction, even better. If you need the full design process from scratch, we include it in the proposal.",
+      en: "Yes, I am a UX/UI designer and can take it on. If you come with references or a clear visual direction, even better. If you need the full design process from scratch, we include it in the proposal.",
     },
   },
   {
@@ -104,7 +104,7 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     question: { es: "¿Qué necesito para empezar?", en: "What do I need to get started?" },
     answer: {
       es: "Tener claro el problema y a quién va dirigido el producto. No necesitas llegar con un PRD (documento de requerimientos de producto: el listado detallado de funciones, flujos y reglas de negocio que define qué debe hacer el software). Eso lo construimos juntos en la propuesta.",
-      en: "To be clear on the problem and who the product is for. You do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do). We build that together in the proposal.",
+      en: "A clear idea of the problem and who the product is for. You do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do). We build that together in the proposal.",
     },
   },
   {
@@ -115,7 +115,7 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     },
     answer: {
       es: "Con ambos. Puedo llevar el desarrollo completo como dev única o integrarme a un equipo existente como refuerzo backend, API o seguridad.",
-      en: "Both. I can lead the full development as sole dev or join an existing team as backend, API, or security support.",
+      en: "Both. I can lead the full development as the sole developer or join an existing team as backend, API, or security support.",
     },
   },
 ];

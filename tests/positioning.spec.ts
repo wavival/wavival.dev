@@ -354,7 +354,7 @@ test.describe("positioning of the 2026 plan", () => {
     const yes = page.getByRole("heading", { level: 3, name: "I work best with" });
     const yesList = yes.locator("xpath=following-sibling::ul[1]");
     await expect(yesList.locator("li")).toHaveCount(5);
-    await expect(yesList).toContainText("1 to 10 people, that already sell and have customers");
+    await expect(yesList).toContainText("1 to 10 people) that already sell and have customers");
     await expect(yesList).toContainText("clinics, beauty, psychology, lawyers, accountants");
     const no = page.getByRole("heading", { level: 3, name: "Not the right fit if" });
     const noList = no.locator("xpath=following-sibling::ul[1]");

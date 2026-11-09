@@ -104,7 +104,7 @@ export const SERVICES: readonly Service[] = [
         "Form or WhatsApp button",
         "Technical SEO, Google Analytics and Meta pixel",
         "Deployment",
-        "2 rounds of adjustments and 30 days of warranty",
+        "2 rounds of revisions and a 30-day warranty",
       ],
     },
     excludes: {
@@ -157,12 +157,12 @@ export const SERVICES: readonly Service[] = [
         "Forms and WhatsApp",
         "Analytics",
         "1 hour of training",
-        "2 rounds of adjustments and 30 days of warranty",
+        "2 rounds of revisions and a 30-day warranty",
       ],
     },
     excludes: {
       es: ["Tienda online", "Pasarela de pagos", "Varios idiomas"],
-      en: ["Online store", "Payment gateway", "Several languages"],
+      en: ["Online store", "Payment gateway", "Multiple languages"],
     },
   },
   {
@@ -188,7 +188,7 @@ export const SERVICES: readonly Service[] = [
         "One workflow with up to 3 connected tools (for example WhatsApp, Gmail, Sheets or a CRM)",
         "Error handling with alerts",
         "Short documentation",
-        "30 days of warranty",
+        "30-day warranty",
       ],
     },
     excludes: {
@@ -221,7 +221,7 @@ export const SERVICES: readonly Service[] = [
         "Customer data capture",
         "Handover to a person",
         "Conversation log",
-        "Testing and 30 days of warranty",
+        "Testing and a 30-day warranty",
       ],
     },
     excludes: {
@@ -233,7 +233,7 @@ export const SERVICES: readonly Service[] = [
       en: [
         "Additional channels",
         "WhatsApp number",
-        "Monthly operation: the support plan is recommended for it",
+        "Ongoing monthly operation (the support plan is recommended)",
       ],
     },
   },
@@ -266,7 +266,7 @@ export const SERVICES: readonly Service[] = [
         "Basic admin panel",
         "Baseline security following OWASP",
         "Deployment and documentation",
-        "30 days of warranty",
+        "30-day warranty",
       ],
     },
     excludes: {
@@ -276,7 +276,7 @@ export const SERVICES: readonly Service[] = [
         "Soporte posterior",
       ],
       en: [
-        "Native apps in the stores",
+        "Native apps for the app stores",
         "Integrations outside the agreed scope",
         "Support after delivery",
       ],
@@ -292,7 +292,7 @@ export const SERVICES: readonly Service[] = [
         name: "TerraCore",
         description: {
           es: "plataforma agropecuaria multitenancy",
-          en: "multi-tenancy agri-industrial platform",
+          en: "multi-tenant agri-industrial platform",
         },
       },
       {
@@ -334,7 +334,7 @@ export const SERVICES: readonly Service[] = [
         "API integration",
         "Prompts and validations",
         "Usage cost control",
-        "Testing and 30 days of warranty",
+        "Testing and a 30-day warranty",
       ],
     },
     excludes: {
@@ -447,7 +447,7 @@ export const SERVICES: readonly Service[] = [
     title: { es: "Kit Presencia Digital", en: "Digital Presence Kit" },
     body: {
       es: "La landing más lo mínimo para que te encuentren en Google y en redes.",
-      en: "The landing page plus the minimum to be found on Google and social networks.",
+      en: "The landing page plus the essentials to get found on Google and social media.",
     },
     timeline: { es: "2 a 3 semanas", en: "2 to 3 weeks" },
     priceId: "digital-presence-kit",
@@ -498,7 +498,7 @@ export const SERVICES: readonly Service[] = [
     },
     excludes: {
       es: ["Lo mismo que cada servicio por separado"],
-      en: ["The same as each service on its own"],
+      en: ["The same exclusions as each individual service"],
     },
   },
   {
@@ -559,7 +559,7 @@ export const GENERAL_EXCLUSIONS: LocalizedList = {
   ],
   en: [
     "Domain, hosting and tool licenses",
-    "Usage of AI APIs, WhatsApp Business API and n8n cloud",
+    "AI API usage, WhatsApp Business API and n8n cloud",
     "Advertising, photography, video, logo and brand identity",
     "Long-form copywriting",
     "Scope changes after the proposal is approved: quoted separately",
@@ -620,9 +620,9 @@ export const SERVICE_LABELS = {
     exclusionsLabel: "General exclusions",
     exclusionsTitle: "What no service includes",
     technicalLabel: "For technical teams",
-    technicalTitle: "Backend reinforcement for your team",
+    technicalTitle: "Backend support for your team",
     technicalIntro:
-      "Outside the catalog and without a fixed price: quoted per scope, as full development or as reinforcement inside your team.",
+      "Outside the catalog and without a fixed price: quoted per scope, as full development or as embedded support within your team.",
     technicalQuote: "Request a quote",
   },
 } satisfies Record<Lang, Record<string, string>>;
