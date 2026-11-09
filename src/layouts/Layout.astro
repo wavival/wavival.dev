@@ -341,7 +341,7 @@ const jsonLd = JSON.stringify({
       {t("common.skip")}
     </a>
     <NavBar lang={lang as Lang} />
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
       <slot />
       {contactBand && <ContactBand lang={lang as Lang} secondary={contactBandSecondary} />}
     </main>

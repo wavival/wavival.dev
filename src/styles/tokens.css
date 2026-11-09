@@ -23,6 +23,10 @@
   --sec: clamp(80px, 10vw, 144px);
   --sec-compact: clamp(56px, 7vw, 96px);
   --nav-h: 64px;
+  --touch-min: 44px;
+  --float-size: 56px;
+  --float-gap: 12px;
+  --float-offset: 16px;
 
   --radius-surface: 0;
   --radius-control: 2px;

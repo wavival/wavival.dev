@@ -327,21 +327,41 @@
 /* Floating actions: bottom right stack for the WhatsApp button, with room for a chatbot launcher. */
 .floating-actions {
   position: fixed;
-  right: max(16px, env(safe-area-inset-right, 0px));
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  right: max(var(--float-offset), env(safe-area-inset-right, 0px));
+  bottom: max(var(--float-offset), env(safe-area-inset-bottom, 0px));
   z-index: 40;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: var(--float-gap);
+}
+
+.back-to-top[hidden] {
+  display: none;
+}
+
+.back-to-top-btn {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  background: var(--surface);
+  border-color: var(--line-2);
+}
+
+.back-to-top-btn:hover {
+  border-color: var(--link);
+}
+
+/* Moved there by the back-to-top button; the button itself keeps the visible focus. */
+#main-content:focus {
+  outline: none;
 }
 
 .floating-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: var(--float-size);
+  height: var(--float-size);
   background: var(--btn);
   color: var(--on-btn);
   border-radius: var(--radius-control);
@@ -359,9 +379,13 @@
   outline-offset: 3px;
 }
 
-/* Keeps the last footer line clear of the stack when the page is scrolled to the end. */
+/* Keeps the last footer line clear of the stack (WhatsApp plus back to top, which is always
+   shown at the end of a long page) when the page is scrolled to the end. */
 body:has(.floating-actions) footer {
-  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(
+    var(--float-offset) + var(--float-size) + var(--float-gap) + var(--touch-min) +
+      env(safe-area-inset-bottom, 0px)
+  );
 }
 
 .mask-icon {

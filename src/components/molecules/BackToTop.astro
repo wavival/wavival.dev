@@ -1,0 +1,20 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "es" } = Astro.props;
+const label = lang === "en" ? "Back to top" : "Volver arriba";
+---
+
+<!-- Hidden (and out of the tab order) until the page is scrolled one viewport down. -->
+<div class="back-to-top" data-back-to-top hidden>
+  <Button variant="icon" icon="arrow-up" aria-label={label} class="back-to-top-btn" />
+</div>
+
+<script>
+  import "@/scripts/backToTop";
+</script>

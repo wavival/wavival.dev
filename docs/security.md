@@ -32,7 +32,7 @@ The site is static. The server code is `api/quote.ts` and `api/keepalive.ts` (Ve
 ## Content Security Policy
 
 - `default-src 'self'`; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`; `form-action 'self'`; `upgrade-insecure-requests`.
-- `script-src 'self'` plus 7 `sha256-` hashes (one per distinct inline script, none left over), plus `https://cloud.umami.is`, `https://analytics.umami.is` and `https://assets.calendly.com`.
+- `script-src 'self'` plus 8 `sha256-` hashes (one per distinct inline script, none left over), plus `https://cloud.umami.is`, `https://analytics.umami.is` and `https://assets.calendly.com`.
 - `connect-src 'self'` plus the Umami hosts and `https://calendly.com`; `frame-src https://calendly.com`.
 - `style-src 'self' 'unsafe-inline'` plus `https://assets.calendly.com`; `font-src 'self'`.
 - `img-src 'self' data:` plus `https://*.calendly.com` and one CloudFront host (`d3v0px0pttie1i.cloudfront.net`).
