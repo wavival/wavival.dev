@@ -30,7 +30,7 @@ const PAGES = {
     cards: {
       instagram: {
         name: "Instagram",
-        text: "Reels and posts with the behind the scenes of each project and what I learn along the way.",
+        text: "Reels and posts that go behind the scenes of each project and what I learn along the way.",
       },
       tiktok: {
         name: "TikTok",

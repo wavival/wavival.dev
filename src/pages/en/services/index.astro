@@ -3,25 +3,26 @@ import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
 import ServicesCatalog from "@/components/organisms/ServicesCatalog.astro";
 import ServicesDetail from "@/components/organisms/ServicesDetail.astro";
+import { servicesFaq, servicesFaqLd } from "@/data/servicesFaq";
 import { servicesLd } from "@/data/servicesLd";
 
 const site = "https://www.wavival.dev";
 
-const pageTitle = "Services: secure software and AI automation | Valentina Ramírez";
+const pageTitle = "Services: secure software and AI automation";
 const pageDescription =
-  "Landing pages, websites, n8n automation, AI chatbots, custom apps and security reviews, each with a fixed price and a clear timeline. Secure software that saves your business time.";
+  "Landing pages, websites, n8n, AI chatbots, custom apps and security, each with a fixed price and timeline. Secure software that saves your business time.";
 
 const fit = {
   yes: [
-    "Owners of micro service businesses, 1 to 10 people, that already sell and have customers",
+    "Owners of small service businesses (1 to 10 people) that already sell and have customers",
     "Businesses that run on WhatsApp, Instagram, Excel or Google Sheets and email",
-    "Anyone who answers the same messages by hand, schedules and quotes by hand, loses leads or has no website, or an outdated one",
+    "Anyone who answers the same messages, schedules and quotes by hand, loses leads, or has an outdated website or none at all",
     "Non-technical people who want results: time saved and more sales",
     "Appointment-based services (clinics, beauty, psychology, lawyers, accountants), academies and trainers, and small shops that sell through Instagram or WhatsApp",
   ],
   no: [
     "Your business is still at the idea stage and does not sell yet",
-    "Your team has more than 10 people, or the project needs a team or exceeds the wavival budget ceiling: those projects go to Lúmina W",
+    "Your team has more than 10 people, or the project needs a team or exceeds the wavival budget ceiling: those projects go to Lúmina\u00a0W",
     "You are looking for a certified pentest or a compliance certification",
     "You are looking for daily social media management or a marketing agency",
   ],
@@ -50,21 +51,6 @@ const process = [
   },
 ];
 
-const faqs = [
-  {
-    q: "Do you handle design?",
-    a: "Yes, I am a UX/UI designer and can work on it without issues. If you come with references or a clear visual direction, even better. If you need the full design process from scratch, we include it in the proposal.",
-  },
-  {
-    q: "What do I need to get started?",
-    a: "To be clear on the problem and who the product is for. You do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do). We build that together in the proposal.",
-  },
-  {
-    q: "Do you work with teams or only founders?",
-    a: "Both. I can lead the full development as sole dev or join an existing team as backend, API, or security support.",
-  },
-];
-
 // Structured data is the same for every visitor: every price in COP and in USD, with the region each applies to.
 const serviceLd = JSON.stringify(
   servicesLd({
@@ -76,15 +62,7 @@ const serviceLd = JSON.stringify(
   })
 );
 
-const faqLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-});
+const faqLd = JSON.stringify(servicesFaqLd("en"));
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -137,7 +115,9 @@ const breadcrumbLd = JSON.stringify({
       processTitle="How I work"
       process={process}
       faqTitle="Frequently asked questions"
-      faqs={faqs}
+      faqs={servicesFaq("en")}
+      faqOpenLabel="View"
+      faqCloseLabel="Close"
     />
   </section>
 

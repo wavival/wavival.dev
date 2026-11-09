@@ -18,7 +18,7 @@ const r = siteRoutes(lang, base);
 
 const summary = [
   { value: "Backend and AI", label: "Django · React, in production" },
-  { value: "Lúmina W", label: "Founder, custom product" },
+  { value: "Lúmina\u00a0W", label: "Founder, custom product" },
   { value: "Self-taught", label: "Continuous learning, no shortcuts" },
 ];
 
@@ -33,7 +33,7 @@ const method = [
   },
   {
     title: "Security and AI from the start",
-    body: "They are not decorations glued on at the end: they enter the design from the first endpoint, not when something has already broken in production.",
+    body: "They are not decorations glued on at the end: they are part of the design from the first endpoint, not when something has already broken in production.",
   },
 ];
 const methodStyles = bentoStyles(method.length);
@@ -52,7 +52,7 @@ const breadcrumbLd = JSON.stringify({
 
 <Layout
   title="About me | Valentina Ramírez"
-  description="Self-taught software developer focused on backend, AI and security, founder of Lúmina W. Experience with Django, React and Next.js. Beyond code: photography and drums."
+  description="Self-taught developer focused on backend, AI and security, founder of Lúmina W. Django, React and Next.js. Outside the code: drums, cooking, music and reading."
   lang="en"
   preloadHero
   alternates={[
@@ -75,7 +75,7 @@ const breadcrumbLd = JSON.stringify({
           style="font-size:clamp(24px,2.6vw,36px);line-height:1.2;letter-spacing:-0.02em;text-wrap:pretty"
         >
           I'm Valentina Ramírez. I build products end to end, from the data model to the interface
-          people use, and I founded <span class="accent">Lúmina W</span> to do it on my own terms.
+          people use, and I founded <span class="accent">Lúmina&nbsp;W</span> to do it on my own terms.
         </p>
         <ChipList
           loose
@@ -83,10 +83,10 @@ const breadcrumbLd = JSON.stringify({
           items={["Django · DRF", "React · TypeScript", "Next.js", "PostgreSQL", "AI", "Security"]}
         />
         <p class="m-0 max-w-[640px] text-[17px] leading-[1.75] text-muted text-pretty">
-          I came to code without a laid-out path and learned it by building. That self-taught route
-          left me with a concrete way of working: I am not satisfied with something that works, I
+          I came to code without a mapped-out path and learned it by building. That self-taught
+          route left me with a concrete way of working: it is not enough for something to work: I
           need to understand why it works. That is the difference between copying a solution and
-          being able to sustain it when it breaks at 2am.
+          being able to keep it running when it breaks at 2 a.m.
         </p>
       </div>
       <figure
@@ -144,13 +144,13 @@ const breadcrumbLd = JSON.stringify({
         <h2 class="h2-sub m-0">What I build</h2>
         <p class="body-md m-0 mt-5 max-w-[760px]">
           Real applications, not demos: multi-user systems with complex business logic, custom APIs,
-          and products that live in production. From an offline-first agro-industrial SaaS to OWASP
+          and products that live in production. From an offline-first agri-industrial SaaS to OWASP
           code analysis, I am drawn to software that solves a measurable problem for a real person.
-          From wavival I bring that same idea to clients: a custom product, built to last and not to
-          impress in a screenshot.
+          Through wavival, I bring that same approach to clients: a custom product, built to last
+          and not to impress in a screenshot.
         </p>
       </div>
-      <Button href={r.projects} variant="secondary" aria-label="See projects of Valentina Ramírez">
+      <Button href={r.projects} variant="secondary" aria-label="See Valentina Ramírez's projects">
         See projects
       </Button>
     </div>
@@ -158,8 +158,8 @@ const breadcrumbLd = JSON.stringify({
     <div
       class="section-gap grid grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))] gap-x-12 gap-y-12"
     >
-      <div>
-        <h3 class="h-title m-0 mb-2 text-[28px] tracking-[-0.02em]">Parallel education</h3>
+      <div data-parallel-education>
+        <h3 class="h-title m-0 mb-2 text-[28px] tracking-[-0.02em]">Ongoing education</h3>
         {
           education.map((e) => (
             <div class="flex justify-between gap-4 border-b border-line py-[18px]">
@@ -173,15 +173,6 @@ const breadcrumbLd = JSON.stringify({
           <span class="max-w-[300px] text-right text-sm text-muted">
             Self-taught training in Web Development, Artificial Intelligence, and Information
             Security
-            <br />
-            <TextLink
-              href="https://platzi.com/p/wavival"
-              target="_blank"
-              class="mt-2"
-              aria-label="Valentina Ramírez's Platzi profile"
-            >
-              My Platzi profile
-            </TextLink>
           </span>
         </div>
         <div
@@ -191,21 +182,7 @@ const breadcrumbLd = JSON.stringify({
           <span class="h-title">Marketing and content</span>
           <span class="max-w-[300px] text-right text-sm text-muted">
             Marketing and social media at Platzi, self-taught learning and hands-on practice as a
-            content creator on <TextLink
-              href="https://instagram.com/wavival_dev"
-              target="_blank"
-              variant="inline"
-              aria-label="Valentina Ramírez on Instagram"
-            >
-              Instagram
-            </TextLink> and <TextLink
-              href="https://www.tiktok.com/@wavival_dev"
-              target="_blank"
-              variant="inline"
-              aria-label="Valentina Ramírez on TikTok"
-            >
-              TikTok
-            </TextLink>
+            content creator on Instagram and TikTok
           </span>
         </div>
       </div>
@@ -230,14 +207,14 @@ const breadcrumbLd = JSON.stringify({
       "Learning is not a stage that ends: it is the way I work. Every project leaves me knowing
       something I did not know when I started."
       <footer slot="footer" class="mt-5 text-sm text-muted">
-        Author of the <TextLink
+        Author of <TextLink
           href="https://blog.luminaw.co/"
           target="_blank"
           variant="inline"
           aria-label="Lúmina W blog written by Valentina Ramírez"
         >
           Blog W
-        </TextLink>, where I write what I learn.
+        </TextLink>, where I write about what I learn.
       </footer>
     </PullQuote>
 

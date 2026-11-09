@@ -54,9 +54,9 @@ const defaultCountry = currency === "COP" ? COP_COUNTRY : undefined;
             "Use this form to ask for a quote: choose the services you are interested in, tell me your country and budget range, and describe what you need.",
           nextTitle: "What happens after you send it",
           nextSteps: [
-            "Your request is stored for follow-up and goes to Wavival's email.",
+            "Your request is stored for follow-up and is sent to wavival's inbox.",
             "I reply within 24 hours.",
-            "If we move forward, the work follows the process published on Services: conversation, proposal, iterative build, and delivery.",
+            "If we move forward, the work follows the process described on the Services page: conversation, proposal, iterative build, and delivery.",
           ],
           placeholders: {
             name: "Your full name",
@@ -67,7 +67,7 @@ const defaultCountry = currency === "COP" ? COP_COUNTRY : undefined;
           phonePlaceholder: "+57 300 000 0000",
           phoneError: "Include the country code, for example +57 300 000 0000.",
           submitHint:
-            "Fill in the required fields, choose at least one service, and accept the privacy policy to send.",
+            "Fill in the required fields, choose at least one service, and accept the privacy policy before sending.",
           name: "Name",
           email: "Email",
           phone: "Phone with country code",
@@ -89,6 +89,8 @@ const defaultCountry = currency === "COP" ? COP_COUNTRY : undefined;
           successTitle: "Thank you for reaching out",
           success: "I received your information. I will reply within 24 hours.",
           error: "Your quote request could not be sent. Please try again.",
+          developmentClientsOnly:
+            "This service is only available to clients who have hired me for a development service.",
           privacyPrefix: "I accept the",
           privacyLink: "privacy policy",
           privacySuffix: " and the processing of my personal data.",

@@ -1,6 +1,6 @@
 # Security
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 What protects the site, the quote and keepalive functions, the leads database and the currency middleware, and what to do when you change something that touches them. To report a vulnerability, see [`../SECURITY.md`](../SECURITY.md).
 
@@ -32,22 +32,23 @@ The site is static. The server code is `api/quote.ts` and `api/keepalive.ts` (Ve
 ## Content Security Policy
 
 - `default-src 'self'`; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`; `form-action 'self'`; `upgrade-insecure-requests`.
-- `script-src 'self'` plus 20 `sha256-` hashes (one per distinct inline script), plus `https://cloud.umami.is`, `https://analytics.umami.is` and `https://assets.calendly.com`.
+- `script-src 'self'` plus 7 `sha256-` hashes (one per distinct inline script, none left over), plus `https://cloud.umami.is`, `https://analytics.umami.is` and `https://assets.calendly.com`.
 - `connect-src 'self'` plus the Umami hosts and `https://calendly.com`; `frame-src https://calendly.com`.
 - `style-src 'self' 'unsafe-inline'` plus `https://assets.calendly.com`; `font-src 'self'`.
 - `img-src 'self' data:` plus `https://*.calendly.com` and one CloudFront host (`d3v0px0pttie1i.cloudfront.net`).
 
 ### Keeping the hashes valid
 
-Inline scripts (theme, navigation loader, the Calendly loader on the contact page, bundled module scripts that Astro inlines; JSON-LD is data and exempt) are allowed only by hash. When an inline script changes, its hash changes and the browser would block it in production.
+Inline scripts (theme, navigation loader, bundled module scripts such as the on-demand Calendly loader of the contact page that Astro inlines; JSON-LD is data and exempt) are allowed only by hash. When an inline script changes, its hash changes and the browser would block it in production.
 
 1. `npm run build`
-2. `npm run csp:check` (`scripts/check-csp-hashes.mjs`, which reads `dist/`) lists every inline script whose hash is missing from `vercel.json`.
-3. Replace the stale hash with the new one in `script-src`; CI runs the same check.
+2. `npm run csp:check` (`scripts/check-csp-hashes.mjs`, which reads `dist/`) lists every inline script whose hash is missing from `vercel.json` and every hash in `vercel.json` that no inline script uses; either one fails the check.
+3. Replace the stale hash with the new one in `script-src`, or remove it when its script is gone; CI runs the same check.
 
 ## The quote function (`api/quote.ts`)
 
 - Accepts only `POST`; anything else returns 405. Responses carry `Cache-Control: no-store`; success is 201.
+- Monthly SEO is sold only to development clients: a quote that asks for `monthly-seo` is accepted only when `public.leads` holds a `wavival` lead with status `won`, the same email and at least one development service, the REST APIs block or a kit. The lookup is a read (`select=id&limit=1`); when it finds nothing (unknown email, lead not won, no development service), fails or the Supabase variables are missing, the function answers the same 422 `{"error":"Development clients only"}`, never sooner than `REFUSAL_FLOOR_MS` (1200 ms) after the check started, and neither stores nor emails the quote. Status, body and timing are the same in every refusal so the answer cannot tell whether an email belongs to a client. The form then shows "Este servicio es solo para clientes que han contratado un servicio de desarrollo conmigo." / "This service is only available to clients who have hired me for a development service."
 - Checks run in this order, and a failure stops the request:
   1. Origin: the `Origin` header must be `https://www.wavival.dev`, `https://wavival.dev`, an `http://localhost` or `http://127.0.0.1` origin, the host of the running Vercel deployment (`VERCEL_URL`, `VERCEL_BRANCH_URL`) or a host listed in `QUOTE_ALLOWED_HOSTS`. Anything else, or a missing header, returns 403. This stops other sites from using the visitor's browser to post to the function; it is not authentication, because a script can set any header.
   2. Content type: `application/json` only; anything else returns 415.
@@ -79,7 +80,7 @@ Inline scripts (theme, navigation loader, the Calendly loader on the contact pag
 - Database access: RLS is enabled on `public.leads` with no policies, and `anon` and `authenticated` have no grants, so the Supabase anon key cannot read or write leads. The service role key lives only in Vercel. The migration is `supabase/migrations/20261108120000_wavival_quote_leads.sql`.
 - Country: the middleware reads the country code Vercel derives from the address to pick the currency of the page and does not store it; the quote function stores the same code with the lead. The address itself is never read by either.
 - Analytics: Umami, cookieless and aggregated, enabled only when both variables are set. No tracking cookies, so no consent banner.
-- Third parties: Supabase (lead storage), Brevo (quote delivery), Calendly (contact page), Vercel (hosting, logs and cron). Fonts are self-hosted.
+- Third parties: Supabase (lead storage), Brevo (quote delivery), Calendly (contact page, loaded only after the visitor presses "Agendar una llamada" / "Book a call"), Vercel (hosting, logs and cron). Fonts are self-hosted.
 
 ## Supply chain and repository
 

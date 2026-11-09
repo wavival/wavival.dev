@@ -327,21 +327,41 @@
 /* Floating actions: bottom right stack for the WhatsApp button, with room for a chatbot launcher. */
 .floating-actions {
   position: fixed;
-  right: max(16px, env(safe-area-inset-right, 0px));
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  right: max(var(--float-offset), env(safe-area-inset-right, 0px));
+  bottom: max(var(--float-offset), env(safe-area-inset-bottom, 0px));
   z-index: 40;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: var(--float-gap);
+}
+
+.back-to-top[hidden] {
+  display: none;
+}
+
+.back-to-top-btn {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  background: var(--surface);
+  border-color: var(--line-2);
+}
+
+.back-to-top-btn:hover {
+  border-color: var(--link);
+}
+
+/* Moved there by the back-to-top button; the button itself keeps the visible focus. */
+#main-content:focus {
+  outline: none;
 }
 
 .floating-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: var(--float-size);
+  height: var(--float-size);
   background: var(--btn);
   color: var(--on-btn);
   border-radius: var(--radius-control);
@@ -359,9 +379,13 @@
   outline-offset: 3px;
 }
 
-/* Keeps the last footer line clear of the stack when the page is scrolled to the end. */
+/* Keeps the last footer line clear of the stack (WhatsApp plus back to top, which is always
+   shown at the end of a long page) when the page is scrolled to the end. */
 body:has(.floating-actions) footer {
-  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(
+    var(--float-offset) + var(--float-size) + var(--float-gap) + var(--touch-min) +
+      env(safe-area-inset-bottom, 0px)
+  );
 }
 
 .mask-icon {
@@ -816,6 +840,132 @@ a.media-frame:hover {
   color: var(--text);
 }
 
+/* Customizable select (Chrome 135, Safari 27): the option list takes the design of the
+   site and opens with a short fade. Desktop pointers only, so phones and tablets keep
+   the picker of their own system; browsers without `base-select` keep the native list. */
+@supports (appearance: base-select) {
+  @media (hover: hover) and (pointer: fine) {
+    .quote-field select,
+    .quote-field select::picker(select) {
+      appearance: base-select;
+    }
+
+    .quote-field select {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 14px;
+      background-image: none;
+    }
+
+    .quote-field select:open {
+      border-color: var(--link);
+    }
+
+    .quote-field select::picker-icon {
+      content: "";
+      flex: none;
+      width: 10px;
+      height: 6px;
+      margin-left: auto;
+      background:
+        linear-gradient(45deg, transparent 50%, var(--muted) 50%) 0 0 / 5px 5px no-repeat,
+        linear-gradient(135deg, var(--muted) 50%, transparent 50%) 5px 0 / 5px 5px no-repeat;
+      transition: transform 0.2s;
+    }
+
+    .quote-field select:open::picker-icon {
+      transform: rotate(180deg);
+    }
+
+    .quote-field select::picker(select) {
+      box-sizing: border-box;
+      position-try-order: normal;
+      /* WebKit sizes the list to its longest option; keep it as wide as the field. */
+      width: anchor-size(width);
+      max-height: min(320px, 50dvh);
+      margin: 6px 0 0;
+      padding: 6px 0;
+      border: 1px solid var(--line-2);
+      border-radius: var(--radius-control);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      line-height: 1.6;
+      overflow-y: auto;
+      opacity: 0;
+      translate: 0 -6px;
+      transition:
+        opacity 0.2s,
+        translate 0.2s,
+        overlay 0.2s allow-discrete,
+        display 0.2s allow-discrete;
+    }
+
+    .quote-field select:open::picker(select) {
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 -6px;
+      }
+    }
+
+    .quote-field select option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .quote-field select option:hover,
+    .quote-field select option:focus-visible {
+      background: var(--tint);
+      color: var(--link);
+    }
+
+    .quote-field select option:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: -2px;
+    }
+
+    .quote-field select option:checked {
+      color: var(--link);
+      font-weight: 600;
+    }
+
+    .quote-field select option::checkmark {
+      order: 1;
+      margin-left: auto;
+      color: var(--link);
+    }
+
+    .quote-field select option:disabled {
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .quote-field select option:disabled:hover {
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .quote-field select option:disabled::checkmark {
+      display: none;
+    }
+
+    /* The global reduce-motion rule does not reach the picker pseudo-elements. */
+    @media (prefers-reduced-motion: reduce) {
+      .quote-field select::picker(select),
+      .quote-field select::picker-icon {
+        transition: none;
+      }
+    }
+  }
+}
+
 .quote-field textarea {
   min-height: 160px;
   padding: 12px 14px;
@@ -987,4 +1137,34 @@ a.media-frame:hover {
   .quote-checklist {
     grid-template-columns: 1fr;
   }
+}
+
+/* Calendly loads on demand: the block keeps the calendar's initial height before and after. */
+.calendly-embed {
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--calendar-embed-h);
+  overflow: hidden;
+}
+
+.calendly-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px;
+  text-align: center;
+}
+
+.calendly-embed:focus {
+  outline: none;
+}
+
+/* Starts at the reserved height; Calendly then reports its own content height. */
+.calendly-inline-widget {
+  min-width: 320px;
+  height: var(--calendar-embed-h);
 }

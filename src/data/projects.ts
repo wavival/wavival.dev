@@ -495,8 +495,8 @@ export const projects: Project[] = [
             "Forms built for Colombia: phone with dial code and SVG flags, and CC or CE identity document. Spanish URLs and a guided tour on first use.",
           ],
           results: [
-            "Functional product in production.",
-            "Under validation with clients in Antioquia, Colombia.",
+            "Working product in production.",
+            "Being validated with real clients in Antioquia, Colombia.",
           ],
           learnings: [
             "Defining data isolation between companies early avoids rewrites: it shapes every modeling decision.",
@@ -893,7 +893,7 @@ export const projects: Project[] = [
               text: "If what each plan includes is not visible, the producer hesitates before starting. Limits and scope have to be in plain sight.",
             },
             {
-              title: "Differential value is invisible",
+              title: "What sets it apart is invisible",
               text: "That the modules talk to each other is not obvious. Without demonstrating it before the plans, the landing loses the conversion.",
             },
             {
@@ -911,12 +911,12 @@ export const projects: Project[] = [
               text: "'Replace Excel and WhatsApp' headline, a works-without-internet chip, a button to the diagnostic, and a demo video in a lightbox.",
             },
             {
-              name: "Modules told from the pain",
+              name: "Modules framed around the pain point",
               text: "Livestock, supplies, tools (from the Professional plan), production, and animal health, each in a bento that starts from the problem it solves and not from the feature.",
             },
             {
               name: "Cascade integration",
-              text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it demonstrates differential value before the plans.",
+              text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it shows what sets it apart before the plans.",
             },
             {
               name: "Real product screenshots",
@@ -935,7 +935,7 @@ export const projects: Project[] = [
             {
               title: "Copy focused on the pain, not the product",
               context:
-                "The agricultural producer does not search for 'agro-industrial SaaS'. They search to stop using Excel, notebooks, and WhatsApp groups.",
+                "The agricultural producer does not search for 'agri-industrial SaaS'. They search to stop using Excel, notebooks, and WhatsApp groups.",
               tradeoff:
                 "Technical copy does not connect with the field. Pain-focused copy does, but requires knowing the real operation.",
               decision:
@@ -973,7 +973,7 @@ export const projects: Project[] = [
               context:
                 "Without behavioral metrics, landing design is intuition: you do not know which sections are read or which button converts.",
               tradeoff:
-                "GA4 adds a third-party script with privacy implications, and it has to be declared and switchable off.",
+                "GA4 adds a third-party script with privacy implications, and it has to be declared and able to be turned off.",
               decision:
                 "GA4 is only active when configured and records events on every CTA (Hero, plans, WhatsApp, and form). The privacy policy declares it together with Vercel Web Analytics.",
             },
@@ -1012,7 +1012,7 @@ export const projects: Project[] = [
           learnings: [
             "A landing for a non-technical niche must speak the client's language: every section was written in farm vocabulary, not software vocabulary.",
             "Separating the value demonstration from the plans section lowers the barrier: the producer arrives at the plans having already understood what differentiates TerraCore from Excel.",
-            "It is cheaper to keep a social proof section hidden until real data exists than to pull invented figures.",
+            "It is cheaper to keep a social proof section hidden until real data exists than to remove invented figures later.",
           ],
           roadmap: {
             now: ["Landing in production capturing diagnostic requests."],
@@ -1075,7 +1075,7 @@ export const projects: Project[] = [
             "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright (the guide and the mobile navigation), with CI on every PR.",
           ],
           design: [
-            "Color, spacing, radius, and shadow-sm tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
+            "Color, spacing, radius, and shadow tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
             "Lucide icons with a uniform stroke, through a single component.",
             "Text in Colombian Spanish, in the informal register, with long dates and es-CO number formats, and no emojis.",
             "A side bar on desktop; on mobile, a top bar with a bottom sheet to navigate.",
@@ -1327,11 +1327,11 @@ export const projects: Project[] = [
         en: {
           blurb: "PWA with an AI label scanner and an offline sync queue.",
           summary:
-            "PWA for people with celiac disease, diabetes or lactose intolerance, alone or combined. The user photographs a product label and an AI (Claude API) answers in seconds whether they can eat it for their profile. It adds a food diary with macros, recipes, insights and a weekly market. React, Django, DRF and PostgreSQL.",
+            "PWA for people with celiac disease, diabetes or lactose intolerance, alone or combined. The user photographs a product label and an AI (Claude API) answers in seconds whether they can eat it for their profile. It adds a food diary with macros, recipes, insights and a weekly grocery list. React, Django, DRF and PostgreSQL.",
           problem:
             "Eating with celiac disease, diabetes or lactose intolerance means reading every label, deciphering ingredients hidden under other names and cross-checking several restrictions at once, all by hand. Existing apps usually validate one condition and rely on a fixed product database.",
           solution:
-            "The user photographs the label and gets a verdict with the specific reason, computed against all their active conditions and against the ingredients they marked as forbidden. Around the scanner there is a diary with macros and a health log, 50 curated recipes, weekly insights and a weekly market. It installs from the browser and keeps what the user logs without a connection.",
+            "The user photographs the label and gets a verdict with the specific reason, computed against all their active conditions and against the ingredients they marked as forbidden. Around the scanner there is a diary with macros and a health log, 50 curated recipes, weekly insights and a weekly grocery list. It installs from the browser and keeps what the user logs without a connection.",
           links: [
             {
               href: "https://app.okroot.co/",
@@ -1351,7 +1351,7 @@ export const projects: Project[] = [
             "Server-side scanner: the client and the server both validate the image (type, size, and minimum resolution). The server calls Claude with a prompt that knows the user's conditions and ingredients to avoid, and parses a line-based answer into a verdict, trace risk, problem ingredients, and macros.",
             "The image is not stored: it goes to the model and is discarded. If the label is unreadable, the server replaces the model's text with a concrete hint (blurry, low light, glare, cropped text, no ingredient list) instead of guessing.",
             "Health profile as persistent state: three combinable conditions, goal, physical data with an energy expenditure calculation (Mifflin-St Jeor) and ingredients to avoid. An ingredient the user flagged forces the reject verdict in code, without relying on the model remembering it.",
-            "Diary with meals and macros, weekly summary and a health log (energy, skin and glucose). Insights with alerts, streak, water glasses and a simple glycemic estimate for diabetics. A weekly market built from favorite recipes and what was logged in the diary.",
+            "Diary with meals and macros, weekly summary and a health log (energy, skin and glucose). Insights with alerts, streak, water glasses and a simple glycemic estimate for diabetics. A weekly grocery list built from favorite recipes and what was logged in the diary.",
             "Offline: the service worker (Workbox) precaches the app and API queries go network first with a cache fallback. Offline scans, meals, and shopping list changes wait in an IndexedDB queue (Dexie) and are sent in batches when the network returns.",
             "Idempotent sync: every operation carries a client-generated UUID key and the server returns the existing entity if it recognizes it, so a retry never duplicates. The batch goes in order, with spaced retries and the server as the source of truth.",
             "Scan quota reserved atomically in the database before calling the model and returned if the call fails, so simultaneous requests cannot exceed the cap. Subscriptions with hosted Stripe and MercadoPago checkout and signature-verified, idempotent webhooks.",
@@ -1379,7 +1379,7 @@ export const projects: Project[] = [
             },
             {
               name: "Profile and ingredients to avoid",
-              text: "Four-step onboarding with the conditions (combinable), the goal, physical data and the ingredients the user never wants to see. It is edited later from the profile.",
+              text: "Four-step onboarding with the conditions (combinable), the goal, physical data and the ingredients the user never wants to see. It can be edited later from the profile.",
             },
             {
               name: "Diary and health log",
@@ -1387,11 +1387,11 @@ export const projects: Project[] = [
             },
             {
               name: "Recipes",
-              text: "50 curated recipes, all gluten-free, lactose-free and sugar-free. They filter by meal, time, difficulty and favorites, and any that contain an ingredient to avoid are left out. They can be added to the diary.",
+              text: "50 curated recipes, all gluten-free, lactose-free and sugar-free. They can be filtered by meal, time, difficulty and favorites, and any that contain an ingredient to avoid are left out. They can be added to the diary.",
             },
             {
-              name: "Insights and weekly market",
-              text: "A weekly summary with alerts, logging streak and water glasses. A weekly market is built from the ingredients of favorite recipes and what was logged in the diary.",
+              name: "Insights and weekly grocery list",
+              text: "A weekly summary with alerts, logging streak and water glasses. A weekly grocery list is built from the ingredients of favorite recipes and what was logged in the diary.",
             },
           ],
           chainStepsTitle: "One photo, one answer. Here is what happens underneath.",
@@ -1406,7 +1406,7 @@ export const projects: Project[] = [
             {
               title: "Real medical niche, not generic wellness",
               context:
-                "Many eat-healthy apps exist. People with celiac disease, diabetes or intolerance have specific needs and real consequences if they make mistakes.",
+                "There are many healthy-eating apps. People with celiac disease, diabetes or intolerance have specific needs and real consequences if they make mistakes.",
               tradeoff:
                 "A broader product reaches more users but dilutes the proposition and lowers the validation standard.",
               decision:
@@ -1478,7 +1478,7 @@ export const projects: Project[] = [
           ],
           results: [
             "Scanner in production: label photo, verdict with the specific reason and support for all three conditions at once.",
-            "Complete core in production: profile, scanner, diary with health log, recipes, insights and weekly market on Django, PostgreSQL and React.",
+            "Complete core in production: profile, scanner, diary with health log, recipes, insights and weekly grocery list on Django, PostgreSQL and React.",
             "Offline sync queue running for scans, meals and the shopping list, with idempotent batch delivery when the network returns.",
           ],
           learnings: [
@@ -1488,7 +1488,7 @@ export const projects: Project[] = [
           ],
           roadmap: {
             now: [
-              "PWA in production in early access, with scanner, diary, recipes, insights, weekly market and subscriptions.",
+              "PWA in production in early access, with scanner, diary, recipes, insights, weekly grocery list and subscriptions.",
             ],
             next: [
               "Read the diary and recipes from local storage without a connection: today only the scan history is read from the cache.",
@@ -1822,7 +1822,7 @@ export const projects: Project[] = [
             "Violet as the primary color on cream backgrounds, in the same visual family as the app, with a hero in a soft gradient card.",
             "Fonts are self-hosted and served from the site itself, requesting nothing from third parties.",
             "Sections with an editorial eyebrow, reveal animations with IntersectionObserver and pure CSS, without an animation library.",
-            "Iconography as inlined SVG: never text arrows in buttons nor long dashes in the copy.",
+            "Iconography as inlined SVG: no text arrows in buttons and no long dashes in the copy.",
             "An animated scanner in the hero that shows the scan and the verdict without loading the real product.",
             "All content is in Spanish and so are the routes (preguntas, contacto, sobre-mi, recetas).",
           ],
@@ -2301,7 +2301,7 @@ export const projects: Project[] = [
           ],
           learnings: [
             "A language model that reviews code should be presented as analysis assistance, not as deterministic verification.",
-            "Authenticating and limiting size before calling a paid provider protects cost and the database at the same time.",
+            "Authenticating and limiting size before calling a paid provider controls cost and protects the database at the same time.",
             "A static Astro landing can ride inside the application's deployment and keep its own SEO, without paying for two deployments.",
           ],
         },
@@ -2627,10 +2627,10 @@ export const projects: Project[] = [
             "Astro with static output and Tailwind CSS. Twelve components assemble the landing in a fixed order: hero, a fork between the two paths, problem, agitation, a phrase ribbon, solution, process, manifesto, why us, product, FAQ and contact. Each section has an anchor that matches the navigation bar and the footer.",
             "Spanish by default at the root and English under /en, with both copies in typed dictionaries: the English dictionary requires the same keys as the Spanish one, so a missing key breaks the build. The products and contact pages have a translated route, and the legal pages keep the same name.",
             "Contact form: the browser sends JSON to a Vercel Function that validates the fields (name, company, email, phone, need, stage and message), requires consent and silently drops whatever arrives through a hidden trap field. The need and stage values are fixed English codes, so an option is stored the same way in both languages.",
-            "The Function saves each request in Supabase and fills in the consent date, the origin, and the user agent on its own. It does not store the IP. If the email already exists, it answers that everything went well without creating another row, and still notifies the internal mailbox.",
-            "The internal notice goes out through Brevo and is best effort: if the email fails, the request is already stored. Storage only runs in Vercel production, so on previews the form answers 503 by design.",
+            "The Function saves each request in Supabase and fills in the consent date, the origin, and the user agent on its own. It does not store the IP. If the email already exists, it returns a success response without creating another row, and still notifies the internal mailbox.",
+            "The internal notice goes out through Brevo and is best effort: if the email fails, the request is already stored. Storage only runs in Vercel production, so on previews the form returns 503 by design.",
             "The requests table is a single one, shared with the TerraCore and OKroot landings, with a product column and a uniqueness constraint per product and email. It has row-level security on and no permissions for the public roles: only the Function can write.",
-            "Technical SEO: a JSON-LD graph with ProfessionalService, WebSite and WebPage, plus FAQPage on the FAQ, a self canonical, hreflang between es, en and x-default, a sitemap with alternates and a robots.txt that explicitly allows 21 AI crawlers, together with an llms.txt.",
+            "Technical SEO: a JSON-LD graph with ProfessionalService, WebSite and WebPage, plus FAQPage on the FAQ, a self-referencing canonical, hreflang between es, en and x-default, a sitemap with alternates and a robots.txt that explicitly allows 21 AI crawlers, together with an llms.txt.",
             "Analytics with consent: Google Analytics 4 loads only if the person accepts the cookie notice, and the decision is stored in local storage, with no first-party cookies. The notice does not block the page and appears after a little scrolling.",
             "Performance and delivery: WebP images with explicit dimensions, fonts with swap, long-lived caching for hashed resources and images, and security headers. Deployment on Vercel is continuous.",
             "Accessibility worked into the code: a skip link, visible focus, a label per field with announced errors and a success message with a status role, and respect for prefers-reduced-motion. A no-JavaScript fallback keeps the content that appears on scroll visible.",
@@ -2642,7 +2642,7 @@ export const projects: Project[] = [
               text: "Custom development and a subscription product have different timelines, budgets and questions. Mixed without structure, they confuse.",
             },
             {
-              title: "A contact that costs",
+              title: "Contact with friction",
               text: "A form with a single message field forces a reply with questions before you can quote. One that is too long scares people off.",
             },
             {
@@ -2657,7 +2657,7 @@ export const projects: Project[] = [
           modules: [
             {
               name: "Two paths",
-              text: "A fork on the first screen separates the own SaaS product from custom development, and each has its own process.",
+              text: "A fork on the first screen separates the in-house SaaS product from custom development, and each has its own process.",
             },
             {
               name: "Process per path",
@@ -2686,12 +2686,12 @@ export const projects: Project[] = [
               context:
                 "Lúmina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
               tradeoff:
-                "A general software-development line persuades less, but separating the paths adds a decision on the first screen.",
+                "A generic software development pitch is less persuasive, but separating the paths adds a decision on the first screen.",
               decision:
                 "A fork section, a solution in two services and a process with four phases for each path, each with its own call to action.",
             },
             {
-              title: "Own products as evidence",
+              title: "In-house products as proof",
               context:
                 "Someone evaluating a software company wants to see a product working, not only custom development promises.",
               tradeoff:
@@ -2749,7 +2749,7 @@ export const projects: Project[] = [
             "Technical SEO with structured data, hreflang, a sitemap, robots for AI crawlers and llms.txt.",
           ],
           learnings: [
-            "Asking for need and stage in the form, with fixed values, means the first reply can already be a proposal and the data compares across languages.",
+            "Asking for need and stage in the form, with fixed values, means the first reply can already be a proposal and the data can be compared across languages.",
             "The promises in the copy must be something the code does: saying a confirmation email is received requires the Function to send that email.",
             "A typed dictionary turns a forgotten translation into a build error instead of a half-translated page.",
           ],
@@ -3051,7 +3051,7 @@ export const projects: Project[] = [
               context:
                 "The blog needed accounts, comments, article approval, subscriptions and two languages.",
               tradeoff:
-                "A dynamic application depends on a database and needs more security care than a site of files.",
+                "A dynamic application depends on a database and needs more security care than a file-based site.",
               decision:
                 "Next.js with Prisma and PostgreSQL, and a dynamic layout so the build does not need the database. File-based articles stay versioned in the repository and are imported on deploy.",
             },
@@ -3059,7 +3059,7 @@ export const projects: Project[] = [
               title: "One row per language, linked to the original",
               context:
                 "An article exists in two languages with different slugs, but the conversation around it is one.",
-              tradeoff: "Every interactions query has to resolve which one is the original first.",
+              tradeoff: "Every interaction query has to resolve which one is the original first.",
               decision:
                 "Each version is a Post row with a reference to the original. Likes, saves and comments are always anchored to the original.",
             },
@@ -3108,7 +3108,7 @@ export const projects: Project[] = [
             },
           ],
           design: [
-            "The styles of the separately designed prototype were ported as they were, and the theme lives in a single stylesheet with Tailwind CSS without the base reset.",
+            "The styles of the separately designed prototype were ported as is, and the theme lives in a single stylesheet with Tailwind CSS without the base reset.",
             "Article with a reading progress bar, a table of contents and a share card, with the device's native menu as the route for Instagram.",
             "1200 by 630 covers per language, generated from a spec and an SVG artwork, with a weight cap per image.",
             "Accessibility worked into the code: a skip link, keyboard menus and a confirmation dialog with trapped focus. The contrast changes that would alter the design are pending a decision.",
@@ -3323,7 +3323,7 @@ export const projects: Project[] = [
           summary:
             "This portfolio as a design case: the @wavival | Design System v4, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
           problem:
-            "A developer portfolio often ends up as a template: shadow-sm cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
+            "A developer portfolio often ends up as a template: cards with shadows, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
           solution:
             "wavival.dev is my portfolio and also a design case. The system is called @wavival | Design System v4: the page reads like an editorial index, with 1px rules instead of boxes, large Raleway 800 headlines, numbered indexes, and a single blue signal on a quiet field. It started in Claude Design as a prototype and design system, and was brought to code with token parity. It is bilingual (Spanish at the root, English under /en), static, and dark by default.",
           links: [],
@@ -3354,17 +3354,17 @@ export const projects: Project[] = [
             },
             {
               title: "Prototype and code drift apart",
-              text: "The design says one thing and the published site another, because nothing forces them to stay equal.",
+              text: "The design says one thing and the published site another, because nothing forces them to stay in sync.",
             },
           ],
           architecture: [
             "Astro with static output and TypeScript. Tailwind mapped to CSS tokens, and vanilla TypeScript client scripts only for the theme, the mobile menu, and the project filters.",
             "Atomic structure (atoms, molecules, organisms, and a single template). Organisms receive the language and localized routes come from a single function.",
-            "Own i18n: Spanish at the root and English under /en, with the slug map as the single source of truth for the language toggle, the sitemap, and hreflang.",
+            "Custom i18n: Spanish at the root and English under /en, with the slug map as the single source of truth for the language toggle, the sitemap, and hreflang.",
             "Typed content (projects and stack) with parallel English fields. Every case study is generated from a single array.",
             "SEO and discovery: JSON-LD with Person, Organization, and WebSite, per-project OpenGraph, a sitemap with reciprocal alternates, and llms.txt for AI assistants.",
             "Performance: self-hosted fonts in a Latin subset, LCP image preload only where it is used, and View Transitions between routes. Core Web Vitals are reported to Umami when configured.",
-            "Header security: a strict content security policy, with an automated check in CI.",
+            "Security headers: a strict content security policy, with an automated check in CI.",
             "Deployment on Vercel with microfrontends (the portfolio and NullBreach share a domain) and a single serverless function for the quote form, which sends through Brevo.",
             "A branch flow across environments with commitlint, Playwright E2E tests, Lighthouse CI, and link checking as quality gates.",
           ],
@@ -3377,7 +3377,7 @@ export const projects: Project[] = [
             "Numbered indexes (01, 02) as a reading guide, and every section opens with a 1px rule.",
             "A single column at the full container width (1280px), with vertical rhythm defined by spacing tokens.",
             "Icons only where they work: on icon-only buttons and on the primary button. Text links and buttons carry no arrows.",
-            'State is told with text: the accordion is a native details element that shows "View" and "Close" instead of a chevron.',
+            'State is shown in text: the accordion is a native details element that shows "View" and "Close" instead of a chevron.',
             "Dark by default and toggleable. A script before first paint applies the theme without flicker, the theme is class-based and not a media query, and the browser color stays in sync.",
             "Accessibility as a design constraint: 2px visible focus, AA contrast computed per token in both themes, 44px touch targets, a mobile menu with trapped focus, and respect for prefers-reduced-motion.",
             "Minimal, functional motion: no scroll animation, only short transitions, View Transitions between routes, and a 220ms accordion.",
@@ -3386,7 +3386,8 @@ export const projects: Project[] = [
           decisions: [
             {
               title: "Rules instead of boxes",
-              context: "Shadow and radius cards are the default pattern of almost any portfolio.",
+              context:
+                "Cards with shadows and rounded corners are the default pattern of almost any portfolio.",
               tradeoff:
                 "Without shadows or radii, hierarchy depends on typography and space, and demands more care.",
               decision:
@@ -3645,7 +3646,7 @@ export const projects: Project[] = [
             {
               href: "https://github.com/wavival/forgotten-portal-writeup",
               text: "View repository",
-              ariaLabel: "View repo: Forgotten Portal",
+              ariaLabel: "View repository: Forgotten Portal",
             },
           ],
           metaDescription:
@@ -3670,7 +3671,7 @@ export const projects: Project[] = [
             },
             {
               title: "Secrets where they should not be",
-              text: "Credentials encoded in a log, an SSH key repeated across all accounts and its passphrase written in an internal document. Encoding is not protecting.",
+              text: "Credentials encoded in a log, an SSH key repeated across all accounts and its passphrase written in an internal document. Encoding is not protection.",
             },
             {
               title: "Administration permissions that are too broad",

@@ -46,6 +46,27 @@ export async function insertRow(
   }
 }
 
+/** Whether a row matches the PostgREST `filters`; `null` when the lookup fails. Never throws. */
+export async function rowExists(
+  config: SupabaseConfig,
+  table: string,
+  filters: Record<string, string>
+): Promise<boolean | null> {
+  const query = new URLSearchParams({ select: "id", limit: "1", ...filters });
+  try {
+    const response = await fetch(`${config.url}/rest/v1/${table}?${query}`, {
+      method: "GET",
+      headers: headers(config),
+      signal: AbortSignal.timeout(SUPABASE_TIMEOUT_MS),
+    });
+    if (!response.ok) return null;
+    const rows: unknown = await response.json();
+    return Array.isArray(rows) && rows.length > 0;
+  } catch {
+    return null;
+  }
+}
+
 /** Touches the table with a one-row, one-column select and discards the body. Never throws. */
 export async function pingTable(config: SupabaseConfig, table: string): Promise<boolean> {
   try {

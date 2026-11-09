@@ -11,7 +11,7 @@ const whatsappHref = (lang: keyof typeof MESSAGE) =>
 const HOME = {
   es: {
     path: "/",
-    title: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores",
+    title: "Valentina Ramírez | Software seguro y automatización con IA",
     description:
       "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público.",
     ogAlt:
@@ -21,7 +21,7 @@ const HOME = {
   },
   en: {
     path: "/en/",
-    title: "Valentina Ramírez | Secure software and AI automation for entrepreneurs",
+    title: "Valentina Ramírez | Secure software and AI automation",
     description:
       "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.",
     ogAlt:
@@ -233,19 +233,15 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/sobre-mi lists the marketing and content training with Instagram and TikTok links", async ({
-    page,
-  }) => {
+  test("/sobre-mi lists the marketing and content training as plain text", async ({ page }) => {
     await page.goto("/sobre-mi/");
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing y contenido");
     await expect(row).toContainText(
       "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en Instagram y TikTok"
     );
-    await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
-    await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
-      "Instagram"
-    );
+    // The profiles are linked once, as icons in the social row: the education rows are plain text.
+    await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
     await expect(
       page.locator('main a[aria-label="TikTok de Valentina Ramírez"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
@@ -261,19 +257,15 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/en/about lists the marketing and content training with Instagram and TikTok links", async ({
-    page,
-  }) => {
+  test("/en/about lists the marketing and content training as plain text", async ({ page }) => {
     await page.goto("/en/about/");
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing and content");
     await expect(row).toContainText(
       "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on Instagram and TikTok"
     );
-    await expect(row.locator('a[href="https://www.tiktok.com/@wavival_dev"]')).toHaveText("TikTok");
-    await expect(row.locator('a[href="https://instagram.com/wavival_dev"]')).toHaveText(
-      "Instagram"
-    );
+    // The profiles are linked once, as icons in the social row: the education rows are plain text.
+    await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
     await expect(
       page.locator('main a[aria-label="Valentina Ramírez on TikTok"]').last()
     ).toHaveAttribute("href", "https://www.tiktok.com/@wavival_dev");
@@ -362,7 +354,7 @@ test.describe("positioning of the 2026 plan", () => {
     const yes = page.getByRole("heading", { level: 3, name: "I work best with" });
     const yesList = yes.locator("xpath=following-sibling::ul[1]");
     await expect(yesList.locator("li")).toHaveCount(5);
-    await expect(yesList).toContainText("1 to 10 people, that already sell and have customers");
+    await expect(yesList).toContainText("1 to 10 people) that already sell and have customers");
     await expect(yesList).toContainText("clinics, beauty, psychology, lawyers, accountants");
     const no = page.getByRole("heading", { level: 3, name: "Not the right fit if" });
     const noList = no.locator("xpath=following-sibling::ul[1]");

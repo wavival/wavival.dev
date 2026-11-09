@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 Guide for Claude Code in this repository. The operational rules live in `AGENTS.md` and are imported here, so there is one source:
 
@@ -8,7 +8,7 @@ Guide for Claude Code in this repository. The operational rules live in `AGENTS.
 
 ## What this repository is
 
-The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` (quotes: validate, store in Supabase, email through Brevo) and `api/keepalive.ts` (cron that keeps the database awake) are the Vercel Functions, and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning: software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation; marketing and content are a complement, never a marketing agency. Overview, setup, commands, architecture and routes are in `README.md`.
+The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` (quotes: validate, accept monthly SEO only from development clients, store in Supabase, email through Brevo) and `api/keepalive.ts` (cron that keeps the database awake) are the Vercel Functions, and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning: software developer focused on backend, AI and security who helps entrepreneurs save time with secure software and AI automation; marketing and content are a complement, never a marketing agency. Overview, setup, commands, architecture and routes are in `README.md`.
 
 ## Ownership rule
 
@@ -28,3 +28,4 @@ Everything on `wavival.dev` (services, published price, contact, projects) belon
 - Every document carries a `> Last updated: YYYY-MM-DD` line; a change to a document updates it, and `CHANGELOG.md` records the change under `[Unreleased]`.
 - When a fact changes (a service, a price, a project, a contact channel), update the site, `public/llms.txt`, `public/llms-full.txt` and the documents that own it together.
 - Plain ASCII punctuation in text: no em dashes, en dashes or decorative icons.
+- "wavival" is always lowercase, also at the start of a sentence, in titles, metadata, JSON-LD and `alt` (`docs/brand.md`). The English tools page is "Tools" wherever it is named.

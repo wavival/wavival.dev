@@ -19,16 +19,16 @@ const { user: githubUser, repos: githubRepos } = await fetchGithubProfile("waviv
 const { featured: featuredRepos, resources: resourceRepos } = curateRepos(githubRepos);
 const indices = usesSectionIndices(Boolean(githubUser));
 
-const pageTitle = "Uses: Tools and stack | Valentina Ramírez";
+const pageTitle = "Tools | Valentina Ramírez";
 const pageDescription =
-  "The stack and tools I use as a software developer focused on backend, AI and security (Django, Next.js, React, PostgreSQL, Astro, AI, and security) and why I choose each one.";
+  "The tools I use as a software developer focused on backend, AI and security (Django, Next.js, React, PostgreSQL, Astro) and why I choose each one.";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://www.wavival.dev/en/" },
-    { "@type": "ListItem", position: 2, name: "Uses", item: "https://www.wavival.dev/en/uses/" },
+    { "@type": "ListItem", position: 2, name: "Tools", item: "https://www.wavival.dev/en/uses/" },
   ],
 });
 const hardwareItems = [
@@ -51,12 +51,12 @@ const hardwareItems = [
   },
   {
     title: "Phone and recording",
-    sub: "For the content",
+    sub: "For content",
     tools: ["Motorola Edge 60 Fusion", "DJI gimbal with extendable selfie stick"],
   },
   {
     title: "Peripherals",
-    sub: "What I touch daily",
+    sub: "What I use every day",
     tools: [
       'LG 27" ultrawide monitor (built-in audio)',
       "Genius keyboard",
@@ -81,7 +81,7 @@ const softwareItems = [
   },
   {
     title: "Terminal and APIs",
-    sub: "The backend of the day",
+    sub: "My everyday backend toolkit",
     tools: ["Warp", "WSL (Ubuntu)", "Postman"],
   },
   {
@@ -91,7 +91,7 @@ const softwareItems = [
   },
   {
     title: "Productivity and browsing",
-    sub: "To not lose track",
+    sub: "To keep track",
     tools: ["Todoist", "Focus To-Do", "Notepad", "Firefox"],
   },
 ];
@@ -111,7 +111,7 @@ const softwareItems = [
     <PageIntro eyebrow="Tools" size="uses">
       <Fragment slot="title">What I build with</Fragment>
       <p class="body-lg m-0">
-        Everything I use to build: the stack, the machine, and everyday apps. Not a list of trends,
+        Everything I use to build: the stack, the machine, and everyday apps. Not a list of trends:
         these are the tools I use to deliver real products.
       </p>
     </PageIntro>
@@ -200,7 +200,7 @@ const softwareItems = [
         style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))"
       >
         <SocialProfileCard network="instagram" name="Instagram">
-          Reels and posts with the behind the scenes of each project and what I learn along the way.
+          Reels and posts that go behind the scenes of each project and what I learn along the way.
         </SocialProfileCard>
         <SocialProfileCard network="tiktok" name="TikTok" variant="repo">
           Short videos where I explain how I build secure software and AI automations.

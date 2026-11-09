@@ -68,7 +68,11 @@ interface Recorded {
 const ENV_KEYS = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "BREVO_API_KEY"] as const;
 
 const withServices = async (
-  outcomes: { supabase?: Outcome; brevo?: Outcome },
+  outcomes: {
+    supabase?: Outcome;
+    brevo?: Outcome;
+    lookup?: unknown[] | "down" | number | ((url: URL) => unknown[]);
+  },
   run: (recorded: Recorded) => Promise<void>
 ) => {
   const supabase = outcomes.supabase ?? 201;
@@ -107,6 +111,14 @@ const withServices = async (
     const isSupabase = new URL(url).origin === new URL(SUPABASE_URL).origin;
     const outcome = isSupabase ? supabase : brevo;
     (isSupabase ? recorded.supabase : recorded.brevo).push(call);
+    if (isSupabase && call.method === "GET" && outcomes.lookup !== undefined) {
+      if (outcomes.lookup === "down") throw new Error("network down");
+      if (typeof outcomes.lookup === "number")
+        return new Response("{}", { status: outcomes.lookup });
+      const rows =
+        typeof outcomes.lookup === "function" ? outcomes.lookup(new URL(url)) : outcomes.lookup;
+      return new Response(JSON.stringify(rows), { status: 200 });
+    }
     if (outcome === "down") throw new Error("network down");
     return new Response("{}", { status: typeof outcome === "number" ? outcome : 500 });
   }) as typeof fetch;
@@ -324,6 +336,140 @@ test.describe("quote api storage and notification", () => {
         expect(everything).not.toContain("+573000000000");
       });
     }
+  });
+});
+
+test.describe("quote api monthly SEO for development clients", () => {
+  const seo = (email: string) => ({ ...valid, services: ["monthly-seo"], email });
+
+  // A small leads table and a PostgREST stand-in that applies the same filters as Supabase.
+  const LEADS = [
+    {
+      id: 1,
+      product: "wavival",
+      status: "won",
+      email: "client@example.com",
+      services: ["landing-page"],
+    },
+    {
+      id: 2,
+      product: "wavival",
+      status: "proposal",
+      email: "pending@example.com",
+      services: ["business-website"],
+    },
+    {
+      id: 3,
+      product: "wavival",
+      status: "won",
+      email: "seo-only@example.com",
+      services: ["monthly-seo"],
+    },
+    {
+      id: 4,
+      product: "okroot",
+      status: "won",
+      email: "other@example.com",
+      services: ["landing-page"],
+    },
+  ];
+  const postgrest = (url: URL) => {
+    const value = (key: string) => (url.searchParams.get(key) ?? "").replace(/^[a-z]+\./, "");
+    const wanted = value("services").replace(/[{}]/g, "").split(",");
+    return LEADS.filter(
+      (lead) =>
+        lead.product === value("product") &&
+        lead.status === value("status") &&
+        lead.email === value("email") &&
+        lead.services.some((service) => wanted.includes(service))
+    ).map(({ id }) => ({ id }));
+  };
+
+  const refuse = async (email: string) => {
+    let result = { status: 0, body: "", ms: 0, stored: false, emailed: false };
+    await withServices({ lookup: postgrest }, async (recorded) => {
+      const started = Date.now();
+      const response = await post(seo(email));
+      result = {
+        status: response.status,
+        body: await response.text(),
+        ms: Date.now() - started,
+        stored: recorded.supabase.some((call) => call.method === "POST"),
+        emailed: recorded.brevo.length > 0,
+      };
+    });
+    return result;
+  };
+
+  test("accepts monthly SEO from a won lead with a development service", async () => {
+    await withServices({ lookup: postgrest }, async (recorded) => {
+      const response = await post(seo("Client@Example.com"));
+      expect(response.status).toBe(201);
+      const lookup = recorded.supabase.find((call) => call.method === "GET");
+      const params = new URL(lookup!.url).searchParams;
+      expect(params.get("product")).toBe("eq.wavival");
+      expect(params.get("status")).toBe("eq.won");
+      expect(params.get("email")).toBe("eq.client@example.com");
+      const services = params.get("services") ?? "";
+      for (const id of [
+        "landing-page",
+        "custom-web-app-mvp",
+        "rest-apis-backend",
+        "time-saver-kit",
+      ]) {
+        expect(services).toContain(id);
+      }
+      expect(services).not.toContain("monthly-seo");
+      expect(recorded.brevo).toHaveLength(1);
+    });
+  });
+
+  test("every refusal is identical: unknown email, lead not won, no development service", async () => {
+    const cases = [
+      await refuse("nobody@example.com"),
+      await refuse("pending@example.com"),
+      await refuse("seo-only@example.com"),
+      await refuse("other@example.com"),
+    ];
+    const [reference] = cases;
+    expect(reference.status).toBe(422);
+    expect(JSON.parse(reference.body)).toEqual({ error: "Development clients only" });
+    for (const result of cases) {
+      expect(result.status).toBe(reference.status);
+      expect(result.body).toBe(reference.body);
+      expect(result.stored).toBe(false);
+      expect(result.emailed).toBe(false);
+      // Every refusal waits for the same floor, so its timing does not depend on the email.
+      expect(result.ms).toBeGreaterThanOrEqual(1200);
+    }
+    const times = cases.map((result) => result.ms);
+    expect(Math.max(...times) - Math.min(...times)).toBeLessThan(150);
+  });
+
+  test("a failed lookup or a missing database refuses the same way", async () => {
+    for (const lookup of ["down", 500] as const) {
+      await withServices({ lookup }, async (recorded) => {
+        const response = await post(seo("client@example.com"));
+        expect(response.status).toBe(422);
+        expect(await response.json()).toEqual({ error: "Development clients only" });
+        expect(recorded.logs).toContain("quote: development client lookup failed or timed out");
+      });
+    }
+    await withServices({ supabase: "off" }, async (recorded) => {
+      const response = await post(seo("client@example.com"));
+      expect(response.status).toBe(422);
+      expect(await response.json()).toEqual({ error: "Development clients only" });
+      expect(recorded.logs).toContain(
+        "quote: Supabase variables are not set, development client not verified"
+      );
+    });
+  });
+
+  test("does not look anyone up when monthly SEO is not requested", async () => {
+    await withServices({ lookup: [] }, async (recorded) => {
+      expect((await post(valid)).status).toBe(201);
+      expect(recorded.supabase.some((call) => call.method === "GET")).toBe(false);
+    });
   });
 });
 

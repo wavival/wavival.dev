@@ -20,6 +20,9 @@ const PART_SCHEMA: Record<PartKind, string> = {
 };
 
 /** Localized <title> and meta description of a project page. */
+/** Longest title a search result shows in full. */
+export const TITLE_MAX = 60;
+
 export function projectMeta(project: Project, lang: Lang) {
   const isEn = lang === "en";
   const primary = localizePart(project.parts[0], lang);
@@ -31,10 +34,12 @@ export function projectMeta(project: Project, lang: Lang) {
     project.summary ??
     primary.summary ??
     "";
-  const projectTitle = localizedProjectTitle(project, lang);
-  const title = isEn
-    ? `${projectTitle}: Case study | Valentina Ramírez`
-    : `${projectTitle}: Caso de estudio | Valentina Ramírez`;
+  const suffix = isEn
+    ? ": Case study | Valentina Ramírez"
+    : ": Caso de estudio | Valentina Ramírez";
+  const full = `${localizedProjectTitle(project, lang)}${suffix}`;
+  // Titles stay within TITLE_MAX characters: a long project name falls back to its short name.
+  const title = full.length <= TITLE_MAX ? full : `${project.shortName}${suffix}`;
   return { title, description };
 }
 

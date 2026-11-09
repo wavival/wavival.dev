@@ -3,6 +3,7 @@ import { BUDGET_RANGES, budgetRangeLabel, type BudgetRangeId } from "../src/data
 import {
   HOW_FOUND_IDS,
   PREFERRED_CHANNEL_IDS,
+  TECHNICAL_QUOTE_SERVICE_ID,
   TIMELINE_IDS,
   howFoundLabel,
   isQuoteSource,
@@ -15,11 +16,12 @@ import {
   type QuoteServiceId,
   type TimelineId,
 } from "../src/data/quoteOptions";
-import { LEADS_TABLE, insertRow, supabaseConfig } from "../src/server/supabase";
+import { servicesInGroup } from "../src/data/services";
+import { LEADS_TABLE, insertRow, rowExists, supabaseConfig } from "../src/server/supabase";
 import { CURRENCIES, resolveCountry, type Currency } from "../src/utils/currency";
 
 const RECIPIENT = "wavival.dev@luminaw.co";
-const SENDER = { name: "Wavival", email: RECIPIENT };
+const SENDER = { name: "wavival", email: RECIPIENT };
 const PRODUCT = "wavival";
 
 // Browser requests must come from the site itself. Vercel preview hosts are read from the
@@ -35,6 +37,11 @@ const BREVO_TIMEOUT_MS = 10_000;
 // Best-effort limit per server instance: it slows a single source down, it does not replace
 // a firewall rule (see docs/security.md). Memory stays bounded by pruning expired entries.
 const RATE_LIMIT = { max: 5, windowMs: 10 * 60 * 1000, maxEntries: 1000 };
+// Every monthly SEO refusal (unknown email, lead not won, no development service, lookup
+// failure) answers with the same status and body, never before this many milliseconds from
+// the start of the check, so neither the answer nor its timing tells whether an email is a client.
+const REFUSAL_FLOOR_MS = 1200;
+const REFUSAL = { error: "Development clients only" };
 const attempts = new Map<string, number[]>();
 
 const LOCALES = ["es", "en"] as const;
@@ -264,6 +271,32 @@ const parseQuote = (payload: QuotePayload, request: Request): Quote | null => {
   };
 };
 
+// Monthly SEO is sold only to development clients: a won wavival lead with the same email that
+// bought a development service, the REST APIs block or a kit (both kits include a landing page).
+const DEVELOPMENT_SERVICES: readonly QuoteServiceId[] = [
+  ...servicesInGroup("development").map((service) => service.id),
+  TECHNICAL_QUOTE_SERVICE_ID,
+  "digital-presence-kit",
+  "time-saver-kit",
+];
+
+/** True only when the database confirms it; an unreachable database cannot confirm anyone. */
+const isDevelopmentClient = async (email: string): Promise<boolean> => {
+  const config = supabaseConfig(process.env);
+  if (!config) {
+    console.error("quote: Supabase variables are not set, development client not verified");
+    return false;
+  }
+  const found = await rowExists(config, LEADS_TABLE, {
+    product: `eq.${PRODUCT}`,
+    status: "eq.won",
+    email: `eq.${email}`,
+    services: `ov.{${DEVELOPMENT_SERVICES.join(",")}}`,
+  });
+  if (found === null) console.error("quote: development client lookup failed or timed out");
+  return found === true;
+};
+
 /** Stores the lead. Resolves to false, with a fixed log line, when Supabase is not reachable. */
 const saveQuote = async (quote: Quote): Promise<boolean> => {
   const config = supabaseConfig(process.env);
@@ -365,6 +398,14 @@ async function handler(request: Request): Promise<Response> {
 
   const quote = parseQuote(payload, request);
   if (!quote) return json({ error: "Invalid request" }, 400);
+  if (quote.services.includes("monthly-seo")) {
+    const started = Date.now();
+    if (!(await isDevelopmentClient(quote.email))) {
+      const wait = REFUSAL_FLOOR_MS - (Date.now() - started);
+      if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+      return json(REFUSAL, 422);
+    }
+  }
 
   // The database first, so the email can say whether the lead was stored.
   const saved = await saveQuote(quote);

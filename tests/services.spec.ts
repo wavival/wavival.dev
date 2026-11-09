@@ -61,7 +61,7 @@ const groupLayout = {
     title: { es: "Catálogo de desarrollo", en: "Development catalog" },
     description: {
       es: "Landing pages, sitios, automatizaciones, chatbots y apps para convertir tareas manuales en software que mueve tu negocio.",
-      en: "Landing pages, websites, automations, chatbots and apps that turn manual work into software that moves your business.",
+      en: "Landing pages, websites, automations, chatbots and apps that turn manual work into software that drives your business.",
     },
   },
   complementary: {

@@ -1,11 +1,14 @@
 # Roadmap
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
 ## Decisions
 
+- [x] Calendly on the contact pages (resolved 2026-11-09): it loads only after a click, so no third-party cookie reaches the first load; best practices 77 to 100.
+- [ ] Payment methods: Bancolombia, Global66 and Bold with a 50% deposit come from the owner's brief (2026-11-09) and appear in the services FAQ and `llms-full.txt`. Add which method applies to which case if that matters.
+- [ ] Monthly SEO check (`api/quote.ts`): it counts a won `wavival` lead with a development service, the REST APIs block or a kit, and every refusal answers the same way. A new client asking for a development service and monthly SEO in the same quote is refused today; decide whether that combination should pass.
 - [ ] OKroot docs stack: the `docs` part of OKroot describes the same stack as the TerraCore documentation, as stated by the owner. `okroot-docs` has no site yet (only markdown), so check the part against the real site when it ships.
 - [ ] Docs page counts: the TerraCore `docs` part states 34 pages in 8 groups (checked against `terracore-docs` on 2026-10-05); update it when the guide grows.
 - [ ] NullBreach Swagger: the `api` part links to `https://www.wavival.dev/nullbreach/swagger`. The upstream NullBreach documentation says production returns 404 for it until the next deployment that includes the route. Check the link after that deployment.
@@ -14,7 +17,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Filters: decide whether NullBreach (an AI-powered AppSec chat) belongs under the `security` filter, from which it is left out today. Adding it changes the filter count.
 - [ ] Internal hourly rate: the 2026 plan defines one, but it is not published and `src/data/pricing.ts` does not hold it because the repository is public. Decide where it lives if a later step needs it.
 - [ ] Pricing review: the COP and USD lists in `src/data/pricing.ts` are independent (no exchange rate) and are reviewed every January.
-- [ ] Decision: the removed CV files (`/cv_valentina_ramirez_es.pdf`, `/cv_valentina_ramirez_en.pdf`) currently redirect to `/sobre-mi` and `/en/about` (`vercel.json`). Decide whether to keep those redirects or let the old URLs return 404 and drop the rules.
+- [x] Decision (resolved 2026-11-09): the removed CV files keep their permanent redirects in `vercel.json`, each to the about page in its own language: `/cv_valentina_ramirez_es.pdf` to `/sobre-mi` and `/cv_valentina_ramirez_en.pdf` to `/en/about`. `tests/redirects.spec.ts` checks both.
 
 ## Security
 
@@ -31,7 +34,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
-- [ ] Clean up the `script-src` hashes in `vercel.json`: `npm run csp:check` only reports inline scripts whose hash is missing, so hashes that no longer match any script in `dist/` accumulate. Compare the list against the built output and remove the stale ones.
+- [x] Clean up the `script-src` hashes in `vercel.json` (resolved 2026-11-09): the 13 hashes that matched no inline script in `dist/` were removed, 7 remain, and `npm run csp:check` now also fails on a hash that no inline script uses.
 
 ## Dependencies
 
@@ -48,10 +51,11 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 - [ ] Preload Poppins 500 and 600 (only 400 and the Raleway variable font are preloaded).
 - [ ] Verify the accordion headings (an `h2` inside each `<summary>`) with real screen readers (VoiceOver, NVDA); only Chromium's accessibility tree was checked.
-- [ ] Add an axe pass for case-study pages to the Playwright suite (heading order and contrast are checked by hand today).
+- [x] Axe pass in the Playwright suite (resolved 2026-11-09): `tests/a11y-axe.spec.ts` covers every page in both themes.
 
 ## Integrations
 
 - [ ] Social networks by API (phase 2): show the latest Instagram and TikTok posts through their APIs with a server-side cache (build-time or a Vercel function), not through the platforms' embeds, so no third-party script or iframe is added to the CSP and the pages stay static.
+- [ ] Later: a chatbot powered by Claude on the site. Not started; scope, data handling and its effect on the CSP are still to be defined. Its launcher goes in the slot reserved between the back-to-top button and WhatsApp in `FloatingActions.astro`.
 
 ## Quality and docs

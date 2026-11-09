@@ -176,7 +176,7 @@ UX/UI design is included when the project needs it. Process: conversation, propo
 
 Services page: https://www.wavival.dev/servicios (English: https://www.wavival.dev/en/services/)
 
-Quote page: https://www.wavival.dev/cotizar (English: https://www.wavival.dev/en/quote/). Visitors can select one or more services and send a project brief. Valentina replies within 24 hours.
+Quote page: https://www.wavival.dev/cotizar (English: https://www.wavival.dev/en/quote/). Visitors can select one or more services and send a project brief. Valentina replies within 24 hours. Payment methods: Bancolombia, Global66 and Bold, with a 50% deposit. Monthly SEO is only for clients who already did a development project.
 
 ## Contact
 

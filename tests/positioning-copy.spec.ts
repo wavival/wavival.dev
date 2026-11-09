@@ -14,15 +14,15 @@ const walk = (dir: string): string[] =>
 const SERVICES = {
   es: {
     path: "/servicios/",
-    title: "Servicios: software seguro y automatización con IA | Valentina Ramírez",
+    title: "Servicios: software seguro y automatización con IA",
     description:
-      "Landing pages, sitios web, automatización con n8n, chatbots con IA, apps a medida y revisión de seguridad, con precio fijo y plazo claro. Software seguro que le ahorra tiempo a tu negocio.",
+      "Landing pages, sitios web, n8n, chatbots con IA, apps a medida y seguridad, con precio fijo y plazo claro. Software seguro que le ahorra tiempo a tu negocio.",
   },
   en: {
     path: "/en/services/",
-    title: "Services: secure software and AI automation | Valentina Ramírez",
+    title: "Services: secure software and AI automation",
     description:
-      "Landing pages, websites, n8n automation, AI chatbots, custom apps and security reviews, each with a fixed price and a clear timeline. Secure software that saves your business time.",
+      "Landing pages, websites, n8n, AI chatbots, custom apps and security, each with a fixed price and timeline. Secure software that saves your business time.",
   },
 } as const;
 

@@ -1,9 +1,9 @@
 ---
+import CalendlyEmbed from "@/components/organisms/CalendlyEmbed.astro";
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import Button from "@/components/atoms/Button.astro";
-import TextLink from "@/components/atoms/TextLink.astro";
 import MaskIcon from "@/components/atoms/MaskIcon.astro";
 import Index from "@/components/atoms/Index.astro";
 import { whatsappHref as whatsappLink } from "@/data/whatsapp";
@@ -12,7 +12,7 @@ const email = "wavival.dev@luminaw.co";
 const whatsappHref = whatsappLink("en");
 const calendlyUrl = "https://calendly.com/wavival/descubrimiento-servicios-wavival";
 
-const pageTitle = "Contact: build your product | Valentina Ramírez";
+const pageTitle = "Contact: let's talk about your product | Valentina Ramírez";
 const pageDescription =
   "Three ways to start: email, WhatsApp, or a 30-minute discovery call. I design and build complete products, from backend to interface.";
 
@@ -45,11 +45,11 @@ const channels = [
   {
     icon: "send-email-white",
     title: "Email",
-    body: "Tell me about your project at your own pace. I respond within 24h.",
+    body: "Tell me about your project at your own pace. I reply within 24 hours.",
     href: `mailto:${email}`,
     target: "_self" as const,
     cta: "Write to me",
-    ariaLabel: "Send an email to Valentina Ramírez",
+    ariaLabel: "send an email to Valentina Ramírez",
     event: "contacto-email",
   },
   {
@@ -59,13 +59,13 @@ const channels = [
     href: whatsappHref,
     target: "_blank" as const,
     cta: "Chat",
-    ariaLabel: "Message Valentina Ramírez on WhatsApp",
+    ariaLabel: "message Valentina Ramírez on WhatsApp",
     event: "contacto-whatsapp",
   },
   {
     icon: "calendar-blue",
     title: "30-min call",
-    body: "No commitment. Book in your time zone; I coordinate from COT (UTC-5).",
+    body: "No commitment. Book in your time zone; I coordinate from COT\u00a0(UTC-5).",
     href: "#agenda",
     target: "_self" as const,
     cta: "Schedule",
@@ -75,7 +75,7 @@ const channels = [
 ];
 const steps = [
   "Pick a time that works for you.",
-  "We talk 30 min about your idea.",
+  "We talk for 30 minutes about your idea.",
   "I send you a clear proposal.",
 ];
 ---
@@ -158,61 +158,8 @@ const steps = [
       </ol>
     </SectionHeader>
 
-    <div
-      id="calendly-embed"
-      role="region"
-      aria-label="Calendar to book a 30-minute call"
-      class="overflow-hidden border border-line bg-bg"
-    >
-      <noscript>
-        <p class="body m-0 p-6">
-          The calendar requires JavaScript. Schedule directly on
-          <TextLink
-            variant="inline"
-            href={calendlyUrl}
-            target="_blank"
-            aria-label="Open the Calendly calendar">Calendly</TextLink
-          > or write to me at <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink
-          >.
-        </p>
-      </noscript>
-    </div>
+    <CalendlyEmbed lang="en" url={calendlyUrl} />
   </section>
-
-  <script is:inline define:vars={{ calendlyUrl }}>
-    (function () {
-      const dark = document.documentElement.classList.contains("dark");
-      let url = calendlyUrl + "?hide_gdpr_banner=1&primary_color=1565c0";
-      if (dark) url += "&background_color=0f1117&text_color=e5e7eb";
-
-      const container = document.getElementById("calendly-embed");
-      const widget = document.createElement("div");
-      widget.className = "calendly-inline-widget";
-      widget.setAttribute("data-url", url);
-      widget.style.minWidth = "320px";
-      widget.style.height = "1000px";
-      container.appendChild(widget);
-
-      window.addEventListener("message", function (e) {
-        if (e.origin.indexOf("calendly.com") === -1) return;
-        if (!e.data || e.data.event !== "calendly.page_height") return;
-        const h = e.data.payload && e.data.payload.height;
-        if (!h) return;
-        widget.style.height = h;
-        const iframe = widget.querySelector("iframe");
-        if (iframe) {
-          iframe.style.height = h;
-          if (!iframe.getAttribute("title"))
-            iframe.setAttribute("title", "Calendly calendar to book a call");
-        }
-      });
-
-      const s = document.createElement("script");
-      s.src = "https://assets.calendly.com/assets/external/widget.js";
-      s.async = true;
-      document.body.appendChild(s);
-    })();
-  </script>
 
   <script is:inline type="application/ld+json" set:html={contactSchema} />
   <script is:inline type="application/ld+json" set:html={breadcrumbLd} />
