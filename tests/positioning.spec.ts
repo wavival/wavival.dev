@@ -195,6 +195,14 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(about.locator("a.action-link")).toHaveCount(0);
       await expect(meet).toHaveAttribute("href", lang === "en" ? "/en/about" : "/sobre-mi");
       await expect(meet).toHaveText(lang === "en" ? "Get to know me" : "Conóceme");
+      // Both text buttons use the 44px size so they stand as tall as the icon buttons.
+      await expect(blog).toHaveClass(/\bbtn-sm\b/);
+      await expect(meet).toHaveClass(/\bbtn-sm\b/);
+      const heights = await about
+        .locator("[data-social-links] a, a.btn")
+        .evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().height)));
+      expect(heights).toHaveLength(5);
+      expect(new Set(heights).size).toBe(1);
     });
 
     for (const path of WHATSAPP_PAGES[lang]) {
