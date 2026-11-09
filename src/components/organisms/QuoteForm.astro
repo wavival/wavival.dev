@@ -303,6 +303,8 @@ const {
 </div>
 
 <script>
+  import "@/scripts/quoteSelect";
+
   const setupQuoteForm = () => {
     const form = document.querySelector<HTMLFormElement>("[data-quote-form]");
     if (!form || form.dataset.ready === "true") return;
