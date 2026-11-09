@@ -1,6 +1,6 @@
 # Roadmap
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
@@ -31,7 +31,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] `QUOTE_ALLOWED_HOSTS`: set it in Vercel only if a domain other than wavival.dev (for example a staging domain) needs the quote form. Without it that domain gets 403.
 - [ ] Renew `public/.well-known/security.txt` before 2027-06-18 (CI warns from 2027-04-19 and fails after the date).
 - [ ] Review the CSP origin `d3v0px0pttie1i.cloudfront.net` (probably a Calendly asset host) and `style-src 'unsafe-inline'`.
-- [ ] Clean up the `script-src` hashes in `vercel.json`: `npm run csp:check` only reports inline scripts whose hash is missing, so hashes that no longer match any script in `dist/` accumulate. Compare the list against the built output and remove the stale ones.
+- [x] Clean up the `script-src` hashes in `vercel.json` (resolved 2026-11-09): the 13 hashes that matched no inline script in `dist/` were removed, 7 remain, and `npm run csp:check` now also fails on a hash that no inline script uses.
 
 ## Dependencies
 
@@ -53,5 +53,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Integrations
 
 - [ ] Social networks by API (phase 2): show the latest Instagram and TikTok posts through their APIs with a server-side cache (build-time or a Vercel function), not through the platforms' embeds, so no third-party script or iframe is added to the CSP and the pages stay static.
+- [ ] Later: a chatbot powered by Claude on the site. Not started; scope, data handling and its effect on the CSP are still to be defined.
 
 ## Quality and docs
