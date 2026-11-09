@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
 import ServicesCatalog from "@/components/organisms/ServicesCatalog.astro";
 import ServicesDetail from "@/components/organisms/ServicesDetail.astro";
+import { servicesFaq, servicesFaqLd } from "@/data/servicesFaq";
 import { servicesLd } from "@/data/servicesLd";
 
 const site = "https://www.wavival.dev";
@@ -50,21 +51,6 @@ const process = [
   },
 ];
 
-const faqs = [
-  {
-    q: "¿Manejas el diseño?",
-    a: "Sí, soy diseñadora UX/UI y puedo trabajarlo sin problema. Si llegas con referencias o una dirección visual clara, mejor. Si necesitas el proceso de diseño completo desde cero, lo incluimos en la propuesta.",
-  },
-  {
-    q: "¿Qué necesito para empezar?",
-    a: "Tener claro el problema y a quién va dirigido el producto. No necesitas llegar con un PRD (documento de requerimientos de producto: el listado detallado de funciones, flujos y reglas de negocio que define qué debe hacer el software). Eso lo construimos juntos en la propuesta.",
-  },
-  {
-    q: "¿Trabajas con equipos o solo con founders?",
-    a: "Con ambos. Puedo llevar el desarrollo completo como dev única o integrarme a un equipo existente como refuerzo backend, API o seguridad.",
-  },
-];
-
 // Structured data is the same for every visitor: every price in COP and in USD, with the region each applies to.
 const serviceLd = JSON.stringify(
   servicesLd({
@@ -76,15 +62,7 @@ const serviceLd = JSON.stringify(
   })
 );
 
-const faqLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-});
+const faqLd = JSON.stringify(servicesFaqLd("es"));
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -136,7 +114,9 @@ const breadcrumbLd = JSON.stringify({
       processTitle="Cómo trabajo"
       process={process}
       faqTitle="Preguntas frecuentes"
-      faqs={faqs}
+      faqs={servicesFaq("es")}
+      faqOpenLabel="Ver"
+      faqCloseLabel="Cerrar"
     />
   </section>
 
