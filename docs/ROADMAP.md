@@ -14,7 +14,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Filters: decide whether NullBreach (an AI-powered AppSec chat) belongs under the `security` filter, from which it is left out today. Adding it changes the filter count.
 - [ ] Internal hourly rate: the 2026 plan defines one, but it is not published and `src/data/pricing.ts` does not hold it because the repository is public. Decide where it lives if a later step needs it.
 - [ ] Pricing review: the COP and USD lists in `src/data/pricing.ts` are independent (no exchange rate) and are reviewed every January.
-- [ ] Decision: the removed CV files (`/cv_valentina_ramirez_es.pdf`, `/cv_valentina_ramirez_en.pdf`) currently redirect to `/sobre-mi` and `/en/about` (`vercel.json`). Decide whether to keep those redirects or let the old URLs return 404 and drop the rules.
+- [x] Decision (resolved 2026-11-09): the removed CV files keep their permanent redirects in `vercel.json`, each to the about page in its own language: `/cv_valentina_ramirez_es.pdf` to `/sobre-mi` and `/cv_valentina_ramirez_en.pdf` to `/en/about`. `tests/redirects.spec.ts` checks both.
 
 ## Security
 
