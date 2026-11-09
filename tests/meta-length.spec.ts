@@ -11,11 +11,12 @@ const walk = (dir: string): string[] =>
     return entry.name.endsWith(".html") ? [full] : [];
   });
 
+// `&amp;` last, so an escaped entity such as `&amp;quot;` is not decoded twice.
 const decode = (text: string) =>
   text
-    .replace(/&amp;/g, "&")
     .replace(/&#39;/g, "'")
-    .replace(/&quot;/g, '"');
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&");
 
 const pages = walk("dist").map((file) => {
   const html = readFileSync(file, "utf8");
