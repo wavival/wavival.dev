@@ -816,6 +816,130 @@ a.media-frame:hover {
   color: var(--text);
 }
 
+/* Customizable select (Chrome 135, Safari 27): the option list takes the design of the
+   site and opens with a short fade. Desktop pointers only, so phones and tablets keep
+   the picker of their own system; browsers without `base-select` keep the native list. */
+@supports (appearance: base-select) {
+  @media (hover: hover) and (pointer: fine) {
+    .quote-field select,
+    .quote-field select::picker(select) {
+      appearance: base-select;
+    }
+
+    .quote-field select {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 14px;
+      background-image: none;
+    }
+
+    .quote-field select:open {
+      border-color: var(--link);
+    }
+
+    .quote-field select::picker-icon {
+      content: "";
+      flex: none;
+      width: 10px;
+      height: 6px;
+      margin-left: auto;
+      background:
+        linear-gradient(45deg, transparent 50%, var(--muted) 50%) 0 0 / 5px 5px no-repeat,
+        linear-gradient(135deg, var(--muted) 50%, transparent 50%) 5px 0 / 5px 5px no-repeat;
+      transition: transform 0.2s;
+    }
+
+    .quote-field select:open::picker-icon {
+      transform: rotate(180deg);
+    }
+
+    .quote-field select::picker(select) {
+      box-sizing: border-box;
+      position-try-order: normal;
+      max-height: min(320px, 50dvh);
+      margin: 6px 0 0;
+      padding: 6px 0;
+      border: 1px solid var(--line-2);
+      border-radius: var(--radius-control);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      line-height: 1.6;
+      overflow-y: auto;
+      opacity: 0;
+      translate: 0 -6px;
+      transition:
+        opacity 0.2s,
+        translate 0.2s,
+        overlay 0.2s allow-discrete,
+        display 0.2s allow-discrete;
+    }
+
+    .quote-field select:open::picker(select) {
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 -6px;
+      }
+    }
+
+    .quote-field select option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .quote-field select option:hover,
+    .quote-field select option:focus-visible {
+      background: var(--tint);
+      color: var(--link);
+    }
+
+    .quote-field select option:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: -2px;
+    }
+
+    .quote-field select option:checked {
+      color: var(--link);
+      font-weight: 600;
+    }
+
+    .quote-field select option::checkmark {
+      order: 1;
+      margin-left: auto;
+      color: var(--link);
+    }
+
+    .quote-field select option:disabled {
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .quote-field select option:disabled:hover {
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .quote-field select option:disabled::checkmark {
+      display: none;
+    }
+
+    /* The global reduce-motion rule does not reach the picker pseudo-elements. */
+    @media (prefers-reduced-motion: reduce) {
+      .quote-field select::picker(select),
+      .quote-field select::picker-icon {
+        transition: none;
+      }
+    }
+  }
+}
+
 .quote-field textarea {
   min-height: 160px;
   padding: 12px 14px;
