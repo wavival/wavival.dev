@@ -1,23 +1,60 @@
 ---
+import MaskIcon from "@/components/atoms/MaskIcon.astro";
 import { labelInName, visibleText } from "@/utils/a11y";
 
-interface Props {
+/**
+ * The one action control of the design system, in four tiers:
+ * - `primary`: `.btn-primary`, blue fill and white text, always with a white icon
+ *   from `public/icons/ui` (`icon` is required).
+ * - `secondary`: `.btn-secondary`, outlined text button, never an icon.
+ * - `tertiary`: `.action-link`, underlined uppercase text link, never an icon.
+ * - `icon`: `.icon-btn`, icon only, 44px (`md`) or 50px (`lg`), `aria-label` required.
+ * Renders `<a>` when `href` is set, else `<button>`.
+ */
+interface CommonProps {
   id?: string;
   href?: string;
   target?: "_blank" | "_self";
   type?: "button" | "submit" | "reset";
-  variant?: "primary" | "secondary";
-  size?: "md" | "sm" | "compact";
   class?: string;
-  /** White icon name from public/icons/ui. Only the primary variant carries an icon. */
-  icon?: string;
   download?: string;
+  hreflang?: string;
   "aria-label"?: string;
+  "aria-current"?: "page";
   "aria-describedby"?: string;
   disabled?: boolean;
   "data-umami-event"?: string;
   "data-sending"?: string;
 }
+
+interface PrimaryProps extends CommonProps {
+  variant?: "primary";
+  /** White icon name from public/icons/ui, for example `send-email-white`. */
+  icon: string;
+  size?: "md" | "sm" | "compact";
+}
+
+interface SecondaryProps extends CommonProps {
+  variant: "secondary";
+  icon?: never;
+  size?: "md" | "sm" | "compact";
+}
+
+interface TertiaryProps extends CommonProps {
+  variant: "tertiary";
+  icon?: never;
+  size?: never;
+}
+
+interface IconProps extends CommonProps {
+  variant: "icon";
+  /** Icon name from public/icons/ui, tinted with `--link` through `MaskIcon`. */
+  icon: string;
+  "aria-label": string;
+  size?: "md" | "lg";
+}
+
+type Props = PrimaryProps | SecondaryProps | TertiaryProps | IconProps;
 
 const {
   id,
@@ -29,7 +66,9 @@ const {
   class: extra = "",
   icon,
   download,
+  hreflang,
   "aria-label": ariaLabel,
+  "aria-current": ariaCurrent,
   "aria-describedby": describedBy,
   disabled = false,
   "data-umami-event": umamiEvent,
@@ -37,15 +76,27 @@ const {
 } = Astro.props;
 
 const rel = href && target === "_blank" ? "noopener noreferrer" : undefined;
-const variantClass = variant === "secondary" ? "btn-secondary" : "btn-primary";
-const sizeClass = size === "sm" ? "btn-sm" : size === "compact" ? "btn-compact" : "";
-const cls = `btn ${variantClass} ${sizeClass} ${extra}`.replace(/\s+/g, " ").trim();
-const iconSize = size === "compact" ? 18 : 20;
-const iconSrc = icon ? `${import.meta.env.BASE_URL}icons/ui/${icon}.svg` : undefined;
 const Tag = href ? "a" : "button";
-const accessibleName = ariaLabel
-  ? labelInName(visibleText(await Astro.slots.render("default")), ariaLabel)
-  : undefined;
+
+const btnSizeClass = size === "sm" ? "btn-sm" : size === "compact" ? "btn-compact" : "";
+const base =
+  variant === "tertiary"
+    ? "action-link"
+    : variant === "icon"
+      ? `icon-btn ${size === "lg" ? "icon-btn-lg" : ""}`
+      : `btn ${variant === "secondary" ? "btn-secondary" : "btn-primary"} ${btnSizeClass}`;
+const cls = `${base} ${extra}`.replace(/\s+/g, " ").trim();
+
+const imgSize = size === "compact" ? 18 : 20;
+const imgSrc =
+  variant === "primary" && icon ? `${import.meta.env.BASE_URL}icons/ui/${icon}.svg` : undefined;
+
+const accessibleName =
+  variant === "icon"
+    ? ariaLabel
+    : ariaLabel
+      ? labelInName(visibleText(await Astro.slots.render("default")), ariaLabel)
+      : undefined;
 ---
 
 <Tag
@@ -53,19 +104,17 @@ const accessibleName = ariaLabel
   href={href}
   target={href ? target : undefined}
   rel={rel}
+  hreflang={hreflang}
   download={download}
   type={href ? undefined : type}
   class={cls}
   aria-label={accessibleName}
+  aria-current={ariaCurrent}
   aria-describedby={describedBy}
   disabled={href ? undefined : disabled}
   data-umami-event={umamiEvent}
   data-sending={sendingLabel}
 >
-  {
-    iconSrc && variant === "primary" && (
-      <img src={iconSrc} alt="" width={iconSize} height={iconSize} />
-    )
-  }
-  <slot />
+  {imgSrc && <img src={imgSrc} alt="" width={imgSize} height={imgSize} />}
+  {variant === "icon" ? <MaskIcon name={icon!} size={size === "lg" ? "lg" : "md"} /> : <slot />}
 </Tag>
