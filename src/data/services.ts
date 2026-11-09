@@ -282,8 +282,8 @@ export const SERVICES: readonly Service[] = [
       ],
     },
     note: {
-      es: "Si el proyecto supera {threshold} o necesita equipo, pasa a Lúmina W.",
-      en: "If the project exceeds {threshold} or needs a team, it moves to Lúmina W.",
+      es: "Si el proyecto supera {threshold} o necesita equipo, pasa a Lúmina\u00a0W.",
+      en: "If the project exceeds {threshold} or needs a team, it moves to Lúmina\u00a0W.",
     },
     examples: [
       {

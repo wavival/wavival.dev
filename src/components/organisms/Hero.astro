@@ -15,12 +15,12 @@ const r = siteRoutes(lang, base);
 const stats = isEn
   ? [
       { value: "3 apps", label: "in production" },
-      { value: "Lúmina W", label: "founder" },
+      { value: "Lúmina\u00a0W", label: "founder" },
       { value: "24h", label: "response time" },
     ]
   : [
       { value: "3 apps", label: "en producción" },
-      { value: "Lúmina W", label: "fundadora" },
+      { value: "Lúmina\u00a0W", label: "fundadora" },
       { value: "24h", label: "tiempo de respuesta" },
     ];
 ---
@@ -29,7 +29,7 @@ const stats = isEn
   <div
     class="flex flex-wrap justify-center gap-x-6 gap-y-3 border-b border-line pb-[18px] font-display text-xs font-bold uppercase tracking-[0.16em] text-muted"
   >
-    <span class="text-center">Valentina Ramírez · Colombia · COT (UTC-5)</span>
+    <span class="text-center">Valentina Ramírez · Colombia&nbsp;·&nbsp;COT&nbsp;(UTC-5)</span>
     <span class="inline-flex items-center gap-[10px]">
       <span class="status-dot status-dot-ok status-dot-lg" aria-hidden="true"></span>
       {
@@ -101,7 +101,12 @@ const stats = isEn
         {
           stats.map((s) => (
             <div class="px-3 pt-5">
-              <dt class="h-title text-[36px] leading-none tracking-[-0.03em]">{s.value}</dt>
+              <dt
+                class="h-title whitespace-nowrap leading-none tracking-[-0.03em]"
+                style="font-size:clamp(28px,8vw,36px)"
+              >
+                {s.value}
+              </dt>
               <dd class="m-0 mt-2 text-[13px] text-muted">{s.label}</dd>
             </div>
           ))

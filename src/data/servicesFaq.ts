@@ -55,8 +55,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     id: "currency",
     question: { es: "¿En qué moneda veo los precios?", en: "Which currency are the prices in?" },
     answer: {
-      es: "Los precios se muestran en la moneda que corresponde a tu ubicación: pesos colombianos (COP) o dólares (USD).",
-      en: "Prices are shown in the currency that corresponds to your location: Colombian pesos (COP) or US dollars (USD).",
+      es: "Los precios se muestran en la moneda que corresponde a tu ubicación.",
+      en: "Prices are shown in the currency that corresponds to your location.",
     },
   },
   {
