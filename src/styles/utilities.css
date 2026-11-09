@@ -638,17 +638,18 @@ body:has(.floating-actions) footer {
 
   .project-grid[data-filter="all"] > .project-wide > div:last-child {
     justify-content: center;
-    gap: 12px;
-    padding: 20px 28px;
+    gap: 8px;
+    padding: 16px 28px;
+    border-left: 1px solid var(--line);
   }
 
   /* The text column must stay shorter than the 1200x630 cover beside it. */
   .project-grid[data-filter="all"] > .project-wide h2 {
-    font-size: clamp(26px, 2.4vw, 34px) !important;
+    font-size: clamp(26px, 2.4vw, 30px) !important;
   }
 
   .project-grid[data-filter="all"] > .project-wide [data-brief] {
-    gap: 8px;
+    gap: 6px;
   }
 
   .project-grid[data-filter="all"] > .project-wide [data-brief] dd {
@@ -663,13 +664,14 @@ body:has(.floating-actions) footer {
     overflow: hidden;
   }
 
-  /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
-       text column shortens to fit and, if it is taller, the cover grows with it. */
+  /* The cover always keeps its 1200x630 ratio and is never cropped. The text column is sized
+       to fit beside it in both languages; if a longer text ever outgrows it, the cover stays
+       centered instead of stretching. The column border keeps the divider full height. */
   .project-grid[data-filter="all"] > .project-wide .media-frame {
     flex: 0 0 56%;
-    align-self: stretch;
+    align-self: center;
     aspect-ratio: 1200 / 630;
-    border-width: 0 1px 0 0 !important;
+    border-width: 0 !important;
   }
 
   .project-grid[data-filter="all"] > .project-wide .media-frame > img {
