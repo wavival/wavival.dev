@@ -62,7 +62,11 @@ const number = String(idx + 1).padStart(2, "0");
         {t.projects}
       </TextLink>
       <span class="text-line-2" aria-hidden="true">/</span>
-      <span class="label-sm">{number} &middot; {view.title}</span>
+      <span class="label-sm"
+        >{number} &middot;
+        <span class={/wavival/.test(view.title) ? "normal-case" : undefined}>{view.title}</span
+        ></span
+      >
       <StatusDot tone={view.tone} class="ml-auto text-xs font-semibold text-ink">
         {view.tag}
       </StatusDot>

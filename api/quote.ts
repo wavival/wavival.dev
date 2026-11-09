@@ -21,7 +21,7 @@ import { LEADS_TABLE, insertRow, rowExists, supabaseConfig } from "../src/server
 import { CURRENCIES, resolveCountry, type Currency } from "../src/utils/currency";
 
 const RECIPIENT = "wavival.dev@luminaw.co";
-const SENDER = { name: "Wavival", email: RECIPIENT };
+const SENDER = { name: "wavival", email: RECIPIENT };
 const PRODUCT = "wavival";
 
 // Browser requests must come from the site itself. Vercel preview hosts are read from the

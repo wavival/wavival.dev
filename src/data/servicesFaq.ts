@@ -68,6 +68,14 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     },
   },
   {
+    id: "deposit",
+    question: { es: "¿Cobras anticipo?", en: "Do you charge a deposit?" },
+    answer: {
+      es: "Sí, se cobra un anticipo del 50%.",
+      en: "Yes, there is a 50% deposit.",
+    },
+  },
+  {
     id: "includes",
     question: { es: "¿Qué incluye cada servicio?", en: "What does each service include?" },
     answer: {

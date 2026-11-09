@@ -30,6 +30,7 @@ Concept: the page reads like an editorial index, with one blue signal on a quiet
 - **Rules, not boxes.** Structure comes from 1px lines (`--line`, `--line-2`, and `--text` for section rules), never from shadow cards. There are no drop shadows and surfaces have `0` radius; the only `box-shadow` uses are inset blue top bars and a 1px outline that mark featured items (`StackGrid`, the featured project card).
 - **Editorial scale.** Raleway 800 display type at large sizes, tight tracking, numbered indexes (`01`, `02`) as wayfinding.
 - **One blue signal.** `--blue` marks bars and fills and `--blue-text` the small index numbers; `--link` is the single interactive blue for text, links, icons, and focus; `--btn` fills the primary button.
+- **The brand is lowercase.** "wavival" is written in lowercase everywhere, at the start of a sentence too, in titles, metadata, JSON-LD and `alt`; inside an uppercase label it carries `normal-case` so it still reads "wavival". File names and URLs keep their own spelling.
 - **Icons only where they work.** `Button.astro` has four tiers: primary (`.btn-primary`, blue fill, white text, always a white icon), secondary (`.btn-secondary`, outlined, never an icon), tertiary (`.action-link`, underlined text, never an icon) and icon-only (`.icon-btn`, no text). Decorative channel icons also appear on `/contacto`. White icons for primaries: `send-email-white` (send or quote), `read-more-white` (read), `arrow-right-white` (go to a page).
 - **One column narrative.** Content runs at the full container width (`--container: 1280px`) in a single column, vertically centered in its band.
 - **State as text.** The accordion (case-study decisions) shows "Ver"/"Cerrar" (ES) or "View"/"Close" (EN) instead of a rotating chevron.
@@ -68,22 +69,23 @@ The button fill is theme-independent so white text stays at or above 4.5:1 in bo
 
 ### Structure
 
-| Token              | Value                      | Usage                                          |
-| ------------------ | -------------------------- | ---------------------------------------------- |
-| `--container`      | `1280px`                   | Max content width (`.wrap`, `max-w-container`) |
-| `--gut`            | `clamp(20px, 4vw, 48px)`   | Horizontal page gutter                         |
-| `--sec`            | `clamp(80px, 10vw, 144px)` | Vertical gap between sections                  |
-| `--sec-compact`    | `clamp(56px, 7vw, 96px)`   | Tighter section gap                            |
-| `--nav-h`          | `64px`                     | Sticky header height                           |
-| `--touch-min`      | `44px`                     | Minimum touch target                           |
-| `--float-size`     | `56px`                     | Floating action button size                    |
-| `--float-gap`      | `12px`                     | Gap between floating actions                   |
-| `--float-offset`   | `16px`                     | Floating stack distance from the viewport edge |
-| `--radius-surface` | `0`                        | Cards, frames, bands                           |
-| `--radius-control` | `2px`                      | Buttons, chips, icon buttons                   |
-| `--radius-dot`     | `50%`                      | Status dots                                    |
-| `--font-display`   | `"Raleway", sans-serif`    | Headings, buttons, labels                      |
-| `--font-body`      | `"Poppins", sans-serif`    | Body copy                                      |
+| Token                | Value                      | Usage                                               |
+| -------------------- | -------------------------- | --------------------------------------------------- |
+| `--container`        | `1280px`                   | Max content width (`.wrap`, `max-w-container`)      |
+| `--gut`              | `clamp(20px, 4vw, 48px)`   | Horizontal page gutter                              |
+| `--sec`              | `clamp(80px, 10vw, 144px)` | Vertical gap between sections                       |
+| `--sec-compact`      | `clamp(56px, 7vw, 96px)`   | Tighter section gap                                 |
+| `--nav-h`            | `64px`                     | Sticky header height                                |
+| `--touch-min`        | `44px`                     | Minimum touch target                                |
+| `--float-size`       | `56px`                     | Floating action button size                         |
+| `--float-gap`        | `12px`                     | Gap between floating actions                        |
+| `--float-offset`     | `16px`                     | Floating stack distance from the viewport edge      |
+| `--calendar-embed-h` | `700px`                    | Height reserved for the on-demand Calendly calendar |
+| `--radius-surface`   | `0`                        | Cards, frames, bands                                |
+| `--radius-control`   | `2px`                      | Buttons, chips, icon buttons                        |
+| `--radius-dot`       | `50%`                      | Status dots                                         |
+| `--font-display`     | `"Raleway", sans-serif`    | Headings, buttons, labels                           |
+| `--font-body`        | `"Poppins", sans-serif`    | Body copy                                           |
 
 ### Type scale
 

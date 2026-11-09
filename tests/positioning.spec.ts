@@ -11,7 +11,7 @@ const whatsappHref = (lang: keyof typeof MESSAGE) =>
 const HOME = {
   es: {
     path: "/",
-    title: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores",
+    title: "Valentina Ramírez | Software seguro y automatización con IA",
     description:
       "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público.",
     ogAlt:
@@ -21,7 +21,7 @@ const HOME = {
   },
   en: {
     path: "/en/",
-    title: "Valentina Ramírez | Secure software and AI automation for entrepreneurs",
+    title: "Valentina Ramírez | Secure software and AI automation",
     description:
       "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.",
     ogAlt:

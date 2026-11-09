@@ -1,6 +1,6 @@
 # Performance
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-09
 
 The site is static HTML, one stylesheet, vanilla TypeScript, one serverless function and one edge middleware that only chooses between prebuilt pages. The goal is a fast first paint and no layout shift on every page.
 
@@ -12,7 +12,7 @@ The site is static HTML, one stylesheet, vanilla TypeScript, one serverless func
 - **Images.** Raster content images are WebP (`public/images/`, `public/brand/`; the PWA and touch icons are PNG), declare their dimensions and use `loading="lazy"` and `decoding="async"` when they are below the fold.
 - **Caching.** `vercel.json` sets `Cache-Control: public, max-age=31536000, immutable` on `/_astro/`, `/images/`, `/brand/`, `/icons/` and `/fonts/`. Filenames under `/_astro/` are content hashed.
 - **JavaScript.** Plain TypeScript modules for navigation, theme, the quote form and the project filters; no framework runtime. The ecosystem project pages add no new library: the accordions reuse one bundled `src/scripts/disclosure.ts` and one small `src/scripts/part-disclosure.ts`, and the stack preview on cards and rows is capped at 6 chips. Astro View Transitions (`ClientRouter`) make navigation feel instant.
-- **Third parties.** None are loaded by default. Umami (cookieless, `defer`) and the Web Vitals reporter load only when both `PUBLIC_UMAMI_*` variables are set; Calendly loads on the contact page only.
+- **Third parties.** None are loaded by default. Umami (cookieless, `defer`) and the Web Vitals reporter load only when both `PUBLIC_UMAMI_*` variables are set; Calendly loads on the contact page only, and only after the visitor presses "Agendar una llamada" / "Book a call" (`CalendlyEmbed.astro`); the block keeps the calendar height (`--calendar-embed-h`) so loading it does not shift the page.
 - **CSS.** One global stylesheet source with tokens; Tailwind generates utilities only for classes that appear as complete literals (checked by `npm run css:check`).
 
 ## Measuring

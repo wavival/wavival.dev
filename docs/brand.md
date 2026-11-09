@@ -1,6 +1,6 @@
 # Marca personal wavival
 
-> Last updated: 2026-11-08
+> Last updated: 2026-11-09
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -193,6 +193,8 @@ A evitar: "experto", "el mejor", "garantizado", "100% seguro", "certificado", "c
 Herramientas: se nombra una herramienta o sistema (por ejemplo un sistema operativo, editor o terminal) solo si una fuente concreta de la pieza confirma su uso. No se afirma una máquina de trabajo única. `/herramientas` publica, además del stack, las herramientas de marketing y contenido (Claude, CapCut, Canva, ElevenLabs, Higgsfield) y el equipo de grabación (Motorola Edge 60 Fusion y estabilizador DJI con selfie stick extensible).
 
 Nombres exactos: TerraCore, OKroot, NullBreach, Lúmina W, Blog W, Forgotten Portal.
+
+Brand spelling (2026-11-09): "wavival" is always lowercase, at the start of a sentence too, in titles, metadata, JSON-LD and `alt`. On the English site the tools page is "Tools" everywhere it is named; "Stack" names only the section inside that page.
 
 Nombres oficiales de proyecto en el portafolio (campo `name` de `src/data/projects.ts`, usados en títulos y datos estructurados): `TerraCore | Campo Inteligente`, `OKroot | Come sano, vive libre`, `NullBreach | AI-Powered AppSec Chat`, `Lúmina W | Software & Technology`, `wavival.dev` y `Forgotten Portal`. Cada proyecto es un ecosistema con una sola página y se divide en partes (app, landing, documentación, blog, repositorio, API); las landings de TerraCore y OKroot y Blog W ya no tienen página propia, son partes de su proyecto. En texto corrido se usa el nombre corto.
 

@@ -28,3 +28,4 @@ Everything on `wavival.dev` (services, published price, contact, projects) belon
 - Every document carries a `> Last updated: YYYY-MM-DD` line; a change to a document updates it, and `CHANGELOG.md` records the change under `[Unreleased]`.
 - When a fact changes (a service, a price, a project, a contact channel), update the site, `public/llms.txt`, `public/llms-full.txt` and the documents that own it together.
 - Plain ASCII punctuation in text: no em dashes, en dashes or decorative icons.
+- "wavival" is always lowercase, also at the start of a sentence, in titles, metadata, JSON-LD and `alt` (`docs/brand.md`). The English tools page is "Tools" wherever it is named.
