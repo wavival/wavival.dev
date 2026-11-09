@@ -93,6 +93,8 @@ for (const { path, lang, currency } of PAGES) {
       expect(await isOpen(page, "country")).toBe(true);
       const list = page.locator('select[name="country"] option');
       await expect(list.first()).toBeVisible();
+      const fieldWidth = await select.evaluate((el) => `${el.getBoundingClientRect().width}px`);
+      expect(await pickerStyle(page, "country", "width")).toBe(fieldWidth);
       await page.keyboard.press("Escape");
       expect(await isOpen(page, "country")).toBe(false);
 

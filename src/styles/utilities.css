@@ -857,6 +857,8 @@ a.media-frame:hover {
     .quote-field select::picker(select) {
       box-sizing: border-box;
       position-try-order: normal;
+      /* WebKit sizes the list to its longest option; keep it as wide as the field. */
+      width: anchor-size(width);
       max-height: min(320px, 50dvh);
       margin: 6px 0 0;
       padding: 6px 0;
