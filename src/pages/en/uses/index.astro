@@ -5,8 +5,6 @@ import ChipList from "@/components/molecules/ChipList.astro";
 import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import Badge from "@/components/atoms/Badge.astro";
-import Index from "@/components/atoms/Index.astro";
-import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import { siteRoutes } from "@/i18n/utils";
 import RepoCard from "@/components/organisms/RepoCard.astro";
 import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
@@ -211,24 +209,16 @@ const softwareItems = [
     </StickyContentSection>
 
     {
-      githubUser && (
-        <div
+      githubUser && indices.github && (
+        <StickyContentSection
           id="repos"
-          class="rule-section section-gap flex scroll-mt-24 flex-wrap gap-x-12 gap-y-6"
+          index={indices.github}
+          eyebrow="GitHub"
+          title="Learn, build, share"
+          description={`${githubUser.public_repos} public repos · ${githubUser.followers} followers`}
+          class="section-gap scroll-mt-24"
         >
-          <div class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:self-start">
-            <div class="flex items-baseline gap-[14px]">
-              <Fragment>
-                <Index>{indices.github}</Index>
-                <Eyebrow>GitHub</Eyebrow>
-              </Fragment>
-            </div>
-            <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-              Learn, build, share
-            </h2>
-            <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-              {githubUser.public_repos} public repos · {githubUser.followers} followers
-            </p>
+          <Fragment slot="label">
             <TextLink
               href={githubUser.html_url}
               target="_blank"
@@ -237,8 +227,8 @@ const softwareItems = [
             >
               See full profile
             </TextLink>
-          </div>
-          <div class="flex min-w-0 flex-1 basis-[480px] flex-col gap-10">
+          </Fragment>
+          <div class="flex flex-col gap-10">
             {featuredRepos.length > 0 && (
               <div class="border border-line border-t-2 border-t-blue bg-surface p-6 md:p-10">
                 <Badge>Featured</Badge>
@@ -278,7 +268,7 @@ const softwareItems = [
               </div>
             )}
           </div>
-        </div>
+        </StickyContentSection>
       )
     }
 

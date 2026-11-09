@@ -225,16 +225,15 @@ test.describe("services catalog", () => {
           '[data-service-group="development"] [data-service-group-header]'
         );
         await expect(desktopHeader).toHaveCSS("position", "sticky");
-        await desktopHeader.scrollIntoViewIfNeeded();
-        const initialTop = await desktopHeader.evaluate(
-          (element) => element.getBoundingClientRect().top
+        const absoluteTop = await desktopHeader.evaluate(
+          (element) => element.getBoundingClientRect().top + scrollY
         );
-        await page.evaluate(() => window.scrollBy(0, 320));
+        await page.evaluate((y) => window.scrollTo(0, y), absoluteTop + 320);
         const stickyTop = await desktopHeader.evaluate(
           (element) => element.getBoundingClientRect().top
         );
-        expect(stickyTop).toBeGreaterThanOrEqual(90);
-        expect(stickyTop).toBeLessThanOrEqual(Math.max(initialTop, 110));
+        // Header height plus one spacing step, the offset `StickyContentSection` sets.
+        expect(Math.round(stickyTop)).toBe(88);
 
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto(url);
