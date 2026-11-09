@@ -2,6 +2,12 @@
 import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import Index from "@/components/atoms/Index.astro";
 
+/**
+ * The two-column catalog section: a numbered label column and a content column.
+ * One column below `md`; from `md` the label takes 220px (260px from `lg`) and
+ * sticks below the header, capped to the viewport height so a tall label scrolls
+ * instead of hiding its end. `sticky={false}` keeps the columns without the stick.
+ */
 interface Props {
   index: string;
   eyebrow: string;
@@ -24,15 +30,17 @@ const {
   sticky = true,
 } = Astro.props;
 const labelClass = [
-  "flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px]",
-  sticky ? "lg:sticky lg:top-24 lg:self-start" : "lg:self-start",
+  "flex shrink-0 grow-0 basis-full flex-col md:basis-[220px] md:self-start lg:basis-[260px]",
+  sticky
+    ? "md:sticky md:top-[calc(var(--nav-h)+--spacing(6))] md:max-h-[calc(100dvh-var(--nav-h)---spacing(12))] md:overflow-y-auto"
+    : "",
 ].join(" ");
 ---
 
 <section
   id={id}
   data-service-group={dataServiceGroup}
-  class={`rule-section flex flex-wrap gap-x-12 gap-y-6 ${extra}`.trim()}
+  class={`rule-section flex flex-wrap gap-y-6 md:gap-x-10 lg:gap-x-12 ${extra}`.trim()}
 >
   <div
     data-sticky-section-label
@@ -45,11 +53,12 @@ const labelClass = [
     </div>
     <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">{title}</h2>
     {description && <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">{description}</p>}
+    <slot name="label" />
   </div>
   <div
     data-sticky-section-content
     data-service-group-content={dataServiceGroup ? "" : undefined}
-    class="min-w-0 flex-1 basis-[480px]"
+    class="min-w-0 basis-full md:flex-1 md:basis-0"
   >
     <slot />
   </div>
