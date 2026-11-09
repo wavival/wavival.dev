@@ -10,13 +10,16 @@ import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import { siteRoutes } from "@/i18n/utils";
 import RepoCard from "@/components/organisms/RepoCard.astro";
 import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
+import SocialProfileCard from "@/components/organisms/SocialProfileCard.astro";
 import { usesStack as stack } from "@/data/stack";
 import { fetchGithubProfile, curateRepos } from "@/data/github";
+import { usesSectionIndices } from "@/utils/sections";
 
 const routes = siteRoutes("en", import.meta.env.BASE_URL);
 
 const { user: githubUser, repos: githubRepos } = await fetchGithubProfile("wavival");
 const { featured: featuredRepos, resources: resourceRepos } = curateRepos(githubRepos);
+const indices = usesSectionIndices(Boolean(githubUser));
 
 const pageTitle = "Uses: Tools and stack | Valentina Ramírez";
 const pageDescription =
@@ -116,7 +119,7 @@ const softwareItems = [
     </PageIntro>
 
     <StickyContentSection
-      index="01"
+      index={indices.stack}
       eyebrow="Stack"
       title="What I develop with"
       description="The stack I use daily and the reasoning behind each choice: solid backend, functional frontend, applied AI, and security by design."
@@ -147,7 +150,7 @@ const softwareItems = [
     </StickyContentSection>
 
     <StickyContentSection
-      index="02"
+      index={indices.hardware}
       eyebrow="Hardware"
       title="Where I build it"
       description="Modest setup on purpose. If an app runs smoothly here, it runs anywhere: it forces me to really optimize, not cover up with hardware."
@@ -167,7 +170,7 @@ const softwareItems = [
     </StickyContentSection>
 
     <StickyContentSection
-      index="03"
+      index={indices.software}
       eyebrow="Software"
       title="My everyday tools"
       description="The apps where I live while building: editing, AI, terminal, and the productivity flow that keeps me focused."
@@ -186,6 +189,27 @@ const softwareItems = [
       }
     </StickyContentSection>
 
+    <StickyContentSection
+      id="social"
+      index={indices.social}
+      eyebrow="Social"
+      title="I build in public"
+      description="On Instagram and TikTok I show how I build secure software and AI automations, and what I keep learning along the way."
+      class="section-gap scroll-mt-24"
+    >
+      <div
+        class="grid gap-3"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))"
+      >
+        <SocialProfileCard network="instagram" name="Instagram">
+          Reels and posts with the behind the scenes of each project and what I learn along the way.
+        </SocialProfileCard>
+        <SocialProfileCard network="tiktok" name="TikTok" variant="repo">
+          Short videos where I explain how I build secure software and AI automations.
+        </SocialProfileCard>
+      </div>
+    </StickyContentSection>
+
     {
       githubUser && (
         <div
@@ -195,7 +219,7 @@ const softwareItems = [
           <div class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:self-start">
             <div class="flex items-baseline gap-[14px]">
               <Fragment>
-                <Index>04</Index>
+                <Index>{indices.github}</Index>
                 <Eyebrow>GitHub</Eyebrow>
               </Fragment>
             </div>
