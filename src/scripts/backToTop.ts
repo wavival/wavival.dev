@@ -32,3 +32,5 @@ function initBackToTop() {
 }
 
 document.addEventListener("astro:page-load", initBackToTop);
+
+export {};

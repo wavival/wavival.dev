@@ -1,0 +1,56 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import TextLink from "@/components/atoms/TextLink.astro";
+import type { Lang } from "@/i18n/utils";
+
+/**
+ * Calendly booking calendar loaded on demand: until the visitor presses the button no
+ * Calendly script, iframe or cookie reaches the page. The block keeps the calendar's
+ * initial height (`--calendar-embed-h`) so loading it does not move the page.
+ */
+interface Props {
+  lang: Lang;
+  url: string;
+}
+
+const { lang, url } = Astro.props;
+const t =
+  lang === "en"
+    ? {
+        region: "Calendar to book a 30-minute call",
+        intro: "The calendar loads from Calendly only when you open it.",
+        button: "Book a call",
+        fallback: "Open Calendly in a new tab",
+        frameTitle: "Calendly calendar to book a call",
+      }
+    : {
+        region: "Calendario para agendar una llamada de 30 minutos",
+        intro: "El calendario se carga desde Calendly solo cuando lo abres.",
+        button: "Agendar una llamada",
+        fallback: "Abrir Calendly en otra pestaña",
+        frameTitle: "Calendario de Calendly para agendar una llamada",
+      };
+---
+
+<div
+  id="calendly-embed"
+  role="region"
+  aria-label={t.region}
+  tabindex="-1"
+  class="calendly-embed border border-line bg-bg"
+  data-calendly
+  data-url={url}
+  data-frame-title={t.frameTitle}
+>
+  <div class="calendly-placeholder" data-calendly-placeholder>
+    <p class="body m-0 max-w-[48ch]">{t.intro}</p>
+    <Button id="calendly-load" icon="calendar-white" data-umami-event="contacto-calendly-cargar">
+      {t.button}
+    </Button>
+    <TextLink href={url} target="_blank">{t.fallback}</TextLink>
+  </div>
+</div>
+
+<script>
+  import "@/scripts/calendlyEmbed";
+</script>

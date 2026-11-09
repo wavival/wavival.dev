@@ -1138,3 +1138,33 @@ a.media-frame:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* Calendly loads on demand: the block keeps the calendar's initial height before and after. */
+.calendly-embed {
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--calendar-embed-h);
+  overflow: hidden;
+}
+
+.calendly-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px;
+  text-align: center;
+}
+
+.calendly-embed:focus {
+  outline: none;
+}
+
+/* Starts at the reserved height; Calendly then reports its own content height. */
+.calendly-inline-widget {
+  min-width: 320px;
+  height: var(--calendar-embed-h);
+}

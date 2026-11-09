@@ -1,9 +1,9 @@
 ---
+import CalendlyEmbed from "@/components/organisms/CalendlyEmbed.astro";
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import Button from "@/components/atoms/Button.astro";
-import TextLink from "@/components/atoms/TextLink.astro";
 import MaskIcon from "@/components/atoms/MaskIcon.astro";
 import Index from "@/components/atoms/Index.astro";
 import { whatsappHref as whatsappLink } from "@/data/whatsapp";
@@ -157,60 +157,8 @@ const steps = [
       </ol>
     </SectionHeader>
 
-    <div
-      id="calendly-embed"
-      role="region"
-      aria-label="Calendario para agendar una llamada de 30 minutos"
-      class="overflow-hidden border border-line bg-bg"
-    >
-      <noscript>
-        <p class="body m-0 p-6">
-          El calendario necesita JavaScript. Agenda directamente en
-          <TextLink
-            variant="inline"
-            href={calendlyUrl}
-            target="_blank"
-            aria-label="Abrir el calendario de Calendly">Calendly</TextLink
-          > o escríbeme a <TextLink variant="inline" href={`mailto:${email}`}>{email}</TextLink>.
-        </p>
-      </noscript>
-    </div>
+    <CalendlyEmbed lang="es" url={calendlyUrl} />
   </section>
-
-  <script is:inline define:vars={{ calendlyUrl }}>
-    (function () {
-      const dark = document.documentElement.classList.contains("dark");
-      let url = calendlyUrl + "?hide_gdpr_banner=1&primary_color=1565c0";
-      if (dark) url += "&background_color=0f1117&text_color=e5e7eb";
-
-      const container = document.getElementById("calendly-embed");
-      const widget = document.createElement("div");
-      widget.className = "calendly-inline-widget";
-      widget.setAttribute("data-url", url);
-      widget.style.minWidth = "320px";
-      widget.style.height = "1000px";
-      container.appendChild(widget);
-
-      window.addEventListener("message", function (e) {
-        if (e.origin.indexOf("calendly.com") === -1) return;
-        if (!e.data || e.data.event !== "calendly.page_height") return;
-        const h = e.data.payload && e.data.payload.height;
-        if (!h) return;
-        widget.style.height = h;
-        const iframe = widget.querySelector("iframe");
-        if (iframe) {
-          iframe.style.height = h;
-          if (!iframe.getAttribute("title"))
-            iframe.setAttribute("title", "Calendario de Calendly para agendar una llamada");
-        }
-      });
-
-      const s = document.createElement("script");
-      s.src = "https://assets.calendly.com/assets/external/widget.js";
-      s.async = true;
-      document.body.appendChild(s);
-    })();
-  </script>
 
   <script is:inline type="application/ld+json" set:html={contactSchema} />
   <script is:inline type="application/ld+json" set:html={breadcrumbLd} />
