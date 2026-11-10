@@ -3,9 +3,9 @@
 // (the support plan is one option) plus the backend block for technical teams.
 // Free of Astro imports so the Vercel Function can bundle it.
 
-import type { Lang } from "../i18n/ui";
-import { SERVICE_IDS, type ServiceId } from "./pricing";
-import { SERVICES, TECHNICAL_TEAMS_SERVICE } from "./services";
+import type { Lang } from "../i18n/ui.js";
+import { SERVICE_IDS, type ServiceId } from "./pricing.js";
+import { SERVICES, TECHNICAL_TEAMS_SERVICE } from "./services.js";
 
 export const TECHNICAL_QUOTE_SERVICE_ID = "rest-apis-backend";
 

@@ -1,5 +1,5 @@
-import { isCountryCode } from "../src/data/countries";
-import { BUDGET_RANGES, budgetRangeLabel, type BudgetRangeId } from "../src/data/pricing";
+import { isCountryCode } from "../src/data/countries.js";
+import { BUDGET_RANGES, budgetRangeLabel, type BudgetRangeId } from "../src/data/pricing.js";
 import {
   HOW_FOUND_IDS,
   PREFERRED_CHANNEL_IDS,
@@ -15,10 +15,10 @@ import {
   type PreferredChannelId,
   type QuoteServiceId,
   type TimelineId,
-} from "../src/data/quoteOptions";
-import { servicesInGroup } from "../src/data/services";
-import { LEADS_TABLE, insertRow, rowExists, supabaseConfig } from "../src/server/supabase";
-import { CURRENCIES, resolveCountry, type Currency } from "../src/utils/currency";
+} from "../src/data/quoteOptions.js";
+import { servicesInGroup } from "../src/data/services.js";
+import { LEADS_TABLE, insertRow, rowExists, supabaseConfig } from "../src/server/supabase.js";
+import { CURRENCIES, resolveCountry, type Currency } from "../src/utils/currency.js";
 
 const RECIPIENT = "wavival.dev@luminaw.co";
 const SENDER = { name: "wavival", email: RECIPIENT };

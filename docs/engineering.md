@@ -1,6 +1,6 @@
 # Engineering practices
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-10
 
 How work is done in this repository. Operational rules for agents are in [`../AGENTS.md`](../AGENTS.md); this document is the human-readable version with the reasons and the commands.
 
@@ -27,6 +27,7 @@ How work is done in this repository. Operational rules for agents are in [`../AG
 - Resolve every localized route through `src/i18n/utils.ts`; never hard-code a path.
 - Content follows [`brand.md`](./brand.md) and [`commercial.md`](./commercial.md): no claim without evidence.
 - Both languages change together (see [`i18n.md`](./i18n.md)).
+- `middleware.ts`, `api/*.ts` and every file they import write relative imports with the `.js` extension (`"../src/utils/currency.js"`). Vercel compiles them file by file as Node ESM, so an extensionless import passes locally and crashes in Vercel; `tests/server-imports.spec.ts` checks it.
 
 ## Checks before opening a pull request
 

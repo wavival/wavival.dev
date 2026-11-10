@@ -22,7 +22,7 @@ import {
   isPricedRoute,
   resolveCountry,
   stripVariantPrefix,
-} from "./src/utils/currency";
+} from "./src/utils/currency.js";
 
 /**
  * Paths the middleware runs on: every priced route (with and without the
