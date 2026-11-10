@@ -47,21 +47,21 @@ const EXCLUDED = [
 const COPY = {
   es: {
     eyebrow: "A un click",
-    title: "Deja de hacer a mano lo que el software puede hacer por ti.",
-    text: "Construyo landing pages, sitios web, automatizaciones, chatbots y apps a medida, con seguridad desde el diseño y precio fijo.",
+    title: "Menos trabajo a mano, más clientes que llegan solos.",
+    text: "Construyo landing pages, sitios web, automatizaciones, chatbots y apps a medida, y el contenido para que te encuentren. Seguridad desde el diseño y precio fijo.",
     line: `MVP de ${serviceById("custom-web-app-mvp").timeline.es}. Disponibilidad limitada, respondo en 24 horas.`,
     primary: { text: "Cotizar mi proyecto", href: "/cotizar" },
     services: { text: "Ver servicios", href: "/servicios" },
-    contact: { text: "Escríbeme", href: "/contacto" },
+    contact: { text: "Contactar", href: "/contacto" },
   },
   en: {
     eyebrow: "One click away",
-    title: "Stop doing by hand what software can do for you.",
-    text: "I build landing pages, websites, automations, chatbots and custom apps, with security by design and a fixed price.",
+    title: "Less work by hand, more customers who find you.",
+    text: "I build landing pages, websites, automations, chatbots and custom apps, plus the content that gets you found. Security by design and a fixed price.",
     line: `MVP in ${serviceById("custom-web-app-mvp").timeline.en}. Limited availability, I reply within 24 hours.`,
     primary: { text: "Get a quote", href: "/en/quote" },
-    services: { text: "See services", href: "/en/services" },
-    contact: { text: "Write to me", href: "/en/contact" },
+    services: { text: "View services", href: "/en/services" },
+    contact: { text: "Contact me", href: "/en/contact" },
   },
 } as const;
 

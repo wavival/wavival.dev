@@ -9,7 +9,7 @@ interface Props {
 const { index, title, openLabel, closeLabel } = Astro.props;
 ---
 
-<details class="disclosure border-b border-line" data-disclosure>
+<details data-reveal class="disclosure border-b border-line" data-disclosure>
   <summary class="group flex items-baseline gap-5 py-6 text-ink transition-colors hover:text-link">
     <span class="index w-7 flex-none">{index}</span>
     <span

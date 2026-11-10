@@ -33,6 +33,6 @@ const links = SOCIAL_NETWORKS.filter((id) => networks.includes(id)).map((id) => 
 }));
 ---
 
-<div class={`flex flex-wrap items-center gap-2 ${extra}`.trim()} data-social-links>
+<div data-reveal class={`flex flex-wrap items-center gap-2 ${extra}`.trim()} data-social-links>
   {links.map((l) => <IconLink href={l.href} icon={l.icon} label={l.label} size={size} />)}
 </div>

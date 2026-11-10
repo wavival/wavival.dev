@@ -185,7 +185,9 @@ test.describe("ecosystem pages", () => {
     const textLink = header.locator("a[target=_blank]").first();
     const cardLinkClass = await textLink.getAttribute("class");
     await page.goto("/proyectos");
-    const cardLink = page.locator("[data-project-card] a", { hasText: "Caso de estudio" }).first();
+    const cardLink = page
+      .locator("[data-project-card] a", { hasText: "Ver caso de estudio" })
+      .first();
     expect(await cardLink.getAttribute("class")).toBe(cardLinkClass);
   });
 

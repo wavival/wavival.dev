@@ -381,12 +381,6 @@
 
 /* Keeps the last footer line clear of the stack (WhatsApp plus back to top, which is always
    shown at the end of a long page) when the page is scrolled to the end. */
-body:has(.floating-actions) footer {
-  padding-bottom: calc(
-    var(--float-offset) + var(--float-size) + var(--float-gap) + var(--touch-min) +
-      env(safe-area-inset-bottom, 0px)
-  );
-}
 
 .mask-icon {
   display: inline-block;
@@ -1054,6 +1048,16 @@ a.media-frame:hover {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
+}
+
+/* The optional group legend reads like the required note above, without the asterisk. */
+.quote-fieldset > legend.quote-optional-note {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--muted);
 }
 
 .quote-form > .btn {

@@ -14,13 +14,13 @@ const walk = (dir: string): string[] =>
 const SERVICES = {
   es: {
     path: "/servicios/",
-    title: "Servicios: software seguro y automatización con IA",
+    title: "Servicios: software y marketing digital",
     description:
       "Landing pages, sitios web, n8n, chatbots con IA, apps a medida y seguridad, con precio fijo y plazo claro. Software seguro que le ahorra tiempo a tu negocio.",
   },
   en: {
     path: "/en/services/",
-    title: "Services: secure software and AI automation",
+    title: "Services: software and digital marketing",
     description:
       "Landing pages, websites, n8n, AI chatbots, custom apps and security, each with a fixed price and timeline. Secure software that saves your business time.",
   },
@@ -38,13 +38,14 @@ test.describe("remaining positioning copy", () => {
       const raw = await page.locator('script[type="application/ld+json"]').first().textContent();
       const graph = JSON.parse(raw!)["@graph"] as Array<Record<string, unknown>>;
       const person = graph.find((node) => node["@type"] === "Person")!;
-      expect(person.jobTitle).toBe("Software Developer");
+      expect(person.jobTitle).toBe("Software Developer and Digital Marketer");
       expect(person.knowsAbout).toContain("Software Development");
+      expect(person.knowsAbout).toContain("Digital Marketing");
       expect(person.knowsAbout).not.toContain("Full Stack Development");
       expect(person.description).toBe(
         lang === "en"
-          ? "Software developer focused on backend, AI and security. I help entrepreneurs save time with secure software and AI automation. Founder of Lúmina W (luminaw.co)."
-          : "Desarrolladora de software con enfoque en backend, IA y seguridad. Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA. Fundadora de Lúmina W (luminaw.co)."
+          ? "Software developer and digital marketer. I help entrepreneurs save time and sell more with secure software, AI and content. Founder of Lúmina W (luminaw.co)."
+          : "Desarrolladora de software y marketing digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software seguro, IA y contenido. Fundadora de Lúmina W (luminaw.co)."
       );
     }
   });

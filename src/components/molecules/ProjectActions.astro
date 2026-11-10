@@ -14,7 +14,10 @@ const { actions, class: extra = "", stacked = false } = Astro.props;
 
 {
   actions.length > 0 && (
-    <div class={`flex ${stacked ? "flex-col gap-3" : "flex-wrap gap-6"} ${extra}`.trim()}>
+    <div
+      data-reveal
+      class={`flex ${stacked ? "flex-col gap-3" : "flex-wrap gap-6"} ${extra}`.trim()}
+    >
       {actions.map((a) => (
         <TextLink
           href={a.href}

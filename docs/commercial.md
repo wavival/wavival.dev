@@ -1,6 +1,6 @@
 # Comercial de la marca personal wavival
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-10
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -78,11 +78,11 @@ Producto disponible hoy:
 
 Omitido en V1 (sin fuente): mantenimiento como servicio, modelo de contratación, oferta paga de NullBreach.
 
-Title de `/servicios`: "Servicios: software seguro y automatización con IA | Valentina Ramírez" (EN: "Services: secure software and AI automation | Valentina Ramírez"); el intro de la página se presenta como desarrolladora de software con enfoque en backend, IA y seguridad.
+Title de `/servicios`: "Servicios: software y marketing digital" (EN: "Services: software and digital marketing"); el intro de la página se presenta como desarrolladora de software y marketing digital.
 
 Fuente: `src/pages/servicios.astro`, `src/data/projects.ts` (proyecto `terracore`, parte `landing`), `src/components/organisms/ContactBand.astro`.
 
-Titular de la home: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."), con "El código que firmo también lo rompo." como frase secundaria. La banda de contacto de la home dice "MVP desde 6 a 10 semanas". Datos publicados en la home: "3 apps en producción", "Lúmina W fundadora", "24h tiempo de respuesta" (`src/components/organisms/Hero.astro`). Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera.
+Titular de la home: "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."), con "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre." como frase secundaria. La banda de contacto de la home dice "MVP desde 6 a 10 semanas". Datos publicados en la home: "4 apps en producción", "Lúmina W fundadora", "24h tiempo de respuesta" (`src/components/organisms/Hero.astro`). La cifra es 4 por decisión de la dueña (2026-11-10): TerraCore, OKroot, NullBreach y Kairo; el sitio no las enumera.
 
 ---
 
@@ -168,15 +168,17 @@ Fuente: `src/pages/contacto.astro`, `src/components/organisms/NavBar.astro`, `sr
 Textos ya usados en el sitio:
 
 - "Cotizar mi proyecto" (ContactBand, al final de cada página)
-- "Contáctame"
+- "Contactar" / "Contact me" (único CTA genérico hacia el contacto: botón de correo del menú y botón secundario del ContactBand en las páginas de servicios)
 - "Ver servicios"
-- "Descubre Lúmina W"
+- "Descubrir Lúmina W"
 - "Ver app", "Ver repositorio", "Ver sitio"
-- "Escríbeme", "Chatear", "Agendar"
+- "Enviar correo", "Chatear", "Agendar" (solo en las tarjetas de canal de `/contacto`, cada una nombra la acción de su canal)
+- "Leer Blog W", "Leer sobre mí", "Ver criterio técnico", "Ver caso de estudio", "Volver a proyectos"
 - "Cotizar este servicio"
 
 Reglas:
 
+- Todo botón nombra una acción: en español en infinitivo ("Ver", "Leer", "Cotizar", "Agendar", "Contactar"), en inglés en imperativo con un solo verbo para ver ("View"). Nunca un sustantivo solo como "Blog W".
 - Un CTA por pieza.
 - Sin flechas ni iconos decorativos añadidos.
 - Sin urgencia inventada: "disponibilidad limitada" solo mientras el sitio lo diga.
@@ -189,7 +191,7 @@ Reglas:
 
 ### Se pueden afirmar como están publicados
 
-- Desarrolladora de software con enfoque en backend, IA y seguridad (Django, React, Next.js) y fundadora de Lúmina W, empresa de software. Ayuda a emprendedores a ahorrar tiempo con software seguro y automatización con IA. El marketing y el contenido son un complemento, nunca una agencia de marketing.
+- Desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W, empresa de software. Ayuda a emprendedores a ahorrar tiempo y vender más con software seguro, automatización con IA y contenido para redes. Nunca una agencia de marketing ni manejo diario de redes.
 - Estudia Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi, incluida formación en marketing y redes sociales; creadora de contenido en TikTok (`@wavival_dev`) e Instagram.
 - TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
@@ -234,7 +236,7 @@ Reglas:
 - Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W. Los servicios y el precio de `/servicios` son de wavival.
 - Lúmina W: empresa de software. TerraCore y OKroot: sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
-- Los precios de productos no se publican en `wavival.dev`. Las 3 apps del home son TerraCore, OKroot y NullBreach.
+- Los precios de productos no se publican en `wavival.dev`. Las 4 apps del home son TerraCore, OKroot, NullBreach y Kairo.
 - No usar públicamente la cifra del 42%.
 - Canales V1: Instagram y LinkedIn; español.
 - Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes de wavival y de Lúmina W.

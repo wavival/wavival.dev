@@ -50,13 +50,15 @@ test("every primary button has an icon and no other tier does, on every page", a
 });
 
 const ICONS: Array<[string, string, string]> = [
-  ["/", "Ver servicios", "arrow-right-white"],
-  ["/", "Blog W", "read-more-white"],
-  ["/en/", "See services", "arrow-right-white"],
-  ["/herramientas/", "Ver servicios", "arrow-right-white"],
-  ["/en/uses/", "See services", "arrow-right-white"],
-  ["/proyectos/terracore/", "Cotizar un proyecto así", "send-email-white"],
-  ["/en/projects/terracore/", "Quote a project like this", "send-email-white"],
+  ["/", "Ver servicios", "briefcase-white"],
+  ["/", "Leer Blog W", "read-more-white"],
+  ["/en/", "View services", "briefcase-white"],
+  ["/herramientas/", "Ver servicios", "briefcase-white"],
+  ["/en/uses/", "View services", "briefcase-white"],
+  ["/proyectos/terracore/", "Cotizar un proyecto así", "calculator-white"],
+  ["/en/projects/terracore/", "Quote a project like this", "calculator-white"],
+  ["/", "Cotizar mi proyecto", "calculator-white"],
+  ["/en/", "Get a quote", "calculator-white"],
   ["/cotizar/", "Enviar cotización", "send-email-white"],
   ["/en/quote/", "Send quote request", "send-email-white"],
 ];

@@ -9,11 +9,13 @@ test.describe("home page", () => {
     const h1 = page.getByRole("heading", { level: 1 });
     await expect(h1).toHaveCount(1);
     await expect(h1).toHaveText(
-      "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo."
+      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo."
     );
     const tagline = page.locator("#hero [data-hero-tagline]");
-    await expect(tagline).toHaveText("El código que firmo también lo rompo.");
-    await expect(h1).not.toContainText("rompo");
+    await expect(tagline).toHaveText(
+      "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre."
+    );
+    await expect(h1).not.toContainText("me aseguro de que la gente lo encuentre");
     const h1Box = await h1.boundingBox();
     const taglineBox = await tagline.boundingBox();
     expect(taglineBox!.y).toBeGreaterThanOrEqual(h1Box!.y + h1Box!.height);
@@ -22,10 +24,10 @@ test.describe("home page", () => {
   test("EN home translates the headline and keeps the tagline", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."
+      "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."
     );
     await expect(page.locator("#hero [data-hero-tagline]")).toHaveText(
-      "The code I ship, I also break."
+      "I build what your business needs and make sure people find it."
     );
   });
 

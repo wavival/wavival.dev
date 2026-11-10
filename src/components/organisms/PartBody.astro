@@ -58,7 +58,11 @@ const sec = (key: string) => sections.find((s) => s.key === key)!;
 
 {
   metrics && metrics.length > 0 && (
-    <dl class="cell-grid m-0" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+    <dl
+      data-reveal
+      class="cell-grid m-0"
+      style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"
+    >
       {metrics.map((m) => (
         <Metric value={m.metric} label={m.label} note={m.note} />
       ))}

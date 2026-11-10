@@ -1,6 +1,6 @@
 # SEO, indexing and GEO
 
-> Last updated: 2026-11-07
+> Last updated: 2026-11-10
 
 How the site is made discoverable by search engines and AI assistants, and what to update when a page, a project or a slug changes. Per-language rules live in [`i18n.md`](./i18n.md); performance and accessibility have their own documents.
 
@@ -29,7 +29,7 @@ How the site is made discoverable by search engines and AI assistants, and what 
 - Twitter Card `summary_large_image` with `@wavival0`.
 - Icons, `site.webmanifest` and `theme-color`.
 
-Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp` (illustrations with the text "Creo productos digitales" / "I build digital products"; the default `og:image:alt` describes them and there is no script that regenerates them). Project cards and their Open Graph metadata resolve the matching `-es.webp` or `-en.webp` asset with `localizedProjectImage()` in `src/data/projectView.ts` (the base filename lives in `projects.ts`).
+Default social cards are `public/images/og-card-es.webp` and `og-card-en.webp` (illustrations with the text "Software seguro y automatización con IA para emprendedores" / "Secure software and AI automation for entrepreneurs", from before the software and marketing positioning; the home `og:image:alt` describes them as they are until they are redrawn and there is no script that regenerates them). Project cards and their Open Graph metadata resolve the matching `-es.webp` or `-en.webp` asset with `localizedProjectImage()` in `src/data/projectView.ts` (the base filename lives in `projects.ts`).
 
 ## Structured data (JSON-LD)
 

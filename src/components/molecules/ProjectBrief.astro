@@ -16,7 +16,11 @@ const rows = [
 ];
 ---
 
-<dl class={`m-0 flex flex-col ${compact ? "gap-3" : "gap-4"} ${extra}`.trim()} data-brief>
+<dl
+  data-reveal
+  class={`m-0 flex flex-col ${compact ? "gap-3" : "gap-4"} ${extra}`.trim()}
+  data-brief
+>
   {
     rows.map((row) => (
       <div

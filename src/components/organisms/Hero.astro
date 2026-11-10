@@ -14,12 +14,12 @@ const r = siteRoutes(lang, base);
 
 const stats = isEn
   ? [
-      { value: "3 apps", label: "in production" },
+      { value: "4 apps", label: "in production" },
       { value: "Lúmina\u00a0W", label: "founder" },
       { value: "24h", label: "response time" },
     ]
   : [
-      { value: "3 apps", label: "en producción" },
+      { value: "4 apps", label: "en producción" },
       { value: "Lúmina\u00a0W", label: "fundadora" },
       { value: "24h", label: "tiempo de respuesta" },
     ];
@@ -47,12 +47,16 @@ const stats = isEn
     <h1 class="display-hero m-0" style="text-wrap:balance">
       {
         isEn
-          ? "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."
-          : "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo."
+          ? "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."
+          : "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo."
       }
     </h1>
     <p class="lead accent m-0" data-hero-tagline>
-      {isEn ? "The code I ship, I also break." : "El código que firmo también lo rompo."}
+      {
+        isEn
+          ? "I build what your business needs and make sure people find it."
+          : "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre."
+      }
     </p>
   </div>
 
@@ -77,8 +81,8 @@ const stats = isEn
       <p class="lead m-0" data-hero-lead>
         {
           isEn
-            ? "I'm Valentina Ramírez, a Colombian software developer focused on backend, AI and security. I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand."
-            : "Soy Valentina Ramírez, desarrolladora de software colombiana con enfoque en backend, IA y seguridad. Construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano."
+            ? "I'm Valentina Ramírez, a Colombian software developer and content creator. My two strengths are software and digital marketing: I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand and sell more on social media."
+            : "Soy Valentina Ramírez, desarrolladora de software colombiana y creadora de contenido. Mis dos fuertes son el software y el marketing digital: construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano y vender más en redes."
         }
       </p>
       <p class="body-lg m-0 text-[17px] leading-[1.7]">
@@ -89,8 +93,8 @@ const stats = isEn
         }
       </p>
       <div class="mt-2 flex flex-wrap items-center justify-center gap-3">
-        <Button href={r.services} icon="arrow-right-white">
-          {isEn ? "See services" : "Ver servicios"}
+        <Button href={r.services} icon="briefcase-white">
+          {isEn ? "View services" : "Ver servicios"}
         </Button>
         <SocialLinks lang={lang} size="lg" networks={["instagram", "tiktok", "linkedin"]} />
       </div>

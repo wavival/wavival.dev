@@ -57,8 +57,8 @@ export const SOCIAL_PROFILES: Record<
   "blog-w": {
     href: "https://blog.luminaw.co",
     label: {
-      es: "Blog W: blog de Lúmina W creado por Valentina Ramírez",
-      en: "Blog W: Lúmina W blog by Valentina Ramírez",
+      es: "Leer Blog W: blog de Lúmina W creado por Valentina Ramírez",
+      en: "Read Blog W: Lúmina W blog by Valentina Ramírez",
     },
   },
 };

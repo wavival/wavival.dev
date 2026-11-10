@@ -1,6 +1,6 @@
 # Marca personal wavival
 
-> Last updated: 2026-11-09
+> Last updated: 2026-11-10
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -15,7 +15,7 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público: desarrolladora de software con enfoque en backend, IA y seguridad (Django, React, Next.js) y fundadora de Lúmina W. En inglés: software developer focused on backend, AI and security. El marketing y el contenido son un complemento; wavival nunca se presenta como agencia de marketing.
+- Rol público (decisión de la dueña, 2026-11-10): desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital marketer. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
@@ -57,7 +57,7 @@ Cadencia y calendario: los define después el sistema editorial. Este documento 
 
 ## 3. Posicionamiento
 
-Posicionamiento 2026: desarrolladora de software con enfoque en backend, IA y seguridad, que ayuda a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y fundadora de Lúmina W, con contenido sobre:
+Posicionamiento 2026 (desde 2026-11-10): desarrolladora de software y marketing digital, que ayuda a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y fundadora de Lúmina W, con contenido sobre:
 
 - Construcción de productos.
 - Backend.
@@ -66,20 +66,20 @@ Posicionamiento 2026: desarrolladora de software con enfoque en backend, IA y se
 
 Title de la home: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores" (EN: "Valentina Ramírez | Secure software and AI automation for entrepreneurs"). Meta description: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público." (EN: "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.").
 
-Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time with secure software and AI automation, and I show how I build it in public."), seguido de la frase secundaria "El código que firmo también lo rompo." (EN: "The code I ship, I also break.").
+Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."), seguido de la frase secundaria "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre." (EN: "I build what your business needs and make sure people find it.").
 
-Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana con enfoque en backend, IA y seguridad. Construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano." (EN: "I'm Valentina Ramírez, a Colombian software developer focused on backend, AI and security. I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand.").
+Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana y creadora de contenido. Mis dos fuertes son el software y el marketing digital: construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano y vender más en redes." (EN: "I'm Valentina Ramírez, a Colombian software developer and content creator. My two strengths are software and digital marketing: I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand and sell more on social media.").
 
-Frase base publicada en el pie del sitio: "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio." (EN: "Software developer. Backend, AI and security. Tools that save your business time."). Redes en el pie, en este orden: Instagram, TikTok, GitHub y LinkedIn. La fila final de `/sobre-mi` y `/en/about` muestra las mismas cuatro redes en el mismo orden.
+Frase base publicada en el pie del sitio: "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender." (EN: "Software developer and digital marketer. Tools that save your business time and help it sell."). Redes en el pie, en este orden: Instagram, TikTok, GitHub y LinkedIn. La fila final de `/sobre-mi` y `/en/about` muestra las mismas cuatro redes en el mismo orden.
 
 Afirmaciones que el sitio ya sostiene:
 
 - Toma un problema de negocio y lo entrega como software real en producción.
-- Seguridad desde el diseño en cada línea de código ("El código que firmo también lo rompo.").
+- Seguridad desde el diseño en cada línea de código.
 - Producto real, no demos: multiusuario, lógica de negocio compleja, APIs propias.
 - Decide arquitectura pensando en el segundo año, no solo en el MVP.
 - "La IA acelera; no reemplaza el criterio de ingeniería."
-- La home publica tres datos: "3 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera junto a la cifra.
+- La home publica tres datos: "4 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". La cifra pasa a 4 por decisión de la dueña (2026-11-10): TerraCore, OKroot, NullBreach y Kairo, el producto nuevo de la dueña, ya en producción. El sitio no las enumera junto a la cifra.
 
 Regla de IA: cualquier pieza que diga que una solución usa, resuelve o mejora algo con IA cita el proyecto y la fuente que lo demuestra (por ejemplo OKroot con Claude API, NullBreach con OpenAI). Sin fuente, la pieza no hace ese claim.
 
@@ -270,7 +270,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - Los precios de productos no se publican en `wavival.dev` y ninguna pieza de wavival los cita.
-- Las 3 apps del home son TerraCore, OKroot y NullBreach.
+- Las 4 apps del home: TerraCore, OKroot, NullBreach y Kairo.
 - No usar públicamente la cifra del 42%.
 - Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W.
 - No usar nombres ni experiencias de terceros del CV en V1.

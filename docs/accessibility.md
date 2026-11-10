@@ -1,6 +1,6 @@
 # Accessibility
 
-> Last updated: 2026-11-09
+> Last updated: 2026-11-10
 
 The target is WCAG AA on every page, in both themes and both languages. Visual rules (contrast values, focus style, tokens) are in [`../DESIGN.md`](../DESIGN.md#accessibility); this document says what each part of the site guarantees and how it is checked.
 
@@ -13,7 +13,7 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 - Controls without visible text have an `aria-label`; controls with visible text keep that text inside the label. `Button`, `TextLink` and the language toggle enforce it with `labelInName` (`src/utils/a11y.ts`), and `tests/label-in-name.spec.ts` checks every page of the sitemap.
 - Icon-only controls are at least 44x44 px; decorative images and icons are hidden from assistive technology (`alt=""` or `aria-hidden`); content images have descriptive `alt` text in the page language.
 - Images declare `width` and `height`, which avoids layout shift.
-- `prefers-reduced-motion: reduce` clamps animations and transitions and turns off smooth scroll. There is no scroll-reveal.
+- `prefers-reduced-motion: reduce` clamps animations and transitions and turns off smooth scroll, the load fade and the scroll reveal. The reveal fades elements in only while they enter the viewport and they reach full opacity before they are fully on screen, so settled text keeps its designed contrast; `tests/a11y-axe.spec.ts` audits that settled page with reduced motion.
 - Color is never the only signal: the active navigation item also gets a 2px bar, and the featured project also gets a badge.
 - Theme: dark by default, switchable; the toggle has a state-aware label. Contrast is verified in both themes.
 

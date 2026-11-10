@@ -29,8 +29,8 @@ interface Props {
 }
 
 const {
-  title = "Valentina Ramírez | Software seguro y automatización con IA",
-  description = "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público.",
+  title = "Valentina Ramírez | Software y marketing digital",
+  description = "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y contenido.",
   image = "/images/profile.webp",
   ogImage,
   ogImageAlt,
@@ -49,8 +49,8 @@ const ogLocale = lang === "en" ? "en_US" : "es_CO";
 const t = useTranslations(lang as Lang);
 const personDescription =
   lang === "en"
-    ? "Software developer focused on backend, AI and security. I help entrepreneurs save time with secure software and AI automation. Founder of Lúmina W (luminaw.co)."
-    : "Desarrolladora de software con enfoque en backend, IA y seguridad. Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA. Fundadora de Lúmina W (luminaw.co).";
+    ? "Software developer and digital marketer. I help entrepreneurs save time and sell more with secure software, AI and content. Founder of Lúmina W (luminaw.co)."
+    : "Desarrolladora de software y marketing digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software seguro, IA y contenido. Fundadora de Lúmina W (luminaw.co).";
 
 const site = "https://www.wavival.dev";
 // The `/cop/` currency variant of a page shares its public URL (canonical, hreflang, Open Graph).
@@ -89,11 +89,14 @@ const jsonLd = JSON.stringify({
         height: 640,
         caption: "Valentina Ramírez",
       },
-      jobTitle: "Software Developer",
+      jobTitle: "Software Developer and Digital Marketer",
       email: "wavival.dev@luminaw.co",
       description: personDescription,
       knowsAbout: [
         "Software Development",
+        "Digital Marketing",
+        "Social Media Marketing",
+        "Content Creation",
         "Backend Development",
         "Django",
         "Django REST Framework",
@@ -177,7 +180,7 @@ const jsonLd = JSON.stringify({
         if (window.__navigationLoaderReady) return;
         window.__navigationLoaderReady = true;
 
-        const minimumDuration = 1000;
+        const minimumDuration = 400;
         let startedAt = 0;
         let hideTimer;
         const loader = () => document.getElementById("navigation-loader");
@@ -332,7 +335,7 @@ const jsonLd = JSON.stringify({
   </head>
   <body class="bg-bg text-ink antialiased">
     <div id="navigation-loader" transition:persist aria-hidden="true">
-      <img src={`${import.meta.env.BASE_URL}brand/logo-w.webp`} alt="" width="54" height="40" />
+      <img src={`${import.meta.env.BASE_URL}brand/logo-w-ui.webp`} alt="" width="54" height="40" />
     </div>
     <a
       href="#main-content"
@@ -347,5 +350,8 @@ const jsonLd = JSON.stringify({
     </main>
     <Footer lang={lang as Lang} />
     <FloatingActions lang={lang as Lang} />
+    <script>
+      import "@/scripts/scrollReveal";
+    </script>
   </body>
 </html>
