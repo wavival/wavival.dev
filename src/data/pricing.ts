@@ -3,8 +3,8 @@
 // no amount lives anywhere else. The COP and USD lists are independent: there
 // is no exchange rate, and both are reviewed every January.
 
-import type { Lang } from "../i18n/ui";
-import type { Currency } from "../utils/currency";
+import type { Lang } from "../i18n/ui.js";
+import type { Currency } from "../utils/currency.js";
 
 export type Money = Record<Currency, number>;
 

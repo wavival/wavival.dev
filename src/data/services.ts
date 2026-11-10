@@ -3,8 +3,8 @@
 // block for technical teams. Amounts never live here: every price is a
 // `PriceId` resolved through `src/data/pricing.ts` in the visitor's currency.
 
-import type { Lang } from "../i18n/ui";
-import type { Currency } from "../utils/currency";
+import type { Lang } from "../i18n/ui.js";
+import type { Currency } from "../utils/currency.js";
 import {
   THRESHOLDS,
   TIME_SAVER_KIT_PARTS,
@@ -12,7 +12,7 @@ import {
   savingsPercent,
   type PriceId,
   type ServiceId,
-} from "./pricing";
+} from "./pricing.js";
 
 export type Localized = Record<Lang, string>;
 export type LocalizedList = Record<Lang, string[]>;

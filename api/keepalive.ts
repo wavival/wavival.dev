@@ -3,7 +3,7 @@
 // leads table and returns nothing from it. Vercel sends the cron request with
 // `Authorization: Bearer <CRON_SECRET>`; any other caller gets 401.
 
-import { LEADS_TABLE, pingTable, supabaseConfig } from "../src/server/supabase";
+import { LEADS_TABLE, pingTable, supabaseConfig } from "../src/server/supabase.js";
 
 const json = (body: Record<string, string>, status: number) =>
   new Response(JSON.stringify(body), {

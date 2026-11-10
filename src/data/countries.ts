@@ -2,7 +2,7 @@
 // from the runtime's locale data (`Intl.DisplayNames`), so no name is typed by
 // hand; Node 22 ships full ICU. `api/quote.ts` validates against the same codes.
 
-import type { Lang } from "../i18n/ui";
+import type { Lang } from "../i18n/ui.js";
 
 // prettier-ignore
 export const COUNTRY_CODES = [

@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Vercel: `/servicios`, `/cotizar`, `/en/services` and `/en/quote` answered 500 `MIDDLEWARE_INVOCATION_FAILED`, and `api/quote` and `api/keepalive` could not load, because Vercel compiles `middleware.ts` and `api/*.ts` as Node ESM and their relative imports had no `.js` extension. Every relative import they reach now names its `.js` file, and `tests/server-imports.spec.ts` keeps it that way.
 - `/proyectos`: the TerraCore cover in the wide card was cropped in Spanish because the longer text stretched the image and `object-fit: cover` cut its sides. The cover now always keeps its 1200x630 ratio (centered, never stretched), the card divider sits on the text column, and the wide card's title, spacing and brief are a little tighter so the Spanish text fits beside the cover like the English one. `tests/projects-cover.spec.ts`.
 - Home featured projects: the project brief no longer sits inside the `dl` of the stack row (a `dl` may only hold `dt`/`dd` groups), the axe `definition-list` violation on `/` and `/en/`.
 - `npm audit fix` (lockfile only): no high or critical advisory remains; two moderate ones stay in the dev-only `linkinator` tree because their fix is a breaking major.
