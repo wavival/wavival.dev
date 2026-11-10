@@ -1,0 +1,47 @@
+---
+import type { BriefView } from "@/data/projectView";
+
+interface Props {
+  brief: BriefView;
+  /** Tighter rows for cards; the default fits rows and case studies. */
+  compact?: boolean;
+  class?: string;
+}
+
+const { brief, compact = false, class: extra = "" } = Astro.props;
+const rows = [
+  { key: "problem", label: brief.labels.problem, text: brief.problem },
+  { key: "solution", label: brief.labels.solution, text: brief.solution },
+  { key: "result", label: brief.labels.result, text: brief.result },
+];
+---
+
+<dl
+  data-reveal
+  class={`m-0 flex flex-col ${compact ? "gap-3" : "gap-4"} ${extra}`.trim()}
+  data-brief
+>
+  {
+    rows.map((row) => (
+      <div
+        class={compact ? "flex flex-col gap-1 sm:flex-row sm:gap-3" : "flex flex-col gap-1"}
+        data-brief-row={row.key}
+      >
+        <dt class={`label-sm ${compact ? "flex-none sm:w-[96px] sm:pt-[3px]" : ""}`.trim()}>
+          {row.label}
+        </dt>
+        <dd class={`m-0 ${compact ? "text-sm leading-[1.65]" : "body"} text-ink`}>
+          {row.key === "result" && brief.validation && (
+            <span
+              data-validation
+              class="mr-2 inline-block border border-blue px-2 py-[1px] text-xs font-semibold text-link"
+            >
+              {brief.validation}
+            </span>
+          )}
+          {row.text}
+        </dd>
+      </div>
+    ))
+  }
+</dl>

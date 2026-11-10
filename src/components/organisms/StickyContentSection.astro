@@ -1,0 +1,66 @@
+---
+import Eyebrow from "@/components/atoms/Eyebrow.astro";
+import Index from "@/components/atoms/Index.astro";
+
+/**
+ * The two-column catalog section: a numbered label column and a content column.
+ * One column below `md`; from `md` the label takes 220px (260px from `lg`) and
+ * sticks below the header, capped to the viewport height so a tall label scrolls
+ * instead of hiding its end. `sticky={false}` keeps the columns without the stick.
+ */
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: string;
+  description?: string;
+  id?: string;
+  dataServiceGroup?: string;
+  class?: string;
+  sticky?: boolean;
+}
+
+const {
+  index,
+  eyebrow,
+  title,
+  description,
+  id,
+  dataServiceGroup,
+  class: extra = "",
+  sticky = true,
+} = Astro.props;
+const labelClass = [
+  "flex shrink-0 grow-0 basis-full flex-col md:basis-[220px] md:self-start lg:basis-[260px]",
+  sticky
+    ? "md:sticky md:top-[calc(var(--nav-h)+--spacing(6))] md:max-h-[calc(100dvh-var(--nav-h)---spacing(12))] md:overflow-y-auto"
+    : "",
+].join(" ");
+---
+
+<section
+  data-reveal
+  id={id}
+  data-service-group={dataServiceGroup}
+  class={`rule-section flex flex-wrap gap-y-6 md:gap-x-10 lg:gap-x-12 ${extra}`.trim()}
+>
+  <div
+    data-sticky-section-label
+    data-service-group-header={dataServiceGroup ? "" : undefined}
+    class={labelClass}
+  >
+    <div class="flex items-baseline gap-[14px]">
+      <Index>{index}</Index>
+      <Eyebrow>{eyebrow}</Eyebrow>
+    </div>
+    <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">{title}</h2>
+    {description && <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">{description}</p>}
+    <slot name="label" />
+  </div>
+  <div
+    data-sticky-section-content
+    data-service-group-content={dataServiceGroup ? "" : undefined}
+    class="min-w-0 basis-full md:flex-1 md:basis-0"
+  >
+    <slot />
+  </div>
+</section>

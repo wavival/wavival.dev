@@ -4,11 +4,10 @@ import Hero from "@/components/organisms/Hero.astro";
 import FeaturedProjects from "@/components/organisms/FeaturedProjects.astro";
 import StackSection from "@/components/organisms/StackSection.astro";
 import AboutSection from "@/components/organisms/AboutSection.astro";
-import ContactBand from "@/components/organisms/ContactBand.astro";
 
-const title = "Valentina Ramírez | Full Stack Developer, Backend and AI";
+const title = "Valentina Ramírez | Software and digital marketing";
 const description =
-  "Full Stack Developer focused on backend and AI, building products with Django, React, and Next.js, with security by design.";
+  "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and content.";
 ---
 
 <Layout
@@ -16,6 +15,7 @@ const description =
   description={description}
   lang="en"
   ogType="profile"
+  ogImageAlt="Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev"
   preloadHero
   alternates={[
     { hreflang: "es", href: "https://www.wavival.dev/" },
@@ -27,5 +27,4 @@ const description =
   <FeaturedProjects lang="en" />
   <StackSection lang="en" />
   <AboutSection lang="en" />
-  <ContactBand lang="en" />
 </Layout>

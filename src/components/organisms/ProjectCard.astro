@@ -1,7 +1,7 @@
 ---
 import ProjectMeta from "@/components/molecules/ProjectMeta.astro";
 import ProjectActions from "@/components/molecules/ProjectActions.astro";
-import ChipList from "@/components/molecules/ChipList.astro";
+import ProjectBrief from "@/components/molecules/ProjectBrief.astro";
 import type { ProjectView } from "@/data/projectView";
 
 interface Props {
@@ -18,6 +18,7 @@ const { project: p, index, featured = false, wide = false, featuredLabel = "" } 
 ---
 
 <article
+  data-reveal
   class={`group flex flex-col border border-line bg-bg transition-colors hover:border-blue hover:bg-surface ${wide ? "project-wide" : ""}`.trim()}
   data-project-card
   data-featured={featured ? "" : undefined}
@@ -44,7 +45,7 @@ const { project: p, index, featured = false, wide = false, featuredLabel = "" } 
     )
   }
   <span class="project-featured-label badge">{featuredLabel}</span>
-  <div class="flex flex-1 flex-col gap-[18px] p-7">
+  <div class="flex flex-1 flex-col gap-6 p-7 sm:p-8">
     <ProjectMeta index={index} tag={p.tag} tone={p.tone} overline={p.overline} />
     <h2
       class="h-title m-0 leading-[1.05]"
@@ -60,8 +61,8 @@ const { project: p, index, featured = false, wide = false, featuredLabel = "" } 
         )
       }
     </h2>
-    <p class="m-0 text-sm leading-[1.7] text-muted">{p.summary}</p>
-    <ChipList items={p.stack} />
+    <ProjectBrief brief={p.brief} compact />
+    <p class="m-0 text-xs leading-[1.7] text-muted" data-key-stack>Stack: {p.stack.join(" · ")}</p>
     <ProjectActions actions={p.actions} class="mt-auto pt-2" />
   </div>
 </article>

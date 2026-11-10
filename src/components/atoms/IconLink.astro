@@ -1,6 +1,7 @@
 ---
-import MaskIcon from "@/components/atoms/MaskIcon.astro";
+import Button from "@/components/atoms/Button.astro";
 
+/** Icon-only anchor: the `icon` tier of `Button` (`.icon-btn`), `label` is its `aria-label`. */
 interface Props {
   href: string;
   icon: string;
@@ -20,17 +21,15 @@ const {
   class: extra = "",
   "data-umami-event": umamiEvent,
 } = Astro.props;
-
-const rel = target === "_blank" ? "noopener noreferrer" : undefined;
 ---
 
-<a
+<Button
+  variant="icon"
   href={href}
-  target={target}
-  rel={rel}
+  icon={icon}
   aria-label={label}
-  class={`icon-btn ${size === "lg" ? "icon-btn-lg" : ""} ${extra}`.replace(/\s+/g, " ").trim()}
+  target={target}
+  size={size}
+  class={extra}
   data-umami-event={umamiEvent}
->
-  <MaskIcon name={icon} size={size === "lg" ? "lg" : "md"} />
-</a>
+/>

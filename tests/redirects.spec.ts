@@ -53,6 +53,24 @@ test("vercel redirects the former OKroot app slug permanently", () => {
   }
 });
 
+test("vercel redirects the removed CV files to the about pages permanently", () => {
+  const redirects = new Map(
+    vercel.redirects.map(
+      (redirect: { source: string; destination: string; permanent: boolean }) => [
+        redirect.source,
+        redirect,
+      ]
+    )
+  );
+
+  for (const route of [
+    { source: "/cv_valentina_ramirez_es.pdf", destination: "/sobre-mi" },
+    { source: "/cv_valentina_ramirez_en.pdf", destination: "/en/about" },
+  ]) {
+    expect(redirects.get(route.source)).toMatchObject({ ...route, permanent: true });
+  }
+});
+
 test("vercel routes nullbreach as an independent child application", () => {
   const nullbreach = microfrontends.applications.nullbreach;
   expect(nullbreach.routing).toContainEqual({

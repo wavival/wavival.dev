@@ -14,7 +14,7 @@ const { id, n, title, gap = "mb-8", level = "h2" } = Astro.props;
 const Heading = level;
 ---
 
-<section id={id} class="scroll-mt-24">
+<section data-reveal id={id} class="scroll-mt-24">
   <header class={`flex items-baseline gap-5 border-t border-ink pt-5 ${gap}`}>
     <Index class="text-[15px]">{n}</Index>
     <Heading

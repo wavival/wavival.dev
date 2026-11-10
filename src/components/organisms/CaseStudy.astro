@@ -5,13 +5,19 @@ import StatusDot from "@/components/atoms/StatusDot.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import ChipList from "@/components/molecules/ChipList.astro";
 import PartDisclosure from "@/components/molecules/PartDisclosure.astro";
+import ProjectBrief from "@/components/molecules/ProjectBrief.astro";
 import CaseToc from "@/components/organisms/CaseToc.astro";
 import PartBody from "@/components/organisms/PartBody.astro";
-import ContactBand from "@/components/organisms/ContactBand.astro";
 import { caseLabels, partSections } from "@/data/caseStudyLabels";
 import { projects, type Project } from "@/data/projects";
-import { projectView, toAction, type ProjectAction } from "@/data/projectView";
-import { quoteTypesHref } from "@/data/quoteTypes";
+import {
+  layerSections,
+  localizedProjectTitle,
+  projectView,
+  toAction,
+  type ProjectAction,
+} from "@/data/projectView";
+import { quoteHrefForProject } from "@/data/quoteOptions";
 import { siteRoutes, type Lang } from "@/i18n/utils";
 
 interface Props {
@@ -30,13 +36,13 @@ const primary = view.parts[0].content;
 
 // One part reads like a classic case study (header buttons include its design links, numbered
 // sections, sticky contents). Several parts read as an ecosystem: one accordion per part.
-const singleSections = multi ? [] : partSections(primary, t, "cs-");
+const singleSections = multi ? [] : layerSections(partSections(primary, t, "cs-"));
 const partItems = view.parts.map((part, i) => ({
   id: part.id,
   n: String(i + 1).padStart(2, "0"),
   label: part.label,
 }));
-const lead = multi ? view.summary : view.solution;
+const lead = view.summary;
 const headerLinks: ProjectAction[] = [
   ...view.links,
   ...(!multi && primary.designLink ? [toAction(primary.designLink)] : []),
@@ -56,13 +62,17 @@ const number = String(idx + 1).padStart(2, "0");
         {t.projects}
       </TextLink>
       <span class="text-line-2" aria-hidden="true">/</span>
-      <span class="label-sm">{number} &middot; {project.name}</span>
+      <span class="label-sm"
+        >{number} &middot;
+        <span class={/wavival/.test(view.title) ? "normal-case" : undefined}>{view.title}</span
+        ></span
+      >
       <StatusDot tone={view.tone} class="ml-auto text-xs font-semibold text-ink">
         {view.tag}
       </StatusDot>
     </div>
     <h1 class="display-case m-0 text-pretty" style="margin-top:clamp(32px,4vw,56px)">
-      {project.name}
+      {view.title}
     </h1>
     <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6">
       <p
@@ -79,8 +89,9 @@ const number = String(idx + 1).padStart(2, "0");
         <div class="flex flex-col items-start gap-6">
           <ProjectActions actions={headerLinks} stacked class="items-start" />
           <Button
-            href={quoteTypesHref(r.quote)}
+            href={quoteHrefForProject(r.quote, project.slug)}
             size="sm"
+            icon="calculator-white"
             data-umami-event="cotizar-desde-proyecto"
           >
             {t.quote}
@@ -99,6 +110,7 @@ const number = String(idx + 1).padStart(2, "0");
             alt={view.image.alt}
             width={view.image.width ?? 1200}
             height={view.image.height ?? 630}
+            fetchpriority="high"
             decoding="async"
           />
         </div>
@@ -123,15 +135,7 @@ const number = String(idx + 1).padStart(2, "0");
     </aside>
 
     <div class="flex min-w-0 flex-auto flex-col" style="gap:clamp(64px,7vw,104px)">
-      <div class="border-t-2 border-blue bg-tint px-8 py-7">
-        <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
-        <p
-          class="h-title m-0 leading-[1.45]"
-          style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
-        >
-          {multi ? view.summary : (primary.summary ?? view.summary)}
-        </p>
-      </div>
+      <ProjectBrief brief={view.brief} />
       {
         !multi && (
           <ChipList items={primary.stack ?? []} label={t.stack} class="min-[900px]:hidden" />
@@ -161,17 +165,6 @@ const number = String(idx + 1).padStart(2, "0");
                       stacked
                       class="items-start"
                     />
-                    {part.content.summary && (
-                      <div class="border-t-2 border-blue bg-tint px-8 py-7">
-                        <div class="label-sm label-sm-link mb-[10px]">{t.summary}</div>
-                        <p
-                          class="h-title m-0 leading-[1.45]"
-                          style="font-weight:700;font-size:clamp(18px,1.6vw,22px);text-wrap:pretty"
-                        >
-                          {part.content.summary}
-                        </p>
-                      </div>
-                    )}
                     {part.content.stack && <ChipList items={part.content.stack} label={t.stack} />}
                     <PartBody
                       part={part.content}
@@ -208,7 +201,7 @@ const number = String(idx + 1).padStart(2, "0");
                 class="h-title leading-[1.1]"
                 style="font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em"
               >
-                {prevProject.name}
+                {localizedProjectTitle(prevProject, lang)}
               </span>
             </a>
           ) : (
@@ -224,7 +217,7 @@ const number = String(idx + 1).padStart(2, "0");
                 class="h-title leading-[1.1]"
                 style="font-size:clamp(24px,3vw,40px);letter-spacing:-0.02em"
               >
-                {nextProject.name}
+                {localizedProjectTitle(nextProject, lang)}
               </span>
             </a>
           )}
@@ -232,6 +225,4 @@ const number = String(idx + 1).padStart(2, "0");
       </nav>
     )
   }
-
-  <ContactBand lang={lang} />
 </article>

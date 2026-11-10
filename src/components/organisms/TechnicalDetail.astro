@@ -1,0 +1,68 @@
+---
+interface Props {
+  lang: "es" | "en";
+  /** Anchor id of the toggle, unique per part. */
+  id: string;
+}
+
+const { lang, id } = Astro.props;
+const isEn = lang === "en";
+const openLabel = isEn ? "View technical details" : "Ver detalle técnico";
+const closeLabel = isEn ? "Hide technical details" : "Ocultar detalle técnico";
+---
+
+<details
+  data-reveal
+  id={id}
+  class="disclosure scroll-mt-24 border-y border-line"
+  data-disclosure
+  data-technical
+>
+  <summary
+    class="group flex items-baseline justify-between gap-5 py-6 text-ink transition-colors hover:text-link"
+  >
+    <span class="h-title" style="font-size:clamp(18px,1.8vw,24px);letter-spacing:-0.01em">
+      {openLabel}
+    </span>
+    <span class="label-sm label-sm-link flex-none">
+      <span class="when-closed">{isEn ? "Open" : "Abrir"}</span><span class="when-open"
+        >{closeLabel}</span
+      >
+    </span>
+  </summary>
+  <div class="disclosure-content pt-4 pb-6" data-disclosure-content>
+    <div class="flex flex-col" style="gap:clamp(64px,7vw,104px)">
+      <slot />
+    </div>
+  </div>
+</details>
+
+<script>
+  import "@/scripts/disclosure";
+
+  // A link or URL hash that points inside the closed technical detail opens it first.
+  function openTechnical(hash: string) {
+    if (!hash) return;
+    let key = hash;
+    try {
+      key = decodeURIComponent(hash);
+    } catch {
+      // A malformed escape in the hash: use it as typed.
+    }
+    const target = document.getElementById(key);
+    const panel = target?.closest<HTMLDetailsElement>("details[data-technical]");
+    if (!target || !panel || panel.open) return;
+    panel.open = true;
+    {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    }
+  }
+
+  document.addEventListener("astro:page-load", () => openTechnical(location.hash.slice(1)));
+  window.addEventListener("hashchange", () => openTechnical(location.hash.slice(1)));
+  document.addEventListener("click", (event) => {
+    const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+    if (link) openTechnical(link.getAttribute("href")!.slice(1));
+  });
+</script>

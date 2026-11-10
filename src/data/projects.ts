@@ -101,7 +101,19 @@ export interface ProjectPart {
   en?: ProjectPartEn;
 }
 
+/** Problem, solution and result in business language; the stack stays a secondary line. */
+export interface ProjectBrief {
+  problem: string;
+  solution: string;
+  result: string;
+  /** Only for products still without paying clients: shown as a validation badge. */
+  validation?: string;
+}
+
 export interface ProjectEn {
+  /** English product title when the Spanish title includes a descriptor. */
+  title?: string;
+  brief?: ProjectBrief;
   imageAlt?: string;
   tag?: string;
   summary?: string;
@@ -130,8 +142,15 @@ export interface Project {
   schemaType: "SoftwareApplication" | "WebSite" | "CreativeWork";
   /** Ecosystem summary. Falls back to the summary of the first part. */
   summary?: string;
+  brief?: ProjectBrief;
   /** Meta description (150-160 chars). Falls back to the first part's. */
   metaDescription?: string;
+  /**
+   * Key stack shown as the secondary text line of home rows and index cards: the main technology of
+   * each layer the project has (backend, database, frontend, AI or integrations, content platform),
+   * 4 to 8 entries taken from the parts' `stack` lists. The full lists stay on the case study.
+   */
+  keyStack: string[];
   /** Ordered parts; the first one is the primary part. */
   parts: ProjectPart[];
   en?: ProjectEn;
@@ -151,6 +170,7 @@ export const projectFilters = (p: Project) => unique(p.parts.flatMap((part) => p
 export const projects: Project[] = [
   {
     slug: "terracore",
+    keyStack: ["Django", "DRF", "PostgreSQL", "React", "TypeScript", "Dexie", "Astro"],
     name: "TerraCore | Campo Inteligente",
     shortName: "TerraCore",
     datePublished: "2026-06-16",
@@ -164,16 +184,33 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "SoftwareApplication",
     summary:
-      "Ecosistema de TerraCore | Campo Inteligente, la plataforma de gestión agropecuaria para fincas colombianas. Reúne la PWA multiusuario y offline-first (Django, DRF, PostgreSQL, React y Dexie), la landing de conversión (Astro y Supabase) y la documentación oficial del producto.",
+      "Ecosistema de TerraCore | Campo Inteligente, la plataforma de gestión agropecuaria para fincas colombianas. Reúne la app que funciona también sin señal, la página de presentación y la documentación oficial del producto.",
+    brief: {
+      problem:
+        "Las fincas colombianas llevan animales, cultivos y cuentas entre cuadernos, hojas de cálculo y WhatsApp, y los sistemas que existen son demasiado complejos.",
+      solution:
+        "Una sola plataforma para gestionar animales, cultivos, producción, salud y finanzas, que funciona también sin señal.",
+      result: "Producto funcional en producción.",
+      validation: "En validación con clientes reales en Colombia.",
+    },
     metaDescription:
-      "Caso de estudio de TerraCore | Campo Inteligente: PWA offline-first para fincas, landing de conversión y documentación oficial. Django, React y Astro.",
+      "Caso de estudio de TerraCore | Campo Inteligente: gestión de fincas colombianas, también sin señal. En validación con clientes reales en Colombia.",
     en: {
+      title: "TerraCore | Smart Farming",
+      brief: {
+        problem:
+          "Colombian farms track animals, crops, and accounts across notebooks, spreadsheets, and WhatsApp, and the systems that exist are too complex.",
+        solution:
+          "One platform to manage animals, crops, production, health, and finances, which also works without a signal.",
+        result: "Working product in production.",
+        validation: "In validation with real clients in Colombia.",
+      },
+      summary:
+        "The TerraCore | Smart Farming ecosystem, the farm-management platform for Colombian farms. It brings together the app that also works without a signal, the presentation page, and the official product documentation.",
       imageAlt:
         "TerraCore dashboard: real-time metrics, production charts, and livestock distribution",
-      summary:
-        "The TerraCore | Campo Inteligente ecosystem, the farm-management platform for Colombian farms. It brings together the multi-user, offline-first PWA (Django, DRF, PostgreSQL, React, and Dexie), the conversion landing (Astro and Supabase), and the official product documentation.",
       metaDescription:
-        "TerraCore | Campo Inteligente case study: offline-first PWA for Colombian farms, conversion landing, and official documentation. Django, React, and Astro.",
+        "TerraCore | Smart Farming case study: a platform to run a Colombian farm, even without a signal. In validation with real clients in Colombia.",
     },
     parts: [
       {
@@ -201,16 +238,16 @@ export const projects: Project[] = [
         solution:
           "TerraCore centraliza en una sola plataforma lo que una finca mediana necesita gestionar: animales, cultivos, insumos, producción, salud animal y finanzas. Los módulos están conectados entre sí, así que una acción en el campo actualiza los demás registros, y todo funciona sin señal. Lo usa un equipo completo, con roles y permisos por sede. Reemplaza Excel, cuadernos y WhatsApp como herramientas operativas y atiende bovino, porcino, equino, ovino, caprino, avícola y cultivos asociados (plátano, cacao, maíz) en Colombia.",
         architecture: [
-          "Backend en Django 6 y DRF sobre PostgreSQL 16. Celery con Redis ejecuta las tareas programadas (cobros y alertas). Autenticación JWT: access de 24 horas y refresh de 180 días con rotación.",
-          "Multitenancy estricta: el tenant sale del JWT, nunca del body ni de la URL, y todo queryset se filtra por tenant antes de responder.",
+          "Backend en Django y DRF sobre PostgreSQL. Celery con Redis ejecuta las tareas programadas (cobros y alertas). Autenticación con tokens de corta duración y rotación.",
+          "Aislamiento estricto de datos entre empresas: cada consulta se limita a la empresa de quien la hace antes de responder.",
           "Lógica de negocio en servicios con transacciones y bloqueo de filas. Cada endpoint valida rol, plan y sede, y los errores siguen un contrato uniforme.",
-          "Frontend en React 19, TypeScript, Vite y Tailwind 4, con una carpeta por módulo y un hook de estado por módulo.",
+          "Frontend en React, TypeScript, Vite y Tailwind, con una carpeta por módulo y un hook de estado por módulo.",
           "PWA instalable en Android e iOS sin pasar por tiendas. El Service Worker cachea la app y las lecturas; los datos viven en una base local (IndexedDB con Dexie) y cada escritura entra a una cola de salida (outbox).",
-          "Sincronización con un endpoint que cubre diez modelos: push en orden de dependencias, pull paginado por cursor y versión por registro. El servidor responde aceptado, conflicto o rechazo con motivo, y revalida igual que la API REST.",
+          "Sincronización única para diez modelos: envío en orden de dependencias, lectura paginada y versión por registro. El servidor responde aceptado, conflicto o rechazo con motivo, y revalida igual que la API REST.",
           "Offline más allá de los registros: una cola de acciones diferidas (invitar usuarios, cambiar roles) y lecturas guardadas para abrir cada pantalla sin red. Solo pagar con tarjeta exige conexión.",
           "Importación CSV para el onboarding y exportación CSV con aprobación de un administrador.",
-          "Seguridad: documentación de la API restringida a staff y una ronda de hardening sobre sincronización, exportaciones, facturación y alcance por sede.",
-          "Infraestructura en Docker y Nginx sobre VPS, con staging aislado y flujo dev, stg y main. La imagen se publica en GHCR con escaneo Trivy y se despliega por digest. Más de 1.000 pruebas automatizadas en cada repositorio.",
+          "Seguridad: documentación de la API de acceso restringido y revisiones de seguridad periódicas sobre las funciones críticas.",
+          "Infraestructura contenerizada con un entorno de pruebas aislado y revisión antes de producción. Escaneo de vulnerabilidades y despliegue reproducible en cada entrega. Más de 1.000 pruebas automatizadas en cada repositorio.",
         ],
         links: [
           {
@@ -239,15 +276,12 @@ export const projects: Project[] = [
           "En validación con clientes en Antioquia, Colombia.",
         ],
         learnings: [
-          "Aprendí a diseñar, desarrollar y construir un producto completo desde cero (fullstack), con despliegue, y a depurarlo, probarlo y corregirlo.",
-          "Definir el límite del tenant temprano evita reescrituras: el aislamiento de datos condiciona cada decisión de modelado.",
-          "Offline-first cambia el modelo de datos: UUID generado en el cliente, versión por registro y borrado suave en cada modelo sincronizable.",
+          "Definir temprano el aislamiento de datos entre empresas evita reescrituras: condiciona cada decisión de modelado.",
           "El sync no puede saltarse validaciones: se corrigió para validar igual que la API REST (roles, plan y sede).",
-          "El stock offline se sincroniza como diferencia y no como valor absoluto, para no pisar movimientos hechos desde otro dispositivo.",
           "Conectar módulos obliga a decidir quién es dueño de cada dato: la sede de una vacuna es la de su animal.",
         ],
         roadmap: {
-          now: ["Producto en producción y venta activa."],
+          now: ["Producto en producción, en validación con clientes reales en Colombia."],
           next: [
             "Eliminar el subsistema viejo de vacunación.",
             "Llevar el histórico de Finanzas a nivel de sede.",
@@ -397,7 +431,7 @@ export const projects: Project[] = [
               "Varias empresas comparten una sola instancia y los datos de una nunca deben llegar a otra.",
             tradeoff: "Instancias separadas aíslan mejor pero multiplican la operación y el costo.",
             decision:
-              "El tenant sale del JWT y nunca del body ni de la URL. Todo queryset se filtra por tenant antes de responder.",
+              "El aislamiento por empresa se resuelve en el servidor y nunca depende de datos que envía el cliente. Toda consulta se limita a la empresa antes de responder.",
           },
           {
             title: "Sincronización sin pisar datos",
@@ -430,26 +464,26 @@ export const projects: Project[] = [
             {
               href: "https://app.terracoreapp.co",
               text: "View app",
-              ariaLabel: "View app: TerraCore | Campo Inteligente",
+              ariaLabel: "View app: TerraCore | Smart Farming",
               event: "ver-app-terracore",
             },
           ],
           designLink: {
             href: "https://terracore-pwa-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: TerraCore | Campo Inteligente app",
+            ariaLabel: "View design: TerraCore | Smart Farming app",
           },
           architecture: [
-            "Backend in Django 6 and DRF on PostgreSQL 16. Celery with Redis runs the scheduled tasks (billing and alerts). JWT authentication: 24-hour access token and 180-day refresh token with rotation.",
-            "Strict multitenancy: the tenant comes from the JWT, never from the body or the URL, and every queryset is filtered by tenant before responding.",
+            "Backend in Django and DRF on PostgreSQL. Celery with Redis runs the scheduled tasks (billing and alerts). Authentication with short-lived, rotating tokens.",
+            "Strict data isolation between companies: every query is limited to the requester's company before it answers.",
             "Business logic in services with transactions and row locking. Every endpoint validates role, plan, and facility, and errors follow a uniform contract.",
-            "Frontend in React 19, TypeScript, Vite, and Tailwind 4, with one folder and one state hook per module.",
+            "Frontend in React, TypeScript, Vite, and Tailwind, with one folder and one state hook per module.",
             "Installable PWA on Android and iOS without app stores. The Service Worker caches the app and reads; data lives in a local database (IndexedDB with Dexie) and every write enters an outbox queue.",
-            "Sync through one endpoint covering ten models: push in dependency order, cursor-paginated pull, and a version per record. The server answers accepted, conflict, or rejected with a reason, and revalidates like the REST API.",
+            "A single sync for ten models: push in dependency order, paginated pull, and a version per record. The server answers accepted, conflict, or rejected with a reason, and revalidates like the REST API.",
             "Offline beyond records: a queue of deferred actions (inviting users, changing roles) and saved reads so every screen opens without network. Only card payment needs a connection.",
             "CSV import for onboarding and CSV export with administrator approval.",
-            "Security: API documentation restricted to staff and a hardening round over sync, exports, billing, and facility scope.",
-            "Infrastructure on Docker and Nginx over a VPS, with isolated staging and a dev, stg, and main flow. The image is published to GHCR with Trivy scanning and deployed by digest. More than 1,000 automated tests in each repository.",
+            "Security: restricted-access API documentation and periodic security reviews of the critical functions.",
+            "Containerized infrastructure with an isolated test environment and a review step before production. Vulnerability scanning and reproducible deployment on every release. Over 1,000 automated tests in each repository.",
           ],
           design: [
             "The product starts from its own design in Claude Design, with a clickable prototype (View design button).",
@@ -461,19 +495,16 @@ export const projects: Project[] = [
             "Forms built for Colombia: phone with dial code and SVG flags, and CC or CE identity document. Spanish URLs and a guided tour on first use.",
           ],
           results: [
-            "Functional product in production.",
-            "Under validation with clients in Antioquia, Colombia.",
+            "Working product in production.",
+            "Being validated with real clients in Antioquia, Colombia.",
           ],
           learnings: [
-            "I learned to design, develop, and build a complete product from scratch (fullstack), with deployment, and to debug it, test it, and fix it.",
-            "Defining the tenant boundary early avoids rewrites: data isolation conditions every modeling decision.",
-            "Offline-first changes the data model: client-generated UUIDs, a version per record, and soft delete on every syncable model.",
+            "Defining data isolation between companies early avoids rewrites: it shapes every modeling decision.",
             "Sync cannot skip validations: it was fixed to validate like the REST API (roles, plan, and facility).",
-            "Offline stock syncs as a difference and not as an absolute value, so it does not overwrite movements made from another device.",
             "Connecting modules forces you to decide who owns each piece of data: a vaccine's facility is its animal's facility.",
           ],
           roadmap: {
-            now: ["Product in production and in active sales."],
+            now: ["Product in production, in validation with real clients in Colombia."],
             next: [
               "Remove the old vaccination subsystem.",
               "Bring the Finance history down to the facility level.",
@@ -623,7 +654,7 @@ export const projects: Project[] = [
                 "Several companies share one instance and one company's data must never reach another.",
               tradeoff: "Separate instances isolate better but multiply operations and cost.",
               decision:
-                "The tenant comes from the JWT and never from the body or the URL. Every queryset is filtered by tenant before responding.",
+                "Isolation per company is resolved on the server and never depends on data the client sends. Every query is limited to the company before it answers.",
             },
             {
               title: "Sync without overwriting data",
@@ -667,16 +698,16 @@ export const projects: Project[] = [
         solution:
           "Landing en Astro que parte del dolor del productor, explica los módulos y cómo se conectan entre sí, enseña capturas reales del producto, responde la objeción de privacidad antes de hablar de planes y publica tres planes con sus límites. Todos los botones llevan a un solo formulario de diagnóstico, con WhatsApp como alternativa directa.",
         architecture: [
-          "Astro 7 con salida estática, sin adaptador ni framework de interfaz: el JavaScript es vanilla, en un script por componente. Se despliega en Vercel y la rama de staging usa el preview.",
+          "Astro con salida estática, sin adaptador ni framework de interfaz: el JavaScript es vanilla, en un script por componente. Se despliega en Vercel.",
           "Atomic design con alias de importación por capa (átomos, moléculas, organismos y plantilla). Los tokens de color, tipografía y espacio viven en un solo archivo CSS y Tailwind los extiende. Inter, Poppins y JetBrains Mono van autoalojadas, sin pedir fuentes a terceros.",
           "Embudo de conversión en 13 secciones: Hero, Impacto, franja de confianza, Módulos, Producto, Beneficios, Seguridad, Planes, Preguntas y cierre. Métricas, casos de éxito y testimonios están construidos pero ocultos hasta tener datos reales.",
           "Los datos de cada sección son TypeScript tipado en un solo archivo (planes, impacto, beneficios y preguntas). Las preguntas alimentan el acordeón visible y el JSON-LD FAQPage desde la misma fuente.",
           "Tres planes: Semilla (1 sede, 5 usuarios), Profesional (hasta 5 sedes, 10 usuarios) y Enterprise (sedes y usuarios ilimitados). Cada botón de plan abre el formulario con el tamaño de operación ya elegido. Lo que se vende coincide con lo que el backend hace cumplir: topes de sedes y usuarios, rol Colaborador, Herramientas y exportación CSV desde Profesional, y pérdidas en Finanzas solo en Enterprise.",
-          "Formulario de diagnóstico que envía JSON a una función de Vercel (api/lead.ts, sin dependencias de npm). Valida y normaliza los datos, guarda el lead en Supabase y avisa por correo con Brevo. Un correo repetido no crea otra fila y la notificación nunca bloquea el guardado.",
-          "Antispam sin captcha: campo trampa y tiempo mínimo de llenado en el cliente, y la misma comprobación en el servidor. Solo guarda en producción; en staging valida y responde que el almacenamiento está desactivado.",
-          "Analítica: GA4 opcional por variable de entorno, con eventos en cada CTA (Hero, planes, WhatsApp y formulario), más Vercel Web Analytics y Speed Insights. Botón flotante de WhatsApp en todas las páginas.",
+          "Formulario de diagnóstico que envía JSON a una función de servidor. Valida y normaliza los datos, guarda el lead en Supabase y avisa por correo con Brevo. Un correo repetido no crea otra fila y la notificación nunca bloquea el guardado.",
+          "Antispam sin captcha, con comprobaciones en el cliente y en el servidor. Solo guarda en producción.",
+          "Analítica: GA4 opcional, con eventos en cada CTA (Hero, planes, WhatsApp y formulario), más Vercel Web Analytics y Speed Insights. Botón flotante de WhatsApp en todas las páginas.",
           "SEO técnico: title, description, canonical, Open Graph y Twitter, sitemap, robots.txt y llms.txt. JSON-LD con Organization, WebSite, SoftwareApplication con sus ofertas y FAQPage.",
-          "Seguridad en cabeceras desde vercel.json: CSP restrictiva, HSTS, X-Frame-Options DENY y Permissions-Policy.",
+          "Seguridad en cabeceras: CSP restrictiva y cabeceras anti-framing y de permisos.",
           "Calidad: Vitest para la lógica, Playwright para el flujo (landing, formulario, planes, FAQ y menú móvil) y Lighthouse en cada PR con accesibilidad como umbral que bloquea. Una prueba ata los límites de la landing a lo que el producto hace de verdad.",
         ],
         painPoints: [
@@ -767,16 +798,16 @@ export const projects: Project[] = [
             tradeoff:
               "GA4 añade un script de terceros con implicaciones de privacidad, y hay que declararlo y poder apagarlo.",
             decision:
-              "GA4 se activa solo si existe su variable de entorno y registra eventos en cada CTA (Hero, planes, WhatsApp y formulario). La política de privacidad lo declara junto con Vercel Web Analytics.",
+              "GA4 se activa solo cuando está configurado y registra eventos en cada CTA (Hero, planes, WhatsApp y formulario). La política de privacidad lo declara junto con Vercel Web Analytics.",
           },
           {
             title: "Estática, con una sola función de servidor",
             context:
               "Una landing no necesita un backend propio, pero el formulario tiene que guardar leads sin exponer llaves.",
             tradeoff:
-              "Una función serverless no corre bajo el servidor de desarrollo de Astro, y staging no tiene base de datos.",
+              "Una función serverless no corre bajo el servidor de desarrollo de Astro, y el entorno de pruebas no tiene base de datos.",
             decision:
-              "El sitio es estático y el formulario habla con una función de Vercel que usa la llave de servicio de Supabase solo en el servidor. Fuera de producción valida y no guarda.",
+              "El sitio es estático y el formulario habla con una función de servidor que guarda los datos en Supabase. Fuera de producción valida y no guarda.",
           },
           {
             title: "Sin prueba social inventada",
@@ -802,12 +833,9 @@ export const projects: Project[] = [
           "Tres planes publicados con límites claros por plan y condiciones de cancelación visibles.",
         ],
         learnings: [
-          "Aprendí a diseñar, construir y desplegar una landing de conversión completa, desde la propuesta hasta el formulario que guarda leads, y a depurarla, probarla y medirla.",
           "Una landing para un nicho no tecnológico tiene que hablar el idioma del cliente: cada sección se redactó con vocabulario de la finca, no del software.",
           "Separar la demostración del valor de la sección de planes baja la barrera: el productor llega a los planes habiendo entendido ya qué diferencia a TerraCore de Excel.",
-          "Un límite copiado a mano en varios sitios se desalinea. Los datos viven en un solo archivo y una prueba los compara con el producto.",
           "Es más barato dejar una sección de prueba social oculta hasta tener datos reales que retirar cifras inventadas.",
-          "Un sitio estático puede tener formulario sin servidor propio, pero hay que decidir qué pasa en staging: validar sin guardar evita mezclar datos de prueba con leads reales.",
         ],
         roadmap: {
           now: ["Landing en producción captando solicitudes de diagnóstico."],
@@ -838,25 +866,25 @@ export const projects: Project[] = [
             {
               href: "https://terracoreapp.co",
               text: "View site",
-              ariaLabel: "View landing: TerraCore | Campo Inteligente",
+              ariaLabel: "View landing: TerraCore | Smart Farming",
             },
           ],
           designLink: {
             href: "https://terracore-landing-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: TerraCore | Campo Inteligente landing",
+            ariaLabel: "View design: TerraCore | Smart Farming landing",
           },
           architecture: [
-            "Astro 7 with static output, no adapter and no UI framework: JavaScript is vanilla, in one script per component. Deployed on Vercel, and the staging branch uses the preview.",
+            "Astro with static output, no adapter and no UI framework: the JavaScript is vanilla, one script per component. Deployed on Vercel.",
             "Atomic design with an import alias per layer (atoms, molecules, organisms, and template). Color, type, and spacing tokens live in a single CSS file and Tailwind extends them. Inter, Poppins, and JetBrains Mono are self-hosted, with no third-party font requests.",
             "Conversion funnel in 13 sections: Hero, Impact, trust strip, Modules, Product, Benefits, Security, Plans, FAQ, and closing. Metrics, case studies, and testimonials are built but hidden until real data exists.",
             "Each section's data is typed TypeScript in a single file (plans, impact, benefits, and FAQ). The FAQ feeds both the visible accordion and the FAQPage JSON-LD from the same source.",
             "Three plans: Seed (1 facility, 5 users), Professional (up to 5 facilities, 10 users), and Enterprise (unlimited facilities and users). Each plan button opens the form with the operation size already selected. What is sold matches what the backend enforces: facility and user caps, the Collaborator role, Tools and CSV export from Professional, and losses in Finance only on Enterprise.",
-            "Diagnostic form that posts JSON to a Vercel function (api/lead.ts, no npm dependencies). It validates and normalizes the data, stores the lead in Supabase, and notifies by email through Brevo. A repeated email does not create another row and the notification never blocks the save.",
-            "Anti-spam without a captcha: a honeypot field and a minimum fill time on the client, and the same check on the server. It only stores in production; on staging it validates and answers that storage is disabled.",
-            "Analytics: GA4 optional through an environment variable, with events on every CTA (Hero, plans, WhatsApp, and form), plus Vercel Web Analytics and Speed Insights. Floating WhatsApp button on every page.",
+            "Diagnostic form that sends JSON to a server function. It validates and normalizes the data, saves the lead in Supabase, and notifies by email through Brevo. A repeated email creates no new row and the notification never blocks the save.",
+            "Spam protection without a captcha, with checks on the client and on the server. It only saves in production.",
+            "Analytics: optional GA4, with events on every CTA (Hero, plans, WhatsApp, and form), plus Vercel Web Analytics and Speed Insights. A floating WhatsApp button on every page.",
             "Technical SEO: title, description, canonical, Open Graph and Twitter, sitemap, robots.txt, and llms.txt. JSON-LD with Organization, WebSite, SoftwareApplication with its offers, and FAQPage.",
-            "Security through headers from vercel.json: a restrictive CSP, HSTS, X-Frame-Options DENY, and Permissions-Policy.",
+            "Security through headers: a restrictive CSP and anti-framing and permissions headers.",
             "Quality: Vitest for logic, Playwright for the flow (landing, form, plans, FAQ, and mobile menu), and Lighthouse on every PR with accessibility as a blocking threshold. A test ties the landing's limits to what the product actually does.",
           ],
           painPoints: [
@@ -865,7 +893,7 @@ export const projects: Project[] = [
               text: "If what each plan includes is not visible, the producer hesitates before starting. Limits and scope have to be in plain sight.",
             },
             {
-              title: "Differential value is invisible",
+              title: "What sets it apart is invisible",
               text: "That the modules talk to each other is not obvious. Without demonstrating it before the plans, the landing loses the conversion.",
             },
             {
@@ -883,12 +911,12 @@ export const projects: Project[] = [
               text: "'Replace Excel and WhatsApp' headline, a works-without-internet chip, a button to the diagnostic, and a demo video in a lightbox.",
             },
             {
-              name: "Modules told from the pain",
+              name: "Modules framed around the pain point",
               text: "Livestock, supplies, tools (from the Professional plan), production, and animal health, each in a bento that starts from the problem it solves and not from the feature.",
             },
             {
               name: "Cascade integration",
-              text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it demonstrates differential value before the plans.",
+              text: "Visual flow: vaccine applied, supply deducted, and an expiry date with an alert. And minimum stock, alert to the administrator. It is what the product does and it shows what sets it apart before the plans.",
             },
             {
               name: "Real product screenshots",
@@ -907,7 +935,7 @@ export const projects: Project[] = [
             {
               title: "Copy focused on the pain, not the product",
               context:
-                "The agricultural producer does not search for 'agro-industrial SaaS'. They search to stop using Excel, notebooks, and WhatsApp groups.",
+                "The agricultural producer does not search for 'agri-industrial SaaS'. They search to stop using Excel, notebooks, and WhatsApp groups.",
               tradeoff:
                 "Technical copy does not connect with the field. Pain-focused copy does, but requires knowing the real operation.",
               decision:
@@ -945,18 +973,18 @@ export const projects: Project[] = [
               context:
                 "Without behavioral metrics, landing design is intuition: you do not know which sections are read or which button converts.",
               tradeoff:
-                "GA4 adds a third-party script with privacy implications, and it has to be declared and switchable off.",
+                "GA4 adds a third-party script with privacy implications, and it has to be declared and able to be turned off.",
               decision:
-                "GA4 turns on only when its environment variable exists and records events on every CTA (Hero, plans, WhatsApp, and form). The privacy policy declares it alongside Vercel Web Analytics.",
+                "GA4 is only active when configured and records events on every CTA (Hero, plans, WhatsApp, and form). The privacy policy declares it together with Vercel Web Analytics.",
             },
             {
               title: "Static, with a single server function",
               context:
                 "A landing does not need its own backend, but the form has to store leads without exposing keys.",
               tradeoff:
-                "A serverless function does not run under Astro's dev server, and staging has no database.",
+                "A serverless function does not run under Astro's dev server, and the test environment has no database.",
               decision:
-                "The site is static and the form talks to a Vercel function that uses Supabase's service key only on the server. Outside production it validates and does not store.",
+                "The site is static and the form talks to a server function that stores the data in Supabase. Outside production it validates and does not save.",
             },
             {
               title: "No invented social proof",
@@ -982,12 +1010,9 @@ export const projects: Project[] = [
             "Three plans published with clear limits per plan, and visible cancellation terms.",
           ],
           learnings: [
-            "I learned to design, build, and deploy a complete conversion landing, from the proposal to the form that stores leads, and to debug it, test it, and measure it.",
             "A landing for a non-technical niche must speak the client's language: every section was written in farm vocabulary, not software vocabulary.",
             "Separating the value demonstration from the plans section lowers the barrier: the producer arrives at the plans having already understood what differentiates TerraCore from Excel.",
-            "A limit copied by hand in several places drifts apart. The data lives in one file and a test compares it with the product.",
-            "It is cheaper to keep a social proof section hidden until real data exists than to pull invented figures.",
-            "A static site can have a form without its own server, but you have to decide what happens on staging: validating without storing avoids mixing test data with real leads.",
+            "It is cheaper to keep a social proof section hidden until real data exists than to remove invented figures later.",
           ],
           roadmap: {
             now: ["Landing in production capturing diagnostic requests."],
@@ -1006,7 +1031,7 @@ export const projects: Project[] = [
         problem:
           "La guía es para el cliente final: dueño, administrador u operario de una finca en Colombia, que no es técnico. Necesita aprender el producto sin depender de una llamada de soporte: cómo empezar, qué hace cada módulo, qué hacer cuando algo no sale como espera y a quién escribir.",
         architecture: [
-          "Astro 7 con salida estática, sin React ni adaptador, desplegado en Vercel. El JavaScript es TypeScript vanilla: búsqueda, estado del menú lateral y tabla de contenido.",
+          "Astro con salida estática, sin React ni adaptador, desplegado en Vercel. El JavaScript es TypeScript vanilla: búsqueda, estado del menú lateral y tabla de contenido.",
           "Contenido en MDX con colecciones de contenido de Astro: una página por archivo, con título, resumen e ícono tipados por el esquema de la colección. 34 páginas en 8 grupos: Empezar, Tu equipo, Tu finca, Tus números, Datos y conexión, Tu suscripción, Flujos de la app y Referencia.",
           "Una sola fuente de verdad para la navegación: la lista de grupos y páginas define el menú lateral, la hoja de navegación móvil, la portada y el paginador anterior y siguiente, en orden de lectura. Una prueba falla si una página de la lista no tiene archivo, o al revés.",
           "Bloques de redacción propios, disponibles en cada página sin importarlos: avisos, pasos numerados, campos, capturas, tarjetas, insignias y tablas.",
@@ -1014,8 +1039,8 @@ export const projects: Project[] = [
           "Búsqueda del lado del cliente: el índice se genera en el build como un archivo JSON estático y el navegador lo consulta, sin servidor ni servicios de terceros. Ignora tildes y mayúsculas.",
           "Navegación en menús agrupados que recuerdan si están abiertos, tabla de contenido por página y paginador entre páginas. Cada página muestra la fecha de su última revisión contra el producto, tomada de una sola constante.",
           "SEO técnico: sitemap generado, robots.txt, manifest e idioma es-CO declarado en el documento.",
-          "Seguridad por cabeceras desde vercel.json: CSP restrictiva sin orígenes de terceros, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy y Permissions-Policy.",
-          "Calidad: ESLint, Prettier y verificación de tipos con astro check, pruebas unitarias con Vitest y pruebas de punta a punta con Playwright (la guía y la navegación móvil), con CI en cada PR y el flujo dev, stg y main.",
+          "Seguridad por cabeceras, con una CSP restrictiva sin orígenes de terceros y cabeceras anti-framing, anti-sniffing, de referrer y de permisos.",
+          "Calidad: ESLint, Prettier y verificación de tipos con astro check, pruebas unitarias con Vitest y pruebas de punta a punta con Playwright (la guía y la navegación móvil), con CI en cada PR.",
         ],
         design: [
           "Los tokens de color, espacio, radio y sombra son una copia fiel de los del sistema de diseño de TerraCore: no se inventan ni se redefinen en el sitio.",
@@ -1038,7 +1063,7 @@ export const projects: Project[] = [
           problem:
             "The guide is for the end customer: an owner, administrator, or operator of a farm in Colombia, who is not technical. They need to learn the product without depending on a support call: how to start, what each module does, what to do when something does not go as expected, and who to contact.",
           architecture: [
-            "Astro 7 with static output, no React and no adapter, deployed on Vercel. JavaScript is vanilla TypeScript: search, side-menu state, and the table of contents.",
+            "Astro with static output, no React and no adapter, deployed on Vercel. JavaScript is vanilla TypeScript: search, side-menu state, and the table of contents.",
             "Content in MDX with Astro content collections: one page per file, with a title, summary, and icon typed by the collection schema. 34 pages in 8 groups: Getting started, Your team, Your farm, Your numbers, Data and connection, Your subscription, App flows, and Reference.",
             "A single source of truth for navigation: the list of groups and pages defines the side menu, the mobile navigation sheet, the home page, and the previous and next pager, in reading order. A test fails if a listed page has no file, or the reverse.",
             "Its own writing blocks, available on every page without importing them: notices, numbered steps, fields, screenshots, cards, badges, and tables.",
@@ -1046,11 +1071,11 @@ export const projects: Project[] = [
             "Client-side search: the index is generated at build time as a static JSON file and the browser queries it, with no server and no third-party service. It ignores accents and letter case.",
             "Navigation in grouped menus that remember whether they are open, a table of contents per page, and a pager between pages. Each page shows the date of its last review against the product, taken from a single constant.",
             "Technical SEO: a generated sitemap, robots.txt, a manifest, and the es-CO language declared in the document.",
-            "Security through headers from vercel.json: a restrictive CSP with no third-party origins, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.",
-            "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright (the guide and the mobile navigation), with CI on every PR and the dev, stg, and main flow.",
+            "Security through headers, with a restrictive CSP with no third-party origins and anti-framing, anti-sniffing, referrer, and permissions headers.",
+            "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright (the guide and the mobile navigation), with CI on every PR.",
           ],
           design: [
-            "Color, spacing, radius, and shadow-sm tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
+            "Color, spacing, radius, and shadow tokens are a faithful copy of the TerraCore design system's: they are not invented or redefined on the site.",
             "Lucide icons with a uniform stroke, through a single component.",
             "Text in Colombian Spanish, in the informal register, with long dates and es-CO number formats, and no emojis.",
             "A side bar on desktop; on mobile, a top bar with a bottom sheet to navigate.",
@@ -1059,7 +1084,7 @@ export const projects: Project[] = [
             {
               href: "https://docs.terracoreapp.co",
               text: "View documentation",
-              ariaLabel: "View documentation: TerraCore | Campo Inteligente",
+              ariaLabel: "View documentation: TerraCore | Smart Farming",
               event: "ver-docs-terracore",
             },
           ],
@@ -1069,6 +1094,7 @@ export const projects: Project[] = [
   },
   {
     slug: "okroot",
+    keyStack: ["Django", "DRF", "PostgreSQL", "React", "TypeScript", "PWA", "Claude API", "Astro"],
     name: "OKroot | Come sano, vive libre",
     shortName: "OKroot",
     datePublished: "2026-06-16",
@@ -1081,15 +1107,32 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "SoftwareApplication",
     summary:
-      "Ecosistema de OKroot | Come sano, vive libre, para personas con celiaquía, diabetes o intolerancia a la lactosa. Reúne la PWA con scanner de etiquetas por IA y sincronización offline, la landing de lista de espera con recetario y la documentación oficial del producto.",
+      "Ecosistema de OKroot | Come sano, vive libre, para personas con celiaquía, diabetes o intolerancia a la lactosa. Reúne la app con escáner de etiquetas por IA y modo sin conexión, la página de lista de espera con recetario y la documentación oficial del producto.",
+    brief: {
+      problem:
+        "Comer con celiaquía, diabetes o intolerancia a la lactosa obliga a leer cada etiqueta y cruzar varias restricciones a mano.",
+      solution:
+        "El usuario fotografía la etiqueta y recibe en segundos un veredicto con la razón, según su perfil.",
+      result: "Núcleo de la app en producción, en early access y con lista de espera abierta.",
+      validation: "En validación con clientes reales.",
+    },
     metaDescription:
-      "Caso de estudio de OKroot | Come sano, vive libre: PWA con scanner de etiquetas por IA, landing de lista de espera y docs oficiales. React, Django y Astro.",
+      "Caso de estudio de OKroot | Come sano, vive libre: escáner de etiquetas por IA para celiaquía, diabetes o lactosa. En validación con clientes reales.",
     en: {
-      imageAlt: "OKroot: PWA with AI food-label scanner and dietary restriction profile",
+      title: "OKroot | Eat Healthy, Live Free",
+      brief: {
+        problem:
+          "Eating with celiac disease, diabetes, or lactose intolerance means reading every label and cross-checking several restrictions by hand.",
+        solution:
+          "The user photographs the label and gets a verdict in seconds, with the reason, based on their profile.",
+        result: "App core in production, in early access, with the waitlist open.",
+        validation: "In validation with real clients.",
+      },
       summary:
-        "The OKroot | Come sano, vive libre ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the PWA with an AI label scanner and offline sync, the waitlist landing with a recipe collection, and the official product documentation.",
+        "The OKroot | Eat Healthy, Live Free ecosystem, for people with celiac disease, diabetes, or lactose intolerance. It brings together the app with an AI label scanner and offline mode, the waitlist page with a recipe collection, and the official product documentation.",
+      imageAlt: "OKroot: PWA with AI food-label scanner and dietary restriction profile",
       metaDescription:
-        "OKroot | Come sano, vive libre case study: PWA with an AI label scanner and offline sync, waitlist landing, and official documentation. React, Django, Astro.",
+        "OKroot | Eat Healthy, Live Free case study: an AI label scanner for celiac disease, diabetes, or lactose intolerance. In validation with real clients.",
     },
     parts: [
       {
@@ -1117,17 +1160,17 @@ export const projects: Project[] = [
         solution:
           "El usuario fotografía la etiqueta y recibe un veredicto con la razón concreta, calculado contra todas sus condiciones activas y contra los ingredientes que él mismo marcó como prohibidos. Alrededor del scanner hay un diario con macros y bitácora de salud, 50 recetas curadas, insights semanales y un mercado semanal. Se instala desde el navegador y guarda sin conexión lo que el usuario registra.",
         architecture: [
-          "Frontend en React 18 y TypeScript estricto, con Vite, Tailwind CSS 4, React Router y rutas por feature cargadas bajo demanda. Zustand guarda la sesión, TanStack Query maneja los datos del servidor, y react-hook-form con zod valida los formularios. Una capa de fetch propia, sin Axios.",
-          "Backend en Django 5.1 y Django REST Framework sobre PostgreSQL, organizado en ocho apps (usuarios, scanner, diario, recetas, insights, mercado, pagos y sync). La lógica vive en services y las vistas solo orquestan. Todas las respuestas usan el mismo envoltorio de datos y de error.",
-          "Scanner en el servidor: el cliente valida tipo, tamaño (5 MB) y resolución mínima, y envía la imagen en base64. El servidor la valida otra vez (firma del archivo incluida), llama a Claude con un prompt que conoce las condiciones del usuario y sus ingredientes a evitar, y parsea una respuesta por líneas a un veredicto, riesgo de trazas, ingredientes problemáticos y macros.",
+          "Frontend en React y TypeScript estricto, con Vite, Tailwind CSS, React Router y rutas por feature cargadas bajo demanda. Zustand guarda la sesión, TanStack Query maneja los datos del servidor, y react-hook-form con zod valida los formularios. Una capa de fetch propia, sin Axios.",
+          "Backend en Django y Django REST Framework sobre PostgreSQL, organizado por dominios (usuarios, scanner, diario, recetas, insights, mercado, pagos y sync). La lógica vive en services y las vistas solo orquestan. Todas las respuestas usan el mismo envoltorio de datos y de error.",
+          "Scanner en el servidor: el cliente y el servidor validan la imagen (tipo, tamaño y resolución mínima). El servidor llama a Claude con un prompt que conoce las condiciones del usuario y sus ingredientes a evitar, y parsea una respuesta por líneas a un veredicto, riesgo de trazas, ingredientes problemáticos y macros.",
           "La imagen no se guarda: va al modelo y se descarta. Si la etiqueta es ilegible, el servidor reemplaza el texto del modelo por una indicación concreta (borrosa, poca luz, reflejo, texto cortado, sin lista de ingredientes) en lugar de adivinar.",
           "Perfil de salud como estado persistente: tres condiciones combinables, objetivo, datos físicos con cálculo de gasto calórico (Mifflin-St Jeor) e ingredientes a evitar. Un ingrediente marcado por el usuario fuerza el veredicto de rechazo en código, sin depender de que el modelo lo recuerde.",
           "Diario con comidas y macros, resumen semanal y bitácora de salud (energía, piel y glucosa). Insights con alertas, racha, vaso de agua y una estimación glucémica simple para diabéticos. Mercado semanal armado desde las recetas favoritas y lo registrado en el diario.",
-          "Offline: el service worker (Workbox) precachea la app y las consultas a la API usan primero la red con respaldo en caché. Los escaneos, las comidas y los cambios de la lista de compras sin conexión quedan en una cola de IndexedDB (Dexie) y se envían por lotes a un endpoint de sync cuando vuelve la red.",
-          "Sync con idempotencia: cada operación lleva una clave UUID generada en el cliente y el servidor devuelve la entidad existente si la reconoce, así un reintento nunca duplica. El lote es de hasta 100 operaciones en orden, con reintentos espaciados y el servidor como fuente de verdad.",
+          "Offline: el service worker (Workbox) precachea la app y las consultas a la API usan primero la red con respaldo en caché. Los escaneos, las comidas y los cambios de la lista de compras sin conexión quedan en una cola de IndexedDB (Dexie) y se envían por lotes cuando vuelve la red.",
+          "Sync con idempotencia: cada operación lleva una clave UUID generada en el cliente y el servidor devuelve la entidad existente si la reconoce, así un reintento nunca duplica. El lote se envía en orden, con reintentos espaciados y el servidor como fuente de verdad.",
           "Cuota de escaneos reservada de forma atómica en la base antes de llamar al modelo y devuelta si la llamada falla, para que peticiones simultáneas no superen el tope. Suscripciones con checkout alojado de Stripe y MercadoPago y webhooks con firma verificada e idempotentes.",
-          "Seguridad: JWT de acceso corto con refresh rotativo y lista negra, login con Google verificado en el servidor, bloqueo por intentos fallidos, límites de tasa en Nginx y en DRF, y cabeceras HSTS y CSP.",
-          "Calidad y entrega: ruff, comprobación de migraciones, más de 500 pruebas de backend y más de 250 de frontend, escaneo de secretos y de vulnerabilidades críticas en la imagen. Las imágenes se publican en GHCR y el VPS despliega por digest inmutable, con Nginx por delante.",
+          "Seguridad: autenticación con tokens de corta duración y rotación, inicio de sesión con Google verificado en el servidor, protección contra intentos repetidos y cabeceras de seguridad.",
+          "Calidad y entrega: linter, comprobación de migraciones, más de 500 pruebas de backend y más de 250 de frontend, y escaneo de secretos y de vulnerabilidades en cada entrega. Despliegue reproducible.",
         ],
         links: [
           {
@@ -1267,11 +1310,8 @@ export const projects: Project[] = [
         ],
         learnings: [
           "Un modelo de lenguaje decide bien lo ambiguo, pero lo crítico se asegura en código: el ingrediente que el usuario prohibió se aplica como regla dura, y una imagen ilegible recibe una respuesta fija en vez de una conjetura.",
-          "El perfil de salud tiene que ser estado persistente y no contexto de la conversación. Así cada petición lo reconstruye igual y no se pierde entre llamadas.",
           "Reservar la cuota antes de llamar al modelo y devolverla si falla evita tanto el sobreuso concurrente como el cobro de un escaneo que no llegó.",
-          "Offline no es una capa que se añade al final: condiciona el modelo de sync desde el primer endpoint. Con claves de idempotencia por operación, los reintentos son seguros sin lógica de fusión en el cliente.",
           "Decir con precisión qué funciona sin conexión importa. El scanner necesita servidor, así que un escaneo sin red se encola y se procesa al volver la señal.",
-          "El texto del producto, la documentación y el código se desalinean con facilidad: contar pruebas, versiones y alcance a mano deja cifras viejas.",
         ],
         roadmap: {
           now: [
@@ -1287,36 +1327,36 @@ export const projects: Project[] = [
         en: {
           blurb: "PWA with an AI label scanner and an offline sync queue.",
           summary:
-            "PWA for people with celiac disease, diabetes or lactose intolerance, alone or combined. The user photographs a product label and an AI (Claude API) answers in seconds whether they can eat it for their profile. It adds a food diary with macros, recipes, insights and a weekly market. React, Django, DRF and PostgreSQL.",
+            "PWA for people with celiac disease, diabetes or lactose intolerance, alone or combined. The user photographs a product label and an AI (Claude API) answers in seconds whether they can eat it for their profile. It adds a food diary with macros, recipes, insights and a weekly grocery list. React, Django, DRF and PostgreSQL.",
           problem:
             "Eating with celiac disease, diabetes or lactose intolerance means reading every label, deciphering ingredients hidden under other names and cross-checking several restrictions at once, all by hand. Existing apps usually validate one condition and rely on a fixed product database.",
           solution:
-            "The user photographs the label and gets a verdict with the specific reason, computed against all their active conditions and against the ingredients they marked as forbidden. Around the scanner there is a diary with macros and a health log, 50 curated recipes, weekly insights and a weekly market. It installs from the browser and keeps what the user logs without a connection.",
+            "The user photographs the label and gets a verdict with the specific reason, computed against all their active conditions and against the ingredients they marked as forbidden. Around the scanner there is a diary with macros and a health log, 50 curated recipes, weekly insights and a weekly grocery list. It installs from the browser and keeps what the user logs without a connection.",
           links: [
             {
               href: "https://app.okroot.co/",
               text: "View app",
-              ariaLabel: "View app: OKroot | Come sano, vive libre",
+              ariaLabel: "View app: OKroot | Eat Healthy, Live Free",
               event: "ver-app-root",
             },
           ],
           designLink: {
             href: "https://okroot-pwa-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: OKroot | Come sano, vive libre app",
+            ariaLabel: "View design: OKroot | Eat Healthy, Live Free app",
           },
           architecture: [
-            "Frontend in React 18 and strict TypeScript, with Vite, Tailwind CSS 4, React Router and per-feature routes loaded on demand. Zustand holds the session, TanStack Query handles server data, and react-hook-form with zod validates forms. A custom fetch layer, no Axios.",
-            "Backend in Django 5.1 and Django REST Framework on PostgreSQL, organized in eight apps (users, scanner, diary, recipes, insights, market, payments and sync). Logic lives in services and views only orchestrate. Every response uses the same data and error envelope.",
-            "Scanner on the server: the client validates type, size (5 MB) and minimum resolution, and sends the image as base64. The server validates it again (file signature included), calls Claude with a prompt that knows the user's conditions and ingredients to avoid, and parses a line-based answer into a verdict, trace risk, problem ingredients and macros.",
+            "Frontend in React and strict TypeScript, with Vite, Tailwind CSS, React Router, and per-feature routes loaded on demand. Zustand holds the session, TanStack Query manages server data, and react-hook-form with zod validates the forms. A custom fetch layer, no Axios.",
+            "Backend in Django and Django REST Framework on PostgreSQL, organized by domain (users, scanner, diary, recipes, insights, market, payments and sync). Logic lives in services and views only orchestrate. Every response uses the same data and error envelope.",
+            "Server-side scanner: the client and the server both validate the image (type, size, and minimum resolution). The server calls Claude with a prompt that knows the user's conditions and ingredients to avoid, and parses a line-based answer into a verdict, trace risk, problem ingredients, and macros.",
             "The image is not stored: it goes to the model and is discarded. If the label is unreadable, the server replaces the model's text with a concrete hint (blurry, low light, glare, cropped text, no ingredient list) instead of guessing.",
             "Health profile as persistent state: three combinable conditions, goal, physical data with an energy expenditure calculation (Mifflin-St Jeor) and ingredients to avoid. An ingredient the user flagged forces the reject verdict in code, without relying on the model remembering it.",
-            "Diary with meals and macros, weekly summary and a health log (energy, skin and glucose). Insights with alerts, streak, water glasses and a simple glycemic estimate for diabetics. A weekly market built from favorite recipes and what was logged in the diary.",
-            "Offline: the service worker (Workbox) precaches the app and API reads go network-first with a cache fallback. Scans, meals and shopping list changes made without a connection are kept in an IndexedDB queue (Dexie) and sent in batches to a sync endpoint when the network returns.",
-            "Idempotent sync: each operation carries a client-generated UUID key and the server returns the existing entity if it recognizes it, so a retry never duplicates. A batch holds up to 100 operations in order, with spaced retries and the server as the source of truth.",
+            "Diary with meals and macros, weekly summary and a health log (energy, skin and glucose). Insights with alerts, streak, water glasses and a simple glycemic estimate for diabetics. A weekly grocery list built from favorite recipes and what was logged in the diary.",
+            "Offline: the service worker (Workbox) precaches the app and API queries go network first with a cache fallback. Offline scans, meals, and shopping list changes wait in an IndexedDB queue (Dexie) and are sent in batches when the network returns.",
+            "Idempotent sync: every operation carries a client-generated UUID key and the server returns the existing entity if it recognizes it, so a retry never duplicates. The batch goes in order, with spaced retries and the server as the source of truth.",
             "Scan quota reserved atomically in the database before calling the model and returned if the call fails, so simultaneous requests cannot exceed the cap. Subscriptions with hosted Stripe and MercadoPago checkout and signature-verified, idempotent webhooks.",
-            "Security: short-lived JWT access with rotating, blacklisted refresh, server-verified Google login, lockout on failed attempts, rate limits in Nginx and DRF, and HSTS and CSP headers.",
-            "Quality and delivery: ruff, migration checks, more than 500 backend tests and more than 250 frontend tests, secret scanning and scanning for critical image vulnerabilities. Images are published to GHCR and the VPS deploys by immutable digest, with Nginx in front.",
+            "Security: authentication with short-lived, rotating tokens, Google sign-in verified on the server, protection against repeated attempts, and security headers.",
+            "Quality and delivery: linter, migration checks, over 500 backend tests and over 250 frontend tests, and secret and vulnerability scanning on every release. Reproducible deployment.",
           ],
           painPoints: [
             {
@@ -1339,7 +1379,7 @@ export const projects: Project[] = [
             },
             {
               name: "Profile and ingredients to avoid",
-              text: "Four-step onboarding with the conditions (combinable), the goal, physical data and the ingredients the user never wants to see. It is edited later from the profile.",
+              text: "Four-step onboarding with the conditions (combinable), the goal, physical data and the ingredients the user never wants to see. It can be edited later from the profile.",
             },
             {
               name: "Diary and health log",
@@ -1347,11 +1387,11 @@ export const projects: Project[] = [
             },
             {
               name: "Recipes",
-              text: "50 curated recipes, all gluten-free, lactose-free and sugar-free. They filter by meal, time, difficulty and favorites, and any that contain an ingredient to avoid are left out. They can be added to the diary.",
+              text: "50 curated recipes, all gluten-free, lactose-free and sugar-free. They can be filtered by meal, time, difficulty and favorites, and any that contain an ingredient to avoid are left out. They can be added to the diary.",
             },
             {
-              name: "Insights and weekly market",
-              text: "A weekly summary with alerts, logging streak and water glasses. A weekly market is built from the ingredients of favorite recipes and what was logged in the diary.",
+              name: "Insights and weekly grocery list",
+              text: "A weekly summary with alerts, logging streak and water glasses. A weekly grocery list is built from the ingredients of favorite recipes and what was logged in the diary.",
             },
           ],
           chainStepsTitle: "One photo, one answer. Here is what happens underneath.",
@@ -1366,7 +1406,7 @@ export const projects: Project[] = [
             {
               title: "Real medical niche, not generic wellness",
               context:
-                "Many eat-healthy apps exist. People with celiac disease, diabetes or intolerance have specific needs and real consequences if they make mistakes.",
+                "There are many healthy-eating apps. People with celiac disease, diabetes or intolerance have specific needs and real consequences if they make mistakes.",
               tradeoff:
                 "A broader product reaches more users but dilutes the proposition and lowers the validation standard.",
               decision:
@@ -1438,20 +1478,17 @@ export const projects: Project[] = [
           ],
           results: [
             "Scanner in production: label photo, verdict with the specific reason and support for all three conditions at once.",
-            "Complete core in production: profile, scanner, diary with health log, recipes, insights and weekly market on Django, PostgreSQL and React.",
+            "Complete core in production: profile, scanner, diary with health log, recipes, insights and weekly grocery list on Django, PostgreSQL and React.",
             "Offline sync queue running for scans, meals and the shopping list, with idempotent batch delivery when the network returns.",
           ],
           learnings: [
             "A language model handles the ambiguous well, but the critical part is secured in code: the ingredient the user forbade is applied as a hard rule, and an unreadable image gets a fixed answer instead of a guess.",
-            "The health profile has to be persistent state and not conversation context. That way each request rebuilds it the same way and nothing is lost between calls.",
             "Reserving the quota before calling the model and returning it on failure avoids both concurrent overuse and charging for a scan that never arrived.",
-            "Offline is not a layer added at the end: it conditions the sync model from the first endpoint. With per-operation idempotency keys, retries are safe without client-side merge logic.",
             "Being precise about what works offline matters. The scanner needs a server, so a scan without a network is queued and processed when the signal returns.",
-            "Product copy, documentation and code drift apart easily: counting tests, versions and scope by hand leaves stale numbers behind.",
           ],
           roadmap: {
             now: [
-              "PWA in production in early access, with scanner, diary, recipes, insights, weekly market and subscriptions.",
+              "PWA in production in early access, with scanner, diary, recipes, insights, weekly grocery list and subscriptions.",
             ],
             next: [
               "Read the diary and recipes from local storage without a connection: today only the scan history is read from the cache.",
@@ -1483,16 +1520,16 @@ export const projects: Project[] = [
         solution:
           "Landing en Astro que parte del dolor cotidiano, muestra cómo funciona el scanner en tres pasos, compara con las apps que existen y presenta a la fundadora como primera usuaria. Todos los botones llevan a una lista de espera con consentimiento explícito, sin pedir datos de salud, y la analítica solo se carga si el visitante la acepta.",
         architecture: [
-          "Astro 5 con salida estática y Tailwind CSS 4 con la configuración en CSS. Sin adaptador ni framework de interfaz: el JavaScript es vanilla, un script por componente. Los íconos de Lucide se incrustan al compilar como SVG, sin JavaScript en el navegador.",
+          "Astro con salida estática y Tailwind CSS con la configuración en CSS. Sin adaptador ni framework de interfaz: el JavaScript es vanilla, un script por componente. Los íconos de Lucide se incrustan al compilar como SVG, sin JavaScript en el navegador.",
           "Una página de aterrizaje de nueve secciones en orden fijo: Hero, Dolor, Cómo funciona, Comparación, Funciones, Casos de éxito, Precios, Lista de espera y Preguntas. Además hay páginas de Sobre mí, Contacto y Preguntas, y las cuatro legales (privacidad, términos, habeas data y cookies).",
           "Recetario como colección de contenido: cada receta es un archivo Markdown validado en el build con un esquema de zod. Una receta que no lo cumple rompe la compilación y no llega a producción. El índice y una página por receta se generan en estático, con JSON-LD de receta y migas de pan.",
           "Los datos de la sección de precios y el cupo de acceso anticipado viven en un solo archivo de constantes, y el contador de cupos admite solo un número real: con cero, la línea de escasez desaparece.",
-          "Lista de espera con nombre, correo y casilla de consentimiento obligatoria, más un campo trampa oculto. Envía JSON a una función de Vercel que valida y normaliza, y guarda en una tabla compartida de Supabase con la llave de servicio solo en el servidor. El navegador nunca habla con Supabase.",
+          "Lista de espera con nombre, correo y casilla de consentimiento obligatoria. Envía JSON a una función de servidor que valida y normaliza, y guarda en una tabla compartida de Supabase. El navegador nunca habla con Supabase.",
           "La función guarda únicamente nombre, correo, producto, fecha de consentimiento y la ruta de la página. No recibe ni guarda datos de salud ni la IP, y descarta cualquier campo extra. Un correo repetido responde 'ya estás dentro' sin crear otra fila, y solo guarda en producción: en preview valida y avisa que el almacenamiento está desactivado.",
-          "Analítica: GA4 con consentimiento. No se carga nunca por defecto; un banner de cookies guarda la preferencia y, solo si el visitante acepta, inyecta gtag.js con el ID de una variable de entorno. Si la variable no existe, no se hace ninguna petición. Un page_view manual cubre la navegación con transiciones.",
+          "Analítica: GA4 con consentimiento. No se carga nunca por defecto; un banner de cookies guarda la preferencia y, solo si el visitante acepta, activa la analítica. Un page_view manual cubre la navegación con transiciones.",
           "Navegación con View Transitions como mejora progresiva: cada ruta sigue siendo un HTML real, y los scripts se vuelven a ejecutar en cada carga de página.",
           "SEO técnico: title, description, canonical, Open Graph y Twitter, mapa del sitio automático y JSON-LD con Organization, WebSite, SoftwareApplication y FAQPage. Las preguntas frecuentes alimentan el acordeón y el esquema desde la misma fuente.",
-          "Seguridad desde vercel.json: CSP estricta con script-src 'self' y solo los orígenes de Google Analytics, HSTS, X-Frame-Options DENY, Permissions-Policy sin cámara ni micrófono y caché inmutable en los archivos con hash.",
+          "Seguridad: cabeceras estrictas (CSP, HSTS, anti-framing y permisos restringidos) y caché inmutable en los archivos con hash.",
           "Calidad: la verificación es astro check (TypeScript y plantillas) más el build, que valida además el esquema de las recetas. CI corre ambos en cada pull request, con un audit de dependencias que informa pero no bloquea. No hay pruebas automatizadas de interfaz.",
         ],
         painPoints: [
@@ -1590,7 +1627,7 @@ export const projects: Project[] = [
             tradeoff:
               "La función de Vercel no corre bajo el servidor de desarrollo de Astro, y el preview no tiene base de datos.",
             decision:
-              "El sitio es estático y el formulario habla con una función que usa la llave de servicio solo en el servidor. Fuera de producción valida y no guarda.",
+              "El sitio es estático y el formulario habla con una función de servidor que guarda los datos. Fuera de producción valida y no guarda.",
           },
           {
             title: "Una tabla de contactos compartida",
@@ -1599,7 +1636,7 @@ export const projects: Project[] = [
             tradeoff:
               "Una tabla compartida exige que cada función ponga su propio producto y que el script de la tabla sea idéntico en todos los repositorios.",
             decision:
-              "Las listas de espera comparten una tabla con la clave única de producto y correo. La función fija el producto en el servidor y nunca lo lee de la petición.",
+              "Las listas de espera comparten una tabla, con una clave única por producto y correo. El servidor define a qué producto pertenece cada registro.",
           },
         ],
         design: [
@@ -1619,8 +1656,6 @@ export const projects: Project[] = [
           "Comunicar tres restricciones en un solo llamado exige priorizar la acción sobre la lista de condiciones: fotografiar la etiqueta se entiende más rápido que enumerar lo que se tiene.",
           "En un tema de salud, lo que no se promete vale tanto como lo que sí. Sin claims médicos, sin stack y sin casos inventados, cada frase se puede defender.",
           "Una analítica que espera el consentimiento y un formulario que no pide datos de salud son decisiones de producto, no solo de cumplimiento.",
-          "Un esquema que valida el contenido en el build evita que una receta rota llegue a producción, aunque no haya pruebas automatizadas de interfaz.",
-          "Las cifras de precios, cupos y límites se desalinean cuando se copian en varias páginas: conviene una sola fuente y revisar el texto contra el producto.",
         ],
         roadmap: {
           now: ["Landing en producción captando la lista de espera del acceso anticipado."],
@@ -1653,25 +1688,25 @@ export const projects: Project[] = [
             {
               href: "https://okroot.co/",
               text: "View site",
-              ariaLabel: "View landing: OKroot | Come sano, vive libre",
+              ariaLabel: "View landing: OKroot | Eat Healthy, Live Free",
             },
           ],
           designLink: {
             href: "https://okroot-landing-prototype.netlify.app/",
             text: "View design",
-            ariaLabel: "View design: OKroot | Come sano, vive libre landing",
+            ariaLabel: "View design: OKroot | Eat Healthy, Live Free landing",
           },
           architecture: [
-            "Astro 5 with static output and Tailwind CSS 4 configured in CSS. No adapter and no UI framework: JavaScript is vanilla, one script per component. Lucide icons are inlined at build time as SVG, with no JavaScript in the browser.",
+            "Astro with static output and Tailwind CSS configured in CSS. No adapter and no UI framework: JavaScript is vanilla, one script per component. Lucide icons are inlined at build time as SVG, with no JavaScript in the browser.",
             "A landing page of nine sections in a fixed order: Hero, Pain, How it works, Comparison, Features, Success stories, Pricing, Waitlist and FAQ. There are also About, Contact and FAQ pages, and the four legal ones (privacy, terms, habeas data and cookies).",
             "A recipe collection as a content collection: each recipe is a Markdown file validated at build time with a zod schema. A recipe that does not comply breaks the build and never reaches production. The index and one page per recipe are generated statically, with recipe JSON-LD and breadcrumbs.",
             "The pricing section data and the early access spots live in a single constants file, and the spots counter accepts only a real number: at zero, the scarcity line disappears.",
-            "A waitlist with name, email and a required consent checkbox, plus a hidden honeypot field. It sends JSON to a Vercel function that validates and normalizes, and stores in a shared Supabase table with the service key only on the server. The browser never talks to Supabase.",
+            "Waitlist with name, email, and a mandatory consent checkbox. It sends JSON to a server function that validates and normalizes, and saves to a shared Supabase table. The browser never talks to Supabase.",
             "The function stores only name, email, product, consent date and the page path. It neither receives nor stores health data or the IP, and drops any extra field. A repeated email answers 'you are already in' without creating another row, and it only stores in production: in preview it validates and reports that storage is disabled.",
-            "Analytics: GA4 with consent. It never loads by default; a cookie banner stores the preference and, only if the visitor accepts, injects gtag.js with the ID from an environment variable. If the variable is missing, no request is made. A manual page_view covers navigation with transitions.",
+            "Analytics: GA4 with consent. It never loads by default; a cookie banner stores the preference and only enables analytics if the visitor accepts. A manual page_view covers navigation with transitions.",
             "Navigation with View Transitions as progressive enhancement: each route is still a real HTML file, and scripts re-run on every page load.",
             "Technical SEO: title, description, canonical, Open Graph and Twitter, automatic sitemap and JSON-LD with Organization, WebSite, SoftwareApplication and FAQPage. The FAQ feeds the accordion and the schema from the same source.",
-            "Security from vercel.json: strict CSP with script-src 'self' and only the Google Analytics origins, HSTS, X-Frame-Options DENY, a Permissions-Policy without camera or microphone and immutable caching on hashed files.",
+            "Security: strict headers (CSP, HSTS, anti-framing, and restricted permissions) and immutable caching on hashed files.",
             "Quality: verification is astro check (TypeScript and templates) plus the build, which also validates the recipe schema. CI runs both on every pull request, with a dependency audit that reports but does not block. There are no automated UI tests.",
           ],
           painPoints: [
@@ -1770,7 +1805,7 @@ export const projects: Project[] = [
               tradeoff:
                 "The Vercel function does not run under Astro's dev server, and preview has no database.",
               decision:
-                "The site is static and the form talks to a function that uses the service key only on the server. Outside production it validates and does not store.",
+                "The site is static and the form talks to a server function that stores the data. Outside production it validates and does not store.",
             },
             {
               title: "A shared contacts table",
@@ -1779,7 +1814,7 @@ export const projects: Project[] = [
               tradeoff:
                 "A shared table requires each function to set its own product and the table script to be identical across repositories.",
               decision:
-                "The waitlists share a table with a unique key on product and email. The function sets the product on the server and never reads it from the request.",
+                "The waitlists share one table, with a unique key per product and email. The server defines which product each entry belongs to.",
             },
           ],
           design: [
@@ -1787,7 +1822,7 @@ export const projects: Project[] = [
             "Violet as the primary color on cream backgrounds, in the same visual family as the app, with a hero in a soft gradient card.",
             "Fonts are self-hosted and served from the site itself, requesting nothing from third parties.",
             "Sections with an editorial eyebrow, reveal animations with IntersectionObserver and pure CSS, without an animation library.",
-            "Iconography as inlined SVG: never text arrows in buttons nor long dashes in the copy.",
+            "Iconography as inlined SVG: no text arrows in buttons and no long dashes in the copy.",
             "An animated scanner in the hero that shows the scan and the verdict without loading the real product.",
             "All content is in Spanish and so are the routes (preguntas, contacto, sobre-mi, recetas).",
           ],
@@ -1799,8 +1834,6 @@ export const projects: Project[] = [
             "Communicating three restrictions in a single call requires prioritizing the action over the list of conditions: photographing the label is understood faster than listing what you have.",
             "On a health topic, what you do not promise is worth as much as what you do. With no medical claims, no stack and no invented cases, every sentence can be defended.",
             "Analytics that wait for consent and a form that does not ask for health data are product decisions, not only compliance ones.",
-            "A schema that validates content at build time prevents a broken recipe from reaching production, even without automated UI tests.",
-            "Pricing, spots and limits drift apart when copied across several pages: one source is better, and the text should be checked against the product.",
           ],
           roadmap: {
             now: ["Landing in production collecting the early access waitlist."],
@@ -1819,15 +1852,15 @@ export const projects: Project[] = [
         summary:
           "Sitio de documentación oficial de OKroot: la guía de uso del producto, estática y en español, con el mismo stack que la documentación de TerraCore. Astro, MDX, búsqueda en el navegador y navegación agrupada.",
         architecture: [
-          "Astro 7 con salida estática, sin React ni adaptador, desplegado en Vercel. El JavaScript es TypeScript vanilla: búsqueda, estado del menú lateral y tabla de contenido.",
+          "Astro con salida estática, sin React ni adaptador, desplegado en Vercel. El JavaScript es TypeScript vanilla: búsqueda, estado del menú lateral y tabla de contenido.",
           "Contenido en MDX con colecciones de contenido de Astro: una página por archivo, con título, resumen e ícono tipados por el esquema de la colección.",
           "Una sola fuente de verdad para la navegación: la lista de grupos y páginas define el menú lateral, la hoja de navegación móvil, la portada y el paginador anterior y siguiente, en orden de lectura, con una prueba que la contrasta con los archivos.",
           "Bloques de redacción propios, disponibles en cada página sin importarlos: avisos, pasos numerados, campos, capturas, tarjetas, insignias y tablas.",
           "Diseño atómico con alias de importación por capa (átomos, moléculas, organismos, plantillas y layouts), con los componentes del sistema de diseño del producto recreados en Astro.",
           "Búsqueda del lado del cliente: el índice se genera en el build como un archivo JSON estático y el navegador lo consulta, sin servidor ni servicios de terceros.",
           "SEO técnico: sitemap generado, robots.txt, manifest e idioma declarado en el documento.",
-          "Seguridad por cabeceras desde vercel.json: CSP restrictiva sin orígenes de terceros, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy y Permissions-Policy.",
-          "Calidad: ESLint, Prettier y verificación de tipos con astro check, pruebas unitarias con Vitest y pruebas de punta a punta con Playwright, con CI en cada PR y el flujo dev, stg y main.",
+          "Seguridad por cabeceras, con una CSP restrictiva sin orígenes de terceros y cabeceras anti-framing, anti-sniffing, de referrer y de permisos.",
+          "Calidad: ESLint, Prettier y verificación de tipos con astro check, pruebas unitarias con Vitest y pruebas de punta a punta con Playwright, con CI en cada PR.",
         ],
         design: [
           "Los tokens de diseño provienen del sistema de diseño del producto y no se redefinen en el sitio.",
@@ -1847,15 +1880,15 @@ export const projects: Project[] = [
           summary:
             "OKroot's official documentation site: the product usage guide, static and in Spanish, with the same stack as TerraCore's documentation. Astro, MDX, in-browser search, and grouped navigation.",
           architecture: [
-            "Astro 7 with static output, no React and no adapter, deployed on Vercel. JavaScript is vanilla TypeScript: search, side-menu state, and the table of contents.",
+            "Astro with static output, no React and no adapter, deployed on Vercel. JavaScript is vanilla TypeScript: search, side-menu state, and the table of contents.",
             "Content in MDX with Astro content collections: one page per file, with a title, summary, and icon typed by the collection schema.",
             "A single source of truth for navigation: the list of groups and pages defines the side menu, the mobile navigation sheet, the home page, and the previous and next pager, in reading order, with a test that checks it against the files.",
             "Its own writing blocks, available on every page without importing them: notices, numbered steps, fields, screenshots, cards, badges, and tables.",
             "Atomic design with an import alias per layer (atoms, molecules, organisms, templates, and layouts), with the product design system components recreated in Astro.",
             "Client-side search: the index is generated at build time as a static JSON file and the browser queries it, with no server and no third-party service.",
             "Technical SEO: a generated sitemap, robots.txt, a manifest, and the language declared in the document.",
-            "Security through headers from vercel.json: a restrictive CSP with no third-party origins, HSTS, X-Frame-Options DENY, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.",
-            "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright, with CI on every PR and the dev, stg, and main flow.",
+            "Security through headers, with a restrictive CSP with no third-party origins and anti-framing, anti-sniffing, referrer, and permissions headers.",
+            "Quality: ESLint, Prettier, and type checking with astro check, unit tests with Vitest, and end-to-end tests with Playwright, with CI on every PR.",
           ],
           design: [
             "Design tokens come from the product design system and are not redefined on the site.",
@@ -1866,7 +1899,7 @@ export const projects: Project[] = [
             {
               href: "https://docs.okroot.co",
               text: "View documentation",
-              ariaLabel: "View documentation: OKroot | Come sano, vive libre",
+              ariaLabel: "View documentation: OKroot | Eat Healthy, Live Free",
               event: "ver-docs-okroot",
             },
           ],
@@ -1876,6 +1909,16 @@ export const projects: Project[] = [
   },
   {
     slug: "nullbreach",
+    keyStack: [
+      "Next.js",
+      "NextAuth",
+      "Prisma",
+      "PostgreSQL",
+      "React",
+      "TypeScript",
+      "OpenAI API",
+      "Astro",
+    ],
     name: "NullBreach | AI-Powered AppSec Chat",
     shortName: "NullBreach",
     datePublished: "2026-06-16",
@@ -1888,15 +1931,28 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "SoftwareApplication",
     summary:
-      "Ecosistema de NullBreach | AI-Powered AppSec Chat, el asistente de seguridad de aplicaciones de código abierto. Reúne la aplicación Next.js con chat y análisis de código orientado a OWASP, la landing estática en Astro, el repositorio con licencia MIT y la documentación Swagger de la API.",
+      "Ecosistema de NullBreach | AI-Powered AppSec Chat, un portafolio de seguridad de aplicaciones de código abierto y sin fines comerciales. Reúne la aplicación con chat y análisis de código orientado a OWASP, la página de presentación, el repositorio con licencia MIT y la documentación de la API.",
+    brief: {
+      problem: "Un hallazgo de seguridad sirve poco si no dice qué tan grave es y cómo se corrige.",
+      solution:
+        "Se pega un fragmento de código y se recibe un análisis con severidad, impacto y remediación, o se pregunta en un chat de seguridad.",
+      result: "En producción y de código abierto con licencia MIT.",
+    },
     metaDescription:
-      "Caso de estudio de NullBreach | AI-Powered AppSec Chat: app Next.js con chat y análisis de código OWASP, landing Astro, repositorio abierto y API con Swagger.",
+      "Caso de estudio de NullBreach | AI-Powered AppSec Chat: portafolio de seguridad de aplicaciones de código abierto, sin fines comerciales.",
     en: {
-      imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
+      brief: {
+        problem:
+          "A security finding is of little use if it does not say how serious it is and how to fix it.",
+        solution:
+          "You paste a code snippet and get an analysis with severity, impact, and remediation, or ask in a security chat.",
+        result: "In production and open source under the MIT license.",
+      },
       summary:
-        "The NullBreach | AI-Powered AppSec Chat ecosystem, the open-source application security assistant. It brings together the Next.js app with a chat and OWASP-oriented code analysis, the static Astro landing, the MIT-licensed repository, and the API's Swagger documentation.",
+        "The NullBreach | AI-Powered AppSec Chat ecosystem, an open-source, non-commercial application security portfolio. It brings together the app with a chat and OWASP-oriented code analysis, the presentation page, the MIT-licensed repository, and the API documentation.",
+      imageAlt: "NullBreach: OWASP-aligned AI code analysis and security chat",
       metaDescription:
-        "NullBreach | AI-Powered AppSec Chat case study: Next.js app with an OWASP code-analysis chat, Astro landing, open repository, and a Swagger-documented API.",
+        "NullBreach | AI-Powered AppSec Chat case study: an open-source, non-commercial application security portfolio with OWASP-oriented code analysis.",
     },
     parts: [
       {
@@ -2079,7 +2135,6 @@ export const projects: Project[] = [
         learnings: [
           "Un modelo de lenguaje que revisa código debe presentarse como asistencia de análisis y no como una verificación determinista.",
           "Autenticar y limitar el tamaño antes de llamar a un proveedor de pago protege el costo y la base de datos al mismo tiempo.",
-          "Montar una app bajo el prefijo de otro dominio exige una sola función de rutas y varios archivos de configuración sincronizados.",
           "Una landing estática en Astro puede viajar dentro del despliegue de la aplicación y conservar su propio SEO, sin pagar el costo de dos despliegues.",
         ],
         en: {
@@ -2246,8 +2301,7 @@ export const projects: Project[] = [
           ],
           learnings: [
             "A language model that reviews code should be presented as analysis assistance, not as deterministic verification.",
-            "Authenticating and limiting size before calling a paid provider protects cost and the database at the same time.",
-            "Mounting an app under another domain's prefix takes a single route helper and several configuration files kept in sync.",
+            "Authenticating and limiting size before calling a paid provider controls cost and protects the database at the same time.",
             "A static Astro landing can ride inside the application's deployment and keep its own SEO, without paying for two deployments.",
           ],
         },
@@ -2339,6 +2393,16 @@ export const projects: Project[] = [
   },
   {
     slug: "lumina-w",
+    keyStack: [
+      "Next.js",
+      "Prisma",
+      "PostgreSQL",
+      "React",
+      "TypeScript",
+      "Claude API",
+      "Brevo",
+      "Astro",
+    ],
     name: "Lúmina W | Software & Technology",
     shortName: "Lúmina W",
     datePublished: "2026-06-16",
@@ -2351,15 +2415,29 @@ export const projects: Project[] = [
     imageHeight: 630,
     schemaType: "WebSite",
     summary:
-      "Ecosistema digital de Lúmina W | Software & Technology, empresa de software de Medellín. Reúne el sitio bilingüe en Astro, con sus dos caminos de servicio (desarrollo a medida y producto propio en SaaS), y el blog bilingüe en Next.js con cuentas, moderación y newsletter.",
+      "Ecosistema digital de Lúmina W | Software & Technology, empresa de software de Medellín. Reúne el sitio bilingüe, con sus dos caminos de servicio (desarrollo a medida y producto propio por suscripción), y el blog bilingüe con cuentas, moderación y newsletter.",
+    brief: {
+      problem:
+        "Una empresa de software que vende proyectos a medida y producto propio necesita explicar cada camino sin mezclarlos y recibir solicitudes con datos útiles.",
+      solution:
+        "Un sitio bilingüe con dos caminos de servicio claros desde la primera pantalla y un formulario que recoge lo necesario para responder.",
+      result: "Sitio y blog en producción, en luminaw.co y blog.luminaw.co.",
+    },
     metaDescription:
-      "Caso de estudio de Lúmina W | Software & Technology: sitio bilingüe en Astro con dos caminos de servicio y blog en Next.js con cuentas, moderación y newsletter.",
+      "Caso de estudio de Lúmina W | Software & Technology: sitio bilingüe con dos caminos de servicio y blog con cuentas, moderación y newsletter, en producción.",
     en: {
-      imageAlt: "Lumina W landing: brand tagline and call to action",
+      brief: {
+        problem:
+          "A software company that sells custom projects and its own product needs to explain each path without mixing them up and to receive requests with useful data.",
+        solution:
+          "A bilingual site with two clear service paths from the first screen and a form that collects what is needed to reply.",
+        result: "Site and blog in production, at luminaw.co and blog.luminaw.co.",
+      },
       summary:
-        "The digital ecosystem of Lúmina W | Software & Technology, a software company in Medellín. It brings together the bilingual Astro site, with its two service paths (custom development and its own SaaS product), and the bilingual Next.js blog with accounts, moderation, and a newsletter.",
+        "The digital ecosystem of Lúmina W | Software & Technology, a software company in Medellín. It brings together the bilingual site, with its two service paths (custom development and its own subscription product), and the bilingual blog with accounts, moderation, and a newsletter.",
+      imageAlt: "Lúmina W landing: brand tagline and call to action",
       metaDescription:
-        "Lúmina W | Software & Technology case study: bilingual Astro site with two service paths and a Next.js blog with accounts, moderation, and a newsletter.",
+        "Lúmina W | Software & Technology case study: a bilingual site with two service paths and a blog with accounts, moderation, and a newsletter, in production.",
     },
     parts: [
       {
@@ -2384,17 +2462,17 @@ export const projects: Project[] = [
         solution:
           "Un sitio estático con dos caminos explícitos desde la primera pantalla, un proceso de cuatro fases para cada uno, una página de productos y un formulario que recoge lo necesario (necesidad, etapa y consentimiento) y lo guarda de forma segura. Está en español y en inglés, con SEO técnico y analítica solo con consentimiento.",
         architecture: [
-          "Astro 6 con salida estática y Tailwind CSS 4. Doce componentes montan la landing en un orden fijo: portada, bifurcación entre los dos caminos, problema, agitación, cinta de frases, solución, proceso, manifiesto, por qué nosotros, producto, preguntas frecuentes y contacto. Cada sección tiene un ancla que coincide con la barra de navegación y el pie.",
+          "Astro con salida estática y Tailwind CSS. Doce componentes montan la landing en un orden fijo: portada, bifurcación entre los dos caminos, problema, agitación, cinta de frases, solución, proceso, manifiesto, por qué nosotros, producto, preguntas frecuentes y contacto. Cada sección tiene un ancla que coincide con la barra de navegación y el pie.",
           "Español por defecto en la raíz e inglés bajo /en, con las dos copias en diccionarios tipados: el diccionario en inglés exige las mismas claves que el español, así que una clave que falte rompe el build. Las páginas de productos y contacto tienen ruta traducida, y las legales conservan el mismo nombre.",
           "Formulario de contacto: el navegador manda un JSON a una Función de Vercel que valida los campos (nombre, empresa, correo, teléfono, necesidad, etapa y mensaje), exige el consentimiento y descarta en silencio lo que llegue por un campo trampa oculto. Los valores de necesidad y etapa son códigos fijos en inglés, así que una opción se guarda igual en los dos idiomas.",
-          "La Función guarda cada solicitud en Supabase con la llave de servicio, que vive solo en el servidor, y completa la fecha de consentimiento, el origen y el agente de usuario por su cuenta. No guarda la IP. Si el correo ya existe, responde que todo salió bien sin crear otra fila, y avisa igual al buzón interno.",
+          "La Función guarda cada solicitud en Supabase y completa la fecha de consentimiento, el origen y el agente de usuario por su cuenta. No guarda la IP. Si el correo ya existe, responde que todo salió bien sin crear otra fila, y avisa igual al buzón interno.",
           "El aviso interno sale por Brevo y es de mejor esfuerzo: si el correo falla, la solicitud ya quedó guardada. El almacenamiento solo corre en producción de Vercel, así que en las previsualizaciones el formulario responde 503 por diseño.",
           "La tabla de solicitudes es una sola, compartida con las landings de TerraCore y OKroot, con una columna de producto y una restricción de unicidad por producto y correo. Tiene seguridad por filas activada y sin permisos para los roles públicos: solo la Función puede escribir.",
           "SEO técnico: un grafo JSON-LD con ProfessionalService, WebSite y WebPage, más FAQPage en las preguntas frecuentes, canónica propia, hreflang entre es, en y x-default, sitemap con alternates y un robots.txt que permite de forma explícita a 21 rastreadores de IA, junto con un llms.txt.",
           "Analítica con consentimiento: Google Analytics 4 se carga solo si la persona acepta el aviso de cookies, y la decisión se guarda en el almacenamiento local, sin cookies propias. El aviso no bloquea la página y aparece tras desplazarse un poco.",
-          "Rendimiento y entrega: imágenes en WebP con dimensiones explícitas, fuentes con swap, caché inmutable de un año para los recursos con hash y las imágenes, y cabeceras de seguridad (HSTS, anti-framing, anti-sniffing, referrer y permisos). El despliegue en Vercel es continuo desde main.",
+          "Rendimiento y entrega: imágenes en WebP con dimensiones explícitas, fuentes con swap, caché de larga duración para los recursos con hash y las imágenes, y cabeceras de seguridad. El despliegue en Vercel es continuo.",
           "Accesibilidad trabajada en el código: enlace para saltar al contenido, foco visible, etiquetas por campo con errores anunciados y mensaje de éxito con rol de estado, y respeto de prefers-reduced-motion. Un respaldo sin JavaScript deja visible el contenido que aparece al desplazarse.",
-          "Calidad: formato y build en cada PR, con escaneo de secretos con gitleaks y el flujo dev, stg y main. No hay pruebas automáticas ni medición de Lighthouse guardada en el repositorio.",
+          "Calidad: formato, build y escaneo de secretos en cada PR, con un flujo de ramas por entornos.",
         ],
         links: [
           {
@@ -2478,7 +2556,7 @@ export const projects: Project[] = [
             tradeoff:
               "Hay una pieza de servidor, aunque pequeña, que mantener, y el formulario no funciona en las previsualizaciones, donde no hay base de datos.",
             decision:
-              "Una Función de Vercel valida, aplica la honeypot y el consentimiento, y escribe en Supabase con la llave de servicio en el servidor. El navegador nunca habla con Supabase.",
+              "Una Función de Vercel valida, aplica la honeypot y el consentimiento, y escribe en Supabase desde el servidor. El navegador nunca habla con Supabase.",
           },
           {
             title: "Una tabla de solicitudes compartida entre las landings",
@@ -2521,7 +2599,6 @@ export const projects: Project[] = [
           "SEO técnico con datos estructurados, hreflang, sitemap, robots para rastreadores de IA y llms.txt.",
         ],
         learnings: [
-          "Para una página de presentación, una Función pequeña frente a Supabase resuelve el contacto sin un backend que mantener, pero obliga a decidir qué pasa en las previsualizaciones, donde no hay base de datos.",
           "Pedir necesidad y etapa en el formulario, con valores fijos, hace que la primera respuesta ya pueda ser una propuesta y que los datos se comparen entre idiomas.",
           "Las promesas del texto deben ser algo que el código haga: decir que se recibe una confirmación por correo exige que la Función envíe ese correo.",
           "Un diccionario tipado convierte una traducción olvidada en un error de build en lugar de en una página a medias.",
@@ -2529,7 +2606,7 @@ export const projects: Project[] = [
         en: {
           blurb: "Bilingual Astro site with two service paths and a Supabase-backed form.",
           summary:
-            "Website of Lumina W, a software company in Medellín. Bilingual (Spanish and English), static, with a twelve-block landing page that separates two paths (custom development and its own SaaS product), a products page with TerraCore and OKroot, and a contact form that stores each request in Supabase and notifies by email. Astro, Tailwind CSS and a Vercel Function.",
+            "Website of Lúmina W, a software company in Medellín. Bilingual (Spanish and English), static, with a twelve-block landing page that separates two paths (custom development and its own SaaS product), a products page with TerraCore and OKroot, and a contact form that stores each request in Supabase and notifies by email. Astro, Tailwind CSS and a Vercel Function.",
           problem:
             "A software company that sells two different things, custom projects and its own product by subscription, needs to explain them without mixing them up. And it needs to receive contact requests with enough data to answer, without building a full backend for a presentation page.",
           solution:
@@ -2547,17 +2624,17 @@ export const projects: Project[] = [
             ariaLabel: "View design: Lúmina W | Software & Technology landing",
           },
           architecture: [
-            "Astro 6 with static output and Tailwind CSS 4. Twelve components assemble the landing in a fixed order: hero, a fork between the two paths, problem, agitation, a phrase ribbon, solution, process, manifesto, why us, product, FAQ and contact. Each section has an anchor that matches the navigation bar and the footer.",
+            "Astro with static output and Tailwind CSS. Twelve components assemble the landing in a fixed order: hero, a fork between the two paths, problem, agitation, a phrase ribbon, solution, process, manifesto, why us, product, FAQ and contact. Each section has an anchor that matches the navigation bar and the footer.",
             "Spanish by default at the root and English under /en, with both copies in typed dictionaries: the English dictionary requires the same keys as the Spanish one, so a missing key breaks the build. The products and contact pages have a translated route, and the legal pages keep the same name.",
             "Contact form: the browser sends JSON to a Vercel Function that validates the fields (name, company, email, phone, need, stage and message), requires consent and silently drops whatever arrives through a hidden trap field. The need and stage values are fixed English codes, so an option is stored the same way in both languages.",
-            "The Function stores each request in Supabase with the service key, which lives only on the server, and fills in the consent date, the source and the user agent itself. It does not store the IP. If the email already exists, it answers that everything went fine without creating another row, and still notifies the internal inbox.",
-            "The internal notice goes out through Brevo and is best effort: if the email fails, the request is already stored. Storage only runs in Vercel production, so on previews the form answers 503 by design.",
+            "The Function saves each request in Supabase and fills in the consent date, the origin, and the user agent on its own. It does not store the IP. If the email already exists, it returns a success response without creating another row, and still notifies the internal mailbox.",
+            "The internal notice goes out through Brevo and is best effort: if the email fails, the request is already stored. Storage only runs in Vercel production, so on previews the form returns 503 by design.",
             "The requests table is a single one, shared with the TerraCore and OKroot landings, with a product column and a uniqueness constraint per product and email. It has row-level security on and no permissions for the public roles: only the Function can write.",
-            "Technical SEO: a JSON-LD graph with ProfessionalService, WebSite and WebPage, plus FAQPage on the FAQ, a self canonical, hreflang between es, en and x-default, a sitemap with alternates and a robots.txt that explicitly allows 21 AI crawlers, together with an llms.txt.",
+            "Technical SEO: a JSON-LD graph with ProfessionalService, WebSite and WebPage, plus FAQPage on the FAQ, a self-referencing canonical, hreflang between es, en and x-default, a sitemap with alternates and a robots.txt that explicitly allows 21 AI crawlers, together with an llms.txt.",
             "Analytics with consent: Google Analytics 4 loads only if the person accepts the cookie notice, and the decision is stored in local storage, with no first-party cookies. The notice does not block the page and appears after a little scrolling.",
-            "Performance and delivery: WebP images with explicit dimensions, fonts with swap, a one-year immutable cache for hashed assets and images, and security headers (HSTS, anti-framing, anti-sniffing, referrer and permissions). Deployment on Vercel is continuous from main.",
+            "Performance and delivery: WebP images with explicit dimensions, fonts with swap, long-lived caching for hashed resources and images, and security headers. Deployment on Vercel is continuous.",
             "Accessibility worked into the code: a skip link, visible focus, a label per field with announced errors and a success message with a status role, and respect for prefers-reduced-motion. A no-JavaScript fallback keeps the content that appears on scroll visible.",
-            "Quality: formatting and build on every PR, with secret scanning through gitleaks and the dev, stg and main flow. There are no automated tests and no Lighthouse measurement stored in the repository.",
+            "Quality: formatting, build, and secret scanning on every PR, with a branch flow across environments.",
           ],
           painPoints: [
             {
@@ -2565,7 +2642,7 @@ export const projects: Project[] = [
               text: "Custom development and a subscription product have different timelines, budgets and questions. Mixed without structure, they confuse.",
             },
             {
-              title: "A contact that costs",
+              title: "Contact with friction",
               text: "A form with a single message field forces a reply with questions before you can quote. One that is too long scares people off.",
             },
             {
@@ -2580,7 +2657,7 @@ export const projects: Project[] = [
           modules: [
             {
               name: "Two paths",
-              text: "A fork on the first screen separates the own SaaS product from custom development, and each has its own process.",
+              text: "A fork on the first screen separates the in-house SaaS product from custom development, and each has its own process.",
             },
             {
               name: "Process per path",
@@ -2607,14 +2684,14 @@ export const projects: Project[] = [
             {
               title: "Two explicit paths instead of a single service",
               context:
-                "Lumina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
+                "Lúmina W offers custom development and its own SaaS product, and whoever buys each one arrives with different questions.",
               tradeoff:
-                "A general software-development line persuades less, but separating the paths adds a decision on the first screen.",
+                "A generic software development pitch is less persuasive, but separating the paths adds a decision on the first screen.",
               decision:
                 "A fork section, a solution in two services and a process with four phases for each path, each with its own call to action.",
             },
             {
-              title: "Own products as evidence",
+              title: "In-house products as proof",
               context:
                 "Someone evaluating a software company wants to see a product working, not only custom development promises.",
               tradeoff:
@@ -2629,12 +2706,12 @@ export const projects: Project[] = [
               tradeoff:
                 "There is a small server piece to maintain, and the form does not work on previews, where there is no database.",
               decision:
-                "A Vercel Function validates, applies the honeypot and the consent, and writes to Supabase with the service key on the server. The browser never talks to Supabase.",
+                "A Vercel Function validates, applies the honeypot and the consent check, and writes to Supabase from the server. The browser never talks to Supabase.",
             },
             {
               title: "One requests table shared across the landings",
               context:
-                "Lumina W, TerraCore and OKroot receive requests with almost the same data, and three separate databases would have tripled the work.",
+                "Lúmina W, TerraCore and OKroot receive requests with almost the same data, and three separate databases would have tripled the work.",
               tradeoff:
                 "If someone writes twice with the same email, the second is not stored: the internal notice mentions it, but the table keeps only the first.",
               decision:
@@ -2666,14 +2743,13 @@ export const projects: Project[] = [
             "Calls to action carry text only, with no arrows or icons, and the project rule is not to use dashes as a connector in texts.",
           ],
           results: [
-            "Lumina W site in production at luminaw.co, in Spanish and English, with the two service paths differentiated.",
+            "Lúmina W site in production at luminaw.co, in Spanish and English, with the two service paths differentiated.",
             "A contact form that stores each request with its need, its stage and its consent in a shared table, and notifies by email.",
             "TerraCore and OKroot presented on the landing and on a page of their own.",
             "Technical SEO with structured data, hreflang, a sitemap, robots for AI crawlers and llms.txt.",
           ],
           learnings: [
-            "For a presentation page, a small Function in front of Supabase solves contact without a backend to maintain, but it forces a decision about what happens on previews, where there is no database.",
-            "Asking for need and stage in the form, with fixed values, means the first reply can already be a proposal and the data compares across languages.",
+            "Asking for need and stage in the form, with fixed values, means the first reply can already be a proposal and the data can be compared across languages.",
             "The promises in the copy must be something the code does: saying a confirmation email is received requires the Function to send that email.",
             "A typed dictionary turns a forgotten translation into a build error instead of a half-translated page.",
           ],
@@ -2711,12 +2787,12 @@ export const projects: Project[] = [
           "Comunidad: comentarios con hilos de hasta 2000 caracteres, likes, guardados, perfiles públicos y seguimiento. La moderación de comentarios es un filtro local por reglas (términos bloqueados y tope de enlaces), sin llamar a ningún modelo: lo que coincide queda pendiente y la administradora lo aprueba o rechaza.",
           "Newsletter con Brevo: una lista por idioma, suscripción desde el sitio y envío de prueba o campaña desde el panel de administración, con el enlace de baja de Brevo. Las notificaciones de respuesta, seguimiento y guardado también salen por correo, además de dentro del blog.",
           "Cuentas con correo y clave verificados por correo, más Google, GitHub y LinkedIn cuando están configurados, e invitaciones que llegan con el correo ya verificado. Un proveedor externo solo se acepta si confirma el correo. Cuenta bloqueada 15 minutos tras 5 intentos fallidos, y suspensión y cierre de sesiones desde el panel.",
-          "Los permisos se leen de la base de datos en cada petición y no del token de sesión. El administrador no es un rol en la base: es el correo definido en una variable de entorno, que además está protegido de suspensión y borrado.",
-          "Seguridad por capas: limitador de frecuencia guardado en Postgres con una sola sentencia atómica por llamada (falla cerrado en credenciales y tokens), verificación de origen en las rutas que escriben, CSP con nonce por petición, cabeceras HSTS, anti-framing y anti-sniffing, y Markdown pasado por un sanitizador antes de renderizarse.",
-          "Imágenes: el tipo se detecta por los primeros bytes del archivo y no por la cabecera, se rechaza SVG, y sharp las convierte a WebP con límite de lado según el uso (portada, cuerpo o avatar) antes de guardarlas en un bucket de Supabase Storage. La llave de servicio solo existe en un módulo del servidor.",
+          "Los permisos se verifican en el servidor en cada petición. La administración está restringida a una sola cuenta, protegida de suspensión y borrado.",
+          "Seguridad por capas: límites de frecuencia en credenciales y operaciones sensibles, verificación de origen en las rutas que escriben, cabeceras de seguridad y contenido de usuario saneado antes de renderizarse.",
+          "Imágenes: se validan en el servidor, se rechazan los formatos no admitidos y se convierten a WebP con un límite de tamaño según el uso (portada, cuerpo o avatar) antes de guardarlas en almacenamiento de objetos.",
           "SEO y descubrimiento: sitemap dinámico con alternates por idioma, robots con un grupo aparte para crawlers de IA, llms.txt, feed RSS por idioma y JSON-LD (Organization, WebSite, BlogPosting, Blog, CollectionPage, ProfilePage y BreadcrumbList). La búsqueda usa coincidencia insensible a mayúsculas sobre título, descripción, cuerpo, autor y etiquetas.",
           "Analítica con consentimiento: GA4 se carga solo si la persona acepta y si hay un identificador configurado, y el enlace entre dominios cubre luminaw.co, terracoreapp.co y okroot.co.",
-          "Calidad y entrega: 28 archivos de pruebas unitarias con vitest sobre lógica pura, lint y build en cada PR, escaneo de secretos con gitleaks y flujo dev, stg y main. En producción, el build de Vercel aplica las migraciones y corre el importador de artículos.",
+          "Calidad y entrega: 28 archivos de pruebas unitarias sobre lógica pura, lint y build en cada PR, escaneo de secretos y un flujo de ramas por entornos. En producción, el despliegue aplica los cambios de base de datos y carga los artículos.",
           "Un generador de portadas arma las imágenes de 1200 por 630 en WebP, una por idioma, con un tope de 150 KB, a partir de una especificación JSON y un arte SVG.",
         ],
         links: [
@@ -2820,34 +2896,34 @@ export const projects: Project[] = [
               "Un filtro local pone en pendiente los comentarios que coinciden y la administradora decide. Sus propios comentarios quedan exentos.",
           },
           {
-            title: "Limitador de frecuencia en la propia base",
+            title: "Límites de frecuencia sin infraestructura nueva",
             context:
               "Cada ruta que escribe, envía correo o recibe credenciales necesita un tope, y no se quería sumar infraestructura nueva.",
             tradeoff:
               "Usa la base de datos de la aplicación en cada llamada y es una ventana fija, menos precisa que una cola dedicada.",
             decision:
-              "Una tabla en Postgres con una sola sentencia atómica por llamada, sin infraestructura nueva. Falla cerrado en credenciales y tokens, y abierto en el resto.",
+              "Los límites se guardan en la propia base de datos de la aplicación, sin infraestructura nueva. Son estrictos en credenciales y operaciones sensibles, y más flexibles en el resto.",
           },
           {
-            title: "Permisos desde la base, no desde el token",
+            title: "Permisos verificados en el servidor",
             context:
               "Un token de sesión guarda lo que era cierto al emitirse, pero una cuenta puede suspenderse o cambiar de clave después.",
             tradeoff: "Cada petición autenticada hace una lectura a la base de datos.",
             decision:
-              "Una función lee el usuario de la base y descarta la sesión si la cuenta está suspendida o su versión de sesión cambió. El token nunca decide un permiso.",
+              "El servidor comprueba el estado actual de la cuenta en cada petición y descarta la sesión si la cuenta está suspendida o cambió de clave. La sesión por sí sola nunca decide un permiso.",
           },
           {
-            title: "Una sola administradora, definida por entorno",
+            title: "Una sola cuenta administradora",
             context:
               "Hace falta alguien que apruebe contenido, sin montar un sistema de roles para una persona.",
             tradeoff:
               "No hay roles delegables ni más de una administradora sin cambiar la configuración.",
             decision:
-              "La administradora es el correo de una variable de entorno. Cada acción del panel comprueba esa condición en el servidor, y esa cuenta no se puede suspender ni borrar.",
+              "Hay una única cuenta administradora. Cada acción del panel comprueba esa condición en el servidor, y esa cuenta no se puede suspender ni borrar.",
           },
         ],
         design: [
-          "Los estilos del prototipo diseñado aparte se portaron tal cual, y el tema vive en una sola hoja de estilos con Tailwind CSS 4 sin el reset base.",
+          "Los estilos del prototipo diseñado aparte se portaron tal cual, y el tema vive en una sola hoja de estilos con Tailwind CSS sin el reset base.",
           "Artículo con barra de progreso de lectura, tabla de contenidos y tarjeta para compartir, con el menú nativo del dispositivo como camino para Instagram.",
           "Portadas de 1200 por 630 por idioma, generadas desde una especificación y un arte SVG, con un tope de peso por imagen.",
           "Accesibilidad trabajada en el código: enlace para saltar al contenido, menús con teclado y un diálogo de confirmación con el foco atrapado. Los cambios de contraste que alterarían el diseño están pendientes de decisión.",
@@ -2861,10 +2937,8 @@ export const projects: Project[] = [
         ],
         learnings: [
           "Abrir cuentas y comentarios cambia el tipo de proyecto: casi cada ruta nueva necesita un límite de frecuencia, una verificación de origen y una decisión sobre qué pasa si falla.",
-          "Leer los permisos de la base en cada petición cuesta una consulta, pero evita que una suspensión o un cambio de clave llegue tarde.",
-          "Anclar las interacciones al artículo original en vez de a cada idioma evita partir una conversación en dos.",
+          "Verificar los permisos en el servidor en cada petición cuesta una consulta, pero evita que una suspensión o un cambio de clave llegue tarde.",
           "Un filtro local de moderación es predecible y barato, pero solo ordena la cola: la decisión sigue siendo de una persona.",
-          "Con dos idiomas, cada texto nuevo es trabajo por duplicado en los diccionarios, y conviene que el tipo de uno obligue a completar el otro.",
         ],
         roadmap: {
           now: [
@@ -2911,12 +2985,12 @@ export const projects: Project[] = [
             "Community: threaded comments of up to 2,000 characters, likes, saves, public profiles and following. Comment moderation is a local rule filter (blocked terms and a link cap) that calls no model: anything that matches is held as pending and the administrator approves or rejects it.",
             "Newsletter with Brevo: one list per language, sign-up from the site and a test or campaign send from the admin panel, with Brevo's unsubscribe link. Reply, follow and save notifications also go out by email, in addition to inside the blog.",
             "Accounts with email and password verified by email, plus Google, GitHub and LinkedIn when configured, and invitations that arrive with the email already verified. An external provider is accepted only if it confirms the email. An account is locked for 15 minutes after 5 failed attempts, and suspension and session invalidation are available from the panel.",
-            "Permissions are read from the database on every request and not from the session token. The administrator is not a role in the database: it is the email set in an environment variable, which is also protected from suspension and deletion.",
-            "Layered security: a rate limiter stored in Postgres with a single atomic statement per call (it fails closed on credentials and tokens), an origin check on the routes that write, a per-request CSP with a nonce, HSTS, anti-framing and anti-sniffing headers, and Markdown passed through a sanitizer before it renders.",
-            "Images: the type is detected from the first bytes of the file and not from the header, SVG is rejected, and sharp converts them to WebP with a side limit by use (cover, body or avatar) before storing them in a Supabase Storage bucket. The service key exists only in one server module.",
+            "Permissions are verified on the server on every request. Administration is restricted to a single account, protected from suspension and deletion.",
+            "Layered security: rate limits on credentials and sensitive operations, origin checks on routes that write, security headers, and user content sanitized before it renders.",
+            "Images: validated on the server, unsupported formats rejected, and converted to WebP with a size limit per use (cover, body, or avatar) before they are stored in object storage.",
             "SEO and discovery: a dynamic sitemap with language alternates, robots with a separate group for AI crawlers, llms.txt, an RSS feed per language and JSON-LD (Organization, WebSite, BlogPosting, Blog, CollectionPage, ProfilePage and BreadcrumbList). Search uses case-insensitive matching over title, description, body, author and tags.",
             "Analytics with consent: GA4 loads only if the person accepts and an identifier is configured, and the cross-domain link covers luminaw.co, terracoreapp.co and okroot.co.",
-            "Quality and delivery: 28 unit test files with vitest over pure logic, lint and build on every PR, secret scanning with gitleaks and a dev, stg and main flow. In production, the Vercel build applies migrations and runs the article importer.",
+            "Quality and delivery: 28 unit test files on pure logic, lint and build on every PR, secret scanning, and a branch flow across environments. In production, deployment applies the database changes and loads the articles.",
             "A cover generator builds the 1200 by 630 WebP images, one per language, with a 150 KB cap, from a JSON spec and an SVG artwork.",
           ],
           painPoints: [
@@ -2977,7 +3051,7 @@ export const projects: Project[] = [
               context:
                 "The blog needed accounts, comments, article approval, subscriptions and two languages.",
               tradeoff:
-                "A dynamic application depends on a database and needs more security care than a site of files.",
+                "A dynamic application depends on a database and needs more security care than a file-based site.",
               decision:
                 "Next.js with Prisma and PostgreSQL, and a dynamic layout so the build does not need the database. File-based articles stay versioned in the repository and are imported on deploy.",
             },
@@ -2985,7 +3059,7 @@ export const projects: Project[] = [
               title: "One row per language, linked to the original",
               context:
                 "An article exists in two languages with different slugs, but the conversation around it is one.",
-              tradeoff: "Every interactions query has to resolve which one is the original first.",
+              tradeoff: "Every interaction query has to resolve which one is the original first.",
               decision:
                 "Each version is a Post row with a reference to the original. Likes, saves and comments are always anchored to the original.",
             },
@@ -3007,34 +3081,34 @@ export const projects: Project[] = [
                 "A local filter puts matching comments in pending and the administrator decides. Her own comments are exempt.",
             },
             {
-              title: "A rate limiter in the application's own database",
+              title: "Rate limits with no new infrastructure",
               context:
-                "Every route that writes, sends email or takes credentials needs a cap, and the goal was to avoid adding new infrastructure.",
+                "Every route that writes, sends email, or receives credentials needs a cap, and the goal was no new infrastructure.",
               tradeoff:
                 "It uses the application's database on every call and is a fixed window, less precise than a dedicated queue.",
               decision:
-                "A Postgres table with a single atomic statement per call, with no new infrastructure. It fails closed on credentials and tokens, and open on the rest.",
+                "The limits live in the application's own database, with no new infrastructure. They are strict on credentials and sensitive operations, and more flexible elsewhere.",
             },
             {
-              title: "Permissions from the database, not from the token",
+              title: "Permissions verified on the server",
               context:
                 "A session token holds what was true when it was issued, but an account can be suspended or change its password later.",
               tradeoff: "Every authenticated request makes a database read.",
               decision:
-                "A function reads the user from the database and discards the session if the account is suspended or its session version changed. The token never decides a permission.",
+                "The server checks the account's current state on every request and discards the session if the account is suspended or changed its password. The session alone never decides a permission.",
             },
             {
-              title: "A single administrator, defined by environment",
+              title: "A single administrator account",
               context:
                 "Someone has to approve content, without building a roles system for one person.",
               tradeoff:
                 "There are no delegable roles and no second administrator without changing the configuration.",
               decision:
-                "The administrator is the email in an environment variable. Every panel action checks that condition on the server, and that account cannot be suspended or deleted.",
+                "There is a single administrator account. Every panel action checks that condition on the server, and that account cannot be suspended or deleted.",
             },
           ],
           design: [
-            "The styles of the separately designed prototype were ported as they were, and the theme lives in a single stylesheet with Tailwind CSS 4 without the base reset.",
+            "The styles of the separately designed prototype were ported as is, and the theme lives in a single stylesheet with Tailwind CSS without the base reset.",
             "Article with a reading progress bar, a table of contents and a share card, with the device's native menu as the route for Instagram.",
             "1200 by 630 covers per language, generated from a spec and an SVG artwork, with a weight cap per image.",
             "Accessibility worked into the code: a skip link, keyboard menus and a confirmation dialog with trapped focus. The contrast changes that would alter the design are pending a decision.",
@@ -3048,10 +3122,8 @@ export const projects: Project[] = [
           ],
           learnings: [
             "Opening accounts and comments changes the kind of project: almost every new route needs a rate limit, an origin check and a decision about what happens when it fails.",
-            "Reading permissions from the database on every request costs a query, but keeps a suspension or a password change from arriving late.",
-            "Anchoring interactions to the original article instead of to each language avoids splitting a conversation in two.",
+            "Verifying permissions on the server on every request costs a query, but keeps a suspension or a password change from arriving late.",
             "A local moderation filter is predictable and cheap, but it only orders the queue: the decision is still a person's.",
-            "With two languages, every new text is double work in the dictionaries, and it helps that the type of one forces completing the other.",
           ],
           roadmap: {
             now: [
@@ -3075,6 +3147,7 @@ export const projects: Project[] = [
   },
   {
     slug: "wavival-dev",
+    keyStack: ["Astro", "TypeScript", "Tailwind CSS", "Vercel", "Playwright"],
     name: "wavival.dev",
     shortName: "wavival.dev",
     datePublished: "2026-10-01",
@@ -3087,7 +3160,26 @@ export const projects: Project[] = [
     imageWidth: 1200,
     imageHeight: 630,
     schemaType: "WebSite",
+    summary:
+      "Mi portafolio como caso de diseño: un sitio bilingüe, rápido y accesible, con identidad propia y un sistema de diseño propio.",
+    brief: {
+      problem:
+        "Un portafolio de desarrolladora suele quedar como una plantilla genérica, lenta o poco accesible.",
+      solution:
+        "Un sitio bilingüe, rápido y accesible, con identidad propia, que sirve de prueba de mi criterio técnico y de diseño.",
+      result:
+        "Sitio bilingüe en producción, con pruebas automáticas y verificación de enlaces en cada cambio.",
+    },
     en: {
+      brief: {
+        problem: "A developer portfolio often ends up as a generic, slow, or hard-to-use template.",
+        solution:
+          "A fast, accessible bilingual site with its own identity, which works as proof of my technical and design judgment.",
+        result:
+          "Bilingual site in production, with automated tests and link checks on every change.",
+      },
+      summary:
+        "My portfolio as a design case: a fast, accessible bilingual site with its own identity and its own design system.",
       imageAlt:
         "wavival.dev Design System v4 in Claude Design: atoms, brand, colors, and molecules navigation, with the signal and action and light theme palettes",
     },
@@ -3122,15 +3214,15 @@ export const projects: Project[] = [
           },
         ],
         architecture: [
-          "Astro 7 con salida estática y TypeScript. Tailwind 3 mapeado a tokens CSS, y scripts de cliente en TypeScript vanilla solo para el tema, el menú móvil y los filtros de proyectos.",
+          "Astro con salida estática y TypeScript. Tailwind mapeado a tokens CSS, y scripts de cliente en TypeScript vanilla solo para el tema, el menú móvil y los filtros de proyectos.",
           "Estructura atómica (átomos, moléculas, organismos y una plantilla única). Los organismos reciben el idioma y las rutas localizadas salen de una sola función.",
           "i18n propio: español en la raíz e inglés bajo /en, con el mapa de slugs como única fuente de verdad para el selector de idioma, el sitemap y los hreflang.",
           "Contenido tipado (proyectos y stack) con campos paralelos para inglés. Todos los casos de estudio se generan desde un solo arreglo.",
           "SEO y descubrimiento: JSON-LD con Person, Organization y WebSite, OpenGraph por proyecto, sitemap con alternates recíprocos y llms.txt para asistentes de IA.",
           "Rendimiento: fuentes autohospedadas en subconjunto latino, precarga de la imagen LCP solo donde se usa y View Transitions entre rutas. Core Web Vitals se reportan a Umami cuando hay configuración.",
-          "Seguridad de cabeceras: CSP por hashes, sin unsafe-inline en scripts, con una guardia en CI que recalcula los hashes de cada script inline.",
+          "Seguridad de cabeceras: política de seguridad de contenido estricta, con una comprobación automática en CI.",
           "Despliegue en Vercel con microfrontends (el portafolio y NullBreach comparten dominio) y una única función serverless para el formulario de cotización, que envía por Brevo.",
-          "Flujo dev, stg y main con commitlint, pruebas E2E con Playwright, Lighthouse CI y verificación de enlaces como puertas de calidad.",
+          "Flujo de ramas por entornos con commitlint, pruebas E2E con Playwright, Lighthouse CI y verificación de enlaces como puertas de calidad.",
         ],
         links: [],
         designLink: {
@@ -3144,7 +3236,7 @@ export const projects: Project[] = [
           ariaLabel: "Ver sistema de diseño de wavival.dev",
         },
         metaDescription:
-          "Caso de estudio de wavival.dev: el portfolio como diseño. @wavival | Design System v4, editorial y estático, bilingüe, con contraste AA. Astro y Tailwind.",
+          "Caso de estudio de wavival.dev: mi portafolio como caso de diseño, un sitio bilingüe, rápido y accesible con identidad y sistema de diseño propios.",
         design: [
           "Sistema @wavival | Design System v4: la página se lee como un índice editorial, con una señal azul sobre un campo tranquilo.",
           "Diseñado en Claude Design, con un prototipo navegable y un sistema de diseño propio. El sitio replica el prototipo token a token.",
@@ -3202,9 +3294,9 @@ export const projects: Project[] = [
             context:
               "Seguir la preferencia del sistema deja el diseño en manos del dispositivo, y cambiar el tema tras el primer pintado produce un parpadeo.",
             tradeoff:
-              "Fijar el oscuro como inicio ignora la preferencia del sistema, y un script inline obliga a mantener el CSP por hashes.",
+              "Fijar el oscuro como inicio ignora la preferencia del sistema, y un script inline obliga a mantener la política de seguridad en sincronía.",
             decision:
-              "Un script síncrono al inicio del head aplica la clase dark antes de cargar los estilos, salvo que el usuario haya guardado el tema claro. El CSP incluye el hash de ese script.",
+              "Un script síncrono al inicio del head aplica la clase dark antes de cargar los estilos, salvo que el usuario haya guardado el tema claro. La política de seguridad incluye ese script.",
           },
           {
             title: "Español en la raíz, inglés bajo /en",
@@ -3219,13 +3311,11 @@ export const projects: Project[] = [
         results: [
           "Sitio bilingüe en producción en www.wavival.dev, con 34 páginas estáticas entre español e inglés.",
           "Diseño implementado con paridad respecto al prototipo de Claude Design.",
-          "Puertas de calidad en cada cambio: pruebas E2E con Playwright, Lighthouse CI (accesibilidad y SEO con mínimo 0,9), verificación de enlaces rotos, de hashes CSP y de clases CSS.",
+          "Puertas de calidad en cada cambio: pruebas E2E con Playwright, Lighthouse CI (accesibilidad y SEO con mínimo 0,9), verificación de enlaces rotos, de cabeceras de seguridad y de clases CSS.",
         ],
         learnings: [
           "Un sistema de diseño solo vale si se traduce a tokens: cada color y tamaño vive como variable CSS y los componentes no llevan valores sueltos.",
           "El contraste se decide en el token: el acento anterior (3,24:1) obligó a separar un azul por rol.",
-          "Tailwind purga las clases construidas por fragmentos (btn-${variant}). Los componentes deben usar nombres de clase completos.",
-          "Un backdrop-filter convierte al elemento en contenedor de sus hijos fixed: el menú móvil tuvo que ser hermano del header y no hijo.",
           "Un componente con el mismo nombre que una utilidad de Tailwind arrastra sus estilos donde se use la utilidad: .text-link pasó a llamarse .action-link.",
         ],
         en: {
@@ -3233,7 +3323,7 @@ export const projects: Project[] = [
           summary:
             "This portfolio as a design case: the @wavival | Design System v4, editorial and static, with rules instead of boxes, a single blue signal, and AA contrast in both themes. Bilingual, built on Astro and Tailwind, designed in Claude Design.",
           problem:
-            "A developer portfolio often ends up as a template: shadow-sm cards, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
+            "A developer portfolio often ends up as a template: cards with shadows, accent colors that fail contrast, animation that competes with the content, and a design that in code no longer looks like the prototype. I needed a site that was itself proof of my technical and design judgment: fast, accessible, bilingual, and with a recognizable identity.",
           solution:
             "wavival.dev is my portfolio and also a design case. The system is called @wavival | Design System v4: the page reads like an editorial index, with 1px rules instead of boxes, large Raleway 800 headlines, numbered indexes, and a single blue signal on a quiet field. It started in Claude Design as a prototype and design system, and was brought to code with token parity. It is bilingual (Spanish at the root, English under /en), static, and dark by default.",
           links: [],
@@ -3248,7 +3338,7 @@ export const projects: Project[] = [
             ariaLabel: "View design system: wavival.dev",
           },
           metaDescription:
-            "wavival.dev case study: the portfolio as design. @wavival | Design System v4, editorial, static, bilingual, AA contrast. Built with Astro and Tailwind.",
+            "wavival.dev case study: my portfolio as a design case, a fast, accessible bilingual site with its own identity and design system.",
           painPoints: [
             {
               title: "Generic template",
@@ -3264,19 +3354,19 @@ export const projects: Project[] = [
             },
             {
               title: "Prototype and code drift apart",
-              text: "The design says one thing and the published site another, because nothing forces them to stay equal.",
+              text: "The design says one thing and the published site another, because nothing forces them to stay in sync.",
             },
           ],
           architecture: [
-            "Astro 7 with static output and TypeScript. Tailwind 3 mapped to CSS tokens, and client scripts in vanilla TypeScript only for the theme, the mobile menu, and the project filters.",
+            "Astro with static output and TypeScript. Tailwind mapped to CSS tokens, and vanilla TypeScript client scripts only for the theme, the mobile menu, and the project filters.",
             "Atomic structure (atoms, molecules, organisms, and a single template). Organisms receive the language and localized routes come from a single function.",
-            "Own i18n: Spanish at the root and English under /en, with the slug map as the single source of truth for the language toggle, the sitemap, and hreflang.",
+            "Custom i18n: Spanish at the root and English under /en, with the slug map as the single source of truth for the language toggle, the sitemap, and hreflang.",
             "Typed content (projects and stack) with parallel English fields. Every case study is generated from a single array.",
             "SEO and discovery: JSON-LD with Person, Organization, and WebSite, per-project OpenGraph, a sitemap with reciprocal alternates, and llms.txt for AI assistants.",
             "Performance: self-hosted fonts in a Latin subset, LCP image preload only where it is used, and View Transitions between routes. Core Web Vitals are reported to Umami when configured.",
-            "Header security: hash-based CSP, no unsafe-inline on scripts, with a CI guard that recomputes the hash of every inline script.",
+            "Security headers: a strict content security policy, with an automated check in CI.",
             "Deployment on Vercel with microfrontends (the portfolio and NullBreach share a domain) and a single serverless function for the quote form, which sends through Brevo.",
-            "A dev, stg, and main flow with commitlint, Playwright E2E tests, Lighthouse CI, and link checking as quality gates.",
+            "A branch flow across environments with commitlint, Playwright E2E tests, Lighthouse CI, and link checking as quality gates.",
           ],
           design: [
             "@wavival | Design System v4: the page reads like an editorial index, with one blue signal on a quiet field.",
@@ -3287,7 +3377,7 @@ export const projects: Project[] = [
             "Numbered indexes (01, 02) as a reading guide, and every section opens with a 1px rule.",
             "A single column at the full container width (1280px), with vertical rhythm defined by spacing tokens.",
             "Icons only where they work: on icon-only buttons and on the primary button. Text links and buttons carry no arrows.",
-            'State is told with text: the accordion is a native details element that shows "View" and "Close" instead of a chevron.',
+            'State is shown in text: the accordion is a native details element that shows "View" and "Close" instead of a chevron.',
             "Dark by default and toggleable. A script before first paint applies the theme without flicker, the theme is class-based and not a media query, and the browser color stays in sync.",
             "Accessibility as a design constraint: 2px visible focus, AA contrast computed per token in both themes, 44px touch targets, a mobile menu with trapped focus, and respect for prefers-reduced-motion.",
             "Minimal, functional motion: no scroll animation, only short transitions, View Transitions between routes, and a 220ms accordion.",
@@ -3296,7 +3386,8 @@ export const projects: Project[] = [
           decisions: [
             {
               title: "Rules instead of boxes",
-              context: "Shadow and radius cards are the default pattern of almost any portfolio.",
+              context:
+                "Cards with shadows and rounded corners are the default pattern of almost any portfolio.",
               tradeoff:
                 "Without shadows or radii, hierarchy depends on typography and space, and demands more care.",
               decision:
@@ -3334,9 +3425,9 @@ export const projects: Project[] = [
               context:
                 "Following the system preference leaves the design to the device, and switching theme after first paint causes a flicker.",
               tradeoff:
-                "Fixing dark as the start ignores the system preference, and an inline script forces the CSP to stay hash-based.",
+                "Defaulting to dark ignores the system preference, and an inline script forces the security policy to be kept in sync.",
               decision:
-                "A synchronous script at the top of the head applies the dark class before styles load, unless the user saved the light theme. The CSP includes that script's hash.",
+                "A synchronous script at the top of the head applies the dark class before the styles load, unless the user saved the light theme. The security policy covers that script.",
             },
             {
               title: "Spanish at the root, English under /en",
@@ -3351,13 +3442,11 @@ export const projects: Project[] = [
           results: [
             "Bilingual site in production at www.wavival.dev, with 34 static pages across Spanish and English.",
             "Design implemented with parity to the Claude Design prototype.",
-            "Quality gates on every change: Playwright E2E tests, Lighthouse CI (accessibility and SEO with a 0.9 minimum), and checks for broken links, CSP hashes, and CSS classes.",
+            "Quality gates on every change: E2E tests with Playwright, Lighthouse CI (accessibility and SEO with a 0.9 minimum), and checks for broken links, security headers, and CSS classes.",
           ],
           learnings: [
             "A design system is only worth something if it becomes tokens: every color and size lives as a CSS variable and components carry no loose values.",
             "Contrast is decided in the token: the previous accent (3.24:1) forced separating one blue per role.",
-            "Tailwind purges classes built from fragments (btn-${variant}). Components must use complete class names.",
-            "A backdrop-filter makes the element the container of its fixed children: the mobile menu had to be a sibling of the header and not a child.",
             "A component named like a Tailwind utility inherits its styles wherever the utility is used: .text-link became .action-link.",
           ],
         },
@@ -3366,6 +3455,7 @@ export const projects: Project[] = [
   },
   {
     slug: "forgotten-portal",
+    keyStack: ["Python", "Nmap", "Gobuster", "Netcat", "PTES", "MITRE ATT&CK", "Linux"],
     name: "Forgotten Portal",
     shortName: "Forgotten Portal",
     datePublished: "2026-06-16",
@@ -3377,7 +3467,25 @@ export const projects: Project[] = [
     imageWidth: 1280,
     imageHeight: 853,
     schemaType: "CreativeWork",
+    summary:
+      "Ejercicio de pentesting en un laboratorio controlado, hecho durante el acelerador de ciberseguridad de Nodo EAFIT: siete hallazgos documentados, un informe técnico y uno ejecutivo.",
+    brief: {
+      problem:
+        "Entender qué tan lejos llega alguien sin credenciales contra un servidor mal configurado, y explicar ese riesgo a quien decide el presupuesto.",
+      solution:
+        "Un ejercicio de pentesting en un laboratorio controlado, con cada hallazgo documentado y dos informes, uno técnico y uno ejecutivo.",
+      result: "Siete hallazgos documentados en dos informes, uno técnico y uno ejecutivo.",
+    },
     en: {
+      brief: {
+        problem:
+          "Understanding how far someone without credentials can get against a misconfigured server, and explaining that risk to whoever decides the budget.",
+        solution:
+          "A pentesting exercise in a controlled lab, with every finding documented and two reports, one technical and one executive.",
+        result: "Seven documented findings in two reports, one technical and one executive.",
+      },
+      summary:
+        "A pentesting exercise in a controlled lab, done during the Nodo EAFIT cybersecurity accelerator: seven documented findings, one technical report, and one executive report.",
       tag: "Lab",
       imageAlt: "Forgotten Portal: pentesting lab (DockerLabs)",
     },
@@ -3425,7 +3533,7 @@ export const projects: Project[] = [
           },
         ],
         metaDescription:
-          "Caso de estudio de Forgotten Portal: pentesting en laboratorio DockerLabs con PTES, siete hallazgos con CVSS y CWE, MITRE ATT&CK e informes técnico y ejecutivo.",
+          "Caso de estudio de Forgotten Portal: ejercicio de pentesting en un laboratorio controlado, con siete hallazgos documentados e informes técnico y ejecutivo.",
         painPoints: [
           {
             title: "Información de más en el código público",
@@ -3520,7 +3628,6 @@ export const projects: Project[] = [
           "Ningún hallazgo del ejercicio dependía de una vulnerabilidad desconocida: eran errores de configuración y hábitos de trabajo que se repiten en entornos reales.",
           "Un solo error rara vez basta; el daño sale de encadenar varios hallazgos pequeños, así que corregir el eslabón más barato ya corta la cadena.",
           "El mismo hallazgo se explica distinto según quién lo lee: el detalle técnico y el riesgo de negocio son dos documentos, no uno.",
-          "Los documentos deben coincidir entre sí: el writeup, el informe técnico y el ejecutivo tenían que contar los mismos siete hallazgos.",
         ],
         en: {
           blurb: "Pentesting writeup on a DockerLabs lab with technical and executive reports.",
@@ -3539,11 +3646,11 @@ export const projects: Project[] = [
             {
               href: "https://github.com/wavival/forgotten-portal-writeup",
               text: "View repository",
-              ariaLabel: "View repo: Forgotten Portal",
+              ariaLabel: "View repository: Forgotten Portal",
             },
           ],
           metaDescription:
-            "Forgotten Portal case study: DockerLabs pentesting lab with PTES, seven findings with CVSS and CWE, MITRE ATT&CK, and technical and executive reports.",
+            "Forgotten Portal case study: a pentesting exercise in a controlled lab, with seven documented findings and technical and executive reports.",
           architecture: [
             "Scope: a single DockerLabs Docker container (Ubuntu with Apache on port 80 and OpenSSH on 22), run on March 23, 2026. Nothing outside the container is in scope.",
             "PTES methodology in six phases: preparation, exploration, analysis, attack, deep access and documentation. Documentation runs in parallel with the rest, with one screenshot per step.",
@@ -3564,7 +3671,7 @@ export const projects: Project[] = [
             },
             {
               title: "Secrets where they should not be",
-              text: "Credentials encoded in a log, an SSH key repeated across all accounts and its passphrase written in an internal document. Encoding is not protecting.",
+              text: "Credentials encoded in a log, an SSH key repeated across all accounts and its passphrase written in an internal document. Encoding is not protection.",
             },
             {
               title: "Administration permissions that are too broad",
@@ -3648,7 +3755,6 @@ export const projects: Project[] = [
             "No finding in the exercise depended on an unknown vulnerability: they were configuration mistakes and work habits that repeat in real environments.",
             "A single mistake is rarely enough; the damage comes from chaining several small findings, so fixing the cheapest link already breaks the chain.",
             "The same finding reads differently depending on who reads it: the technical detail and the business risk are two documents, not one.",
-            "The documents have to agree with each other: the writeup, the technical report and the executive report had to tell the same seven findings.",
           ],
         },
       },

@@ -1,125 +1,30 @@
 ---
-import { siteRoutes } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/molecules/PageIntro.astro";
-import ServiceRow from "@/components/organisms/ServiceRow.astro";
+import ServicesCatalog from "@/components/organisms/ServicesCatalog.astro";
 import ServicesDetail from "@/components/organisms/ServicesDetail.astro";
-import ContactBand from "@/components/organisms/ContactBand.astro";
+import { servicesFaq, servicesFaqLd } from "@/data/servicesFaq";
+import { servicesLd } from "@/data/servicesLd";
 
-const base = import.meta.env.BASE_URL;
-const r = siteRoutes("en", base);
 const site = "https://www.wavival.dev";
 
-const pageTitle = "Services: Custom Full Stack Development | Valentina Ramirez";
+const pageTitle = "Services: software and digital marketing";
 const pageDescription =
-  "Full Stack Developer freelance focused on backend and AI: custom web apps with Django, React, Next.js, and Supabase, AI integrations, and security by design.";
-
-interface ServiceExample {
-  name: string;
-  description: string;
-  href: string;
-}
-
-interface Service {
-  id: string;
-  title: string;
-  body: string;
-  tools: string[];
-  timeline: string;
-  featured?: boolean;
-  specialty?: boolean;
-  examples?: ServiceExample[];
-}
-
-const labels = {
-  specialty: "Specialty",
-  duration: "Estimated timeline",
-  tools: "Tools",
-  examples: "Examples",
-  quote: "Request a quote",
-};
-
-const services: Service[] = [
-  {
-    id: "custom-web-applications",
-    title: "Custom web applications",
-    body: "Complete product end to end: Django + DRF or Next.js with Supabase, React + TypeScript interfaces, and deployment. For founders who need something real, not a demo.",
-    tools: ["Django", "DRF", "Next.js", "Supabase", "React", "TypeScript", "PostgreSQL"],
-    timeline: "8 to 14 weeks",
-    featured: true,
-    examples: [
-      {
-        name: "TerraCore",
-        description: "multi-tenancy agri-industrial platform",
-        href: `${r.project("terracore")}#app`,
-      },
-      {
-        name: "OKroot",
-        description: "offline-first food health PWA",
-        href: `${r.project("okroot")}#app`,
-      },
-    ],
-  },
-  {
-    id: "rest-apis-backend",
-    title: "REST APIs and backend",
-    body: "I design and build clean, authenticated, and documented APIs. Relational modeling, role-based access control, multitenancy, and complex business logic that holds up as you grow.",
-    tools: ["Django REST Framework", "JWT", "PostgreSQL", "Multitenancy"],
-    timeline: "3 to 6 weeks",
-    examples: [
-      {
-        name: "NullBreach",
-        description: "Next.js OWASP analysis application",
-        href: `${r.project("nullbreach")}#app`,
-      },
-    ],
-  },
-  {
-    id: "security-appsec",
-    title: "Security and AppSec",
-    body: "I review applications with OWASP Top 10 criteria and a pentester mindset. Security integrated from the design: authentication, secrets handling, validation, and protected endpoints.",
-    tools: ["OWASP", "AppSec", "PTES", "MITRE ATT&CK"],
-    timeline: "1 to 2 weeks",
-    examples: [
-      {
-        name: "Forgotten Portal",
-        description: "offensive pentesting on DockerLabs",
-        href: r.project("forgotten-portal"),
-      },
-    ],
-  },
-  {
-    id: "ai-integrations",
-    title: "AI integrations",
-    body: "I integrate OpenAI, OpenClaw, and Claude API in LLM workflows where they add value: analysis, context-aware assistance, and automation. AI as the product's co-pilot, not decoration.",
-    tools: ["OpenAI", "OpenClaw", "Claude API", "LLM Workflows", "n8n", "Prompt Engineering"],
-    timeline: "2 to 4 weeks",
-    specialty: true,
-    examples: [
-      {
-        name: "OKroot",
-        description: "label scanner with Claude API",
-        href: `${r.project("okroot")}#app`,
-      },
-      {
-        name: "NullBreach",
-        description: "OWASP analysis and security chat with per-user history",
-        href: `${r.project("nullbreach")}#app`,
-      },
-    ],
-  },
-];
+  "Landing pages, websites, n8n, AI chatbots, custom apps and security, each with a fixed price and timeline. Secure software that saves your business time.";
 
 const fit = {
   yes: [
-    "Founders with a real product who need speed",
-    "Teams that need API and frontend in one contract",
-    "Startups that value security by design",
+    "Owners of small service businesses (1 to 10 people) that already sell and have customers",
+    "Businesses that run on WhatsApp, Instagram, Excel or Google Sheets and email",
+    "Anyone who answers the same messages, schedules and quotes by hand, loses leads, or has an outdated website or none at all",
+    "Non-technical people who want results: time saved and more sales",
+    "Appointment-based services (clinics, beauty, psychology, lawyers, accountants), academies and trainers, and small shops that sell through Instagram or WhatsApp",
   ],
   no: [
-    "The project is only design or static mockups",
-    "You need someone available in office 9-5",
-    "You are looking for the lowest price, not the best result",
+    "Your business is still at the idea stage and does not sell yet",
+    "Your team has more than 10 people, or the project needs a team or exceeds the wavival budget ceiling: those projects go to Lúmina\u00a0W",
+    "You are looking for a certified pentest or a compliance certification",
+    "You are looking for daily social media management or a marketing agency",
   ],
 };
 
@@ -146,43 +51,18 @@ const process = [
   },
 ];
 
-const faqs = [
-  {
-    q: "Do you handle design?",
-    a: "Yes, I am a UX/UI designer and can work on it without issues. If you come with references or a clear visual direction, even better. If you need the full design process from scratch, we include it in the proposal.",
-  },
-  {
-    q: "What do I need to get started?",
-    a: "To be clear on the problem and who the product is for. You do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do). We build that together in the proposal.",
-  },
-  {
-    q: "Do you work with teams or only founders?",
-    a: "Both. I can lead the full development as sole dev or join an existing team as backend, API, or security support.",
-  },
-];
+// Structured data is the same for every visitor: every price in COP and in USD, with the region each applies to.
+const serviceLd = JSON.stringify(
+  servicesLd({
+    lang: "en",
+    site,
+    url: `${site}/en/services/`,
+    name: "Valentina Ramírez: Software and digital marketing",
+    description: pageDescription,
+  })
+);
 
-const serviceLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": `${site}/en/services/#service`,
-  name: "Valentina Ramirez: Full Stack Development",
-  description: pageDescription,
-  url: `${site}/en/services/`,
-  provider: { "@id": `${site}/#person` },
-  areaServed: "Worldwide",
-  serviceType: services.map((s) => s.title),
-  priceRange: "USD 250+ / COP 1.000.000+",
-});
-
-const faqLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-});
+const faqLd = JSON.stringify(servicesFaqLd("en"));
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -202,6 +82,7 @@ const breadcrumbLd = JSON.stringify({
 <Layout
   title={pageTitle}
   description={pageDescription}
+  contactBandSecondary="contact"
   lang="en"
   alternates={[
     { hreflang: "es", href: "https://www.wavival.dev/servicios/" },
@@ -213,29 +94,14 @@ const breadcrumbLd = JSON.stringify({
     <PageIntro eyebrow="How I can help" size="page">
       <Fragment slot="title">I build the product your business needs</Fragment>
       <p class="body-lg m-0">
-        I am a Full Stack Developer focused on backend and AI: I take a business problem and deliver
-        it as real software in production. Solid backend, functional frontend, applied AI, and
-        security by design, without depending on three different providers.
+        I am a software developer and digital marketer: I take a business problem and deliver it as
+        real software in production, software that saves you time and brings in customers. Every
+        service has a fixed price, a timeline and a clear scope, so you know what you get before we
+        start.
       </p>
     </PageIntro>
 
-    <div class="mt-[72px] border-t border-ink">
-      {
-        services.map((s, i) => (
-          <ServiceRow
-            index={String(i + 1).padStart(2, "0")}
-            title={s.title}
-            body={s.body}
-            tools={s.tools}
-            timeline={s.timeline}
-            specialty={s.specialty}
-            examples={s.examples}
-            quoteHref={`${r.quote}?service=${s.id}`}
-            labels={labels}
-          />
-        ))
-      }
-    </div>
+    <ServicesCatalog lang="en" />
 
     <ServicesDetail
       fit={{
@@ -249,11 +115,11 @@ const breadcrumbLd = JSON.stringify({
       processTitle="How I work"
       process={process}
       faqTitle="Frequently asked questions"
-      faqs={faqs}
+      faqs={servicesFaq("en")}
+      faqOpenLabel="View"
+      faqCloseLabel="Close"
     />
   </section>
-
-  <ContactBand lang="en" showServicesLink={false} />
 
   <script is:inline type="application/ld+json" set:html={serviceLd} />
   <script is:inline type="application/ld+json" set:html={faqLd} />

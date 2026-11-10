@@ -52,7 +52,17 @@ test.describe("projects index filters", () => {
   test("case studies animate disclosures and render learnings as cards", async ({ page }) => {
     await page.goto("/proyectos/terracore");
 
-    const disclosure = page.locator("[data-disclosure]:not([data-part])").first();
+    const technical = page.locator("#app details[data-technical]");
+    await technical.locator("> summary").click();
+    await expect(technical).toHaveAttribute("open", "");
+    await expect
+      .poll(() =>
+        technical.locator("> [data-disclosure-content]").evaluate((el) => el.getAnimations().length)
+      )
+      .toBe(0);
+    const disclosure = page
+      .locator("#app details[data-disclosure]:not([data-part]):not([data-technical])")
+      .first();
     await disclosure.locator("summary").click();
     await expect(disclosure).toHaveAttribute("open", "");
     await expect(disclosure.locator("[data-disclosure-content]")).toHaveCSS("overflow", "hidden");
@@ -60,7 +70,7 @@ test.describe("projects index filters", () => {
     await disclosure.locator("summary").click();
     await expect(disclosure).not.toHaveAttribute("open", "");
 
-    await expect(page.locator("#cs-app-learnings [data-learnings-cards] > article")).toHaveCount(6);
+    await expect(page.locator("#cs-app-learnings [data-learnings-cards] > article")).toHaveCount(3);
   });
 
   test("design links point to Netlify prototypes and only wavival.dev has a design system", async ({

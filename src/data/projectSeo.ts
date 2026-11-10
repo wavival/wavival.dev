@@ -1,5 +1,10 @@
 import { projectStack, type PartKind, type Project } from "@/data/projects";
-import { localizePart, PART_LABELS } from "@/data/projectView";
+import {
+  localizePart,
+  localizedProjectImage,
+  localizedProjectTitle,
+  PART_LABELS,
+} from "@/data/projectView";
 import type { Lang } from "@/i18n/utils";
 
 /** schema.org type of each part inside `hasPart`. */
@@ -15,6 +20,9 @@ const PART_SCHEMA: Record<PartKind, string> = {
 };
 
 /** Localized <title> and meta description of a project page. */
+/** Longest title a search result shows in full. */
+export const TITLE_MAX = 60;
+
 export function projectMeta(project: Project, lang: Lang) {
   const isEn = lang === "en";
   const primary = localizePart(project.parts[0], lang);
@@ -26,15 +34,19 @@ export function projectMeta(project: Project, lang: Lang) {
     project.summary ??
     primary.summary ??
     "";
-  const title = isEn
-    ? `${project.name}: Case study | Valentina Ramirez`
-    : `${project.name}: Caso de estudio | Valentina Ramírez`;
+  const suffix = isEn
+    ? ": Case study | Valentina Ramírez"
+    : ": Caso de estudio | Valentina Ramírez";
+  const full = `${localizedProjectTitle(project, lang)}${suffix}`;
+  // Titles stay within TITLE_MAX characters: a long project name falls back to its short name.
+  const title = full.length <= TITLE_MAX ? full : `${project.shortName}${suffix}`;
   return { title, description };
 }
 
 /** JSON-LD of a project page. An ecosystem lists each linked part in `hasPart`. */
 export function projectSchema(project: Project, lang: Lang, pageURL: string, site: string) {
   const { description } = projectMeta(project, lang);
+  const image = localizedProjectImage(project.image, lang);
   const buildDate = new Date().toISOString().slice(0, 10);
   const datePublished = project.datePublished ?? buildDate;
   const dateModified = project.dateModified ?? datePublished;
@@ -58,12 +70,12 @@ export function projectSchema(project: Project, lang: Lang, pageURL: string, sit
     "@context": "https://schema.org",
     "@type": project.schemaType,
     "@id": `${pageURL}#project`,
-    name: project.name,
+    name: localizedProjectTitle(project, lang),
     ...(project.name !== project.shortName ? { alternateName: project.shortName } : {}),
     description,
     url: pageURL,
     inLanguage: lang === "en" ? "en-US" : "es-CO",
-    ...(project.image ? { image: `${site}/${project.image}` } : {}),
+    ...(image ? { image: `${site}/${image}` } : {}),
     author: { "@id": `${site}/#person` },
     datePublished: toIsoDateTime(datePublished),
     dateModified: toIsoDateTime(dateModified),

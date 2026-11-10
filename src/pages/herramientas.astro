@@ -5,21 +5,23 @@ import ChipList from "@/components/molecules/ChipList.astro";
 import Button from "@/components/atoms/Button.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
 import Badge from "@/components/atoms/Badge.astro";
-import Index from "@/components/atoms/Index.astro";
-import Eyebrow from "@/components/atoms/Eyebrow.astro";
 import { siteRoutes } from "@/i18n/utils";
 import RepoCard from "@/components/organisms/RepoCard.astro";
-import { stack } from "@/data/stack";
+import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
+import SocialProfileCard from "@/components/organisms/SocialProfileCard.astro";
+import { usesStack as stack } from "@/data/stack";
 import { fetchGithubProfile, curateRepos } from "@/data/github";
+import { usesSectionIndices } from "@/utils/sections";
 
 const routes = siteRoutes("es", import.meta.env.BASE_URL);
 
 const { user: githubUser, repos: githubRepos } = await fetchGithubProfile("wavival");
 const { featured: featuredRepos, resources: resourceRepos } = curateRepos(githubRepos);
+const indices = usesSectionIndices(Boolean(githubUser));
 
 const pageTitle = "Uses: Herramientas y stack | Valentina Ramírez";
 const pageDescription =
-  "El stack y las herramientas que uso como Full Stack Developer con enfoque en backend e IA (Django, Next.js, React, PostgreSQL, Astro, IA y seguridad) y por qué elijo cada una.";
+  "El stack y las herramientas que uso como desarrolladora de software y marketing digital (Django, React, Astro, Canva, CapCut) y por qué elijo cada una.";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -53,6 +55,11 @@ const hardwareItems = [
     ],
   },
   {
+    title: "Móvil y grabación",
+    sub: "Para el contenido",
+    tools: ["Motorola Edge 60 Fusion", "Estabilizador DJI con selfie stick extensible"],
+  },
+  {
     title: "Periféricos",
     sub: "Lo que toco a diario",
     tools: [
@@ -83,9 +90,14 @@ const softwareItems = [
     tools: ["Warp", "WSL (Ubuntu)", "Postman"],
   },
   {
+    title: "Marketing y contenido",
+    sub: "Piezas, audio y video",
+    tools: ["Claude (ver Código e IA)", "CapCut", "Canva", "ElevenLabs", "Higgsfield"],
+  },
+  {
     title: "Productividad y navegación",
     sub: "Para no perder el hilo",
-    tools: ["Todoist", "Focus To-Do", "Bloc de notas", "Firefox"],
+    tools: ["Kairo", "Bloc de notas", "Firefox"],
   },
 ];
 ---
@@ -108,120 +120,110 @@ const softwareItems = [
       </p>
     </PageIntro>
 
-    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div
-        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
-      >
-        <div class="flex items-baseline gap-[14px]"><Index>01</Index><Eyebrow>Stack</Eyebrow></div>
-        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-          Con qué desarrollo
-        </h2>
-        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-          El stack que uso a diario y la razón detrás de cada elección: backend sólido, frontend
-          funcional, IA aplicada y seguridad desde el diseño.
-        </p>
-      </div>
-      <div class="min-w-0 flex-1 basis-[480px]">
-        {
-          stack.map((s) => (
-            <div
-              class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
-            >
+    <StickyContentSection
+      index={indices.stack}
+      eyebrow="Stack"
+      title="Con qué desarrollo"
+      description="El stack que uso a diario y la razón detrás de cada elección: backend sólido, frontend funcional, IA aplicada, seguridad desde el diseño y herramientas para crear contenido."
+      class="section-gap"
+    >
+      {
+        stack.map((s) => (
+          <div
+            class={`flex flex-col gap-3 border-b border-line py-7 ${s.category === "Backend" ? "border-l-2 border-l-blue bg-tint px-5" : ""}`.trim()}
+          >
+            <div class="flex items-start justify-between gap-4">
               <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <h3 class="h-title m-0 text-2xl">{s.category}</h3>
-                {s.category === "Backend" && <span class="label-sm label-sm-link">Destacado</span>}
                 <span class="text-[13px] text-muted">{s.description}</span>
               </div>
-              {s.why && <p class="body m-0">{s.why}</p>}
-              <ChipList
-                items={s.tools}
-                class={s.category === "Backend" ? "[&_.chip]:border-blue [&_.chip]:text-link" : ""}
-              />
+              {s.category === "Backend" && (
+                <span class="label-sm label-sm-link shrink-0">Destacado</span>
+              )}
             </div>
-          ))
-        }
-      </div>
-    </div>
+            {s.why && <p class="body m-0">{s.why}</p>}
+            <ChipList
+              items={s.tools}
+              class={s.category === "Backend" ? "[&_.chip]:border-blue [&_.chip]:text-link" : ""}
+            />
+          </div>
+        ))
+      }
+    </StickyContentSection>
 
-    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div
-        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
-      >
-        <div class="flex items-baseline gap-[14px]">
-          <Index>02</Index><Eyebrow>Hardware</Eyebrow>
-        </div>
-        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-          Dónde lo construyo
-        </h2>
-        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-          Equipo modesto a propósito. Si una app corre fluida acá, corre en cualquier lado: me
-          obliga a optimizar de verdad, no a tapar con hardware.
-        </p>
-      </div>
-      <div class="min-w-0 flex-1 basis-[480px]">
-        {
-          hardwareItems.map((it) => (
-            <div class="flex flex-col gap-3 border-b border-line py-7">
-              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{it.title}</h3>
-                <span class="text-[13px] text-muted">{it.sub}</span>
-              </div>
-              <ChipList items={it.tools} />
+    <StickyContentSection
+      index={indices.hardware}
+      eyebrow="Hardware"
+      title="Dónde lo construyo"
+      description="Equipo modesto a propósito. Si una app corre fluida acá, corre en cualquier lado: me obliga a optimizar de verdad, no a tapar con hardware."
+      class="section-gap"
+    >
+      {
+        hardwareItems.map((it) => (
+          <div class="flex flex-col gap-3 border-b border-line py-7">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 class="h-title m-0 text-2xl">{it.title}</h3>
+              <span class="text-[13px] text-muted">{it.sub}</span>
             </div>
-          ))
-        }
-      </div>
-    </div>
+            <ChipList items={it.tools} />
+          </div>
+        ))
+      }
+    </StickyContentSection>
 
-    <div class="rule-section section-gap flex flex-wrap gap-x-12 gap-y-6">
-      <div
-        class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:sticky lg:top-24 lg:self-start"
-      >
-        <div class="flex items-baseline gap-[14px]">
-          <Index>03</Index><Eyebrow>Software</Eyebrow>
-        </div>
-        <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-          Mis herramientas del día a día
-        </h2>
-        <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-          Las apps donde vivo mientras construyo: edición, IA, terminal y el flujo de productividad
-          que me mantiene enfocada.
-        </p>
-      </div>
-      <div class="min-w-0 flex-1 basis-[480px]">
-        {
-          softwareItems.map((it) => (
-            <div class="flex flex-col gap-3 border-b border-line py-7">
-              <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 class="h-title m-0 text-2xl">{it.title}</h3>
-                <span class="text-[13px] text-muted">{it.sub}</span>
-              </div>
-              <ChipList items={it.tools} />
+    <StickyContentSection
+      index={indices.software}
+      eyebrow="Software"
+      title="Mis herramientas del día a día"
+      description="Las apps donde vivo mientras construyo: edición, IA, terminal y el flujo de productividad que me mantiene enfocada."
+      class="section-gap"
+    >
+      {
+        softwareItems.map((it) => (
+          <div class="flex flex-col gap-3 border-b border-line py-7">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 class="h-title m-0 text-2xl">{it.title}</h3>
+              <span class="text-[13px] text-muted">{it.sub}</span>
             </div>
-          ))
-        }
+            <ChipList items={it.tools} />
+          </div>
+        ))
+      }
+    </StickyContentSection>
+
+    <StickyContentSection
+      id="social"
+      index={indices.social}
+      eyebrow="Redes"
+      title="Construyo en público"
+      description="Muestro en Instagram y TikTok cómo construyo software seguro, automatizaciones con IA y lo que voy aprendiendo."
+      class="section-gap scroll-mt-24"
+    >
+      <div
+        class="grid gap-3"
+        style="grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))"
+      >
+        <SocialProfileCard network="instagram" name="Instagram">
+          Reels y publicaciones con el detrás de cámaras de cada proyecto y lo que aprendo en el
+          camino.
+        </SocialProfileCard>
+        <SocialProfileCard network="tiktok" name="TikTok" variant="repo">
+          Videos cortos donde explico cómo construyo software seguro y automatizaciones con IA.
+        </SocialProfileCard>
       </div>
-    </div>
+    </StickyContentSection>
 
     {
-      githubUser && (
-        <div
+      githubUser && indices.github && (
+        <StickyContentSection
           id="repos"
-          class="rule-section section-gap flex scroll-mt-24 flex-wrap gap-x-12 gap-y-6"
+          index={indices.github}
+          eyebrow="GitHub"
+          title="Aprendo, construyo, comparto"
+          description={`${githubUser.public_repos} repos públicos · ${githubUser.followers} seguidores`}
+          class="section-gap scroll-mt-24"
         >
-          <div class="flex shrink-0 grow-0 basis-full flex-col min-[790px]:basis-[260px] lg:self-start">
-            <div class="flex items-baseline gap-[14px]">
-              <Fragment>
-                <Index>04</Index>
-                <Eyebrow>GitHub</Eyebrow>
-              </Fragment>
-            </div>
-            <h2 class="h-title m-0 mt-4 text-[32px] leading-[1.05] tracking-[-0.02em]">
-              Aprendo, construyo, comparto
-            </h2>
-            <p class="m-0 mt-3 text-sm leading-[1.7] text-muted">
-              {githubUser.public_repos} repos públicos · {githubUser.followers} seguidores
-            </p>
+          <Fragment slot="label">
             <TextLink
               href={githubUser.html_url}
               target="_blank"
@@ -230,8 +232,8 @@ const softwareItems = [
             >
               Ver perfil completo
             </TextLink>
-          </div>
-          <div class="flex min-w-0 flex-1 basis-[480px] flex-col gap-10">
+          </Fragment>
+          <div class="flex flex-col gap-10">
             {featuredRepos.length > 0 && (
               <div class="border border-line border-t-2 border-t-blue bg-surface p-6 md:p-10">
                 <Badge>Destacado</Badge>
@@ -271,18 +273,21 @@ const softwareItems = [
               </div>
             )}
           </div>
-        </div>
+        </StickyContentSection>
       )
     }
 
     <div class="section-gap rule-line flex flex-wrap justify-center gap-3 pt-8">
       <Button
+        variant="primary"
+        href={routes.services}
+        icon="briefcase-white"
+        aria-label="Ver servicios">Ver servicios</Button
+      >
+      <Button
         variant="secondary"
         href={routes.projects}
         aria-label="Ver proyectos donde uso este stack">Ver proyectos</Button
-      >
-      <Button variant="secondary" href={routes.services} aria-label="Ver servicios"
-        >Ver servicios</Button
       >
     </div>
   </section>

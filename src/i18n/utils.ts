@@ -1,10 +1,15 @@
 import { ui, defaultLang, type Lang } from "./ui";
+import { stripVariantPrefix } from "../utils/currency";
 
 export type { Lang } from "./ui";
 
+// Every helper reads the public pathname: the `/cop/` currency variant of a
+// page (see `src/utils/currency.ts`) has the same language, routes and links
+// as the page it mirrors.
+
 /** Detect the active language from the URL path (/en/... → en, otherwise es). */
 export function getLangFromUrl(url: URL): Lang {
-  const [, seg] = url.pathname.split("/");
+  const [, seg] = stripVariantPrefix(url.pathname).split("/");
   if (seg === "en") return "en";
   return defaultLang as Lang;
 }
@@ -42,7 +47,7 @@ const ES_PAGE_MAP: Record<string, string> = Object.fromEntries(
  * ES pages map to their EN counterpart if one exists, else fall back to /en.
  */
 export function getAltLangUrl(url: URL): { href: string; lang: Lang } {
-  const path = url.pathname;
+  const path = stripVariantPrefix(url.pathname);
   const normalizedPath = path.replace(/\/$/, "") || "/";
   if (normalizedPath === "/404" || normalizedPath === "/en/404") {
     return getLangFromUrl(url) === "en" ? { href: "/", lang: "es" } : { href: "/en", lang: "en" };
@@ -66,12 +71,6 @@ export function getAltLangUrl(url: URL): { href: string; lang: Lang } {
     return { href: normalized.replace("/proyectos/", "/en/projects/"), lang: "en" };
   }
   return { href: "/en", lang: "en" };
-}
-
-/** Per-locale CV filename. */
-export function cvHref(lang: Lang, base: string): string {
-  const file = lang === "en" ? "cv_valentina_ramirez_en.pdf" : "cv_valentina_ramirez_es.pdf";
-  return `${base}${file}`;
 }
 
 /** Home path for a language. */
@@ -117,5 +116,7 @@ const normalizePath = (p: string) => p.replace(/\/+$/, "") || "/";
 export function ariaCurrent(href: string, current: URL): "page" | undefined {
   const url = new URL(href, current);
   if (url.hash) return undefined;
-  return normalizePath(url.pathname) === normalizePath(current.pathname) ? "page" : undefined;
+  return normalizePath(url.pathname) === normalizePath(stripVariantPrefix(current.pathname))
+    ? "page"
+    : undefined;
 }

@@ -1,0 +1,18 @@
+---
+import WhatsAppButton from "@/components/atoms/WhatsAppButton.astro";
+import BackToTop from "@/components/molecules/BackToTop.astro";
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "es" } = Astro.props;
+---
+
+<!-- Bottom right stack, top to bottom: back to top, the reserved chatbot slot (the future
+     launcher goes between the two), WhatsApp. One column, so the buttons never overlap. -->
+<div class="floating-actions" data-floating-actions>
+  <BackToTop lang={lang} />
+  <WhatsAppButton lang={lang} />
+</div>

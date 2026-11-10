@@ -1,7 +1,7 @@
 ---
 import Button from "@/components/atoms/Button.astro";
 import SocialLinks from "@/components/molecules/SocialLinks.astro";
-import { cvHref, siteRoutes } from "@/i18n/utils";
+import { siteRoutes } from "@/i18n/utils";
 
 interface Props {
   lang?: "es" | "en";
@@ -11,18 +11,16 @@ const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
 const base = import.meta.env.BASE_URL;
 const r = siteRoutes(lang, base);
-const cv = cvHref(lang, base);
-const cvFile = cv.slice(base.length);
 
 const stats = isEn
   ? [
-      { value: "3 apps", label: "in production" },
-      { value: "Lúmina W", label: "founder" },
+      { value: "4 apps", label: "in production" },
+      { value: "Lúmina\u00a0W", label: "founder" },
       { value: "24h", label: "response time" },
     ]
   : [
-      { value: "3 apps", label: "en producción" },
-      { value: "Lúmina W", label: "fundadora" },
+      { value: "4 apps", label: "en producción" },
+      { value: "Lúmina\u00a0W", label: "fundadora" },
       { value: "24h", label: "tiempo de respuesta" },
     ];
 ---
@@ -31,23 +29,36 @@ const stats = isEn
   <div
     class="flex flex-wrap justify-center gap-x-6 gap-y-3 border-b border-line pb-[18px] font-display text-xs font-bold uppercase tracking-[0.16em] text-muted"
   >
-    <span class="text-center">Valentina Ramírez · Colombia · COT (UTC-5)</span>
+    <span class="text-center">Valentina Ramírez · Colombia&nbsp;·&nbsp;COT&nbsp;(UTC-5)</span>
     <span class="inline-flex items-center gap-[10px]">
       <span class="status-dot status-dot-ok status-dot-lg" aria-hidden="true"></span>
       {
         isEn
-          ? "Limited availability · I respond within 24h"
+          ? "Limited availability · I reply within 24h"
           : "Disponibilidad limitada · Respondo en 24h"
       }
     </span>
   </div>
 
-  <h1 class="display-xl text-center" style="margin:clamp(36px,5vw,64px) 0;text-wrap:balance">
-    {isEn ? "Full Stack Developer, backend and AI." : "Full Stack Developer, backend e IA."}
-    <span class="accent">
-      {isEn ? "The code I ship, I also break." : "El código que firmo también lo rompo."}
-    </span>
-  </h1>
+  <div
+    class="mx-auto flex max-w-[1200px] flex-col items-center gap-5 text-center"
+    style="margin-top:clamp(36px,5vw,64px);margin-bottom:clamp(36px,5vw,64px)"
+  >
+    <h1 class="display-hero m-0" style="text-wrap:balance">
+      {
+        isEn
+          ? "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."
+          : "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo."
+      }
+    </h1>
+    <p class="lead accent m-0" data-hero-tagline>
+      {
+        isEn
+          ? "I build what your business needs and make sure people find it."
+          : "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre."
+      }
+    </p>
+  </div>
 
   <div class="flex flex-col items-center gap-10 text-center">
     <figure class="m-0 w-full max-w-[320px]">
@@ -66,37 +77,26 @@ const stats = isEn
       </figcaption>
     </figure>
 
-    <div class="flex w-full min-w-0 max-w-[680px] flex-col items-center gap-6">
-      <p class="lead m-0">
+    <div class="flex w-full min-w-0 max-w-[920px] flex-col items-center gap-6">
+      <p class="lead m-0" data-hero-lead>
         {
           isEn
-            ? "I'm Valentina Ramírez, a Colombian Full Stack Developer focused on backend and AI, working with Django, React, and Next.js."
-            : "Soy Valentina Ramírez, Full Stack Developer colombiana con enfoque en backend e IA y experiencia en Django, React y Next.js."
+            ? "I'm Valentina Ramírez, a Colombian software developer and content creator. My two strengths are software and digital marketing: I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand and sell more on social media."
+            : "Soy Valentina Ramírez, desarrolladora de software colombiana y creadora de contenido. Mis dos fuertes son el software y el marketing digital: construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano y vender más en redes."
         }
       </p>
       <p class="body-lg m-0 text-[17px] leading-[1.7]">
         {
           isEn
-            ? "I deliver real applications: multi-user, complex business logic, my own APIs, and frontends people actually use. Offensive mindset to write code that doesn't break, with AI integrated where it counts."
-            : "Entrego aplicaciones reales: multiusuario, lógica de negocio compleja, APIs propias y frontends que la gente usa. Mentalidad ofensiva para escribir código que no se rompe, con IA integrada donde resuelve."
+            ? "I deliver real applications: multi-user, complex business logic, my own APIs, and frontends people actually use. Security by design, so the code doesn't break, with AI integrated where it counts."
+            : "Entrego aplicaciones reales: multiusuario, lógica de negocio compleja, APIs propias y frontends que la gente usa. Seguridad desde el diseño para escribir código que no se rompe, con IA integrada donde resuelve."
         }
       </p>
       <div class="mt-2 flex flex-wrap items-center justify-center gap-3">
-        <Button
-          href={cv}
-          download={cvFile}
-          icon="download-cv-white"
-          data-umami-event={isEn ? "cv-descarga-en" : "cv-descarga-es"}
-          aria-label={isEn
-            ? "Download CV of Valentina Ramírez in PDF"
-            : "Descargar CV de Valentina Ramírez en PDF"}
-        >
-          {isEn ? "Download CV" : "Descargar CV"}
+        <Button href={r.services} icon="briefcase-white">
+          {isEn ? "View services" : "Ver servicios"}
         </Button>
-        <Button href={r.services} variant="secondary">
-          {isEn ? "See services" : "Ver servicios"}
-        </Button>
-        <SocialLinks lang={lang} size="lg" items={["linkedin", "github"]} />
+        <SocialLinks lang={lang} size="lg" networks={["instagram", "tiktok", "linkedin"]} />
       </div>
       <dl
         class="m-0 mt-4 grid w-full border-t border-line"
@@ -105,7 +105,12 @@ const stats = isEn
         {
           stats.map((s) => (
             <div class="px-3 pt-5">
-              <dt class="h-title text-[36px] leading-none tracking-[-0.03em]">{s.value}</dt>
+              <dt
+                class="h-title whitespace-nowrap leading-none tracking-[-0.03em]"
+                style="font-size:clamp(28px,8vw,36px)"
+              >
+                {s.value}
+              </dt>
               <dd class="m-0 mt-2 text-[13px] text-muted">{s.label}</dd>
             </div>
           ))

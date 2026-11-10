@@ -67,8 +67,17 @@ test.describe("ecosystem pages", () => {
     page,
   }) => {
     await page.goto("/proyectos/terracore");
-    const decision = page.locator("#app details[data-disclosure]:not([data-part])").first();
     await expect(page.locator("#app")).toHaveAttribute("open", "");
+    const technical = page.locator("#app details[data-technical]");
+    await technical.locator("> summary").click();
+    await expect(technical).toHaveAttribute("open", "");
+    await expect
+      .poll(() =>
+        technical.locator("> [data-disclosure-content]").evaluate((el) => el.getAnimations().length)
+      )
+      .toBe(0);
+    const decisions = "#app details[data-disclosure]:not([data-part]):not([data-technical])";
+    const decision = page.locator(decisions).first();
     await expect(decision).not.toHaveAttribute("open", "");
     await expect(decision.locator(":scope > summary .when-closed")).toBeVisible();
     await expect(decision.locator(":scope > summary .when-closed")).toHaveText("Ver");
@@ -78,7 +87,7 @@ test.describe("ecosystem pages", () => {
     await expect(decision.locator(":scope > summary .when-open")).toBeVisible();
     await expect(decision.locator(":scope > summary .when-open")).toHaveText("Cerrar");
     await expect(decision.locator(":scope > summary .when-closed")).toBeHidden();
-    const sibling = page.locator("#app details[data-disclosure]:not([data-part])").nth(1);
+    const sibling = page.locator(decisions).nth(1);
     await expect(sibling.locator(":scope > summary .when-closed")).toBeVisible();
     await expect(sibling.locator(":scope > summary .when-open")).toBeHidden();
   });
@@ -86,7 +95,8 @@ test.describe("ecosystem pages", () => {
   test("a URL hash opens its part", async ({ page }) => {
     await page.goto("/proyectos/terracore#landing");
     await expect(page.locator("#landing")).toHaveAttribute("open", "");
-    await expect(page.locator("#cs-landing-architecture")).toBeVisible();
+    await expect(page.locator("#cs-landing-problem")).toBeVisible();
+    await expect(page.locator("#landing details[data-technical]")).not.toHaveAttribute("open", "");
   });
 
   test("the same hash works in English and for Lúmina W's blog", async ({ page }) => {
@@ -175,7 +185,9 @@ test.describe("ecosystem pages", () => {
     const textLink = header.locator("a[target=_blank]").first();
     const cardLinkClass = await textLink.getAttribute("class");
     await page.goto("/proyectos");
-    const cardLink = page.locator("[data-project-card] a", { hasText: "Caso de estudio" }).first();
+    const cardLink = page
+      .locator("[data-project-card] a", { hasText: "Ver caso de estudio" })
+      .first();
     expect(await cardLink.getAttribute("class")).toBe(cardLinkClass);
   });
 
@@ -196,7 +208,7 @@ test.describe("ecosystem pages", () => {
     await page.goto("/proyectos/terracore");
     const docs = page.locator("#docs");
     await expect(docs.getByRole("heading", { level: 2, name: "Documentación" })).toBeVisible();
-    await docs.locator("summary").click();
+    await docs.locator(":scope > summary").click();
     await expect(docs.getByRole("link", { name: /^Ver documentación/ })).toHaveAttribute(
       "href",
       "https://docs.terracoreapp.co"
@@ -276,13 +288,16 @@ test.describe("layout", () => {
 });
 
 test.describe("services examples", () => {
-  // Each example opens the section of its project that matches the service.
+  // Each example opens the section of its project that matches the service:
+  // the landing page (two landings), the MVP (two apps), the AI integration
+  // (two apps) and the backend block for technical teams (NullBreach).
   const expected = [
+    ["terracore", "landing"],
+    ["okroot", "landing"],
     ["terracore", "app"],
     ["okroot", "app"],
-    ["nullbreach", "app"],
-    ["forgotten-portal", ""],
     ["okroot", "app"],
+    ["nullbreach", "app"],
     ["nullbreach", "app"],
   ] as const;
 
