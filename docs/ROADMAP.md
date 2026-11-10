@@ -6,7 +6,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 
 ## Decisions
 
-- [ ] New default social cards (`og-card-es.webp`, `og-card-en.webp`) for the software and digital marketing positioning (2026-11-10): the current ones still read "Software seguro y automatización con IA para emprendedores". When they change, update the home `ogImageAlt` and `tests/positioning.spec.ts`.
+- [x] New default social cards (`og-card-es.webp`, `og-card-en.webp`) for the software and digital marketing positioning (resolved 2026-11-10).
 - [x] Home "4 apps en producción" (resolved 2026-11-10): TerraCore, OKroot, NullBreach and Kairo.
 - [x] Calendly on the contact pages (resolved 2026-11-09): it loads only after a click, so no third-party cookie reaches the first load; best practices 77 to 100.
 - [ ] Payment methods: Bancolombia, Global66 and Bold with a 50% deposit come from the owner's brief (2026-11-09) and appear in the services FAQ and `llms-full.txt`. Add which method applies to which case if that matters.
