@@ -331,6 +331,11 @@ const jsonLd = JSON.stringify({
     }
     {UMAMI_SRC && UMAMI_ID && <script is:inline defer src={UMAMI_SRC} data-website-id={UMAMI_ID} />}
     {UMAMI_SRC && UMAMI_ID && <script>import "@/scripts/vitals";</script>}
+    {
+      import.meta.env.PROD && (
+        <script is:inline defer src={`${import.meta.env.BASE_URL}scripts/metricool.js`} />
+      )
+    }
     <script is:inline type="application/ld+json" set:html={jsonLd} />
   </head>
   <body class="bg-bg text-ink antialiased">

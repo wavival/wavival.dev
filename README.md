@@ -101,17 +101,17 @@ Set the variables in the Vercel project settings, not in the repository. The `PU
 
 ## Stack
 
-| Layer                | Choice                                                                                                |
-| -------------------- | ----------------------------------------------------------------------------------------------------- |
-| Framework            | Astro 7, static pages plus two Vercel Functions (quotes, database keepalive) and one Edge Middleware. |
-| Styling              | Tailwind CSS 4, CSS custom properties.                                                                |
-| Components           | Astro, organized with atomic design.                                                                  |
-| Client scripts       | Vanilla TypeScript.                                                                                   |
-| Internationalization | Spanish at root and English under `/en/`.                                                             |
-| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.                                 |
-| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables.                                |
-| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.                                           |
-| Hosting              | Vercel with Microfrontends.                                                                           |
+| Layer                | Choice                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| Framework            | Astro 7, static pages plus two Vercel Functions (quotes, database keepalive) and one Edge Middleware.  |
+| Styling              | Tailwind CSS 4, CSS custom properties.                                                                 |
+| Components           | Astro, organized with atomic design.                                                                   |
+| Client scripts       | Vanilla TypeScript.                                                                                    |
+| Internationalization | Spanish at root and English under `/en/`.                                                              |
+| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.                                  |
+| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables; Metricool in production builds. |
+| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.                                            |
+| Hosting              | Vercel with Microfrontends.                                                                            |
 
 ## Architecture
 
