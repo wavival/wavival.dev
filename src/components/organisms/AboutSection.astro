@@ -1,7 +1,7 @@
 ---
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import PullQuote from "@/components/molecules/PullQuote.astro";
-import IconLink from "@/components/atoms/IconLink.astro";
+import SocialLinks from "@/components/molecules/SocialLinks.astro";
 import Button from "@/components/atoms/Button.astro";
 import { siteRoutes } from "@/i18n/utils";
 
@@ -14,7 +14,7 @@ const isEn = lang === "en";
 const r = siteRoutes(lang, import.meta.env.BASE_URL);
 ---
 
-<section id="about" class="wrap" style="padding-bottom:var(--sec)">
+<section data-reveal id="about" class="wrap" style="padding-bottom:var(--sec)">
   <SectionHeader
     index="03"
     label={isEn ? "Beyond the code" : "Más allá del código"}
@@ -25,13 +25,13 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
     {
       isEn ? (
         <>
-          "The best software is built by people who{" "}
-          <span class="accent">understand the problem</span> before opening the editor."
+          "A good product starts by <span class="accent">understanding who will use it</span> and is
+          done when it reaches who will buy it."
         </>
       ) : (
         <>
-          "El mejor software lo construyen personas que{" "}
-          <span class="accent">entienden el problema</span> antes de abrir el editor."
+          "Un buen producto empieza por <span class="accent">entender a quien lo va a usar</span> y
+          termina cuando llega a quien lo va a comprar."
         </>
       )
     }
@@ -41,10 +41,12 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
       isEn ? (
         <>
           <p class="body-lg m-0 leading-[1.75]">
-            I'm a self-taught Full Stack Developer by conviction, focused on backend and AI, working
-            with Django, React, and Next.js. I founded Lúmina W to build my own products. I study
-            Software Analysis and Development at SENA and English Language at Universidad de San
-            Buenaventura, learning in parallel because I don't know how to do it any other way.
+            I'm a self-taught software developer by conviction, with two strengths: software and
+            digital marketing. I work with Django and React, with AI and security by design. I
+            founded Lúmina&nbsp;W to build my own products. I also create content and know how to
+            sell on social media, so the software I build is meant to bring in clients, not just to
+            work. I study English Language at Universidad de San Buenaventura, learning in parallel
+            because I don't know how to do it any other way.
           </p>
           <p class="body-lg m-0 leading-[1.75]">
             Outside of code, you'll find me in photography, behind the drums, and listening to a
@@ -54,10 +56,12 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
       ) : (
         <>
           <p class="body-lg m-0 leading-[1.75]">
-            Soy desarrolladora Full Stack autodidacta por convicción, con foco en backend e IA,
-            trabajando con Django, React y Next.js. Fundé Lúmina W para construir productos propios.
-            Estudio Análisis y Desarrollo de Software en el SENA y Lengua Inglesa en la Universidad
-            de San Buenaventura, aprendo en paralelo porque no sé hacerlo de otra forma.
+            Soy desarrolladora de software autodidacta por convicción, con dos fuertes: el software
+            y el marketing digital. Trabajo con Django y React, con IA y seguridad desde el diseño.
+            Fundé Lúmina&nbsp;W para construir productos propios. También creo contenido y sé vender
+            en redes sociales, así que el software que hago está pensado para traer clientes, no
+            solo para funcionar. Estudio Lengua Inglesa en la Universidad de San Buenaventura,
+            aprendo en paralelo porque no sé hacerlo de otra forma.
           </p>
           <p class="body-lg m-0 leading-[1.75]">
             Fuera del código me encuentra la fotografía, la batería y una playlist que no respeta
@@ -70,37 +74,23 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
   <div
     class="mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 border-t border-line pt-6"
   >
-    <div class="flex flex-wrap items-center gap-2">
-      <IconLink
-        href="https://instagram.com/wavival"
-        icon="instagram"
-        label={isEn ? "Valentina Ramírez on Instagram" : "Instagram de Valentina Ramírez"}
-      />
-      <IconLink
-        href="https://wa.me/573016560222"
-        icon="whatsapp"
-        label={isEn ? "Valentina Ramírez on WhatsApp" : "WhatsApp de Valentina Ramírez"}
-      />
-      <IconLink
-        href="https://platzi.com/p/wavival"
-        icon="link"
-        label={isEn
-          ? "Valentina Ramírez's Platzi profile"
-          : "Perfil de Platzi de Valentina Ramírez"}
-      />
-    </div>
+    <SocialLinks lang={lang} networks={["instagram", "tiktok", "linkedin"]} />
     <div class="flex flex-wrap items-center gap-3">
       <Button
         href="https://blog.luminaw.co"
         target="_blank"
-        variant="secondary"
+        variant="primary"
+        size="sm"
+        icon="read-more-white"
         aria-label={isEn
-          ? "Blog W: Lúmina W blog by Valentina Ramírez"
-          : "Blog W: blog de Lúmina W creado por Valentina Ramírez"}
+          ? "Read Blog W: Lúmina W blog by Valentina Ramírez"
+          : "Leer Blog W: blog de Lúmina W creado por Valentina Ramírez"}
       >
-        Blog W
+        {isEn ? "Read Blog W" : "Leer Blog W"}
       </Button>
-      <Button href={r.about} variant="secondary">{isEn ? "About me" : "Conóceme"}</Button>
+      <Button href={r.about} variant="secondary" size="sm">
+        {isEn ? "Read about me" : "Leer sobre mí"}
+      </Button>
     </div>
   </div>
 </section>

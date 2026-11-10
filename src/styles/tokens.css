@@ -23,6 +23,11 @@
   --sec: clamp(80px, 10vw, 144px);
   --sec-compact: clamp(56px, 7vw, 96px);
   --nav-h: 64px;
+  --touch-min: 44px;
+  --float-size: 56px;
+  --float-gap: 12px;
+  --float-offset: 16px;
+  --calendar-embed-h: 700px;
 
   --radius-surface: 0;
   --radius-control: 2px;
@@ -32,6 +37,7 @@
   --font-body: "Poppins", sans-serif;
 
   --fs-display-xl: clamp(36px, 5.2vw, 80px);
+  --fs-display-hero: clamp(28px, 3.6vw, 56px);
   --fs-display-page: clamp(44px, 7vw, 108px);
   --fs-display-index: clamp(48px, 8vw, 120px);
   --fs-display-case: clamp(52px, 9vw, 148px);

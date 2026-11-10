@@ -1,24 +1,30 @@
 ---
 import Button from "@/components/atoms/Button.astro";
 import Eyebrow from "@/components/atoms/Eyebrow.astro";
+import { serviceById } from "@/data/services";
 import { siteRoutes } from "@/i18n/utils";
 
 interface Props {
   lang?: "es" | "en";
-  showServicesLink?: boolean;
+  /** Where the secondary button goes: the services page, or the contact page on the services pages themselves. */
+  secondary?: "services" | "contact";
 }
 
-const { lang = "es", showServicesLink = true } = Astro.props;
+const { lang = "es", secondary = "services" } = Astro.props;
 const isEn = lang === "en";
 const r = siteRoutes(lang, import.meta.env.BASE_URL);
+// The MVP timeline comes from the catalog, so the band and the services page never disagree.
+const mvpTimeline = serviceById("custom-web-app-mvp").timeline[lang];
 ---
 
-<section id="contact" class="border-t border-line bg-surface">
+<section data-reveal id="contact" class="border-t border-line bg-surface">
   <div class="wrap py-sec">
     <Eyebrow>{isEn ? "One click away" : "A un click"}</Eyebrow>
     <h2 class="display-cta m-0 mt-5 max-w-[1100px] text-balance">
-      {isEn ? "Your next idea deserves" : "Tu próxima idea merece"}
-      <span class="accent">{isEn ? "code that can carry it." : "código que la sostenga."}</span>
+      {isEn ? "Less work by hand," : "Menos trabajo a mano,"}
+      <span class="accent">
+        {isEn ? "more customers who find you." : "más clientes que llegan solos."}
+      </span>
     </h2>
     <div
       class="mt-12 flex flex-wrap items-end justify-between gap-x-16 gap-y-8 border-t border-line pt-8"
@@ -27,35 +33,30 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
         <p class="body-lg m-0 text-[17px]">
           {
             isEn
-              ? "I design and build complete products: from the backend to the interface your users love. With integrated AI and security by design."
-              : "Diseño y construyo productos completos: del backend a la interfaz que tus usuarios aman. Con IA integrada y seguridad desde el diseño."
+              ? "I build landing pages, websites, automations, chatbots and custom apps, plus the content that gets you found. Security by design and a fixed price."
+              : "Construyo landing pages, sitios web, automatizaciones, chatbots y apps a medida, y el contenido para que te encuentren. Seguridad desde el diseño y precio fijo."
           }
         </p>
-        <p class="m-0 text-sm text-muted">
-          {isEn ? "Projects from " : "Proyectos desde "}
-          <strong class="font-semibold text-ink">
-            {isEn ? "USD 250 / COP 1,000,000" : "USD 250 / COP 1.000.000"}
-          </strong>
+        <p class="m-0 text-sm text-muted" data-mvp-timeline>
           {
             isEn
-              ? " depending on scope (MVP from 3-6 weeks). Limited availability, I respond within 24h."
-              : " según alcance (MVP desde 3-6 semanas). Disponibilidad limitada, respondo en 24h."
+              ? `MVP in ${mvpTimeline}. Limited availability, I reply within 24 hours.`
+              : `MVP de ${mvpTimeline}. Disponibilidad limitada, respondo en 24 horas.`
           }
         </p>
       </div>
       <div class="flex flex-wrap justify-center gap-3 min-[640px]:justify-start">
-        <Button
-          href={r.contact}
-          icon="send-email-white"
-          data-umami-event="cta-quiero-producto"
-          aria-label={isEn ? "Go to the contact page" : "Ir a la página de contacto"}
-        >
-          {isEn ? "Start my project" : "Quiero mi producto"}
+        <Button href={r.quote} icon="calculator-white" data-umami-event="cta-quiero-producto">
+          {isEn ? "Get a quote" : "Cotizar mi proyecto"}
         </Button>
         {
-          showServicesLink && (
+          secondary === "contact" ? (
+            <Button href={r.contact} variant="secondary">
+              {isEn ? "Contact me" : "Contactar"}
+            </Button>
+          ) : (
             <Button href={r.services} variant="secondary">
-              {isEn ? "See services" : "Ver servicios"}
+              {isEn ? "View services" : "Ver servicios"}
             </Button>
           )
         }

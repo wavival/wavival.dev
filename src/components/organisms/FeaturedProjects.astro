@@ -21,7 +21,7 @@ const featured = projects
   .map((p) => projectView(p, lang, base));
 ---
 
-<section id="projects" class="wrap" style="padding-bottom:var(--sec)">
+<section data-reveal id="projects" class="wrap" style="padding-bottom:var(--sec)">
   <SectionHeader
     index="01"
     label={isEn ? "Projects" : "Proyectos"}
@@ -33,7 +33,13 @@ const featured = projects
   />
   {
     featured.map((p, i) => (
-      <ProjectRow project={p} index={String(i + 1).padStart(2, "0")} lang={lang} />
+      <ProjectRow
+        project={p}
+        index={String(i + 1).padStart(2, "0")}
+        lang={lang}
+        featured={i === 0}
+        featuredLabel={isEn ? "Featured" : "Destacado"}
+      />
     ))
   }
   <div class="mt-10 flex justify-center">
@@ -41,10 +47,10 @@ const featured = projects
       href={r.projects}
       variant="secondary"
       aria-label={isEn
-        ? "See all projects and the lab"
+        ? "View all projects and the lab"
         : "Ver todos los proyectos y el laboratorio"}
     >
-      {isEn ? "See all projects" : "Ver todos los proyectos"}
+      {isEn ? "View all projects" : "Ver todos los proyectos"}
     </Button>
   </div>
 </section>

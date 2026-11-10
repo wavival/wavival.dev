@@ -1,5 +1,28 @@
+import { isCountryCode } from "../src/data/countries";
+import { BUDGET_RANGES, budgetRangeLabel, type BudgetRangeId } from "../src/data/pricing";
+import {
+  HOW_FOUND_IDS,
+  PREFERRED_CHANNEL_IDS,
+  TECHNICAL_QUOTE_SERVICE_ID,
+  TIMELINE_IDS,
+  howFoundLabel,
+  isQuoteSource,
+  normalizeQuoteService,
+  preferredChannelLabel,
+  quoteServiceLabel,
+  timelineLabel,
+  type HowFoundId,
+  type PreferredChannelId,
+  type QuoteServiceId,
+  type TimelineId,
+} from "../src/data/quoteOptions";
+import { servicesInGroup } from "../src/data/services";
+import { LEADS_TABLE, insertRow, rowExists, supabaseConfig } from "../src/server/supabase";
+import { CURRENCIES, resolveCountry, type Currency } from "../src/utils/currency";
+
 const RECIPIENT = "wavival.dev@luminaw.co";
-const SENDER = { name: "Wavival", email: RECIPIENT };
+const SENDER = { name: "wavival", email: RECIPIENT };
+const PRODUCT = "wavival";
 
 // Browser requests must come from the site itself. Vercel preview hosts are read from the
 // platform variables, so a preview deployment accepts its own form and nothing else.
@@ -7,28 +30,22 @@ const SENDER = { name: "Wavival", email: RECIPIENT };
 const SITE_HOSTS = ["wavival.dev", "www.wavival.dev"];
 const LOCAL_HOSTS = ["localhost", "127.0.0.1"];
 const MAX_BODY_BYTES = 20_000;
+const MAX_USER_AGENT = 512;
+const MAX_SOURCE = 200;
 const BREVO_TIMEOUT_MS = 10_000;
 
 // Best-effort limit per server instance: it slows a single source down, it does not replace
 // a firewall rule (see docs/security.md). Memory stays bounded by pruning expired entries.
 const RATE_LIMIT = { max: 5, windowMs: 10 * 60 * 1000, maxEntries: 1000 };
+// Every monthly SEO refusal (unknown email, lead not won, no development service, lookup
+// failure) answers with the same status and body, never before this many milliseconds from
+// the start of the check, so neither the answer nor its timing tells whether an email is a client.
+const REFUSAL_FLOOR_MS = 1200;
+const REFUSAL = { error: "Development clients only" };
 const attempts = new Map<string, number[]>();
 
-const SERVICE_LABELS: Record<string, string> = {
-  "custom-web-applications": "Aplicaciones web a medida",
-  "rest-apis-backend": "APIs REST y backend",
-  "security-appsec": "Seguridad y AppSec",
-  "ai-integrations": "Integraciones de IA",
-};
-
-const PROJECT_TYPE_LABELS: Record<string, string> = {
-  "web-app": "Aplicación web o PWA",
-  landing: "Landing page o sitio web",
-  "api-backend": "API y backend",
-  design: "Diseño de interfaz y prototipo",
-  security: "Seguridad y AppSec",
-  ai: "Producto con IA",
-};
+const LOCALES = ["es", "en"] as const;
+type Locale = (typeof LOCALES)[number];
 
 interface QuotePayload {
   name?: unknown;
@@ -37,8 +54,36 @@ interface QuotePayload {
   business?: unknown;
   description?: unknown;
   services?: unknown;
-  projectTypes?: unknown;
+  country?: unknown;
+  budgetRange?: unknown;
+  currency?: unknown;
+  locale?: unknown;
+  howFound?: unknown;
+  preferredChannel?: unknown;
+  timeline?: unknown;
+  consent?: unknown;
+  source?: unknown;
   website?: unknown;
+}
+
+interface Quote {
+  name: string;
+  email: string;
+  phone: string;
+  business: string;
+  description: string;
+  services: QuoteServiceId[];
+  country: string;
+  geoCountry: string | null;
+  budgetRange: BudgetRangeId;
+  currency: Currency;
+  locale: Locale;
+  howFound: HowFoundId | null;
+  preferredChannel: PreferredChannelId | null;
+  timeline: TimelineId | null;
+  source: string;
+  userAgent: string | null;
+  consentAt: string;
 }
 
 const json = (body: Record<string, string>, status = 200) =>
@@ -49,6 +94,18 @@ const json = (body: Record<string, string>, status = 200) =>
 
 const text = (value: unknown, limit: number) =>
   typeof value === "string" ? value.trim().slice(0, limit) : "";
+
+const oneOf = <T extends string>(value: unknown, list: readonly T[]): T | null =>
+  typeof value === "string" && (list as readonly string[]).includes(value) ? (value as T) : null;
+
+/** An optional closed-list field: absent or empty is fine, anything else must be in the list. */
+const optionalOneOf = <T extends string>(
+  value: unknown,
+  list: readonly T[]
+): T | null | undefined => {
+  if (value === undefined || value === null || value === "") return null;
+  return oneOf(value, list) ?? undefined;
+};
 
 const escapeHtml = (value: string) =>
   value.replace(/[&<>'"]/g, (character) => {
@@ -62,23 +119,30 @@ const escapeHtml = (value: string) =>
     return entities[character];
   });
 
-const quoteEmail = (quote: {
-  name: string;
-  email: string;
-  phone: string;
-  business: string;
-  description: string;
-  services: string[];
-  projectTypes: string[];
-}) => {
-  const detailRows = [
+// The owner reads the notification in Spanish (docs/i18n.md).
+const quoteEmail = (quote: Quote, saved: boolean) => {
+  const detailRows: [string, string][] = [
     ["Nombre", quote.name],
     ["Correo", quote.email],
     ["Teléfono", quote.phone],
-    ["Empresa", quote.business],
-    ["Servicios", quote.services.join(", ")],
-    ["Tipo de proyecto", quote.projectTypes.join(", ")],
-  ]
+    ["Negocio", quote.business],
+    ["Servicios", quote.services.map((id) => quoteServiceLabel(id, "es")).join(", ")],
+    ["País", quote.country],
+    ["País detectado", quote.geoCountry ?? "no detectado"],
+    ["Moneda", quote.currency],
+    ["Presupuesto", budgetRangeLabel(quote.budgetRange, quote.currency, "es")],
+    ["Cómo me conoció", quote.howFound ? howFoundLabel(quote.howFound, "es") : ""],
+    [
+      "Canal preferido",
+      quote.preferredChannel ? preferredChannelLabel(quote.preferredChannel, "es") : "",
+    ],
+    ["Para cuándo", quote.timeline ? timelineLabel(quote.timeline, "es") : ""],
+    ["Idioma", quote.locale],
+    ["Origen", quote.source],
+    ["Consentimiento", quote.consentAt],
+    ["Guardado en base de datos", saved ? "sí" : "no"],
+  ];
+  const rows = detailRows
     .filter(([, value]) => value)
     .map(
       ([label, value]) =>
@@ -86,7 +150,7 @@ const quoteEmail = (quote: {
     )
     .join("");
 
-  return `<!doctype html><html lang="es"><body style="margin:0;background:#f3f4f6;color:#111827"><main style="max-width:640px;margin:32px auto;background:#ffffff;border:1px solid #d1d5db"><header style="padding:28px 32px;border-bottom:4px solid #407bff"><span style="color:#1565c0;font:800 28px Arial,sans-serif;letter-spacing:-.08em">W</span><p style="margin:16px 0 0;color:#4b5563;font:600 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase">Nueva cotización</p><h1 style="margin:8px 0 0;font:800 30px Arial,sans-serif;letter-spacing:-.03em">${escapeHtml(quote.name)}</h1></header><section style="padding:24px 32px"><table style="width:100%;border-collapse:collapse">${detailRows}</table><h2 style="margin:32px 0 12px;font:800 18px Arial,sans-serif">Proyecto</h2><p style="margin:0;color:#374151;font:15px/1.7 Arial,sans-serif;white-space:pre-wrap">${escapeHtml(quote.description)}</p></section><footer style="padding:20px 32px;background:#f9fafb;border-top:1px solid #d1d5db;color:#6b7280;font:12px Arial,sans-serif">Enviado desde wavival.dev</footer></main></body></html>`;
+  return `<!doctype html><html lang="es"><body style="margin:0;background:#f3f4f6;color:#111827"><main style="max-width:640px;margin:32px auto;background:#ffffff;border:1px solid #d1d5db"><header style="padding:28px 32px;border-bottom:4px solid #407bff"><span style="color:#1565c0;font:800 28px Arial,sans-serif;letter-spacing:-.08em">W</span><p style="margin:16px 0 0;color:#4b5563;font:600 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase">Nueva cotización</p><h1 style="margin:8px 0 0;font:800 30px Arial,sans-serif;letter-spacing:-.03em">${escapeHtml(quote.name)}</h1></header><section style="padding:24px 32px"><table style="width:100%;border-collapse:collapse">${rows}</table><h2 style="margin:32px 0 12px;font:800 18px Arial,sans-serif">Proyecto</h2><p style="margin:0;color:#374151;font:15px/1.7 Arial,sans-serif;white-space:pre-wrap">${escapeHtml(quote.description)}</p></section><footer style="padding:20px 32px;background:#f9fafb;border-top:1px solid #d1d5db;color:#6b7280;font:12px Arial,sans-serif">Enviado desde wavival.dev</footer></main></body></html>`;
 };
 
 const allowedHosts = () => [
@@ -130,6 +194,178 @@ const retryAfter = (key: string, now = Date.now()) => {
   return 0;
 };
 
+/** Builds the validated quote, or `null` when any field is missing or outside its list. */
+const parseQuote = (payload: QuotePayload, request: Request): Quote | null => {
+  const name = text(payload.name, 120);
+  const email = text(payload.email, 254).toLowerCase();
+  const phone = text(payload.phone, 24).replace(/[\s()-]/g, "");
+  const business = text(payload.business, 160);
+  const description = text(payload.description, 5000);
+  const words = description ? description.split(/\s+/).length : 0;
+
+  const rawServices = Array.isArray(payload.services) ? payload.services : [];
+  const services = [
+    ...new Set(
+      rawServices.map((service) =>
+        typeof service === "string" ? normalizeQuoteService(service) : null
+      )
+    ),
+  ];
+  if (services.length === 0 || services.some((service) => service === null)) return null;
+
+  const countryInput = text(payload.country, 10);
+  const country = /^[A-Za-z]{2}$/.test(countryInput) ? countryInput.toUpperCase() : "";
+  const currency = oneOf(payload.currency, CURRENCIES);
+  const budgetRange = oneOf(
+    payload.budgetRange,
+    BUDGET_RANGES.map((range) => range.id)
+  );
+  const range = BUDGET_RANGES.find((item) => item.id === budgetRange);
+  const locale = oneOf(payload.locale, LOCALES);
+  const howFound = optionalOneOf(payload.howFound, HOW_FOUND_IDS);
+  const preferredChannel = optionalOneOf(payload.preferredChannel, PREFERRED_CHANNEL_IDS);
+  const timeline = optionalOneOf(payload.timeline, TIMELINE_IDS);
+  const source = text(payload.source, MAX_SOURCE);
+
+  if (
+    !name ||
+    !business ||
+    !/^\S+@\S+\.\S+$/.test(email) ||
+    !/^\+[1-9]\d{7,14}$/.test(phone) ||
+    words === 0 ||
+    words > 500 ||
+    !isCountryCode(country) ||
+    !currency ||
+    !budgetRange ||
+    !range ||
+    (range.bounds && !range.bounds[currency]) ||
+    !locale ||
+    howFound === undefined ||
+    preferredChannel === undefined ||
+    timeline === undefined ||
+    payload.consent !== true ||
+    !isQuoteSource(source)
+  ) {
+    return null;
+  }
+
+  const userAgent = text(request.headers.get("user-agent"), MAX_USER_AGENT);
+  return {
+    name,
+    email,
+    phone,
+    business,
+    description,
+    services: services as QuoteServiceId[],
+    country,
+    geoCountry: resolveCountry(request.headers, process.env),
+    budgetRange,
+    currency,
+    locale,
+    howFound,
+    preferredChannel,
+    timeline,
+    source,
+    userAgent: userAgent || null,
+    consentAt: new Date().toISOString(),
+  };
+};
+
+// Monthly SEO is sold only to development clients: a won wavival lead with the same email that
+// bought a development service, the REST APIs block or a kit (both kits include a landing page).
+const DEVELOPMENT_SERVICES: readonly QuoteServiceId[] = [
+  ...servicesInGroup("development").map((service) => service.id),
+  TECHNICAL_QUOTE_SERVICE_ID,
+  "digital-presence-kit",
+  "time-saver-kit",
+];
+
+/** True only when the database confirms it; an unreachable database cannot confirm anyone. */
+const isDevelopmentClient = async (email: string): Promise<boolean> => {
+  const config = supabaseConfig(process.env);
+  if (!config) {
+    console.error("quote: Supabase variables are not set, development client not verified");
+    return false;
+  }
+  const found = await rowExists(config, LEADS_TABLE, {
+    product: `eq.${PRODUCT}`,
+    status: "eq.won",
+    email: `eq.${email}`,
+    services: `ov.{${DEVELOPMENT_SERVICES.join(",")}}`,
+  });
+  if (found === null) console.error("quote: development client lookup failed or timed out");
+  return found === true;
+};
+
+/** Stores the lead. Resolves to false, with a fixed log line, when Supabase is not reachable. */
+const saveQuote = async (quote: Quote): Promise<boolean> => {
+  const config = supabaseConfig(process.env);
+  if (!config) {
+    console.error("quote: Supabase variables are not set, lead not stored");
+    return false;
+  }
+  const saved = await insertRow(config, LEADS_TABLE, {
+    product: PRODUCT,
+    name: quote.name,
+    email: quote.email,
+    phone: quote.phone,
+    company: quote.business,
+    message: quote.description,
+    services: quote.services,
+    country: quote.country,
+    geo_country: quote.geoCountry,
+    budget_range: quote.budgetRange,
+    currency: quote.currency,
+    how_found: quote.howFound,
+    preferred_channel: quote.preferredChannel,
+    timeline: quote.timeline,
+    locale: quote.locale,
+    user_agent: quote.userAgent,
+    source: quote.source,
+    consent_at: quote.consentAt,
+  });
+  if (!saved) console.error("quote: Supabase insert failed or timed out");
+  return saved;
+};
+
+/** Notifies the owner. Resolves to false, with a fixed log line, when Brevo does not accept it. */
+const emailQuote = async (quote: Quote, saved: boolean): Promise<boolean> => {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    console.error("quote: BREVO_API_KEY is not set");
+    return false;
+  }
+  let response: Response;
+  try {
+    response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "api-key": apiKey,
+        "content-type": "application/json",
+      },
+      signal: AbortSignal.timeout(BREVO_TIMEOUT_MS),
+      body: JSON.stringify({
+        sender: SENDER,
+        replyTo: { email: quote.email, name: quote.name },
+        to: [{ email: RECIPIENT, name: "Valentina Ramírez" }],
+        subject: `Nueva cotización: ${quote.name}`,
+        htmlContent: quoteEmail(quote, saved),
+        tags: ["quote"],
+      }),
+    });
+  } catch {
+    console.error("quote: Brevo request failed or timed out");
+    return false;
+  }
+  if (!response.ok) {
+    // Status only: the request holds personal data and the response may echo it.
+    console.error(`quote: Brevo responded ${response.status}`);
+    return false;
+  }
+  return true;
+};
+
 async function handler(request: Request): Promise<Response> {
   if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
   if (!isAllowedOrigin(request.headers.get("origin"))) return json({ error: "Forbidden" }, 403);
@@ -160,76 +396,21 @@ async function handler(request: Request): Promise<Response> {
 
   if (text(payload.website, 200)) return json({ ok: "true" }, 201);
 
-  const name = text(payload.name, 120);
-  const email = text(payload.email, 254).toLowerCase();
-  const phone = text(payload.phone, 24).replace(/[\s()-]/g, "");
-  const business = text(payload.business, 160);
-  const description = text(payload.description, 5000);
-  const services = Array.isArray(payload.services)
-    ? payload.services.filter((service): service is string => typeof service === "string")
-    : [];
-  const selectedServices = [...new Set(services)].filter((service) => service in SERVICE_LABELS);
-  const projectTypes = Array.isArray(payload.projectTypes)
-    ? payload.projectTypes.filter((type): type is string => typeof type === "string")
-    : [];
-  const selectedTypes = [...new Set(projectTypes)].filter((type) => type in PROJECT_TYPE_LABELS);
-  const words = description ? description.split(/\s+/).length : 0;
-
-  if (
-    !name ||
-    !business ||
-    !/^\S+@\S+\.\S+$/.test(email) ||
-    !/^\+[1-9]\d{7,14}$/.test(phone) ||
-    words === 0 ||
-    words > 500 ||
-    selectedServices.length + selectedTypes.length === 0
-  ) {
-    return json({ error: "Invalid request" }, 400);
+  const quote = parseQuote(payload, request);
+  if (!quote) return json({ error: "Invalid request" }, 400);
+  if (quote.services.includes("monthly-seo")) {
+    const started = Date.now();
+    if (!(await isDevelopmentClient(quote.email))) {
+      const wait = REFUSAL_FLOOR_MS - (Date.now() - started);
+      if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+      return json(REFUSAL, 422);
+    }
   }
 
-  const apiKey = process.env.BREVO_API_KEY;
-  if (!apiKey) {
-    console.error("quote: BREVO_API_KEY is not set");
-    return json({ error: "Email service unavailable" }, 500);
-  }
-
-  let response: Response;
-  try {
-    response = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "api-key": apiKey,
-        "content-type": "application/json",
-      },
-      signal: AbortSignal.timeout(BREVO_TIMEOUT_MS),
-      body: JSON.stringify({
-        sender: SENDER,
-        replyTo: { email, name },
-        to: [{ email: RECIPIENT, name: "Valentina Ramírez" }],
-        subject: `Nueva cotización: ${name}`,
-        htmlContent: quoteEmail({
-          name,
-          email,
-          phone,
-          business,
-          description,
-          services: selectedServices.map((service) => SERVICE_LABELS[service]),
-          projectTypes: selectedTypes.map((type) => PROJECT_TYPE_LABELS[type]),
-        }),
-        tags: ["quote"],
-      }),
-    });
-  } catch {
-    console.error("quote: Brevo request failed or timed out");
-    return json({ error: "Email service unavailable" }, 502);
-  }
-
-  if (!response.ok) {
-    // Status only: the request holds personal data and the response may echo it.
-    console.error(`quote: Brevo responded ${response.status}`);
-    return json({ error: "Email service unavailable" }, 502);
-  }
+  // The database first, so the email can say whether the lead was stored.
+  const saved = await saveQuote(quote);
+  const emailed = await emailQuote(quote, saved);
+  if (!saved && !emailed) return json({ error: "Service unavailable" }, 502);
   return json({ ok: "true" }, 201);
 }
 

@@ -1,6 +1,6 @@
 # Marca personal wavival
 
-> Last updated: 2026-10-05
+> Last updated: 2026-11-10
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -15,18 +15,18 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público: desarrolladora Full Stack con enfoque en backend e IA (Django, React, Next.js) y fundadora de Lúmina W. En inglés: Full Stack Developer focused on backend and AI.
+- Rol público (decisión de la dueña, 2026-11-10): desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital marketer. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
 - Formación pública:
-  - SENA: Tecnología en Análisis y Desarrollo de Software (en curso).
   - Universidad de San Buenaventura: Lengua Inglesa (en curso).
-  - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso).
+  - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso), y formación en marketing y redes sociales.
+  - Aprendizaje autodidacta en marketing y redes sociales, con experiencia práctica como creadora de contenido en Instagram (`@wavival_dev`) y TikTok (`@wavival_dev`). No se nombran programas ni cursos de terceros.
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
 - Autodefinición en el sitio: desarrolladora autodidacta "por convicción", que necesita entender por qué funciona algo antes de darlo por bueno.
 
-Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `AGENTS.md`.
+Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `src/layouts/Layout.astro` (JSON-LD `jobTitle` "Software Developer"), `AGENTS.md`.
 
 Fuera de contenido V1: experiencias laborales del CV y cualquier nombre o experiencia de terceros que aparezca allí. El CV se usa solo como contexto interno.
 
@@ -46,7 +46,8 @@ Canales V1:
 - Instagram: más personal, visual y cercano.
 - LinkedIn: más técnico y profesional.
 - Ambos con la misma identidad, voz base y reglas de esta guía. Cambia el registro, no la persona.
-- Otros canales del sitio (GitHub, X `@wavival0`, Blog W, Platzi) quedan fuera de la prioridad V1.
+- TikTok (`https://www.tiktok.com/@wavival_dev`): canal de contenido enlazado en el pie del sitio y en `/sobre-mi`.
+- Otros canales del sitio (GitHub, X `@wavival0`, Blog W, Platzi) quedan fuera de la prioridad V1. No hay Facebook en el sitio.
 
 Idioma inicial: español. El contenido en inglés no es parte de V1.
 
@@ -56,25 +57,29 @@ Cadencia y calendario: los define después el sistema editorial. Este documento 
 
 ## 3. Posicionamiento
 
-Posicionamiento V1: desarrolladora Full Stack con enfoque en backend e IA y fundadora de Lúmina W, con contenido sobre:
+Posicionamiento 2026 (desde 2026-11-10): desarrolladora de software y marketing digital, que ayuda a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y fundadora de Lúmina W, con contenido sobre:
 
 - Construcción de productos.
 - Backend.
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
 
-Titular de la home: "Full Stack Developer, backend e IA." (EN: "Full Stack Developer, backend and AI."), seguido de "El código que firmo también lo rompo."
+Title de la home: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores" (EN: "Valentina Ramírez | Secure software and AI automation for entrepreneurs"). Meta description: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público." (EN: "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.").
 
-Frase base publicada en el pie del sitio: "Full Stack Developer. Backend e IA. Seguridad integrada. Productos que escalan." (EN: "Full Stack Developer. Backend and AI. Security built in. Products that scale.")
+Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."), seguido de la frase secundaria "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre." (EN: "I build what your business needs and make sure people find it.").
+
+Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana y creadora de contenido. Mis dos fuertes son el software y el marketing digital: construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano y vender más en redes." (EN: "I'm Valentina Ramírez, a Colombian software developer and content creator. My two strengths are software and digital marketing: I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand and sell more on social media.").
+
+Frase base publicada en el pie del sitio: "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender." (EN: "Software developer and digital marketer. Tools that save your business time and help it sell."). Redes en el pie, en este orden: Instagram, TikTok, GitHub y LinkedIn. La fila final de `/sobre-mi` y `/en/about` muestra las mismas cuatro redes en el mismo orden.
 
 Afirmaciones que el sitio ya sostiene:
 
 - Toma un problema de negocio y lo entrega como software real en producción.
-- Mentalidad ofensiva para escribir código defensivo ("El código que firmo también lo rompo.").
+- Seguridad desde el diseño en cada línea de código.
 - Producto real, no demos: multiusuario, lógica de negocio compleja, APIs propias.
 - Decide arquitectura pensando en el segundo año, no solo en el MVP.
 - "La IA acelera; no reemplaza el criterio de ingeniería."
-- La home publica tres datos: "3 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". Las 3 apps son TerraCore, OKroot y NullBreach (decisión de la dueña, 2026-10-04); el sitio no las enumera junto a la cifra.
+- La home publica tres datos: "4 apps en producción", "Lúmina W fundadora" y "24h tiempo de respuesta". La cifra pasa a 4 por decisión de la dueña (2026-11-10): TerraCore, OKroot, NullBreach y Kairo, el producto nuevo de la dueña, ya en producción. El sitio no las enumera junto a la cifra.
 
 Regla de IA: cualquier pieza que diga que una solución usa, resuelve o mejora algo con IA cita el proyecto y la fuente que lo demuestra (por ejemplo OKroot con Claude API, NullBreach con OpenAI). Sin fuente, la pieza no hace ese claim.
 
@@ -122,7 +127,7 @@ Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no s
    - Contexto, trade-off, decisión (multitenancy, offline-first, Next.js App Router, NextAuth, Prisma Postgres, estado persistente del perfil en OKroot).
    - Fuente: `decisions` y `learnings` de cada caso.
 3. Backend y seguridad por diseño
-   - OWASP, PTES, MITRE ATT&CK, criterio de pentester al diseñar.
+   - OWASP, PTES, MITRE ATT&CK, criterio de seguridad al diseñar.
    - Fuente: `stack.ts`, NullBreach, writeup Forgotten Portal (laboratorio DockerLabs, ya publicado).
 4. IA con evidencia
    - Solo con el proyecto y la fuente que demuestran el claim (ver sección 3).
@@ -133,7 +138,7 @@ Todo contenido V1 sale de fuentes verificables del repositorio. Sin fuente, no s
 7. Herramientas
    - Una herramienta se menciona solo cuando la fuente concreta confirma su uso (ver sección 7).
 8. Formación
-   - SENA, Universidad de San Buenaventura, Platzi y lo que cada proyecto enseñó.
+   - Universidad de San Buenaventura, Platzi y lo que cada proyecto enseñó.
 
 Adaptación: Instagram prioriza los pilares 1, 5, 6, 7 y 8 con enfoque visual y cercano. LinkedIn prioriza 1, 2, 3, 4 y 6 con enfoque técnico.
 
@@ -185,9 +190,11 @@ Términos del sitio y su sentido:
 
 A evitar: "experto", "el mejor", "garantizado", "100% seguro", "certificado", "clientes" (no hay clientes nombrados en el repositorio), lenguaje ofensivo sin contexto defensivo.
 
-Herramientas: se nombra una herramienta o sistema (por ejemplo un sistema operativo, editor o terminal) solo si una fuente concreta de la pieza confirma su uso. No se afirma una máquina de trabajo única.
+Herramientas: se nombra una herramienta o sistema (por ejemplo un sistema operativo, editor o terminal) solo si una fuente concreta de la pieza confirma su uso. No se afirma una máquina de trabajo única. `/herramientas` publica, además del stack, las herramientas de marketing y contenido (Claude, CapCut, Canva, ElevenLabs, Higgsfield) y el equipo de grabación (Motorola Edge 60 Fusion y estabilizador DJI con selfie stick extensible).
 
 Nombres exactos: TerraCore, OKroot, NullBreach, Lúmina W, Blog W, Forgotten Portal.
+
+Brand spelling (2026-11-09): "wavival" is always lowercase, at the start of a sentence too, in titles, metadata, JSON-LD and `alt`. On the English site the tools page is "Tools" everywhere it is named; "Stack" names only the section inside that page.
 
 Nombres oficiales de proyecto en el portafolio (campo `name` de `src/data/projects.ts`, usados en títulos y datos estructurados): `TerraCore | Campo Inteligente`, `OKroot | Come sano, vive libre`, `NullBreach | AI-Powered AppSec Chat`, `Lúmina W | Software & Technology`, `wavival.dev` y `Forgotten Portal`. Cada proyecto es un ecosistema con una sola página y se divide en partes (app, landing, documentación, blog, repositorio, API); las landings de TerraCore y OKroot y Blog W ya no tienen página propia, son partes de su proyecto. En texto corrido se usa el nombre corto.
 
@@ -198,14 +205,14 @@ Nombres oficiales de proyecto en el portafolio (campo `name` de `src/data/projec
 Fuente única: `src/styles/tokens.css`, `DESIGN.md`, `public/brand/`.
 
 - Logo: `public/brand/logo-w.webp`.
-- Foto de perfil: `public/images/profile.webp`, retrato con desvanecido al fondo y marco fino en degradado azul.
+- Foto de perfil: `public/images/profile.webp`, retrato vertical 4:5 (720x900) sobre fondo gris claro, con marco fino y borde inferior azul.
 - Color:
   - Azul de marca `#407bff`: rellenos, bordes y texto grande.
   - Azul interactivo `#1565c0` (claro) y `#5b8cff` (oscuro): texto pequeño, enlaces, botones.
   - Fondo `#f0f4ff` (claro) y `#0f1117` (oscuro).
   - Texto `#1a1a2e` (claro) y `#e8eaf6` (oscuro).
 - Tipografía: Raleway para títulos y etiquetas; Poppins para lectura.
-- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853).
+- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853). Las tarjetas por defecto de la home (`og-card-es.webp`, `og-card-en.webp`) son ilustraciones con el texto "Creo productos digitales. De una idea a algo que las personas pueden usar." (EN: "I build digital products. From an idea to something people can actually use.") y no tienen un script que las regenere.
 - Iconografía: SVG decorativos, sin emojis ni flechas decorativas. Excepción decidida por la dueña: la bandera de Colombia junto a "Hecho en Colombia" en el footer (`role="img"`, `aria-label="Colombia"`).
 - Accesibilidad como norma: contraste WCAG AA, foco visible, texto alternativo real en imágenes de contenido.
 
@@ -263,7 +270,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - Los precios de productos no se publican en `wavival.dev` y ninguna pieza de wavival los cita.
-- Las 3 apps del home son TerraCore, OKroot y NullBreach.
+- Las 4 apps del home: TerraCore, OKroot, NullBreach y Kairo.
 - No usar públicamente la cifra del 42%.
 - Todo lo que vive en `wavival.dev` es de wavival y todo lo que vive en `luminaw.co` es de Lúmina W.
 - No usar nombres ni experiencias de terceros del CV en V1.

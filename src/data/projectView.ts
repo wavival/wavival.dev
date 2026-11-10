@@ -1,7 +1,6 @@
 import {
   isRichPart,
   projectFilters,
-  projectStack,
   type PartKind,
   type Project,
   type ProjectLink,
@@ -37,6 +36,15 @@ export interface PartView {
   actions: ProjectAction[];
 }
 
+export interface BriefView {
+  labels: { problem: string; solution: string; result: string };
+  problem: string;
+  solution: string;
+  result: string;
+  /** Validation badge text; set only on products still in validation with real clients. */
+  validation?: string;
+}
+
 export interface ProjectView {
   slug: string;
   title: string;
@@ -48,7 +56,8 @@ export interface ProjectView {
   problem: string;
   solution: string;
   summary: string;
-  /** Short preview of the merged stack, for cards and rows. The full list is on the page. */
+  brief: BriefView;
+  /** The project `keyStack`, for cards and rows. The full lists are on the page. */
   stack: string[];
   filters: string[];
   caseHref: string;
@@ -59,7 +68,27 @@ export interface ProjectView {
   parts: PartView[];
 }
 
-const STACK_PREVIEW = 6;
+/** Sections that live behind the "technical detail" toggle of a case study. */
+export const TECHNICAL_SECTIONS = ["architecture", "design", "decisions", "learnings", "roadmap"];
+
+/** Orders sections as the page shows them (visible first, technical after) and numbers them. */
+export function layerSections<T extends { key: string; n: string }>(sections: T[]): T[] {
+  const technical = (s: T) => TECHNICAL_SECTIONS.includes(s.key);
+  return [...sections.filter((s) => !technical(s)), ...sections.filter(technical)].map((s, i) => ({
+    ...s,
+    n: String(i + 1).padStart(2, "0"),
+  }));
+}
+
+/** Locale-specific project social and case-study image filename. */
+export function localizedProjectImage(image: string | undefined, lang: Lang): string | undefined {
+  return image?.replace(/(\.[^.]+)$/, `-${lang}$1`);
+}
+
+/** Localized product title, while retaining the brand name. */
+export function localizedProjectTitle(project: Project, lang: Lang): string {
+  return lang === "en" ? (project.en?.title ?? project.name) : project.name;
+}
 
 export const PART_LABELS: Record<Lang, Record<PartKind, string>> = {
   es: {
@@ -134,6 +163,7 @@ export const toAction = (link: ProjectLink, text: string = link.text): ProjectAc
 export function projectView(p: Project, lang: Lang, base: string = "/"): ProjectView {
   const isEn = lang === "en";
   const en = isEn ? p.en : undefined;
+  const image = localizedProjectImage(p.image, lang);
   const r = siteRoutes(lang, base);
   const multi = p.parts.length > 1;
   const parts: PartView[] = p.parts.map((part) => {
@@ -160,11 +190,24 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
   const actions: ProjectAction[] = [
     {
       href: r.project(p.slug),
-      text: isEn ? "Case study" : "Caso de estudio",
-      ariaLabel: isEn ? `Read the ${p.name} case study` : `Leer el caso de estudio de ${p.name}`,
+      text: isEn ? "View case study" : "Ver caso de estudio",
+      ariaLabel: isEn
+        ? `Read the ${localizedProjectTitle(p, lang)} case study`
+        : `Leer el caso de estudio de ${p.name}`,
       external: false,
     },
   ];
+
+  const source = (isEn ? p.en?.brief : undefined) ?? p.brief;
+  const brief: BriefView = {
+    labels: isEn
+      ? { problem: "Problem", solution: "Solution", result: "Result" }
+      : { problem: "Problema", solution: "Solución", result: "Resultado" },
+    problem: source?.problem ?? primary.problem ?? summary,
+    solution: source?.solution ?? solution,
+    result: source?.result ?? "",
+    validation: source?.validation,
+  };
 
   const overline =
     p.slug === "terracore"
@@ -179,14 +222,14 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
 
   return {
     slug: p.slug,
-    title: p.name,
+    title: localizedProjectTitle(p, lang),
     shortName: p.shortName,
     tag: en?.tag ?? p.tag,
     tone: p.tagColor,
     overline,
-    image: p.image
+    image: image
       ? {
-          src: `${base}${p.image}`,
+          src: `${base}${image}`,
           alt: en?.imageAlt ?? p.imageAlt ?? "",
           width: p.imageWidth,
           height: p.imageHeight,
@@ -195,7 +238,8 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
     problem: primary.problem ?? summary,
     solution,
     summary,
-    stack: projectStack(p).slice(0, STACK_PREVIEW),
+    brief,
+    stack: p.keyStack,
     filters: projectFilters(p),
     caseHref: r.project(p.slug),
     actions,

@@ -71,6 +71,16 @@
   color: var(--text);
 }
 
+/* Home headline: a full sentence, so it runs smaller and looser than .display-xl. */
+.display-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-display-hero);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
 .display-page,
 .display-index,
 .display-contact {
@@ -193,7 +203,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 15px 22px;
+  min-height: 50px;
+  padding: 0 22px;
   border-radius: var(--radius-control);
   font-family: var(--font-display);
   font-weight: 700;
@@ -239,11 +250,13 @@
 }
 
 .btn-sm {
-  padding: 13px 20px;
+  min-height: 44px;
+  padding: 0 20px;
   font-size: 12px;
 }
 
 .btn-compact {
+  min-height: 44px;
   height: 44px;
   padding: 0 18px;
   font-size: 12px;
@@ -310,6 +323,64 @@
   width: 50px;
   height: 50px;
 }
+
+/* Floating actions: bottom right stack for the WhatsApp button, with room for a chatbot launcher. */
+.floating-actions {
+  position: fixed;
+  right: max(var(--float-offset), env(safe-area-inset-right, 0px));
+  bottom: max(var(--float-offset), env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--float-gap);
+}
+
+.back-to-top[hidden] {
+  display: none;
+}
+
+.back-to-top-btn {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  background: var(--surface);
+  border-color: var(--line-2);
+}
+
+.back-to-top-btn:hover {
+  border-color: var(--link);
+}
+
+/* Moved there by the back-to-top button; the button itself keeps the visible focus. */
+#main-content:focus {
+  outline: none;
+}
+
+.floating-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--float-size);
+  height: var(--float-size);
+  background: var(--btn);
+  color: var(--on-btn);
+  border-radius: var(--radius-control);
+  box-shadow: 0 6px 20px rgba(15, 17, 23, 0.25);
+  transition: background-color 0.2s;
+}
+
+.floating-btn:hover {
+  background: var(--btn-h);
+  color: var(--on-btn);
+}
+
+.floating-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* Keeps the last footer line clear of the stack (WhatsApp plus back to top, which is always
+   shown at the end of a long page) when the page is scrolled to the end. */
 
 .mask-icon {
   display: inline-block;
@@ -455,6 +526,29 @@
   }
 }
 
+/* The home stack uses three visual columns: featured cards span two and alternate sides. */
+.stack-grid {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 1px;
+}
+
+@container (max-width: 759px) {
+  .stack-grid > * {
+    order: var(--mobile-order);
+  }
+}
+
+@container (min-width: 760px) {
+  .stack-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stack-grid > *,
+  .stack-grid > :last-child:nth-child(odd) {
+    grid-column: span var(--span, 1);
+  }
+}
+
 .nav-link {
   position: relative;
   display: flex;
@@ -512,6 +606,24 @@
   z-index: 1;
 }
 
+/* Featured project row on the home: the same blue highlight as the featured card on /projects. */
+[data-project-row][data-featured] {
+  position: relative;
+  border: 1px solid var(--blue);
+  background: var(--tint);
+  box-shadow:
+    inset 0 3px 0 var(--blue),
+    0 0 0 1px var(--blue);
+}
+
+[data-project-row][data-featured] .project-featured-label {
+  display: inline-block;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+}
+
 @media (min-width: 1280px) {
   .project-grid[data-filter="all"] > .project-wide {
     grid-column: span 2;
@@ -520,8 +632,23 @@
 
   .project-grid[data-filter="all"] > .project-wide > div:last-child {
     justify-content: center;
-    gap: 12px;
-    padding: 24px 28px;
+    gap: 8px;
+    padding: 16px 28px;
+    border-left: 1px solid var(--line);
+  }
+
+  /* The text column must stay shorter than the 1200x630 cover beside it. */
+  .project-grid[data-filter="all"] > .project-wide h2 {
+    font-size: clamp(26px, 2.4vw, 30px) !important;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide [data-brief] {
+    gap: 6px;
+  }
+
+  .project-grid[data-filter="all"] > .project-wide [data-brief] dd {
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .project-grid[data-filter="all"] > .project-wide > div:last-child > p {
@@ -531,13 +658,14 @@
     overflow: hidden;
   }
 
-  /* The cover keeps its own ratio, so it touches the card on three sides with no gap; the
-       text column shortens to fit and, if it is taller, the cover grows with it. */
+  /* The cover always keeps its 1200x630 ratio and is never cropped. The text column is sized
+       to fit beside it in both languages; if a longer text ever outgrows it, the cover stays
+       centered instead of stretching. The column border keeps the divider full height. */
   .project-grid[data-filter="all"] > .project-wide .media-frame {
     flex: 0 0 56%;
-    align-self: stretch;
+    align-self: center;
     aspect-ratio: 1200 / 630;
-    border-width: 0 1px 0 0 !important;
+    border-width: 0 !important;
   }
 
   .project-grid[data-filter="all"] > .project-wide .media-frame > img {
@@ -637,6 +765,15 @@ a.media-frame:hover {
   gap: 24px;
 }
 
+.quote-form-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Labels of different length keep the three selects on one baseline. */
+.quote-form-grid-3 > .quote-field {
+  justify-content: flex-end;
+}
+
 .quote-field,
 .quote-fieldset {
   display: flex;
@@ -659,7 +796,9 @@ a.media-frame:hover {
 }
 
 .quote-field input,
-.quote-field textarea {
+.quote-field select,
+.quote-field textarea,
+.quote-select-button {
   width: 100%;
   border: 1px solid var(--line-2);
   border-radius: var(--radius-control);
@@ -670,9 +809,172 @@ a.media-frame:hover {
   transition: border-color 0.2s;
 }
 
-.quote-field input {
+.quote-field input,
+.quote-field select,
+.quote-select-button {
   height: 48px;
   padding: 0 14px;
+}
+
+.quote-field select {
+  appearance: none;
+  padding-right: 40px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 15px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.quote-field select:invalid {
+  color: var(--muted);
+}
+
+.quote-field select option {
+  color: var(--text);
+}
+
+.quote-select {
+  position: relative;
+}
+
+/* The native select stays in the form for the value and the validation, out of sight. */
+.quote-select .quote-select-native {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Fine pointers only (the quoteSelect script): the combobox looks like the other fields
+   and its option list takes the design of the site, in every browser. */
+.quote-select-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-right: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  user-select: none;
+}
+
+.quote-select-button.is-placeholder {
+  color: var(--muted);
+}
+
+.quote-select-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  width: 10px;
+  height: 6px;
+  margin-top: -3px;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%) 0 0 / 5px 5px no-repeat,
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%) 5px 0 / 5px 5px no-repeat;
+  transition: transform 0.2s;
+}
+
+.quote-select-button[aria-expanded="true"] {
+  border-color: var(--link);
+}
+
+.quote-select-button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.quote-select-button[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.quote-select-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-height: min(320px, 50dvh);
+  margin: 6px 0 0;
+  padding: 6px 0;
+  overflow-y: auto;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  list-style: none;
+  line-height: 1.6;
+  opacity: 0;
+  translate: 0 -6px;
+  visibility: hidden;
+  transition:
+    opacity 0.2s,
+    translate 0.2s,
+    visibility 0s 0.2s;
+}
+
+.quote-select-list.is-above {
+  top: auto;
+  bottom: 100%;
+  margin: 0 0 6px;
+  translate: 0 6px;
+}
+
+.quote-select-list.is-open {
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+  transition:
+    opacity 0.2s,
+    translate 0.2s,
+    visibility 0s;
+}
+
+.quote-select-list [role="option"] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.quote-select-list [role="option"].is-active {
+  background: var(--tint);
+  color: var(--link);
+}
+
+.quote-select-list [role="option"][aria-selected="true"] {
+  color: var(--link);
+  font-weight: 600;
+}
+
+/* Check mark of the selected option, drawn with borders (no icon character). */
+.quote-select-list [role="option"][aria-selected="true"]::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  margin-left: auto;
+  border: solid var(--link);
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+}
+
+.quote-select-list [role="option"][aria-disabled="true"] {
+  color: var(--muted);
+  cursor: default;
+}
+
+.quote-select-list [role="option"][aria-disabled="true"].is-active {
+  background: transparent;
 }
 
 .quote-field textarea {
@@ -682,8 +984,17 @@ a.media-frame:hover {
 }
 
 .quote-field input:focus,
-.quote-field textarea:focus {
+.quote-field select:focus,
+.quote-field textarea:focus,
+.quote-select-button:focus {
   border-color: var(--link);
+}
+
+/* Error state once the visitor has interacted with the field. */
+.quote-field input:user-invalid,
+.quote-field select:user-invalid,
+.quote-field textarea:user-invalid {
+  border-color: var(--danger);
 }
 
 .quote-checklist {
@@ -737,6 +1048,16 @@ a.media-frame:hover {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
+}
+
+/* The optional group legend reads like the required note above, without the asterisk. */
+.quote-fieldset > legend.quote-optional-note {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--muted);
 }
 
 .quote-form > .btn {
@@ -834,7 +1155,38 @@ a.media-frame:hover {
 
 @media (max-width: 640px) {
   .quote-form-grid,
+  .quote-form-grid-3,
   .quote-checklist {
     grid-template-columns: 1fr;
   }
+}
+
+/* Calendly loads on demand: the block keeps the calendar's initial height before and after. */
+.calendly-embed {
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--calendar-embed-h);
+  overflow: hidden;
+}
+
+.calendly-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px;
+  text-align: center;
+}
+
+.calendly-embed:focus {
+  outline: none;
+}
+
+/* Starts at the reserved height; Calendly then reports its own content height. */
+.calendly-inline-widget {
+  min-width: 320px;
+  height: var(--calendar-embed-h);
 }

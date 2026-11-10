@@ -2,7 +2,9 @@
 import Badge from "@/components/atoms/Badge.astro";
 import Chip from "@/components/atoms/Chip.astro";
 import Index from "@/components/atoms/Index.astro";
+import Price from "@/components/atoms/Price.astro";
 import TextLink from "@/components/atoms/TextLink.astro";
+import type { PriceId } from "@/data/pricing";
 
 interface Example {
   name: string;
@@ -10,18 +12,39 @@ interface Example {
   href: string;
 }
 
+interface Tier {
+  name: string;
+  priceId: PriceId;
+  includes: string[];
+}
+
 interface Props {
-  index: string;
+  /** Catalog number; omitted on the block for technical teams. */
+  index?: string;
+  /** Service id, exposed as `data-service` for tests and analytics. */
+  id?: string;
   title: string;
   body: string;
-  tools: string[];
+  /** `h3` inside a catalog group, `h2` when the row stands alone. */
+  level?: "h2" | "h3";
+  /** One published price, or `tiers` when each plan has its own. No price on the technical block. */
+  priceId?: PriceId;
+  tiers?: Tier[];
   timeline: string;
-  specialty?: boolean;
+  includes?: string[];
+  excludes?: string[];
+  note?: string;
+  badge?: string;
+  tools?: string[];
   examples?: Example[];
   quoteHref: string;
+  quoteLabel?: string;
   labels: {
-    specialty: string;
+    price: string;
     duration: string;
+    includes: string;
+    excludes: string;
+    note: string;
     tools: string;
     examples: string;
     quote: string;
@@ -30,48 +53,138 @@ interface Props {
 
 const {
   index,
+  id,
   title,
   body,
-  tools,
+  level: Heading = "h3",
+  priceId,
+  tiers = [],
   timeline,
-  specialty = false,
+  includes = [],
+  excludes = [],
+  note,
+  badge,
+  tools = [],
   examples = [],
   quoteHref,
+  quoteLabel,
   labels,
 } = Astro.props;
-const dtClass = "label-sm sm:flex-[0_0_260px]";
+const dtClass = "label-sm sm:flex-[0_0_220px]";
+const rowClass = "flex flex-wrap gap-x-12 gap-y-2 border-b border-line py-[18px]";
+const ddClass = "m-0 sm:flex-[1_1_440px]";
+const listClass = "m-0 flex list-none flex-col gap-1.5 p-0 text-[15px] leading-relaxed";
 ---
 
-<article
-  class={`flex flex-col border-b border-line py-10 ${specialty ? "bg-tint px-6" : ""}`.trim()}
->
-  <div class="flex flex-wrap items-center gap-4">
-    <Index>{index}</Index>
-    {specialty && <Badge>{labels.specialty}</Badge>}
-  </div>
-  <h2
-    class="h-title m-0 mt-4 leading-none tracking-[-0.035em]"
-    style="font-size:clamp(32px,4.4vw,64px);text-wrap:pretty"
+<article data-reveal class="flex flex-col border-b border-line py-10" data-service={id}>
+  {
+    (index || badge) && (
+      <div class="flex flex-wrap items-center gap-4">
+        {index && <Index>{index}</Index>}
+        {badge && <Badge>{badge}</Badge>}
+      </div>
+    )
+  }
+  <Heading
+    class="h-title m-0 mt-4 leading-none tracking-[-0.03em]"
+    style="font-size:clamp(28px,3.6vw,48px);text-wrap:pretty"
   >
     {title}
-  </h2>
+  </Heading>
   <p class="body-lg mb-6 mt-5 text-[17px]">{body}</p>
   <dl class="m-0 border-t border-line">
-    <div class="flex flex-wrap gap-x-12 gap-y-2 border-b border-line py-[18px]">
+    {
+      priceId && (
+        <div class={rowClass}>
+          <dt class={`${dtClass} pt-1.5`}>{labels.price}</dt>
+          <dd class={ddClass}>
+            <Price id={priceId} class="h-title text-[24px] leading-tight" />
+          </dd>
+        </div>
+      )
+    }
+    {
+      tiers.length > 0 && (
+        <div class={rowClass}>
+          <dt class={`${dtClass} pt-1.5`}>{labels.price}</dt>
+          <dd
+            class={`${ddClass} grid gap-6`}
+            style="grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))"
+          >
+            {tiers.map((tier) => (
+              <div class="flex flex-col gap-3" data-tier={tier.priceId}>
+                <p class="h-title m-0 text-[18px]">{tier.name}</p>
+                <Price id={tier.priceId} class="h-title text-[24px] leading-tight" />
+                <ul class={`${listClass} text-muted`}>
+                  {tier.includes.map((item) => (
+                    <li style="text-wrap:pretty">{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </dd>
+        </div>
+      )
+    }
+    <div class={rowClass}>
       <dt class={`${dtClass} pt-1`}>{labels.duration}</dt>
-      <dd class="h-title m-0 text-[20px] sm:flex-[1_1_480px]">{timeline}</dd>
+      <dd class={`${ddClass} h-title text-[20px]`}>{timeline}</dd>
     </div>
-    <div class="flex flex-wrap gap-x-12 gap-y-3 border-b border-line py-[18px]">
-      <dt class={`${dtClass} pt-1.5`}>{labels.tools}</dt>
-      <dd class="m-0 flex flex-wrap gap-1.5 sm:flex-[1_1_480px]">
-        {tools.map((t) => <Chip>{t}</Chip>)}
-      </dd>
-    </div>
+    {
+      includes.length > 0 && (
+        <div class={rowClass}>
+          <dt class={`${dtClass} pt-0.5`}>{labels.includes}</dt>
+          <dd class={ddClass}>
+            <ul class={`${listClass} text-ink`} data-includes>
+              {includes.map((item) => (
+                <li style="text-wrap:pretty">{item}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      )
+    }
+    {
+      excludes.length > 0 && (
+        <div class={rowClass}>
+          <dt class={`${dtClass} pt-0.5`}>{labels.excludes}</dt>
+          <dd class={ddClass}>
+            <ul class={`${listClass} text-muted`} data-excludes>
+              {excludes.map((item) => (
+                <li style="text-wrap:pretty">{item}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      )
+    }
+    {
+      note && (
+        <div class={rowClass}>
+          <dt class={`${dtClass} pt-0.5`}>{labels.note}</dt>
+          <dd class={`${ddClass} text-[15px] leading-relaxed text-ink`} style="text-wrap:pretty">
+            {note}
+          </dd>
+        </div>
+      )
+    }
+    {
+      tools.length > 0 && (
+        <div class={`${rowClass} gap-y-3`}>
+          <dt class={`${dtClass} pt-1.5`}>{labels.tools}</dt>
+          <dd class={`${ddClass} flex flex-wrap gap-1.5`}>
+            {tools.map((t) => (
+              <Chip>{t}</Chip>
+            ))}
+          </dd>
+        </div>
+      )
+    }
     {
       examples.length > 0 && (
         <div class="flex flex-wrap gap-x-12 gap-y-2 pb-0 pt-[18px]">
           <dt class={`${dtClass} pt-1`}>{labels.examples}</dt>
-          <dd class="m-0 sm:flex-[1_1_480px]">
+          <dd class={ddClass}>
             <ul class="m-0 flex list-none flex-col gap-2 p-0">
               {examples.map((ex) => (
                 <li class="text-sm leading-normal text-muted" style="text-wrap:pretty">
@@ -88,6 +201,6 @@ const dtClass = "label-sm sm:flex-[0_0_260px]";
     }
   </dl>
   <div class="mt-6">
-    <TextLink href={quoteHref}>{labels.quote}</TextLink>
+    <TextLink href={quoteHref}>{quoteLabel ?? labels.quote}</TextLink>
   </div>
 </article>

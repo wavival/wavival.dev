@@ -1,6 +1,6 @@
 # Accessibility
 
-> Last updated: 2026-10-05
+> Last updated: 2026-11-10
 
 The target is WCAG AA on every page, in both themes and both languages. Visual rules (contrast values, focus style, tokens) are in [`../DESIGN.md`](../DESIGN.md#accessibility); this document says what each part of the site guarantees and how it is checked.
 
@@ -13,7 +13,7 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 - Controls without visible text have an `aria-label`; controls with visible text keep that text inside the label. `Button`, `TextLink` and the language toggle enforce it with `labelInName` (`src/utils/a11y.ts`), and `tests/label-in-name.spec.ts` checks every page of the sitemap.
 - Icon-only controls are at least 44x44 px; decorative images and icons are hidden from assistive technology (`alt=""` or `aria-hidden`); content images have descriptive `alt` text in the page language.
 - Images declare `width` and `height`, which avoids layout shift.
-- `prefers-reduced-motion: reduce` clamps animations and transitions and turns off smooth scroll. There is no scroll-reveal.
+- `prefers-reduced-motion: reduce` clamps animations and transitions and turns off smooth scroll, the load fade and the scroll reveal. The reveal fades elements in only while they enter the viewport and they reach full opacity before they are fully on screen, so settled text keeps its designed contrast; `tests/a11y-axe.spec.ts` audits that settled page with reduced motion.
 - Color is never the only signal: the active navigation item also gets a 2px bar, and the featured project also gets a badge.
 - Theme: dark by default, switchable; the toggle has a state-aware label. Contrast is verified in both themes.
 
@@ -42,8 +42,9 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 
 - The form is named by its title (`aria-labelledby`), every field sits inside a `<label>`, required fields are marked in text ("Required fields") and with the `required` attribute; the red asterisk is decorative (`aria-hidden`) with a tooltip.
 - Inputs use the right `type`, `autocomplete` and `inputmode` (name, email, tel, organization).
-- The case-study button opens the form with `?mode=types`: the project types are shown with none selected, so the visitor chooses one before the submit button enables.
-- The submit button is a real `type="submit"` that stays `disabled` until all required fields, one option and the privacy consent are set; `aria-describedby` points to the hint that says what is missing.
+- The case-study button opens the form with the project's related catalog services preselected (`?service=` per service, from the catalog examples or the explicit assignment in `quoteOptions.ts`); the visitor can change them before the submit button enables.
+- Country, budget and the three optional fields are native `<select>` elements inside their `<label>`, with a disabled placeholder option on the required ones; fields the visitor has touched and left invalid get a red border (`:user-invalid`).
+- The submit button is a real `type="submit"` that stays `disabled` until all required fields, one service and the privacy consent are set; `aria-describedby` points to the hint that says what is missing.
 - Errors use `role="alert"`; the success block has `aria-live="polite"` and receives focus after sending.
 - The honeypot field is `aria-hidden` and not focusable.
 
@@ -55,7 +56,7 @@ The target is WCAG AA on every page, in both themes and both languages. Visual r
 
 ## Known gaps
 
-An automated axe pass over case-study pages is pending (see [`ROADMAP.md`](./ROADMAP.md)). The Lighthouse job covers four pages, not all of them.
+`tests/a11y-axe.spec.ts` runs axe (`@axe-core/playwright`, WCAG 2.0, 2.1 and 2.2 A and AA rules) on every page of the sitemap, the four `/cop/` variants and both 404 pages, in the light and the dark theme, and fails on any violation. The Lighthouse job covers four pages, not all of them.
 
 ## Checklist for a change
 

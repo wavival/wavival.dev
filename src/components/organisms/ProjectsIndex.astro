@@ -18,7 +18,7 @@ const counts: Record<string, number> = { all: views.length };
 for (const k of keys) counts[k] = views.filter((v) => v.filters.includes(k)).length;
 ---
 
-<section class="wrap page-top">
+<section data-reveal class="wrap page-top">
   <PageIntro
     eyebrow={`${isEn ? "Projects" : "Proyectos"} · ${String(views.length).padStart(2, "0")}`}
     size="index"

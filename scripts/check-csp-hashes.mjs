@@ -2,10 +2,15 @@
 // hash in the script-src directive of the Content-Security-Policy header in
 // vercel.json. This guards the hash-based CSP: if an inline
 // script changes or a new one is added, its hash drifts and the browser would
-// block it in production. Run after `npm run build`. Exits non-zero on any miss.
+// block it in production. It also fails on a hash that no inline script in dist/
+// uses any more, so the policy only allows what the site actually runs. Run
+// after `npm run build`. Exits non-zero on any miss or stale hash.
 //
 // External scripts (src=...) are covered by host allow-lists, not hashes.
 // JSON-LD (type=application/ld+json) is a CSP data block, not gated by script-src.
+// The /cop/ currency variants in dist/ are the same pages built under another
+// path, so they are walked like any other page and share the same hashes; the
+// Edge Middleware that serves them (middleware.ts) adds no inline script.
 
 import { readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -57,11 +62,13 @@ const isDataBlock = (attrs) =>
   /type\s*=\s*["'](application\/(ld\+json|json)|importmap)["']/i.test(attrs);
 
 const misses = [];
+const used = new Set();
 for (const file of htmlFiles) {
   const html = readFileSync(file, "utf8");
   for (const [, attrs, body] of html.matchAll(tag)) {
     if (isDataBlock(attrs)) continue;
     const hash = "sha256-" + createHash("sha256").update(body, "utf8").digest("base64");
+    used.add(hash);
     const missingFrom = policies
       .filter((policy) => !policy.hashes.has(hash))
       .map((policy) => policy.file);
@@ -87,6 +94,18 @@ if (misses.length) {
     );
   }
   console.error(`\nAdd the hash(es) above to script-src in vercel.json.`);
+  process.exit(1);
+}
+
+const stale = policies.flatMap((policy) =>
+  [...policy.hashes].filter((hash) => !used.has(hash)).map((hash) => ({ hash, file: policy.file }))
+);
+if (stale.length) {
+  console.error(
+    `check-csp-hashes: ${stale.length} CSP hash(es) match no inline script in dist/:\n`
+  );
+  for (const s of stale) console.error(`  '${s.hash}'  (${s.file})`);
+  console.error(`\nRemove the hash(es) above from script-src in vercel.json.`);
   process.exit(1);
 }
 

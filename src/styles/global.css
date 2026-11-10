@@ -235,6 +235,187 @@
     border-radius: 20px;
   }
 
+  /* Scroll reveal: every section, every component (molecules and organisms carry `data-reveal`)
+     and every atom or text element of a page (headings, paragraphs, list items, images, buttons,
+     chips, form fields) fades in from transparent as it enters the viewport, each on its own view
+     timeline, so nested items stagger. Nothing moves or resizes: only `opacity` changes, and it
+     reaches 1 before the element is fully on screen, so layout never shifts and the settled
+     contrast is the designed one. Left out: the hero or page intro (first child of the first section) so the first
+     paint does not shift, links inside a paragraph, and the quote select list, which has its own
+     motion. Reduced motion keeps the page static. Keep the selector in sync with
+     `src/scripts/scrollReveal.ts`. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      :is(
+        main > section:not(:first-child),
+        main > section:first-child > :not(:first-child),
+        main [data-reveal],
+        main
+          :is(
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            li,
+            dt,
+            dd,
+            blockquote,
+            figure,
+            figcaption,
+            img,
+            label,
+            input,
+            select,
+            textarea,
+            summary,
+            button,
+            .btn,
+            .action-link,
+            .icon-btn,
+            .chip,
+            .badge
+          )
+      ):not(
+        main > section:first-child > :first-child,
+        main > section:first-child > :first-child *,
+        p *,
+        .quote-select-list,
+        .quote-select-list *,
+        [role="option"]
+      ) {
+        /* The timeline goes through a custom property: the minifier would otherwise fold it into
+           the `animation` shorthand, which cannot carry a timeline, and drop the whole rule. */
+        --reveal-timeline: view();
+        animation: reveal-fade linear both;
+        animation-timeline: var(--reveal-timeline);
+        animation-range: entry 0% entry 60%;
+      }
+    }
+  }
+
+  /* Script fallback for browsers without view timelines (`src/scripts/scrollReveal.ts`). */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-js
+      :is(
+        main > section:not(:first-child),
+        main > section:first-child > :not(:first-child),
+        main [data-reveal],
+        main
+          :is(
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            li,
+            dt,
+            dd,
+            blockquote,
+            figure,
+            figcaption,
+            img,
+            label,
+            input,
+            select,
+            textarea,
+            summary,
+            button,
+            .btn,
+            .action-link,
+            .icon-btn,
+            .chip,
+            .badge
+          )
+      ):not(
+        main > section:first-child > :first-child,
+        main > section:first-child > :first-child *,
+        p *,
+        .quote-select-list,
+        .quote-select-list *,
+        [role="option"]
+      ) {
+      transition: opacity 0.8s ease-out;
+    }
+
+    .reveal-js
+      :is(
+        main > section:not(:first-child),
+        main > section:first-child > :not(:first-child),
+        main [data-reveal],
+        main
+          :is(
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            li,
+            dt,
+            dd,
+            blockquote,
+            figure,
+            figcaption,
+            img,
+            label,
+            input,
+            select,
+            textarea,
+            summary,
+            button,
+            .btn,
+            .action-link,
+            .icon-btn,
+            .chip,
+            .badge
+          )
+      ):not(
+        main > section:first-child > :first-child,
+        main > section:first-child > :first-child *,
+        p *,
+        .quote-select-list,
+        .quote-select-list *,
+        [role="option"]
+      ):not([data-revealed]) {
+      opacity: 0;
+    }
+  }
+
+  /* Load fade: the content of every page appears in 0.6s. It starts at 1% opacity, not 0, so
+     the browser counts the first frame as painted and LCP is not delayed; `backwards` fill
+     leaves no opacity behind once it ends. Navigation and footer stay put. */
+  @media (prefers-reduced-motion: no-preference) {
+    main {
+      animation: page-fade 0.6s ease-out backwards;
+    }
+  }
+
+  @keyframes page-fade {
+    from {
+      opacity: 0.01;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes reveal-fade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;

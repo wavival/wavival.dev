@@ -5,10 +5,35 @@ test.describe("home page", () => {
     await page.goto("/");
   });
 
-  test("renders single h1 with the headline", async ({ page }) => {
+  test("renders single h1 with the headline and the tagline below it", async ({ page }) => {
     const h1 = page.getByRole("heading", { level: 1 });
     await expect(h1).toHaveCount(1);
-    await expect(h1).toContainText("El código que firmo también lo rompo");
+    await expect(h1).toHaveText(
+      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo."
+    );
+    const tagline = page.locator("#hero [data-hero-tagline]");
+    await expect(tagline).toHaveText(
+      "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre."
+    );
+    await expect(h1).not.toContainText("me aseguro de que la gente lo encuentre");
+    const h1Box = await h1.boundingBox();
+    const taglineBox = await tagline.boundingBox();
+    expect(taglineBox!.y).toBeGreaterThanOrEqual(h1Box!.y + h1Box!.height);
+  });
+
+  test("EN home translates the headline and keeps the tagline", async ({ page }) => {
+    await page.goto("/en/");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."
+    );
+    await expect(page.locator("#hero [data-hero-tagline]")).toHaveText(
+      "I build what your business needs and make sure people find it."
+    );
+  });
+
+  test("the contact band quotes the unified MVP timeline", async ({ page }) => {
+    await expect(page.locator("#contact")).toContainText("MVP de 6 a 10 semanas");
+    await expect(page.locator("#contact")).not.toContainText("3-6");
   });
 
   test("has canonical and OG meta pointing to www.wavival.dev", async ({ page }) => {

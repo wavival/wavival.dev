@@ -1,6 +1,12 @@
 ---
+import Button from "@/components/atoms/Button.astro";
 import { labelInName, visibleText } from "@/utils/a11y";
 
+/**
+ * Text links. The default `text` variant is the tertiary tier of `Button`
+ * (`.action-link`); `list` and `inline` are the plain list and in-prose links.
+ * None of them carries an icon.
+ */
 interface Props {
   href: string;
   target?: "_blank" | "_self";
@@ -25,22 +31,38 @@ const {
 } = Astro.props;
 
 const rel = target === "_blank" ? "noopener noreferrer" : undefined;
-const base =
-  variant === "list" ? "list-link" : variant === "inline" ? "inline-link" : "action-link";
+const base = variant === "list" ? "list-link" : "inline-link";
 const accessibleName = ariaLabel
   ? labelInName(visibleText(await Astro.slots.render("default")), ariaLabel)
   : undefined;
 ---
 
-<a
-  href={href}
-  target={target}
-  rel={rel}
-  hreflang={hreflang}
-  class={`${base} ${extra}`.trim()}
-  aria-label={accessibleName}
-  aria-current={ariaCurrent}
-  data-umami-event={umamiEvent}
->
-  <slot />
-</a>
+{
+  variant === "text" ? (
+    <Button
+      variant="tertiary"
+      href={href}
+      target={target}
+      class={extra}
+      hreflang={hreflang}
+      aria-label={ariaLabel}
+      aria-current={ariaCurrent}
+      data-umami-event={umamiEvent}
+    >
+      <slot />
+    </Button>
+  ) : (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      hreflang={hreflang}
+      class={`${base} ${extra}`.trim()}
+      aria-label={accessibleName}
+      aria-current={ariaCurrent}
+      data-umami-event={umamiEvent}
+    >
+      <slot />
+    </a>
+  )
+}

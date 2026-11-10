@@ -36,7 +36,7 @@ export interface CaseLabels {
 }
 
 const es: CaseLabels = {
-  projects: "Proyectos",
+  projects: "Volver a proyectos",
   by: "Por",
   toc: "Contenido",
   tocParts: "Ecosistema",
@@ -61,7 +61,7 @@ const es: CaseLabels = {
   prev: "Anterior",
   next: "Siguiente",
   navLabel: "Navegación entre proyectos",
-  backAria: "Volver a todos los proyectos",
+  backAria: "Volver a proyectos: todos los proyectos",
   quote: "Cotizar un proyecto así",
   chainDefault: "Ejemplo de cadena de acciones",
   partsHeading: "Componentes del ecosistema",
@@ -71,7 +71,7 @@ const es: CaseLabels = {
 };
 
 const en: CaseLabels = {
-  projects: "Projects",
+  projects: "Back to projects",
   by: "By",
   toc: "Contents",
   tocParts: "Ecosystem",
@@ -96,7 +96,7 @@ const en: CaseLabels = {
   prev: "Previous",
   next: "Next",
   navLabel: "Project navigation",
-  backAria: "Back to all projects",
+  backAria: "Back to projects: all projects",
   quote: "Quote a project like this",
   chainDefault: "Example action chain",
   partsHeading: "Ecosystem components",

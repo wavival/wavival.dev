@@ -1,0 +1,20 @@
+---
+// One published price, in the currency of the page variant being built:
+// COP under the `/cop/` variant, USD everywhere else. The language only
+// decides the thousands separator and the words around the amount.
+import { formatPrice, type PriceId } from "@/data/pricing";
+import { currencyForPathname } from "@/utils/currency";
+import { getLangFromUrl, type Lang } from "@/i18n/utils";
+
+interface Props {
+  id: PriceId;
+  lang?: Lang;
+  class?: string;
+}
+
+const { id, lang = getLangFromUrl(Astro.url), class: extra } = Astro.props;
+const currency = currencyForPathname(Astro.url.pathname);
+---
+
+<span class={extra} data-price={id} data-currency={currency}>{formatPrice(id, currency, lang)}</span
+>

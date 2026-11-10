@@ -3,7 +3,12 @@ import Layout from "@/layouts/Layout.astro";
 import NotFound from "@/components/organisms/NotFound.astro";
 ---
 
-<Layout title="404: Página no encontrada" noindex={true}>
+<Layout
+  title="404: Página no encontrada"
+  description="Esta página no existe. O la movimos, o nunca estuvo aquí. Vuelve al inicio."
+  noindex={true}
+  contactBand={false}
+>
   <NotFound
     title="Esta página no existe."
     text="O la movimos, o nunca estuvo aquí. En cualquier caso, te podemos llevar de vuelta."
