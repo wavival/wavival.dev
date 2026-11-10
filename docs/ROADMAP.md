@@ -58,6 +58,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Integrations
 
 - [ ] Social networks by API (phase 2): show the latest Instagram and TikTok posts through their APIs with a server-side cache (build-time or a Vercel function), not through the platforms' embeds, so no third-party script or iframe is added to the CSP and the pages stay static.
-- [ ] Later: a chatbot powered by Claude on the site. Not started; scope, data handling and its effect on the CSP are still to be defined. Its launcher goes in the slot reserved between the back-to-top button and WhatsApp in `FloatingActions.astro`.
+- [ ] Later: a chatbot powered by Claude on the site. Not started and left out of the release promoted to production on 2026-11-10 by the owner's decision; scope, data handling and its effect on the CSP are still to be defined. Its launcher goes in the slot reserved between the back-to-top button and WhatsApp in `FloatingActions.astro`.
 
 ## Quality and docs
