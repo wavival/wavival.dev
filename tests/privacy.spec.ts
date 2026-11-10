@@ -18,7 +18,9 @@ test.describe("privacy pages", () => {
     const retention = page.locator("section", { hasText: "Conservación" }).last();
     await expect(retention).toContainText("24 meses");
     await expect(retention).toContainText("wavival.dev@luminaw.co");
-    await expect(page.getByText("Última actualización: 9 de noviembre de 2026")).toBeVisible();
+    const analytics = page.locator("section", { hasText: "Analítica y cookies" }).last();
+    await expect(analytics).toContainText("Metricool");
+    await expect(page.getByText("Última actualización: 10 de noviembre de 2026")).toBeVisible();
   });
 
   test("English page explains the quote storage, the IP handling and the retention", async ({
@@ -37,6 +39,8 @@ test.describe("privacy pages", () => {
     const retention = page.locator("section", { hasText: "Retention" }).last();
     await expect(retention).toContainText("24 months");
     await expect(retention).toContainText("wavival.dev@luminaw.co");
-    await expect(page.getByText("Last updated: November 9, 2026")).toBeVisible();
+    const analytics = page.locator("section", { hasText: "Analytics and cookies" }).last();
+    await expect(analytics).toContainText("Metricool");
+    await expect(page.getByText("Last updated: November 10, 2026")).toBeVisible();
   });
 });

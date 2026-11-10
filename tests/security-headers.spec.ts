@@ -40,6 +40,11 @@ test.describe("security headers in vercel.json", () => {
     expect(header("Content-Security-Policy")).toContain("upgrade-insecure-requests");
   });
 
+  test("allows the Metricool tracker script and its image beacon", () => {
+    expect(directive("script-src")).toContain("https://tracker.metricool.com");
+    expect(directive("img-src")).toContain("https://tracker.metricool.com");
+  });
+
   test("never allows unsafe script sources", () => {
     const scripts = directive("script-src") ?? "";
     expect(scripts).not.toContain("'unsafe-inline'");

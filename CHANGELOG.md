@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Metricool web tracker (`public/scripts/metricool.js`), loaded from `Layout.astro` in production builds and reporting every page view, including ClientRouter navigations. The CSP allows `https://tracker.metricool.com` in `script-src` and `img-src`; the privacy pages (ES and EN) disclose it, and `docs/security.md`, `docs/performance.md` and the README are updated.
+
 ## [5.0.0] - 2026-11-10
 
 ### Added
