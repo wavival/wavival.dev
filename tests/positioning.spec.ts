@@ -15,7 +15,7 @@ const HOME = {
     description:
       "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público.",
     ogAlt:
-      "Software seguro y automatización con IA para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo. Valentina Ramírez · @wavival · wavival.dev",
+      "Software y marketing digital para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender. Valentina Ramírez · @wavival · wavival.dev",
     footer:
       "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio.",
   },
@@ -25,7 +25,7 @@ const HOME = {
     description:
       "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.",
     ogAlt:
-      "Secure software and AI automation for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time. Valentina Ramírez · @wavival · wavival.dev",
+      "Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev",
     footer: "Software developer. Backend, AI and security. Tools that save your business time.",
   },
 } as const;
