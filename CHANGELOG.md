@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `docs/ROADMAP.md`: new pending section "Alineación de marca con Instagram (pendiente)" to align the site with the Instagram and TikTok profile (`@wavival_dev`), with the inventory of affected files.
+- `docs/ROADMAP.md`: new pending section "Alineación de marca con Instagram (pendiente)" to align the site with the Instagram and TikTok profile (`@wavival_dev`), with the current Instagram bio and the inventory of affected files.
 
 ## [5.0.0] - 2026-11-10
 
