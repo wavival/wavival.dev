@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Home hero: the headline and tagline block widens to 1200px (was 1040px) and the lead paragraphs to 920px (was 680px), so they read in fewer, longer lines.
 - Navigation loader: it stays at least 0.4s during a page transition (was one second). New CSP hash for the layout script.
 - Performance: the navigation, footer and route loader use `public/brand/logo-w-ui.webp` (192x144, 5 KB) instead of the 619x464 logo (53 KB), which stays only as the JSON-LD logo; the case-study cover, the largest image above the fold, loads with `fetchpriority="high"`. An audit of the build confirms every page downloads only the images of its own language, keeps the rest lazy and loads no third-party resource before a click.
 - Footer: "© 2026 Valentina Ramírez" and "Hecho en Colombia" / "Made in Colombia" stack in two centered lines (`data-footer-legal`), and the footer no longer reserves bottom padding for the floating buttons, which now sit clear of those lines. `tests/back-to-top.spec.ts`.
