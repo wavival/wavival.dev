@@ -1,11 +1,12 @@
 # Roadmap
 
-> Last updated: 2026-11-09
+> Last updated: 2026-11-10
 
 What is pending in the portfolio. Items marked "Decision" need the owner. Pending work of the projects shown here lives in each project's repository: `nullbreach` (`docs/ROADMAP.md`), `forgotten-portal-writeup` (`docs/ROADMAP.md`), `blog-w` (`ROADMAP.md`), `luminaw-page` (`docs/ROADMAP.md`) and `okroot-docs` (`docs/pendientes-*.md`).
 
 ## Decisions
 
+- [x] New default social cards (`og-card-es.webp`, `og-card-en.webp`) for the software and digital marketing positioning (resolved 2026-11-10).
 - [x] Calendly on the contact pages (resolved 2026-11-09): it loads only after a click, so no third-party cookie reaches the first load; best practices 77 to 100.
 - [ ] Payment methods: Bancolombia, Global66 and Bold with a 50% deposit come from the owner's brief (2026-11-09) and appear in the services FAQ and `llms-full.txt`. Add which method applies to which case if that matters.
 - [ ] Monthly SEO check (`api/quote.ts`): it counts a won `wavival` lead with a development service, the REST APIs block or a kit, and every refusal answers the same way. A new client asking for a development service and monthly SEO in the same quote is refused today; decide whether that combination should pass.
