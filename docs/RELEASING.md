@@ -1,6 +1,6 @@
 # Versions and releases
 
-> Last updated: 2026-10-04
+> Last updated: 2026-11-10
 
 The release standard (version format, how the number is chosen, changelog shape
 and what the workflow checks) is shared by the Lúmina W repos and lives in
@@ -17,9 +17,9 @@ of `lumina-w/dev-standards`. Only what is specific to this repo is here.
   of `lumina-w/agents` on a GitHub-hosted runner. Run it from the Actions tab,
   `Release`, `Run workflow`. It runs from `dev` (the default branch) but always
   checks out `main`.
-- **Existing tags:** `v1.0.0`, `v2.0.0`, `v3.0.0`, `v3.1.0` and `v4.0.0`.
+- **Existing tags:** `v1.0.0`, `v2.0.0`, `v3.0.0`, `v3.1.0`, `v4.0.0` and `v5.0.0`.
   Tags are never moved or deleted, so the next version must be higher than
-  `v4.0.0`.
+  `v5.0.0`.
 
 ## How a release is made
 
