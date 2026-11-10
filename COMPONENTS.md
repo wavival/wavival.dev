@@ -318,7 +318,7 @@ Theme controller for **post-paint** state. The initial `.dark` class (dark by de
 
 ### Navigation loader
 
-The pre-router inline script in `Layout.astro` activates `#navigation-loader` immediately in the capture phase of an internal-link click, with Astro's preparation event as fallback, and keeps it visible for at least one second after that start. It is declared before `ClientRouter` so it always runs first. The persistent overlay contains only the decorative W logo and never receives focus.
+The pre-router inline script in `Layout.astro` activates `#navigation-loader` immediately in the capture phase of an internal-link click, with Astro's preparation event as fallback, and keeps it visible for at least 0.4s after that start. It is declared before `ClientRouter` so it always runs first. The persistent overlay contains only the decorative W logo and never receives focus.
 
 ### `src/scripts/vitals.ts`
 
