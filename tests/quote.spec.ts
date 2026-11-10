@@ -179,7 +179,7 @@ test.describe("quote form", () => {
     await page.locator('select[name="timeline"]').selectOption("this-month");
     await page.getByRole("button", { name: "Send quote request" }).click();
 
-    await expect(page.getByRole("heading", { name: "Thank you for reaching out" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Thank you for contacting me" })).toBeVisible();
     await expect(page.locator("[data-quote-form]")).toBeHidden();
     expect(payload).toMatchObject({
       name: "Ada Lovelace",
@@ -357,6 +357,28 @@ test.describe("quote form", () => {
     await expect(page).toHaveURL(/\/en\/quote\?service=business-website$/);
     await expect(page.locator('input[name="services"]:checked')).toHaveCount(1);
     await expect(page.locator('input[name="services"][value="business-website"]')).toBeChecked();
+  });
+
+  test("the optional group title matches the required note, without an asterisk", async ({
+    page,
+  }) => {
+    for (const [path, text] of [
+      ["/cotizar", "Campos opcionales"],
+      ["/en/quote", "Optional fields"],
+    ] as const) {
+      await page.goto(path);
+      const legend = page.locator('[data-quote-group="optional"] > legend');
+      await expect(legend).toHaveText(text);
+      await expect(legend.locator("abbr")).toHaveCount(0);
+      const note = page.locator(".quote-required-note");
+      for (const prop of ["font-size", "font-weight", "text-transform", "color", "font-family"]) {
+        const [a, b] = await Promise.all([
+          legend.evaluate((el, p) => getComputedStyle(el).getPropertyValue(p), prop),
+          note.evaluate((el, p) => getComputedStyle(el).getPropertyValue(p), prop),
+        ]);
+        expect(a, prop).toBe(b);
+      }
+    }
   });
 
   test("marks required fields with a red asterisk and a tooltip", async ({ page }) => {

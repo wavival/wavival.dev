@@ -91,7 +91,7 @@ const number = String(idx + 1).padStart(2, "0");
           <Button
             href={quoteHrefForProject(r.quote, project.slug)}
             size="sm"
-            icon="send-email-white"
+            icon="calculator-white"
             data-umami-event="cotizar-desde-proyecto"
           >
             {t.quote}
@@ -110,6 +110,7 @@ const number = String(idx + 1).padStart(2, "0");
             alt={view.image.alt}
             width={view.image.width ?? 1200}
             height={view.image.height ?? 630}
+            fetchpriority="high"
             decoding="async"
           />
         </div>

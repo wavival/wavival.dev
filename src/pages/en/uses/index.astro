@@ -21,7 +21,7 @@ const indices = usesSectionIndices(Boolean(githubUser));
 
 const pageTitle = "Tools | Valentina Ramírez";
 const pageDescription =
-  "The tools I use as a software developer focused on backend, AI and security (Django, Next.js, React, PostgreSQL, Astro) and why I choose each one.";
+  "The tools I use as a software developer and digital marketer (Django, React, Astro, Canva, CapCut) and why I choose each one.";
 
 const breadcrumbLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -92,7 +92,7 @@ const softwareItems = [
   {
     title: "Productivity and browsing",
     sub: "To keep track",
-    tools: ["Todoist", "Focus To-Do", "Notepad", "Firefox"],
+    tools: ["Kairo", "Notepad", "Firefox"],
   },
 ];
 ---
@@ -120,7 +120,7 @@ const softwareItems = [
       index={indices.stack}
       eyebrow="Stack"
       title="What I develop with"
-      description="The stack I use daily and the reasoning behind each choice: solid backend, functional frontend, applied AI, and security by design."
+      description="The stack I use daily and the reasoning behind each choice: solid backend, functional frontend, applied AI, security by design, and tools to create content."
       class="section-gap"
     >
       {
@@ -223,9 +223,9 @@ const softwareItems = [
               href={githubUser.html_url}
               target="_blank"
               class="mt-3 self-start"
-              aria-label="See Valentina Ramírez's full GitHub profile"
+              aria-label="View Valentina Ramírez's full GitHub profile"
             >
-              See full profile
+              View full profile
             </TextLink>
           </Fragment>
           <div class="flex flex-col gap-10">
@@ -276,13 +276,13 @@ const softwareItems = [
       <Button
         variant="primary"
         href={routes.services}
-        icon="arrow-right-white"
-        aria-label="See services">See services</Button
+        icon="briefcase-white"
+        aria-label="View services">View services</Button
       >
       <Button
         variant="secondary"
         href={routes.projects}
-        aria-label="See projects where I use this stack">See projects</Button
+        aria-label="View projects where I use this stack">View projects</Button
       >
     </div>
   </section>

@@ -29,6 +29,7 @@ const processStyles = bentoStyles(process.length);
 ---
 
 <div
+  data-reveal
   class="section-gap grid gap-px border border-line bg-line"
   style="grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))"
 >
@@ -82,12 +83,7 @@ const processStyles = bentoStyles(process.length);
   }
 </Bento>
 
-<SectionHeader
-  label="FAQ"
-  title={faqTitle}
-  titleClass="h-title text-[32px] leading-[1.05] tracking-[-0.02em]"
-  class="section-gap"
-/>
+<SectionHeader label="FAQ" title={faqTitle} class="section-gap mb-12" />
 <div class="flex flex-col border-t border-line" data-services-faq>
   {
     faqs.map((f, i) => (

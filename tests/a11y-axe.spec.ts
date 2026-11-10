@@ -2,6 +2,11 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { readFileSync } from "node:fs";
 
+// The scroll reveal fades elements in while they enter the viewport; a half-faded line would
+// read as low contrast. axe audits the settled page, so the reveal is turned off the same way a
+// visitor who asks for reduced motion turns it off.
+test.use({ reducedMotion: "reduce" });
+
 // Every page of the sitemap plus the COP variants and the 404 pages, in both themes.
 const sitemap = readFileSync("dist/sitemap-0.xml", "utf8");
 const PATHS = [

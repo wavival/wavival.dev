@@ -13,7 +13,7 @@ const isEn = lang === "en";
 const r = siteRoutes(lang, import.meta.env.BASE_URL);
 ---
 
-<section id="stack" class="wrap" style="padding-bottom:var(--sec)">
+<section data-reveal id="stack" class="wrap" style="padding-bottom:var(--sec)">
   <SectionHeader
     index="02"
     label={isEn ? "What I work with" : "Con qué trabajo"}
@@ -26,10 +26,10 @@ const r = siteRoutes(lang, import.meta.env.BASE_URL);
       href={r.uses}
       variant="secondary"
       aria-label={isEn
-        ? "Technical criteria: tools breakdown and why I use them"
-        : "Criterio técnico: detalle de herramientas y por qué las uso"}
+        ? "View technical criteria: tools breakdown and why I use them"
+        : "Ver criterio técnico: detalle de herramientas y por qué las uso"}
     >
-      {isEn ? "Technical criteria" : "Criterio técnico"}
+      {isEn ? "View technical criteria" : "Ver criterio técnico"}
     </Button>
   </div>
 </section>

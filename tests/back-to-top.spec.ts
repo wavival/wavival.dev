@@ -91,13 +91,17 @@ for (const width of [390, 768, 1440]) {
       whatsapp!.y < top!.y + top!.height;
     expect(overlap).toBe(false);
     expect(top!.y + top!.height).toBeLessThanOrEqual(whatsapp!.y);
-    // At the end of the page the footer leaves room for the whole stack below its text.
+    // At the end of the page the centered legal lines stay clear of the stack.
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    const stack = await page.locator("[data-floating-actions]").boundingBox();
-    const viewport = page.viewportSize()!;
-    const padding = await page
-      .locator("footer")
-      .evaluate((footer) => parseFloat(getComputedStyle(footer).paddingBottom));
-    expect(padding).toBeGreaterThanOrEqual(viewport.height - stack!.y);
+    const stack = (await page.locator("[data-floating-actions]").boundingBox())!;
+    for (const line of await page.locator("[data-footer-legal] > span").all()) {
+      const box = (await line.boundingBox())!;
+      const hit =
+        box.x < stack.x + stack.width &&
+        stack.x < box.x + box.width &&
+        box.y < stack.y + stack.height &&
+        stack.y < box.y + box.height;
+      expect(hit).toBe(false);
+    }
   });
 }

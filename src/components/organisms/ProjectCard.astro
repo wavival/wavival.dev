@@ -18,6 +18,7 @@ const { project: p, index, featured = false, wide = false, featuredLabel = "" } 
 ---
 
 <article
+  data-reveal
   class={`group flex flex-col border border-line bg-bg transition-colors hover:border-blue hover:bg-surface ${wide ? "project-wide" : ""}`.trim()}
   data-project-card
   data-featured={featured ? "" : undefined}

@@ -6,7 +6,7 @@ test.describe("navigation loader", () => {
 
     const loader = page.locator("#navigation-loader");
     await expect(loader).toHaveAttribute("aria-hidden", "true");
-    await expect(loader.locator('img[src="/brand/logo-w.webp"]')).toHaveCount(1);
+    await expect(loader.locator('img[src="/brand/logo-w-ui.webp"]')).toHaveCount(1);
     await expect(loader).not.toHaveClass(/is-active/);
 
     await page.evaluate(() => document.dispatchEvent(new Event("astro:before-preparation")));

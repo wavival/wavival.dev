@@ -11,22 +11,23 @@ const whatsappHref = (lang: keyof typeof MESSAGE) =>
 const HOME = {
   es: {
     path: "/",
-    title: "Valentina Ramírez | Software seguro y automatización con IA",
+    title: "Valentina Ramírez | Software y marketing digital",
     description:
-      "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público.",
+      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y contenido.",
     ogAlt:
       "Software y marketing digital para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender. Valentina Ramírez · @wavival · wavival.dev",
     footer:
-      "Desarrolladora de software. Backend, IA y seguridad. Herramientas que le ahorran tiempo a tu negocio.",
+      "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
   },
   en: {
     path: "/en/",
-    title: "Valentina Ramírez | Secure software and AI automation",
+    title: "Valentina Ramírez | Software and digital marketing",
     description:
-      "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.",
+      "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and content.",
     ogAlt:
       "Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev",
-    footer: "Software developer. Backend, AI and security. Tools that save your business time.",
+    footer:
+      "Software developer and digital marketer. Tools that save your business time and help it sell.",
   },
 } as const;
 
@@ -46,10 +47,10 @@ const ABOUT_SOCIAL_ORDER = [
 ];
 
 /** The Blog W button of an about page: secondary, text only, first in the social row. */
-async function expectBlogButtonBeforeIcons(page: Page, label: string) {
+async function expectBlogButtonBeforeIcons(page: Page, label: string, text: string) {
   const blog = page.locator('main a.btn-secondary[href="https://blog.luminaw.co"]');
   await expect(blog).toHaveCount(1);
-  await expect(blog).toHaveText("Blog W");
+  await expect(blog).toHaveText(text);
   await expect(blog).toHaveAttribute("target", "_blank");
   await expect(blog).toHaveAttribute("rel", "noopener noreferrer");
   await expect(blog).toHaveAttribute("aria-label", label);
@@ -189,12 +190,12 @@ test.describe("positioning of the 2026 plan", () => {
       await expect(blog).toHaveAttribute("href", "https://blog.luminaw.co");
       await expect(blog).toHaveAttribute("target", "_blank");
       await expect(blog).toHaveAttribute("rel", "noopener noreferrer");
-      await expect(blog).toHaveText("Blog W");
+      await expect(blog).toHaveText(lang === "en" ? "Read Blog W" : "Leer Blog W");
       const meet = about.locator("a.btn-secondary");
       await expect(meet).toHaveCount(1);
       await expect(about.locator("a.action-link")).toHaveCount(0);
       await expect(meet).toHaveAttribute("href", lang === "en" ? "/en/about" : "/sobre-mi");
-      await expect(meet).toHaveText(lang === "en" ? "Get to know me" : "Conóceme");
+      await expect(meet).toHaveText(lang === "en" ? "Read about me" : "Leer sobre mí");
       // Both text buttons use the 44px size so they stand as tall as the icon buttons.
       await expect(blog).toHaveClass(/\bbtn-sm\b/);
       await expect(meet).toHaveClass(/\bbtn-sm\b/);
@@ -253,7 +254,8 @@ test.describe("positioning of the 2026 plan", () => {
     await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
     await expectBlogButtonBeforeIcons(
       page,
-      "Blog W: blog de Lúmina W creado por Valentina Ramírez"
+      "Leer Blog W: blog de Lúmina W creado por Valentina Ramírez",
+      "Leer Blog W"
     );
   });
 
@@ -275,7 +277,11 @@ test.describe("positioning of the 2026 plan", () => {
       ABOUT_SOCIAL_ORDER
     );
     await expect(page.locator('main a[href^="https://wa.me/"]')).toHaveCount(0);
-    await expectBlogButtonBeforeIcons(page, "Blog W: Lúmina W blog by Valentina Ramírez");
+    await expectBlogButtonBeforeIcons(
+      page,
+      "Read Blog W: Lúmina W blog by Valentina Ramírez",
+      "Read Blog W"
+    );
   });
 
   test("/herramientas shows the marketing and content tools and the recording gear", async ({

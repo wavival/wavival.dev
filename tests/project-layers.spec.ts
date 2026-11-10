@@ -81,7 +81,7 @@ test.describe("layered case study detail", () => {
         const response = await page.goto(`${base[lang]}/${slug}`);
         // The contact band that closes every page says "respondo en 24 horas"; only the case study is checked.
         const html = (await response!.text())
-          .replace(/<section id="contact"[\s\S]*?<\/section>/, "")
+          .replace(/<section\b[^>]*\bid="contact"[\s\S]*?<\/section>/, "")
           .toLowerCase();
         for (const term of redacted) {
           expect(html.includes(term.toLowerCase()), `${slug}: ${term}`).toBe(false);

@@ -30,7 +30,7 @@ const siteLinks = [
       <div class="flex max-w-[360px] flex-[1_1_280px] flex-col gap-5">
         <a href={r.home} aria-label={t("nav.homeAria")}>
           <img
-            src={`${BASE}brand/logo-w.webp`}
+            src={`${BASE}brand/logo-w-ui.webp`}
             alt=""
             width="64"
             height="48"
@@ -125,7 +125,10 @@ const siteLinks = [
       >
     </svg>
 
-    <div class="mt-8 flex flex-wrap justify-between gap-3 text-xs text-muted">
+    <div
+      class="mt-8 flex flex-col items-center gap-1 text-center text-xs text-muted"
+      data-footer-legal
+    >
       <span>© {year} Valentina Ramírez</span>
       <span class="inline-flex items-center gap-1">
         {isEn ? "Made in Colombia" : "Hecho en Colombia"}

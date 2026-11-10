@@ -7,19 +7,17 @@ import ChipList from "@/components/molecules/ChipList.astro";
 import PullQuote from "@/components/molecules/PullQuote.astro";
 import SocialLinks from "@/components/molecules/SocialLinks.astro";
 import Button from "@/components/atoms/Button.astro";
-import TextLink from "@/components/atoms/TextLink.astro";
 import { siteRoutes } from "@/i18n/utils";
 import { SOCIAL_PROFILES } from "@/data/social";
-import { bentoStyles } from "@/utils/bento";
 
 const base = import.meta.env.BASE_URL;
 const lang = "en";
 const r = siteRoutes(lang, base);
 
 const summary = [
-  { value: "Backend and AI", label: "Django · React, in production" },
+  { value: "Software and marketing", label: "Apps in production and content that sells" },
   { value: "Lúmina\u00a0W", label: "Founder, custom product" },
-  { value: "Self-taught", label: "Continuous learning, no shortcuts" },
+  { value: "Self-taught student", label: "Continuous learning, no shortcuts" },
 ];
 
 const method = [
@@ -36,7 +34,8 @@ const method = [
     body: "They are not decorations glued on at the end: they are part of the design from the first endpoint, not when something has already broken in production.",
   },
 ];
-const methodStyles = bentoStyles(method.length);
+// Equal columns: the three method steps weigh the same.
+const methodStyles = method.map(() => "--span:4");
 
 const education = [{ name: "U. de San Buenaventura", detail: "English Language" }];
 
@@ -52,7 +51,7 @@ const breadcrumbLd = JSON.stringify({
 
 <Layout
   title="About me | Valentina Ramírez"
-  description="Self-taught developer focused on backend, AI and security, founder of Lúmina W. Django, React and Next.js. Outside the code: drums, cooking, music and reading."
+  description="Self-taught software developer and digital marketer, founder of Lúmina W. Outside the code: drums, cooking, music and reading."
   lang="en"
   preloadHero
   alternates={[
@@ -80,13 +79,30 @@ const breadcrumbLd = JSON.stringify({
         <ChipList
           loose
           label="Focus areas"
-          items={["Django · DRF", "React · TypeScript", "Next.js", "PostgreSQL", "AI", "Security"]}
+          items={[
+            "Django · DRF",
+            "React · TypeScript",
+            "AI",
+            "Security",
+            "Digital marketing",
+            "Content creation",
+            "Social selling",
+          ]}
         />
         <p class="m-0 max-w-[640px] text-[17px] leading-[1.75] text-muted text-pretty">
           I came to code without a mapped-out path and learned it by building. That self-taught
           route left me with a concrete way of working: it is not enough for something to work: I
           need to understand why it works. That is the difference between copying a solution and
           being able to keep it running when it breaks at 2 a.m.
+        </p>
+        <p
+          class="m-0 max-w-[640px] text-[17px] leading-[1.75] text-muted text-pretty"
+          data-about-marketing
+        >
+          Beyond code, I know how to sell on social media. I create content for Instagram and
+          TikTok, I trained in digital marketing, and I understand how a post turns into a message,
+          and a message into a client. So when I build a landing page or automate a conversation, I
+          don't only think about the software: I think about how you will sell with it.
         </p>
       </div>
       <figure
@@ -143,15 +159,15 @@ const breadcrumbLd = JSON.stringify({
       <div class="flex-[1_1_480px]">
         <h2 class="h2-sub m-0">What I build</h2>
         <p class="body-md m-0 mt-5 max-w-[760px]">
-          Real applications, not demos: multi-user systems with complex business logic, custom APIs,
-          and products that live in production. From an offline-first agri-industrial SaaS to OWASP
-          code analysis, I am drawn to software that solves a measurable problem for a real person.
-          Through wavival, I bring that same approach to clients: a custom product, built to last
-          and not to impress in a screenshot.
+          Real applications, not demos, and the way to get them to the people who need them. From an
+          offline-first agri-industrial SaaS to OWASP code analysis, I am drawn to software that
+          solves a measurable problem for a real person, and to the content that brings that person
+          to it. Through wavival, I bring that idea to clients: a custom product, built to last and
+          to sell, not to impress in a screenshot.
         </p>
       </div>
-      <Button href={r.projects} variant="secondary" aria-label="See Valentina Ramírez's projects">
-        See projects
+      <Button href={r.projects} variant="secondary" aria-label="View Valentina Ramírez's projects">
+        View projects
       </Button>
     </div>
 
@@ -206,16 +222,6 @@ const breadcrumbLd = JSON.stringify({
     <PullQuote class="section-gap border-t border-line pt-16 min-[900px]:text-center">
       "Learning is not a stage that ends: it is the way I work. Every project leaves me knowing
       something I did not know when I started."
-      <footer slot="footer" class="mt-5 text-sm text-muted">
-        Author of <TextLink
-          href="https://blog.luminaw.co/"
-          target="_blank"
-          variant="inline"
-          aria-label="Lúmina W blog written by Valentina Ramírez"
-        >
-          Blog W
-        </TextLink>, where I write about what I learn.
-      </footer>
     </PullQuote>
 
     <div class="mt-14 flex flex-wrap items-center gap-3 min-[900px]:justify-center">
@@ -225,7 +231,7 @@ const breadcrumbLd = JSON.stringify({
         variant="secondary"
         aria-label={SOCIAL_PROFILES["blog-w"].label[lang]}
       >
-        Blog W
+        Read Blog W
       </Button>
       <SocialLinks
         lang={lang}

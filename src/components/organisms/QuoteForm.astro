@@ -82,7 +82,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="quote-form-wrap">
+<div data-reveal class="quote-form-wrap">
   <form
     class="quote-form"
     data-quote-form
@@ -239,7 +239,7 @@ const {
     </label>
 
     <fieldset class="quote-fieldset" data-quote-group="optional">
-      <legend>{labels.optionalTitle}</legend>
+      <legend class="quote-optional-note">{labels.optionalTitle}</legend>
       <div class="quote-form-grid quote-form-grid-3">
         <label class="quote-field">
           <span>{labels.howFound}</span>

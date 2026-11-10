@@ -7,6 +7,7 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Decisions
 
 - [x] New default social cards (`og-card-es.webp`, `og-card-en.webp`) for the software and digital marketing positioning (resolved 2026-11-10).
+- [x] Home "4 apps en producción" (resolved 2026-11-10): TerraCore, OKroot, NullBreach and Kairo.
 - [x] Calendly on the contact pages (resolved 2026-11-09): it loads only after a click, so no third-party cookie reaches the first load; best practices 77 to 100.
 - [ ] Payment methods: Bancolombia, Global66 and Bold with a 50% deposit come from the owner's brief (2026-11-09) and appear in the services FAQ and `llms-full.txt`. Add which method applies to which case if that matters.
 - [ ] Monthly SEO check (`api/quote.ts`): it counts a won `wavival` lead with a development service, the REST APIs block or a kit, and every refusal answers the same way. A new client asking for a development service and monthly SEO in the same quote is refused today; decide whether that combination should pass.
@@ -57,6 +58,6 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 ## Integrations
 
 - [ ] Social networks by API (phase 2): show the latest Instagram and TikTok posts through their APIs with a server-side cache (build-time or a Vercel function), not through the platforms' embeds, so no third-party script or iframe is added to the CSP and the pages stay static.
-- [ ] Later: a chatbot powered by Claude on the site. Not started; scope, data handling and its effect on the CSP are still to be defined. Its launcher goes in the slot reserved between the back-to-top button and WhatsApp in `FloatingActions.astro`.
+- [ ] Later: a chatbot powered by Claude on the site. Not started and left out of the release promoted to production on 2026-11-10 by the owner's decision; scope, data handling and its effect on the CSP are still to be defined. Its launcher goes in the slot reserved between the back-to-top button and WhatsApp in `FloatingActions.astro`.
 
 ## Quality and docs

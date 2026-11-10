@@ -190,7 +190,7 @@ export function projectView(p: Project, lang: Lang, base: string = "/"): Project
   const actions: ProjectAction[] = [
     {
       href: r.project(p.slug),
-      text: isEn ? "Case study" : "Caso de estudio",
+      text: isEn ? "View case study" : "Ver caso de estudio",
       ariaLabel: isEn
         ? `Read the ${localizedProjectTitle(p, lang)} case study`
         : `Leer el caso de estudio de ${p.name}`,

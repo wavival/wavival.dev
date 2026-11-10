@@ -35,8 +35,8 @@ test.describe("design system regressions", () => {
     );
     expect(heights).toEqual([44, 44, 44]);
     for (const [path, label] of [
-      ["/", "Criterio técnico"],
-      ["/en/", "Technical criteria"],
+      ["/", "Ver criterio técnico"],
+      ["/en/", "View technical criteria"],
     ]) {
       await page.goto(path);
       const stackButton = page.locator("#stack a.btn-secondary");
