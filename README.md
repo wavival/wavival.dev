@@ -1,15 +1,15 @@
 <h1 align="left">
   <img src="assets/logo-w.png" width="48" valign="middle" alt="logo-w">
-  Valentina Ramírez · Portfolio v4
+  Valentina Ramírez · Portfolio v5
 </h1>
 
-![Portfolio banner](assets/banner.png)
+![wavival.dev social card: Software and digital marketing for entrepreneurs](public/images/og-card-en.webp)
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-wavival.dev-1565c0?style=for-the-badge&logo=vercel&logoColor=white)](https://www.wavival.dev)
 [![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Version 4 of the personal portfolio for Valentina Ramírez, software developer and digital marketer who helps entrepreneurs save time and sell more with software and digital marketing, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote function that stores leads in Supabase and notifies by email.
+> Version 5 of the personal portfolio for Valentina Ramírez, software developer and digital marketer who helps entrepreneurs save time and sell more with software and digital marketing, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote function that stores leads in Supabase and notifies by email.
 
 > Last updated: 2026-11-10
 
@@ -178,7 +178,7 @@ The Vercel Microfrontends contract reserves `/nullbreach` and `/nullbreach/:path
 
 ### Principles
 
-Version 4 uses the @wavival | Design System v4:
+Version 5 uses the @wavival | Design System v4:
 
 - One-column editorial composition at the full container width.
 - Raleway 800 for display typography and Poppins for body copy.
