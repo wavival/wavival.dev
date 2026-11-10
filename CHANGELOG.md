@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Metricool web tracker (`public/scripts/metricool.js`), loaded from `Layout.astro` in production builds and reporting every page view, including ClientRouter navigations. The CSP allows `https://tracker.metricool.com` in `script-src` and `img-src`; the privacy pages (ES and EN) disclose it, and `docs/security.md`, `docs/performance.md` and the README are updated.
 
+### Changed
+
+- `docs/ROADMAP.md`: new pending section "Alineación de marca con Instagram (pendiente)" to align the site with the Instagram and TikTok profile (`@wavival_dev`), with the inventory of affected files.
+
 ## [5.0.0] - 2026-11-10
 
 ### Added

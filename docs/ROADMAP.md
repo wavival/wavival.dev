@@ -21,6 +21,19 @@ What is pending in the portfolio. Items marked "Decision" need the owner. Pendin
 - [ ] Pricing review: the COP and USD lists in `src/data/pricing.ts` are independent (no exchange rate) and are reviewed every January.
 - [x] Decision (resolved 2026-11-09): the removed CV files keep their permanent redirects in `vercel.json`, each to the about page in its own language: `/cv_valentina_ramirez_es.pdf` to `/sobre-mi` and `/cv_valentina_ramirez_en.pdf` to `/en/about`. `tests/redirects.spec.ts` checks both.
 
+## Alineación de marca con Instagram (pendiente)
+
+Alinear la web con el perfil de Instagram y TikTok (`@wavival_dev`).
+
+- [ ] Titular sin cambios: se mantiene la propuesta de valor "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital" (EN: "I help entrepreneurs save time and sell more with software and digital marketing").
+- [ ] Reemplazar "creadora de contenido" por "estratega digital" (EN: "content creator" por "digital strategist") en todo el sitio, ES y EN. La identidad principal sigue siendo "desarrolladora de software". Fórmula: "desarrolladora de software y estratega digital".
+- [ ] Decision: agregar un segundo público, los creadores de contenido (estrategia digital y marketing para creadores), sin quitar a los emprendedores como público principal. Pendiente de definir con Valentina: dónde aparece (home, `/servicios`, cliente ideal, `/cotizar`), qué servicios y precios aplican y los textos ES/EN. No se proponen ni redactan textos todavía.
+- [ ] Alinear los textos con la bio actual de Instagram: "[PEGAR BIO]".
+- Archivos afectados (inventario del 2026-11-10):
+  - "creadora de contenido" / "content creator": `src/components/organisms/Hero.astro` (lead del hero ES/EN), `src/pages/sobre-mi.astro` y `src/pages/en/about/index.astro` (línea "Marketing y contenido"), `src/data/stack.ts` (grupo "Marketing y contenido" de `/herramientas` y `/en/uses`), `docs/brand.md`, `docs/commercial.md` y `tests/positioning.spec.ts`.
+  - "emprendedores" / "entrepreneurs": `src/components/organisms/Hero.astro` (titular), `src/layouts/Layout.astro` (meta description por defecto y descripción del `Person` en el JSON-LD), `src/pages/index.astro` (alt de la tarjeta social), `src/pages/en/index.astro` (meta description y alt de la tarjeta social), `src/data/services.ts` (descripción del MVP), `public/llms.txt`, `public/llms-full.txt`, `public/images/og-card-es.webp` y `og-card-en.webp` (texto dentro de la imagen), `README.md`, `CLAUDE.md`, `COMPONENTS.md`, `docs/brand.md`, `docs/commercial.md`, `docs/seo.md`, `tests/home.spec.ts`, `tests/positioning.spec.ts` y `tests/positioning-copy.spec.ts`.
+  - Sin coincidencias: footer (`Footer.astro`), cliente ideal de `/servicios` y `/en/services` ("Trabajo mejor con" / "I work best with"), `/cotizar` y `/en/quote`, `src/i18n/ui.ts` y `docs/i18n.md`.
+
 ## Security
 
 - [ ] Quote function: add a Vercel firewall rule that rate limits `POST /api/quote` (the in-function limit is best-effort per instance). Consider a CAPTCHA only if abuse continues.
