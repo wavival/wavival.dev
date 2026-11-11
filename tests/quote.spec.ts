@@ -43,10 +43,11 @@ test.describe("quote form", () => {
     ["/cop/cotizar", "es"],
     ["/cop/en/quote", "en"],
   ] as const) {
-    test(`${path} lists the eleven catalog services plus the backend block`, async ({ page }) => {
+    test(`${path} lists the thirteen catalog services plus the backend block`, async ({ page }) => {
       await page.goto(path);
       const inputs = page.locator('input[name="services"]');
-      await expect(inputs).toHaveCount(12);
+      await expect(inputs).toHaveCount(14);
+      expect(QUOTE_SERVICE_IDS).toHaveLength(14);
       for (const id of QUOTE_SERVICE_IDS) {
         const option = page.locator(".quote-check", {
           has: page.locator(`input[value="${id}"]`),
@@ -312,7 +313,7 @@ test.describe("quote form", () => {
   test("the old project-type links open the form with nothing selected", async ({ page }) => {
     for (const path of ["/cotizar?mode=types", "/en/quote?type=landing", "/cotizar?type=ai"]) {
       await page.goto(path);
-      await expect(page.locator('input[name="services"]')).toHaveCount(12);
+      await expect(page.locator('input[name="services"]')).toHaveCount(QUOTE_SERVICE_IDS.length);
       await expect(page.locator('input[name="services"]:checked')).toHaveCount(0);
       await expect(page.locator(".quote-form button[type=submit]")).toBeDisabled();
     }

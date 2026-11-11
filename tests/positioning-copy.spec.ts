@@ -14,15 +14,15 @@ const walk = (dir: string): string[] =>
 const SERVICES = {
   es: {
     path: "/servicios/",
-    title: "Servicios: software y marketing digital",
+    title: "Servicios: desarrollo de software y marketing digital",
     description:
-      "Landing pages, sitios web, n8n, chatbots con IA, apps a medida y seguridad, con precio fijo y plazo claro. Software seguro que le ahorra tiempo a tu negocio.",
+      "Landing pages, sitios web, chatbots con IA, apps a medida, estrategia de oferta y lanzamientos digitales, con plazo claro. Software y estrategia que venden.",
   },
   en: {
     path: "/en/services/",
-    title: "Services: software and digital marketing",
+    title: "Services: software development and digital marketing",
     description:
-      "Landing pages, websites, n8n, AI chatbots, custom apps and security, each with a fixed price and timeline. Secure software that saves your business time.",
+      "Landing pages, websites, AI chatbots, custom apps, offer strategy and digital launches, each with a clear timeline. Software and strategy that sell.",
   },
 } as const;
 

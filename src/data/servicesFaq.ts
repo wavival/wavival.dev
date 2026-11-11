@@ -79,8 +79,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     id: "includes",
     question: { es: "¿Qué incluye cada servicio?", en: "What does each service include?" },
     answer: {
-      es: "Cada servicio de esta página muestra su precio, su plazo, lo que incluye y lo que no incluye. Están agrupados en desarrollo, complementarios y paquetes con marketing.",
-      en: "Every service on this page shows its price, its timeline, what it includes and what it does not. They are grouped into development, complementary and packages with marketing.",
+      es: "Cada servicio de esta página muestra su precio o cómo se cotiza, su plazo, lo que incluye y lo que no incluye. Están agrupados en desarrollo de software, marketing digital y complementarios.",
+      en: "Every service on this page shows its price or how it is quoted, its timeline, what it includes and what it does not. They are grouped into software development, digital marketing and complementary.",
     },
   },
   {
@@ -95,8 +95,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
       en: "Can I hire monthly SEO on its own?",
     },
     answer: {
-      es: "El marketing solo se vende dentro de un paquete o a clientes de desarrollo. El posicionamiento mensual es para clientes que ya hicieron un proyecto de desarrollo.",
-      en: "Marketing is sold only inside a package or to development clients. Monthly SEO is for clients who already did a development project.",
+      es: "No. El posicionamiento mensual es solo para clientes que ya hicieron un proyecto de desarrollo. Los demás servicios de marketing digital los puede contratar cualquier cliente por separado.",
+      en: "No. Monthly SEO is only for clients who already did a development project. Any client can hire the other digital marketing services on their own.",
     },
   },
   {

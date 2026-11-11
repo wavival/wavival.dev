@@ -337,12 +337,15 @@ test.describe("positioning of the 2026 plan", () => {
     const yes = page.getByRole("heading", { level: 3, name: "Trabajo mejor con" });
     await expect(yes).toHaveCount(1);
     const yesList = yes.locator("xpath=following-sibling::ul[1]");
-    await expect(yesList.locator("li")).toHaveCount(5);
+    await expect(yesList.locator("li")).toHaveCount(6);
     await expect(yesList).toContainText("de 1 a 10 personas, que ya venden y tienen clientes");
     await expect(yesList).toContainText("WhatsApp, Instagram, Excel o Google Sheets y correo");
     await expect(yesList).toContainText("pierde leads o no tiene web");
     await expect(yesList).toContainText("tiempo ahorrado y más ventas");
     await expect(yesList).toContainText("consultorios, estética, psicología, abogados, contadores");
+    await expect(yesList).toContainText(
+      "Creadores, expertos y formadores con una comunidad o conocimientos especializados"
+    );
     const no = page.getByRole("heading", { level: 3, name: "No es para ti si" });
     await expect(no).toHaveCount(1);
     const noList = no.locator("xpath=following-sibling::ul[1]");
@@ -359,9 +362,12 @@ test.describe("positioning of the 2026 plan", () => {
     await page.goto("/en/services/");
     const yes = page.getByRole("heading", { level: 3, name: "I work best with" });
     const yesList = yes.locator("xpath=following-sibling::ul[1]");
-    await expect(yesList.locator("li")).toHaveCount(5);
+    await expect(yesList.locator("li")).toHaveCount(6);
     await expect(yesList).toContainText("1 to 10 people) that already sell and have customers");
     await expect(yesList).toContainText("clinics, beauty, psychology, lawyers, accountants");
+    await expect(yesList).toContainText(
+      "Creators, experts and trainers with a community or specialized knowledge"
+    );
     const no = page.getByRole("heading", { level: 3, name: "Not the right fit if" });
     const noList = no.locator("xpath=following-sibling::ul[1]");
     await expect(noList.locator("li")).toHaveCount(4);
