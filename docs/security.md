@@ -32,10 +32,10 @@ The site is static. The server code is `api/quote.ts` and `api/keepalive.ts` (Ve
 ## Content Security Policy
 
 - `default-src 'self'`; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`; `form-action 'self'`; `upgrade-insecure-requests`.
-- `script-src 'self'` plus 7 `sha256-` hashes (one per distinct inline script, none left over), plus `https://cloud.umami.is`, `https://analytics.umami.is` and `https://assets.calendly.com`.
+- `script-src 'self'` plus 7 `sha256-` hashes (one per distinct inline script, none left over), plus `https://cloud.umami.is`, `https://analytics.umami.is`, `https://assets.calendly.com` and `https://tracker.metricool.com`.
 - `connect-src 'self'` plus the Umami hosts and `https://calendly.com`; `frame-src https://calendly.com`.
 - `style-src 'self' 'unsafe-inline'` plus `https://assets.calendly.com`; `font-src 'self'`.
-- `img-src 'self' data:` plus `https://*.calendly.com` and one CloudFront host (`d3v0px0pttie1i.cloudfront.net`).
+- `img-src 'self' data:` plus `https://*.calendly.com` and one CloudFront host (`d3v0px0pttie1i.cloudfront.net`) and `https://tracker.metricool.com` (the Metricool page-view beacon).
 
 ### Keeping the hashes valid
 
@@ -79,7 +79,7 @@ Inline scripts (theme, navigation loader, bundled module scripts such as the on-
 - Retention: leads of people who do not become clients are deleted 24 months after the last contact, and earlier on request to `wavival.dev@luminaw.co`. The deletion is a pending job (see `ROADMAP.md`).
 - Database access: RLS is enabled on `public.leads` with no policies, and `anon` and `authenticated` have no grants, so the Supabase anon key cannot read or write leads. The service role key lives only in Vercel. The migration is `supabase/migrations/20261108120000_wavival_quote_leads.sql`.
 - Country: the middleware reads the country code Vercel derives from the address to pick the currency of the page and does not store it; the quote function stores the same code with the lead. The address itself is never read by either.
-- Analytics: Umami, cookieless and aggregated, enabled only when both variables are set. No tracking cookies, so no consent banner.
+- Analytics: Umami, cookieless and aggregated, enabled only when both variables are set. Metricool's web tracker (`public/scripts/metricool.js`, production builds only) is also cookieless: per page view it sends an image request with the page URL, window size and referrer. No tracking cookies, so no consent banner.
 - Third parties: Supabase (lead storage), Brevo (quote delivery), Calendly (contact page, loaded only after the visitor presses "Agendar una llamada" / "Book a call"), Vercel (hosting, logs and cron). Fonts are self-hosted.
 
 ## Supply chain and repository

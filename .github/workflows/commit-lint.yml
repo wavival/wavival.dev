@@ -3,9 +3,15 @@ name: Commit lint
 # Thin caller. Logic in lumina-w/agents (shared-commitlint.yml).
 # lumina-w/agents must stay public: GitHub does not let a repo outside an
 # organization call that organization's private repos' reusable workflows.
+# It also runs on pull requests: a merge made by auto-merge-dev.yml pushes with
+# the Actions token, which starts no workflow, so the head of dev never got this
+# required check and the dev -> stg promotion could not merge.
 on:
   push:
     branches: ["**"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [dev, stg, main]
 
 permissions:
   contents: read

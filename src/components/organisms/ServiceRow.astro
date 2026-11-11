@@ -29,6 +29,8 @@ interface Props {
   level?: "h2" | "h3";
   /** One published price, or `tiers` when each plan has its own. No price on the technical block. */
   priceId?: PriceId;
+  /** Text in the price row when the service has no published price ("Cotización personalizada"). */
+  priceText?: string;
   tiers?: Tier[];
   timeline: string;
   includes?: string[];
@@ -58,6 +60,7 @@ const {
   body,
   level: Heading = "h3",
   priceId,
+  priceText,
   tiers = [],
   timeline,
   includes = [],
@@ -99,6 +102,16 @@ const listClass = "m-0 flex list-none flex-col gap-1.5 p-0 text-[15px] leading-r
           <dt class={`${dtClass} pt-1.5`}>{labels.price}</dt>
           <dd class={ddClass}>
             <Price id={priceId} class="h-title text-[24px] leading-tight" />
+          </dd>
+        </div>
+      )
+    }
+    {
+      !priceId && priceText && (
+        <div class={rowClass}>
+          <dt class={`${dtClass} pt-1.5`}>{labels.price}</dt>
+          <dd class={`${ddClass} h-title text-[24px] leading-tight`} data-price-custom>
+            {priceText}
           </dd>
         </div>
       )

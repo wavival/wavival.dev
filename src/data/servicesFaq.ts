@@ -79,8 +79,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     id: "includes",
     question: { es: "¿Qué incluye cada servicio?", en: "What does each service include?" },
     answer: {
-      es: "Cada servicio de esta página muestra su precio, su plazo, lo que incluye y lo que no incluye. Están agrupados en desarrollo, complementarios y paquetes con marketing.",
-      en: "Every service on this page shows its price, its timeline, what it includes and what it does not. They are grouped into development, complementary and packages with marketing.",
+      es: "Cada servicio de esta página muestra su precio o cómo se cotiza, su plazo, lo que incluye y lo que no incluye. Están agrupados en desarrollo de software, marketing digital y complementarios.",
+      en: "Every service on this page shows its price or how it is quoted, its timeline, what it includes and what it does not. They are grouped into software development, digital marketing and complementary.",
     },
   },
   {
@@ -95,8 +95,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
       en: "Can I hire monthly SEO on its own?",
     },
     answer: {
-      es: "El marketing solo se vende dentro de un paquete o a clientes de desarrollo. El posicionamiento mensual es para clientes que ya hicieron un proyecto de desarrollo.",
-      en: "Marketing is sold only inside a package or to development clients. Monthly SEO is for clients who already did a development project.",
+      es: "No. El posicionamiento mensual es solo para clientes que ya hicieron un proyecto de desarrollo. Los demás servicios de marketing digital los puede contratar cualquier cliente por separado.",
+      en: "No. Monthly SEO is only for clients who already did a development project. Any client can hire the other digital marketing services on their own.",
     },
   },
   {
@@ -111,8 +111,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     id: "start",
     question: { es: "¿Qué necesito para empezar?", en: "What do I need to get started?" },
     answer: {
-      es: "Tener claro el problema y a quién va dirigido el producto. No necesitas llegar con un PRD (documento de requerimientos de producto: el listado detallado de funciones, flujos y reglas de negocio que define qué debe hacer el software). Eso lo construimos juntos en la propuesta.",
-      en: "A clear idea of the problem and who the product is for. You do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do). We build that together in the proposal.",
+      es: "Tener claro el problema y a quién va dirigido. Para software no necesitas llegar con un PRD (documento de requerimientos de producto: el listado detallado de funciones, flujos y reglas de negocio que define qué debe hacer el software); para una estrategia no necesitas tener la oferta definida. Eso lo construimos juntos en la propuesta.",
+      en: "A clear idea of the problem and who it is for. For software you do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do); for a strategy you do not need a defined offer. We build that together in the proposal.",
     },
   },
   {
@@ -122,8 +122,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
       en: "Do you work with teams or only founders?",
     },
     answer: {
-      es: "Con ambos. Puedo llevar el desarrollo completo como dev única o integrarme a un equipo existente como refuerzo backend, API o seguridad.",
-      en: "Both. I can lead the full development as the sole developer or join an existing team as backend, API, or security support.",
+      es: "Con ambos, y también con creadores y formadores. Puedo llevar el desarrollo completo, integrarme a un equipo como refuerzo backend, API o seguridad, o trabajar contigo la estrategia de tu oferta y tu lanzamiento.",
+      en: "Both, and also with creators and trainers. I can lead the full development, join a team as backend, API, or security support, or work with you on the strategy for your offer and your launch.",
     },
   },
 ];

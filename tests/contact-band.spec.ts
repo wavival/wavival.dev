@@ -48,7 +48,7 @@ const COPY = {
   es: {
     eyebrow: "A un click",
     title: "Menos trabajo a mano, más clientes que llegan solos.",
-    text: "Construyo landing pages, sitios web, automatizaciones, chatbots y apps a medida, y el contenido para que te encuentren. Seguridad desde el diseño y precio fijo.",
+    text: "Construyo landing pages, sitios web, automatizaciones, chatbots y apps a medida, y la estrategia digital para que te encuentren y te compren. Seguridad desde el diseño y precio claro.",
     line: `MVP de ${serviceById("custom-web-app-mvp").timeline.es}. Disponibilidad limitada, respondo en 24 horas.`,
     primary: { text: "Cotizar mi proyecto", href: "/cotizar" },
     services: { text: "Ver servicios", href: "/servicios" },
@@ -57,7 +57,7 @@ const COPY = {
   en: {
     eyebrow: "One click away",
     title: "Less work by hand, more customers who find you.",
-    text: "I build landing pages, websites, automations, chatbots and custom apps, plus the content that gets you found. Security by design and a fixed price.",
+    text: "I build landing pages, websites, automations, chatbots and custom apps, plus the digital strategy that gets you found and gets you sales. Security by design and clear pricing.",
     line: `MVP in ${serviceById("custom-web-app-mvp").timeline.en}. Limited availability, I reply within 24 hours.`,
     primary: { text: "Get a quote", href: "/en/quote" },
     services: { text: "View services", href: "/en/services" },

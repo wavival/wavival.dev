@@ -9,9 +9,9 @@
 [![Blog](https://img.shields.io/badge/Blog-blog.luminaw.co-1565c0?style=for-the-badge&logo=hashnode&logoColor=white)](https://blog.luminaw.co/)
 [![Lúmina W](https://img.shields.io/badge/Lúmina%20W-luminaw.co-1565c0?style=for-the-badge&logo=google-chrome&logoColor=white)](https://luminaw.co/)
 
-> Version 5 of the personal portfolio for Valentina Ramírez, software developer and digital marketer who helps entrepreneurs save time and sell more with software and digital marketing, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote function that stores leads in Supabase and notifies by email.
+> Version 5 of the personal portfolio for Valentina Ramírez, software developer and digital strategist who helps entrepreneurs save time and sell more with software and digital marketing and helps creators structure and launch their offer, and founder of [Lúmina W](https://luminaw.co/). It is a bilingual Astro site, deployed on Vercel, with a serverless quote function that stores leads in Supabase and notifies by email.
 
-> Last updated: 2026-11-10
+> Last updated: 2026-11-11
 
 ## Contents
 
@@ -101,17 +101,17 @@ Set the variables in the Vercel project settings, not in the repository. The `PU
 
 ## Stack
 
-| Layer                | Choice                                                                                                |
-| -------------------- | ----------------------------------------------------------------------------------------------------- |
-| Framework            | Astro 7, static pages plus two Vercel Functions (quotes, database keepalive) and one Edge Middleware. |
-| Styling              | Tailwind CSS 4, CSS custom properties.                                                                |
-| Components           | Astro, organized with atomic design.                                                                  |
-| Client scripts       | Vanilla TypeScript.                                                                                   |
-| Internationalization | Spanish at root and English under `/en/`.                                                             |
-| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.                                 |
-| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables.                                |
-| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.                                           |
-| Hosting              | Vercel with Microfrontends.                                                                           |
+| Layer                | Choice                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| Framework            | Astro 7, static pages plus two Vercel Functions (quotes, database keepalive) and one Edge Middleware.  |
+| Styling              | Tailwind CSS 4, CSS custom properties.                                                                 |
+| Components           | Astro, organized with atomic design.                                                                   |
+| Client scripts       | Vanilla TypeScript.                                                                                    |
+| Internationalization | Spanish at root and English under `/en/`.                                                              |
+| SEO                  | `@astrojs/sitemap`, Open Graph, Twitter Card, JSON-LD and `llms.txt`.                                  |
+| Analytics            | Umami and `web-vitals`, enabled only with both public Umami variables; Metricool in production builds. |
+| Testing              | Playwright, Lighthouse CI, linkinator, ESLint and Prettier.                                            |
+| Hosting              | Vercel with Microfrontends.                                                                            |
 
 ## Architecture
 

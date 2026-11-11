@@ -8,9 +8,9 @@ import { servicesLd } from "@/data/servicesLd";
 
 const site = "https://www.wavival.dev";
 
-const pageTitle = "Servicios: software y marketing digital";
+const pageTitle = "Servicios: desarrollo de software y marketing digital";
 const pageDescription =
-  "Landing pages, sitios web, n8n, chatbots con IA, apps a medida y seguridad, con precio fijo y plazo claro. Software seguro que le ahorra tiempo a tu negocio.";
+  "Landing pages, sitios web, chatbots con IA, apps a medida, estrategia de oferta y lanzamientos digitales, con plazo claro. Software y estrategia que venden.";
 
 const fit = {
   yes: [
@@ -19,9 +19,9 @@ const fit = {
     "Quien responde a mano los mismos mensajes, agenda y cotiza a mano, pierde leads o no tiene web, o la tiene desactualizada",
     "Personas no técnicas que buscan resultados: tiempo ahorrado y más ventas",
     "Servicios con agenda (consultorios, estética, psicología, abogados, contadores), academias y formadores, y comercio pequeño que vende por Instagram o WhatsApp",
+    "Creadores, expertos y formadores con una comunidad o conocimientos especializados que necesitan estructurar una oferta educativa o planificar su lanzamiento",
   ],
   no: [
-    "Tu negocio está en etapa de idea y todavía no vende",
     "Tu equipo tiene más de 10 personas, o el proyecto necesita un equipo o supera el presupuesto máximo de wavival: esos proyectos van a Lúmina\u00a0W",
     "Buscas un pentest certificado o una certificación de cumplimiento",
     "Buscas manejo diario de redes o una agencia de marketing",
@@ -32,22 +32,22 @@ const process = [
   {
     step: "01",
     title: "Conversación",
-    body: "Entiendo el problema de negocio antes de hablar de tecnología. Qué necesitas, para quién y por qué.",
+    body: "Entiendo tu negocio o tu oferta antes de hablar de tecnología o de estrategia. Qué necesitas, para quién y por qué.",
   },
   {
     step: "02",
     title: "Propuesta",
-    body: "Defino alcance, arquitectura y entregables. Sin sorpresas: sabes qué se construye y en qué orden.",
+    body: "Defino alcance, entregables y plazos. Sin sorpresas: sabes qué se construye o se planifica y en qué orden.",
   },
   {
     step: "03",
-    title: "Build iterativo",
-    body: "Construyo en entregas visibles. Ves avances reales, no un silencio de semanas seguido de un big bang.",
+    title: "Entregas iterativas",
+    body: "Trabajo en entregas visibles. Ves avances reales, no un silencio de semanas seguido de un big bang.",
   },
   {
     step: "04",
     title: "Entrega",
-    body: "Producto en producción, documentado y mantenible. Pensado para durar más allá del primer release.",
+    body: "Software en producción, documentado y mantenible, o una estrategia lista para ejecutar. Pensado para durar más allá de la primera entrega.",
   },
 ];
 
@@ -57,7 +57,7 @@ const serviceLd = JSON.stringify(
     lang: "es",
     site,
     url: `${site}/servicios/`,
-    name: "Valentina Ramírez: Software y marketing digital",
+    name: "Valentina Ramírez: desarrollo de software y marketing digital",
     description: pageDescription,
   })
 );
@@ -91,11 +91,13 @@ const breadcrumbLd = JSON.stringify({
 >
   <section class="wrap page-top">
     <PageIntro eyebrow="En qué te puedo ayudar" size="page">
-      <Fragment slot="title">Construyo el producto que tu negocio necesita</Fragment>
+      <Fragment slot="title">Construyo tu software y la estrategia para venderlo</Fragment>
       <p class="body-lg m-0">
-        Soy desarrolladora de software y marketing digital: tomo un problema de negocio y lo entrego
-        como software real en producción, que te ahorra tiempo y trae clientes. Cada servicio tiene
-        precio fijo, plazo y alcance claros, para que sepas qué recibes antes de empezar.
+        Soy desarrolladora de software y estratega digital: tomo un problema de negocio y lo entrego
+        como software real en producción, y diseño la estrategia digital para vender lo que ofreces,
+        desde la oferta y el lanzamiento hasta la presencia que hace que te encuentren. Cada
+        servicio muestra su precio o cómo se cotiza, su plazo y su alcance, para que sepas qué
+        recibes antes de empezar.
       </p>
     </PageIntro>
 

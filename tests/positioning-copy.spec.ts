@@ -14,15 +14,15 @@ const walk = (dir: string): string[] =>
 const SERVICES = {
   es: {
     path: "/servicios/",
-    title: "Servicios: software y marketing digital",
+    title: "Servicios: desarrollo de software y marketing digital",
     description:
-      "Landing pages, sitios web, n8n, chatbots con IA, apps a medida y seguridad, con precio fijo y plazo claro. Software seguro que le ahorra tiempo a tu negocio.",
+      "Landing pages, sitios web, chatbots con IA, apps a medida, estrategia de oferta y lanzamientos digitales, con plazo claro. Software y estrategia que venden.",
   },
   en: {
     path: "/en/services/",
-    title: "Services: software and digital marketing",
+    title: "Services: software development and digital marketing",
     description:
-      "Landing pages, websites, n8n, AI chatbots, custom apps and security, each with a fixed price and timeline. Secure software that saves your business time.",
+      "Landing pages, websites, AI chatbots, custom apps, offer strategy and digital launches, each with a clear timeline. Software and strategy that sell.",
   },
 } as const;
 
@@ -38,14 +38,15 @@ test.describe("remaining positioning copy", () => {
       const raw = await page.locator('script[type="application/ld+json"]').first().textContent();
       const graph = JSON.parse(raw!)["@graph"] as Array<Record<string, unknown>>;
       const person = graph.find((node) => node["@type"] === "Person")!;
-      expect(person.jobTitle).toBe("Software Developer and Digital Marketer");
+      expect(person.jobTitle).toBe("Software Developer and Digital Strategist");
       expect(person.knowsAbout).toContain("Software Development");
       expect(person.knowsAbout).toContain("Digital Marketing");
+      expect(person.knowsAbout).toContain("Digital Strategy");
       expect(person.knowsAbout).not.toContain("Full Stack Development");
       expect(person.description).toBe(
         lang === "en"
-          ? "Software developer and digital marketer. I help entrepreneurs save time and sell more with secure software, AI and content. Founder of Lúmina W (luminaw.co)."
-          : "Desarrolladora de software y marketing digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software seguro, IA y contenido. Fundadora de Lúmina W (luminaw.co)."
+          ? "Software developer and digital strategist. I help entrepreneurs save time and sell more with software, AI and digital strategy, and creators structure and launch their offer. Founder of Lúmina W (luminaw.co)."
+          : "Desarrolladora de software y estratega digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software, IA y estrategia digital, y a creadores a estructurar y lanzar su oferta. Fundadora de Lúmina W (luminaw.co)."
       );
     }
   });

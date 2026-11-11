@@ -1,7 +1,8 @@
-// The services catalog of the 2026 plan: copy in both languages for the eleven
-// services, the three groups they belong to, the general exclusions and the
-// block for technical teams. Amounts never live here: every price is a
-// `PriceId` resolved through `src/data/pricing.ts` in the visitor's currency.
+// The services catalog: copy in both languages for the thirteen services, the
+// three groups they belong to (development, digital marketing, complementary),
+// the general exclusions and the block for technical teams. Amounts never live
+// here: every price is a `PriceId` resolved through `src/data/pricing.ts` in the
+// visitor's currency.
 
 import type { Lang } from "../i18n/ui.js";
 import type { Currency } from "../utils/currency.js";
@@ -17,15 +18,13 @@ import {
 export type Localized = Record<Lang, string>;
 export type LocalizedList = Record<Lang, string[]>;
 
-export const SERVICE_GROUP_IDS = ["development", "complementary", "marketing"] as const;
+export const SERVICE_GROUP_IDS = ["development", "marketing", "complementary"] as const;
 
 export type ServiceGroupId = (typeof SERVICE_GROUP_IDS)[number];
 
 export interface ServiceGroup {
   id: ServiceGroupId;
   title: Localized;
-  /** Shown under the group title. The marketing group states how marketing is sold. */
-  note?: Localized;
 }
 
 export interface ServiceExample {
@@ -49,8 +48,10 @@ export interface Service {
   title: Localized;
   body: Localized;
   timeline: Localized;
-  /** One price, or none when the service is sold in tiers. */
+  /** One price, or none when the service is sold in tiers or quoted per scope. */
   priceId?: PriceId;
+  /** No published price: the price row reads "Cotización personalizada" (the launch strategy). */
+  customQuote?: true;
   /** Plans with their own price and inclusions (the support plan). */
   tiers?: ServiceTier[];
   includes?: LocalizedList;
@@ -60,22 +61,15 @@ export interface Service {
    * currency by the catalog component.
    */
   note?: Localized;
-  /** Short badge next to the index (sold only to development clients). */
+  /** Short badge next to the index ("Solo clientes de desarrollo", "Recomendado para empezar"). */
   badge?: Localized;
   examples?: ServiceExample[];
 }
 
 export const SERVICE_GROUPS: readonly ServiceGroup[] = [
-  { id: "development", title: { es: "Desarrollo", en: "Development" } },
+  { id: "development", title: { es: "Desarrollo de software", en: "Software development" } },
+  { id: "marketing", title: { es: "Marketing digital", en: "Digital marketing" } },
   { id: "complementary", title: { es: "Complementarios", en: "Complementary" } },
-  {
-    id: "marketing",
-    title: { es: "Paquetes con marketing", en: "Packages with marketing" },
-    note: {
-      es: "El marketing solo se vende dentro de un paquete o a clientes de desarrollo. Va incluido para que lo que construimos también traiga clientes.",
-      en: "Marketing is sold only inside a package or to development clients. It is included so that what we build also brings in customers.",
-    },
-  },
 ];
 
 export const SERVICES: readonly Service[] = [
@@ -363,82 +357,94 @@ export const SERVICES: readonly Service[] = [
     ],
   },
   {
-    id: "basic-security-review",
-    group: "complementary",
-    title: { es: "Revisión de seguridad básica", en: "Basic security review" },
+    id: "digital-offer-strategy",
+    group: "marketing",
+    title: { es: "Estrategia de oferta digital", en: "Digital offer strategy" },
     body: {
-      es: "Reviso una app pequeña con criterio OWASP Top 10 y te explico los hallazgos en orden de prioridad.",
-      en: "I review a small app against the OWASP Top 10 and walk you through the findings by priority.",
+      es: "De tu conocimiento a una propuesta educativa clara y atractiva.",
+      en: "From your knowledge to a clear and compelling educational offer.",
     },
-    timeline: { es: "1 semana", en: "1 week" },
-    priceId: "basic-security-review",
+    timeline: { es: "2 a 3 semanas", en: "2 to 3 weeks" },
+    priceId: "digital-offer-strategy",
+    badge: { es: "Recomendado para empezar", en: "Recommended to start" },
     includes: {
       es: [
-        "Revisión según OWASP Top 10 de una app pequeña: autenticación, manejo de secretos, cabeceras, dependencias y validación de datos",
-        "Informe con hallazgos priorizados",
-        "Sesión para explicarlo",
+        "Diagnóstico del creador, su audiencia y su posicionamiento",
+        "Investigación de necesidades, deseos y objeciones del público",
+        "Definición del cliente ideal y la transformación propuesta",
+        "Diseño de la oferta: formato, contenidos, entregables y propuesta de valor",
+        "Recomendaciones de precio, bonos y diferenciación",
+        "Documento estratégico y sesión de presentación",
       ],
       en: [
-        "OWASP Top 10 review of a small app: authentication, secrets handling, headers, dependencies and data validation",
-        "Report with prioritized findings",
-        "A session to walk through it",
+        "Diagnosis of the creator, their audience and their positioning",
+        "Research into the audience's needs, desires and objections",
+        "Definition of the ideal client and the promised transformation",
+        "Offer design: format, content, deliverables and value proposition",
+        "Pricing, bonus and differentiation recommendations",
+        "Strategy document and presentation session",
       ],
     },
     excludes: {
-      es: [
-        "Pentest certificado",
-        "Corregir los hallazgos (se cotiza aparte)",
-        "Certificación de cumplimiento",
-      ],
-      en: [
-        "Certified pentest",
-        "Fixing the findings (quoted separately)",
-        "Compliance certification",
-      ],
+      es: ["Producción del curso", "Campañas publicitarias", "Ejecución de un lanzamiento"],
+      en: ["Course production", "Ad campaigns", "Running a launch"],
     },
   },
   {
-    id: "monthly-support",
-    group: "complementary",
-    title: { es: "Plan de soporte mensual", en: "Monthly support plan" },
-    body: {
-      es: "Para que lo que construimos siga funcionando: monitoreo, actualizaciones y horas de cambios cada mes.",
-      en: "So that what we build keeps working: monitoring, updates and change hours every month.",
+    id: "digital-launch-strategy",
+    group: "marketing",
+    title: {
+      es: "Estrategia y acompañamiento de lanzamientos digitales",
+      en: "Digital launch strategy and support",
     },
-    timeline: { es: "Mensual", en: "Monthly" },
-    tiers: [
-      {
-        priceId: "monthly-support-basic",
-        name: { es: "Básico", en: "Basic" },
-        includes: {
-          es: ["Monitoreo", "Actualizaciones", "Copias de seguridad", "1 hora de cambios"],
-          en: ["Monitoring", "Updates", "Backups", "1 hour of changes"],
-        },
-      },
-      {
-        priceId: "monthly-support-plus",
-        name: { es: "Plus", en: "Plus" },
-        includes: {
-          es: [
-            "Todo lo del Básico",
-            "3 horas de cambios",
-            "Monitoreo de automatizaciones y chatbot",
-            "Informe mensual",
-            "Respuesta en 1 día hábil",
-          ],
-          en: [
-            "Everything in Basic",
-            "3 hours of changes",
-            "Monitoring of automations and chatbot",
-            "Monthly report",
-            "Response within 1 business day",
-          ],
-        },
-      },
-    ],
+    body: {
+      es: "Diseñamos el camino para presentar y comercializar tu producto educativo.",
+      en: "We design the path to present and sell your educational product.",
+    },
+    timeline: {
+      es: "3 a 5 semanas para la planificación, según complejidad",
+      en: "3 to 5 weeks for planning, depending on complexity",
+    },
+    customQuote: true,
+    includes: {
+      es: [
+        "Diagnóstico de la oferta y su audiencia",
+        "Definición de objetivos e indicadores del lanzamiento",
+        "Diseño del recorrido del cliente y del embudo de conversión",
+        "Narrativa central, mensajes clave y tratamiento de objeciones",
+        "Plan de contenido para precalentamiento, lanzamiento y cierre",
+        "Estructura estratégica de webinar, clase gratuita o evento de venta, cuando corresponda",
+        "Calendario de ejecución y plan de seguimiento",
+        "Recomendaciones de automatización y herramientas digitales",
+      ],
+      en: [
+        "Diagnosis of the offer and its audience",
+        "Launch goals and indicators",
+        "Customer journey and conversion funnel design",
+        "Core narrative, key messages and objection handling",
+        "Content plan for the warm-up, the launch and the close",
+        "Strategic structure of a webinar, free class or sales event, when it applies",
+        "Execution calendar and follow-up plan",
+        "Automation and digital tools recommendations",
+      ],
+    },
     excludes: {
-      es: ["Funcionalidades nuevas", "Las horas no usadas no se acumulan"],
-      en: ["New features", "Unused hours do not accumulate"],
+      es: [
+        "Pauta publicitaria",
+        "Producción audiovisual",
+        "Community management",
+        "Implementación técnica completa",
+      ],
+      en: [
+        "Paid ads",
+        "Audiovisual production",
+        "Community management",
+        "Full technical implementation",
+      ],
+    },
+    note: {
+      es: "Incluye la planificación estratégica y, si se acuerda, acompañamiento durante la ejecución del mismo lanzamiento. El alcance y el precio se definen en la cotización.",
+      en: "It includes the strategic planning and, if agreed, support during the execution of the launch itself. Scope and price are set in the quote.",
     },
   },
   {
@@ -531,6 +537,85 @@ export const SERVICES: readonly Service[] = [
       en: ["Daily social media management", "Paid ads", "Audiovisual production"],
     },
   },
+  {
+    id: "basic-security-review",
+    group: "complementary",
+    title: { es: "Revisión de seguridad básica", en: "Basic security review" },
+    body: {
+      es: "Reviso una app pequeña con criterio OWASP Top 10 y te explico los hallazgos en orden de prioridad.",
+      en: "I review a small app against the OWASP Top 10 and walk you through the findings by priority.",
+    },
+    timeline: { es: "1 semana", en: "1 week" },
+    priceId: "basic-security-review",
+    includes: {
+      es: [
+        "Revisión según OWASP Top 10 de una app pequeña: autenticación, manejo de secretos, cabeceras, dependencias y validación de datos",
+        "Informe con hallazgos priorizados",
+        "Sesión para explicarlo",
+      ],
+      en: [
+        "OWASP Top 10 review of a small app: authentication, secrets handling, headers, dependencies and data validation",
+        "Report with prioritized findings",
+        "A session to walk through it",
+      ],
+    },
+    excludes: {
+      es: [
+        "Pentest certificado",
+        "Corregir los hallazgos (se cotiza aparte)",
+        "Certificación de cumplimiento",
+      ],
+      en: [
+        "Certified pentest",
+        "Fixing the findings (quoted separately)",
+        "Compliance certification",
+      ],
+    },
+  },
+  {
+    id: "monthly-support",
+    group: "complementary",
+    title: { es: "Plan de soporte mensual", en: "Monthly support plan" },
+    body: {
+      es: "Para que lo que construimos siga funcionando: monitoreo, actualizaciones y horas de cambios cada mes.",
+      en: "So that what we build keeps working: monitoring, updates and change hours every month.",
+    },
+    timeline: { es: "Mensual", en: "Monthly" },
+    tiers: [
+      {
+        priceId: "monthly-support-basic",
+        name: { es: "Básico", en: "Basic" },
+        includes: {
+          es: ["Monitoreo", "Actualizaciones", "Copias de seguridad", "1 hora de cambios"],
+          en: ["Monitoring", "Updates", "Backups", "1 hour of changes"],
+        },
+      },
+      {
+        priceId: "monthly-support-plus",
+        name: { es: "Plus", en: "Plus" },
+        includes: {
+          es: [
+            "Todo lo del Básico",
+            "3 horas de cambios",
+            "Monitoreo de automatizaciones y chatbot",
+            "Informe mensual",
+            "Respuesta en 1 día hábil",
+          ],
+          en: [
+            "Everything in Basic",
+            "3 hours of changes",
+            "Monitoring of automations and chatbot",
+            "Monthly report",
+            "Response within 1 business day",
+          ],
+        },
+      },
+    ],
+    excludes: {
+      es: ["Funcionalidades nuevas", "Las horas no usadas no se acumulan"],
+      en: ["New features", "Unused hours do not accumulate"],
+    },
+  },
 ];
 
 export const servicesInGroup = (group: ServiceGroupId): Service[] =>
@@ -592,6 +677,7 @@ export const SERVICE_LABELS = {
   es: {
     catalog: "Catálogo",
     price: "Precio",
+    customQuote: "Cotización personalizada",
     duration: "Plazo",
     includes: "Incluye",
     excludes: "No incluye",
@@ -610,6 +696,7 @@ export const SERVICE_LABELS = {
   en: {
     catalog: "Catalog",
     price: "Price",
+    customQuote: "Custom quote",
     duration: "Timeline",
     includes: "Includes",
     excludes: "Not included",

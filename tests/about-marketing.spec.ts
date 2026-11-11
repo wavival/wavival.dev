@@ -28,12 +28,8 @@ test("the about summary names software and marketing as the two strengths", asyn
 
 test("the about focus chips add marketing and drop Next.js and PostgreSQL", async ({ page }) => {
   for (const [path, label, chips] of [
-    [
-      "/sobre-mi",
-      "Áreas de foco",
-      ["Marketing digital", "Creación de contenido", "Ventas en redes"],
-    ],
-    ["/en/about", "Focus areas", ["Digital marketing", "Content creation", "Social selling"]],
+    ["/sobre-mi", "Áreas de foco", ["Marketing digital", "Estrategia digital", "Ventas en redes"]],
+    ["/en/about", "Focus areas", ["Digital marketing", "Digital strategy", "Social selling"]],
   ] as const) {
     await page.goto(path);
     const list = page.getByLabel(label);
