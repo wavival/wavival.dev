@@ -1,8 +1,8 @@
 ---
-// The services catalog in one language: the three groups with their numbered
-// rows, the general exclusions and the block for technical teams. Copy comes
-// from `src/data/services.ts`; every amount is a `Price` in the currency of
-// the page variant being built.
+// The services catalog in one language: the three groups (development, digital
+// marketing, complementary) with their numbered rows, the general exclusions and
+// the block for technical teams. Copy comes from `src/data/services.ts`; every
+// amount is a `Price` in the currency of the page variant being built.
 import SectionHeader from "@/components/molecules/SectionHeader.astro";
 import ServiceRow from "@/components/organisms/ServiceRow.astro";
 import StickyContentSection from "@/components/organisms/StickyContentSection.astro";
@@ -34,22 +34,30 @@ const serviceBanners = {
     es: "Desarrollo: landing pages, sitios web, automatizaciones, chatbots y apps a medida",
     en: "Development: landing pages, websites, automations, chatbots and custom apps",
   },
+  marketing: {
+    es: "Marketing digital: estrategia de oferta y lanzamientos, presencia digital y posicionamiento",
+    en: "Digital marketing: offer and launch strategy, digital presence and SEO",
+  },
   complementary: {
     es: "Complementarios: revisión de seguridad y soporte mensual",
     en: "Complementary: security review and monthly support",
-  },
-  marketing: {
-    es: "Paquetes con marketing: software y presencia digital",
-    en: "Packages with marketing: software and digital presence",
   },
 } as const;
 const groupLayout = {
   development: {
     eyebrow: { es: "DESARROLLO", en: "DEVELOPMENT" },
-    title: { es: "Catálogo de desarrollo", en: "Development catalog" },
+    title: { es: "Desarrollo de software", en: "Software development" },
     description: {
       es: "Landing pages, sitios, automatizaciones, chatbots y apps para convertir tareas manuales en software que mueve tu negocio.",
       en: "Landing pages, websites, automations, chatbots and apps that turn manual work into software that drives your business.",
+    },
+  },
+  marketing: {
+    eyebrow: { es: "MARKETING", en: "MARKETING" },
+    title: { es: "Marketing digital", en: "Digital marketing" },
+    description: {
+      es: "Estrategia de oferta y de lanzamientos, presencia digital y posicionamiento para que lo que ofreces llegue a quien lo necesita y se venda.",
+      en: "Offer and launch strategy, digital presence and SEO so that what you offer reaches the people who need it and sells.",
     },
   },
   complementary: {
@@ -60,13 +68,7 @@ const groupLayout = {
       en: "A review to find what could fail and support to keep what already works working.",
     },
   },
-  marketing: {
-    eyebrow: { es: "MARKETING", en: "MARKETING" },
-    title: { es: "Paquetes con marketing", en: "Packages with marketing" },
-  },
 } as const;
-const groupDescription = (group: (typeof SERVICE_GROUPS)[number]) =>
-  group.id === "marketing" ? group.note?.[lang] : groupLayout[group.id].description[lang];
 const exampleLinks = (examples: readonly ServiceExample[] = []) =>
   examples.map((example) => ({
     name: example.name,
@@ -84,7 +86,7 @@ const indexOf = (id: string) =>
       index={String(i + 1).padStart(2, "0")}
       eyebrow={groupLayout[group.id].eyebrow[lang]}
       title={groupLayout[group.id].title[lang]}
-      description={groupDescription(group)}
+      description={groupLayout[group.id].description[lang]}
       class={i === 0 ? "mt-[72px]" : "section-gap"}
     >
       <img
@@ -105,6 +107,7 @@ const indexOf = (id: string) =>
             title={service.title[lang]}
             body={fill(service.body[lang])}
             priceId={service.priceId}
+            priceText={service.customQuote ? labels.customQuote : undefined}
             tiers={service.tiers?.map((tier) => ({
               name: tier.name[lang],
               priceId: tier.priceId,

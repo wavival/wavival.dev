@@ -13,21 +13,21 @@ const HOME = {
     path: "/",
     title: "Valentina Ramírez | Software y marketing digital",
     description:
-      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y contenido.",
+      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y estrategia digital.",
     ogAlt:
       "Software y marketing digital para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender. Valentina Ramírez · @wavival · wavival.dev",
     footer:
-      "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
+      "Desarrolladora de software y estratega digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
   },
   en: {
     path: "/en/",
     title: "Valentina Ramírez | Software and digital marketing",
     description:
-      "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and content.",
+      "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and digital strategy.",
     ogAlt:
       "Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev",
     footer:
-      "Software developer and digital marketer. Tools that save your business time and help it sell.",
+      "Software developer and digital strategist. Tools that save your business time and help it sell.",
   },
 } as const;
 
@@ -234,12 +234,14 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/sobre-mi lists the marketing and content training as plain text", async ({ page }) => {
+  test("/sobre-mi lists the marketing and digital strategy training as plain text", async ({
+    page,
+  }) => {
     await page.goto("/sobre-mi/");
     const row = page.locator("[data-marketing-training]");
-    await expect(row).toContainText("Marketing y contenido");
+    await expect(row).toContainText("Marketing y estrategia digital");
     await expect(row).toContainText(
-      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en Instagram y TikTok"
+      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como estratega digital en Instagram y TikTok"
     );
     // The profiles are linked once, as icons in the social row: the education rows are plain text.
     await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
@@ -259,12 +261,14 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/en/about lists the marketing and content training as plain text", async ({ page }) => {
+  test("/en/about lists the marketing and digital strategy training as plain text", async ({
+    page,
+  }) => {
     await page.goto("/en/about/");
     const row = page.locator("[data-marketing-training]");
-    await expect(row).toContainText("Marketing and content");
+    await expect(row).toContainText("Marketing and digital strategy");
     await expect(row).toContainText(
-      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on Instagram and TikTok"
+      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a digital strategist on Instagram and TikTok"
     );
     // The profiles are linked once, as icons in the social row: the education rows are plain text.
     await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
@@ -284,11 +288,14 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/herramientas shows the marketing and content tools and the recording gear", async ({
+  test("/herramientas shows the marketing and digital strategy tools and the recording gear", async ({
     page,
   }) => {
     await page.goto("/herramientas/");
-    const marketing = page.getByRole("heading", { level: 3, name: "Marketing y contenido" });
+    const marketing = page.getByRole("heading", {
+      level: 3,
+      name: "Marketing y estrategia digital",
+    });
     await expect(marketing).toHaveCount(1);
     const group = marketing.locator("xpath=ancestor::div[contains(@class,'border-b')][1]");
     for (const tool of [
@@ -309,11 +316,14 @@ test.describe("positioning of the 2026 plan", () => {
     await expect(page.getByRole("heading", { level: 3, name: "Equipo Windows" })).toHaveCount(1);
   });
 
-  test("/en/uses shows the marketing and content tools and the recording gear", async ({
+  test("/en/uses shows the marketing and digital strategy tools and the recording gear", async ({
     page,
   }) => {
     await page.goto("/en/uses/");
-    const marketing = page.getByRole("heading", { level: 3, name: "Marketing and content" });
+    const marketing = page.getByRole("heading", {
+      level: 3,
+      name: "Marketing and digital strategy",
+    });
     await expect(marketing).toHaveCount(1);
     const group = marketing.locator("xpath=ancestor::div[contains(@class,'border-b')][1]");
     for (const tool of [
@@ -337,17 +347,20 @@ test.describe("positioning of the 2026 plan", () => {
     const yes = page.getByRole("heading", { level: 3, name: "Trabajo mejor con" });
     await expect(yes).toHaveCount(1);
     const yesList = yes.locator("xpath=following-sibling::ul[1]");
-    await expect(yesList.locator("li")).toHaveCount(5);
+    await expect(yesList.locator("li")).toHaveCount(6);
     await expect(yesList).toContainText("de 1 a 10 personas, que ya venden y tienen clientes");
     await expect(yesList).toContainText("WhatsApp, Instagram, Excel o Google Sheets y correo");
     await expect(yesList).toContainText("pierde leads o no tiene web");
     await expect(yesList).toContainText("tiempo ahorrado y más ventas");
     await expect(yesList).toContainText("consultorios, estética, psicología, abogados, contadores");
+    await expect(yesList).toContainText(
+      "Creadores, expertos y formadores con una comunidad o conocimientos especializados"
+    );
     const no = page.getByRole("heading", { level: 3, name: "No es para ti si" });
     await expect(no).toHaveCount(1);
     const noList = no.locator("xpath=following-sibling::ul[1]");
-    await expect(noList.locator("li")).toHaveCount(4);
-    await expect(noList).toContainText("etapa de idea y todavía no vende");
+    await expect(noList.locator("li")).toHaveCount(3);
+    await expect(noList).not.toContainText("etapa de idea");
     await expect(noList).toContainText("más de 10 personas");
     await expect(noList).toContainText("van a Lúmina W");
     await expect(noList).toContainText("pentest certificado o una certificación de cumplimiento");
@@ -359,13 +372,16 @@ test.describe("positioning of the 2026 plan", () => {
     await page.goto("/en/services/");
     const yes = page.getByRole("heading", { level: 3, name: "I work best with" });
     const yesList = yes.locator("xpath=following-sibling::ul[1]");
-    await expect(yesList.locator("li")).toHaveCount(5);
+    await expect(yesList.locator("li")).toHaveCount(6);
     await expect(yesList).toContainText("1 to 10 people) that already sell and have customers");
     await expect(yesList).toContainText("clinics, beauty, psychology, lawyers, accountants");
+    await expect(yesList).toContainText(
+      "Creators, experts and trainers with a community or specialized knowledge"
+    );
     const no = page.getByRole("heading", { level: 3, name: "Not the right fit if" });
     const noList = no.locator("xpath=following-sibling::ul[1]");
-    await expect(noList.locator("li")).toHaveCount(4);
-    await expect(noList).toContainText("idea stage and does not sell yet");
+    await expect(noList.locator("li")).toHaveCount(3);
+    await expect(noList).not.toContainText("idea stage");
     await expect(noList).toContainText("those projects go to Lúmina W");
     await expect(noList).toContainText("certified pentest or a compliance certification");
     await expect(noList).toContainText("daily social media management or a marketing agency");

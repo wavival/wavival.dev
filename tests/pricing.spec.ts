@@ -27,14 +27,16 @@ test.describe("pricing catalog", () => {
     for (const price of PRICES) {
       expect(SERVICE_IDS, price.id).toContain(price.service);
     }
-    expect(SERVICE_IDS).toHaveLength(11);
+    expect(SERVICE_IDS).toHaveLength(13);
     expect(pricesForService("monthly-support").map((price) => price.id)).toEqual([
       "monthly-support-basic",
       "monthly-support-plus",
     ]);
-    for (const service of SERVICE_IDS) {
+    // Every service publishes a price except the launch strategy, which is quoted per scope.
+    for (const service of SERVICE_IDS.filter((id) => id !== "digital-launch-strategy")) {
       expect(pricesForService(service).length, service).toBeGreaterThan(0);
     }
+    expect(pricesForService("digital-launch-strategy")).toEqual([]);
   });
 
   test("the plan amounts", () => {
@@ -46,21 +48,25 @@ test.describe("pricing catalog", () => {
       "ai-chatbot": [4_500_000, 1_500],
       "custom-web-app-mvp": [16_000_000, 5_500],
       "ai-integration": [4_000_000, 1_300],
-      "basic-security-review": [2_000_000, 650],
-      "monthly-support-basic": [280_000, 90],
-      "monthly-support-plus": [650_000, 200],
+      "digital-offer-strategy": [1_500_000, 500],
       "digital-presence-kit": [2_900_000, 950],
       "time-saver-kit": [7_500_000, 2_500],
       "monthly-seo": [1_200_000, 400],
+      "basic-security-review": [2_000_000, 650],
+      "monthly-support-basic": [280_000, 90],
+      "monthly-support-plus": [650_000, 200],
     });
   });
 
-  test("only the MVP is a starting price, three plans are monthly, one is per workflow", () => {
-    expect(PRICES.filter((p) => p.from).map((p) => p.id)).toEqual(["custom-web-app-mvp"]);
+  test("the MVP and the offer strategy are starting prices, three plans are monthly, one is per workflow", () => {
+    expect(PRICES.filter((p) => p.from).map((p) => p.id)).toEqual([
+      "custom-web-app-mvp",
+      "digital-offer-strategy",
+    ]);
     expect(PRICES.filter((p) => p.monthly).map((p) => p.id)).toEqual([
+      "monthly-seo",
       "monthly-support-basic",
       "monthly-support-plus",
-      "monthly-seo",
     ]);
     expect(PRICES.filter((p) => p.unit).map((p) => p.id)).toEqual(["n8n-automation"]);
     expect(priceById("monthly-seo").developmentClientsOnly).toBe(true);
@@ -89,8 +95,8 @@ test.describe("pricing catalog", () => {
       });
     }
     expect(priced[0].bounds).toEqual({
-      COP: { min: 1_600_000, max: 3_000_000 },
-      USD: { min: 550, max: 1_000 },
+      COP: { min: 1_500_000, max: 3_000_000 },
+      USD: { min: 500, max: 1_000 },
     });
     expect(BUDGET_RANGES.filter((range) => !range.bounds).map((range) => range.id)).toEqual([
       "monthly-plan-only",
@@ -111,9 +117,11 @@ test.describe("price formatting", () => {
     expect(formatPrice("business-website", "USD", "es")).toBe("USD 1.800");
   });
 
-  test("'desde' only on the MVP, 'al mes' on monthly plans, 'por flujo' on n8n", () => {
+  test("'desde' on the MVP and the offer strategy, 'al mes' on monthly plans, 'por flujo' on n8n", () => {
     expect(formatPrice("custom-web-app-mvp", "COP", "es")).toBe("desde COP 16.000.000");
     expect(formatPrice("custom-web-app-mvp", "USD", "en")).toBe("from USD 5,500");
+    expect(formatPrice("digital-offer-strategy", "COP", "es")).toBe("desde COP 1.500.000");
+    expect(formatPrice("digital-offer-strategy", "USD", "en")).toBe("from USD 500");
     expect(formatPrice("monthly-support-basic", "COP", "es")).toBe("COP 280.000 al mes");
     expect(formatPrice("monthly-support-plus", "USD", "en")).toBe("USD 200 per month");
     expect(formatPrice("monthly-seo", "COP", "es")).toBe("COP 1.200.000 al mes");
@@ -122,10 +130,10 @@ test.describe("price formatting", () => {
   });
 
   test("budget range labels in both currencies and languages", () => {
-    expect(budgetRangeLabel("entry", "COP", "es")).toBe("COP 1.600.000 a COP 3.000.000");
+    expect(budgetRangeLabel("entry", "COP", "es")).toBe("COP 1.500.000 a COP 3.000.000");
     expect(budgetRangeLabel("medium", "COP", "es")).toBe("COP 6.000.000 a COP 16.000.000");
     expect(budgetRangeLabel("above-cap", "COP", "es")).toBe("Más de COP 40.000.000");
-    expect(budgetRangeLabel("entry", "USD", "en")).toBe("USD 550 to USD 1,000");
+    expect(budgetRangeLabel("entry", "USD", "en")).toBe("USD 500 to USD 1,000");
     expect(budgetRangeLabel("large", "USD", "en")).toBe("USD 5,500 to USD 12,000");
     expect(budgetRangeLabel("above-cap", "USD", "en")).toBe("More than USD 12,000");
     expect(budgetRangeLabel("monthly-plan-only", "USD", "es")).toBe("Solo plan mensual");

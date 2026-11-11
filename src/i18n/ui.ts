@@ -29,7 +29,7 @@ export const ui = {
     "common.emailAria": "Contactar: enviar correo electrónico a Valentina Ramírez",
     "common.skip": "Saltar al contenido principal",
     "footer.tagline":
-      "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
+      "Desarrolladora de software y estratega digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
     "footer.navHeading": "Navegación",
     "footer.resourcesHeading": "Recursos",
     "footer.repos": "Repositorios",
@@ -70,7 +70,7 @@ export const ui = {
     "common.emailAria": "Contact me: send an email to Valentina Ramírez",
     "common.skip": "Skip to main content",
     "footer.tagline":
-      "Software developer and digital marketer. Tools that save your business time and help it sell.",
+      "Software developer and digital strategist. Tools that save your business time and help it sell.",
     "footer.navHeading": "Navigation",
     "footer.resourcesHeading": "Resources",
     "footer.repos": "Repositories",

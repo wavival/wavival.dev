@@ -30,7 +30,7 @@ interface Props {
 
 const {
   title = "Valentina Ramírez | Software y marketing digital",
-  description = "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y contenido.",
+  description = "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y estrategia digital.",
   image = "/images/profile.webp",
   ogImage,
   ogImageAlt,
@@ -49,8 +49,8 @@ const ogLocale = lang === "en" ? "en_US" : "es_CO";
 const t = useTranslations(lang as Lang);
 const personDescription =
   lang === "en"
-    ? "Software developer and digital marketer. I help entrepreneurs save time and sell more with secure software, AI and content. Founder of Lúmina W (luminaw.co)."
-    : "Desarrolladora de software y marketing digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software seguro, IA y contenido. Fundadora de Lúmina W (luminaw.co).";
+    ? "Software developer and digital strategist. I help entrepreneurs save time and sell more with software, AI and digital strategy, and creators structure and launch their offer. Founder of Lúmina W (luminaw.co)."
+    : "Desarrolladora de software y estratega digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software, IA y estrategia digital, y a creadores a estructurar y lanzar su oferta. Fundadora de Lúmina W (luminaw.co).";
 
 const site = "https://www.wavival.dev";
 // The `/cop/` currency variant of a page shares its public URL (canonical, hreflang, Open Graph).
@@ -67,8 +67,8 @@ const socialCardType = (ogImage ?? defaultSocialCard).endsWith(".webp")
 const socialCardAlt =
   ogImageAlt ??
   (lang === "en"
-    ? "Valentina Ramírez (@wavival): I build digital products. From an idea to something people can actually use."
-    : "Valentina Ramírez (@wavival): Creo productos digitales. De una idea a algo que las personas pueden usar.");
+    ? "Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev"
+    : "Software y marketing digital para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender. Valentina Ramírez · @wavival · wavival.dev");
 
 const UMAMI_SRC = import.meta.env.PUBLIC_UMAMI_SRC;
 const UMAMI_ID = import.meta.env.PUBLIC_UMAMI_ID;
@@ -89,14 +89,14 @@ const jsonLd = JSON.stringify({
         height: 640,
         caption: "Valentina Ramírez",
       },
-      jobTitle: "Software Developer and Digital Marketer",
+      jobTitle: "Software Developer and Digital Strategist",
       email: "wavival.dev@luminaw.co",
       description: personDescription,
       knowsAbout: [
         "Software Development",
         "Digital Marketing",
+        "Digital Strategy",
         "Social Media Marketing",
-        "Content Creation",
         "Backend Development",
         "Django",
         "Django REST Framework",
@@ -112,7 +112,6 @@ const jsonLd = JSON.stringify({
         "Application Security",
         "OWASP",
         "Digital marketing",
-        "Content creation",
       ],
       knowsLanguage: ["es", "en"],
       nationality: { "@type": "Country", name: "Colombia" },
