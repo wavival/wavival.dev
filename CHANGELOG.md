@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `commit-lint.yml` also runs on pull requests into `dev`, `stg` and `main`. A pull request merged into `dev` by `auto-merge-dev.yml` is pushed with the Actions token, which starts no workflow, so the head of `dev` never got the required commit lint check and the `dev` to `stg` promotion could not merge. `docs/engineering.md` explains it.
 
+### Changed
+
+- `docs/ROADMAP.md`: new pending section "Alineación de marca con Instagram (pendiente)" to align the site with the Instagram and TikTok profile (`@wavival_dev`), with the current Instagram bio and the inventory of affected files.
+
 ## [5.0.0] - 2026-11-10
 
 ### Added
