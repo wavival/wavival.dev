@@ -115,9 +115,9 @@ const marketingAndContent: StackCategory = {
     "ElevenLabs",
     "Higgsfield",
   ],
-  why: "Formación en marketing y redes sociales en Platzi y práctica como estratega digital en Instagram y TikTok. Canva y CapCut para piezas y video, ElevenLabs e Higgsfield para audio y video con IA: el mismo contenido con el que muestro en público cómo construyo.",
+  why: "Formación en marketing y redes sociales en Platzi y práctica como estratega digital en Instagram y TikTok. Canva y CapCut para piezas y video, ElevenLabs e Higgsfield para audio y video con IA: los mismos recursos con los que muestro en público cómo construyo.",
   whyEn:
-    "Marketing and social media training at Platzi and hands-on practice as a digital strategist on Instagram and TikTok. Canva and CapCut for pieces and video, ElevenLabs and Higgsfield for AI audio and video: the same content I use to show in public how I build.",
+    "Marketing and social media training at Platzi and hands-on practice as a digital strategist on Instagram and TikTok. Canva and CapCut for pieces and video, ElevenLabs and Higgsfield for AI audio and video: the same assets I use to show in public how I build.",
 };
 
 const frontendAndUx: StackCategory = {
