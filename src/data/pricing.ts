@@ -187,7 +187,7 @@ export interface BudgetRange {
 export const BUDGET_RANGES: readonly BudgetRange[] = [
   {
     id: "entry",
-    bounds: { COP: { min: 1_600_000, max: 3_000_000 }, USD: { min: 550, max: 1_000 } },
+    bounds: { COP: { min: 1_500_000, max: 3_000_000 }, USD: { min: 500, max: 1_000 } },
   },
   {
     id: "small",

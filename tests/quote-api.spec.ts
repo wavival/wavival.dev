@@ -180,7 +180,7 @@ test.describe("quote api storage and notification", () => {
       expect(recorded.brevo).toHaveLength(1);
       const html = htmlOf(recorded.brevo[0]);
       expect(html).toContain("Landing page de conversión");
-      expect(html).toContain("COP 1.600.000 a COP 3.000.000");
+      expect(html).toContain("COP 1.500.000 a COP 3.000.000");
       expect(html).toContain("Guardado en base de datos");
       expect(html).toMatch(/Guardado en base de datos<\/td><td[^>]*>sí</);
     });

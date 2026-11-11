@@ -95,8 +95,8 @@ test.describe("pricing catalog", () => {
       });
     }
     expect(priced[0].bounds).toEqual({
-      COP: { min: 1_600_000, max: 3_000_000 },
-      USD: { min: 550, max: 1_000 },
+      COP: { min: 1_500_000, max: 3_000_000 },
+      USD: { min: 500, max: 1_000 },
     });
     expect(BUDGET_RANGES.filter((range) => !range.bounds).map((range) => range.id)).toEqual([
       "monthly-plan-only",
@@ -130,10 +130,10 @@ test.describe("price formatting", () => {
   });
 
   test("budget range labels in both currencies and languages", () => {
-    expect(budgetRangeLabel("entry", "COP", "es")).toBe("COP 1.600.000 a COP 3.000.000");
+    expect(budgetRangeLabel("entry", "COP", "es")).toBe("COP 1.500.000 a COP 3.000.000");
     expect(budgetRangeLabel("medium", "COP", "es")).toBe("COP 6.000.000 a COP 16.000.000");
     expect(budgetRangeLabel("above-cap", "COP", "es")).toBe("Más de COP 40.000.000");
-    expect(budgetRangeLabel("entry", "USD", "en")).toBe("USD 550 to USD 1,000");
+    expect(budgetRangeLabel("entry", "USD", "en")).toBe("USD 500 to USD 1,000");
     expect(budgetRangeLabel("large", "USD", "en")).toBe("USD 5,500 to USD 12,000");
     expect(budgetRangeLabel("above-cap", "USD", "en")).toBe("More than USD 12,000");
     expect(budgetRangeLabel("monthly-plan-only", "USD", "es")).toBe("Solo plan mensual");

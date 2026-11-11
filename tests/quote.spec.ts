@@ -135,7 +135,7 @@ test.describe("quote form", () => {
     }
     await page.goto("/cotizar");
     await expect(page.locator('select[name="budgetRange"] option:not([value=""])')).toHaveText([
-      "USD 550 a USD 1.000",
+      "USD 500 a USD 1.000",
       "USD 1.000 a USD 2.000",
       "USD 2.000 a USD 5.500",
       "USD 5.500 a USD 12.000",
@@ -157,7 +157,7 @@ test.describe("quote form", () => {
     }
     await page.goto("/cop/en/quote");
     await expect(page.locator('select[name="budgetRange"] option:not([value=""])')).toHaveText([
-      "COP 1,600,000 to COP 3,000,000",
+      "COP 1,500,000 to COP 3,000,000",
       "COP 3,000,000 to COP 6,000,000",
       "COP 6,000,000 to COP 16,000,000",
       "COP 16,000,000 to COP 40,000,000",
