@@ -1,6 +1,6 @@
 # Engineering practices
 
-> Last updated: 2026-11-10
+> Last updated: 2026-11-11
 
 How work is done in this repository. Operational rules for agents are in [`../AGENTS.md`](../AGENTS.md); this document is the human-readable version with the reasons and the commands.
 
@@ -16,7 +16,7 @@ How work is done in this repository. Operational rules for agents are in [`../AG
 
 - Conventional Commits, `type(scope): message`, scope required. Scopes: `api`, `ui`, `db`, `auth`, `ci`, `deploy`, `docs`, `config`, `tests`, `security`, `deps`, `core`, `seo`, `a11y` (`commitlint.config.cjs`).
 - Plain ASCII punctuation: no em dashes, en dashes or decorative icons in text, buttons and links.
-- Hooks: `pre-commit` runs `lint-staged` (ESLint and Prettier on staged files); `commit-msg` runs commitlint, then `~/.claude/git-hooks/commit-msg` when that executable exists on the machine. In CI, `commit-lint.yml` checks commit messages on every push.
+- Hooks: `pre-commit` runs `lint-staged` (ESLint and Prettier on staged files); `commit-msg` runs commitlint, then `~/.claude/git-hooks/commit-msg` when that executable exists on the machine. In CI, `commit-lint.yml` checks commit messages on every push and on every pull request into `dev`, `stg` or `main`. The pull request run matters for promotions: a merge made by `auto-merge-dev.yml` pushes with the Actions token, which starts no workflow, so without it the head of `dev` has no commit lint check and the `dev` to `stg` pull request cannot merge.
 
 ## Code
 

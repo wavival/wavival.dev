@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docs/brand.md`: the role includes digital strategy (offer and launch strategy), creators, experts and trainers are a second audience of the services, and the default social cards are described with their real text.
 - `docs/commercial.md` (catalog, currency rule, ideal client, services intro, published process and a recorded decision), `COMPONENTS.md`, `docs/seo.md` and `llms-full.txt` describe the new catalog.
 
+### Fixed
+
+- `commit-lint.yml` also runs on pull requests into `dev`, `stg` and `main`. A pull request merged into `dev` by `auto-merge-dev.yml` is pushed with the Actions token, which starts no workflow, so the head of `dev` never got the required commit lint check and the `dev` to `stg` promotion could not merge. `docs/engineering.md` explains it.
+
 ## [5.0.0] - 2026-11-10
 
 ### Added
