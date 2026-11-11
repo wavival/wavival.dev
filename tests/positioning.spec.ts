@@ -349,8 +349,8 @@ test.describe("positioning of the 2026 plan", () => {
     const no = page.getByRole("heading", { level: 3, name: "No es para ti si" });
     await expect(no).toHaveCount(1);
     const noList = no.locator("xpath=following-sibling::ul[1]");
-    await expect(noList.locator("li")).toHaveCount(4);
-    await expect(noList).toContainText("etapa de idea y todavía no vende");
+    await expect(noList.locator("li")).toHaveCount(3);
+    await expect(noList).not.toContainText("etapa de idea");
     await expect(noList).toContainText("más de 10 personas");
     await expect(noList).toContainText("van a Lúmina W");
     await expect(noList).toContainText("pentest certificado o una certificación de cumplimiento");
@@ -370,8 +370,8 @@ test.describe("positioning of the 2026 plan", () => {
     );
     const no = page.getByRole("heading", { level: 3, name: "Not the right fit if" });
     const noList = no.locator("xpath=following-sibling::ul[1]");
-    await expect(noList.locator("li")).toHaveCount(4);
-    await expect(noList).toContainText("idea stage and does not sell yet");
+    await expect(noList.locator("li")).toHaveCount(3);
+    await expect(noList).not.toContainText("idea stage");
     await expect(noList).toContainText("those projects go to Lúmina W");
     await expect(noList).toContainText("certified pentest or a compliance certification");
     await expect(noList).toContainText("daily social media management or a marketing agency");

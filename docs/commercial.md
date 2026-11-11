@@ -106,7 +106,6 @@ Trabajo mejor con:
 
 No es para ti si:
 
-- El negocio está en etapa de idea y todavía no vende.
 - El equipo tiene más de 10 personas, o el proyecto necesita un equipo o supera el umbral de `THRESHOLDS.luminawReferral` en `src/data/pricing.ts`: esos proyectos van a Lúmina W.
 - Se busca un pentest certificado o una certificación de cumplimiento.
 - Se busca manejo diario de redes o una agencia de marketing.
