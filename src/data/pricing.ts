@@ -15,11 +15,13 @@ export const SERVICE_IDS = [
   "ai-chatbot",
   "custom-web-app-mvp",
   "ai-integration",
-  "basic-security-review",
-  "monthly-support",
+  "digital-offer-strategy",
+  "digital-launch-strategy",
   "digital-presence-kit",
   "time-saver-kit",
   "monthly-seo",
+  "basic-security-review",
+  "monthly-support",
 ] as const;
 
 export type ServiceId = (typeof SERVICE_IDS)[number];
@@ -31,12 +33,13 @@ export const PRICE_IDS = [
   "ai-chatbot",
   "custom-web-app-mvp",
   "ai-integration",
-  "basic-security-review",
-  "monthly-support-basic",
-  "monthly-support-plus",
+  "digital-offer-strategy",
   "digital-presence-kit",
   "time-saver-kit",
   "monthly-seo",
+  "basic-security-review",
+  "monthly-support-basic",
+  "monthly-support-plus",
 ] as const;
 
 export type PriceId = (typeof PRICE_IDS)[number];
@@ -45,7 +48,7 @@ export interface Price {
   id: PriceId;
   service: ServiceId;
   amount: Money;
-  /** The amount is a starting point ("desde"). Only the MVP. */
+  /** The amount is a starting point ("desde"): the MVP and the digital offer strategy. */
   from?: true;
   /** Recurring monthly plan. */
   monthly?: true;
@@ -73,6 +76,25 @@ export const PRICES: readonly Price[] = [
   },
   { id: "ai-integration", service: "ai-integration", amount: { COP: 4_000_000, USD: 1_300 } },
   {
+    id: "digital-offer-strategy",
+    service: "digital-offer-strategy",
+    amount: { COP: 1_500_000, USD: 500 },
+    from: true,
+  },
+  {
+    id: "digital-presence-kit",
+    service: "digital-presence-kit",
+    amount: { COP: 2_900_000, USD: 950 },
+  },
+  { id: "time-saver-kit", service: "time-saver-kit", amount: { COP: 7_500_000, USD: 2_500 } },
+  {
+    id: "monthly-seo",
+    service: "monthly-seo",
+    amount: { COP: 1_200_000, USD: 400 },
+    monthly: true,
+    developmentClientsOnly: true,
+  },
+  {
     id: "basic-security-review",
     service: "basic-security-review",
     amount: { COP: 2_000_000, USD: 650 },
@@ -88,19 +110,6 @@ export const PRICES: readonly Price[] = [
     service: "monthly-support",
     amount: { COP: 650_000, USD: 200 },
     monthly: true,
-  },
-  {
-    id: "digital-presence-kit",
-    service: "digital-presence-kit",
-    amount: { COP: 2_900_000, USD: 950 },
-  },
-  { id: "time-saver-kit", service: "time-saver-kit", amount: { COP: 7_500_000, USD: 2_500 } },
-  {
-    id: "monthly-seo",
-    service: "monthly-seo",
-    amount: { COP: 1_200_000, USD: 400 },
-    monthly: true,
-    developmentClientsOnly: true,
   },
 ];
 
@@ -178,7 +187,7 @@ export interface BudgetRange {
 export const BUDGET_RANGES: readonly BudgetRange[] = [
   {
     id: "entry",
-    bounds: { COP: { min: 1_600_000, max: 3_000_000 }, USD: { min: 550, max: 1_000 } },
+    bounds: { COP: { min: 1_500_000, max: 3_000_000 }, USD: { min: 500, max: 1_000 } },
   },
   {
     id: "small",

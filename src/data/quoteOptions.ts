@@ -1,5 +1,5 @@
 // Closed lists of the quote form, shared by the pages, the form script and
-// `api/quote.ts`. The services are the eleven ids of `src/data/pricing.ts`
+// `api/quote.ts`. The services are the thirteen ids of `src/data/pricing.ts`
 // (the support plan is one option) plus the backend block for technical teams.
 // Free of Astro imports so the Vercel Function can bundle it.
 

@@ -19,10 +19,11 @@ import {
 import type { Lang } from "../src/i18n/ui";
 import { COP_VARIANT_PREFIX, PRICED_ROUTES, type Currency } from "../src/utils/currency";
 
-// The services catalog of the 2026 plan: eleven services in three groups, each
-// with its price (from `src/data/pricing.ts`, in the currency of the page
-// variant), timeline, inclusions and exclusions, plus the general exclusions
-// and the block for technical teams. Checked in both languages and currencies.
+// The services catalog: thirteen services in three groups (development, digital
+// marketing, complementary), each with its price (from `src/data/pricing.ts`, in
+// the currency of the page variant) or its custom-quote label, timeline,
+// inclusions and exclusions, plus the general exclusions and the block for
+// technical teams. Checked in both languages and currencies.
 
 const PAGES: { lang: Lang; path: string; quote: string }[] = [
   { lang: "es", path: "/servicios", quote: "/cotizar" },
@@ -38,6 +39,7 @@ const VARIANTS: { currency: Currency; prefix: string }[] = [
 const words = {
   from: { es: "desde", en: "from" },
   perMonth: { es: "al mes", en: "per month" },
+  customQuote: { es: "Cotización personalizada", en: "Custom quote" },
 } as const;
 
 const banners = {
@@ -45,23 +47,31 @@ const banners = {
     es: "Desarrollo: landing pages, sitios web, automatizaciones, chatbots y apps a medida",
     en: "Development: landing pages, websites, automations, chatbots and custom apps",
   },
+  marketing: {
+    es: "Marketing digital: estrategia de oferta y lanzamientos, presencia digital y posicionamiento",
+    en: "Digital marketing: offer and launch strategy, digital presence and SEO",
+  },
   complementary: {
     es: "Complementarios: revisión de seguridad y soporte mensual",
     en: "Complementary: security review and monthly support",
-  },
-  marketing: {
-    es: "Paquetes con marketing: software y presencia digital",
-    en: "Packages with marketing: software and digital presence",
   },
 } as const;
 
 const groupLayout = {
   development: {
     eyebrow: { es: "DESARROLLO", en: "DEVELOPMENT" },
-    title: { es: "Catálogo de desarrollo", en: "Development catalog" },
+    title: { es: "Desarrollo de software", en: "Software development" },
     description: {
       es: "Landing pages, sitios, automatizaciones, chatbots y apps para convertir tareas manuales en software que mueve tu negocio.",
       en: "Landing pages, websites, automations, chatbots and apps that turn manual work into software that drives your business.",
+    },
+  },
+  marketing: {
+    eyebrow: { es: "MARKETING", en: "MARKETING" },
+    title: { es: "Marketing digital", en: "Digital marketing" },
+    description: {
+      es: "Estrategia de oferta y de lanzamientos, presencia digital y posicionamiento para que lo que ofreces llegue a quien lo necesita y se venda.",
+      en: "Offer and launch strategy, digital presence and SEO so that what you offer reaches the people who need it and sells.",
     },
   },
   complementary: {
@@ -72,15 +82,15 @@ const groupLayout = {
       en: "A review to find what could fail and support to keep what already works working.",
     },
   },
-  marketing: {
-    eyebrow: { es: "MARKETING", en: "MARKETING" },
-    title: { es: "Paquetes con marketing", en: "Packages with marketing" },
-    description: {
-      es: "El marketing solo se vende dentro de un paquete o a clientes de desarrollo. Va incluido para que lo que construimos también traiga clientes.",
-      en: "Marketing is sold only inside a package or to development clients. It is included so that what we build also brings in customers.",
-    },
-  },
 } as const;
+
+/** The price ids a service publishes: its tiers, its single price, or none for a custom quote. */
+const priceIdsOf = (service: (typeof SERVICES)[number]) =>
+  service.tiers
+    ? service.tiers.map((tier) => tier.priceId)
+    : service.priceId
+      ? [service.priceId]
+      : [];
 
 /** Every text node of the page, visible or not, without scripts and styles. */
 const pageText = (page: Page) =>
@@ -103,17 +113,24 @@ test.describe("services catalog", () => {
     expect(SERVICES.map((service) => service.id)).toEqual([...SERVICE_IDS]);
     expect(SERVICE_GROUPS.map((group) => group.id)).toEqual([
       "development",
-      "complementary",
       "marketing",
+      "complementary",
     ]);
     for (const service of SERVICES) {
-      const priceIds = service.tiers
-        ? service.tiers.map((tier) => tier.priceId)
-        : [service.priceId];
-      expect(priceIds, service.id).toEqual(
+      expect(priceIdsOf(service), service.id).toEqual(
         PRICES.filter((price) => price.service === service.id).map((price) => price.id)
       );
     }
+    expect(SERVICES.filter((service) => service.customQuote).map((service) => service.id)).toEqual([
+      "digital-launch-strategy",
+    ]);
+    expect(servicesInGroup("marketing").map((service) => service.id)).toEqual([
+      "digital-offer-strategy",
+      "digital-launch-strategy",
+      "digital-presence-kit",
+      "time-saver-kit",
+      "monthly-seo",
+    ]);
   });
 
   test("the Time Saver Kit saving is computed from the pricing source", () => {
@@ -132,7 +149,7 @@ test.describe("services catalog", () => {
     for (const { currency, prefix } of VARIANTS) {
       const url = `${prefix}${path}`;
 
-      test(`${url}: the eleven services show name, price in ${currency}, timeline, inclusions and exclusions`, async ({
+      test(`${url}: the thirteen services show name, price in ${currency}, timeline, inclusions and exclusions`, async ({
         page,
       }) => {
         await page.goto(url);
@@ -148,10 +165,14 @@ test.describe("services catalog", () => {
           await expect(article.getByText(service.timeline[lang], { exact: true })).toBeVisible();
 
           const prices = article.locator("[data-price]");
-          const expected = service.tiers
-            ? service.tiers.map((tier) => tier.priceId)
-            : [service.priceId!];
+          const expected = priceIdsOf(service);
           await expect(prices).toHaveCount(expected.length);
+          await expect(article.locator("[data-price-custom]")).toHaveText(
+            service.customQuote ? [words.customQuote[lang]] : []
+          );
+          if (service.badge) {
+            await expect(article.getByText(service.badge[lang], { exact: true })).toBeVisible();
+          }
           for (const [i, id] of expected.entries()) {
             await expect(prices.nth(i)).toHaveAttribute("data-currency", currency);
             await expect(prices.nth(i)).toHaveText(formatPrice(id, currency, lang));
@@ -256,7 +277,7 @@ test.describe("services catalog", () => {
         ).toBe(true);
       });
 
-      test(`${url}: "${words.from[lang]}" only on the MVP and "${words.perMonth[lang]}" only on the monthly plans`, async ({
+      test(`${url}: "${words.from[lang]}" only on the MVP and the offer strategy, "${words.perMonth[lang]}" only on the monthly plans`, async ({
         page,
       }) => {
         await page.goto(url);
@@ -266,15 +287,15 @@ test.describe("services catalog", () => {
             els.map((el) => [el.dataset.price ?? "", el.textContent ?? ""] as const)
           );
         const from = prices.filter(([, text]) => text.startsWith(`${words.from[lang]} `));
-        expect(from.map(([id]) => id)).toEqual(["custom-web-app-mvp"]);
+        expect(from.map(([id]) => id)).toEqual(["custom-web-app-mvp", "digital-offer-strategy"]);
         const monthly = prices.filter(([, text]) => text.endsWith(` ${words.perMonth[lang]}`));
         expect(monthly.map(([id]) => id)).toEqual([
+          "monthly-seo",
           "monthly-support-basic",
           "monthly-support-plus",
-          "monthly-seo",
         ]);
         const text = await pageText(page);
-        expect(text.match(new RegExp(`\\b${words.from[lang]} (COP|USD)`, "g"))).toHaveLength(1);
+        expect(text.match(new RegExp(`\\b${words.from[lang]} (COP|USD)`, "g"))).toHaveLength(2);
       });
 
       test(`${url}: the MVP note and the kit saving use the ${currency} figures`, async ({
@@ -324,17 +345,25 @@ test.describe("services catalog", () => {
       expect(ld.serviceType).toEqual(SERVICES.map((service) => service.title[lang]));
       interface Offer {
         name: string;
-        priceCurrency: Currency;
-        priceSpecification: { price?: number; minPrice?: number; unitCode?: string };
+        description?: string;
+        priceCurrency?: Currency;
+        priceSpecification?: { price?: number; minPrice?: number; unitCode?: string };
         eligibleRegion?: { identifier: string };
         ineligibleRegion?: { identifier: string };
       }
       const offers = ld.hasOfferCatalog.itemListElement as Offer[];
-      expect(offers).toHaveLength(PRICES.length * 2);
+      expect(offers).toHaveLength(PRICES.length * 2 + 1);
       expect(ld.hasOfferCatalog.description).toMatch(/Colombia/);
 
+      const custom = offers.filter((offer) => !offer.priceCurrency);
+      expect(custom.map((offer) => offer.name)).toEqual([
+        SERVICES.find((service) => service.customQuote)!.title[lang],
+      ]);
+      expect(custom[0].description).toBe(words.customQuote[lang]);
+      expect(custom[0].priceSpecification).toBeUndefined();
+
       const amount = (offer: Offer) =>
-        offer.priceSpecification.price ?? offer.priceSpecification.minPrice;
+        offer.priceSpecification?.price ?? offer.priceSpecification?.minPrice;
       const cop = offers.filter((offer) => offer.priceCurrency === "COP");
       const usd = offers.filter((offer) => offer.priceCurrency === "USD");
       expect(cop).toHaveLength(PRICES.length);
@@ -345,11 +374,11 @@ test.describe("services catalog", () => {
       expect(usd.map(amount)).toEqual(PRICES.map((price) => price.amount.USD));
 
       const mvp = offers.filter((offer) => /MVP/.test(offer.name));
-      expect(mvp.map((offer) => offer.priceSpecification.minPrice)).toEqual([
+      expect(mvp.map((offer) => offer.priceSpecification?.minPrice)).toEqual([
         priceById("custom-web-app-mvp").amount.COP,
         priceById("custom-web-app-mvp").amount.USD,
       ]);
-      const monthly = offers.filter((offer) => offer.priceSpecification.unitCode === "MON");
+      const monthly = offers.filter((offer) => offer.priceSpecification?.unitCode === "MON");
       expect(monthly).toHaveLength(6);
     });
   }
