@@ -92,6 +92,13 @@ const priceIdsOf = (service: (typeof SERVICES)[number]) =>
       ? [service.priceId]
       : [];
 
+/** The id of each group section, the hash that opens it: `/servicios#desarrollo`, `/en/services#development`. */
+const anchors = {
+  development: { es: "desarrollo", en: "development" },
+  marketing: { es: "marketing", en: "marketing" },
+  complementary: { es: "complementarios", en: "complementary" },
+} as const;
+
 /** Every text node of the page, visible or not, without scripts and styles. */
 const pageText = (page: Page) =>
   page.evaluate(() => {
@@ -234,6 +241,30 @@ test.describe("services catalog", () => {
               );
             })
           ).toBe(true);
+        }
+      });
+
+      test(`${url}: each service group has a hash that opens it below the header`, async ({
+        page,
+      }) => {
+        for (const group of SERVICE_GROUPS) {
+          const anchor = anchors[group.id][lang];
+          const section = page.locator(`[data-service-group="${group.id}"]`);
+          // A fresh load per hash, as when a visitor opens the link.
+          await page.goto("about:blank");
+          await page.goto(`${url}#${anchor}`);
+          await expect(section).toHaveAttribute("id", anchor);
+          // The page scrolls smoothly to the hash and stops below the 64px header
+          // (`scroll-padding-top` in global.css).
+          await expect
+            .poll(() =>
+              section.evaluate((element) => {
+                const top = element.getBoundingClientRect().top;
+                return top >= 64 && top < 200;
+              })
+            )
+            .toBe(true);
+          await expect(section.getByRole("heading", { level: 2 })).toBeInViewport();
         }
       });
 
