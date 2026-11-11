@@ -43,8 +43,11 @@ const serviceBanners = {
     en: "Complementary: security review and monthly support",
   },
 } as const;
+// `anchor` is the id of each group section, so `/servicios#desarrollo` or
+// `/en/services#development` opens that group directly.
 const groupLayout = {
   development: {
+    anchor: { es: "desarrollo", en: "development" },
     eyebrow: { es: "DESARROLLO", en: "DEVELOPMENT" },
     title: { es: "Desarrollo de software", en: "Software development" },
     description: {
@@ -53,6 +56,7 @@ const groupLayout = {
     },
   },
   marketing: {
+    anchor: { es: "marketing", en: "marketing" },
     eyebrow: { es: "MARKETING", en: "MARKETING" },
     title: { es: "Marketing digital", en: "Digital marketing" },
     description: {
@@ -61,6 +65,7 @@ const groupLayout = {
     },
   },
   complementary: {
+    anchor: { es: "complementarios", en: "complementary" },
     eyebrow: { es: "COMPLEMENTARIOS", en: "COMPLEMENTARY" },
     title: { es: "Seguridad y soporte", en: "Security and support" },
     description: {
@@ -82,6 +87,7 @@ const indexOf = (id: string) =>
 {
   SERVICE_GROUPS.map((group, i) => (
     <StickyContentSection
+      id={groupLayout[group.id].anchor[lang]}
       dataServiceGroup={group.id}
       index={String(i + 1).padStart(2, "0")}
       eyebrow={groupLayout[group.id].eyebrow[lang]}
