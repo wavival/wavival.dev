@@ -1,6 +1,6 @@
 # Marca personal wavival
 
-> Last updated: 2026-11-10
+> Last updated: 2026-11-11
 
 Documento vivo. Verificado contra el código del repositorio en la fecha indicada arriba. Toda afirmación se apoya en un archivo del repositorio (campo "Fuente") o en una decisión registrada en la sección 10. Lo que no se pueda verificar queda como [PENDIENTE].
 
@@ -15,7 +15,7 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público (decisión de la dueña, 2026-11-10): desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital marketer. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
+- Rol público (decisión de la dueña, 2026-11-10): desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital marketer. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es estrategia digital (estrategia de oferta y de lanzamientos digitales), ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
@@ -41,6 +41,8 @@ Audiencia prioritaria V1:
 
 Audiencias secundarias que el sitio ya atiende: equipos que buscan refuerzo backend, API o seguridad; personas técnicas y reclutadoras que revisan el portafolio; comunidad técnica hispanohablante (Django, Next.js, AppSec, IA aplicada).
 
+Segundo público de los servicios (decisión de la dueña, 2026-11-11): creadores, expertos y formadores con una comunidad o conocimientos especializados que necesitan estructurar una oferta educativa o planificar su lanzamiento. Se suma a los emprendedores, que siguen como público principal.
+
 Canales V1:
 
 - Instagram: más personal, visual y cercano.
@@ -63,6 +65,8 @@ Posicionamiento 2026 (desde 2026-11-10): desarrolladora de software y marketing 
 - Backend.
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
+
+Estrategia digital (desde 2026-11-11): la estrategia de oferta digital y la estrategia y acompañamiento de lanzamientos digitales, para creadores, expertos y formadores, se publican en el grupo "Marketing digital" de `/servicios`. En esa página se presenta como "desarrolladora de software y estratega digital". El programa externo en el que se basa el servicio de lanzamientos no se nombra en el sitio.
 
 Title de la home: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores" (EN: "Valentina Ramírez | Secure software and AI automation for entrepreneurs"). Meta description: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público." (EN: "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.").
 
@@ -212,7 +216,7 @@ Fuente única: `src/styles/tokens.css`, `DESIGN.md`, `public/brand/`.
   - Fondo `#f0f4ff` (claro) y `#0f1117` (oscuro).
   - Texto `#1a1a2e` (claro) y `#e8eaf6` (oscuro).
 - Tipografía: Raleway para títulos y etiquetas; Poppins para lectura.
-- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853). Las tarjetas por defecto de la home (`og-card-es.webp`, `og-card-en.webp`) son ilustraciones con el texto "Creo productos digitales. De una idea a algo que las personas pueden usar." (EN: "I build digital products. From an idea to something people can actually use.") y no tienen un script que las regenere.
+- Tarjetas OG en WebP por proyecto (1200x630; Forgotten Portal usa una imagen de laboratorio de 1280x853). Las tarjetas por defecto de la home (`og-card-es.webp`, `og-card-en.webp`) son ilustraciones con el texto "Software y marketing digital para emprendedores" y la línea "Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender." (EN: "Software and digital marketing for entrepreneurs", "Landing pages, websites, chatbots and custom apps that save you time and help you sell."); su texto alternativo por defecto (`Layout.astro`) repite ese texto y no tienen un script que las regenere.
 - Iconografía: SVG decorativos, sin emojis ni flechas decorativas. Excepción decidida por la dueña: la bandera de Colombia junto a "Hecho en Colombia" en el footer (`role="img"`, `aria-label="Colombia"`).
 - Accesibilidad como norma: contraste WCAG AA, foco visible, texto alternativo real en imágenes de contenido.
 
@@ -267,6 +271,7 @@ Uso por terceros de logo, foto y marca: el repositorio licencia el código (MIT)
 
 - Canales V1: Instagram y LinkedIn. Idioma: español.
 - Audiencia prioritaria: personas interesadas en producto y software, y potenciales clientes de wavival y de Lúmina W.
+- Creadores, expertos y formadores: segundo público de los servicios de marketing digital (estrategia de oferta y de lanzamientos), sin reemplazar a los emprendedores (2026-11-11).
 - Lúmina W es una empresa de software. TerraCore y OKroot son sus productos.
 - TerraCore: en producción, en venta activa y en validación con clientes en Antioquia, Colombia; solo Semilla disponible. OKroot: funcional en early access.
 - Los precios de productos no se publican en `wavival.dev` y ninguna pieza de wavival los cita.

@@ -19,7 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Services page intro, title and description: "Construyo tu software y la estrategia para venderlo" / "I build your software and the strategy to sell it", presented as a software developer and digital strategist; title "Servicios: desarrollo de software y marketing digital" / "Services: software development and digital marketing" and a new meta description; the Service JSON-LD name and catalog policy follow.
 - Services FAQ: the groups answer names the new order and says each service shows its price or how it is quoted; the monthly SEO answer says any client can hire the other digital marketing services.
 - Quote form: the lowest budget range starts at COP 1.500.000 / USD 500 (was COP 1.600.000 / USD 550), the starting price of the digital offer strategy (`BUDGET_RANGES` in `src/data/pricing.ts`).
-- `docs/commercial.md` (catalog, currency rule, ideal client, services intro and a recorded decision), `COMPONENTS.md` and `docs/seo.md` describe the new catalog.
+- Services copy beyond the catalog, in both languages: the "Cómo trabajo" / "How I work" steps cover software and strategy ("Entregas iterativas" / "Iterative deliveries" replaces "Build iterativo" / "Iterative build", also on the quote pages), and the FAQ answers "¿Qué necesito para empezar?" and "¿Trabajas con equipos o solo con founders?" include strategy and creators.
+- Contact band (every page) and contact page intro and description: "la estrategia digital para que te encuentren y te compren" / "the digital strategy that gets you found and gets you sales" replaces "el contenido para que te encuentren" / "the content that gets you found", and the band says "precio claro" / "clear pricing" instead of a fixed price.
+- Default social card alt (`Layout.astro`): it now describes the text of `og-card-es.webp` and `og-card-en.webp` ("Software y marketing digital para emprendedores...") instead of an older card text.
+- `docs/brand.md`: the role includes digital strategy (offer and launch strategy), creators, experts and trainers are a second audience of the services, and the default social cards are described with their real text.
+- `docs/commercial.md` (catalog, currency rule, ideal client, services intro, published process and a recorded decision), `COMPONENTS.md`, `docs/seo.md` and `llms-full.txt` describe the new catalog.
 
 ## [5.0.0] - 2026-11-10
 

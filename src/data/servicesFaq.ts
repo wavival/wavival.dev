@@ -111,8 +111,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
     id: "start",
     question: { es: "¿Qué necesito para empezar?", en: "What do I need to get started?" },
     answer: {
-      es: "Tener claro el problema y a quién va dirigido el producto. No necesitas llegar con un PRD (documento de requerimientos de producto: el listado detallado de funciones, flujos y reglas de negocio que define qué debe hacer el software). Eso lo construimos juntos en la propuesta.",
-      en: "A clear idea of the problem and who the product is for. You do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do). We build that together in the proposal.",
+      es: "Tener claro el problema y a quién va dirigido. Para software no necesitas llegar con un PRD (documento de requerimientos de producto: el listado detallado de funciones, flujos y reglas de negocio que define qué debe hacer el software); para una estrategia no necesitas tener la oferta definida. Eso lo construimos juntos en la propuesta.",
+      en: "A clear idea of the problem and who it is for. For software you do not need to arrive with a PRD (product requirements document: the detailed list of features, flows, and business rules that defines what the software should do); for a strategy you do not need a defined offer. We build that together in the proposal.",
     },
   },
   {
@@ -122,8 +122,8 @@ export const SERVICES_FAQ: readonly FaqEntry[] = [
       en: "Do you work with teams or only founders?",
     },
     answer: {
-      es: "Con ambos. Puedo llevar el desarrollo completo como dev única o integrarme a un equipo existente como refuerzo backend, API o seguridad.",
-      en: "Both. I can lead the full development as the sole developer or join an existing team as backend, API, or security support.",
+      es: "Con ambos, y también con creadores y formadores. Puedo llevar el desarrollo completo, integrarme a un equipo como refuerzo backend, API o seguridad, o trabajar contigo la estrategia de tu oferta y tu lanzamiento.",
+      en: "Both, and also with creators and trainers. I can lead the full development, join a team as backend, API, or security support, or work with you on the strategy for your offer and your launch.",
     },
   },
 ];

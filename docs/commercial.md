@@ -71,7 +71,7 @@ Precios: el precio general "desde USD 250 / COP 1.000.000" se retiró del sitio.
 
 Fuente: `src/data/pricing.ts`, `src/utils/currency.ts`, `middleware.ts`.
 
-Proceso publicado: conversación, propuesta, build iterativo, entrega documentada y mantenible.
+Proceso publicado: conversación, propuesta, entregas iterativas y entrega (software en producción, documentado y mantenible, o una estrategia lista para ejecutar).
 
 Producto disponible hoy:
 
