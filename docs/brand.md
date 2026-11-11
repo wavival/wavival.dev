@@ -15,7 +15,7 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público (decisión de la dueña, 2026-11-11): desarrolladora de software y estratega digital, con el software y el marketing digital como sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital strategist. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es estrategia digital (estrategia de oferta y de lanzamientos digitales), ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
+- Rol público (decisión de la dueña, 2026-11-11): desarrolladora de software y estratega digital, con el software y el marketing digital como sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital strategist. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es estrategia digital (estrategia de oferta y de lanzamientos digitales), ventas en redes y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
@@ -68,7 +68,7 @@ Posicionamiento 2026 (desde 2026-11-10; rol actualizado el 2026-11-11): desarrol
 
 Estrategia digital (desde 2026-11-11): la estrategia de oferta digital y la estrategia y acompañamiento de lanzamientos digitales, para creadores, expertos y formadores, se publican en el grupo "Marketing digital" de `/servicios`. Desde ese día el rol "desarrolladora de software y estratega digital" se usa en todo el sitio: servicios, hero, pie, sobre mí, herramientas, datos estructurados y archivos `llms`. El programa externo en el que se basa el servicio de lanzamientos no se nombra en el sitio.
 
-Title de la home: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores" (EN: "Valentina Ramírez | Secure software and AI automation for entrepreneurs"). Meta description: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público." (EN: "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.").
+Title de la home: "Valentina Ramírez | Software y marketing digital" (EN: "Valentina Ramírez | Software and digital marketing"). Meta description: "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y estrategia digital." (EN: "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and digital strategy.").
 
 Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."), seguido de la frase secundaria "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre." (EN: "I build what your business needs and make sure people find it.").
 

@@ -13,7 +13,7 @@ const HOME = {
     path: "/",
     title: "Valentina Ramírez | Software y marketing digital",
     description:
-      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y contenido.",
+      "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y estrategia digital.",
     ogAlt:
       "Software y marketing digital para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender. Valentina Ramírez · @wavival · wavival.dev",
     footer:
@@ -23,7 +23,7 @@ const HOME = {
     path: "/en/",
     title: "Valentina Ramírez | Software and digital marketing",
     description:
-      "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and content.",
+      "I help entrepreneurs save time and sell more with software and digital marketing: landing pages, websites, chatbots, custom apps and digital strategy.",
     ogAlt:
       "Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev",
     footer:
@@ -234,10 +234,12 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/sobre-mi lists the marketing and content training as plain text", async ({ page }) => {
+  test("/sobre-mi lists the marketing and digital strategy training as plain text", async ({
+    page,
+  }) => {
     await page.goto("/sobre-mi/");
     const row = page.locator("[data-marketing-training]");
-    await expect(row).toContainText("Marketing y contenido");
+    await expect(row).toContainText("Marketing y estrategia digital");
     await expect(row).toContainText(
       "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como estratega digital en Instagram y TikTok"
     );
@@ -259,10 +261,12 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/en/about lists the marketing and content training as plain text", async ({ page }) => {
+  test("/en/about lists the marketing and digital strategy training as plain text", async ({
+    page,
+  }) => {
     await page.goto("/en/about/");
     const row = page.locator("[data-marketing-training]");
-    await expect(row).toContainText("Marketing and content");
+    await expect(row).toContainText("Marketing and digital strategy");
     await expect(row).toContainText(
       "Marketing and social media at Platzi, self-taught learning and hands-on practice as a digital strategist on Instagram and TikTok"
     );
@@ -284,11 +288,14 @@ test.describe("positioning of the 2026 plan", () => {
     );
   });
 
-  test("/herramientas shows the marketing and content tools and the recording gear", async ({
+  test("/herramientas shows the marketing and digital strategy tools and the recording gear", async ({
     page,
   }) => {
     await page.goto("/herramientas/");
-    const marketing = page.getByRole("heading", { level: 3, name: "Marketing y contenido" });
+    const marketing = page.getByRole("heading", {
+      level: 3,
+      name: "Marketing y estrategia digital",
+    });
     await expect(marketing).toHaveCount(1);
     const group = marketing.locator("xpath=ancestor::div[contains(@class,'border-b')][1]");
     for (const tool of [
@@ -309,11 +316,14 @@ test.describe("positioning of the 2026 plan", () => {
     await expect(page.getByRole("heading", { level: 3, name: "Equipo Windows" })).toHaveCount(1);
   });
 
-  test("/en/uses shows the marketing and content tools and the recording gear", async ({
+  test("/en/uses shows the marketing and digital strategy tools and the recording gear", async ({
     page,
   }) => {
     await page.goto("/en/uses/");
-    const marketing = page.getByRole("heading", { level: 3, name: "Marketing and content" });
+    const marketing = page.getByRole("heading", {
+      level: 3,
+      name: "Marketing and digital strategy",
+    });
     await expect(marketing).toHaveCount(1);
     const group = marketing.locator("xpath=ancestor::div[contains(@class,'border-b')][1]");
     for (const tool of [

@@ -5,7 +5,7 @@ const CARDS = [
   { title: "Frontend", featured: false },
   { title: "Design & UX", featured: false },
   { title: "AI Integrations", featured: true },
-  { title: "Marketing & Content", featured: true },
+  { title: "Marketing & Strategy", featured: true },
   { title: "Security", featured: false },
 ];
 
@@ -14,7 +14,7 @@ const USES_CARDS = [
   "Frontend & UX",
   "Security",
   "AI Integrations",
-  "Marketing & Content",
+  "Marketing & Strategy",
 ];
 
 const CHIPS = {
@@ -53,7 +53,7 @@ const CHIPS = {
     "Prompt Engineering",
     "n8n",
     "Marketing digital",
-    "Creación de contenido",
+    "Estrategia digital",
     "TikTok",
     "Instagram",
     "CapCut",
@@ -96,7 +96,7 @@ const CHIPS = {
     "Prompt Engineering",
     "n8n",
     "Digital marketing",
-    "Content creation",
+    "Digital strategy",
     "TikTok",
     "Instagram",
     "CapCut",
@@ -164,7 +164,7 @@ test.describe("home stack grid", () => {
       await page.goto(SECURITY[lang].uses);
       const section = page.locator("main section").first();
       const titles = section.locator("h3").filter({
-        hasText: /^(Backend|Frontend & UX|Security|AI Integrations|Marketing & Content)$/,
+        hasText: /^(Backend|Frontend & UX|Security|AI Integrations|Marketing & Strategy)$/,
       });
       await expect(titles).toHaveText(USES_CARDS);
       await expect(section).toContainText(SECURITY[lang].description);

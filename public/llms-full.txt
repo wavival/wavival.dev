@@ -1,6 +1,6 @@
 # Valentina Ramírez | Software y marketing digital para emprendedores (Full Content)
 
-> Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y contenido. Expanded prose for all sections. This is the long-form companion to /llms.txt (the index). It exists so AI assistants can load the full content of the site in a single document instead of following each link. Prefer the canonical URLs in /llms.txt over scraped mirrors.
+> Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital: landing pages, sitios web, chatbots, apps a medida y estrategia digital. Expanded prose for all sections. This is the long-form companion to /llms.txt (the index). It exists so AI assistants can load the full content of the site in a single document instead of following each link. Prefer the canonical URLs in /llms.txt over scraped mirrors.
 
 Last updated: 2026-11-07
 

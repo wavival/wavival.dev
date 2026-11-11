@@ -91,13 +91,13 @@ const aiIntegrations: StackCategory = {
 };
 
 const marketingAndContent: StackCategory = {
-  category: "Marketing & Content",
+  category: "Marketing & Strategy",
   featured: true,
-  description: "Contenido y presencia digital que traen clientes.",
-  descriptionEn: "Content and digital presence that bring in customers.",
+  description: "Estrategia y presencia digital que traen clientes.",
+  descriptionEn: "Strategy and digital presence that bring in customers.",
   tools: [
     "Marketing digital",
-    "Creación de contenido",
+    "Estrategia digital",
     "TikTok",
     "Instagram",
     "CapCut",
@@ -107,7 +107,7 @@ const marketingAndContent: StackCategory = {
   ],
   toolsEn: [
     "Digital marketing",
-    "Content creation",
+    "Digital strategy",
     "TikTok",
     "Instagram",
     "CapCut",
