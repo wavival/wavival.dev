@@ -17,7 +17,7 @@ const HOME = {
     ogAlt:
       "Software y marketing digital para emprendedores. Landing pages, sitios web, chatbots y apps a medida que te ahorran tiempo y te ayudan a vender. Valentina Ramírez · @wavival · wavival.dev",
     footer:
-      "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
+      "Desarrolladora de software y estratega digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender.",
   },
   en: {
     path: "/en/",
@@ -27,7 +27,7 @@ const HOME = {
     ogAlt:
       "Software and digital marketing for entrepreneurs. Landing pages, websites, chatbots and custom apps that save you time and help you sell. Valentina Ramírez · @wavival · wavival.dev",
     footer:
-      "Software developer and digital marketer. Tools that save your business time and help it sell.",
+      "Software developer and digital strategist. Tools that save your business time and help it sell.",
   },
 } as const;
 
@@ -239,7 +239,7 @@ test.describe("positioning of the 2026 plan", () => {
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing y contenido");
     await expect(row).toContainText(
-      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como creadora de contenido en Instagram y TikTok"
+      "Marketing y redes sociales en Platzi, aprendizaje autodidacta y práctica como estratega digital en Instagram y TikTok"
     );
     // The profiles are linked once, as icons in the social row: the education rows are plain text.
     await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);
@@ -264,7 +264,7 @@ test.describe("positioning of the 2026 plan", () => {
     const row = page.locator("[data-marketing-training]");
     await expect(row).toContainText("Marketing and content");
     await expect(row).toContainText(
-      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a content creator on Instagram and TikTok"
+      "Marketing and social media at Platzi, self-taught learning and hands-on practice as a digital strategist on Instagram and TikTok"
     );
     // The profiles are linked once, as icons in the social row: the education rows are plain text.
     await expect(page.locator("[data-parallel-education] a")).toHaveCount(0);

@@ -38,14 +38,15 @@ test.describe("remaining positioning copy", () => {
       const raw = await page.locator('script[type="application/ld+json"]').first().textContent();
       const graph = JSON.parse(raw!)["@graph"] as Array<Record<string, unknown>>;
       const person = graph.find((node) => node["@type"] === "Person")!;
-      expect(person.jobTitle).toBe("Software Developer and Digital Marketer");
+      expect(person.jobTitle).toBe("Software Developer and Digital Strategist");
       expect(person.knowsAbout).toContain("Software Development");
       expect(person.knowsAbout).toContain("Digital Marketing");
+      expect(person.knowsAbout).toContain("Digital Strategy");
       expect(person.knowsAbout).not.toContain("Full Stack Development");
       expect(person.description).toBe(
         lang === "en"
-          ? "Software developer and digital marketer. I help entrepreneurs save time and sell more with secure software, AI and content. Founder of Lúmina W (luminaw.co)."
-          : "Desarrolladora de software y marketing digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software seguro, IA y contenido. Fundadora de Lúmina W (luminaw.co)."
+          ? "Software developer and digital strategist. I help entrepreneurs save time and sell more with software, AI and digital strategy, and creators structure and launch their offer. Founder of Lúmina W (luminaw.co)."
+          : "Desarrolladora de software y estratega digital. Ayudo a emprendedores a ahorrar tiempo y vender más con software, IA y estrategia digital, y a creadores a estructurar y lanzar su oferta. Fundadora de Lúmina W (luminaw.co)."
       );
     }
   });

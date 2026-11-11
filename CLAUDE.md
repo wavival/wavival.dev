@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-> Last updated: 2026-11-10
+> Last updated: 2026-11-11
 
 Guide for Claude Code in this repository. The operational rules live in `AGENTS.md` and are imported here, so there is one source:
 
@@ -8,7 +8,7 @@ Guide for Claude Code in this repository. The operational rules live in `AGENTS.
 
 ## What this repository is
 
-The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` (quotes: validate, accept monthly SEO only from development clients, store in Supabase, email through Brevo) and `api/keepalive.ts` (cron that keeps the database awake) are the Vercel Functions, and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning (since 2026-11-10): software developer and digital marketer, her two strengths, who helps entrepreneurs save time and sell more with software and digital marketing; never a marketing agency or daily social media management. Overview, setup, commands, architecture and routes are in `README.md`.
+The personal portfolio of Valentina Ramírez (wavival): a bilingual Astro 7 static site, Spanish at the root and English under `/en/`, deployed on Vercel. `api/quote.ts` (quotes: validate, accept monthly SEO only from development clients, store in Supabase, email through Brevo) and `api/keepalive.ts` (cron that keeps the database awake) are the Vercel Functions, and `middleware.ts` is the Edge Middleware that picks the currency variant of a priced page by visitor location (prices: `src/data/pricing.ts`). Positioning (since 2026-11-11): software developer and digital strategist, with software and digital marketing as her two strengths, who helps entrepreneurs save time and sell more with software and digital marketing and helps creators, experts and trainers (the second audience of the services) structure and launch their offer; never a marketing agency or daily social media management. Overview, setup, commands, architecture and routes are in `README.md`.
 
 ## Ownership rule
 

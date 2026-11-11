@@ -193,8 +193,8 @@ Reglas:
 
 ### Se pueden afirmar como están publicados
 
-- Desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W, empresa de software. Ayuda a emprendedores a ahorrar tiempo y vender más con software seguro, automatización con IA y contenido para redes. Nunca una agencia de marketing ni manejo diario de redes.
-- Estudia Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi, incluida formación en marketing y redes sociales; creadora de contenido en TikTok (`@wavival_dev`) e Instagram.
+- Desarrolladora de software y estratega digital, con el software y el marketing digital como sus dos fuertes, y fundadora de Lúmina W, empresa de software. Ayuda a emprendedores a ahorrar tiempo y vender más con software, IA y estrategia digital, y a creadores a estructurar y lanzar su oferta. Nunca una agencia de marketing ni manejo diario de redes.
+- Estudia Lengua Inglesa (Universidad de San Buenaventura); aprende en Platzi, incluida formación en marketing y redes sociales; práctica como estratega digital en TikTok (`@wavival_dev`) e Instagram.
 - TerraCore: PWA multitenancy para fincas medianas en Colombia, con roles, funcionamiento sin conexión y exportación CSV. En producción y en validación con clientes en Antioquia, Colombia. Plan Semilla disponible.
 - OKroot: PWA con escáner de etiquetas por IA (Claude API), en early access.
 - NullBreach: app Next.js que analiza código con criterio OWASP mediante OpenAI, con historial por usuario, código abierto.

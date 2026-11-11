@@ -15,18 +15,18 @@ Documento hermano: [commercial.md](./commercial.md).
 ## 1. Quién es
 
 - Nombre: Valentina Ramírez. Marca y handle: wavival (`@wavival`). Dominio: wavival.dev.
-- Rol público (decisión de la dueña, 2026-11-10): desarrolladora de software y marketing digital, sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital marketer. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es estrategia digital (estrategia de oferta y de lanzamientos digitales), ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
+- Rol público (decisión de la dueña, 2026-11-11): desarrolladora de software y estratega digital, con el software y el marketing digital como sus dos fuertes, y fundadora de Lúmina W. En inglés: software developer and digital strategist. El software se sigue construyendo con IA y seguridad desde el diseño (Django, React); el marketing es estrategia digital (estrategia de oferta y de lanzamientos digitales), ventas en redes, creación de contenido y marketing digital. wavival nunca se presenta como agencia de marketing ni ofrece manejo diario de redes.
 - Ubicación pública: Colombia. Coordinación en horario COT (UTC-5). No se publica más detalle de residencia.
 - Trabaja sola en sus productos.
 - Idiomas: español (por defecto) e inglés.
 - Formación pública:
   - Universidad de San Buenaventura: Lengua Inglesa (en curso).
   - Platzi: desarrollo web, inteligencia artificial y seguridad informática (en curso), y formación en marketing y redes sociales.
-  - Aprendizaje autodidacta en marketing y redes sociales, con experiencia práctica como creadora de contenido en Instagram (`@wavival_dev`) y TikTok (`@wavival_dev`). No se nombran programas ni cursos de terceros.
+  - Aprendizaje autodidacta en marketing y redes sociales, con experiencia práctica como estratega digital en Instagram (`@wavival_dev`) y TikTok (`@wavival_dev`). No se nombran programas ni cursos de terceros.
 - Intereses declarados fuera del código: fotografía, batería, cocina, música, lectura.
 - Autodefinición en el sitio: desarrolladora autodidacta "por convicción", que necesita entender por qué funciona algo antes de darlo por bueno.
 
-Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `src/layouts/Layout.astro` (JSON-LD `jobTitle` "Software Developer"), `AGENTS.md`.
+Fuente: `src/pages/sobre-mi.astro`, `src/components/organisms/AboutSection.astro`, `src/layouts/Layout.astro` (JSON-LD `jobTitle` "Software Developer and Digital Strategist"), `AGENTS.md`.
 
 Fuera de contenido V1: experiencias laborales del CV y cualquier nombre o experiencia de terceros que aparezca allí. El CV se usa solo como contexto interno.
 
@@ -59,22 +59,22 @@ Cadencia y calendario: los define después el sistema editorial. Este documento 
 
 ## 3. Posicionamiento
 
-Posicionamiento 2026 (desde 2026-11-10): desarrolladora de software y marketing digital, que ayuda a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y fundadora de Lúmina W, con contenido sobre:
+Posicionamiento 2026 (desde 2026-11-10; rol actualizado el 2026-11-11): desarrolladora de software y estratega digital, que ayuda a emprendedores a ahorrar tiempo y vender más con software y marketing digital y a creadores a estructurar y lanzar su oferta, y fundadora de Lúmina W, con contenido sobre:
 
 - Construcción de productos.
 - Backend.
 - Seguridad por diseño.
 - Aplicación útil de IA, solo cuando exista evidencia documental para el claim concreto.
 
-Estrategia digital (desde 2026-11-11): la estrategia de oferta digital y la estrategia y acompañamiento de lanzamientos digitales, para creadores, expertos y formadores, se publican en el grupo "Marketing digital" de `/servicios`. En esa página se presenta como "desarrolladora de software y estratega digital". El programa externo en el que se basa el servicio de lanzamientos no se nombra en el sitio.
+Estrategia digital (desde 2026-11-11): la estrategia de oferta digital y la estrategia y acompañamiento de lanzamientos digitales, para creadores, expertos y formadores, se publican en el grupo "Marketing digital" de `/servicios`. Desde ese día el rol "desarrolladora de software y estratega digital" se usa en todo el sitio: servicios, hero, pie, sobre mí, herramientas, datos estructurados y archivos `llms`. El programa externo en el que se basa el servicio de lanzamientos no se nombra en el sitio.
 
 Title de la home: "Valentina Ramírez | Software seguro y automatización con IA para emprendedores" (EN: "Valentina Ramírez | Secure software and AI automation for entrepreneurs"). Meta description: "Ayudo a emprendedores a ahorrar tiempo con software seguro y automatización con IA: landing pages, sitios web, chatbots y apps a medida, construidos en público." (EN: "I help entrepreneurs save time with secure software and AI automation: landing pages, websites, chatbots and custom apps, built in public.").
 
 Titular de la home (plan 2026): "Ayudo a emprendedores a ahorrar tiempo y vender más con software y marketing digital, y muestro en público cómo lo construyo." (EN: "I help entrepreneurs save time and sell more with software and digital marketing, and I show how I build it in public."), seguido de la frase secundaria "Construyo lo que tu negocio necesita y me aseguro de que la gente lo encuentre." (EN: "I build what your business needs and make sure people find it.").
 
-Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana y creadora de contenido. Mis dos fuertes son el software y el marketing digital: construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano y vender más en redes." (EN: "I'm Valentina Ramírez, a Colombian software developer and content creator. My two strengths are software and digital marketing: I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand and sell more on social media.").
+Lead del hero: "Soy Valentina Ramírez, desarrolladora de software colombiana y estratega digital. Mis dos fuertes son el software y el marketing digital: construyo landing pages, sitios web, chatbots y apps a medida para negocios que quieren dejar de hacer todo a mano y vender más en redes." (EN: "I'm Valentina Ramírez, a Colombian software developer and digital strategist. My two strengths are software and digital marketing: I build landing pages, websites, chatbots and custom apps for businesses that want to stop doing everything by hand and sell more on social media.").
 
-Frase base publicada en el pie del sitio: "Desarrolladora de software y marketing digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender." (EN: "Software developer and digital marketer. Tools that save your business time and help it sell."). Redes en el pie, en este orden: Instagram, TikTok, GitHub y LinkedIn. La fila final de `/sobre-mi` y `/en/about` muestra las mismas cuatro redes en el mismo orden.
+Frase base publicada en el pie del sitio: "Desarrolladora de software y estratega digital. Herramientas que le ahorran tiempo a tu negocio y lo ayudan a vender." (EN: "Software developer and digital strategist. Tools that save your business time and help it sell."). Redes en el pie, en este orden: Instagram, TikTok, GitHub y LinkedIn. La fila final de `/sobre-mi` y `/en/about` muestra las mismas cuatro redes en el mismo orden.
 
 Afirmaciones que el sitio ya sostiene:
 
